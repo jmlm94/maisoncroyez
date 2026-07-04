@@ -52,7 +52,7 @@ const CONFIG = {
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" }, /* honesty gate — enable only if owner confirms */
     text: "Update: Bundle & Save Packs are now available",
-    cta: "Claim Offer",
+    cta: "", /* removed by owner 2026-07-05 */
   },
 
   articleHeader: {
@@ -349,7 +349,7 @@ const Announcement = () => {
       <div class="adv-announce-in">
         ${AN.urgency.confirmed && html`<span class="urgpill">${AN.urgency.text}</span>`}
         <span class="atext">${AN.text}</span>
-        <a class="aclaim" href=${ctaHref()}>${AN.cta} ➔</a>
+        ${AN.cta && html`<a class="aclaim" href=${ctaHref()}>${AN.cta} ➔</a>`}
       </div>
     </div>`;
 };

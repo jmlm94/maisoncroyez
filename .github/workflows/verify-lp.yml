@@ -22,3 +22,7 @@ jobs:
           echo "== /pages/adv-scent-ritual"
           curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/adv-scent-ritual"
           grep -o "mc-lp-adv-scent-ritual-app.js" /tmp/p | head -1 && echo "TEMPLATE ACTIVE: page loads mc-lp bundles" || echo "TEMPLATE NOT ACTIVE YET: page is rendering the default theme template"
+          echo "--- first 1200 chars of page HTML ---"
+          head -c 1200 /tmp/p
+          echo; echo "--- markers ---"
+          for m in 'id="root"' 'fbevents.js' 'mc-lp-core.css' 'theme.liquid' 'shopify-section' 'content_for_header' '</html>'; do printf '%s: ' "$m"; grep -c "$m" /tmp/p || true; done

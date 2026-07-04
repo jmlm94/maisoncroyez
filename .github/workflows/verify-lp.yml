@@ -21,10 +21,6 @@ jobs:
         run: |
           echo "== /pages/adv-scent-ritual"
           curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/adv-scent-ritual"
-          grep -o "mc-lp-adv-scent-ritual-app.js" /tmp/p | head -1 && echo "TEMPLATE ACTIVE: page loads mc-lp bundles" || echo "TEMPLATE NOT ACTIVE YET: page is rendering the default theme template"
-          echo "--- template marker ---"
-          grep -o 'page\.mc-lp[^"]*' /tmp/p | head -3
-          echo "--- context around app.js reference ---"
-          grep -n -B3 -A6 "mc-lp-adv-scent-ritual-app" /tmp/p | head -50
+          if grep -q "mc-lp-adv-scent-ritual-app" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "TEMPLATE ACTIVE: page loads mc-lp bundles"; else echo "TEMPLATE NOT ACTIVE YET: page is rendering the default theme template"; fi
           echo; echo "--- markers ---"
           for m in 'id="root"' 'fbevents.js' 'mc-lp-core.css' 'theme.liquid' 'shopify-section' 'content_for_header' '</html>'; do printf '%s: ' "$m"; grep -c "$m" /tmp/p || true; done

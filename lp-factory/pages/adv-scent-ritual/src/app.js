@@ -50,7 +50,7 @@ const CONFIG = {
   /* --- announcement bar with inline claim CTA (advertorial variant) --- */
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" }, /* honesty gate — enable only if owner confirms */
-    text: "Update: Bundle & Save Packs available for limited time!",
+    text: "Update: Bundle & Save Packs are now available.",
     cta: "Claim Offer",
   },
 
@@ -70,7 +70,7 @@ const CONFIG = {
     items: [
       {
         name: "Dana W.", ago: "1 hour ago",
-        text: "I kept buying candles because my house never felt “done.” Someone here mentioned choosing scent by INTENTION instead of by what smells nice, and it honestly rewired how I think about my space. I run the love one (Golden Blossom) before my family gets home. Week 3 — my daughter asked why our house feels so cozy lately. Not smells. Feels.",
+        text: "I kept buying candles because my house never felt “done.” Someone here mentioned choosing scent by INTENTION instead of by what smells nice, and it honestly rewired how I think about my space. I run the love one (Golden Blossom) before my family gets home. Week 3: my daughter asked why our house feels so cozy lately. She said it feels different in here, not just smells different.",
       },
       {
         name: "Priya S.", ago: "3 hours ago",
@@ -89,7 +89,7 @@ const CONFIG = {
   articleStory: [
     { t: "h2", pre: "I Was Spending $250+ a Month Making My Home Smell Nice.", em: "It Didn’t Feel Right at All." },
     { t: "p", s: "Let me paint you a picture of my evenings for the past two years." },
-    { t: "p", s: "I’d come home from work, drop my keys in the bowl, and feel it the second the door closed behind me: *nothing.* A beautiful apartment — the couch I saved for, the shelves I styled for a weekend — that felt exactly like a hallway in someone else’s building." },
+    { t: "p", s: "I’d come home from work, drop my keys in the bowl, and feel it the second the door closed behind me: *nothing.* A beautiful apartment, the couch I saved for, the shelves I styled for a weekend, and it still felt exactly like a hallway in someone else’s building." },
     { t: "p", s: "So I did what every woman I know does. I lit a candle." },
     { t: "p", s: "By last spring I was buying candles the way some people buy lottery tickets. The $136 one from the boutique downtown. The three-wick “luxury” ones. Wax melts. Reed diffusers. A room spray I’d mist for ten minutes before guests arrived." },
     { t: "p", s: "**At my worst I finally counted it up: over $250 a month. More than $2,300 in two years. And my home still felt like nobody lived there.**" },
@@ -103,53 +103,58 @@ const CONFIG = {
         { name: "The boutique candle", price: "$136", rest: "Burned beautifully for nine evenings. Scented about four feet of air around itself. Gone." },
         { name: "The wax melt warmer", price: "$108", rest: "Smelled like a birthday cake for an hour, then like warm plastic. Headache by dinner." },
         { name: "The reed diffuser", price: "$118", rest: "Politely scented one corner of one shelf. My entryway never even noticed it existed." },
-        { name: "The ultrasonic mist diffuser", price: "$170", rest: "Watered-down scent, weekly cleaning — and by month two, mold in the tank. Into the closet it went." },
+        { name: "The ultrasonic mist diffuser", price: "$170", rest: "Watered-down scent, weekly cleaning, and by month two, mold in the tank. Into the closet it went." },
         { name: "The “hotel collection” room spray", price: "$92", rest: "Gone before the doorbell rang. I was essentially spraying perfume on a house." },
       ],
       total: "Total damage: over $2,300 in two years. That’s a vacation. On wax.",
     },
     { t: "img", slot: "grave", alt: "The fragrance graveyard", badges: ["$136", "$108", "$170", "$118", "$92"] },
-    { t: "p", s: "And you know what the worst part was? Every single time, I genuinely believed *this* would be the one — the one that finally made my home feel the way I wanted it to feel." },
+    { t: "p", s: "And you know what the worst part was? Every single time, I genuinely believed *this* would be the one. The one that finally made my home feel the way I wanted it to feel." },
 
     { t: "h2", pre: "“Maybe This Is How My Home Should Feel,", em: "With No Emotions.”" },
-    { t: "p", s: "By this spring, I’d started thinking the problem was me. Maybe my home would just never have that feeling — the one you get walking into a beautiful hotel, where the air itself tells you: *someone intended this.*" },
-    { t: "p", s: "Then in April I went to my friend Elena’s to help set up her daughter’s birthday. And walking into her house did what it always does — stopped me mid-sentence at the door." },
+    { t: "p", s: "By this spring, I’d started thinking the problem was me. Maybe my home would just never have that feeling. The one you get walking into a beautiful hotel, where the air itself tells you: *someone intended this.*" },
+    { t: "p", s: "Then in April I went to my friend Elena’s to help set up her daughter’s birthday. And walking into her house did what it always does. It stopped me mid-sentence at the door." },
     { t: "p", s: "Her home doesn’t just smell good. It feels *decided.* Warm on purpose. Like the air agrees with her." },
     { t: "p", s: "I finally asked her what candle she buys. She laughed at me." },
-    { t: "quote", text: "It’s not a candle. And I didn’t choose it by the smell — I chose it by what I wanted more of in this house.", who: "Elena" },
-    { t: "p", s: "She walked me to her console table and pointed at a small linen-wrapped cylinder I’d honestly assumed was a speaker. It was a **Maison Croyez** diffuser — and the fragrance inside was one she’d chosen, off a map of seven intentions, for one specific reason: *love.*" },
+    { t: "quote", text: "It’s not a candle. And I didn’t choose it by the smell. I chose it by what I wanted more of in this house.", who: "Elena" },
+    { t: "p", s: "She walked me to her console table and pointed at a small linen-wrapped cylinder I’d honestly assumed was a speaker. It was a **Maison Croyez** diffuser, and the fragrance inside was one she’d chosen off a map of seven intentions, for one specific reason: *love.*" },
     { t: "img", slot: "product", alt: "The Maison Croyez waterless diffuser" },
 
     { t: "h2", pre: "“Here We Go Again.”", em: "" },
     { t: "p", s: "I went home and did what I always do: opened far too many browser tabs and prepared to be disappointed." },
     { t: "p", s: "The Maison Croyez system had a few things going for it:" },
     { t: "bullets", items: [
-      { lead: "Waterless diffusion", rest: " — no tank, no mist, no mold. (I checked twice. The ultrasonic betrayal was still fresh.)" },
-      { lead: "100% organic oils", rest: " — hypoallergenic, pet-friendly, flame-free. Nothing burning, nothing synthetic hanging in the air my dog breathes." },
-      { lead: "One 100ml bottle lasts 30+ days", rest: " of continuous diffusion — about 10x longer than burning candles. I did the math against my habit three times because I didn’t believe it." },
-      { lead: "Fills a room in under 10 minutes", rest: " — corner to corner, not four feet of air around a flame." },
-      { lead: "Seven fragrances, each composed around an intention", rest: " — love, abundance, clarity, purification… you choose the energy you want more of, not just the notes." },
-      { lead: "$89.95", rest: " for the diffuser and fragrance kit — with a free 100ml fragrance included right now." },
+      { lead: "Waterless diffusion", rest: ". No tank, no mist, no mold. (I checked twice. The ultrasonic betrayal was still fresh.)" },
+      { lead: "100% organic oils", rest: ". Hypoallergenic, pet-friendly, flame-free. Nothing burning, nothing synthetic hanging in the air my dog breathes." },
+      { lead: "One 100ml bottle lasts 30+ days", rest: " of continuous diffusion, about 10x longer than burning candles. I did the math against my habit three times because I didn’t believe it." },
+      { lead: "Fills a room in under 10 minutes", rest: ". Corner to corner, not four feet of air around a flame." },
+      { lead: "Seven fragrances, each composed around an intention", rest: ". Love, abundance, clarity, purification… you choose the energy you want more of, not just the notes." },
+      { lead: "$89.95", rest: " for the diffuser and fragrance kit, with a free 100ml fragrance included right now." },
     ]},
     { t: "p", s: "That last part made me pause. **$89.95?** I was spending more than that every single month on things that ended up in the closet. And with a 90-day risk-free trial and a lifetime warranty… what exactly did I have to lose?" },
-    { t: "p", s: "I ordered the kit and chose the scent Elena runs in her gathering room: **Golden Blossom Harmony — the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
+    { t: "math",
+      old: { title: "My candle habit", lines: ["$250+ a month, every month", "Candles, melts, sprays, repeat", "Strongest for the first hour"] },
+      neu: { title: "Maison Croyez", lines: ["$89.95 once for the kit", "One 100ml bottle lasts 30+ days", "A second bottle free today"] },
+      verdict: "Twelve days of my old habit paid for the entire system. I did that math three times.",
+    },
+    { t: "p", s: "I ordered the kit and chose the scent Elena runs in her gathering room: **Golden Blossom Harmony, the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
     { t: "p", s: "I remember thinking: *we’ll see.*" },
 
     { t: "h2", pre: "The First", em: "Evening:", cls: "center gradfull" },
     { t: "img", slot: "goldenRoom", alt: "The living room, the first evening" },
-    { t: "p", s: "It arrived on a Thursday. I set it on the console by my entryway — no water, no setup — and pressed the button once to G2 while I started dinner." },
-    { t: "p", s: "Ten minutes later I walked back through the living room and stopped. Not because it smelled strong. Because it smelled *finished* — everywhere, evenly, like the whole apartment had been dipped in golden hour. Honeysuckle, but quiet. Warm, but nothing burning." },
+    { t: "p", s: "It arrived on a Thursday. I set it on the console by my entryway (no water, no setup) and pressed the button once to G2 while I started dinner." },
+    { t: "p", s: "Ten minutes later I walked back through the living room and stopped. Not because it smelled strong. Because it smelled *finished*. Everywhere, evenly, like the whole apartment had been dipped in golden hour. Honeysuckle, but quiet. Warm, but nothing burning." },
     { t: "p", s: "That night I sat on my couch and didn’t light a thing. The apartment already felt like someone lovely lived there. It took me an embarrassing hour to accept that person was me." },
 
     { t: "h2", pre: "The Timeline:", em: "What Actually Happened." },
     { t: "timeline", items: [
-      { pill: "Evening 1", text: "Room filled in under ten minutes on G2. My partner walked in and said — unprompted — “it feels different in here.” Not smells. Feels." },
+      { pill: "Evening 1", text: "Room filled in under ten minutes on G2. My partner walked in and said, unprompted, “it feels different in here.” Not smells. Feels." },
       { pill: "Week 1", text: "The coming-home flatness was gone. I caught myself pausing at my own front door the way I used to pause at Elena’s." },
-      { pill: "Week 2", text: "First dinner guests. My friend stopped mid-sentence in the entryway and asked what changed. I heard myself say “nothing” — smiling." },
+      { pill: "Week 2", text: "First dinner guests. My friend stopped mid-sentence in the entryway and asked what changed. I heard myself say “nothing” and smiled." },
       { pill: "Week 3", text: "Sunday reset became a ritual: windows open, then Golden Blossom on G3 while I make coffee. The bottle has barely gone down." },
       { pill: "Week 4", text: "Ordered Chilled Citrus for my desk and Wildwood Mystique for after hard days. Apparently I’m a different-scent-per-intention person now." },
     ],
-      after: "**Two months later:** I don’t think about how my home feels anymore — which is everything, because it used to be the *first* thing I felt walking in. Now the door opens and the air is already the way I decided it should be: warm, held, mine.",
+      after: "**Two months later:** I don’t think about how my home feels anymore, which is everything, because it used to be the *first* thing I felt walking in. Now the door opens and the air is already the way I decided it should be: warm, held, mine.",
     },
     { t: "checks", items: [
       "No more $136 candles that scent four feet of air",
@@ -162,10 +167,10 @@ const CONFIG = {
     { t: "p", s: "I’m not a perfumer. But after two months of living with it, here’s what I understand:" },
     { t: "p", s: "**Most home fragrance fails because it’s decoration. This works because it’s composition.**" },
     { t: "cards", items: [
-      { title: "Waterless technology", body: "Pure fragrance oil, diffused dry — no water dilution, no tank, no mold, no residue. The scent that fills the room is exactly the scent in the bottle." },
-      { title: "Composed around intentions", body: "Seven fragrances in the French perfumery tradition, each built around what you want more of — love, abundance, clarity, purification — not around what a focus group liked." },
+      { title: "Waterless technology", body: "Pure fragrance oil, diffused dry. No water dilution, no tank, no mold, no residue. The scent that fills the room is exactly the scent in the bottle." },
+      { title: "Composed around intentions", body: "Seven fragrances in the French perfumery tradition, each built around what you want more of: love, abundance, clarity, purification. Not around what a focus group liked." },
       { title: "One button. Three presences.", body: "G1 Subtle for every day, G2 Balanced for evenings, G3 Full Presence when the whole house needs to feel it in minutes. No app, no WiFi, no manual." },
-      { title: "A bottle outlasts a candle drawer", body: "One 100ml bottle runs 30+ days of continuous diffusion — about 10x longer than burning candles for the same presence." },
+      { title: "A bottle outlasts a candle drawer", body: "One 100ml bottle runs 30+ days of continuous diffusion, about 10x longer than burning candles for the same presence." },
     ]},
     { t: "img", slot: "lab", alt: "Composed in the French perfumery tradition" },
   ],
@@ -231,7 +236,7 @@ const CONFIG = {
     { t: "p", s: "**Try this instead.**" },
     { t: "h2", pre: "The Honest", em: "Truth." },
     { t: "p", s: "Golden Blossom Harmony didn’t fix my life. I still have deadlines. My dog still barks at delivery trucks." },
-    { t: "p", s: "But it gave me the thing I’d been trying to buy for two years: a home that greets me. That holds my people a little softer. That feels — every single evening, for less than one month of my old candle habit — like the energy I decided to live in." },
+    { t: "p", s: "But it gave me the thing I’d been trying to buy for two years: a home that greets me. That holds my people a little softer. That feels, every single evening, for less than one month of my old candle habit, like the energy I decided to live in." },
     { t: "p", s: "And that’s worth more than every candle in my closet combined." },
     { t: "cta", label: "Try It Risk-Free for 90 Days", sub: "*Free 100ml fragrance included." },
   ],
@@ -241,7 +246,7 @@ const CONFIG = {
     headline1: ["The Kit That Replaced", "My Candle Habit."],
     ratingLine: "Loved by 2,500+ women across the U.S.",
     promoPill: "Free 100ml fragrance included with every diffuser",
-    valueProp: "One waterless diffuser. One intention-crafted fragrance — plus a second 100ml bottle free with every diffuser you order today. It fills your space corner to corner in under 10 minutes, lingers for 30+ days per bottle, and asks nothing back: no water, no flame, no maintenance.",
+    valueProp: "One waterless diffuser. One intention-crafted fragrance, plus a second 100ml bottle free with every diffuser you order today. It fills your space corner to corner in under 10 minutes, lingers for 30+ days per bottle, and asks nothing back: no water, no flame, no maintenance.",
     priceLine: "",
     cta: { label: "Choose Your Kit", sub: "Free fragrance included" },
     trust: [
@@ -253,8 +258,8 @@ const CONFIG = {
 
   guarantee: {
     badge: { big: "90", mid: "Day · Risk-Free", small: "Lifetime warranty" },
-    heading: ["Love the way your home feels in 90 days —", "or your money back."],
-    body: "Run it. Live with it. Let people walk in. If Maison Croyez doesn’t change how your home feels — and how it’s complimented — send it back within 90 days for a full refund. And the diffuser itself is covered for life.",
+    heading: ["Love the way your home feels in 90 days,", "or your money back."],
+    body: "Run it. Live with it. Let people walk in. If Maison Croyez doesn’t change how your home feels (and how it’s complimented), send it back within 90 days for a full refund. And the diffuser itself is covered for life.",
     cta: { label: "Choose your intention", sub: "Free fragrance included" },
   },
 
@@ -264,7 +269,7 @@ const CONFIG = {
     items: [
       { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Golden Blossom in the entry, and suddenly my house is “the cozy one” in the group chat." },
       { name: "Kate D.", text: "I did the candle math after reading a page like this one. $70 a month, gone in hours. One bottle has lasted me five weeks and my living room finally feels intentional." },
-      { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven’t touched in a month except to switch modes. And the scent is actually everywhere — not just next to it." },
+      { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven’t touched in a month except to switch modes. And the scent is actually everywhere, not just next to it." },
       { name: "Tiana M.", text: "Bought Crisp Citrus for “abundance” half as a joke. The joke’s over: my office finally feels like a place where things get finished." },
       { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. It’s the first home fragrance we’ve agreed on in eleven years of marriage." },
       { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
@@ -276,14 +281,14 @@ const CONFIG = {
   faq: {
     heading: ["Questions?", "We’ve got answers."],
     items: [
-      { q: "How long does the fragrance last?", a: "Each 100ml bottle lasts weeks of daily use — up to 10x longer than burning candles — because waterless diffusion releases scent in timed pulses instead of burning through it. G1 Subtle stretches a bottle the furthest." },
-      { q: "Does it actually fill the room?", a: "Yes — corner to corner in under 10 minutes on G3 Full Presence. It’s designed for noticeable but refined diffusion: present enough that no one can ignore it, soft enough to feel elegant." },
-      { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces — nothing to knock over, burn, or spill." },
+      { q: "How long does the fragrance last?", a: "Each 100ml bottle lasts weeks of daily use, up to 10x longer than burning candles, because waterless diffusion releases scent in timed pulses instead of burning through it. G1 Subtle stretches a bottle the furthest." },
+      { q: "Does it actually fill the room?", a: "Yes. Corner to corner in under 10 minutes on G3 Full Presence. It’s designed for noticeable but refined diffusion: present enough that no one can ignore it, soft enough to feel elegant." },
+      { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces: nothing to knock over, burn, or spill." },
       { q: "Do I need an app, WiFi, or batteries?", a: "No app, no WiFi, no batteries. One button controls everything: press to cycle G1 Subtle, G2 Balanced, and G3 Full Presence. Set it and forget it." },
-      { q: "Will the diffuser look good in my home?", a: "It’s a minimal matte design made to sit out in the open — closer to an object you style a console with than an appliance you hide. No cords in sight lines, no glowing screens." },
-      { q: "What makes this different from candles?", a: "No flame, no soot, no smoke — and no four-hour lifespan. You get the same warmth and presence, evenly through the whole room, lasting weeks per bottle instead of evenings per jar." },
+      { q: "Will the diffuser look good in my home?", a: "It’s a minimal matte design made to sit out in the open, closer to an object you style a console with than an appliance you hide. No cords in sight lines, no glowing screens." },
+      { q: "What makes this different from candles?", a: "No flame, no soot, no smoke, and no four-hour lifespan. You get the same warmth and presence, evenly through the whole room, lasting weeks per bottle instead of evenings per jar." },
       { q: "What if I don’t like the scent?", a: "You have a 90-day risk-free trial. Live with it, run it daily, let guests react. If you don’t love how your home feels, we refund you in full." },
-      { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy — love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. The intention tells you what the fragrance is designed to evoke, so you choose scents by the feeling you want more of, not just the notes." },
+      { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. The intention tells you what the fragrance is designed to evoke, so you choose scents by the feeling you want more of, not just the notes." },
       { q: "What room should I use it in?", a: "Wherever life happens: entryway for arrival, living room for gathering, bedroom for winding down, office for focus. Multi-diffuser kits let you give each room its own intention." },
       { q: "What’s included in each kit?", a: "The Studio Kit: 1 diffuser + 1 fragrance ($89.95). The Condo Kit: 3 diffusers + 3 fragrances ($189.95). The House Kit: 5 diffusers + 5 fragrances ($289.95). Every diffuser comes with a free 100ml fragrance during today’s promo, plus the 90-day trial, lifetime warranty, and free shipping." },
     ],
@@ -434,7 +439,7 @@ function ArticleBlock({ b, extra = "" }) {
         ${b.items.map((g) => html`
           <div class="grave-row" key=${g.name}>
             <span class="grave-x" aria-hidden="true">✕</span>
-            <div><span class="grave-name">${g.name}</span> <span class="grave-price">${g.price}</span><span class="grave-rest"> — ${g.rest}</span></div>
+            <div><span class="grave-name">${g.name}</span> <span class="grave-price">${g.price}</span><span class="grave-rest">${g.rest}</span></div>
           </div>`)}
         <p class="grave-total">${b.total}</p>
       </div>`;
@@ -458,6 +463,21 @@ function ArticleBlock({ b, extra = "" }) {
             <h3><span class="ck" aria-hidden="true">✓</span> ${c.title}</h3>
             <p>${c.body}</p>
           </div>`)}
+      </div>`;
+    case "math": return html`
+      <div class="mathbox">
+        <div class="math-grid">
+          <div class="math-col old">
+            <div class="math-title caps">${b.old.title}</div>
+            ${b.old.lines.map((l) => html`<p key=${l}>${l}</p>`)}
+          </div>
+          <div class="math-vs" aria-hidden="true">vs</div>
+          <div class="math-col neu">
+            <div class="math-title caps">${b.neu.title}</div>
+            ${b.neu.lines.map((l) => html`<p key=${l}>${l}</p>`)}
+          </div>
+        </div>
+        <p class="math-verdict">${b.verdict}</p>
       </div>`;
     case "cta": return html`<div class="art-cta"><${Cta} label=${b.label} sub=${b.sub}/></div>`;
     default: return null;

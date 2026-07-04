@@ -54,3 +54,9 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
 
 ## Honesty gates
 Unverified content ships flagged `[PLACEHOLDER]` in CONFIG; urgency/scarcity and numeric ratings ship `confirmed:false` until the owner literally confirms. Currently still placeholder ON THE LIVE PAGE: 3 transformation quotes, Whitney P. testimonial, Jasmine T. completion, Patricia's letter.
+
+## Owner rulings — 2026-07-04 (LP #2 audit vs Project Heart PDF)
+Project Heart (May 2026) claims to supersede other docs, but the owner ruled for LP work:
+- **Intentions:** the PRINTED BOXES win (Golden Blossom Harmony = Love). Project Heart's map (Golden Blossom = Peace, etc.) is NOT used on pages.
+- **Offer stack:** page claims stand — lifetime warranty, 90-day risk-free on the kit, free 100ml fragrance promo, Bundle & Save packs. Project Heart's stack (1-yr warranty, scents-only refund) is outdated.
+- **Voice on LPs:** Project Heart bans apply EXCEPT emojis (emoji chips/icons stay, matching live PDP). No em dashes in copy, "it's not X, it's Y" framing limited to the 2-3 strongest lines per page, no fake urgency ("limited time" softened).

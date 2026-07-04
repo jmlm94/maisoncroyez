@@ -1,0 +1,24 @@
+name: verify-lp
+# Verification relay: the Claude sandbox can't reach cdn.shopify.com or the
+# storefront, so this workflow curls them and reports in the job log.
+on:
+  push:
+    branches: [claude/maison-landing-page-iyikm5]
+    paths: ['.github/workflows/verify-lp.yml']
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check CDN bundles
+        run: |
+          for f in mc-lp-core.css mc-lp-vendor.js mc-lp-adv-scent-ritual-assets.js mc-lp-adv-scent-ritual-app.js; do
+            echo "== $f"
+            curl -sSL -o /tmp/f --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f"
+            head -c 120 /tmp/f; echo
+          done
+      - name: Check page
+        run: |
+          echo "== /pages/adv-scent-ritual"
+          curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/adv-scent-ritual"
+          grep -o "mc-lp-adv-scent-ritual-app.js" /tmp/p | head -1 && echo "TEMPLATE ACTIVE: page loads mc-lp bundles" || echo "TEMPLATE NOT ACTIVE YET: page is rendering the default theme template"

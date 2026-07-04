@@ -1,5 +1,5 @@
 name: verify-lp
-# Verification relay: the Claude sandbox can't reach cdn.shopify.com or the
+# Verification relay (round 4): the Claude sandbox can't reach cdn.shopify.com or the
 # storefront, so this workflow checks them and commits a live screenshot.
 on:
   push:

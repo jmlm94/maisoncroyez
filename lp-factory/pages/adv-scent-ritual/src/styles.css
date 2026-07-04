@@ -689,9 +689,8 @@ h1 em,h2 em,h3 em,.cline em{
 }
 .split-badge.good{background:#3E7C4F}
 .split-cap{
-  position:absolute;left:10px;bottom:10px;right:10px;z-index:2;
-  color:#fff;font-size:.56rem;letter-spacing:.14em;
-  text-shadow:0 2px 8px rgba(0,0,0,.55);
+  margin-top:8px;text-align:center;
+  color:var(--ink);font-size:.6rem;letter-spacing:.14em;
 }
 
 /* ---------- top comments ---------- */
@@ -809,3 +808,7 @@ h1 em,h2 em,h3 em,.cline em{
 .math-vs{font-family:'Unna',serif;font-style:italic;font-weight:700;font-size:1.2rem;color:var(--rosewood-deep);padding-top:26px}
 .math-verdict{margin-top:14px;padding-top:14px;border-top:1.5px solid var(--blush);font-weight:700;text-align:center}
 .grave-rest{display:block;margin-top:2px}
+
+/* edit round 3 */
+.art-p.price-pop{font-size:2rem;line-height:1.2;font-weight:700;text-align:center;margin:24px 0}
+.art-h2.big{font-size:clamp(2.05rem,7.9vw,2.76rem)}

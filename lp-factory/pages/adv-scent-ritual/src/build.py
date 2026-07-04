@@ -10,9 +10,10 @@ import base64, os, json
 MANIFEST = {
     'narrator': ('narrator.jpg', 'image/jpeg'),
     'grave': ('grave.jpg', 'image/jpeg'),
-    'goldenRoom': ('golden-room.jpg', 'image/jpeg'),
+    'splitAfter': ('diseno-88.jpg', 'image/jpeg'),
+    'firstEvening': ('diseno-90.jpg', 'image/jpeg'),
     'painScene': ('pain-scene.jpg', 'image/jpeg'),
-    'product': ('adefsrtd4.jpg', 'image/jpeg'),
+    'product': ('diseno-87.jpg', 'image/jpeg'),
     'lab': ('dsc6068.jpg', 'image/jpeg'),
     'offer': ('offer45.jpg', 'image/jpeg'),
     'logoLight': ('logo-black-trim.png', 'image/png'),

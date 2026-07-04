@@ -51,7 +51,9 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
   - assets `gid://shopify/GenericFile/29275754922093` → `.../files/mc-prelander-assets.js`
   - app `gid://shopify/GenericFile/29275754954861` → `.../files/mc-prelander-app.js`
 - Live template auto-versions the 3 JS bundles hourly → fileUpdate changes go live ≤1h, no template edits.
-- **mc-lp rail (multi-page, deployed 2026-07-04):** template `templates/page.mc-lp.liquid` (owner pastes once) loads `mc-lp-core.css` + `mc-lp-vendor.js` + per-page `mc-lp-<handle>-assets.js` / `mc-lp-<handle>-app.js`, hourly auto-versioned.
+- **mc-lp rail (multi-page, deployed 2026-07-04):** loads `mc-lp-core.css` + `mc-lp-vendor.js` + per-page `mc-lp-<handle>-assets.js` / `mc-lp-<handle>-app.js`, hourly auto-versioned.
+- **LP #2 ships via BODY-EMBED (live, verified by screenshot):** the Shopify connector blocks live-theme writes, so the page BODY carries the loader: stylesheet link + `#root` + Meta pixel + a takeover script that hides the theme chrome and loads the bundles. Deployed via pageUpdate, zero theme edits. UPGRADE PATH: if the owner ever pastes `lp-factory/shopify/page.mc-lp.liquid` as `templates/page.mc-lp.liquid` (liquid, not JSON), the page's templateSuffix `mc-lp` takes over automatically (cleaner: layout none, noindex) and the body loader becomes inert. New pages can reuse the body-embed pattern verbatim.
+- **Verification rail:** `.github/workflows/verify-lp.yml` (GitHub Actions has open egress; the sandbox doesn't) curls the CDN + page and commits a full-page Playwright screenshot to `pages/<handle>/verify/`. Trigger by pushing any edit to the workflow file. `fetch-lp-assets.yml` does the same trick for pulling generated media into the repo.
 - Live page #2: `/pages/adv-scent-ritual` (gid://shopify/Page/117105819757, templateSuffix `mc-lp`, advertorial Blueprint 002)
 - mc-lp CDN files (fileUpdate keeps URL, bumps ?v):
   - core css `gid://shopify/GenericFile/29282275131501` → `.../files/mc-lp-core.css`

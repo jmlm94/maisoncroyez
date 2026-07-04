@@ -1,26 +1,40 @@
 name: verify-lp
 # Verification relay: the Claude sandbox can't reach cdn.shopify.com or the
-# storefront, so this workflow curls them and reports in the job log.
+# storefront, so this workflow checks them and commits a live screenshot.
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
     paths: ['.github/workflows/verify-lp.yml']
 
+permissions:
+  contents: write
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Check CDN bundles
         run: |
           for f in mc-lp-core.css mc-lp-vendor.js mc-lp-adv-scent-ritual-assets.js mc-lp-adv-scent-ritual-app.js; do
             echo "== $f"
             curl -sSL -o /tmp/f --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f"
-            head -c 120 /tmp/f; echo
           done
-      - name: Check page
+      - name: Check page HTML
         run: |
-          echo "== /pages/adv-scent-ritual"
           curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/adv-scent-ritual"
-          if grep -q "mc-lp-adv-scent-ritual-app" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "TEMPLATE ACTIVE: page loads mc-lp bundles"; else echo "TEMPLATE NOT ACTIVE YET: page is rendering the default theme template"; fi
-          echo; echo "--- markers ---"
-          for m in 'id="root"' 'fbevents.js' 'mc-lp-core.css' 'theme.liquid' 'shopify-section' 'content_for_header' '</html>'; do printf '%s: ' "$m"; grep -c "$m" /tmp/p || true; done
+          if grep -q "mc-lp-adv-scent-ritual-assets" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "LOADER PRESENT in page HTML"; else echo "LOADER MISSING"; exit 1; fi
+      - name: Screenshot live page
+        run: |
+          npx -y playwright@1.56.1 install --with-deps chromium > /dev/null 2>&1
+          npx -y playwright@1.56.1 screenshot --viewport-size=390,844 --full-page --wait-for-timeout=9000 "https://maisoncroyez.com/pages/adv-scent-ritual" live-shot.png
+          ls -la live-shot.png
+      - name: Commit screenshot
+        run: |
+          mkdir -p lp-factory/pages/adv-scent-ritual/verify
+          mv live-shot.png lp-factory/pages/adv-scent-ritual/verify/live-shot.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/adv-scent-ritual/verify
+          git commit -m "Live page verification screenshot"
+          git push

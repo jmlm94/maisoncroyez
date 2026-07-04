@@ -3,6 +3,9 @@ name: fetch-lp-assets
 # so this workflow fetches generated LP media and commits it to the branch.
 on:
   workflow_dispatch:
+  push:
+    branches: [claude/maison-landing-page-iyikm5]
+    paths: ['.github/workflows/fetch-lp-assets.yml']
 
 permissions:
   contents: write

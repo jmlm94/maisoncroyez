@@ -774,3 +774,26 @@ h1 em,h2 em,h3 em,.cline em{
   .split-grid{gap:14px}
   .split-cap{font-size:.62rem}
 }
+
+/* ================================================================
+   EDIT ROUND 1 (owner, 2026-07-04)
+   ================================================================ */
+/* headline emphasis: gradient -> solid red, site-wide */
+h1 em,h2 em,h3 em,.cline em{
+  background:none;-webkit-background-clip:unset;background-clip:unset;
+  color:#D0342C;-webkit-text-fill-color:#D0342C;
+}
+/* headline + byline left-aligned */
+.art-head h1{text-align:left}
+.byline{justify-content:flex-start}
+/* bold lead paragraph after each article headline (+15%) */
+.art-p.lead{font-size:1.17rem;font-weight:700}
+/* price pills 2x */
+.grave-price{font-size:1.44rem;padding:3px 18px;border-radius:999px}
+.pbadge{min-width:88px;height:88px;font-size:1.5rem;padding:0 10px}
+/* "The First Evening:" — centered, full-gradient headline */
+.art-h2.center{text-align:center}
+.art-h2.gradfull,.art-h2.gradfull em{
+  background:var(--grad-em);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}

@@ -29,8 +29,8 @@ const CONFIG = {
 
   sectionOrder: [
     "articleHeader", "heroSplit", "comments", "articleStory",
-    "intentionMap", "ctaBreak1", "articleClose",
-    "offer1", "guarantee", "reviewWall", "faq", "guaranteeRepeat",
+    "intentionMap", "articleClose",
+    "offer1", "guarantee", "reviewWall", "faq",
   ],
 
   images: {
@@ -50,7 +50,7 @@ const CONFIG = {
   /* --- announcement bar with inline claim CTA (advertorial variant) --- */
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" }, /* honesty gate — enable only if owner confirms */
-    text: "Update: Free 100ml fragrance with every diffuser ordered today",
+    text: "Update: Bundle & Save Packs available for limited time!",
     cta: "Claim Offer",
   },
 
@@ -62,7 +62,7 @@ const CONFIG = {
 
   heroSplit: {
     before: { slot: "grave", badge: "✕", cap: "What I was buying" },
-    after: { slot: "goldenRoom", badge: "✓", cap: "What I actually wanted" },
+    after: { slot: "goldenRoom", badge: "✓", cap: "What I actually got since 2024" },
   },
 
   comments: {
@@ -87,12 +87,12 @@ const CONFIG = {
      cta {label, sub}
      ================================================================ */
   articleStory: [
-    { t: "h2", pre: "I Was Spending $200+ a Month Making My Home Smell Nice.", em: "It Still Didn’t Feel Right." },
+    { t: "h2", pre: "I Was Spending $250+ a Month Making My Home Smell Nice.", em: "It Didn’t Feel Right at All." },
     { t: "p", s: "Let me paint you a picture of my evenings for the past two years." },
     { t: "p", s: "I’d come home from work, drop my keys in the bowl, and feel it the second the door closed behind me: *nothing.* A beautiful apartment — the couch I saved for, the shelves I styled for a weekend — that felt exactly like a hallway in someone else’s building." },
     { t: "p", s: "So I did what every woman I know does. I lit a candle." },
-    { t: "p", s: "By last spring I was buying candles the way some people buy lottery tickets. The $68 one from the boutique downtown. The three-wick “luxury” ones. Wax melts. Reed diffusers. A room spray I’d mist for ten minutes before guests arrived." },
-    { t: "p", s: "**At my worst I finally counted it up: over $200 a month. More than $2,300 in two years. And my home still felt like nobody lived there.**" },
+    { t: "p", s: "By last spring I was buying candles the way some people buy lottery tickets. The $136 one from the boutique downtown. The three-wick “luxury” ones. Wax melts. Reed diffusers. A room spray I’d mist for ten minutes before guests arrived." },
+    { t: "p", s: "**At my worst I finally counted it up: over $250 a month. More than $2,300 in two years. And my home still felt like nobody lived there.**" },
     { t: "p", s: "And I know I’m not the only one." },
     { t: "img", slot: "painScene", alt: "Evenings that felt flat no matter what was burning" },
 
@@ -100,28 +100,27 @@ const CONFIG = {
     { t: "p", s: "Here’s what I tried, in order of disappointment:" },
     { t: "grave",
       items: [
-        { name: "The boutique candle", price: "$68", rest: "Burned beautifully for nine evenings. Scented about four feet of air around itself. Gone." },
-        { name: "The wax melt warmer", price: "$54", rest: "Smelled like a birthday cake for an hour, then like warm plastic. Headache by dinner." },
-        { name: "The reed diffuser", price: "$59", rest: "Politely scented one corner of one shelf. My entryway never even noticed it existed." },
-        { name: "The ultrasonic mist diffuser", price: "$85", rest: "Watered-down scent, weekly cleaning — and by month two, mold in the tank. Into the closet it went." },
-        { name: "The “hotel collection” room spray", price: "$46", rest: "Gone before the doorbell rang. I was essentially spraying perfume on a house." },
+        { name: "The boutique candle", price: "$136", rest: "Burned beautifully for nine evenings. Scented about four feet of air around itself. Gone." },
+        { name: "The wax melt warmer", price: "$108", rest: "Smelled like a birthday cake for an hour, then like warm plastic. Headache by dinner." },
+        { name: "The reed diffuser", price: "$118", rest: "Politely scented one corner of one shelf. My entryway never even noticed it existed." },
+        { name: "The ultrasonic mist diffuser", price: "$170", rest: "Watered-down scent, weekly cleaning — and by month two, mold in the tank. Into the closet it went." },
+        { name: "The “hotel collection” room spray", price: "$92", rest: "Gone before the doorbell rang. I was essentially spraying perfume on a house." },
       ],
       total: "Total damage: over $2,300 in two years. That’s a vacation. On wax.",
     },
-    { t: "img", slot: "grave", alt: "The fragrance graveyard", badges: ["$68", "$54", "$85", "$59", "$46"] },
+    { t: "img", slot: "grave", alt: "The fragrance graveyard", badges: ["$136", "$108", "$170", "$118", "$92"] },
     { t: "p", s: "And you know what the worst part was? Every single time, I genuinely believed *this* would be the one — the one that finally made my home feel the way I wanted it to feel." },
 
-    { t: "h2", pre: "“Maybe Some Homes Just", em: "Feel Like This.”" },
+    { t: "h2", pre: "“Maybe This Is How My Home Should Feel,", em: "With No Emotions.”" },
     { t: "p", s: "By this spring, I’d started thinking the problem was me. Maybe my home would just never have that feeling — the one you get walking into a beautiful hotel, where the air itself tells you: *someone intended this.*" },
     { t: "p", s: "Then in April I went to my friend Elena’s to help set up her daughter’s birthday. And walking into her house did what it always does — stopped me mid-sentence at the door." },
     { t: "p", s: "Her home doesn’t just smell good. It feels *decided.* Warm on purpose. Like the air agrees with her." },
     { t: "p", s: "I finally asked her what candle she buys. She laughed at me." },
     { t: "quote", text: "It’s not a candle. And I didn’t choose it by the smell — I chose it by what I wanted more of in this house.", who: "Elena" },
     { t: "p", s: "She walked me to her console table and pointed at a small linen-wrapped cylinder I’d honestly assumed was a speaker. It was a **Maison Croyez** diffuser — and the fragrance inside was one she’d chosen, off a map of seven intentions, for one specific reason: *love.*" },
-    { t: "img", slot: "product", alt: "The Maison Croyez waterless diffuser",
-      callouts: ["Waterless — nothing to refill but scent", "One button — three presence modes", "Fills a room in under 10 minutes"] },
+    { t: "img", slot: "product", alt: "The Maison Croyez waterless diffuser" },
 
-    { t: "h2", pre: "“Here We", em: "Go Again.”" },
+    { t: "h2", pre: "“Here We Go Again.”", em: "" },
     { t: "p", s: "I went home and did what I always do: opened far too many browser tabs and prepared to be disappointed." },
     { t: "p", s: "The Maison Croyez system had a few things going for it:" },
     { t: "bullets", items: [
@@ -136,7 +135,7 @@ const CONFIG = {
     { t: "p", s: "I ordered the kit and chose the scent Elena runs in her gathering room: **Golden Blossom Harmony — the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
     { t: "p", s: "I remember thinking: *we’ll see.*" },
 
-    { t: "h2", pre: "The First", em: "Evening." },
+    { t: "h2", pre: "The First", em: "Evening:", cls: "center gradfull" },
     { t: "img", slot: "goldenRoom", alt: "The living room, the first evening" },
     { t: "p", s: "It arrived on a Thursday. I set it on the console by my entryway — no water, no setup — and pressed the button once to G2 while I started dinner." },
     { t: "p", s: "Ten minutes later I walked back through the living room and stopped. Not because it smelled strong. Because it smelled *finished* — everywhere, evenly, like the whole apartment had been dipped in golden hour. Honeysuckle, but quiet. Warm, but nothing burning." },
@@ -153,7 +152,7 @@ const CONFIG = {
       after: "**Two months later:** I don’t think about how my home feels anymore — which is everything, because it used to be the *first* thing I felt walking in. Now the door opens and the air is already the way I decided it should be: warm, held, mine.",
     },
     { t: "checks", items: [
-      "No more $68 candles that scent four feet of air",
+      "No more $136 candles that scent four feet of air",
       "No more mist tanks growing science experiments",
       "No more spraying the sofa before the doorbell",
       "No more walking into a home that feels like nobody’s",
@@ -243,8 +242,8 @@ const CONFIG = {
     ratingLine: "Loved by 2,500+ women across the U.S.",
     promoPill: "Free 100ml fragrance included with every diffuser",
     valueProp: "One waterless diffuser. One intention-crafted fragrance — plus a second 100ml bottle free with every diffuser you order today. It fills your space corner to corner in under 10 minutes, lingers for 30+ days per bottle, and asks nothing back: no water, no flame, no maintenance.",
-    priceLine: "Kits from $89.95",
-    cta: { label: "Choose Your Kit — From $89.95", sub: "Free fragrance included" },
+    priceLine: "",
+    cta: { label: "Choose Your Kit", sub: "Free fragrance included" },
     trust: [
       { icon: "shield", label: "90-Day risk-free trial" },
       { icon: "infinity", label: "Lifetime warranty" },
@@ -290,7 +289,7 @@ const CONFIG = {
     ],
   },
 
-  sticky: { label: "Choose your intention" },
+  sticky: { label: "Check Availability" },
 };
 
 /* ================================================================
@@ -357,7 +356,6 @@ function ArticleHeader() {
     <section class="art-head">
       <div class="wrap narrow">
         ${CONFIG.brand.logo && html`<img class="art-logo" src=${CONFIG.brand.logo} alt=${CONFIG.brand.name}/>`}
-        <div class="art-eyebrow-row"><span class="eyebrow">${AH.eyebrow}</span><span class="art-dot" aria-hidden="true">·</span><span class="eyebrow art-cat">${AH.byline.note}</span></div>
         <h1>${AH.headline.pre} <em>${AH.headline.em}</em></h1>
         <div class="byline">
           <${Img} slot="narrator" style=${{ width: "44px", height: "44px", flex: "0 0 44px", borderRadius: "50%", minHeight: "44px" }} alt="Rebecca H."/>
@@ -407,10 +405,10 @@ const Comments = () => html`
   </section>`;
 
 /* ---------- The Article renderer ---------- */
-function ArticleBlock({ b }) {
+function ArticleBlock({ b, extra = "" }) {
   switch (b.t) {
-    case "h2": return html`<h2 class="art-h2">${b.pre} <em>${b.em}</em></h2>`;
-    case "p": return html`<p class="art-p"><${Rich} s=${b.s}/></p>`;
+    case "h2": return html`<h2 class=${"art-h2" + (b.cls ? " " + b.cls : "")}>${b.pre}${b.em && html` <em>${b.em}</em>`}</h2>`;
+    case "p": return html`<p class=${"art-p" + (extra ? " " + extra : "")}><${Rich} s=${b.s}/></p>`;
     case "img": return html`
       <figure class="art-fig">
         <div class="art-fig-in">
@@ -465,12 +463,21 @@ function ArticleBlock({ b }) {
     default: return null;
   }
 }
-const Article = ({ blocks }) => html`
-  <section class="article">
-    <div class="wrap narrow">
-      ${blocks.map((b, i) => html`<${ArticleBlock} b=${b} key=${i}/>`)}
-    </div>
-  </section>`;
+const Article = ({ blocks }) => {
+  /* first paragraph after each headline renders as a bold lead */
+  let lead = false;
+  return html`
+    <section class="article">
+      <div class="wrap narrow">
+        ${blocks.map((b, i) => {
+          let extra = "";
+          if (b.t === "h2") lead = true;
+          else if (b.t === "p" && lead) { extra = "lead"; lead = false; }
+          return html`<${ArticleBlock} b=${b} extra=${extra} key=${i}/>`;
+        })}
+      </div>
+    </section>`;
+};
 
 /* ---------- Factory sections (reused) ---------- */
 function IntentionMap() {
@@ -521,7 +528,7 @@ function OfferBlock({ id, headline }) {
           <h2>${headline[0]} <em>${headline[1]}</em></h2>
           <span class="chip" style=${{ alignSelf: "flex-start", background: "#E4F0E4", borderColor: "#BFD8BF" }}>🎁 ${O.promoPill}</span>
           <p style=${{ color: "var(--ink-soft)" }}>${O.valueProp}</p>
-          <div class="caps priceline">${O.priceLine}</div>
+          ${O.priceLine && html`<div class="caps priceline">${O.priceLine}</div>`}
           <${Cta} label=${O.cta.label} sub=${O.cta.sub}/>
           <div class="trust3">
             ${O.trust.map((t) => html`<div class="t" key=${t.label}><${Icon} name=${t.icon}/>${t.label}</div>`)}

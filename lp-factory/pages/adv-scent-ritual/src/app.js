@@ -268,7 +268,7 @@ const CONFIG = {
       { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven’t touched in a month except to switch modes. And the scent is actually everywhere — not just next to it." },
       { name: "Tiana M.", text: "Bought Crisp Citrus for “abundance” half as a joke. The joke’s over: my office finally feels like a place where things get finished." },
       { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. It’s the first home fragrance we’ve agreed on in eleven years of marriage." },
-      { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said “okay, WHO lives here?”" },
+      { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
       { name: "Jordan P.", text: "It’s the first thing guests mention and the last thing I’d give up. My home finally feels like it’s on my side." },
     ],
     cta: { label: "Get Yours Now", sub: "90-day risk-free · free fragrance included" },

@@ -1,0 +1,34 @@
+{% comment %} Copy of the template currently LIVE on the theme (templates/page.pre-lander.liquid),
+verified via API 2026-07-04. For reference only — the live theme is the source of truth. {% endcomment %}
+{% layout none %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ page.title }} — Maison Croyez</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-prelander.css?v=1783105996">
+<style>html,body{overflow-x:clip !important}</style>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '980908600592309');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=980908600592309&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function(){var v=new Date().toISOString().slice(0,13).replace(/[^0-9]/g,'');
+['mc-prelander-vendor.js','mc-prelander-assets.js','mc-prelander-app.js'].forEach(function(f){
+var s=document.createElement('script');s.src='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/'+f+'?v='+v;
+s.async=false;document.body.appendChild(s);});})();
+</script>
+</body>
+</html>

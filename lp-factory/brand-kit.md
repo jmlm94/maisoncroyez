@@ -51,6 +51,14 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
   - assets `gid://shopify/GenericFile/29275754922093` → `.../files/mc-prelander-assets.js`
   - app `gid://shopify/GenericFile/29275754954861` → `.../files/mc-prelander-app.js`
 - Live template auto-versions the 3 JS bundles hourly → fileUpdate changes go live ≤1h, no template edits.
+- **mc-lp rail (multi-page, deployed 2026-07-04):** template `templates/page.mc-lp.liquid` (owner pastes once) loads `mc-lp-core.css` + `mc-lp-vendor.js` + per-page `mc-lp-<handle>-assets.js` / `mc-lp-<handle>-app.js`, hourly auto-versioned.
+- Live page #2: `/pages/adv-scent-ritual` (gid://shopify/Page/117105819757, templateSuffix `mc-lp`, advertorial Blueprint 002)
+- mc-lp CDN files (fileUpdate keeps URL, bumps ?v):
+  - core css `gid://shopify/GenericFile/29282275131501` → `.../files/mc-lp-core.css`
+  - vendor `gid://shopify/GenericFile/29282275164269` → `.../files/mc-lp-vendor.js`
+  - assets `gid://shopify/GenericFile/29282275197037` → `.../files/mc-lp-adv-scent-ritual-assets.js`
+  - app `gid://shopify/GenericFile/29282275229805` → `.../files/mc-lp-adv-scent-ritual-app.js`
+- NOTE: `mc-lp-core.css` currently carries adv-scent-ritual page styles too — split shared vs per-page CSS before LP #3.
 
 ## Honesty gates
 Unverified content ships flagged `[PLACEHOLDER]` in CONFIG; urgency/scarcity and numeric ratings ship `confirmed:false` until the owner literally confirms. Currently still placeholder ON THE LIVE PAGE: 3 transformation quotes, Whitney P. testimonial, Jasmine T. completion, Patricia's letter.

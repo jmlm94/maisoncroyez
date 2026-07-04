@@ -665,7 +665,7 @@ h1 em,h2 em,h3 em,.cline em{
 }
 
 /* ---------- article header ---------- */
-.art-head{padding:34px 0 10px;background:var(--ivory)}
+.art-head{padding:10px 0 10px;background:var(--ivory)}
 .art-logo{height:26px;width:auto;margin:0 auto 22px;display:block}
 .art-eyebrow-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
 .art-dot{color:var(--rosewood);font-weight:700}
@@ -812,3 +812,9 @@ h1 em,h2 em,h3 em,.cline em{
 /* edit round 3 */
 .art-p.price-pop{font-size:2rem;line-height:1.2;font-weight:700;text-align:center;margin:24px 0}
 .art-h2.big{font-size:clamp(2.05rem,7.9vw,2.76rem)}
+
+/* edit round 4 (owner, 2026-07-05): announcement black/white + purple claim; sticky black */
+.adv-announce{background:#000000;color:#FFFFFF}
+.adv-announce .atext{opacity:1}
+.adv-announce .aclaim{background:#7C3AED;color:#FFFFFF}
+.sticky .btn{background:var(--cta);color:#FFFFFF}

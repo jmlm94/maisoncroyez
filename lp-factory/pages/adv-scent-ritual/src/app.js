@@ -360,7 +360,6 @@ function ArticleHeader() {
   return html`
     <section class="art-head">
       <div class="wrap narrow">
-        ${CONFIG.brand.logo && html`<img class="art-logo" src=${CONFIG.brand.logo} alt=${CONFIG.brand.name}/>`}
         <h1>${AH.headline.pre} <em>${AH.headline.em}</em></h1>
         <div class="byline">
           <${Img} slot="narrator" style=${{ width: "44px", height: "44px", flex: "0 0 44px", borderRadius: "50%", minHeight: "44px" }} alt="Rebecca H."/>

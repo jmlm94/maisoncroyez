@@ -51,7 +51,7 @@ const CONFIG = {
   /* --- announcement bar with inline claim CTA (advertorial variant) --- */
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" }, /* honesty gate — enable only if owner confirms */
-    text: "Update: Bundle & Save Packs are now available",
+    text: "Update: Bundle & Save Packs are now available for 72 more hours ⏰",
     cta: "", /* removed by owner 2026-07-05 */
   },
 

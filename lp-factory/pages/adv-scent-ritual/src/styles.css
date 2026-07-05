@@ -821,3 +821,9 @@ h1 em,h2 em,h3 em,.cline em{
 
 /* edit round 5: restore breathing room above headline; claim button removed in config */
 .art-head{padding-top:16px}
+
+/* edit round 6: italic qualifier kicker above the headline */
+.art-kicker{
+  font-style:italic;font-size:.9rem;line-height:1.55;
+  color:var(--ink-soft);margin-bottom:14px;
+}

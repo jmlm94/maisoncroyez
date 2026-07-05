@@ -57,6 +57,7 @@ const CONFIG = {
 
   articleHeader: {
     eyebrow: "Special Report",
+    kicker: "If you’re a woman over 30 whose home looks beautiful but never feels right, the next 5 minutes could change how you walk through your own front door.",
     headline: { pre: "One Evening With This $89.95 Diffuser Did What", em: "$2,500 in Candles Couldn’t.", post: "" },
     byline: { name: "By Rebecca H.", note: "Home & Ritual" }, /* date auto-renders */
   },
@@ -360,6 +361,7 @@ function ArticleHeader() {
   return html`
     <section class="art-head">
       <div class="wrap narrow">
+        ${AH.kicker && html`<p class="art-kicker">${AH.kicker}</p>`}
         <h1>${AH.headline.pre} <em>${AH.headline.em}</em></h1>
         <div class="byline">
           <${Img} slot="narrator" style=${{ width: "44px", height: "44px", flex: "0 0 44px", borderRadius: "50%", minHeight: "44px" }} alt="Rebecca H."/>

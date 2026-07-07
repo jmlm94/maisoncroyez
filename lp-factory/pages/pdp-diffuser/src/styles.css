@@ -898,3 +898,7 @@ h1 em,h2 em,h3 em,.cline em{
   .pdp-buy .wrap{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
   .pdp-buy .buybox{margin-top:0}
 }
+
+/* buy box accordions reuse faq styles via .acc.faq; tighten inside buybox */
+.acc.faq{margin-top:12px}
+.acc.faq .qa{max-width:none}

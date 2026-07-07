@@ -451,7 +451,7 @@ function BuyBox() {
             ${B.trust.map((t) => html`<div class="t" key=${t.label}><${Icon} name=${t.icon}/>${t.label}</div>`)}
           </div>
 
-          <div class="acc">
+          <div class="acc faq">
             ${B.accordions.map((f, i) => html`
               <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
                 <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>

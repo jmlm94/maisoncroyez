@@ -1,0 +1,732 @@
+/* eslint-disable */
+const { useState, useEffect, useRef, useCallback, createElement: h } = React;
+const html = htm.bind(h);
+
+/* ================================================================
+   COLD-TRAFFIC PDP — /pages/diffuser (Blueprint 003)
+   Offer: 1 diffuser $89.95 + first 100ml fragrance FREE (30 days)
+   + Subi subscription $29.95/mo after. ATC composes the REAL cart:
+   diffuser variant + chosen fragrance variant on selling plan, then
+   sends to /cart. Above the fold mirrors the live PDP structure in
+   factory branding; below the fold: all 7 marketing angles, visual-first.
+   Fictional reviews ship live per owner ruling 2026-07-04.
+   ================================================================ */
+const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
+
+/* --- checkout wiring (REAL store objects, verified via Admin API) --- */
+const CART = {
+  diffuserVariant: 45216681590893,   /* Maison Croyez — Home Scent Diffuser · $89.95 */
+  sellingPlan: 1605206125,           /* Subi "Monthly (Get 25% OFF)" → $29.95/mo */
+  cartUrl: "/cart",
+};
+
+const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
+
+const CONFIG = {
+  brand: { name: "Maison Croyez", logo: A.logoLight || "", logoDark: A.logoDark || "" },
+
+  announcement: {
+    urgency: { confirmed: false, text: "SELLING FAST" },
+    text: "Get 30 days of fragrance FREE with your diffuser today",
+    cta: "",
+  },
+
+  sectionOrder: [
+    "buybox",
+    "angleIntention", "angleFill", "howTo",
+    "angleLux", "angleCompliment", "angleCandles", "angleLasts", "angleClean",
+    "mathSec", "reviewWall", "guarantee", "faq",
+  ],
+
+  /* --- gallery: the live PDP's own CDN images, same order --- */
+  gallery: [
+    "25-min.png?v=1767910199",
+    "image-1_1_1.png?v=1773273488",
+    "image-2_1_1.png?v=1773273488",
+    "image-5_1_1.png?v=1773273488",
+    "image-3_1_1.png?v=1773273488",
+    "image-6_1_1.png?v=1773273488",
+    "image-4_1_1.png?v=1773273488",
+    "image-7_1_1.png?v=1773273488",
+    "26-min.png?v=1773273488",
+    "27-min.png?v=1773273488",
+  ],
+
+  buybox: {
+    microProof: "Loved by 2,500+ women across the U.S.",
+    title: { pre: "The Maison Croyez Diffuser +", em: "30 Days of Fragrance Free." },
+    promoPill: "🎁 Your first 100ml fragrance is FREE (a $39.95 value)",
+    offer: {
+      price: "$89.95", compare: "$129.90 value", today: "today",
+      bullets: [
+        { icon: "gift", text: "Your first 100ml intention fragrance included free. It lasts 30+ days." },
+        { icon: "repeat", text: "Then $29.95/month (25% off) for your next bottle. Swap scents anytime." },
+        { icon: "hand", text: "Cancel anytime, no questions. You keep the diffuser forever." },
+      ],
+    },
+    pickerLabel: "Choose the intention of your free fragrance:",
+    cta: { label: "Add to Cart", sub: "Your first fragrance is free today" },
+    trust: [
+      { icon: "shield", label: "90-Day risk-free trial" },
+      { icon: "infinity", label: "Lifetime warranty" },
+      { icon: "truck", label: "Free shipping" },
+      { icon: "france", label: "French perfumery" },
+    ],
+    accordions: [
+      { q: "What exactly do I get today?", a: "The Maison Croyez waterless diffuser ($89.95) and your first 100ml intention-crafted fragrance, free, chosen by you above. One bottle runs 30+ days of continuous diffusion. Your next bottle arrives monthly at $29.95 (25% off $39.95); swap scents or cancel anytime from a single link." },
+      { q: "How does the subscription work?", a: "Your first bottle is free with the diffuser. From day 30, a fresh 100ml bottle of your scent ships monthly at $29.95. You can swap to a different intention, skip a month, or cancel anytime. No lock-in, no cancellation calls." },
+      { q: "How much space does it cover?", a: "Up to 600 square feet, corner to corner in under 10 minutes on G3 Full Presence. One button cycles the three modes: G1 Subtle, G2 Balanced, G3 Full Presence. No app, no WiFi, no batteries." },
+      { q: "How long does the fragrance last?", a: "Each 100ml bottle lasts 30+ days of continuous diffusion, about 10x longer than burning candles, because waterless diffusion releases scent in timed pulses instead of burning through it." },
+      { q: "Warranty & returns", a: "90-day risk-free trial: live with it, and if it doesn't change how your home feels, send it back for a full refund. The diffuser itself carries a lifetime warranty. Shipping is free, always." },
+    ],
+  },
+
+  /* --- fragrances: real variant IDs + printed-box intentions --- */
+  fragrances: [
+    {
+      key: "love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581,
+      grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
+      line: "For homes that hold people together.",
+      chips: ["🌼 Buttercup", "🌸 Honeysuckle", "🌻 Sunflower"],
+      ritual: "Run Golden Blossom Harmony where everyone gathers. Let the room hold them softer.",
+    },
+    {
+      key: "abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341,
+      grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
+      line: "For making space for more of everything.",
+      chips: ["🍋 Yuzu Leaf", "🍊 Green Mandarin", "🌲 Cypress"],
+      ritual: "Run Crisp Citrus Scape when you open the windows. Make room for more.",
+    },
+    {
+      key: "focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
+      grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
+      line: "For mornings that need stillness before they need speed.",
+      chips: ["🌿 Chilled Lavender", "🍃 Eucalyptus", "🍋 White Citrus"],
+      ritual: "Run Chilled Citrus at 8 a.m. on G2. Let the morning open quietly.",
+    },
+    {
+      key: "ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
+      grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
+      line: "For the ideas that deserve more than a notebook.",
+      chips: ["🫚 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
+      ritual: "Run Honey Nectar in the first hour of your day. Watch ideas ask to be built.",
+    },
+    {
+      key: "energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
+      grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
+      line: "For the days that need a higher frequency.",
+      chips: ["🍵 Jasmine Tea", "🍑 White Peach", "🪵 Sandalwood Crème"],
+      ritual: "Run Euphoric Bloom before people arrive. The room wakes up first.",
+    },
+    {
+      key: "purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
+      grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
+      line: "For the days when you need everything out.",
+      chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
+      ritual: "Run Wildwood Mystique when the day finally leaves. Clear the air; keep the calm.",
+    },
+    {
+      key: "midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
+      grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
+      line: "For evenings that deserve a different ending.",
+      chips: ["🌸 Moonflower", "🌺 Night Lily", "🤍 Skin Musk"],
+      ritual: "Run Midnight Sensation at dusk. Let the evening arrive differently.",
+    },
+  ],
+
+  images: {
+    guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
+    soot:    { file: "hf gen — candle soot", src: A.soot || "" },
+    mold:    { file: "hf gen — ultrasonic tank mold", src: A.mold || "" },
+    hotel:   { file: "hf gen — five-star suite entry", src: A.hotel || "" },
+    dog:     { file: "hf gen — dog asleep by diffuser", src: A.dog || "" },
+    product: { file: "diseno-87", src: A.product || "" },
+    nightstand: { file: "diseno-88", src: A.nightstand || "" },
+    frag1: { file: "frag1", src: A.frag1 || "" }, frag2: { file: "frag2", src: A.frag2 || "" },
+    frag3: { file: "frag3", src: A.frag3 || "" }, frag4: { file: "frag4", src: A.frag4 || "" },
+    frag5: { file: "frag5", src: A.frag5 || "" }, frag6: { file: "frag6", src: A.frag6 || "" },
+    frag7: { file: "frag7", src: A.frag7 || "" },
+    gif1: { file: "www1", src: A.gif1 || "", srcWebm: A.gif1w || "" },
+    gif2: { file: "www2", src: A.gif2 || "", srcWebm: A.gif2w || "" },
+    gif3: { file: "www3", src: A.gif3 || "", srcWebm: A.gif3w || "" },
+  },
+
+  /* ================================================================
+     BELOW THE FOLD — the 7 angles, visual-first (Project Heart §5)
+     ================================================================ */
+  angleIntention: { /* A1 — the moat */
+    eyebrow: "A scent for every intention",
+    heading: ["Every scent carries an intention.", "Tap the energy you want more of."],
+    note: "Whichever you tap becomes your free first bottle.",
+  },
+
+  angleFill: { /* A7 — room-filling performance */
+    eyebrow: "Room-filling performance",
+    heading: ["Finally, a diffuser", "you can actually smell."],
+    video: "gif3",
+    stats: [
+      { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on G3 Full Presence. Not four feet of air around a flame." },
+      { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
+      { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle of continuous presence. About 10x longer than candles." },
+    ],
+  },
+
+  howTo: {
+    eyebrow: "How it works",
+    heading: ["Three steps.", "That's the whole ritual."],
+    steps: [
+      { gif: "gif1", title: "Pour in your intention", body: "Your free 100ml fragrance. No water, no dilution." },
+      { gif: "gif2", title: "Press once", body: "One button. G1 Subtle, G2 Balanced, G3 Full Presence." },
+      { gif: "gif3", title: "Walk away", body: "Under 10 minutes to fill the room. Weeks of presence." },
+    ],
+  },
+
+  angleLux: { /* A4 — instant luxury */
+    eyebrow: "Instant luxury",
+    heading: ["Your home.", "But five-star."],
+    line: "The scents are composed in the French perfumery tradition that luxury hotels use to make you exhale at the front desk. One plug-in. No remodel.",
+    img: "hotel",
+  },
+
+  angleCompliment: { /* A2 — the compliment effect */
+    eyebrow: "The compliment effect",
+    heading: ["The scent that makes guests", "stop mid-sentence."],
+    img: "guests",
+    quotes: [
+      { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Suddenly my house is “the cozy one” in the group chat." },
+      { name: "Dana W.", text: "My daughter asked why our house feels so cozy lately. It feels different in here, not just smells different." },
+      { name: "Jordan P.", text: "It's the first thing guests mention and the last thing I'd give up." },
+    ],
+  },
+
+  angleCandles: { /* A6 — safer than candles */
+    eyebrow: "Safer than candles",
+    heading: ["Everything you love about candles.", "Nothing you shouldn't breathe."],
+    split: {
+      before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
+      after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
+    },
+  },
+
+  angleLasts: { /* A5 — diffusers that actually last */
+    eyebrow: "Built to outlast them all",
+    heading: ["No water. No mold.", "No problems."],
+    split: {
+      before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
+      after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
+    },
+    line: "Ultrasonic diffusers grow things you don't want to name. This one diffuses pure oil, dry. Plug it in once and forget it for weeks. And it's covered for life.",
+  },
+
+  angleClean: { /* A3 — clean, non-chemical */
+    eyebrow: "Clean enough for every nose in the house",
+    heading: ["Nothing burning.", "Nothing synthetic."],
+    img: "dog",
+    badges: ["🌿 100% organic oils", "🤍 Hypoallergenic", "🐾 Pet-friendly", "🕯️ Flame-free"],
+  },
+
+  mathSec: {
+    eyebrow: "Do the math",
+    heading: ["Cheaper than the", "candle habit it replaces."],
+    old: { title: "The candle habit", lines: ["$60–$250 a month, forever", "Strongest for the first hour", "Smoke, soot, rebuying"] },
+    neu: { title: "Maison Croyez", lines: ["$89.95 once for the diffuser", "First 100ml bottle free", "Then $29.95 a month, cancel anytime"] },
+    verdict: "One month of a serious candle habit pays for the entire system.",
+  },
+
+  /* Fictional, in-voice — owner ruling 2026-07-04: ships live. */
+  reviewWall: {
+    heading: ["2,500+ women came home to a different house.", "Here's what they're saying:"],
+    items: [
+      { name: "Kate D.", text: "I did the math on my candle habit and switched. One free bottle lasted five weeks and my living room finally feels intentional." },
+      { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven't touched in a month except to switch modes. The scent is actually everywhere." },
+      { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. First home fragrance we've agreed on in eleven years of marriage." },
+      { name: "Tiana M.", text: "Bought Crisp Citrus for “abundance” half as a joke. The joke's over: my office finally feels like a place where things get finished." },
+      { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
+      { name: "Sophie M.", text: "The subscription is the part I didn't expect to love. A fresh bottle shows up right as the last one fades. I've swapped scents twice, took 10 seconds." },
+      { name: "Camille B.", text: "Guests walk in and go quiet for a second. That pause is why I bought it." },
+    ],
+  },
+
+  guarantee: {
+    badge: { big: "90", mid: "Day · Risk-Free", small: "Lifetime warranty" },
+    heading: ["Love the way your home feels in 90 days,", "or your money back."],
+    body: "Run it. Live with it. Let people walk in. If Maison Croyez doesn't change how your home feels (and how it's complimented), send it back within 90 days for a full refund. And the diffuser itself is covered for life.",
+    cta: { label: "Add to Cart", sub: "First fragrance free today" },
+  },
+
+  faq: {
+    heading: ["Questions?", "We've got answers."],
+    items: [
+      { q: "When am I charged for the subscription?", a: "Today you pay $89.95 for the diffuser. Your first 100ml fragrance ships free with it. Your card is charged $29.95 for the next bottle when it ships, about 30 days later. You'll get an email reminder before every renewal." },
+      { q: "Can I swap scents or cancel?", a: "Anytime, from the link in any subscription email. Swap to a different intention, skip a month, or cancel in a few taps. No calls, no forms, no guilt." },
+      { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on G3 Full Presence. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
+      { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
+      { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. G1 Subtle stretches a bottle even further." },
+      { q: "Do I need an app, WiFi, or batteries?", a: "No app, no WiFi, no batteries. One button cycles G1 Subtle, G2 Balanced, and G3 Full Presence. Set it and forget it." },
+      { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
+      { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. You choose scents by the feeling you want more of, not just the notes." },
+      { q: "What makes this different from candles?", a: "No flame, no soot, no smoke, and no four-hour lifespan. The same warmth and presence, evenly through the whole room, for weeks per bottle instead of evenings per jar." },
+      { q: "What if I don't love it?", a: "You have a 90-day risk-free trial on the whole experience and a lifetime warranty on the diffuser. If your home doesn't feel different, we refund you in full." },
+    ],
+  },
+
+  sticky: { label: "Add to Cart — $89.95" },
+};
+
+/* ================================================================
+   Icons — native emoji (brand rule)
+   ================================================================ */
+const EMOJI = {
+  leaf: "🌿", paw: "🐾", flame: "🕯️", sparkle: "✨", shield: "🛡️",
+  infinity: "♾️", truck: "🚚", gift: "🎁", france: "🇫🇷",
+  repeat: "🔄", hand: "🤍",
+};
+const Icon = ({ name }) => html`<span class="emoji" role="img" aria-hidden="true">${EMOJI[name] || EMOJI.sparkle}</span>`;
+
+/* ================================================================
+   Shared bits
+   ================================================================ */
+const Stars = () => html`<span class="stars" aria-label="5 out of 5 stars">★★★★★</span>`;
+const Placeholder = ({ tone = "", cap, style, sq }) =>
+  html`<div class=${"ph " + tone + (sq ? " sq" : "")} style=${style}>${cap && html`<span class="ph-cap">${cap}</span>`}</div>`;
+const Img = ({ slot, tone = "warm", style, alt = "" }) => {
+  const im = CONFIG.images[slot];
+  if (im && im.src) {
+    const media = im.src.startsWith("data:video")
+      ? html`<video class="simg" autoPlay loop muted playsInline preload="auto"
+          onCanPlay=${(e) => e.target.play().catch(() => {})}>
+          ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
+          <source src=${im.src} type="video/mp4"/>
+        </video>`
+      : html`<img class="simg" src=${im.src} alt=${alt}/>`;
+    return html`<div class="ph sq" style=${style}>${media}</div>`;
+  }
+  return html`<${Placeholder} sq=${true} tone=${tone} style=${style} cap=${"AWAITING MEDIA — " + (im ? im.file : slot)}/>`;
+};
+const SerifHead = ({ pre, em }) => html`<h2>${pre}${em && html` <em>${em}</em>`}</h2>`;
+
+/* ================================================================
+   Cart plumbing — real Shopify AJAX cart (same-origin on the store)
+   ================================================================ */
+const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
+async function addToCart(fragrance, setBusy, setToast) {
+  const items = [
+    { id: CART.diffuserVariant, quantity: 1 },
+    { id: fragrance.variant, quantity: 1, selling_plan: CART.sellingPlan },
+  ];
+  if (!onStore()) {
+    setToast(`Preview mode. On the live store this adds: the diffuser ($89.95) + ${fragrance.name} (free first bottle, then $29.95/mo) and opens the cart.`);
+    return;
+  }
+  try {
+    setBusy(true);
+    const r = await fetch("/cart/add.js", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ items }),
+    });
+    if (!r.ok) throw new Error("cart " + r.status);
+    window.location.href = CART.cartUrl;
+  } catch (e) {
+    setBusy(false);
+    setToast("Something hiccuped adding to your cart. Please try again.");
+  }
+}
+
+/* ================================================================
+   Global scent selection (buy box + intention map stay in sync)
+   ================================================================ */
+const scentStore = {
+  key: CONFIG.fragrances[0].key,
+  listeners: new Set(),
+  get() { return CONFIG.fragrances.find((f) => f.key === this.key); },
+  set(k) { this.key = k; this.listeners.forEach((fn) => fn(k)); },
+};
+function useScent() {
+  const [key, setKey] = useState(scentStore.key);
+  useEffect(() => {
+    const fn = (k) => setKey(k);
+    scentStore.listeners.add(fn);
+    return () => scentStore.listeners.delete(fn);
+  }, []);
+  return [CONFIG.fragrances.find((f) => f.key === key), (k) => scentStore.set(k)];
+}
+
+/* ================================================================
+   Sections
+   ================================================================ */
+const Announcement = () => {
+  const AN = CONFIG.announcement;
+  return html`
+    <div class="announce adv-announce">
+      <div class="adv-announce-in">
+        ${AN.urgency.confirmed && html`<span class="urgpill">${AN.urgency.text}</span>`}
+        <span class="atext">${AN.text}</span>
+      </div>
+    </div>`;
+};
+
+const Header = () => html`
+  <header class="pdp-hdr">
+    ${CONFIG.brand.logo
+      ? html`<img src=${CONFIG.brand.logo} alt=${CONFIG.brand.name}/>`
+      : html`<span class="caps">${CONFIG.brand.name}</span>`}
+  </header>`;
+
+function Gallery() {
+  const [idx, setIdx] = useState(0);
+  const urls = CONFIG.gallery.map((f) => CDNIMG + f + "&width=900");
+  const thumbs = CONFIG.gallery.map((f) => CDNIMG + f + "&width=160");
+  return html`
+    <div class="gal">
+      <div class="gal-main ph sq"><img class="simg" src=${urls[idx]} alt="Maison Croyez diffuser"/></div>
+      <div class="gal-thumbs">
+        ${thumbs.map((t, i) => html`
+          <button key=${i} class=${"gal-th" + (i === idx ? " on" : "")} onClick=${() => setIdx(i)} aria-label=${"Image " + (i + 1)}>
+            <img src=${t} alt="" loading="lazy"/>
+          </button>`)}
+      </div>
+    </div>`;
+}
+
+function Toast({ msg, onClose }) {
+  useEffect(() => {
+    if (!msg) return;
+    const t = setTimeout(onClose, 6000);
+    return () => clearTimeout(t);
+  }, [msg]);
+  if (!msg) return null;
+  return html`<div class="toast" role="status">${msg}</div>`;
+}
+
+function BuyBox() {
+  const B = CONFIG.buybox;
+  const [scent, setScent] = useScent();
+  const [busy, setBusy] = useState(false);
+  const [toast, setToast] = useState("");
+  const [open, setOpen] = useState(-1);
+  return html`
+    <section class="section pdp-buy" id="buybox">
+      <div class="wrap">
+        <${Gallery}/>
+        <div class="buybox">
+          <div class="rating"><${Stars}/> ${B.microProof}</div>
+          <h1>${B.title.pre} <em>${B.title.em}</em></h1>
+          <span class="chip promo-pill">${B.promoPill}</span>
+          <div class="price-row">
+            <span class="price">${B.offer.price}</span>
+            <span class="compare">${B.offer.compare}</span>
+            <span class="caps today">${B.offer.today}</span>
+          </div>
+          <ul class="offer-bullets">
+            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
+          </ul>
+
+          <div class="caps picker-label">${B.pickerLabel}</div>
+          <div class="picker" role="radiogroup" aria-label="Choose your fragrance">
+            ${CONFIG.fragrances.map((f) => html`
+              <button key=${f.key} class=${"pick" + (scent.key === f.key ? " on" : "")}
+                role="radio" aria-checked=${scent.key === f.key}
+                onClick=${() => setScent(f.key)} style=${{ background: scent.key === f.key ? f.grad : "" }}>
+                <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
+                <span class="pick-txt">
+                  <span class="pick-name">${f.name}</span>
+                  <span class="pick-int">${f.intention}</span>
+                </span>
+                <span class="pick-dot" aria-hidden="true"></span>
+              </button>`)}
+          </div>
+          <div class="pick-chips">
+            ${scent.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
+          </div>
+
+          <button class="btn atc" disabled=${busy} onClick=${() => addToCart(scent, setBusy, setToast)}>
+            <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
+            <span class="btn-sub">${B.cta.sub}</span>
+          </button>
+          <div class="trust3 trust4">
+            ${B.trust.map((t) => html`<div class="t" key=${t.label}><${Icon} name=${t.icon}/>${t.label}</div>`)}
+          </div>
+
+          <div class="acc">
+            ${B.accordions.map((f, i) => html`
+              <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
+                <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
+                  ${f.q}<span class="plus">+</span>
+                </button>
+                <div class="ans"><p>${f.a}</p></div>
+              </div>`)}
+          </div>
+        </div>
+      </div>
+      <${Toast} msg=${toast} onClose=${() => setToast("")}/>
+    </section>`;
+}
+
+/* ---------- A1: intention map doubles as the scent selector ---------- */
+function AngleIntention() {
+  const M = CONFIG.angleIntention;
+  const [scent, setScent] = useScent();
+  const pick = (f) => {
+    setScent(f.key);
+    const el = document.getElementById("buybox");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  return html`
+    <section class="section imap">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">${M.eyebrow}</span>
+          <h2>${M.heading[0]}<br/><em>${M.heading[1]}</em></h2>
+          <p class="lede">${M.note}</p>
+        </div>
+        <div class="igrid">
+          ${CONFIG.fragrances.map((f) => html`
+            <button class=${"icard iclick" + (scent.key === f.key ? " on" : "")} key=${f.name} style=${{ background: f.grad }} onClick=${() => pick(f)}>
+              <div class="irow">
+                <${Img} slot=${f.img} tone="linen" style=${{ width: "64px", flex: "0 0 64px", borderRadius: "12px", minHeight: "64px" }} alt=${f.name}/>
+                <div style=${{ flex: 1, textAlign: "left" }}><h3>${f.name}</h3><div class="intent">${f.intention}</div></div>
+                ${scent.key === f.key && html`<span class="ipicked caps">Your pick ✓</span>`}
+              </div>
+              <p class="iline">${f.line}</p>
+              <div class="chips">${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}</div>
+              <p class="ritual">${f.ritual}</p>
+            </button>`)}
+        </div>
+      </div>
+    </section>`;
+}
+
+/* ---------- A7: performance (video + stats) ---------- */
+function AngleFill() {
+  const S = CONFIG.angleFill;
+  const ref = useRef(null);
+  const [go, setGo] = useState(false);
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setGo(true); io.disconnect(); } }, { threshold: 0.3 });
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  return html`
+    <section class="section stats" ref=${ref}>
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">${S.eyebrow}</span>
+          <${SerifHead} pre=${S.heading[0]} em=${S.heading[1]}/>
+        </div>
+        <div class="narrow"><${Img} slot=${S.video} alt="The mist filling a room"/></div>
+        <div style=${{ height: "26px" }}></div>
+        ${S.stats.map((s) => html`
+          <div class="stat" key=${s.label}>
+            <div class="bar"><div class="fill" style=${{ width: go ? s.fill + "%" : "0%" }}>${s.value}</div></div>
+            <div class="slabel">${s.label}</div>
+            <div class="sdesc">${s.desc}</div>
+          </div>`)}
+      </div>
+    </section>`;
+}
+
+const HowTo = () => html`
+  <section class="section howto">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">${CONFIG.howTo.eyebrow}</span>
+        <${SerifHead} pre=${CONFIG.howTo.heading[0]} em=${CONFIG.howTo.heading[1]}/>
+      </div>
+      <div class="howsteps">
+        ${CONFIG.howTo.steps.map((s, i) => html`
+          <div class="hstep" key=${s.title}>
+            <${Img} slot=${s.gif} tone=${["warm", "linen", "dusk"][i]} alt=${s.title}/>
+            <div class="hnum">${i + 1}</div>
+            <h3>${s.title}</h3>
+            <p>${s.body}</p>
+          </div>`)}
+      </div>
+    </div>
+  </section>`;
+
+/* ---------- generic visual angle band (image + short line) ---------- */
+const AngleBand = ({ cfg, tinted }) => html`
+  <section class=${"section angle" + (tinted ? " tinted-band" : "")}>
+    <div class="wrap narrow">
+      <div class="section-head">
+        <span class="eyebrow">${cfg.eyebrow}</span>
+        <${SerifHead} pre=${cfg.heading[0]} em=${cfg.heading[1]}/>
+      </div>
+      <${Img} slot=${cfg.img} alt=${cfg.heading.join(" ")}/>
+      ${cfg.line && html`<p class="angle-line">${cfg.line}</p>`}
+      ${cfg.badges && html`
+        <div class="badge-band">
+          ${cfg.badges.map((b) => html`<span class="chip big" key=${b}>${b}</span>`)}
+        </div>`}
+      ${cfg.quotes && html`
+        <div class="ugcstack" style=${{ marginTop: "22px" }}>
+          ${cfg.quotes.map((t) => html`
+            <div class="utest" key=${t.name}>
+              <${Stars}/>
+              <p class="uquote">“${t.text}”</p>
+              <div class="uwho">${t.name} · Verified Buyer</div>
+            </div>`)}
+        </div>`}
+    </div>
+  </section>`;
+
+/* ---------- split-comparison angle band (✕ vs ✓) ---------- */
+const AngleSplit = ({ cfg }) => {
+  const Half = ({ side, good }) => html`
+    <div class="split-half">
+      <${Img} slot=${side.slot} alt=${side.cap}/>
+      <span class=${"split-badge" + (good ? " good" : "")} aria-hidden="true">${side.badge}</span>
+      <div class="split-cap caps">${side.cap}</div>
+    </div>`;
+  return html`
+    <section class="section angle">
+      <div class="wrap narrow">
+        <div class="section-head">
+          <span class="eyebrow">${cfg.eyebrow}</span>
+          <${SerifHead} pre=${cfg.heading[0]} em=${cfg.heading[1]}/>
+        </div>
+        <div class="split-grid">
+          <${Half} side=${cfg.split.before} good=${false}/>
+          <${Half} side=${cfg.split.after} good=${true}/>
+        </div>
+        ${cfg.line && html`<p class="angle-line">${cfg.line}</p>`}
+      </div>
+    </section>`;
+};
+
+const MathSec = () => {
+  const M = CONFIG.mathSec;
+  return html`
+    <section class="section">
+      <div class="wrap narrow">
+        <div class="section-head">
+          <span class="eyebrow">${M.eyebrow}</span>
+          <${SerifHead} pre=${M.heading[0]} em=${M.heading[1]}/>
+        </div>
+        <div class="mathbox">
+          <div class="math-grid">
+            <div class="math-col old">
+              <div class="math-title caps">${M.old.title}</div>
+              ${M.old.lines.map((l) => html`<p key=${l}>${l}</p>`)}
+            </div>
+            <div class="math-vs" aria-hidden="true">vs</div>
+            <div class="math-col neu">
+              <div class="math-title caps">${M.neu.title}</div>
+              ${M.neu.lines.map((l) => html`<p key=${l}>${l}</p>`)}
+            </div>
+          </div>
+          <p class="math-verdict">${M.verdict}</p>
+        </div>
+      </div>
+    </section>`;
+};
+
+const ReviewWall = () => html`
+  <section class="section ugc">
+    <div class="wrap narrow">
+      <div class="section-head">
+        <${SerifHead} pre=${CONFIG.reviewWall.heading[0]} em=${CONFIG.reviewWall.heading[1]}/>
+      </div>
+      <div class="ugcstack">
+        ${CONFIG.reviewWall.items.map((t) => html`
+          <div class="utest" key=${t.name}>
+            <${Stars}/>
+            <p class="uquote">“${t.text}”</p>
+            <div class="uwho">${t.name} · Verified Buyer</div>
+          </div>`)}
+      </div>
+    </div>
+  </section>`;
+
+function GuaranteeSec() {
+  const [scent] = useScent();
+  const [busy, setBusy] = useState(false);
+  const [toast, setToast] = useState("");
+  return html`
+    <section class="section guarantee">
+      <div class="wrap">
+        <div class="gbadge" role="img" aria-label="90 day risk-free, lifetime warranty">
+          <span class="gb1">${CONFIG.guarantee.badge.big}</span>
+          <span class="gb2">${CONFIG.guarantee.badge.mid}</span>
+          <span class="gb3">${CONFIG.guarantee.badge.small}</span>
+        </div>
+        <h2>${CONFIG.guarantee.heading[0]} <em>${CONFIG.guarantee.heading[1]}</em></h2>
+        <p class="gbody">${CONFIG.guarantee.body}</p>
+        <button class="btn" disabled=${busy} onClick=${() => addToCart(scent, setBusy, setToast)}>
+          <span>${busy ? "Adding…" : CONFIG.guarantee.cta.label + " ➔"}</span>
+          <span class="btn-sub">${CONFIG.guarantee.cta.sub}</span>
+        </button>
+      </div>
+      <${Toast} msg=${toast} onClose=${() => setToast("")}/>
+    </section>`;
+}
+
+function Faq() {
+  const [open, setOpen] = useState(0);
+  return html`
+    <section class="section faq">
+      <div class="wrap">
+        <div class="section-head">
+          <${SerifHead} pre=${CONFIG.faq.heading[0]} em=${CONFIG.faq.heading[1]}/>
+        </div>
+        ${CONFIG.faq.items.map((f, i) => html`
+          <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
+            <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
+              ${f.q}<span class="plus">+</span>
+            </button>
+            <div class="ans"><p>${f.a}</p></div>
+          </div>`)}
+      </div>
+    </section>`;
+}
+
+function StickyBar() {
+  const [show, setShow] = useState(false);
+  const [scent] = useScent();
+  const [busy, setBusy] = useState(false);
+  const [toast, setToast] = useState("");
+  useEffect(() => {
+    const el = document.getElementById("buybox");
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setShow(!e.isIntersecting), { threshold: 0.05 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return html`
+    <div class=${"sticky" + (show ? " show" : "")}>
+      <button class="btn" disabled=${busy} onClick=${() => addToCart(scent, setBusy, setToast)}>
+        <span>${busy ? "Adding…" : CONFIG.sticky.label + " ➔"}</span>
+        <span class="btn-sub">Free first fragrance: ${scent.name}</span>
+      </button>
+      <${Toast} msg=${toast} onClose=${() => setToast("")}/>
+    </div>`;
+}
+
+/* ================================================================
+   App
+   ================================================================ */
+function App() {
+  const sections = {
+    buybox: () => html`<${BuyBox} key="bb"/>`,
+    angleIntention: () => html`<${AngleIntention} key="a1"/>`,
+    angleFill: () => html`<${AngleFill} key="a7"/>`,
+    howTo: () => html`<${HowTo} key="ht"/>`,
+    angleLux: () => html`<${AngleBand} key="a4" cfg=${CONFIG.angleLux} tinted=${true}/>`,
+    angleCompliment: () => html`<${AngleBand} key="a2" cfg=${CONFIG.angleCompliment}/>`,
+    angleCandles: () => html`<${AngleSplit} key="a6" cfg=${CONFIG.angleCandles}/>`,
+    angleLasts: () => html`<${AngleSplit} key="a5" cfg=${CONFIG.angleLasts}/>`,
+    angleClean: () => html`<${AngleBand} key="a3" cfg=${CONFIG.angleClean} tinted=${true}/>`,
+    mathSec: () => html`<${MathSec} key="math"/>`,
+    reviewWall: () => html`<${ReviewWall} key="rw"/>`,
+    guarantee: () => html`<${GuaranteeSec} key="g"/>`,
+    faq: () => html`<${Faq} key="faq"/>`,
+  };
+  return html`
+    <${Announcement}/>
+    <${Header}/>
+    ${CONFIG.sectionOrder.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
+    <${StickyBar}/>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);

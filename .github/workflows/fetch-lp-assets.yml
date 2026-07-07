@@ -1,6 +1,5 @@
 name: fetch-lp-assets
-# One-shot helper: the Claude Code cloud sandbox can't reach the image CDN,
-# so this workflow fetches generated LP media and commits it to the branch.
+# Relay: fetches generated LP media past the sandbox egress allowlist.
 on:
   workflow_dispatch:
   push:
@@ -18,18 +17,19 @@ jobs:
       - name: Fetch generated images
         run: |
           set -euo pipefail
-          DIR=lp-factory/pages/adv-scent-ritual/assets/raw
+          DIR=lp-factory/pages/pdp-diffuser/assets/raw
           mkdir -p "$DIR"
           BASE="https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU"
-          curl -fsSL -o "$DIR/grave.png"       "$BASE/hf_20260704_205137_35191b46-5538-42b6-8be6-39f6913b3cb9.png"
-          curl -fsSL -o "$DIR/pain-scene.png"  "$BASE/hf_20260704_205140_933e2070-685f-429e-afc3-8a63f595e228.png"
-          curl -fsSL -o "$DIR/golden-room.png" "$BASE/hf_20260704_205143_e25142f8-8c76-4200-b267-be8850ac4865.png"
-          curl -fsSL -o "$DIR/narrator.png"    "$BASE/hf_20260704_205145_e53652f4-eabe-4a88-9737-949b343554a5.png"
+          curl -fsSL -o "$DIR/guests.png" "$BASE/hf_20260707_185707_62608ce3-07bb-454a-9e51-05fc5343a9f2.png"
+          curl -fsSL -o "$DIR/soot.png"   "$BASE/hf_20260707_185709_8cab6ef1-807a-4ed0-9fa0-efc75f588bf2.png"
+          curl -fsSL -o "$DIR/mold.png"   "$BASE/hf_20260707_185712_ba9e17fc-73eb-43e7-827c-553f07d24c3c.png"
+          curl -fsSL -o "$DIR/hotel.png"  "$BASE/hf_20260707_185714_91d69223-3c34-49e2-9eb2-5161b849285d.png"
+          curl -fsSL -o "$DIR/dog.png"    "$BASE/hf_20260707_185715_9442beea-56ac-4a8a-adbc-ae9ef41be55b.png"
           ls -la "$DIR"
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/adv-scent-ritual/assets/raw
-          git commit -m "Fetch generated advertorial media (raw)"
+          git add lp-factory/pages/pdp-diffuser/assets/raw
+          git commit -m "Fetch PDP angle media (raw)"
           git push

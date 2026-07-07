@@ -53,31 +53,33 @@ const CONFIG = {
   ],
 
   buybox: {
-    microProof: "Loved by 2,500+ women across the U.S.",
-    title: { pre: "The Maison Croyez Diffuser +", em: "30 Days of Fragrance Free." },
-    promoPill: "🎁 Your first 100ml fragrance is FREE (a $39.95 value)",
+    microProof: "2,500+ women already manifesting what they want in their spaces.",
+    title: { pre: "The Maison Croyez Diffuser +", em: "30-Days of Free Fragrance." },
+    promoPill: "🎁 Yes, your first fragrance is free + Sample Booklet included!",
     offer: {
-      price: "$89.95", compare: "$129.90 value", today: "today",
+      price: "$89.95", compare: "$189.95", today: "Total saved = $100",
       bullets: [
-        { icon: "gift", text: "Your first 100ml intention fragrance included free. It lasts 30+ days." },
-        { icon: "repeat", text: "Then $29.95/month (25% off) for your next bottle. Swap scents anytime." },
-        { icon: "hand", text: "Cancel anytime, no questions. You keep the diffuser forever." },
+        { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes. A scent guests notice at the door." },
+        { icon: "leaf", text: "Waterless, flame-free and hypoallergenic. No mold, no soot, no upkeep, ever." },
+        { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
       ],
     },
-    pickerLabel: "Choose the intention of your free fragrance:",
+    pickerLabel: "What do you want to attract for your life?",
     cta: { label: "Add to Cart", sub: "Your first fragrance is free today" },
     trust: [
       { icon: "shield", label: "90-Day risk-free trial" },
       { icon: "infinity", label: "Lifetime warranty" },
-      { icon: "truck", label: "Free shipping" },
-      { icon: "france", label: "French perfumery" },
+      { icon: "paw", label: "Pet friendly" },
+      { icon: "leaf", label: "Organic ingredients" },
     ],
     accordions: [
-      { q: "What exactly do I get today?", a: "The Maison Croyez waterless diffuser ($89.95) and your first 100ml intention-crafted fragrance, free, chosen by you above. One bottle runs 30+ days of continuous diffusion. Your next bottle arrives monthly at $29.95 (25% off $39.95); swap scents or cancel anytime from a single link." },
-      { q: "How does the subscription work?", a: "Your first bottle is free with the diffuser. From day 30, a fresh 100ml bottle of your scent ships monthly at $29.95. You can swap to a different intention, skip a month, or cancel anytime. No lock-in, no cancellation calls." },
-      { q: "How much space does it cover?", a: "Up to 600 square feet, corner to corner in under 10 minutes on G3 Full Presence. One button cycles the three modes: G1 Subtle, G2 Balanced, G3 Full Presence. No app, no WiFi, no batteries." },
-      { q: "How long does the fragrance last?", a: "Each 100ml bottle lasts 30+ days of continuous diffusion, about 10x longer than burning candles, because waterless diffusion releases scent in timed pulses instead of burning through it." },
-      { q: "Warranty & returns", a: "90-day risk-free trial: live with it, and if it doesn't change how your home feels, send it back for a full refund. The diffuser itself carries a lifetime warranty. Shipping is free, always." },
+      { q: "Will I actually be able to smell it?", a: "Yes. It fills up to 600 sq ft, corner to corner, in under 10 minutes. Soft, but impossible to ignore." },
+      { q: "Is it safe for my kids and pets?", a: "100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
+      { q: "When am I charged for the subscription?", a: "Today: $89.95 for the diffuser, first bottle free. Your next bottle ships in 30 days at $29.95, with an email reminder before every renewal." },
+      { q: "Can I cancel or swap scents?", a: "Anytime, in a few taps, from the link in any email. Swap intentions, skip a month, or cancel. No calls, no forms." },
+      { q: "What if I don't like the scent?", a: "You have a 90-day risk-free trial on everything. Swap to a different intention or return it for a full refund." },
+      { q: "Will it look cheap on my shelf?", a: "Matte white and woven linen, no cords in sight lines, no glowing screens. Most guests assume it's a designer speaker." },
+      { q: "Is this another diffuser that dies in 3 months?", a: "No water means no mold and nothing to break down. And it's covered by a lifetime warranty, so it literally can't be." },
     ],
   },
 
@@ -87,6 +89,7 @@ const CONFIG = {
       key: "love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581,
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
+      desc: "For the home you want to feel held in, and the people you want closer.",
       chips: ["🌼 Buttercup", "🌸 Honeysuckle", "🌻 Sunflower"],
       ritual: "Run Golden Blossom Harmony where everyone gathers. Let the room hold them softer.",
     },
@@ -94,6 +97,7 @@ const CONFIG = {
       key: "abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
+      desc: "For the season you\u2019re calling in more: money, room, opportunity.",
       chips: ["🍋 Yuzu Leaf", "🍊 Green Mandarin", "🌲 Cypress"],
       ritual: "Run Crisp Citrus Scape when you open the windows. Make room for more.",
     },
@@ -101,6 +105,7 @@ const CONFIG = {
       key: "focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
+      desc: "For the woman whose mind won\u2019t stop. Stillness first, focus after.",
       chips: ["🌿 Chilled Lavender", "🍃 Eucalyptus", "🍋 White Citrus"],
       ritual: "Run Chilled Citrus at 8 a.m. on G2. Let the morning open quietly.",
     },
@@ -108,6 +113,7 @@ const CONFIG = {
       key: "ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
+      desc: "For the projects you keep postponing. Air that says: start.",
       chips: ["🫚 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
       ritual: "Run Honey Nectar in the first hour of your day. Watch ideas ask to be built.",
     },
@@ -115,6 +121,7 @@ const CONFIG = {
       key: "energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
+      desc: "For heavy days and low rooms. Turn the frequency back up.",
       chips: ["🍵 Jasmine Tea", "🍑 White Peach", "🪵 Sandalwood Crème"],
       ritual: "Run Euphoric Bloom before people arrive. The room wakes up first.",
     },
@@ -122,6 +129,7 @@ const CONFIG = {
       key: "purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
+      desc: "For when you need yesterday out of the house.",
       chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
       ritual: "Run Wildwood Mystique when the day finally leaves. Clear the air; keep the calm.",
     },
@@ -129,6 +137,7 @@ const CONFIG = {
       key: "midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
+      desc: "For the evenings you don\u2019t plan on spending alone much longer.",
       chips: ["🌸 Moonflower", "🌺 Night Lily", "🤍 Skin Musk"],
       ritual: "Run Midnight Sensation at dusk. Let the evening arrive differently.",
     },
@@ -278,7 +287,7 @@ const CONFIG = {
    ================================================================ */
 const EMOJI = {
   leaf: "🌿", paw: "🐾", flame: "🕯️", sparkle: "✨", shield: "🛡️",
-  infinity: "♾️", truck: "🚚", gift: "🎁", france: "🇫🇷",
+  infinity: "♾️", truck: "🚚", gift: "🎁", france: "🇫🇷", wind: "🌬️",
   repeat: "🔄", hand: "🤍",
 };
 const Icon = ({ name }) => html`<span class="emoji" role="img" aria-hidden="true">${EMOJI[name] || EMOJI.sparkle}</span>`;
@@ -425,22 +434,26 @@ function BuyBox() {
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
 
-          <div class="caps picker-label">${B.pickerLabel}</div>
+          <div class="picker-label">${B.pickerLabel}</div>
           <div class="picker" role="radiogroup" aria-label="Choose your fragrance">
             ${CONFIG.fragrances.map((f) => html`
               <button key=${f.key} class=${"pick" + (scent.key === f.key ? " on" : "")}
                 role="radio" aria-checked=${scent.key === f.key}
                 onClick=${() => setScent(f.key)} style=${{ background: scent.key === f.key ? f.grad : "" }}>
-                <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
-                <span class="pick-txt">
-                  <span class="pick-name">${f.name}</span>
-                  <span class="pick-int">${f.intention}</span>
+                <span class="pick-row">
+                  <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
+                  <span class="pick-txt">
+                    <span class="pick-name">${f.name}</span>
+                    <span class="pick-int">${f.intention}</span>
+                  </span>
+                  <span class="pick-dot" aria-hidden="true"></span>
                 </span>
-                <span class="pick-dot" aria-hidden="true"></span>
+                <span class="pick-desc">${f.desc}</span>
+                <span class="pick-ing">
+                  ${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
+                  <span class="chip">100ml</span>
+                </span>
               </button>`)}
-          </div>
-          <div class="pick-chips">
-            ${scent.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
           </div>
 
           <button class="btn atc" disabled=${busy} onClick=${() => addToCart(scent, setBusy, setToast)}>
@@ -726,8 +739,6 @@ function App() {
     faq: () => html`<${Faq} key="faq"/>`,
   };
   return html`
-    <${Announcement}/>
-    <${Header}/>
     ${CONFIG.sectionOrder.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     <${StickyBar}/>`;
 }

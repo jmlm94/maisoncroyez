@@ -902,3 +902,18 @@ h1 em,h2 em,h3 em,.cline em{
 /* buy box accordions reuse faq styles via .acc.faq; tighten inside buybox */
 .acc.faq{margin-top:12px}
 .acc.faq .qa{max-width:none}
+
+/* PDP round 2 */
+.price-row .price{font-size:3rem}
+.price-row .compare{font-size:1.15rem}
+.picker-label{
+  font-family:'Unna',serif;font-weight:700;letter-spacing:-.03em;line-height:1;
+  font-size:clamp(1.5rem,5.6vw,1.9rem);text-align:center;margin-top:10px;text-wrap:balance;
+}
+.pick{flex-direction:column;align-items:stretch;gap:8px;padding:11px 12px}
+.pick-row{display:flex;align-items:center;gap:12px}
+.pick-desc{font-size:.85rem;line-height:1.45;color:var(--ink-soft)}
+.pick.on .pick-desc{color:var(--ink)}
+.pick-ing{display:flex;flex-wrap:wrap;gap:5px}
+.pick-ing .chip{font-size:.68rem;padding:3px 9px;background:rgba(255,255,255,.65)}
+.atc span:first-child{font-size:1.05rem;letter-spacing:.1em}

@@ -57,13 +57,14 @@ const CONFIG = {
     title: { pre: "The Maison Croyez Diffuser +", em: "30-Days of Free Fragrance." },
     promoPill: "🎁 Yes, your first fragrance is free + Sample Booklet included!",
     offer: {
-      price: "$89.95", compare: "$189.95", today: "Total saved = $100",
+      price: "$89.95", compare: "$189.95", today: "You\u2019re saving $100 today!",
       bullets: [
         { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes. A scent guests notice at the door." },
         { icon: "leaf", text: "Waterless, flame-free and hypoallergenic. No mold, no soot, no upkeep, ever." },
         { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
       ],
     },
+    pickerTitle: "Select your free fragrance:",
     pickerLabel: "What do you want to attract for your life?",
     cta: { label: "Add to Cart", sub: "Your first fragrance is free today" },
     trust: [
@@ -173,7 +174,7 @@ const CONFIG = {
     eyebrow: "Room-filling performance",
     heading: ["Finally, a diffuser", "you can actually smell."],
     video: "gif3",
-    desc: "Most diffusers die four feet from their own base. This one uses waterless cold-air diffusion to push pure fragrance oil into every corner of up to 600 square feet in under ten minutes. G1 Subtle for every day, G3 Full Presence before guests arrive, and the scent stays present all day instead of vanishing in an hour.",
+    desc: "Most diffusers die four feet from their own base. This one uses waterless cold-air diffusion to push pure fragrance oil into **every corner of up to 600 square feet in under ten minutes**. G1 Subtle for every day, G3 Full Presence before guests arrive, and the scent **stays present all day** instead of vanishing in an hour.",
     stats: [
       { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on G3 Full Presence. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
@@ -184,7 +185,7 @@ const CONFIG = {
   howTo: {
     eyebrow: "How it works",
     heading: ["Three steps.", "That's the whole ritual."],
-    desc: "No water to refill, no app to pair, no wick to trim. Pour the fragrance in once, press the button once, and your home takes it from there, for weeks at a time.",
+    desc: "No water to refill, no app to pair, no wick to trim. **Pour the fragrance in once, press the button once**, and your home takes it from there, **for weeks at a time**.",
     steps: [
       { gif: "gif1", title: "Pour in your intention", body: "Your free 100ml fragrance. No water, no dilution." },
       { gif: "gif2", title: "Press once", body: "One button. G1 Subtle, G2 Balanced, G3 Full Presence." },
@@ -195,7 +196,7 @@ const CONFIG = {
   angleLux: { /* A4 — instant luxury */
     eyebrow: "Instant luxury",
     heading: ["Your home.", "But five-star."],
-    desc: "The scents are composed in the French perfumery tradition five-star hotels use to make you exhale the moment you check in. Warm, layered, deliberately understated. One plug-in makes the whole room feel designed, without touching your décor or your renovation budget.",
+    desc: "The scents are composed in the French perfumery tradition five-star hotels use to make you **exhale the moment you check in**. Warm, layered, deliberately understated. **One plug-in makes the whole room feel designed**, without touching your décor or your renovation budget.",
     img: "hotel",
   },
 
@@ -203,7 +204,7 @@ const CONFIG = {
     eyebrow: "The compliment effect",
     heading: ["The scent that makes guests", "stop mid-sentence."],
     img: "guests",
-    desc: "It's the first thing people notice and the last thing they can place. Guests stop in the entryway, ask what it is, and remember your home as the one that smelled incredible. You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
+    desc: "It's the first thing people notice and the last thing they can place. **Guests stop in the entryway, ask what it is**, and remember your home as **the one that smelled incredible**. You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
     quotes: [
       { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Suddenly my house is “the cozy one” in the group chat." },
       { name: "Dana W.", text: "My daughter asked why our house feels so cozy lately. It feels different in here, not just smells different." },
@@ -218,7 +219,7 @@ const CONFIG = {
       before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
       after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
     },
-    desc: "A candle gives you one warm hour and leaves soot on the jar, smoke in the air, and a flame you can't walk away from. Maison Croyez gives you the same warmth, evenly through the whole room, with nothing burning, nothing to babysit, and nothing your kids or pets can knock over.",
+    desc: "A candle gives you **one warm hour** and leaves soot on the jar, smoke in the air, and a flame you can't walk away from. Maison Croyez gives you the same warmth, **evenly through the whole room, with nothing burning**, nothing to babysit, and nothing your kids or pets can knock over.",
   },
 
   angleLasts: { /* A5 — diffusers that actually last */
@@ -228,14 +229,14 @@ const CONFIG = {
       before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
       after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
     },
-    desc: "Water-tank diffusers grow mold you end up breathing. They clog, leak, and quietly die within months. This one is waterless: pure oil, diffused dry, zero cleaning, nothing to break down. Plug it in once, forget it for weeks, and if anything ever fails, the lifetime warranty replaces it.",
+    desc: "Water-tank diffusers grow **mold you end up breathing**. They clog, leak, and quietly die within months. This one is waterless: pure oil, diffused dry, zero cleaning, nothing to break down. **Plug it in once, forget it for weeks**, and if anything ever fails, **the lifetime warranty replaces it**.",
   },
 
   angleClean: { /* A3 — clean, non-chemical */
     eyebrow: "Clean enough for every nose in the house",
     heading: ["Nothing burning.", "Nothing synthetic."],
     img: "dog",
-    desc: "Every fragrance is built from 100% organic oils: hypoallergenic, pet-friendly, and free of the synthetic haze that gives sensitive noses headaches. Nothing burns, nothing clings to fabric, nothing you wouldn't want in the air your family breathes all day.",
+    desc: "Every fragrance is built from **100% organic oils: hypoallergenic, pet-friendly**, and free of the synthetic haze that gives sensitive noses headaches. Nothing burns, nothing clings to fabric, **nothing you wouldn't want in the air your family breathes all day**.",
     badges: ["🌿 100% organic oils", "🤍 Hypoallergenic", "🐾 Pet-friendly", "🕯️ Flame-free"],
   },
 
@@ -318,6 +319,10 @@ const Img = ({ slot, tone = "warm", style, alt = "" }) => {
   return html`<${Placeholder} sq=${true} tone=${tone} style=${style} cap=${"AWAITING MEDIA — " + (im ? im.file : slot)}/>`;
 };
 const SerifHead = ({ pre, em }) => html`<h2>${pre}${em && html` <em>${em}</em>`}</h2>`;
+const Rich = ({ s }) => {
+  const parts = s.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
+  return parts.map((p, i) => p.startsWith("**") ? html`<strong key=${i}>${p.slice(2, -2)}</strong>` : p);
+};
 
 /* ================================================================
    Cart plumbing — real Shopify AJAX cart (same-origin on the store)
@@ -439,7 +444,8 @@ function BuyBox() {
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
 
-          <div class="picker-label">${B.pickerLabel}</div>
+          <div class="picker-title">${B.pickerTitle}</div>
+          <div class="picker-label small">${B.pickerLabel}</div>
           <div class="picker" role="radiogroup" aria-label="Choose your fragrance">
             ${CONFIG.fragrances.map((f) => html`
               <button key=${f.key} class=${"pick" + (scent.key === f.key ? " on" : "")}
@@ -534,7 +540,7 @@ function AngleFill() {
           <${SerifHead} pre=${S.heading[0]} em=${S.heading[1]}/>
         </div>
         <div class="narrow"><${Img} slot=${S.video} alt="The mist filling a room"/></div>
-        ${S.desc && html`<p class="angle-desc">${S.desc}</p>`}
+        ${S.desc && html`<p class="angle-desc"><${Rich} s=${S.desc}/></p>`}
         <div style=${{ height: "26px" }}></div>
         ${S.stats.map((s) => html`
           <div class="stat" key=${s.label}>
@@ -551,7 +557,7 @@ const HowTo = () => html`
     <div class="wrap">
       <div class="section-head">
         <${SerifHead} pre=${CONFIG.howTo.heading[0]} em=${CONFIG.howTo.heading[1]}/>
-        ${CONFIG.howTo.desc && html`<p class="angle-desc">${CONFIG.howTo.desc}</p>`}
+        ${CONFIG.howTo.desc && html`<p class="angle-desc"><${Rich} s=${CONFIG.howTo.desc}/></p>`}
       </div>
       <div class="howsteps">
         ${CONFIG.howTo.steps.map((s, i) => html`
@@ -573,7 +579,7 @@ const AngleBand = ({ cfg, tinted }) => html`
         <${SerifHead} pre=${cfg.heading[0]} em=${cfg.heading[1]}/>
       </div>
       <${Img} slot=${cfg.img} alt=${cfg.heading.join(" ")}/>
-      ${cfg.desc && html`<p class="angle-desc">${cfg.desc}</p>`}
+      ${cfg.desc && html`<p class="angle-desc"><${Rich} s=${cfg.desc}/></p>`}
       ${cfg.badges && html`
         <div class="badge-band">
           ${cfg.badges.map((b) => html`<span class="chip big" key=${b}>${b}</span>`)}
@@ -608,7 +614,7 @@ const AngleSplit = ({ cfg }) => {
           <${Half} side=${cfg.split.before} good=${false}/>
           <${Half} side=${cfg.split.after} good=${true}/>
         </div>
-        ${cfg.desc && html`<p class="angle-desc">${cfg.desc}</p>`}
+        ${cfg.desc && html`<p class="angle-desc"><${Rich} s=${cfg.desc}/></p>`}
       </div>
     </section>`;
 };

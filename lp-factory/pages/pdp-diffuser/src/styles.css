@@ -917,3 +917,21 @@ h1 em,h2 em,h3 em,.cline em{
 .pick-ing{display:flex;flex-wrap:wrap;gap:5px}
 .pick-ing .chip{font-size:.68rem;padding:3px 9px;background:rgba(255,255,255,.65)}
 .atc span:first-child{font-size:1.05rem;letter-spacing:.1em}
+
+/* PDP round 3 */
+/* 1. headline emphasis back to gradient (overrides the inherited red) */
+h1 em, h2 em, h3 em, .cline em{
+  background:var(--grad-em);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+/* 3. bigger section descriptions */
+.angle-desc{
+  max-width:36em;margin:20px auto 0;text-align:center;
+  font-size:1.05rem;line-height:1.75;color:var(--ink);
+}
+/* 4. bigger math box */
+.mathbox-big{padding:26px 22px}
+.mathbox-big .math-title{font-size:.74rem}
+.mathbox-big .math-col p{font-size:1.02rem;line-height:1.55;margin:0 0 10px}
+.mathbox-big .math-vs{font-size:1.5rem;padding-top:34px}
+.mathbox-big .math-verdict{font-size:1.18rem;margin-top:18px;padding-top:18px}

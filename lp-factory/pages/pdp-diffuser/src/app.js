@@ -173,6 +173,7 @@ const CONFIG = {
     eyebrow: "Room-filling performance",
     heading: ["Finally, a diffuser", "you can actually smell."],
     video: "gif3",
+    desc: "Most diffusers die four feet from their own base. This one uses waterless cold-air diffusion to push pure fragrance oil into every corner of up to 600 square feet in under ten minutes. G1 Subtle for every day, G3 Full Presence before guests arrive, and the scent stays present all day instead of vanishing in an hour.",
     stats: [
       { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on G3 Full Presence. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
@@ -183,6 +184,7 @@ const CONFIG = {
   howTo: {
     eyebrow: "How it works",
     heading: ["Three steps.", "That's the whole ritual."],
+    desc: "No water to refill, no app to pair, no wick to trim. Pour the fragrance in once, press the button once, and your home takes it from there, for weeks at a time.",
     steps: [
       { gif: "gif1", title: "Pour in your intention", body: "Your free 100ml fragrance. No water, no dilution." },
       { gif: "gif2", title: "Press once", body: "One button. G1 Subtle, G2 Balanced, G3 Full Presence." },
@@ -193,7 +195,7 @@ const CONFIG = {
   angleLux: { /* A4 — instant luxury */
     eyebrow: "Instant luxury",
     heading: ["Your home.", "But five-star."],
-    line: "The scents are composed in the French perfumery tradition that luxury hotels use to make you exhale at the front desk. One plug-in. No remodel.",
+    desc: "The scents are composed in the French perfumery tradition five-star hotels use to make you exhale the moment you check in. Warm, layered, deliberately understated. One plug-in makes the whole room feel designed, without touching your décor or your renovation budget.",
     img: "hotel",
   },
 
@@ -201,6 +203,7 @@ const CONFIG = {
     eyebrow: "The compliment effect",
     heading: ["The scent that makes guests", "stop mid-sentence."],
     img: "guests",
+    desc: "It's the first thing people notice and the last thing they can place. Guests stop in the entryway, ask what it is, and remember your home as the one that smelled incredible. You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
     quotes: [
       { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Suddenly my house is “the cozy one” in the group chat." },
       { name: "Dana W.", text: "My daughter asked why our house feels so cozy lately. It feels different in here, not just smells different." },
@@ -215,6 +218,7 @@ const CONFIG = {
       before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
       after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
     },
+    desc: "A candle gives you one warm hour and leaves soot on the jar, smoke in the air, and a flame you can't walk away from. Maison Croyez gives you the same warmth, evenly through the whole room, with nothing burning, nothing to babysit, and nothing your kids or pets can knock over.",
   },
 
   angleLasts: { /* A5 — diffusers that actually last */
@@ -224,13 +228,14 @@ const CONFIG = {
       before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
       after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
     },
-    line: "Ultrasonic diffusers grow things you don't want to name. This one diffuses pure oil, dry. Plug it in once and forget it for weeks. And it's covered for life.",
+    desc: "Water-tank diffusers grow mold you end up breathing. They clog, leak, and quietly die within months. This one is waterless: pure oil, diffused dry, zero cleaning, nothing to break down. Plug it in once, forget it for weeks, and if anything ever fails, the lifetime warranty replaces it.",
   },
 
   angleClean: { /* A3 — clean, non-chemical */
     eyebrow: "Clean enough for every nose in the house",
     heading: ["Nothing burning.", "Nothing synthetic."],
     img: "dog",
+    desc: "Every fragrance is built from 100% organic oils: hypoallergenic, pet-friendly, and free of the synthetic haze that gives sensitive noses headaches. Nothing burns, nothing clings to fabric, nothing you wouldn't want in the air your family breathes all day.",
     badges: ["🌿 100% organic oils", "🤍 Hypoallergenic", "🐾 Pet-friendly", "🕯️ Flame-free"],
   },
 
@@ -492,7 +497,6 @@ function AngleIntention() {
     <section class="section imap">
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow">${M.eyebrow}</span>
           <h2>${M.heading[0]}<br/><em>${M.heading[1]}</em></h2>
           <p class="lede">${M.note}</p>
         </div>
@@ -527,10 +531,10 @@ function AngleFill() {
     <section class="section stats" ref=${ref}>
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow">${S.eyebrow}</span>
           <${SerifHead} pre=${S.heading[0]} em=${S.heading[1]}/>
         </div>
         <div class="narrow"><${Img} slot=${S.video} alt="The mist filling a room"/></div>
+        ${S.desc && html`<p class="angle-desc">${S.desc}</p>`}
         <div style=${{ height: "26px" }}></div>
         ${S.stats.map((s) => html`
           <div class="stat" key=${s.label}>
@@ -546,8 +550,8 @@ const HowTo = () => html`
   <section class="section howto">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">${CONFIG.howTo.eyebrow}</span>
         <${SerifHead} pre=${CONFIG.howTo.heading[0]} em=${CONFIG.howTo.heading[1]}/>
+        ${CONFIG.howTo.desc && html`<p class="angle-desc">${CONFIG.howTo.desc}</p>`}
       </div>
       <div class="howsteps">
         ${CONFIG.howTo.steps.map((s, i) => html`
@@ -566,11 +570,10 @@ const AngleBand = ({ cfg, tinted }) => html`
   <section class=${"section angle" + (tinted ? " tinted-band" : "")}>
     <div class="wrap narrow">
       <div class="section-head">
-        <span class="eyebrow">${cfg.eyebrow}</span>
         <${SerifHead} pre=${cfg.heading[0]} em=${cfg.heading[1]}/>
       </div>
       <${Img} slot=${cfg.img} alt=${cfg.heading.join(" ")}/>
-      ${cfg.line && html`<p class="angle-line">${cfg.line}</p>`}
+      ${cfg.desc && html`<p class="angle-desc">${cfg.desc}</p>`}
       ${cfg.badges && html`
         <div class="badge-band">
           ${cfg.badges.map((b) => html`<span class="chip big" key=${b}>${b}</span>`)}
@@ -599,14 +602,13 @@ const AngleSplit = ({ cfg }) => {
     <section class="section angle">
       <div class="wrap narrow">
         <div class="section-head">
-          <span class="eyebrow">${cfg.eyebrow}</span>
           <${SerifHead} pre=${cfg.heading[0]} em=${cfg.heading[1]}/>
         </div>
         <div class="split-grid">
           <${Half} side=${cfg.split.before} good=${false}/>
           <${Half} side=${cfg.split.after} good=${true}/>
         </div>
-        ${cfg.line && html`<p class="angle-line">${cfg.line}</p>`}
+        ${cfg.desc && html`<p class="angle-desc">${cfg.desc}</p>`}
       </div>
     </section>`;
 };
@@ -617,10 +619,9 @@ const MathSec = () => {
     <section class="section">
       <div class="wrap narrow">
         <div class="section-head">
-          <span class="eyebrow">${M.eyebrow}</span>
           <${SerifHead} pre=${M.heading[0]} em=${M.heading[1]}/>
         </div>
-        <div class="mathbox">
+        <div class="mathbox mathbox-big">
           <div class="math-grid">
             <div class="math-col old">
               <div class="math-title caps">${M.old.title}</div>

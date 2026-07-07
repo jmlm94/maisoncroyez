@@ -25,11 +25,18 @@ jobs:
           curl -fsSL -o "$DIR/mold.png"   "$BASE/hf_20260707_185712_ba9e17fc-73eb-43e7-827c-553f07d24c3c.png"
           curl -fsSL -o "$DIR/hotel.png"  "$BASE/hf_20260707_185714_91d69223-3c34-49e2-9eb2-5161b849285d.png"
           curl -fsSL -o "$DIR/dog.png"    "$BASE/hf_20260707_185715_9442beea-56ac-4a8a-adbc-ae9ef41be55b.png"
-          ls -la "$DIR"
+          GDIR=lp-factory/pages/pdp-diffuser/assets/gallery-raw
+          mkdir -p "$GDIR"
+          CDN="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          for f in "25-min.png?v=1767910199" "image-1_1_1.png?v=1773273488" "image-2_1_1.png?v=1773273488" "image-5_1_1.png?v=1773273488" "image-3_1_1.png?v=1773273488" "image-6_1_1.png?v=1773273488" "image-4_1_1.png?v=1773273488" "image-7_1_1.png?v=1773273488" "26-min.png?v=1773273488" "27-min.png?v=1773273488"; do
+            name="${f%%\?*}"
+            curl -fsSL -o "$GDIR/$name" "$CDN/$f&width=900"
+          done
+          ls -la "$DIR" "$GDIR"
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/pdp-diffuser/assets/raw
+          git add lp-factory/pages/pdp-diffuser/assets/raw lp-factory/pages/pdp-diffuser/assets/gallery-raw
           git commit -m "Fetch PDP angle media (raw)"
           git push

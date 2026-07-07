@@ -24,6 +24,10 @@ MANIFEST = {
 }
 A = os.path.join(os.path.dirname(__file__) or '.', '..', 'assets', 'processed')
 
+def b64_g(path):
+    with open(path, 'rb') as fh:
+        return 'data:image/jpeg;base64,' + base64.b64encode(fh.read()).decode()
+
 def b64(fn, mime):
     with open(os.path.join(A, fn), 'rb') as fh:
         return f'data:{mime};base64,' + base64.b64encode(fh.read()).decode()
@@ -33,6 +37,14 @@ with open('images.js', 'w') as f:
     f.write('window.MC_ASSETS=' + json.dumps(assets) + ';')
 print('images.js', os.path.getsize('images.js') // 1024, 'KB')
 
+# gallery embed (preview only — live page uses the store CDN)
+GAL = os.path.join(os.path.dirname(__file__) or '.', '..', 'assets', 'gallery')
+gallery_js = ''
+if os.path.isdir(GAL):
+    g = {fn[:-4]: b64_g(os.path.join(GAL, fn)) for fn in sorted(os.listdir(GAL)) if fn.endswith('.jpg')}
+    gallery_js = 'window.MC_GALLERY_EMBED=' + json.dumps(g) + ';'
+    print('gallery embed', len(gallery_js) // 1024, 'KB')
+
 # single-file preview (open in browser / publish as artifact)
 parts = ['<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n',
          '<title>MC PDP Preview</title>\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<style>\n',
@@ -40,6 +52,7 @@ parts = ['<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n',
          '</style>\n</head>\n<body>\n<div id="root"></div>\n<script>\n',
          open('vendor.js').read(),
          '\n</script>\n<script>\n', open('images.js').read(),
+         '\n</script>\n<script>\n', gallery_js,
          '\n</script>\n<script>\n', open('app.js').read(),
          '\n</script>\n</body>\n</html>\n']
 with open('preview.html', 'w') as f:

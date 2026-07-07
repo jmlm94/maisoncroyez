@@ -375,8 +375,11 @@ const Header = () => html`
 
 function Gallery() {
   const [idx, setIdx] = useState(0);
-  const urls = CONFIG.gallery.map((f) => CDNIMG + f + "&width=900");
-  const thumbs = CONFIG.gallery.map((f) => CDNIMG + f + "&width=160");
+  /* live page loads straight from the store CDN; preview embeds copies */
+  const emb = (typeof MC_GALLERY_EMBED !== "undefined") ? MC_GALLERY_EMBED : {};
+  const key = (f) => f.split("?")[0].replace(".png", "");
+  const urls = CONFIG.gallery.map((f) => emb[key(f)] || (CDNIMG + f + "&width=900"));
+  const thumbs = CONFIG.gallery.map((f) => emb[key(f)] || (CDNIMG + f + "&width=160"));
   return html`
     <div class="gal">
       <div class="gal-main ph sq"><img class="simg" src=${urls[idx]} alt="Maison Croyez diffuser"/></div>

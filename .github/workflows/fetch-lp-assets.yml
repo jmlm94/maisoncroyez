@@ -14,34 +14,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Re-encode step gifs from store CDN originals (higher quality, small size)
+      - name: Thumbnail sheet of candidate CDN videos
         run: |
           set -euo pipefail
-          sudo apt-get update -yq >/dev/null && sudo apt-get install -yq ffmpeg >/dev/null
-          DIR=lp-factory/pages/pdp-diffuser/assets/processed
+          sudo apt-get update -yq >/dev/null && sudo apt-get install -yq ffmpeg imagemagick >/dev/null
+          mkdir -p /tmp/vt
+          declare -A V=(
+            [ezgif2]="https://cdn.shopify.com/videos/c/vp/fe34c656872e4990941708379f603a4d/fe34c656872e4990941708379f603a4d.SD-480p-0.9Mbps.mp4"
+            [finalv3]="https://cdn.shopify.com/videos/c/vp/1ef21354f41d4caea1325d6feb4e328f/1ef21354f41d4caea1325d6feb4e328f.SD-480p-1.0Mbps.mp4"
+            [gifhash1]="https://cdn.shopify.com/videos/c/vp/3fee5af0c77943a59d3b9de8fbfa3d59/3fee5af0c77943a59d3b9de8fbfa3d59.SD-480p-1.5Mbps-12559057.mp4"
+            [pgif3]="https://cdn.shopify.com/videos/c/vp/e262a5754b1b4f1f850b8b5fc974cc01/e262a5754b1b4f1f850b8b5fc974cc01.SD-480p-0.9Mbps-12586149.mp4"
+            [pgif2]="https://cdn.shopify.com/videos/c/vp/9045d199b2ad4d5b95316cce18b9c09d/9045d199b2ad4d5b95316cce18b9c09d.SD-480p-0.9Mbps-12586148.mp4"
+            [pgif1]="https://cdn.shopify.com/videos/c/vp/bd875eeb949b4616bbe3c7e696763704/bd875eeb949b4616bbe3c7e696763704.SD-480p-0.9Mbps-12586147.mp4"
+            [unt2]="https://cdn.shopify.com/videos/c/vp/f57f381c3ecf4653acffb2aa4dd885b1/f57f381c3ecf4653acffb2aa4dd885b1.SD-480p-0.9Mbps-12661229.mp4"
+            [unt1]="https://cdn.shopify.com/videos/c/vp/501c483f48634cab82aa7d7ed6a4a961/501c483f48634cab82aa7d7ed6a4a961.SD-480p-0.9Mbps-12661230.mp4"
+            [unt3]="https://cdn.shopify.com/videos/c/vp/bbb9c9d8c3704755aa10a2e06bef6ec9/bbb9c9d8c3704755aa10a2e06bef6ec9.SD-480p-0.9Mbps-12661327.mp4"
+            [unt4]="https://cdn.shopify.com/videos/c/vp/9949a17ca887499d83420c0a14223a2c/9949a17ca887499d83420c0a14223a2c.SD-480p-0.9Mbps-12671064.mp4"
+            [hash321]="https://cdn.shopify.com/videos/c/vp/78dc2d81764f488e809c6771200c93f2/78dc2d81764f488e809c6771200c93f2.SD-480p-0.9Mbps-32608281.mp4"
+            [img9834]="https://cdn.shopify.com/videos/c/vp/dd4b2231d5344849909c1e00870f4fcb/dd4b2231d5344849909c1e00870f4fcb.SD-480p-0.9Mbps-33015912.mp4"
+            [mymovie31]="https://cdn.shopify.com/videos/c/vp/4d02454c03ec498fb9bc4cd16cbdf5bf/4d02454c03ec498fb9bc4cd16cbdf5bf.SD-480p-0.9Mbps-38732104.mp4"
+            [ezgif3a]="https://cdn.shopify.com/videos/c/vp/047f3c09cd9e4ed7868f84b1f5958699/047f3c09cd9e4ed7868f84b1f5958699.SD-480p-0.9Mbps-42839670.mp4"
+            [gifex2]="https://cdn.shopify.com/videos/c/vp/306db6944a0f4d97b85f7e4fe583f743/306db6944a0f4d97b85f7e4fe583f743.SD-480p-0.9Mbps-42840035.mp4"
+            [lastgif2]="https://cdn.shopify.com/videos/c/vp/17ce0048a0c347449917bcb76a15bc92/17ce0048a0c347449917bcb76a15bc92.SD-480p-0.9Mbps-42840856.mp4"
+          )
+          for k in "${!V[@]}"; do
+            curl -fsSL -o /tmp/vt/$k.mp4 "${V[$k]}" || continue
+            ffmpeg -hide_banner -loglevel error -y -i /tmp/vt/$k.mp4 -vf "select='eq(n\,10)+eq(n\,60)+eq(n\,120)',scale=240:240,tile=3x1,drawtext=text='$k':x=8:y=8:fontsize=28:fontcolor=yellow:box=1:boxcolor=black" -frames:v 1 /tmp/vt/$k.jpg || true
+          done
+          DIR=lp-factory/pages/pdp-diffuser/assets/vt
           mkdir -p "$DIR"
-          curl -fsSL -o /tmp/g1.mp4 "https://cdn.shopify.com/videos/c/vp/bd875eeb949b4616bbe3c7e696763704/bd875eeb949b4616bbe3c7e696763704.HD-1080p-2.5Mbps-12586147.mp4"
-          curl -fsSL -o /tmp/g2.mp4 "https://cdn.shopify.com/videos/c/vp/9045d199b2ad4d5b95316cce18b9c09d/9045d199b2ad4d5b95316cce18b9c09d.HD-1080p-2.5Mbps-12586148.mp4"
-          curl -fsSL -o /tmp/g3.mp4 "https://cdn.shopify.com/videos/c/vp/e262a5754b1b4f1f850b8b5fc974cc01/e262a5754b1b4f1f850b8b5fc974cc01.HD-720p-1.6Mbps-12586149.mp4"
-          rm -f "$DIR"/www*-hq.*
-          enc () {
-            for crf in 28 30 32; do
-              ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
-                -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
-                -c:v libx264 -crf $crf -preset veryslow -pix_fmt yuv420p -movflags +faststart "$DIR/$3-c$crf.mp4"
-              ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
-                -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
-                -c:v libvpx-vp9 -crf $((crf+12)) -b:v 0 -row-mt 1 "$DIR/$3-c$crf.webm"
-            done
-          }
-          enc g1.mp4 2.12 www1
-          enc g2.mp4 2.08 www2
-          enc g3.mp4 1.12 www3
-          ls -la "$DIR"/www*-c2* "$DIR"/www*-c3*
+          montage /tmp/vt/*.jpg -tile 2x -geometry +4+4 "$DIR/video-sheet.jpg"
+          ls -la "$DIR"
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/pdp-diffuser/assets/processed
-          git commit -m "Step gif CRF ladder (28/30/32)"
+          git add lp-factory/pages/pdp-diffuser/assets/vt
+          git commit -m "Video thumbnail sheet"
           git push

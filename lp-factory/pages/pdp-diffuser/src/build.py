@@ -10,14 +10,15 @@ import base64, os, json
 MANIFEST = {
     'soot': ('soot.jpg', 'image/jpeg'),
     'mold': ('mold.jpg', 'image/jpeg'),
-    'hotel': ('hotel.jpg', 'image/jpeg'),
+    'hotel': ('hotel.jpg', 'image/jpeg'), 'hotel2': ('hotel2.jpg', 'image/jpeg'),
+    'intentionHero': ('diseno-91.jpg', 'image/jpeg'), 'diseno90': ('diseno-90.jpg', 'image/jpeg'),
     'product': ('diseno-87.jpg', 'image/jpeg'),
     'nightstand': ('diseno-88.jpg', 'image/jpeg'),
     'logoLight': ('logo-black-trim.png', 'image/png'),
     'logoDark': ('logo-cream-trim.png', 'image/png'),
-    'gif1': ('www1-c.mp4', 'video/mp4'), 'gif1w': ('www1-c.webm', 'video/webm'),
-    'gif2': ('www2-c.mp4', 'video/mp4'), 'gif2w': ('www2-c.webm', 'video/webm'),
-    'gif3': ('www3-c.mp4', 'video/mp4'), 'gif3w': ('www3-c.webm', 'video/webm'),
+    'gif1': ('www1-c32.mp4', 'video/mp4'), 'gif1w': ('www1-c32.webm', 'video/webm'),
+    'gif2': ('www2-c32.mp4', 'video/mp4'), 'gif2w': ('www2-c32.webm', 'video/webm'),
+    'gif3': ('www3-c32.mp4', 'video/mp4'), 'gif3w': ('www3-c32.webm', 'video/webm'),
     **{f'frag{i}': (f'frag{i}.jpg', 'image/jpeg') for i in range(1, 8)},
 }
 A = os.path.join(os.path.dirname(__file__) or '.', '..', 'assets', 'processed')

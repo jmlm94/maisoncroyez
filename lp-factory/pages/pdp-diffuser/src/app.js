@@ -140,7 +140,7 @@ const CONFIG = {
   images: {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
-    intentionHero: { file: "intention-hero", src: A.intentionHero || "" },
+    intentionHero: { file: "diseno-91", src: A.intentionHero || "" },
     photo_love: { file: "scent-love", src: A.photo_love || "" },
     photo_abundance: { file: "scent-abundance", src: A.photo_abundance || "" },
     photo_focus: { file: "scent-focus", src: A.photo_focus || "" },
@@ -150,6 +150,8 @@ const CONFIG = {
     photo_midnight: { file: "scent-midnight", src: A.photo_midnight || "" },
     mold:    { file: "hf gen — ultrasonic tank mold", src: A.mold || "" },
     hotel:   { file: "hf gen — five-star suite entry", src: A.hotel || "" },
+    hotel2:  { file: "hotel2", src: A.hotel2 || "" },
+    diseno90: { file: "diseno-90", src: A.diseno90 || "" },
     dog:     { file: "hf gen — dog asleep by diffuser", src: A.dog || "" },
     product: { file: "diseno-87", src: A.product || "" },
     nightstand: { file: "diseno-88", src: A.nightstand || "" },
@@ -174,7 +176,7 @@ const CONFIG = {
   angleFill: { /* A7 — room-filling performance */
     eyebrow: "Room-filling performance",
     heading: ["Finally, a diffuser you can actually smell", "and feel anywhere, anytime."],
-    video: "gif3",
+    video: "diseno90",
     bullets: [
       "Most diffusers smell lovely\u2026 from four feet away. This one pushes scent into **every corner of up to 600 sq ft in under ten minutes**.",
       "It's waterless: pure fragrance oil, never diluted, so **the scent actually carries** instead of hugging the machine.",
@@ -210,13 +212,13 @@ const CONFIG = {
       "**We bottled that exact tradition and put it in a plug-in.**",
       "Guests walk into your home and assume you spent thousands. **You spent $89.95.**",
     ],
-    img: "hotel",
+    img: "hotel2",
   },
 
 
   angleCandles: { /* A6 — safer than candles */
     eyebrow: "Safer than candles",
-    heading: ["Your candles were the problem", "all along."],
+    heading: ["Finally, a new, effective and long-lasting way", "to replace candles."],
     split: {
       before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
       after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
@@ -224,13 +226,13 @@ const CONFIG = {
     bullets: [
       "A candle gives you **one warm hour**, then leaves soot on the jar and smoke in the air.",
       "And it's an open flame. You can't walk away from it, let alone leave the house with it going.",
-      "This gives you the same warmth, **evenly through the whole room, with nothing burning**, nothing to babysit, and nothing your kids or pets can knock over.",
+      "The Maison Croyez diffuser gives you that same cozy warmth, **evenly through the whole room, with nothing burning** \u2014 no soot, nothing to babysit, and it runs **for weeks on one bottle**, not hours.",
     ],
   },
 
   angleLasts: { /* A5 — diffusers that actually last */
     eyebrow: "Built to outlast them all",
-    heading: ["No water. No mold.", "No problems."],
+    heading: ["Their diffusers grow mold and die.", "Ours is warrantied for life."],
     split: {
       before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
       after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
@@ -310,8 +312,8 @@ const Img = ({ slot, tone = "warm", style, alt = "" }) => {
     const media = im.src.startsWith("data:video")
       ? html`<video class="simg" autoPlay loop muted playsInline preload="auto"
           onCanPlay=${(e) => e.target.play().catch(() => {})}>
-          ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
           <source src=${im.src} type="video/mp4"/>
+          ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
         </video>`
       : html`<img class="simg" src=${im.src} alt=${alt} loading="lazy"/>`;
     return html`<div class="ph sq" style=${style}>${media}</div>`;

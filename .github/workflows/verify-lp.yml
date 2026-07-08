@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 18 — Lighthouse performance audit of the live PDP
+# run: 19 — Lighthouse re-audit after media de-embed
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -17,7 +17,7 @@ jobs:
         run: |
           set -euo pipefail
           npm i -s lighthouse@12 > /dev/null 2>&1
-          URL="https://maisoncroyez.com/pages/diffuser"
+          URL="https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
           npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=lh-mobile.json
           npx lighthouse "$URL" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=lh-desktop.json
           ls -la lh-*.json
@@ -28,6 +28,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify
-          git commit -m "Lighthouse reports for /pages/diffuser"
+          git commit -m "Lighthouse re-audit after media de-embed"
           git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

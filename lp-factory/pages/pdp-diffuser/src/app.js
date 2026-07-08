@@ -91,62 +91,56 @@ const CONFIG = {
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
       desc: "For the home you want to feel held in, and the people you want closer.",
-      chips: ["Buttercup", "Honeysuckle", "Sunflower"],
-      ritual: "Run Golden Blossom Harmony where everyone gathers. Let the room hold them softer.",
+      chips: ["🌼 Buttercup", "🌸 Honeysuckle", "🌻 Sunflower"],
     },
     {
       key: "abundance", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
       desc: "For the season you\u2019re calling in more: money, room, opportunity.",
-      chips: ["Yuzu Leaf", "Green Mandarin", "Cypress"],
-      ritual: "Run Crisp Citrus Scape when you open the windows. Make room for more.",
+      chips: ["🍃 Yuzu Leaf", "🍊 Green Mandarin", "🌲 Cypress"],
     },
     {
       key: "focus", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
       desc: "For the woman whose mind won\u2019t stop. Stillness first, focus after.",
-      chips: ["Chilled Lavender", "Eucalyptus", "White Citrus"],
-      ritual: "Run Chilled Citrus at 8 a.m. on G2. Let the morning open quietly.",
+      chips: ["🪻 Chilled Lavender", "🌿 Eucalyptus", "🍋 White Citrus"],
     },
     {
       key: "ideas", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
       desc: "For the projects you keep postponing. Air that says: start.",
-      chips: ["Ginger Milk", "White Birch", "Eucalyptus Honey"],
-      ritual: "Run Honey Nectar in the first hour of your day. Watch ideas ask to be built.",
+      chips: ["🥛 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
     },
     {
       key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493, topSeller: true,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
       desc: "For heavy days and low rooms. Turn the frequency back up.",
-      chips: ["Jasmine Tea", "White Peach", "Sandalwood Crème"],
-      ritual: "Run Euphoric Bloom before people arrive. The room wakes up first.",
+      chips: ["🍵 Jasmine Tea", "🍑 White Peach", "🪵 Sandalwood Crème"],
     },
     {
       key: "purify", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
       desc: "For when you need yesterday out of the house.",
-      chips: ["Huckleberry", "Wild Juniper", "Mountain Fern"],
-      ritual: "Run Wildwood Mystique when the day finally leaves. Clear the air; keep the calm.",
+      chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
     },
     {
       key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
       desc: "For the evenings you don\u2019t plan on spending alone much longer.",
-      chips: ["Moonflower", "Night Lily", "Skin Musk"],
-      ritual: "Run Midnight Sensation at dusk. Let the evening arrive differently.",
+      chips: ["🌙 Moonflower", "🌺 Night Lily", "🤍 Skin Musk"],
     },
   ],
 
   images: {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
+    intentionHero: { file: "intention-hero", src: A.intentionHero || "" },
     photo_love: { file: "scent-love", src: A.photo_love || "" },
     photo_abundance: { file: "scent-abundance", src: A.photo_abundance || "" },
     photo_focus: { file: "scent-focus", src: A.photo_focus || "" },
@@ -174,7 +168,7 @@ const CONFIG = {
   angleIntention: { /* A1 — the moat */
     eyebrow: "A scent for every intention",
     heading: ["Every scent carries an intention.", "Tap the energy you want more of."],
-    note: "Whichever you tap becomes your free first bottle.",
+    img: "intentionHero",
   },
 
   angleFill: { /* A7 — room-filling performance */
@@ -483,7 +477,6 @@ function BuyBox() {
                   <span class="pick-dot" aria-hidden="true"></span>
                 </span>
                 <span class="pick-desc">${f.desc}</span>
-                <span class="pick-ritual">${f.ritual}</span>
                 <span class="pick-ing">
                   ${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
                   <span class="chip">100ml</span>
@@ -515,31 +508,16 @@ function BuyBox() {
     </section>`;
 }
 
-/* ---------- A1: intention map doubles as the scent selector ---------- */
+/* ---------- A1: intention hero (single image, owner to supply) ---------- */
 function AngleIntention() {
   const M = CONFIG.angleIntention;
-  const [scent, setScent] = useScent();
-  const pick = (f) => {
-    setScent(f.key);
-    const el = document.getElementById("buybox");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
   return html`
     <section class="section imap">
       <div class="wrap">
         <div class="section-head">
           <h2>${M.heading[0]}<br/><em>${M.heading[1]}</em></h2>
-          <p class="lede">${M.note}</p>
         </div>
-        <div class="sgrid">
-          ${CONFIG.fragrances.map((f) => html`
-            <button class=${"scard" + (scent.key === f.key ? " on" : "")} key=${f.key} onClick=${() => pick(f)}>
-              <${Img} slot=${f.photo} alt=${f.name}/>
-              <span class="scard-name">${f.name}</span>
-              <span class="scard-int">${f.intention}</span>
-              ${scent.key === f.key && html`<span class="scard-pick">Your pick ✓</span>`}
-            </button>`)}
-        </div>
+        <div class="narrow"><${Img} slot=${M.img} alt="Every scent carries an intention"/></div>
       </div>
     </section>`;
 }

@@ -414,6 +414,7 @@ const Header = () => html`
 
 function Gallery() {
   const [idx, setIdx] = useState(0);
+  const trackRef = useRef(null);
   /* live page loads straight from the store CDN; preview embeds copies */
   const emb = (typeof MC_GALLERY_EMBED !== "undefined") ? MC_GALLERY_EMBED : {};
   const key = (f) => f.split("?")[0].replace(".png", "");
@@ -421,15 +422,35 @@ function Gallery() {
     ? (CONFIG.images[f.slice(5)] || {}).src || ""
     : (emb[key(f)] || (CDNIMG + f + "&width=900"));
   const urls = CONFIG.gallery.map(resolve);
-  const thumbs = CONFIG.gallery.map(resolve);
+  const jump = (i) => {
+    const el = trackRef.current;
+    const n = Math.max(0, Math.min(urls.length - 1, i));
+    if (el) el.scrollTo({ left: n * el.clientWidth, behavior: "smooth" });
+    setIdx(n);
+  };
+  const onScroll = (e) => {
+    const el = e.target;
+    const n = Math.round(el.scrollLeft / el.clientWidth);
+    if (n !== idx) setIdx(n);
+  };
   return html`
-    <div class="gal">
-      <div class="gal-main ph sq"><img class="simg" src=${urls[idx]} alt="Maison Croyez diffuser"/></div>
-      <div class="gal-thumbs">
-        ${thumbs.map((t, i) => html`
-          <button key=${i} class=${"gal-th" + (i === idx ? " on" : "")} onClick=${() => setIdx(i)} aria-label=${"Image " + (i + 1)}>
-            <img src=${t} alt="" loading="lazy"/>
+    <div class="gal2">
+      <div class="gal2-thumbs">
+        ${urls.map((u, i) => html`
+          <button key=${i} class=${i === idx ? "on" : ""} onClick=${() => jump(i)} aria-label=${"Image " + (i + 1)}>
+            <img src=${u} alt="" loading="lazy"/>
           </button>`)}
+      </div>
+      <div class="gal2-main">
+        <div class="gal2-track" ref=${trackRef} onScroll=${onScroll}>
+          ${urls.map((u, i) => html`
+            <div class="gal2-slide" key=${i}><img src=${u} alt=${"Maison Croyez diffuser " + (i + 1)} loading=${i ? "lazy" : "eager"}/></div>`)}
+        </div>
+        <button class="gal2-nav prev" onClick=${() => jump(idx - 1)} aria-label="Previous image">\u2039</button>
+        <button class="gal2-nav next" onClick=${() => jump(idx + 1)} aria-label="Next image">\u203A</button>
+        <div class="gal2-dots" aria-hidden="true">
+          ${urls.map((_, i) => html`<span key=${i} class=${i === idx ? "on" : ""}></span>`)}
+        </div>
       </div>
     </div>`;
 }

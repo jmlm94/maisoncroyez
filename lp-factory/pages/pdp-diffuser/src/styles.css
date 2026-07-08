@@ -1044,3 +1044,35 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
   background:none;-webkit-background-clip:unset;background-clip:unset;
   color:#7C3AED;-webkit-text-fill-color:#7C3AED;
 }
+
+/* PDP round 14 — gallery restyled to match the theme's native product media */
+.gal2{display:flex;gap:14px;align-items:flex-start}
+.gal2-thumbs{display:none;flex-direction:column;gap:10px;width:72px;flex:0 0 72px;max-height:560px;overflow-y:auto;scrollbar-width:none}
+.gal2-thumbs::-webkit-scrollbar{display:none}
+.gal2-thumbs button{border:2px solid transparent;border-radius:8px;overflow:hidden;padding:0;cursor:pointer;background:none;flex:0 0 auto}
+.gal2-thumbs button.on{border-color:var(--ink)}
+.gal2-thumbs img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+.gal2-main{position:relative;flex:1;min-width:0}
+.gal2-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gal2-track::-webkit-scrollbar{display:none}
+.gal2-slide{flex:0 0 100%;scroll-snap-align:center}
+.gal2-slide img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+.gal2-nav{
+  position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
+  background:#FFFFFF;border:none;box-shadow:0 2px 10px rgba(36,28,24,.16);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.35rem;line-height:1;color:var(--ink);padding:0 0 3px;
+}
+.gal2-nav.prev{left:10px}
+.gal2-nav.next{right:10px}
+.gal2-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.gal2-dots span{width:7px;height:7px;border-radius:50%;background:rgba(36,28,24,.28)}
+.gal2-dots span.on{background:var(--ink)}
+@media(max-width:899px){
+  .gal2{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+  .gal2-nav{display:none}
+}
+@media(min-width:900px){
+  .gal2-thumbs{display:flex}
+  .gal2-dots{display:none}
+  .gal2-main{border-radius:0;overflow:hidden}
+}

@@ -8,7 +8,6 @@ import base64, os, json
 
 # slot name -> (filename in ../assets/processed, mime). Videos may have a webm twin (slot + 'w').
 MANIFEST = {
-    'guests': ('guests.jpg', 'image/jpeg'),
     'soot': ('soot.jpg', 'image/jpeg'),
     'mold': ('mold.jpg', 'image/jpeg'),
     'hotel': ('hotel.jpg', 'image/jpeg'),

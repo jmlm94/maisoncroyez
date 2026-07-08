@@ -34,7 +34,7 @@ const CONFIG = {
   sectionOrder: [
     "buybox",
     "angleIntention", "angleFill", "howTo",
-    "angleLux", "angleCompliment", "angleCandles", "angleLasts",
+    "angleLux", "angleCandles", "angleLasts",
     "reviewWall", "guarantee", "faq",
   ],
 
@@ -60,8 +60,8 @@ const CONFIG = {
       compareAt: "$129.95",
       note: "Your first 100ml fragrance ($39.95 value) is included free today.",
       bullets: [
-        { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes. A scent guests notice at the door." },
-        { icon: "leaf", text: "Waterless, flame-free and hypoallergenic. No mold, no soot, no upkeep, ever." },
+        { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes with scents that make guests say \u201cwhat\u2019s that smell\u201d in the middle of a chat." },
+        { icon: "leaf", text: "No water needed = no mold = no maintenance required." },
         { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
       ],
     },
@@ -213,16 +213,6 @@ const CONFIG = {
     img: "hotel",
   },
 
-  angleCompliment: { /* A2 — the compliment effect */
-    eyebrow: "The compliment effect",
-    heading: ["The scent that makes guests say", "\u201cwhat\u2019s that smell?\u201d in the middle of a conversation."],
-    img: "guests",
-    bullets: [
-      "It's the first thing people notice and the last thing they can place.",
-      "**Guests stop in the entryway and ask what it is.** Your home becomes **the one that smelled incredible**.",
-      "You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
-    ],
-  },
 
   angleCandles: { /* A6 — safer than candles */
     eyebrow: "Safer than candles",
@@ -713,7 +703,6 @@ function App() {
     angleFill: () => html`<${AngleFill} key="a7"/>`,
     howTo: () => html`<${HowTo} key="ht"/>`,
     angleLux: () => html`<${AngleBand} key="a4" cfg=${CONFIG.angleLux} tinted=${true}/>`,
-    angleCompliment: () => html`<${AngleBand} key="a2" cfg=${CONFIG.angleCompliment}/>`,
     angleCandles: () => html`<${AngleSplit} key="a6" cfg=${CONFIG.angleCandles}/>`,
     angleLasts: () => html`<${AngleSplit} key="a5" cfg=${CONFIG.angleLasts}/>`,
     reviewWall: () => html`<${ReviewWall} key="rw"/>`,

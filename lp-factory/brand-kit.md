@@ -55,6 +55,11 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
 - **LP #2 ships via BODY-EMBED (live, verified by screenshot):** the Shopify connector blocks live-theme writes, so the page BODY carries the loader: stylesheet link + `#root` + Meta pixel + a takeover script that hides the theme chrome and loads the bundles. Deployed via pageUpdate, zero theme edits. UPGRADE PATH: if the owner ever pastes `lp-factory/shopify/page.mc-lp.liquid` as `templates/page.mc-lp.liquid` (liquid, not JSON), the page's templateSuffix `mc-lp` takes over automatically (cleaner: layout none, noindex) and the body loader becomes inert. New pages can reuse the body-embed pattern verbatim.
 - **Verification rail:** `.github/workflows/verify-lp.yml` (GitHub Actions has open egress; the sandbox doesn't) curls the CDN + page and commits a full-page Playwright screenshot to `pages/<handle>/verify/`. Trigger by pushing any edit to the workflow file. `fetch-lp-assets.yml` does the same trick for pulling generated media into the repo.
 - Live page #2: `/pages/adv-scent-ritual` (gid://shopify/Page/117105819757, templateSuffix `mc-lp`, advertorial Blueprint 002)
+- Live page #3: `/pages/diffuser` (gid://shopify/Page/117264089197, DEFAULT template — renders INSIDE theme layout per owner; body-embed loader, deployed 2026-07-08). Cold-traffic PDP, Blueprint 003. Real cart: diffuser 45216681590893 + chosen fragrance variant on Subi selling plan 1605206125 -> /cart.
+- mc-lp-diffuser CDN files (fileUpdate keeps URL, bumps ?v):
+  - css `gid://shopify/GenericFile/29317693440109` -> `.../files/mc-lp-diffuser.css` (fonts + page styles + theme-integration block; core css NOT used to avoid adv style collisions)
+  - assets `gid://shopify/GenericFile/29317693472877` -> `.../files/mc-lp-diffuser-assets.js`
+  - app `gid://shopify/GenericFile/29317693505645` -> `.../files/mc-lp-diffuser-app.js`
 - mc-lp CDN files (fileUpdate keeps URL, bumps ?v):
   - core css `gid://shopify/GenericFile/29282275131501` → `.../files/mc-lp-core.css`
   - vendor `gid://shopify/GenericFile/29282275164269` → `.../files/mc-lp-vendor.js`

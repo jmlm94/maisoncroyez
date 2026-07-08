@@ -1059,3 +1059,6 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 /* PDP round 16 — kill dead space above gallery + tighter buybox stack (owner) */
 .pdp-buy{padding-top:6px}
 .pdp-buy .buybox{gap:10px}
+/* PDP round 17 — tighter title-to-price gap (owner: -25%+) */
+.pdp-buy .buybox h1{margin:0}
+.pdp-buy .rating{margin:0}

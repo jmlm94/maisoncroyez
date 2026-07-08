@@ -718,7 +718,7 @@ function App() {
     angleIntention: () => html`<${AngleIntention} key="a1"/>`,
     angleFill: () => html`<${AngleFill} key="a7"/>`,
     howTo: () => html`<${HowTo} key="ht"/>`,
-    angleLux: () => html`<${AngleBand} key="a4" cfg=${CONFIG.angleLux} tinted=${true}/>`,
+    angleLux: () => html`<${AngleBand} key="a4" cfg=${CONFIG.angleLux}/>`,
     angleCandles: () => html`<${AngleSplit} key="a6" cfg=${CONFIG.angleCandles}/>`,
     angleLasts: () => html`<${AngleSplit} key="a5" cfg=${CONFIG.angleLasts}/>`,
     reviewWall: () => html`<${ReviewWall} key="rw"/>`,

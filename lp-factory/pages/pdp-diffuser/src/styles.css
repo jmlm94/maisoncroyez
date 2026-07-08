@@ -1056,3 +1056,6 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 .pick:has(.pick-badge){padding-bottom:40px}
 /* PDP round 15b — Top Seller badge solid purple (owner) */
 .pick-badge{background:#7C3AED;box-shadow:0 2px 8px rgba(124,58,237,.3)}
+/* PDP round 16 — kill dead space above gallery + tighter buybox stack (owner) */
+.pdp-buy{padding-top:6px}
+.pdp-buy .buybox{gap:10px}

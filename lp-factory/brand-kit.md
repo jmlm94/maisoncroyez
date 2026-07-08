@@ -57,12 +57,12 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
 - Live page #2: `/pages/adv-scent-ritual` (gid://shopify/Page/117105819757, templateSuffix `mc-lp`, advertorial Blueprint 002)
 - Live page #3: `/pages/diffuser` (gid://shopify/Page/117264089197, DEFAULT template — renders INSIDE theme layout per owner; body-embed loader, deployed 2026-07-08). Cold-traffic PDP, Blueprint 003. Real cart: diffuser 45216681590893 + chosen fragrance variant on Subi selling plan 1605206125 -> /cart.
   - Theme wraps page body in `.prose` (h1 `.page > h1.h1.text-center` hidden via inline body style). ALL page CSS selectors are `#root`-prefixed (build step) so theme `.prose` rules can't override; body carries `#root` full-bleed breakout inline.
-  - Loader version key: `'r8-'+hour` (bump rN via pageUpdate on every fileUpdate). LESSON: Shopify file origin takes ~5 min to propagate after fileUpdate — bump rN, then WAIT 5 MIN before verifying, or the new key caches the old bytes at the edge.
+  - Loader version key: `'r9-'+hour` (bump rN via pageUpdate on every fileUpdate). LESSON: Shopify file origin takes ~5 min to propagate after fileUpdate — bump rN, then WAIT 5 MIN before verifying, or the new key caches the old bytes at the edge.
   - LESSON: deploy/ bundle copies must be REGENERATED from src on every deploy (round-14 shipped a stale copy). The CSS prefixer must handle spaceless `@media(...)` blocks (fixed 2026-07-08).
   - Gallery = custom carousel matching the theme's native product media (mobile: full-bleed swipe + dots; desktop: left thumb rail + round arrows). The theme's real product section can't be embedded on a page without manual theme-editor work. — bump the `rN-` counter via pageUpdate on every fileUpdate for INSTANT cache-bust (hourly key alone can be poisoned by a pre-update request in the same hour).
   - Cart wiring verified LIVE 2026-07-08 (Actions relay): POST /cart/add.js -> diffuser $89.95 one-time + fragrance $29.95/mo on plan 1605206125, cart total $119.90. Subi first-order-free applies at checkout; owner test checkout still pending.
   - ATC opens the theme cart drawer (Impact): `document.dispatchEvent(new CustomEvent('cart:refresh'))` + `#cart-drawer.show()`, /cart fallback. Verified live by clicking ATC on a runner 2026-07-08.
-  - Headline emphasis is SOLID PURPLE #7C3AED sitewide on this page (owner ruling 2026-07-08, no gradient text).
+  - Headline emphasis AND the Top Seller badge are SOLID PURPLE #7C3AED on this page (owner rulings 2026-07-08, no gradient text/badge). Native-gallery experiment reverted same day; rounded gallery + thumb row stays.
 - mc-lp-diffuser CDN files (fileUpdate keeps URL, bumps ?v):
   - css `gid://shopify/GenericFile/29317693440109` -> `.../files/mc-lp-diffuser.css` (fonts + page styles + theme-integration block; core css NOT used to avoid adv style collisions)
   - assets `gid://shopify/GenericFile/29317693472877` -> `.../files/mc-lp-diffuser-assets.js`

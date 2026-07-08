@@ -32,8 +32,8 @@ jobs:
           RESP=$(curl -sS -b $JAR -c $JAR -X POST "https://maisoncroyez.com/cart/add.js" \
             -H "Content-Type: application/json" -H "Accept: application/json" \
             -d '{"items":[{"id":45216681590893,"quantity":1},{"id":41212020457581,"quantity":1,"selling_plan":1605206125}]}')
-          echo "$RESP" | head -c 600; echo
-          echo "$RESP" | grep -q '"selling_plan":1605206125' && echo "CART: SELLING PLAN ATTACHED" || { echo "CART: selling plan missing"; exit 1; }
+          echo "$RESP" | python3 -c "import json,sys; r=json.load(sys.stdin); [print(i['product_title'],'| price:',i['price'],'| plan:',(i.get('selling_plan_allocation') or {}).get('selling_plan',{}).get('id')) for i in r['items']]"
+          echo "$RESP" | grep -q '1605206125' && echo "CART: SELLING PLAN ATTACHED" || { echo "CART: selling plan missing"; exit 1; }
           CART=$(curl -sS -b $JAR "https://maisoncroyez.com/cart.js")
           echo "$CART" | python3 -c "import json,sys; c=json.load(sys.stdin); print('item_count',c['item_count'],'total',c['total_price']); [print(i['product_title'],'|',i['price'],'| plan:',i.get('selling_plan_allocation',{}).get('selling_plan',{}).get('id')) for i in c['items']]"
       - name: Save page HTML

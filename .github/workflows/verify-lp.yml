@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 17 — Lighthouse performance audit of the live PDP
+# run: 18 — Lighthouse performance audit of the live PDP
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -18,34 +18,13 @@ jobs:
           set -euo pipefail
           npm i -s lighthouse@12 > /dev/null 2>&1
           URL="https://maisoncroyez.com/pages/diffuser"
-          npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox"             --only-categories=performance --output=json --output-path=/tmp/lh-mobile.json || true
-          npx lighthouse "$URL" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox"             --only-categories=performance --output=json --output-path=/tmp/lh-desktop.json || true
-          for f in mobile desktop; do
-            echo "===== $f ====="
-            python3 - "$f" <<'PY'
-import json, sys
-d = json.load(open(f"/tmp/lh-{sys.argv[1]}.json"))
-a = d["audits"]
-print("perf score:", round(d["categories"]["performance"]["score"] * 100))
-for k in ["server-response-time","first-contentful-paint","largest-contentful-paint","total-blocking-time","cumulative-layout-shift","speed-index","interactive"]:
-    print(f"{k}: {a[k]['displayValue']}")
-tot = a["total-byte-weight"]
-print("total bytes:", tot["displayValue"])
-print("-- heaviest resources --")
-for it in tot["details"]["items"][:8]:
-    print(round(it["totalBytes"]/1024), "KB", it["url"][:110])
-lcp = a.get("largest-contentful-paint-element", {})
-try:
-    el = lcp["details"]["items"][0]["items"][0]["node"]["snippet"]
-    print("LCP element:", el[:150])
-except Exception:
-    pass
-PY
-          done
-          mkdir -p lp-factory/pages/pdp-diffuser/verify
-          cp /tmp/lh-mobile.json /tmp/lh-desktop.json lp-factory/pages/pdp-diffuser/verify/
+          npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=lh-mobile.json
+          npx lighthouse "$URL" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=lh-desktop.json
+          ls -la lh-*.json
       - name: Commit reports
         run: |
+          mkdir -p lp-factory/pages/pdp-diffuser/verify
+          mv lh-mobile.json lh-desktop.json lp-factory/pages/pdp-diffuser/verify/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify

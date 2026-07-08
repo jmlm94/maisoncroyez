@@ -14,29 +14,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch generated images
+      - name: Re-encode step gifs from store CDN originals (higher quality, small size)
         run: |
           set -euo pipefail
-          DIR=lp-factory/pages/pdp-diffuser/assets/raw
+          sudo apt-get update -yq >/dev/null && sudo apt-get install -yq ffmpeg >/dev/null
+          DIR=lp-factory/pages/pdp-diffuser/assets/processed
           mkdir -p "$DIR"
-          BASE="https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU"
-          curl -fsSL -o "$DIR/guests.png" "$BASE/hf_20260707_185707_62608ce3-07bb-454a-9e51-05fc5343a9f2.png"
-          curl -fsSL -o "$DIR/soot.png"   "$BASE/hf_20260707_185709_8cab6ef1-807a-4ed0-9fa0-efc75f588bf2.png"
-          curl -fsSL -o "$DIR/mold.png"   "$BASE/hf_20260707_185712_ba9e17fc-73eb-43e7-827c-553f07d24c3c.png"
-          curl -fsSL -o "$DIR/hotel.png"  "$BASE/hf_20260707_185714_91d69223-3c34-49e2-9eb2-5161b849285d.png"
-          curl -fsSL -o "$DIR/dog.png"    "$BASE/hf_20260707_185715_9442beea-56ac-4a8a-adbc-ae9ef41be55b.png"
-          GDIR=lp-factory/pages/pdp-diffuser/assets/gallery-raw
-          mkdir -p "$GDIR"
-          CDN="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for f in "25-min.png?v=1767910199" "image-1_1_1.png?v=1773273488" "image-2_1_1.png?v=1773273488" "image-5_1_1.png?v=1773273488" "image-3_1_1.png?v=1773273488" "image-6_1_1.png?v=1773273488" "image-4_1_1.png?v=1773273488" "image-7_1_1.png?v=1773273488" "26-min.png?v=1773273488" "27-min.png?v=1773273488"; do
-            name="${f%%\?*}"
-            curl -fsSL -o "$GDIR/$name" "$CDN/$f&width=900"
-          done
-          ls -la "$DIR" "$GDIR"
+          curl -fsSL -o /tmp/g1.mp4 "https://cdn.shopify.com/videos/c/vp/bd875eeb949b4616bbe3c7e696763704/bd875eeb949b4616bbe3c7e696763704.HD-1080p-2.5Mbps-12586147.mp4"
+          curl -fsSL -o /tmp/g2.mp4 "https://cdn.shopify.com/videos/c/vp/9045d199b2ad4d5b95316cce18b9c09d/9045d199b2ad4d5b95316cce18b9c09d.HD-1080p-2.5Mbps-12586148.mp4"
+          curl -fsSL -o /tmp/g3.mp4 "https://cdn.shopify.com/videos/c/vp/e262a5754b1b4f1f850b8b5fc974cc01/e262a5754b1b4f1f850b8b5fc974cc01.HD-720p-1.6Mbps-12586149.mp4"
+          enc () {
+            ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
+              -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
+              -c:v libx264 -crf 25 -preset slow -pix_fmt yuv420p -movflags +faststart "$DIR/$3-hq.mp4"
+            ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
+              -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
+              -c:v libvpx-vp9 -crf 37 -b:v 0 -row-mt 1 "$DIR/$3-hq.webm"
+          }
+          enc g1.mp4 2.12 www1
+          enc g2.mp4 2.08 www2
+          enc g3.mp4 1.12 www3
+          ls -la "$DIR"/www*-hq.*
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/pdp-diffuser/assets/raw lp-factory/pages/pdp-diffuser/assets/gallery-raw
-          git commit -m "Fetch PDP angle media (raw)"
+          git add lp-factory/pages/pdp-diffuser/assets/processed
+          git commit -m "Re-encode step gifs from CDN originals (540px hq)"
           git push

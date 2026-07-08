@@ -23,22 +23,25 @@ jobs:
           curl -fsSL -o /tmp/g1.mp4 "https://cdn.shopify.com/videos/c/vp/bd875eeb949b4616bbe3c7e696763704/bd875eeb949b4616bbe3c7e696763704.HD-1080p-2.5Mbps-12586147.mp4"
           curl -fsSL -o /tmp/g2.mp4 "https://cdn.shopify.com/videos/c/vp/9045d199b2ad4d5b95316cce18b9c09d/9045d199b2ad4d5b95316cce18b9c09d.HD-1080p-2.5Mbps-12586148.mp4"
           curl -fsSL -o /tmp/g3.mp4 "https://cdn.shopify.com/videos/c/vp/e262a5754b1b4f1f850b8b5fc974cc01/e262a5754b1b4f1f850b8b5fc974cc01.HD-720p-1.6Mbps-12586149.mp4"
+          rm -f "$DIR"/www*-hq.*
           enc () {
-            ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
-              -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
-              -c:v libx264 -crf 25 -preset slow -pix_fmt yuv420p -movflags +faststart "$DIR/$3-hq.mp4"
-            ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
-              -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
-              -c:v libvpx-vp9 -crf 37 -b:v 0 -row-mt 1 "$DIR/$3-hq.webm"
+            for crf in 28 30 32; do
+              ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
+                -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
+                -c:v libx264 -crf $crf -preset veryslow -pix_fmt yuv420p -movflags +faststart "$DIR/$3-c$crf.mp4"
+              ffmpeg -hide_banner -loglevel error -y -i "/tmp/$1" \
+                -vf "setpts=PTS/$2,scale=540:540:flags=lanczos,fps=24" -an \
+                -c:v libvpx-vp9 -crf $((crf+12)) -b:v 0 -row-mt 1 "$DIR/$3-c$crf.webm"
+            done
           }
           enc g1.mp4 2.12 www1
           enc g2.mp4 2.08 www2
           enc g3.mp4 1.12 www3
-          ls -la "$DIR"/www*-hq.*
+          ls -la "$DIR"/www*-c2* "$DIR"/www*-c3*
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/assets/processed
-          git commit -m "Re-encode step gifs from CDN originals (540px hq)"
+          git commit -m "Step gif CRF ladder (28/30/32)"
           git push

@@ -311,16 +311,18 @@ const Icon = ({ name }) => html`<span class="emoji" role="img" aria-hidden="true
 const Stars = () => html`<span class="stars" aria-label="5 out of 5 stars">★★★★★</span>`;
 const Placeholder = ({ tone = "", cap, style, sq }) =>
   html`<div class=${"ph " + tone + (sq ? " sq" : "")} style=${style}>${cap && html`<span class="ph-cap">${cap}</span>`}</div>`;
-const Img = ({ slot, tone = "warm", style, alt = "" }) => {
+const Img = ({ slot, tone = "warm", style, alt = "", eager = false }) => {
   const im = CONFIG.images[slot];
   if (im && im.src) {
-    const media = im.src.startsWith("data:video")
-      ? html`<video class="simg" autoPlay loop muted playsInline preload="auto"
+    const isVid = im.src.startsWith("data:video") || /\.(mp4|webm)($|\?)/.test(im.src);
+    const media = isVid
+      ? html`<video class="simg" autoPlay loop muted playsInline preload="none"
           onCanPlay=${(e) => e.target.play().catch(() => {})}>
           <source src=${im.src} type="video/mp4"/>
           ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
         </video>`
-      : html`<img class="simg" src=${im.src} alt=${alt} loading="lazy"/>`;
+      : html`<img class="simg" src=${im.src} alt=${alt} decoding="async"
+          loading=${eager ? "eager" : "lazy"} fetchpriority=${eager ? "high" : "auto"}/>`;
     return html`<div class="ph sq" style=${style}>${media}</div>`;
   }
   return html`<${Placeholder} sq=${true} tone=${tone} style=${style} cap=${"AWAITING MEDIA — " + (im ? im.file : slot)}/>`;
@@ -424,7 +426,7 @@ function Gallery() {
   const thumbs = CONFIG.gallery.map(resolve);
   return html`
     <div class="gal">
-      <div class="gal-main ph sq"><img class="simg" src=${urls[idx]} alt="Maison Croyez diffuser"/></div>
+      <div class="gal-main ph sq"><img class="simg" src=${urls[idx]} alt="Maison Croyez diffuser" fetchpriority="high" decoding="async"/></div>
       <div class="gal-thumbs">
         ${thumbs.map((t, i) => html`
           <button key=${i} class=${"gal-th" + (i === idx ? " on" : "")} onClick=${() => setIdx(i)} aria-label=${"Image " + (i + 1)}>

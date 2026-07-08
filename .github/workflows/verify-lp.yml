@@ -1,6 +1,6 @@
 name: verify-lp
-# Verification relay (cache-fix check): the Claude sandbox can't reach cdn.shopify.com or the
-# storefront, so this workflow checks them and commits a live screenshot.
+# Verification relay: the Claude sandbox can't reach cdn.shopify.com or the
+# storefront, so this workflow checks them and commits live screenshots.
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -16,29 +16,26 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check CDN bundles
         run: |
-          for f in mc-lp-core.css mc-lp-vendor.js mc-lp-adv-scent-ritual-assets.js mc-lp-adv-scent-ritual-app.js; do
+          for f in mc-lp-diffuser.css mc-lp-vendor.js mc-lp-diffuser-assets.js mc-lp-diffuser-app.js; do
             echo "== $f"
-            curl -sSL -o /tmp/f --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f"
+            curl -sSL -o /tmp/f --max-time 60 -w "status=%{http_code} bytes=%{size_download}\n" "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f"
           done
       - name: Check page HTML
         run: |
-          echo "== bare URL"
-          curl -sSL -o /tmp/p1 --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/adv-scent-ritual"
-          grep -q "mc-lp-adv-scent-ritual-assets" /tmp/p1 && echo "bare: LOADER PRESENT" || echo "bare: LOADER MISSING (stale edge cache)"
-          echo "== cache-busted URL"
-          curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/adv-scent-ritual?cb=$(date +%s)"
-          if grep -q "mc-lp-adv-scent-ritual-assets" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "fresh: LOADER PRESENT"; else echo "fresh: LOADER MISSING"; exit 1; fi
+          curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
+          if grep -q "mc-lp-diffuser-assets" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "LOADER PRESENT"; else echo "LOADER MISSING"; exit 1; fi
       - name: Screenshot live page
         run: |
           npx -y playwright@1.56.1 install --with-deps chromium > /dev/null 2>&1
-          npx -y playwright@1.56.1 screenshot --viewport-size=390,844 --full-page --wait-for-timeout=9000 "https://maisoncroyez.com/pages/adv-scent-ritual?cb=$(date +%s)" live-shot.png
-          ls -la live-shot.png
-      - name: Commit screenshot
+          npx -y playwright@1.56.1 screenshot --viewport-size=390,844 --full-page --wait-for-timeout=12000 "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)" live-mobile.png
+          npx -y playwright@1.56.1 screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=12000 "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)" live-desktop.png
+          ls -la live-*.png
+      - name: Commit screenshots
         run: |
-          mkdir -p lp-factory/pages/adv-scent-ritual/verify
-          mv live-shot.png lp-factory/pages/adv-scent-ritual/verify/live-shot.png
+          mkdir -p lp-factory/pages/pdp-diffuser/verify
+          mv live-mobile.png live-desktop.png lp-factory/pages/pdp-diffuser/verify/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/adv-scent-ritual/verify
-          git commit -m "Live page verification screenshot"
+          git add lp-factory/pages/pdp-diffuser/verify
+          git commit -m "PDP diffuser live verification screenshots"
           git push

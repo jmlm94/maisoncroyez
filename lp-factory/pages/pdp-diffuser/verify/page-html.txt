@@ -1,0 +1,1313 @@
+<!doctype html>
+
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+<script>
+  const handleInstantCartEvents = () => {
+    const cartDrawer = document.querySelector("#cart-drawer");
+    if (!cartDrawer) return;
+    document.dispatchEvent(new CustomEvent("cart:refresh"));
+    cartDrawer.show();
+  };
+
+  ["instant:add-to-cart", "instant:open-cart"].forEach((eventName) => {
+    document.addEventListener(eventName, handleInstantCartEvents);
+  });
+</script>
+    
+    <title>The Maison Croyez Diffuser</title><meta name="description" content=""><link rel="canonical" href="https://maisoncroyez.com/pages/diffuser"><link rel="shortcut icon" href="//maisoncroyez.com/cdn/shop/files/apple-touch-icon.png?v=1739917636&width=96">
+      <link rel="apple-touch-icon" href="//maisoncroyez.com/cdn/shop/files/apple-touch-icon.png?v=1739917636&width=180"><link rel="preconnect" href="https://cdn.shopify.com">
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link rel="dns-prefetch" href="https://productreviews.shopifycdn.com"><link rel="preload" href="//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff78390.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n4.349a72bc63b970a8b7f00dc33f5bda2ec52f79cc.woff2" as="font" type="font/woff2" crossorigin><meta property="og:type" content="website">
+  <meta property="og:title" content="The Maison Croyez Diffuser"><meta property="og:description" content=""><meta property="og:url" content="https://maisoncroyez.com/pages/diffuser">
+<meta property="og:site_name" content="Maison Croyez"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="The Maison Croyez Diffuser">
+  <meta name="twitter:description" content="The Maison Croyez Diffuser">
+
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+  "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://maisoncroyez.com"
+    },{
+          "@type": "ListItem",
+          "position": 2,
+          "name": "The Maison Croyez Diffuser",
+          "item": "https://maisoncroyez.com/pages/diffuser"
+        }]
+  }
+  </script>
+
+<style>/* Typography (heading) */
+  @font-face {
+  font-family: Merriweather;
+  font-weight: 700;
+  font-style: normal;
+  font-display: fallback;
+  src: url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff78390.woff2") format("woff2"),
+       url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n7.cd38b457ece1a89976a4da2d642ece091dc8235f.woff") format("woff");
+}
+
+@font-face {
+  font-family: Merriweather;
+  font-weight: 700;
+  font-style: italic;
+  font-display: fallback;
+  src: url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_i7.f0c0f7ed3a3954dab58b704b14a01616fb5b0c9b.woff2") format("woff2"),
+       url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_i7.0563ab59ca3ecf64e1fcde02f520f39dcec40efd.woff") format("woff");
+}
+
+/* Typography (body) */
+  @font-face {
+  font-family: Merriweather;
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+  src: url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n4.349a72bc63b970a8b7f00dc33f5bda2ec52f79cc.woff2") format("woff2"),
+       url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n4.5a396c75a89c25b516c9d3cb026490795288d821.woff") format("woff");
+}
+
+@font-face {
+  font-family: Merriweather;
+  font-weight: 400;
+  font-style: italic;
+  font-display: fallback;
+  src: url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_i4.f5b9cf70acd5cd4d838a0ca60bf8178b62cb1301.woff2") format("woff2"),
+       url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_i4.946cfa27ccfc2ba1850f3e8d4115a49e1be34578.woff") format("woff");
+}
+
+@font-face {
+  font-family: Merriweather;
+  font-weight: 700;
+  font-style: normal;
+  font-display: fallback;
+  src: url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff78390.woff2") format("woff2"),
+       url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_n7.cd38b457ece1a89976a4da2d642ece091dc8235f.woff") format("woff");
+}
+
+@font-face {
+  font-family: Merriweather;
+  font-weight: 700;
+  font-style: italic;
+  font-display: fallback;
+  src: url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_i7.f0c0f7ed3a3954dab58b704b14a01616fb5b0c9b.woff2") format("woff2"),
+       url("//maisoncroyez.com/cdn/fonts/merriweather/merriweather_i7.0563ab59ca3ecf64e1fcde02f520f39dcec40efd.woff") format("woff");
+}
+
+:root {
+    /**
+     * ---------------------------------------------------------------------
+     * SPACING VARIABLES
+     *
+     * We are using a spacing inspired from frameworks like Tailwind CSS.
+     * ---------------------------------------------------------------------
+     */
+    --spacing-0-5: 0.125rem; /* 2px */
+    --spacing-1: 0.25rem; /* 4px */
+    --spacing-1-5: 0.375rem; /* 6px */
+    --spacing-2: 0.5rem; /* 8px */
+    --spacing-2-5: 0.625rem; /* 10px */
+    --spacing-3: 0.75rem; /* 12px */
+    --spacing-3-5: 0.875rem; /* 14px */
+    --spacing-4: 1rem; /* 16px */
+    --spacing-4-5: 1.125rem; /* 18px */
+    --spacing-5: 1.25rem; /* 20px */
+    --spacing-5-5: 1.375rem; /* 22px */
+    --spacing-6: 1.5rem; /* 24px */
+    --spacing-6-5: 1.625rem; /* 26px */
+    --spacing-7: 1.75rem; /* 28px */
+    --spacing-7-5: 1.875rem; /* 30px */
+    --spacing-8: 2rem; /* 32px */
+    --spacing-8-5: 2.125rem; /* 34px */
+    --spacing-9: 2.25rem; /* 36px */
+    --spacing-9-5: 2.375rem; /* 38px */
+    --spacing-10: 2.5rem; /* 40px */
+    --spacing-11: 2.75rem; /* 44px */
+    --spacing-12: 3rem; /* 48px */
+    --spacing-14: 3.5rem; /* 56px */
+    --spacing-16: 4rem; /* 64px */
+    --spacing-18: 4.5rem; /* 72px */
+    --spacing-20: 5rem; /* 80px */
+    --spacing-24: 6rem; /* 96px */
+    --spacing-28: 7rem; /* 112px */
+    --spacing-32: 8rem; /* 128px */
+    --spacing-36: 9rem; /* 144px */
+    --spacing-40: 10rem; /* 160px */
+    --spacing-44: 11rem; /* 176px */
+    --spacing-48: 12rem; /* 192px */
+    --spacing-52: 13rem; /* 208px */
+    --spacing-56: 14rem; /* 224px */
+    --spacing-60: 15rem; /* 240px */
+    --spacing-64: 16rem; /* 256px */
+    --spacing-72: 18rem; /* 288px */
+    --spacing-80: 20rem; /* 320px */
+    --spacing-96: 24rem; /* 384px */
+
+    /* Container */
+    --container-max-width: 1320px;
+    --container-narrow-max-width: 1070px;
+    --container-gutter: var(--spacing-5);
+    --section-outer-spacing-block: var(--spacing-12);
+    --section-inner-max-spacing-block: var(--spacing-10);
+    --section-inner-spacing-inline: var(--container-gutter);
+    --section-stack-spacing-block: var(--spacing-8);
+
+    /* Grid gutter */
+    --grid-gutter: var(--spacing-5);
+
+    /* Product list settings */
+    --product-list-row-gap: var(--spacing-8);
+    --product-list-column-gap: var(--grid-gutter);
+
+    /* Form settings */
+    --input-gap: var(--spacing-2);
+    --input-height: 2.625rem;
+    --input-padding-inline: var(--spacing-4);
+
+    /* Other sizes */
+    --sticky-area-height: calc(var(--sticky-announcement-bar-enabled, 0) * var(--announcement-bar-height, 0px) + var(--sticky-header-enabled, 0) * var(--header-height, 0px));
+
+    /* RTL support */
+    --transform-logical-flip: 1;
+    --transform-origin-start: left;
+    --transform-origin-end: right;
+
+    /**
+     * ---------------------------------------------------------------------
+     * TYPOGRAPHY
+     * ---------------------------------------------------------------------
+     */
+
+    /* Font properties */
+    --heading-font-family: Merriweather, serif;
+    --heading-font-weight: 700;
+    --heading-font-style: normal;
+    --heading-text-transform: normal;
+    --heading-letter-spacing: -0.01em;
+    --text-font-family: Merriweather, serif;
+    --text-font-weight: 400;
+    --text-font-style: normal;
+    --text-letter-spacing: -0.01em;
+
+    /* Font sizes */
+    --text-h0: 2.75rem;
+    --text-h1: 2rem;
+    --text-h2: 1.75rem;
+    --text-h3: 1.375rem;
+    --text-h4: 1.125rem;
+    --text-h5: 1.125rem;
+    --text-h6: 1rem;
+    --text-xs: 0.6875rem;
+    --text-sm: 0.75rem;
+    --text-base: 0.875rem;
+    --text-lg: 1.125rem;
+
+    /**
+     * ---------------------------------------------------------------------
+     * COLORS
+     * ---------------------------------------------------------------------
+     */
+
+    /* Color settings */--accent: 40 40 40;
+    --text-primary: 40 40 40;
+    --background-primary: 255 255 255;
+    --dialog-background: 255 255 255;
+    --border-color: var(--text-color, var(--text-primary)) / 0.12;
+
+    /* Button colors */
+    --button-background-primary: 40 40 40;
+    --button-text-primary: 255 255 255;
+    --button-background-secondary: 60 97 158;
+    --button-text-secondary: 255 255 255;
+
+    /* Status colors */
+    --success-background: 238 241 235;
+    --success-text: 112 138 92;
+    --warning-background: 252 240 227;
+    --warning-text: 227 126 22;
+    --error-background: 245 229 229;
+    --error-text: 170 40 38;
+
+    /* Product colors */
+    --on-sale-text: 0 0 0;
+    --on-sale-badge-background: 0 0 0;
+    --on-sale-badge-text: 255 255 255;
+    --sold-out-badge-background: 255 4 0;
+    --sold-out-badge-text: 255 255 255;
+    --primary-badge-background: 0 203 18;
+    --primary-badge-text: 255 255 255;
+    --star-color: 255 183 74;
+    --product-card-background: 255 255 255;
+    --product-card-text: 40 40 40;
+
+    /* Header colors */
+    --header-background: 255 255 255;
+    --header-text: 255 255 255;
+
+    /* Footer colors */
+    --footer-background: 242 242 242;
+    --footer-text: 40 40 40;
+
+    /* Rounded variables (used for border radius) */
+    --rounded-xs: 0.0rem;
+    --rounded-sm: 0.0rem;
+    --rounded: 0.0rem;
+    --rounded-lg: 0.0rem;
+    --rounded-full: 9999px;
+
+    --rounded-button: 0.0rem;
+    --rounded-input: 0.0rem;
+
+    /* Box shadow */
+    --shadow-sm: 0 2px 8px rgb(var(--text-primary) / 0.0);
+    --shadow: 0 5px 15px rgb(var(--text-primary) / 0.0);
+    --shadow-md: 0 5px 30px rgb(var(--text-primary) / 0.0);
+    --shadow-block: 0px 0px 50px rgb(var(--text-primary) / 0.0);
+
+    /**
+     * ---------------------------------------------------------------------
+     * OTHER
+     * ---------------------------------------------------------------------
+     */
+
+    --cursor-close-svg-url: url(//maisoncroyez.com/cdn/shop/t/45/assets/cursor-close.svg?v=147174565022153725511749669273);
+    --cursor-zoom-in-svg-url: url(//maisoncroyez.com/cdn/shop/t/45/assets/cursor-zoom-in.svg?v=154953035094101115921749669286);
+    --cursor-zoom-out-svg-url: url(//maisoncroyez.com/cdn/shop/t/45/assets/cursor-zoom-out.svg?v=16155520337305705181749669270);
+    --checkmark-svg-url: url(//maisoncroyez.com/cdn/shop/t/45/assets/checkmark.svg?v=77552481021870063511749669270);
+  }
+
+  [dir="rtl"]:root {
+    /* RTL support */
+    --transform-logical-flip: -1;
+    --transform-origin-start: right;
+    --transform-origin-end: left;
+  }
+
+  @media screen and (min-width: 700px) {
+    :root {
+      /* Typography (font size) */
+      --text-h0: 3.5rem;
+      --text-h1: 2.5rem;
+      --text-h2: 2rem;
+      --text-h3: 1.625rem;
+      --text-h4: 1.375rem;
+      --text-h5: 1.125rem;
+      --text-h6: 1rem;
+
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1.0rem;
+      --text-lg: 1.25rem;
+
+      /* Spacing */
+      --container-gutter: 2rem;
+      --section-outer-spacing-block: var(--spacing-16);
+      --section-inner-max-spacing-block: var(--spacing-12);
+      --section-inner-spacing-inline: var(--spacing-14);
+      --section-stack-spacing-block: var(--spacing-12);
+
+      /* Grid gutter */
+      --grid-gutter: var(--spacing-6);
+
+      /* Product list settings */
+      --product-list-row-gap: var(--spacing-12);
+
+      /* Form settings */
+      --input-gap: 1rem;
+      --input-height: 3.125rem;
+      --input-padding-inline: var(--spacing-5);
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    :root {
+      /* Spacing settings */
+      --container-gutter: var(--spacing-12);
+      --section-outer-spacing-block: var(--spacing-18);
+      --section-inner-max-spacing-block: var(--spacing-16);
+      --section-inner-spacing-inline: var(--spacing-18);
+      --section-stack-spacing-block: var(--spacing-12);
+    }
+  }
+
+  @media screen and (min-width: 1150px) {
+    :root {
+      /* Spacing settings */
+      --container-gutter: var(--spacing-12);
+      --section-outer-spacing-block: var(--spacing-20);
+      --section-inner-max-spacing-block: var(--spacing-16);
+      --section-inner-spacing-inline: var(--spacing-18);
+      --section-stack-spacing-block: var(--spacing-12);
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    :root {
+      /* Typography (font size) */
+      --text-h0: 4.5rem;
+      --text-h1: 3.5rem;
+      --text-h2: 2.75rem;
+      --text-h3: 2rem;
+      --text-h4: 1.75rem;
+      --text-h5: 1.375rem;
+      --text-h6: 1.25rem;
+
+      --section-outer-spacing-block: var(--spacing-24);
+      --section-inner-max-spacing-block: var(--spacing-18);
+      --section-inner-spacing-inline: var(--spacing-20);
+    }
+  }
+
+  @media screen and (min-width: 1600px) {
+    :root {
+      --section-outer-spacing-block: var(--spacing-24);
+      --section-inner-max-spacing-block: var(--spacing-20);
+      --section-inner-spacing-inline: var(--spacing-24);
+    }
+  }
+
+  /**
+   * ---------------------------------------------------------------------
+   * LIQUID DEPENDANT CSS
+   *
+   * Our main CSS is Liquid free, but some very specific features depend on
+   * theme settings, so we have them here
+   * ---------------------------------------------------------------------
+   */@media screen and (pointer: fine) {
+        /* The !important are for the Shopify Payment button to ensure we override the default from Shopify styles */
+        .button:not([disabled]):not(.button--outline):hover, .btn:not([disabled]):hover, .shopify-payment-button__button--unbranded:not([disabled]):hover {
+          background-color: transparent !important;
+          color: rgb(var(--button-outline-color) / var(--button-background-opacity, 1)) !important;
+          box-shadow: inset 0 0 0 2px currentColor !important;
+        }
+
+        .button--outline:not([disabled]):hover {
+          background: rgb(var(--button-background));
+          color: rgb(var(--button-text-color));
+          box-shadow: inset 0 0 0 2px rgb(var(--button-background));
+        }
+      }</style><script>
+  document.documentElement.classList.replace('no-js', 'js');
+
+  // This allows to expose several variables to the global scope, to be used in scripts
+  window.themeVariables = {
+    settings: {
+      showPageTransition: false,
+      headingApparition: "none",
+      pageType: "page",
+      moneyFormat: "${{amount}}",
+      moneyWithCurrencyFormat: "${{amount}} USD",
+      currencyCodeEnabled: false,
+      cartType: "drawer",
+      showDiscount: true,
+      discountMode: "percentage"
+    },
+
+    strings: {
+      accessibilityClose: "Close",
+      accessibilityNext: "Next",
+      accessibilityPrevious: "Previous",
+      addToCartButton: "ADD TO CART \u0026amp; CLAIM SAVINGS ➔",
+      soldOutButton: "Sold out",
+      preOrderButton: "Pre-order",
+      unavailableButton: "Unavailable",
+      closeGallery: "Close gallery",
+      zoomGallery: "Zoom",
+      errorGallery: "Image cannot be loaded",
+      soldOutBadge: "Sold out",
+      discountBadge: "TODAY'S LIMITED DEAL",
+      sku: "SKU:",
+      searchNoResults: "No results could be found.",
+      addOrderNote: "Add order note",
+      editOrderNote: "Edit order note",
+      shippingEstimatorNoResults: "Sorry, we do not ship to your address.",
+      shippingEstimatorOneResult: "There is one shipping rate for your address:",
+      shippingEstimatorMultipleResults: "There are several shipping rates for your address:",
+      shippingEstimatorError: "One or more error occurred while retrieving shipping rates:"
+    },
+
+    breakpoints: {
+      'sm': 'screen and (min-width: 700px)',
+      'md': 'screen and (min-width: 1000px)',
+      'lg': 'screen and (min-width: 1150px)',
+      'xl': 'screen and (min-width: 1400px)',
+
+      'sm-max': 'screen and (max-width: 699px)',
+      'md-max': 'screen and (max-width: 999px)',
+      'lg-max': 'screen and (max-width: 1149px)',
+      'xl-max': 'screen and (max-width: 1399px)'
+    }
+  };// For detecting native share
+  document.documentElement.classList.add(`native-share--${navigator.share ? 'enabled' : 'disabled'}`);</script><script type="module" src="//maisoncroyez.com/cdn/shop/t/45/assets/vendor.min.js?v=52426788336887041471749669273"></script>
+    <script type="module" src="//maisoncroyez.com/cdn/shop/t/45/assets/theme.js?v=153889005720233697301766018157"></script>
+    <script type="module" src="//maisoncroyez.com/cdn/shop/t/45/assets/sections.js?v=41988165828029689021767911750"></script>
+
+    <script>window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.start');</script><meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/2036367469/digital_wallets/dialog">
+<meta name="shopify-checkout-api-token" content="8e81bb4852c6c3a4de1fbc5f694fa2cb">
+<script async="async" src="/checkouts/internal/preloads.js?locale=en-US"></script>
+<link rel="preconnect" href="https://shop.app" crossorigin="anonymous">
+<script async="async" src="https://shop.app/checkouts/internal/preloads.js?locale=en-US&shop_id=2036367469" crossorigin="anonymous"></script>
+<script id="apple-pay-shop-capabilities" type="application/json">{"shopId":2036367469,"countryCode":"US","currencyCode":"USD","merchantCapabilities":["supports3DS"],"merchantId":"gid:\/\/shopify\/Shop\/2036367469","merchantName":"Maison Croyez","requiredBillingContactFields":["postalAddress","email"],"requiredShippingContactFields":["postalAddress","email"],"shippingType":"shipping","supportedNetworks":["visa","masterCard","amex","discover","elo","jcb"],"total":{"type":"pending","label":"Maison Croyez","amount":"1.00"},"shopifyPaymentsEnabled":true,"supportsSubscriptions":true}</script>
+<script id="shopify-features" type="application/json">{"accessToken":"8e81bb4852c6c3a4de1fbc5f694fa2cb","betas":["rich-media-storefront-analytics"],"domain":"maisoncroyez.com","predictiveSearch":true,"shopId":2036367469,"locale":"en"}</script>
+<script>var Shopify = Shopify || {};
+Shopify.shop = "patshion.myshopify.com";
+Shopify.locale = "en";
+Shopify.currency = {"active":"USD","rate":"1.0"};
+Shopify.country = "US";
+Shopify.theme = {"name":"MaisonCroyez-x-ConvertMate\/main","id":134636273773,"schema_name":"Impact","schema_version":"5.2.0","theme_store_id":null,"role":"main"};
+Shopify.theme.handle = "null";
+Shopify.theme.style = {"id":null,"handle":null};
+Shopify.cdnHost = "maisoncroyez.com/cdn";
+Shopify.routes = Shopify.routes || {};
+Shopify.routes.root = "/";
+Shopify.shopJsCdnBaseUrl = "https://cdn.shopify.com/shopifycloud/shop-js";
+Shopify.SignInWithShop = Shopify.SignInWithShop || {};
+Shopify.SignInWithShop.User = Shopify.SignInWithShop.User || {};
+Shopify.SignInWithShop.User.recognized = false;</script>
+<script type="module">!function(o){(o.Shopify=o.Shopify||{}).modules=!0}(window);</script>
+<script>!function(o){function n(){var o=[];function n(){o.push(Array.prototype.slice.apply(arguments))}return n.q=o,n}var t=o.Shopify=o.Shopify||{};t.loadFeatures=n(),t.autoloadFeatures=n()}(window);</script>
+<script>
+  window.ShopifyPay = window.ShopifyPay || {};
+  window.ShopifyPay.apiHost = "shop.app\/pay";
+  window.ShopifyPay.redirectState = null;
+</script>
+<script>
+  window.Shopify = window.Shopify || {};
+  window.Shopify.SignInWithShop = window.Shopify.SignInWithShop || {};
+  window.Shopify.SignInWithShop.assetMetrics = { sampleRate: 0.01 };
+  window.Shopify.SignInWithShop.eligible = true;
+</script>
+<script id="shop-js-analytics" type="application/json">{"pageType":"page"}</script>
+<script defer="defer" async type="module" src="//maisoncroyez.com/cdn/shopifycloud/shop-js/modules/v2/loader.init-shop-cart-sync.en.esm.js"></script>
+<script type="module">
+  await import("//maisoncroyez.com/cdn/shopifycloud/shop-js/modules/v2/loader.init-shop-cart-sync.en.esm.js");
+
+  window.Shopify.SignInWithShop?.initShopCartSync?.({"fedCMEnabled":true,"windoidEnabled":true});
+
+</script>
+<script>
+  window.Shopify = window.Shopify || {};
+  if (!window.Shopify.featureAssets) window.Shopify.featureAssets = {};
+  window.Shopify.featureAssets['shop-js'] = {"shop-toast-manager":["modules/v2/loader.shop-toast-manager.en.esm.js"],"listener":["modules/v2/loader.listener.en.esm.js"],"init-shop-user-recognition":["modules/v2/loader.init-shop-user-recognition.en.esm.js"],"shop-button":["modules/v2/loader.shop-button.en.esm.js"],"shop-cash-offers":["modules/v2/loader.shop-cash-offers.en.esm.js"],"avatar":["modules/v2/loader.avatar.en.esm.js"],"init-windoid":["modules/v2/loader.init-windoid.en.esm.js"],"init-fed-cm":["modules/v2/loader.init-fed-cm.en.esm.js"],"init-shop-email-lookup-coordinator":["modules/v2/loader.init-shop-email-lookup-coordinator.en.esm.js"],"checkout-modal":["modules/v2/loader.checkout-modal.en.esm.js"],"shop-login-button":["modules/v2/loader.shop-login-button.en.esm.js"],"init-customer-accounts":["modules/v2/loader.init-customer-accounts.en.esm.js"],"init-shop-cart-sync":["modules/v2/loader.init-shop-cart-sync.en.esm.js"],"init-customer-accounts-sign-up":["modules/v2/loader.init-customer-accounts-sign-up.en.esm.js"],"shop-user-recognition":["modules/v2/loader.shop-user-recognition.en.esm.js"],"init-shop-for-new-customer-accounts":["modules/v2/loader.init-shop-for-new-customer-accounts.en.esm.js"],"shop-login":["modules/v2/loader.shop-login.en.esm.js"],"pay-button":["modules/v2/loader.pay-button.en.esm.js"],"shop-cart-sync":["modules/v2/loader.shop-cart-sync.en.esm.js"],"shop-follow-button":["modules/v2/loader.shop-follow-button.en.esm.js"],"lead-capture":["modules/v2/loader.lead-capture.en.esm.js"],"payment-terms":["modules/v2/loader.payment-terms.en.esm.js"]};
+</script>
+<script>(function() {
+  var isLoaded = false;
+  function asyncLoad() {
+    if (isLoaded) return;
+    isLoaded = true;
+    var urls = ["https:\/\/sdk.postscript.io\/sdk-script-loader.bundle.js?shopId=5063\u0026shop=patshion.myshopify.com"];
+    for (var i = 0; i < urls.length; i++) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = urls[i];
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+  };
+  if(window.attachEvent) {
+    window.attachEvent('onload', asyncLoad);
+  } else {
+    window.addEventListener('load', asyncLoad, false);
+  }
+})();</script>
+<script id="__st">var __st={"a":2036367469,"offset":-14400,"reqid":"c0b2aa02-6cf3-4b47-aa8a-5911bcc6e8fe-1783537784","pageurl":"maisoncroyez.com\/pages\/diffuser?cb=1783537784","s":"pages-117264089197","u":"c93658737f2e","p":"page","rtyp":"page","rid":117264089197};</script>
+<script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
+<script id="form-persister">!function(){'use strict';const t='contact',e='new_comment',n=[[t,t],['blogs',e],['comments',e],[t,'customer']],o='password',r='form_key',c=['recaptcha-v3-token','g-recaptcha-response','h-captcha-response',o],s=()=>{try{return window.sessionStorage}catch{return}},i='__shopify_v',u=t=>t.elements[r],a=function(){const t=[...n].map((([t,e])=>`form[action*='/${t}']:not([data-nocaptcha='true']) input[name='form_type'][value='${e}']`)).join(',');var e;return e=t,()=>e?[...document.querySelectorAll(e)].map((t=>t.form)):[]}();function m(t){const e=u(t);a().includes(t)&&(!e||!e.value)&&function(t){try{if(!s())return;!function(t){const e=s();if(!e)return;const n=u(t);if(!n)return;const o=n.value;o&&e.removeItem(o)}(t);const e=Array.from(Array(32),(()=>Math.random().toString(36)[2])).join('');!function(t,e){u(t)||t.append(Object.assign(document.createElement('input'),{type:'hidden',name:r})),t.elements[r].value=e}(t,e),function(t,e){const n=s();if(!n)return;const r=[...t.querySelectorAll(`input[type='${o}']`)].map((({name:t})=>t)),u=[...c,...r],a={};for(const[o,c]of new FormData(t).entries())u.includes(o)||(a[o]=c);n.setItem(e,JSON.stringify({[i]:1,action:t.action,data:a}))}(t,e)}catch(e){console.error('failed to persist form',e)}}(t)}const f=t=>{if('true'===t.dataset.persistBound)return;const e=function(t,e){const n=function(t){return'function'==typeof t.submit?t.submit:HTMLFormElement.prototype.submit}(t).bind(t);return function(){let t;return()=>{t||(t=!0,(()=>{try{e(),n()}catch(t){(t=>{console.error('form submit failed',t)})(t)}})(),setTimeout((()=>t=!1),250))}}()}(t,(()=>{m(t)}));!function(t,e){if('function'==typeof t.submit&&'function'==typeof e)try{t.submit=e}catch{}}(t,e),t.addEventListener('submit',(t=>{t.preventDefault(),e()})),t.dataset.persistBound='true'};!function(){function t(t){const e=(t=>{const e=t.target;return e instanceof HTMLFormElement?e:e&&e.form})(t);e&&m(e)}document.addEventListener('submit',t),document.addEventListener('DOMContentLoaded',(()=>{const e=a();for(const t of e)f(t);var n;n=document.body,new window.MutationObserver((t=>{for(const e of t)if('childList'===e.type&&e.addedNodes.length)for(const t of e.addedNodes)1===t.nodeType&&'FORM'===t.tagName&&a().includes(t)&&f(t)})).observe(n,{childList:!0,subtree:!0,attributes:!1}),document.removeEventListener('submit',t)}))}()}();</script>
+<script integrity="sha256-JjoPp5ZfB1sSAs5SQaol1x1GgvveM+BgmRzyDexInEQ=" data-source-attribution="shopify.loadfeatures" defer="defer" src="//maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js" crossorigin="anonymous"></script>
+<script>(function () {var userAgent = navigator.userAgent;var platform = navigator.platform;var maxTouchPoints = navigator.maxTouchPoints || 0;var isIOS = /iPad|iPhone|iPod/.test(platform) || (platform === 'MacIntel' && maxTouchPoints > 1);var isMacSafari = platform.indexOf('Mac') === 0 && /Safari/.test(userAgent) && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR|Android/.test(userAgent);var isAppleSafari = isIOS || isMacSafari;if (isAppleSafari) {fetch('/sf_private_access_tokens' + location.search).catch(function () {});}function browserMajorVersion(pattern) {var match = userAgent.match(pattern);return match ? parseInt(match[1], 10) : null;}function shouldLoadAutosizesPolyfill() {if (!window.PerformanceObserver?.supportedEntryTypes?.includes('paint')) {return false;}var chromeVersion = browserMajorVersion(/Chrome\/(\d+)/);if (chromeVersion !== null) {return chromeVersion < 126;}var firefoxVersion = browserMajorVersion(/Firefox\/(\d+)/);if (firefoxVersion !== null) {return firefoxVersion < 150;}var safariVersion = isAppleSafari ? browserMajorVersion(/Version\/(\d+).*Safari\//) : null;if (safariVersion !== null) {return safariVersion < 27;}return true;}if (shouldLoadAutosizesPolyfill()) {var autosizesScript = document.createElement('script');autosizesScript.async = true;autosizesScript.crossOrigin = 'anonymous';autosizesScript.src = "//maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/autosizes-84416378.js";(document.head || document.documentElement).appendChild(autosizesScript);}window.ShopifyAnalytics = window.ShopifyAnalytics || {};window.ShopifyAnalytics.performance = window.ShopifyAnalytics.performance || {};(function () {var LONG_FRAME_THRESHOLD = 50;var longAnimationFrames = [];var activeRafId = null;function collectLongFrames() {var previousTime = null;function rafMonitor(now) {if (activeRafId === null) {return;}var delta = now - previousTime;if (delta > LONG_FRAME_THRESHOLD) {longAnimationFrames.push({startTime: previousTime,endTime: now,});}previousTime = now;activeRafId = requestAnimationFrame(rafMonitor);}previousTime = performance.now();activeRafId = requestAnimationFrame(rafMonitor);}if (!window.PerformanceObserver?.supportedEntryTypes?.includes('long-animation-frame')) {collectLongFrames();var timeoutId = setTimeout(function () {cancelAnimationFrame(activeRafId);}, 10000);window.ShopifyAnalytics.performance.getLongAnimationFrames = function (stopCollection) {if (stopCollection === undefined) {stopCollection = false;}if (stopCollection) {clearTimeout(timeoutId);cancelAnimationFrame(activeRafId);}return longAnimationFrames;};}})();})();</script><script crossorigin="anonymous" defer="defer" src="//maisoncroyez.com/cdn/shopifycloud/storefront/assets/shopify_pay/storefront-bf1cdb70.js?v=20250812"></script>
+<script id="shopify-origin-trials" async="async" integrity="sha256-mqQjA+yhr1DtPsW5MhDIq3zDu+LghfjNT49r/ttG3eY=" src="//cdn.shopify.com/shopifycloud/storefront/assets/storefront/origin_trials-5059b83f.js" crossorigin="anonymous" onload="window.__shopifyOriginTrialsDone = true" onerror="window.__shopifyOriginTrialsDone = true"></script>
+<script data-source-attribution="shopify.dynamic_checkout.dynamic.init">var Shopify=Shopify||{};Shopify.PaymentButton=Shopify.PaymentButton||{isStorefrontPortableWallets:!0,init:function(){window.Shopify.PaymentButton.init=function(){};var t=document.createElement("script");t.src="https://maisoncroyez.com/cdn/shopifycloud/portable-wallets/latest/portable-wallets.en.js",t.type="module",document.head.appendChild(t)}};
+</script>
+<script data-source-attribution="shopify.dynamic_checkout.buyer_consent">
+  function portableWalletsHideBuyerConsent(e){var t=document.getElementById("shopify-buyer-consent"),n=document.getElementById("shopify-subscription-policy-button");t&&n&&(t.classList.add("hidden"),t.setAttribute("aria-hidden","true"),n.removeEventListener("click",e))}function portableWalletsShowBuyerConsent(e){var t=document.getElementById("shopify-buyer-consent"),n=document.getElementById("shopify-subscription-policy-button");t&&n&&(t.classList.remove("hidden"),t.removeAttribute("aria-hidden"),n.addEventListener("click",e))}window.Shopify?.PaymentButton&&(window.Shopify.PaymentButton.hideBuyerConsent=portableWalletsHideBuyerConsent,window.Shopify.PaymentButton.showBuyerConsent=portableWalletsShowBuyerConsent);
+</script>
+<script data-source-attribution="shopify.dynamic_checkout.cart.bootstrap">document.addEventListener("DOMContentLoaded",(function(){function t(){return document.querySelector("shopify-accelerated-checkout-cart, shopify-accelerated-checkout")}if(t())Shopify.PaymentButton.init();else{new MutationObserver((function(e,n){t()&&(Shopify.PaymentButton.init(),n.disconnect())})).observe(document.body,{childList:!0,subtree:!0})}}));
+</script>
+<link id="shopify-accelerated-checkout-styles" rel="stylesheet" media="screen" href="https://maisoncroyez.com/cdn/shopifycloud/portable-wallets/latest/accelerated-checkout-backwards-compat.css" crossorigin="anonymous">
+<style id="shopify-accelerated-checkout-cart">
+        #shopify-buyer-consent {
+  margin-top: 1em;
+  display: inline-block;
+  width: 100%;
+}
+
+#shopify-buyer-consent.hidden {
+  display: none;
+}
+
+#shopify-subscription-policy-button {
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+#shopify-subscription-policy-button::before {
+  box-shadow: none;
+}
+
+      </style>
+
+<script id="shopify-cfh-end">window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.end');</script>
+<link href="//maisoncroyez.com/cdn/shop/t/45/assets/theme.css?v=175585479270227651431783460875" rel="stylesheet" type="text/css" media="all" /><!-- BEGIN app block: shopify://apps/instant-ai-page-builder/blocks/instant_core/927e19d9-4e68-41db-99c7-d8debdc1f80d -->
+<script>
+window.Instant = {
+  initialized: true,
+  initializedAppEmbed: true,
+  initializedVersion: 'latest',
+  swiperScriptUrl: 'https://cdn.shopify.com/extensions/019efa4b-b55f-74d4-bd3d-535479180924/instant-5-81/assets/swiper-bundle.min.js'
+};
+</script>
+
+<!-- END app block --><!-- BEGIN app block: shopify://apps/postscript-sms-marketing/blocks/sdk/019be67b-1a2f-7589-97a3-72f1751f443e -->
+<script id="embedded-sdk">
+    window.ps_extension_shop_id = 5063;
+</script>
+
+<!-- END app block --><!-- BEGIN app block: shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507 -->
+
+
+
+
+
+
+
+
+
+
+
+
+  <script async src="https://static.klaviyo.com/onsite/js/UmHsGf/klaviyo.js?company_id=UmHsGf"></script>
+  <script>!function(){if(!window.klaviyo){window._klOnsite=window._klOnsite||[];try{window.klaviyo=new Proxy({},{get:function(n,i){return"push"===i?function(){var n;(n=window._klOnsite).push.apply(n,arguments)}:function(){for(var n=arguments.length,o=new Array(n),w=0;w<n;w++)o[w]=arguments[w];var t="function"==typeof o[o.length-1]?o.pop():void 0,e=new Promise((function(n){window._klOnsite.push([i].concat(o,[function(i){t&&t(i),n(i)}]))}));return e}}})}catch(n){window.klaviyo=window.klaviyo||[],window.klaviyo.push=function(){var n;(n=window._klOnsite).push.apply(n,arguments)}}}}();</script>
+
+  
+
+
+
+
+  <script>
+    window.klaviyoReviewsProductDesignMode = false
+  </script>
+
+
+
+
+
+
+
+
+
+<!-- END app block --><script src="https://cdn.shopify.com/extensions/019efa4b-b55f-74d4-bd3d-535479180924/instant-5-81/assets/instant-core.min.js" type="text/javascript" defer="defer"></script>
+<script src="https://cdn.shopify.com/extensions/019f1dda-5fbf-7e22-8300-8a9a19adf650/test-sms-35/assets/sdk-embed-script-loader.js" type="text/javascript" defer="defer"></script>
+<link href="https://monorail-edge.shopifysvc.com" rel="dns-prefetch">
+<script>(function(){if ("sendBeacon" in navigator && "performance" in window) {try {var session_token_from_headers = performance.getEntriesByType('navigation')[0].serverTiming.find(x => x.name == '_s').description;} catch {var session_token_from_headers = undefined;}var session_cookie_matches = document.cookie.match(/_shopify_s=([^;]*)/);var session_token_from_cookie = session_cookie_matches && session_cookie_matches.length === 2 ? session_cookie_matches[1] : "";var session_token = session_token_from_headers || session_token_from_cookie || "";function handle_abandonment_event(e) {var entries = performance.getEntries().filter(function(entry) {return /monorail-edge.shopifysvc.com/.test(entry.name);});if (!window.abandonment_tracked && entries.length === 0) {window.abandonment_tracked = true;var currentMs = Date.now();var navigation_start = performance.timing.navigationStart;var payload = {shop_id: 2036367469,url: window.location.href,navigation_start,duration: currentMs - navigation_start,session_token,page_type: "page"};window.navigator.sendBeacon("https://monorail-edge.shopifysvc.com/v1/produce", JSON.stringify({schema_id: "online_store_buyer_site_abandonment/1.1",payload: payload,metadata: {event_created_at_ms: currentMs,event_sent_at_ms: currentMs}}));}}window.addEventListener('pagehide', handle_abandonment_event);}}());</script>
+<script>
+  window.__TREKKIE_SHIM_QUEUE = window.__TREKKIE_SHIM_QUEUE || [];
+</script>
+<script>(function(){var wpmLoader=function(){"use strict";var e=/Googlebot|Storebot-Google|bingbot|Baiduspider|YandexBot|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|AdsBot-Google|Mediapartners-Google|APIs-Google|PetalBot|SemrushBot|AhrefsBot|MJ12bot|DotBot|Acunetix|PerplexityBot|Perplexity-User/i,r=/bytedance/i;function o(){try{var e=document.cookie;if(!e||"string"!=typeof e)return;for(var r=0,o=e.split(";");r<o.length;r++){var d=o[r],n=d.indexOf("=");if(-1!==n){var t=d.slice(0,n).trim();if(t){var i=void 0;try{i=decodeURIComponent(t)}catch(e){i=t}if("_shopify_s"===i){var a=d.slice(n+1).trim();try{return decodeURIComponent(a)}catch(e){return a}}}}}return}catch(e){return}}return function(d,n,t,i){var a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:{};if(!Boolean(null==(l=null==(s=window.Shopify)?void 0:s.analytics)?void 0:l.replayQueue)){var s,l;window.Shopify=window.Shopify||{};var c=window.Shopify;c.analytics=c.analytics||{};var u=c.analytics;u.replayQueue=[],u.publish=function(e,r,o){return u.replayQueue.push([e,r,o]),!0};try{self.performance.mark("wpm:start")}catch(e){}var f,h,p,m,g,y=(h=(f={modern:/Edge?\/(1{2}[4-9]|1[2-9]\d|[2-9]\d{2}|\d{4,})\.\d+(\.\d+|)|Firefox\/(1{2}[4-9]|1[2-9]\d|[2-9]\d{2}|\d{4,})\.\d+(\.\d+|)|Chrom(ium|e)\/(9{2}|\d{3,})\.\d+(\.\d+|)|(Maci|X1{2}).+ Version\/(15\.\d+|(1[6-9]|[2-9]\d|\d{3,})\.\d+)([,.]\d+|)( \(\w+\)|)( Mobile\/\w+|) Safari\/|Chrome.+OPR\/(9{2}|\d{3,})\.\d+\.\d+|(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(15[._]\d+|(1[6-9]|[2-9]\d|\d{3,})[._]\d+)([._]\d+|)|Android:?[ /-](14[89]|1[5-9]\d|[2-9]\d{2}|\d{4,})(\.\d+|)(\.\d+|)|Android.+Firefox\/(15\d|1[6-9]\d|[2-9]\d{2}|\d{4,})\.\d+(\.\d+|)|Android.+Chrom(ium|e)\/(14[89]|1[5-9]\d|[2-9]\d{2}|\d{4,})\.\d+(\.\d+|)|SamsungBrowser\/([2-9]\d|\d{3,})\.\d+/,legacy:/Edge?\/(1[6-9]|[2-9]\d|\d{3,})\.\d+(\.\d+|)|Firefox\/(5[4-9]|[6-9]\d|\d{3,})\.\d+(\.\d+|)|Chrom(ium|e)\/(5[1-9]|[6-9]\d|\d{3,})\.\d+(\.\d+|)([\d.]+$|.*Safari\/(?![\d.]+ Edge\/[\d.]+$))|(Maci|X1{2}).+ Version\/(10\.\d+|(1[1-9]|[2-9]\d|\d{3,})\.\d+)([,.]\d+|)( \(\w+\)|)( Mobile\/\w+|) Safari\/|Chrome.+OPR\/(3[89]|[4-9]\d|\d{3,})\.\d+\.\d+|(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(10[._]\d+|(1[1-9]|[2-9]\d|\d{3,})[._]\d+)([._]\d+|)|Android:?[ /-](14[89]|1[5-9]\d|[2-9]\d{2}|\d{4,})(\.\d+|)(\.\d+|)|Mobile Safari.+OPR\/([89]\d|\d{3,})\.\d+\.\d+|Android.+Firefox\/(15\d|1[6-9]\d|[2-9]\d{2}|\d{4,})\.\d+(\.\d+|)|Android.+Chrom(ium|e)\/(14[89]|1[5-9]\d|[2-9]\d{2}|\d{4,})\.\d+(\.\d+|)|Android.+(UC? ?Browser|UCWEB|U3)[ /]?(15\.([5-9]|\d{2,})|(1[6-9]|[2-9]\d|\d{3,})\.\d+)\.\d+|SamsungBrowser\/(5\.\d+|([6-9]|\d{2,})\.\d+)|Android.+MQ{2}Browser\/(14(\.(9|\d{2,})|)|(1[5-9]|[2-9]\d|\d{3,})(\.\d+|))(\.\d+|)|K[Aa][Ii]OS\/(3\.\d+|([4-9]|\d{2,})\.\d+)(\.\d+|)/}).modern,p=f.legacy,(m=navigator.userAgent).match(e)?"bot":m.match(h)?"modern":m.match(p)?"legacy":m.match(r)?"bot":"unknown"),v="modern"===y?"modern":"legacy",w=(null!=i?i:{modern:"",legacy:""})[v],b=[(g={baseUrl:n,hashVersion:t,buildTarget:v}).baseUrl,"/wpm","/b",g.hashVersion,"modern"===g.buildTarget?"m":"l",".js"].join(""),P=function(e){var r=e.version,d=e.browserTarget,n=e.surface,t=e.shopId,i=e.monorailEndpoint,a=window.location.href;return{emit:function(e){var s=e.status,l=e.errorMsg,c=(new Date).getTime(),u=JSON.stringify({metadata:{event_sent_at_ms:c},events:[{schema_id:"web_pixels_manager_load/3.2",payload:{version:r,bundle_target:d,page_url:a,status:s,surface:n,error_msg:l,shop_id:t,visit_token:o()},metadata:{event_created_at_ms:c}}]});if(!i)return console&&console.warn&&console.warn("[Web Pixels Manager] No Monorail endpoint provided, skipping logging."),!1;try{return self.navigator.sendBeacon.bind(self.navigator)(i,u)}catch(e){}var f=new XMLHttpRequest;try{return f.open("POST",i,!0),f.setRequestHeader("Content-Type","text/plain"),f.send(u),!0}catch(e){return console&&console.warn&&console.warn("[Web Pixels Manager] Got an unhandled error while logging to Monorail."),!1}}}}({version:t,browserTarget:y,surface:d.surface,shopId:d.shopId,monorailEndpoint:d.monorailEndpoint});try{a.browserTarget=y,_(function(){try{_(C)}catch(e){P.emit({status:"failed",errorMsg:A(e)})}}),P.emit({status:"loading"})}catch(e){P.emit({status:"failed",errorMsg:A(e)})}}function S(){if(!function(){var e,r;return Boolean(null==(r=null==(e=window.Shopify)?void 0:e.analytics)?void 0:r.initialized)}()){var e=window.webPixelsManager.init(d)||void 0;if(e){var r=window.Shopify.analytics;r.replayQueue.forEach(function(r){var o=r[0],d=r[1],n=r[2];e.publishCustomEvent(o,d,n)}),r.replayQueue=[],r.publish=e.publishCustomEvent,r.visitor=e.visitor,r.initialized=!0}}}function C(){return P.emit({status:"failed",errorMsg:"".concat(b," has failed to load")})}function _(e){var r;!function(e){var r=e.src,o=e.async,d=void 0===o||o,n=e.onload,t=e.onerror,i=e.sri,a=e.scriptDataAttributes,s=void 0===a?{}:a,l=document.createElement("script"),c=document.querySelector("head"),u=document.querySelector("body");if(l.async=d,l.src=r,i&&(l.integrity=i,l.crossOrigin="anonymous"),s)for(var f in s)if(Object.prototype.hasOwnProperty.call(s,f))try{l.dataset[f]=s[f]}catch(e){}if(n&&l.addEventListener("load",n),t&&l.addEventListener("error",t),c)c.appendChild(l);else{if(!u)throw new Error("Did not find a head or body element to append the script");u.appendChild(l)}}({src:b,async:!0,onload:S,onerror:e,sri:(r=w,"string"==typeof r&&/^sha384-[A-Za-z0-9+/=]+$/.test(r)?w:""),scriptDataAttributes:a})}function A(e){return e instanceof Error?e.message:"Unknown error"}}}();wpmLoader({shopId: 2036367469,storefrontBaseUrl: "https://maisoncroyez.com",extensionsBaseUrl: "https://extensions.shopifycdn.com/cdn/shopifycloud/web-pixels-manager",monorailEndpoint: "https://monorail-edge.shopifysvc.com/unstable/produce_batch",surface: "storefront-renderer",enabledBetaFlags: ["d5bdd5d0"],webPixelsConfigList: [{"id":"2167799917","configuration":"{\"siteId\":\"YCOyjSHFG2AgR13d\"}","eventPayloadVersion":"v1","runtimeContext":"STRICT","scriptVersion":"c9406bb6835a3b96d17b5d48e4254f48","type":"APP","apiClientId":45694124033,"privacyPurposes":["ANALYTICS"],"dataSharingAdjustments":{"protectedCustomerApprovalScopes":["read_customer_personal_data"],"dataSharingControls":["share_all_events"]},"dataSharingState":"unrestricted"},{"id":"476348525","configuration":"{\"pixel_id\":\"980908600592309\",\"pixel_type\":\"facebook_pixel\"}","eventPayloadVersion":"v1","runtimeContext":"OPEN","scriptVersion":"abff2a8add143ccb04deb20f0ebd74a9","type":"APP","apiClientId":2329312,"privacyPurposes":["ANALYTICS","MARKETING","SALE_OF_DATA"],"dataSharingAdjustments":{"protectedCustomerApprovalScopes":["read_customer_address","read_customer_email","read_customer_name","read_customer_personal_data","read_customer_phone"],"dataSharingControls":["share_all_events"]},"dataSharingState":"optimized","enabledFlags":["9a3ed68a"]},{"id":"shopify-app-pixel","configuration":"{}","eventPayloadVersion":"v1","runtimeContext":"STRICT","scriptVersion":"0500","apiClientId":"shopify-pixel","type":"APP","privacyPurposes":["ANALYTICS","MARKETING"]},{"id":"shopify-custom-pixel","eventPayloadVersion":"v1","runtimeContext":"LAX","scriptVersion":"0500","apiClientId":"shopify-pixel","type":"CUSTOM","privacyPurposes":["ANALYTICS","MARKETING"]}],isMerchantRequest: false,initData: {"shop":{"name":"Maison Croyez","paymentSettings":{"currencyCode":"USD"},"myshopifyDomain":"patshion.myshopify.com","countryCode":"US","storefrontUrl":"https:\/\/maisoncroyez.com"},"customer":null,"cart":null,"checkout":null,"productVariants":[],"products":[],"purchasingCompany":null},},"https://maisoncroyez.com/cdn","884e51e7w4ac0e82ap522bb270m20c07008",{"modern":"","legacy":""},{"trekkieShim":true,"apiClientId":"580111","themeId":"134636273773","themePublished":"true","pageType":"page","resourceId":"117264089197","shopId":"2036367469","storefrontBaseUrl":"https:\/\/maisoncroyez.com","extensionBaseUrl":"https:\/\/extensions.shopifycdn.com\/cdn\/shopifycloud\/web-pixels-manager","surface":"storefront-renderer","enabledBetaFlags":"[\"d5bdd5d0\"]","isMerchantRequest":"false","hashVersion":"884e51e7w4ac0e82ap522bb270m20c07008","publish":"custom","events":"[[\"page_viewed\",{}]]"});})();</script><script>
+  window.ShopifyAnalytics = window.ShopifyAnalytics || {};
+  window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
+  window.ShopifyAnalytics.meta.currency = 'USD';
+  var meta = {"page":{"pageType":"page","resourceType":"page","resourceId":117264089197,"requestId":"c0b2aa02-6cf3-4b47-aa8a-5911bcc6e8fe-1783537784"}};
+  for (var attr in meta) {
+    window.ShopifyAnalytics.meta[attr] = meta[attr];
+  }
+</script>
+<script class="analytics">
+  (function () {
+    var customDocumentWrite = function(content) {
+      var jquery = null;
+
+      if (window.jQuery) {
+        jquery = window.jQuery;
+      } else if (window.Checkout && window.Checkout.$) {
+        jquery = window.Checkout.$;
+      }
+
+      if (jquery) {
+        jquery('body').append(content);
+      }
+    };
+
+    var hasLoggedConversion = function(token) {
+      if (token) {
+        return document.cookie.indexOf('loggedConversion=' + token) !== -1;
+      }
+      return false;
+    }
+
+    var setCookieIfConversion = function(token) {
+      if (token) {
+        var twoMonthsFromNow = new Date(Date.now());
+        twoMonthsFromNow.setMonth(twoMonthsFromNow.getMonth() + 2);
+
+        document.cookie = 'loggedConversion=' + token + '; expires=' + twoMonthsFromNow;
+      }
+    }
+
+    var trekkie = window.ShopifyAnalytics.lib = window.trekkie = window.trekkie || [];
+    window.ShopifyAnalytics.lib.trekkie = window.trekkie;
+    if (trekkie.integrations) {
+      return;
+    }
+    trekkie.methods = [
+      'identify',
+      'page',
+      'ready',
+      'track',
+      'trackForm',
+      'trackLink'
+    ];
+    trekkie.factory = function(method) {
+      return function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift(method);
+        trekkie.push(args);
+        if (window.__TREKKIE_SHIM_QUEUE && (method == 'track' || method == 'page')) {
+          try {
+            window.__TREKKIE_SHIM_QUEUE.push({
+              from: 'trekkie-stub',
+              method: method,
+              args: args.slice(1)
+            });
+          } catch (e) {
+            // no-op
+          }
+        }
+        return trekkie;
+      };
+    };
+    for (var i = 0; i < trekkie.methods.length; i++) {
+      var key = trekkie.methods[i];
+      trekkie[key] = trekkie.factory(key);
+    }
+    trekkie.load = function(config) {
+      trekkie.config = config || {};
+      trekkie.config.initialDocumentCookie = document.cookie;
+      var first = document.getElementsByTagName('script')[0];
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.onerror = function(e) {
+  var scriptFallback = document.createElement('script');
+  scriptFallback.type = 'text/javascript';
+  scriptFallback.onerror = function(error) {
+          var Monorail = {
+      produce: function produce(monorailDomain, schemaId, payload) {
+        var currentMs = new Date().getTime();
+        var event = {
+          schema_id: schemaId,
+          payload: payload,
+          metadata: {
+            event_created_at_ms: currentMs,
+            event_sent_at_ms: currentMs
+          }
+        };
+        return Monorail.sendRequest("https://" + monorailDomain + "/v1/produce", JSON.stringify(event));
+      },
+      sendRequest: function sendRequest(endpointUrl, payload) {
+        // Try the sendBeacon API
+        if (window && window.navigator && typeof window.navigator.sendBeacon === 'function' && typeof window.Blob === 'function' && !Monorail.isIos12()) {
+          var blobData = new window.Blob([payload], {
+            type: 'text/plain'
+          });
+
+          if (window.navigator.sendBeacon(endpointUrl, blobData)) {
+            return true;
+          } // sendBeacon was not successful
+
+        } // XHR beacon
+
+        var xhr = new XMLHttpRequest();
+
+        try {
+          xhr.open('POST', endpointUrl);
+          xhr.setRequestHeader('Content-Type', 'text/plain');
+          xhr.send(payload);
+        } catch (e) {
+          console.log(e);
+        }
+
+        return false;
+      },
+      isIos12: function isIos12() {
+        return window.navigator.userAgent.lastIndexOf('iPhone; CPU iPhone OS 12_') !== -1 || window.navigator.userAgent.lastIndexOf('iPad; CPU OS 12_') !== -1;
+      }
+    };
+    Monorail.produce('monorail-edge.shopifysvc.com',
+      'trekkie_storefront_load_errors/1.1',
+      {shop_id: 2036367469,
+      theme_id: 134636273773,
+      app_name: "storefront",
+      context_url: window.location.href,
+      source_url: "//maisoncroyez.com/cdn/s/trekkie.storefront.67561e0d5e9c96760de930de52078bf367e9d8e6.min.js"});
+
+  };
+  scriptFallback.async = true;
+  scriptFallback.src = '//maisoncroyez.com/cdn/s/trekkie.storefront.67561e0d5e9c96760de930de52078bf367e9d8e6.min.js';
+  first.parentNode.insertBefore(scriptFallback, first);
+};
+script.async = true;
+script.src = '//maisoncroyez.com/cdn/s/trekkie.storefront.67561e0d5e9c96760de930de52078bf367e9d8e6.min.js';
+first.parentNode.insertBefore(script, first);
+
+    };
+    trekkie.load(
+      {"Trekkie":{"appName":"storefront","development":false,"defaultAttributes":{"shopId":2036367469,"isMerchantRequest":null,"themeId":134636273773,"themeCityHash":"15659531740634173843","contentLanguage":"en","currency":"USD","eventMetadataId":"3961502a-b18f-4b07-8479-d8e92a88649c"},"isServerSideCookieWritingEnabled":true,"monorailRegion":"shop_domain","enabledBetaFlags":["b5387b81","d5bdd5d0"]},"Session Attribution":{},"S2S":{"facebookCapiEnabled":true,"source":"trekkie-storefront-renderer","apiClientId":580111}}
+    );
+
+    var loaded = false;
+    trekkie.ready(function() {
+      if (loaded) return;
+      loaded = true;
+
+      window.ShopifyAnalytics.lib = window.trekkie;
+
+      var originalDocumentWrite = document.write;
+      document.write = customDocumentWrite;
+      try { window.ShopifyAnalytics.merchantGoogleAnalytics.call(this); } catch(error) {};
+      document.write = originalDocumentWrite;
+
+      window.ShopifyAnalytics.lib.page(null,{"pageType":"page","resourceType":"page","resourceId":117264089197,"requestId":"c0b2aa02-6cf3-4b47-aa8a-5911bcc6e8fe-1783537784","shopifyEmitted":true});
+
+      var match = window.location.pathname.match(/checkouts\/(.+)\/(thank_you|post_purchase)/)
+      var token = match? match[1]: undefined;
+      if (!hasLoggedConversion(token)) {
+        setCookieIfConversion(token);
+        
+      }
+    });
+
+    var eventsListenerScript = document.createElement('script');
+    eventsListenerScript.async = true;
+    eventsListenerScript.src = "//maisoncroyez.com/cdn/shopifycloud/storefront/assets/shop_events_listener-4e26a9ce.js";
+    document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);
+})();</script>
+<script
+  defer
+  src="https://maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.6.1.min.js"
+  data-application="storefront-renderer"
+  data-shop-id="2036367469"
+  data-render-region="gcp-us-central1"
+  data-page-type="page"
+  data-theme-instance-id="134636273773"
+  data-theme-name="Impact"
+  data-theme-version="5.2.0"
+  data-monorail-region="shop_domain"
+  data-resource-timing-sampling-rate="10"
+  data-shs="true"
+  data-shs-beacon="true"
+  data-shs-export-with-fetch="true"
+  data-shs-logs-sample-rate="1"
+  data-shs-beacon-endpoint="https://maisoncroyez.com/api/collect"
+></script>
+</head>
+
+  <body class=" "><!-- DRAWER -->
+<template id="drawer-default-template">
+  <style>
+    [hidden] {
+      display: none !important;
+    }
+  </style>
+
+  <button part="outside-close-button" is="close-button" aria-label="Close"><svg role="presentation" stroke-width="2" focusable="false" width="24" height="24" class="icon icon-close" viewBox="0 0 24 24">
+        <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+      </svg></button>
+
+  <div part="overlay"></div>
+
+  <div part="content">
+    <header part="header">
+      <slot name="header"></slot>
+
+      <button part="close-button" is="close-button" aria-label="Close"><svg role="presentation" stroke-width="2" focusable="false" width="24" height="24" class="icon icon-close" viewBox="0 0 24 24">
+        <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+      </svg></button>
+    </header>
+
+    <div part="body">
+      <slot></slot>
+    </div>
+
+    <footer part="footer">
+      <slot name="footer"></slot>
+    </footer>
+  </div>
+</template>
+
+<!-- POPOVER -->
+<template id="popover-default-template">
+  <button part="outside-close-button" is="close-button" aria-label="Close"><svg role="presentation" stroke-width="2" focusable="false" width="24" height="24" class="icon icon-close" viewBox="0 0 24 24">
+        <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+      </svg></button>
+
+  <div part="overlay"></div>
+
+  <div part="content">
+    <header part="title">
+      <slot name="title"></slot>
+    </header>
+
+    <div part="body">
+      <slot></slot>
+    </div>
+  </div>
+</template><a href="#main" class="skip-to-content sr-only">Skip to content</a><!-- BEGIN sections: header-group -->
+<div id="shopify-section-sections--16973427277933__instant-pJrKCDsth0GIxCbX" class="shopify-section shopify-section-group-header-group">
+<div class="__instant ipJrKCDsth0GIxCbX" data-instant-id="pJrKCDsth0GIxCbX" data-instant-version="4.6.3" data-instant-layout="SECTION" data-section-id="sections--16973427277933__instant-pJrKCDsth0GIxCbX"><link href="//maisoncroyez.com/cdn/shop/t/45/assets/instant-pJrKCDsth0GIxCbX.css?v=132480572109273357291781640375" rel="stylesheet" type="text/css" media="all" />
+  <style>
+    @font-face {
+      font-family: 'Be Vietnam Pro';
+      src: url('https://assets.instant.so/sites/YCOyjSHFG2AgR13d/assets/xyEbCEF283YlZUOb/bevietnampro-light.woff2') format('woff2');
+      font-weight: 300;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Be Vietnam Pro';
+      src: url('https://assets.instant.so/sites/YCOyjSHFG2AgR13d/assets/0NU6Tp8QaB5Wv6m7/bevietnampro-medium.woff2') format('woff2');
+      font-weight: 500;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Be Vietnam Pro';
+      src: url('https://assets.instant.so/sites/YCOyjSHFG2AgR13d/assets/4chtt9gPrpSRw63z/bevietnampro-regular.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+  </style>
+  <div data-instant-type="root" class="iLOYLUPrgWgGj37KL"
+    ><div class="ipQfSE2dY7X5aajqB" data-instant-type="container" id="ipQfSE2dY7X5aajqB"
+      ><div data-instant-type="text" class="instant-rich-text iP0sMRGNnvzP1kXj3"
+        ><p><strong>Get a Free 100ml fragrance for every diffuser you order today!</strong></p></div
+      ></div
+    ><div class="ih8givUBbMSv2lPT9" data-instant-type="container" id="ih8givUBbMSv2lPT9"
+      ><div class="icBUqFyCbpQutqlka" data-instant-type="container"
+        ><button class="i32QNTWZ3Vxnx9iSe" data-instant-type="container" data-instant-action-type="open-overlay" data-instant-action-id="FmgIUdpMNnfjfOOw"
+          ><div class="ipZsDBG9YSDA2E1cX" data-instant-type="container"><div class="i3Rb9GqAO8D9RgIse" data-instant-type="container"></div><div class="iLn74dWUBDla6HCce" data-instant-type="container"></div><div class="isIusTZEnVZfk86A6" data-instant-type="container"></div></div></button
+        ><a class="irvh6RgrdYAO1gbex" data-instant-type="container" href="/" rel="noopener noreferrer"><img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=1080 1080w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=828 828w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=750 750w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=640 640w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=360 360w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=1280 1280w" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=1280" width="160" height="72" class="instant-fill instant-image__fill instant-responsive instant-responsive--desktop instant-responsive--laptop instant-responsive--tablet" decoding="async" loading="eager" fetchpriority="auto" style="object-fit:cover"><img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=1080 1080w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=828 828w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=750 750w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=640 640w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=360 360w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=1280 1280w" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/wM0BzISkSlJDG3EG/maison-logo.png?width=1280" width="160" height="72" class="instant-fill instant-image__fill instant-responsive instant-responsive--mobile" decoding="async" loading="eager" fetchpriority="auto" style="object-fit:cover"></a
+        ><a class="iTzpCVZkZTzflfhhA cart-drawer__button" data-instant-type="container" href="/cart" rel="noopener noreferrer" data-instant-action-type="trigger-cart"
+          ><div class="iTHzB0gn5W0ihykoQ" data-instant-type="container"><img alt="" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/dsiA7E4XXzH9a8Tm/2370682079bd35c620c6f814a3477b60a89bbab1.svg" width="19" height="19" class="instant-fill instant-image__fill" decoding="async" loading="eager" fetchpriority="auto" style="object-fit:cover"></div><span
+            data-instant-dynamic-content-source="CART_COUNT"
+            class="ifLlnCkbE1SEbUFaI"style="display: none;">0</span>
+        </a></div
+      ></div
+    ><div class="iFmgIUdpMNnfjfOOw" data-state="closed" data-instant-overlay-pointer-events="AUTO" data-instant-type="overlay" id="iFmgIUdpMNnfjfOOw"
+      ><div class="ijHEyOSqkYlm59tmB instant-open-overlay instant-reveal--transform-fade" data-instant-type="container"
+        ><div class="iQeU6qpWOaB21Y5bH" data-instant-type="container"
+          ><a class="iiypyAbDrsYVPd19m" data-instant-type="container" href="https://maisoncroyez.com/products/maison-croyez-le-flux-diffuseur" rel="noopener noreferrer"
+            ><div data-instant-type="text" class="instant-rich-text il7HKKydOUfH2tkcC"><p>Our Bundles</p></div
+            ><div data-instant-type="icon" class="i3keWdjjDMFjKhCYb">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" class="instant-icon">
+                <title>arrow-right</title><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+              </svg></div
+          ></a><a class="iGNXjVhBmu9Q8UmkI" data-instant-type="container" href="/collections/power-fragrances" rel="noopener noreferrer"
+            ><div data-instant-type="text" class="instant-rich-text iVe9CHlVy8oB36eIo"><p>Fragrances</p></div
+            ><div data-instant-type="icon" class="ia1F3KCzvP9s8gSb2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" class="instant-icon">
+                <title>arrow-right</title><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+              </svg></div></a
+          ><a class="iBzu9IEG9nJh6eX9d" data-instant-type="container" href="https://maisoncroyez.com/products/maison-croyez-home-scent-diffuser-copy" rel="noopener noreferrer"
+            ><div data-instant-type="text" class="instant-rich-text iuyA1Dw3jsZTdIXdG"><p>Diffusers</p></div
+            ><div data-instant-type="icon" class="iQ2aYdGHWEGM0sUQ3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" class="instant-icon">
+                <title>arrow-right</title><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+              </svg></div></a></div></div></div
+  ></div>
+  <!-- prettier-ignore -->
+  <script>(()=>{let t=window.Instant||{};if(!t.initializedAppEmbed&&!window.__instant_loading_core){window.__instant_loading_core=!0,t.initializedVersion="4.6.3",t.initialized=!0;let i=()=>{let i=(t,i)=>t.split(".").map(Number).reduce((t,e,n)=>t||e-i.split(".")[n],0),e=[...document.querySelectorAll(".__instant")].map(t=>t.getAttribute("data-instant-version")||"1.0.0").sort(i).pop()||"1.0.0",n=document.createElement("script");n.src="https://client.instant.so/scripts/instant-core.min.js?version="+e,document.body.appendChild(n),t.initializedVersion=e};"loading"!==document.readyState?i():document.addEventListener("DOMContentLoaded",i)}})();</script>
+</div>
+
+</div>
+<!-- END sections: header-group --><!-- BEGIN sections: overlay-group -->
+<div id="shopify-section-sections--16973427310701__cart-drawer" class="shopify-section shopify-section-group-overlay-group"><cart-drawer
+  
+  class="cart-drawer drawer drawer--lg"
+  id="cart-drawer"
+><button is="close-button" aria-label="Close"><svg role="presentation" stroke-width="2" focusable="false" width="24" height="24" class="icon icon-close" viewBox="0 0 24 24">
+        <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+      </svg></button>
+
+    <div class="empty-state align-self-center">
+      <div class="empty-state__icon-wrapper"><svg role="presentation" stroke-width="1" focusable="false" width="32" height="32" class="icon icon-cart" viewBox="0 0 22 22">
+            <path d="M14.666 7.333a3.666 3.666 0 1 1-7.333 0M3.33 6.785l-.642 7.7c-.137 1.654-.206 2.48.073 3.119a2.75 2.75 0 0 0 1.21 1.314c.612.332 1.442.332 3.102.332h7.853c1.66 0 2.49 0 3.103-.332a2.75 2.75 0 0 0 1.21-1.314c.279-.638.21-1.465.072-3.12l-.642-7.7c-.118-1.423-.178-2.134-.493-2.673A2.75 2.75 0 0 0 16.99 3.02c-.563-.269-1.277-.269-2.705-.269h-6.57c-1.428 0-2.142 0-2.705.27A2.75 2.75 0 0 0 3.823 4.11c-.315.539-.374 1.25-.493 2.674Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg><span class="count-bubble count-bubble--lg">0</span>
+      </div>
+
+      <div class="prose">
+        <p class="h5">Your cart is empty</p>
+<a class="button button--xl"
+  
+  
+  
+  
+  
+  href="/collections/all"
+  
+  
+ >Continue shopping</a></div>
+    </div></cart-drawer>
+
+<style>
+  .booklet-gift-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(40 40 40 / 0.12);
+  }
+  .booklet-gift-container p {
+    font-size: 14px;
+    margin: 0;
+  }
+  .booklet-gift-container img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+</style>
+
+
+</div>
+<!-- END sections: overlay-group --><main role="main" id="main" class="anchor">
+      <section id="shopify-section-template--16973427441773__main" class="shopify-section shopify-section--main-page"><style>
+  #shopify-section-template--16973427441773__main {
+    --page-max-width: 100%;
+  }
+</style>
+
+<div class="container">
+  <div class="page-spacer">
+    <div class="page">
+      <h1 class="h1 text-center">The Maison Croyez Diffuser</h1><div class="prose">
+          <div id="root"></div>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','980908600592309');fbq('track','PageView');
+</script>
+<script>
+(function(){var v=new Date().toISOString().slice(0,13).replace(/[^0-9]/g,'');
+var B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/';
+var l=document.createElement('link');l.rel='stylesheet';l.href=B+'mc-lp-diffuser.css?v='+v;
+document.head.appendChild(l);
+['mc-lp-vendor.js','mc-lp-diffuser-assets.js','mc-lp-diffuser-app.js'].forEach(function(f){
+var s=document.createElement('script');s.src=B+f+'?v='+v;s.async=false;document.body.appendChild(s);});})();
+</script>
+        </div></div>
+  </div>
+</div>
+
+</section>
+<!-- BEGIN sections: footer-group -->
+<section id="shopify-section-sections--16973427245165__instant_5r_kgv_xs8hhnn_o_pht_rxQ9tH" class="shopify-section shopify-section-group-footer-group">
+<div class="__instant i5rKgvXS8hhnnOPht" data-instant-id="5rKgvXS8hhnnOPht" data-instant-version="4.6.2" data-instant-layout="SECTION" data-section-id="sections--16973427245165__instant_5r_kgv_xs8hhnn_o_pht_rxQ9tH"><style data-shopify>.__instant[data-section-id='sections--16973427245165__instant_5r_kgv_xs8hhnn_o_pht_rxQ9tH'] div[data-instant-type='root'] {
+    	padding-top: 0px;
+    	padding-bottom: 0px;
+    }
+
+    @media screen and (min-width: 769px) {
+    	.__instant[data-section-id='sections--16973427245165__instant_5r_kgv_xs8hhnn_o_pht_rxQ9tH'] div[data-instant-type='root'] {
+    		padding-top: 0px;
+    		padding-bottom: 0px;
+    	}
+    }</style><link href="//maisoncroyez.com/cdn/shop/t/45/assets/instant-5rKgvXS8hhnnOPht.css?v=85054619682070540081779893051" rel="stylesheet" type="text/css" media="all" /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"
+  ><div data-instant-type="root" class="ie20NLGv7eOj7zT25"><div class="iGOsSbXqgEHAi3iRh" data-instant-type="container" id="iGOsSbXqgEHAi3iRh"
+      ><div class="iG3WpyKRhzruIz1Tz" data-instant-type="container"
+        ><div class="ieJ2scphNXn09Caz2" data-instant-type="container"
+          ><div class="ie6eHy9OuwHeyD2AV" data-instant-type="container"
+            ><div class="imhgmE23qw6g8EpWQ" data-instant-type="container"
+              ><div class="isLbzkJEB5JTGHwcZ" data-instant-type="container"><img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=1080 1080w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=828 828w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=750 750w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=640 640w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=360 360w, https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=1280 1280w" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/H8vFcfSKJRho482Y/logo-footer.png?width=1280" width="197" height="88" class="instant-fill instant-image__fill" decoding="async" fetchpriority="auto" loading="lazy" style="object-fit:cover"></div></div
+            ><div class="idLubKf2Sz6z5tWVv" data-instant-type="container"
+              ><div class="ipZbopgr1dDLzzjZI" data-instant-type="container"
+                ><div data-instant-type="text" class="instant-rich-text ii8gJVBlmMghXvcRZ"
+                  ><div><p>Terms & Policies</p></div></div
+                ><div class="iLQhuPu2QvPP3uiz9" data-instant-type="container"
+                  ><a class="iiQtdxfnZAaxLoEMS" data-instant-type="container" href="/policies/refund-policy" rel="noopener noreferrer"
+                    ><div data-instant-type="text" class="instant-rich-text iZDmQjsuVFm7Voejm"
+                      ><div><p>Refund Policy</p></div></div
+                    ></a
+                  ><a class="iJlH2ePNgfGQ9IbsS" data-instant-type="container" href="/policies/shipping-policy" rel="noopener noreferrer"
+                    ><div data-instant-type="text" class="instant-rich-text iOg3iPOTubRNZFChd"
+                      ><div><p>Shipping Policy</p></div></div
+                    ></a
+                  ><a class="iEzrSH4v3DixoGNkq" data-instant-type="container" href="/policies/privacy-policy" rel="noopener noreferrer"
+                    ><div data-instant-type="text" class="instant-rich-text iQqpc5U4z01JwsJlt"
+                      ><div><p>Privacy Policy</p></div></div
+                    ></a
+                  ><div class="i9jZZU2qOW9Vr9ELU" data-instant-type="container" rel="noopener noreferrer" data-instant-href="/policies/terms-of-service"
+                    ><a as="p" data-instant-type="text" class="iX4JA5eJUDbCGoyZC" href="/policies/terms-of-service" rel="noopener noreferrer"
+                      ><div class="instant-rich-text"
+                        ><div><p>Terms of services</p></div></div
+                      ></a
+                    ></div
+                  ></div
+                ></div
+              ></div
+            ></div
+          ><div class="i8RHSWiezxUpB7JZs" data-instant-type="container"
+            ><div class="iy4M9z3hFNzCcLliW" data-instant-type="container"
+              ><div data-instant-type="text" class="instant-rich-text iQq1G81WhbAX2F2QR"
+                ><div><p>© 2025, Maison Croyez. </p></div></div
+              ><div data-instant-type="text" class="instant-rich-text iDuayVDuJzOp61VP1"
+                ><div><p>All rights reserved.</p></div></div
+              ></div
+            ><div class="iJUKObITH9w02ccMb" data-instant-type="container"
+              ><a class="ibKJKhGAF7EMqzMKb" data-instant-type="container" href="https://tiktok.com/@maisoncroyez" rel="noopener noreferrer"
+                ><div class="i8PEZH5yaArpQMtt1" data-instant-type="container"><img alt="" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/qmnDnuetiJEdZgaP/5a6946e361622799535d8afb8fdea5b501d23d92.svg" width="16" height="19" class="instant-fill instant-image__fill" decoding="async" fetchpriority="auto" loading="lazy" style="object-fit:cover"></div></a
+              ><a class="iLdxL3wr8cq5hJ23F" data-instant-type="container" href="https://facebook.com/maisoncroyez" target="_blank" rel="noopener noreferrer"><img alt="" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/qD692zEsvsdX51kh/308fd09fcfac66f4e9d4ba3fb0dd0e7158e50531.svg" width="24" height="25" class="instant-fill instant-image__fill" decoding="async" fetchpriority="auto" loading="lazy" style="object-fit:cover"></a
+              ><a class="izcRZ7P2Li0w2atPP" data-instant-type="container" href="https://instagram.com/maisoncroyez" target="_blank" rel="noopener noreferrer"><img alt="" src="https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets/5myD3PblRt49GiRE/d427fabad5165effaa2f486d10543acdba7cd052.svg" width="20" height="21" class="instant-fill instant-image__fill" decoding="async" fetchpriority="auto" loading="lazy" style="object-fit:cover"></a></div></div></div></div></div
+  ></div>
+  <!-- prettier-ignore -->
+  <script>(()=>{let t=window.Instant||{};if(!t.initializedAppEmbed&&!window.__instant_loading_core){window.__instant_loading_core=!0,t.initializedVersion="4.6.2",t.initialized=!0;let i=()=>{let i=(t,i)=>t.split(".").map(Number).reduce((t,e,n)=>t||e-i.split(".")[n],0),e=[...document.querySelectorAll(".__instant")].map(t=>t.getAttribute("data-instant-version")||"1.0.0").sort(i).pop()||"1.0.0",n=document.createElement("script");n.src="https://client.instant.so/scripts/instant-core.min.js?version="+e,document.body.appendChild(n),t.initializedVersion=e};"loading"!==document.readyState?i():document.addEventListener("DOMContentLoaded",i)}})();</script>
+</div>
+
+</section>
+<!-- END sections: footer-group --></main>
+
+
+
+    <script>
+(function () {
+  // Evita instalar el interceptor más de una vez si el script se carga 2 veces.
+  if (window.__bundleCascadeInstalled) return;
+  window.__bundleCascadeInstalled = true;
+
+  const originalFetch = window.fetch;
+
+  /* ─── Helpers ──────────────────────────────────────────────── */
+
+  // Detecta si la request es una mutación del carrito (change/update).
+  function isCartMutationUrl(url) {
+    return typeof url === 'string' && /\/cart\/(change|update)(\.js)?(\?|$)/.test(url);
+  }
+
+  // Extrae los identificadores (line key o variant id) que se están
+  // poniendo en cantidad 0 en esta request, sin importar si viene como
+  // query string (?id=...&quantity=0) o como JSON body ({id, quantity})
+  // o como batch update ({updates: {key: 0, ...}}).
+  function getRemovalTargets(url, options) {
+    const targets = [];
+
+    try {
+      const parsed = new URL(url, window.location.origin);
+      if (parsed.pathname.indexOf('/cart/change') !== -1 &&
+          parsed.searchParams.get('quantity') === '0' &&
+          parsed.searchParams.has('id')) {
+        targets.push(parsed.searchParams.get('id'));
+      }
+    } catch (e) { /* url no parseable como URL absoluta/relativa, ignorar */ }
+
+    if (options && typeof options.body === 'string') {
+      try {
+        const body = JSON.parse(options.body);
+        if (body.quantity === 0 && body.id) {
+          targets.push(String(body.id));
+        }
+        if (body.updates && typeof body.updates === 'object') {
+          Object.entries(body.updates).forEach(([key, qty]) => {
+            if (qty === 0) targets.push(key);
+          });
+        }
+      } catch (e) { /* body no era JSON, ignorar */ }
+    }
+
+    return targets;
+  }
+
+  // Lee el carrito actual y devuelve el _bundle_id de cada target que
+  // sea efectivamente un producto padre de bundle (tiene _bundle_id
+  // pero NO _bundle_component).
+  async function findParentBundleIds(targetKeys) {
+    const bundleIds = [];
+    try {
+      const res = await originalFetch('/cart.js', { credentials: 'include' });
+      const cart = await res.json();
+
+      cart.items.forEach(item => {
+        const key = item.key;
+        const variantIdStr = String(item.variant_id || item.id);
+        const matches = targetKeys.includes(key) || targetKeys.includes(variantIdStr);
+        if (!matches) return;
+
+        const props = item.properties || {};
+        const isParent = props._bundle_id && !props._bundle_component;
+        if (isParent) bundleIds.push(props._bundle_id);
+      });
+    } catch (err) {
+      console.error('[Bundle cascade] No se pudo leer /cart.js:', err);
+    }
+    return bundleIds;
+  }
+
+  // Elimina del carrito todas las fragancias hijas asociadas a los
+  // bundleIds dados.
+  async function cascadeRemoveChildren(bundleIds) {
+    if (!bundleIds.length) return;
+
+    try {
+      const res = await originalFetch('/cart.js', { credentials: 'include' });
+      const cart = await res.json();
+
+      const updates = {};
+      cart.items.forEach(item => {
+        const props = item.properties || {};
+        if (props._bundle_component && bundleIds.includes(props._bundle_id)) {
+          updates[item.key] = 0;
+        }
+      });
+
+      if (Object.keys(updates).length === 0) return;
+
+      await originalFetch('/cart/update.js', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+      });
+
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+    } catch (err) {
+      console.error('[Bundle cascade] Error eliminando fragancias asociadas:', err);
+    }
+  }
+
+  /* ─── Interceptor de fetch ─────────────────────────────────── */
+  window.fetch = async function (...args) {
+    const [url, options] = args;
+
+    let parentBundleIds = [];
+
+    // Si la request va a poner en 0 algún line item, revisamos ANTES
+    // de que se ejecute si ese item es un bundle padre (una vez que
+    // se elimine, ya no podremos leer sus properties del carrito).
+    if (isCartMutationUrl(url)) {
+      const targets = getRemovalTargets(url, options);
+      if (targets.length) {
+        parentBundleIds = await findParentBundleIds(targets);
+      }
+    }
+
+    const response = await originalFetch.apply(this, args);
+
+    // Si efectivamente se removió un bundle padre y la request fue
+    // exitosa, eliminamos en cascada sus fragancias asociadas.
+    if (parentBundleIds.length && response.ok) {
+      await cascadeRemoveChildren(parentBundleIds);
+    }
+
+    return response;
+  };
+})();
+</script>
+
+  <div id="shopify-block-AbFVTY0ZHc1NLUWtFY__15588394620387169604" class="shopify-block shopify-app-block"><!-- BEGIN app snippet: subify-init -->
+
+
+
+
+
+<script
+  src="https://cdn.subi.co/subify/v3/subify-sdk.js"
+  defer
+></script>
+<script id="subi-initializer">
+  (function(){
+    // define base config
+          const decodedPreviewCheckString = atob("cHJldmlld0JhckluamVjdG9yLmluaXQoKQ==")
+          const config = {
+            moneyFormatConfig:{
+              money_format : "$%7B%7Bamount%7D%7D",
+              money_with_currency_format : "$%7B%7Bamount%7D%7D%20USD",
+              sample_fromatted_money : "$1,234.56",
+              sample_formatted_money_with_currency : "$1,234.56%20USD",
+            },
+            selling_plan_drafts: []  ,
+            recommended_selling_plans: [1605206125]  ,
+            use_cart_drawer:false,
+            preview_mode:document.head.innerHTML.includes(decodedPreviewCheckString) || document.body.innerHTML.includes(decodedPreviewCheckString),
+            authPortalToken:"",
+            customerId:"",
+            timeStamp:""
+        }
+
+        Object.freeze(config)
+
+        Object.defineProperty(window,"SubifyConfig",{value:config,writable:false});
+
+        // define membership plans
+        const membershipPlans =  [] ;
+
+        Object.defineProperty(window,"SubiMemberships",{value:membershipPlans,writable:false});
+
+        Object.defineProperty(window,"SubiBuildBoxPlans",{
+          value:[],
+          writable:false
+        });
+
+        Object.defineProperty(window,"SubiBuildBoxMetaobjectType",{
+          value:"app--6336039--build_box_plan",
+          writable:false
+        });
+        })()
+</script>
+<!-- END app snippet -->
+<!-- BEGIN app snippet: init-fixed-bundle-config -->
+
+<script id="subi_fixed_bundle">
+  Object.defineProperty(window,"SubiFixedBundles",{
+    value:[],
+    writable:false
+  });
+    Object.defineProperty(window,"SubiFixedBundlesSubProducts",{
+    value:null || [],
+    writable:false
+  });
+</script>
+<!-- END app snippet -->
+<!-- BEGIN app snippet: init-volume-discount-config -->
+<script id="subi_volume_discount">
+  Object.defineProperty(window,"SubiVolumeDiscountPlans",{
+    value:[],
+    writable:false
+  });
+</script>
+
+<!-- END app snippet -->
+<!-- BEGIN app snippet: init-loyalty-config -->
+<script id="subi_loyalty">
+  Object.defineProperty(window,"SubiLoyaltyPoints",{
+    value:  {} ,
+    writable: false
+  });
+</script>
+<!-- END app snippet -->
+<!-- BEGIN app snippet: render-widget -->
+
+
+<!-- END app snippet -->
+<!-- BEGIN app snippet: render-loyalty-widget -->
+<!-- END app snippet -->
+<!-- BEGIN app snippet: exclusive-access-products-perk --> <!-- END app snippet -->
+<!-- BEGIN app snippet: exclusive-access-pages-perk --> <!-- END app snippet -->
+<!-- BEGIN app snippet: automatic-discount-code-applier -->
+
+
+<!-- END app snippet -->
+
+
+</div><script src="https://cdn.shopify.com/storefront/standard-actions.js" type="module" data-source-attribution="shopify.standard_actions"></script>
+</body>
+
+
+  
+</html>

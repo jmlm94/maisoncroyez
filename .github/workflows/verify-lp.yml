@@ -24,16 +24,37 @@ jobs:
         run: |
           curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
           if grep -q "mc-lp-diffuser-assets" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "LOADER PRESENT"; else echo "LOADER MISSING"; exit 1; fi
-      - name: Screenshot live page
+      - name: Save page HTML
         run: |
-          npx -y playwright@1.56.1 install --with-deps chromium > /dev/null 2>&1
-          npx -y playwright@1.56.1 screenshot --viewport-size=390,844 --full-page --wait-for-timeout=12000 "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)" live-mobile.png
-          npx -y playwright@1.56.1 screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=12000 "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)" live-desktop.png
+          curl -sSL -o page-html.txt "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
+          wc -c page-html.txt
+      - name: Screenshot live page (scroll-through for lazy media)
+        run: |
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > shot.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const shots = [[390, 844, 'live-mobile.png'], [1440, 900, 'live-desktop.png']];
+          const b = await chromium.launch();
+          for (const [w, h, path] of shots) {
+            const page = await b.newPage({ viewport: { width: w, height: h } });
+            await page.goto('https://maisoncroyez.com/pages/diffuser?cb=' + Date.now(), { waitUntil: 'load', timeout: 60000 });
+            await page.waitForTimeout(8000);
+            await page.evaluate(async () => {
+              for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); }
+              window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 1200));
+            });
+            await page.screenshot({ path, fullPage: true });
+            await page.close();
+          }
+          await b.close();
+          EOS
+          node shot.mjs
           ls -la live-*.png
       - name: Commit screenshots
         run: |
           mkdir -p lp-factory/pages/pdp-diffuser/verify
-          mv live-mobile.png live-desktop.png lp-factory/pages/pdp-diffuser/verify/
+          mv live-mobile.png live-desktop.png page-html.txt lp-factory/pages/pdp-diffuser/verify/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify

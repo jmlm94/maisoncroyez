@@ -973,3 +973,13 @@ h1 em, h2 em, h3 em, .cline em{
 .picker-label.small{font-family:'Be Vietnam Pro',sans-serif;font-size:.92rem;color:var(--ink-soft);line-height:1.5}
 .pick-badge{top:-9px;right:14px;box-shadow:0 2px 8px rgba(31,26,23,.25)}
 .pick{margin-top:4px}
+
+/* PDP round 6 — partial audit revert (owner) */
+.offer-bullets li{padding-left:0}
+.offer-bullets li::before{content:none}
+.pick-badge{
+  top:auto;right:12px;bottom:10px;
+  background:var(--grad-em);color:#FFFFFF;
+  font-size:.57rem;padding:4px 11px;box-shadow:0 2px 8px rgba(124,58,237,.3);
+}
+.pick-ing{padding-right:86px}

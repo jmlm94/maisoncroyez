@@ -33,7 +33,8 @@ const CONFIG = {
 
   sectionOrder: [
     "buybox",
-    "angleLux", "angleFill", "howTo", "leavingBehind",
+    "angleIntention", "angleFill", "howTo",
+    "angleLux", "angleCompliment", "angleCandles", "angleLasts", "angleClean",
     "mathSec", "reviewWall", "guarantee", "faq",
   ],
 
@@ -56,12 +57,6 @@ const CONFIG = {
     title: { pre: "The Maison Croyez Diffuser +", em: "30-Days of Free Fragrance." },
     offer: {
       price: "$89.95",
-      stackTitle: "Included with your order today:",
-      stack: [
-        "Your first 100ml fragrance, free. A $39.95 value.",
-        "The sample booklet, so you smell all seven scents.",
-        "Swap fragrances anytime.",
-      ],
       bullets: [
         { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes. A scent guests notice at the door." },
         { icon: "leaf", text: "Waterless, flame-free and hypoallergenic. No mold, no soot, no upkeep, ever." },
@@ -75,7 +70,11 @@ const CONFIG = {
     accordions: [
       { q: "Will I actually be able to smell it?", a: "Yes. It fills up to 600 sq ft, corner to corner, in under 10 minutes. Soft, but impossible to ignore." },
       { q: "Is it safe for my kids and pets?", a: "100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "What if I pick the wrong scent?", a: "You can't, really: your order includes the sample booklet with all seven scents, you can swap your subscription to a different intention anytime, and the 90-day money-back covers everything." },
+      { q: "When am I charged for the subscription?", a: "Today: $89.95 for the diffuser, first bottle free. Your next bottle ships in 30 days at $29.95, with an email reminder before every renewal." },
+      { q: "Can I cancel or swap scents?", a: "Anytime, in a few taps, from the link in any email. Swap intentions, skip a month, or cancel. No calls, no forms." },
+      { q: "What if I don't like the scent?", a: "You have a 90-day risk-free trial on everything. Swap to a different intention or return it for a full refund." },
+      { q: "Will it look cheap on my shelf?", a: "Matte white and woven linen, no cords in sight lines, no glowing screens. Most guests assume it's a designer speaker." },
+      { q: "Is this another diffuser that dies in 3 months?", a: "No water means no mold and nothing to break down. And it's covered by a lifetime warranty, so it literally can't be." },
     ],
   },
 
@@ -140,8 +139,11 @@ const CONFIG = {
   ],
 
   images: {
+    guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
+    mold:    { file: "hf gen — ultrasonic tank mold", src: A.mold || "" },
     hotel:   { file: "hf gen — five-star suite entry", src: A.hotel || "" },
+    dog:     { file: "hf gen — dog asleep by diffuser", src: A.dog || "" },
     product: { file: "diseno-87", src: A.product || "" },
     nightstand: { file: "diseno-88", src: A.nightstand || "" },
     frag1: { file: "frag1", src: A.frag1 || "" }, frag2: { file: "frag2", src: A.frag2 || "" },
@@ -156,6 +158,12 @@ const CONFIG = {
   /* ================================================================
      BELOW THE FOLD — the 7 angles, visual-first (Project Heart §5)
      ================================================================ */
+  angleIntention: { /* A1 — the moat */
+    eyebrow: "A scent for every intention",
+    heading: ["Every scent carries an intention.", "Tap the energy you want more of."],
+    note: "Whichever you tap becomes your free first bottle.",
+  },
+
   angleFill: { /* A7 — room-filling performance */
     eyebrow: "Room-filling performance",
     heading: ["Finally, a diffuser", "you can actually smell."],
@@ -186,13 +194,44 @@ const CONFIG = {
     img: "hotel",
   },
 
-  leavingBehind: { /* A6 + A5 merged */
+  angleCompliment: { /* A2 — the compliment effect */
+    eyebrow: "The compliment effect",
+    heading: ["The scent that makes guests", "stop mid-sentence."],
+    img: "guests",
+    desc: "It's the first thing people notice and the last thing they can place. **Guests stop in the entryway, ask what it is**, and remember your home as **the one that smelled incredible**. You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
+    quotes: [
+      { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Suddenly my house is “the cozy one” in the group chat." },
+      { name: "Dana W.", text: "My daughter asked why our house feels so cozy lately. It feels different in here, not just smells different." },
+      { name: "Jordan P.", text: "It's the first thing guests mention and the last thing I'd give up." },
+    ],
+  },
+
+  angleCandles: { /* A6 — safer than candles */
+    eyebrow: "Safer than candles",
     heading: ["Everything you love about candles.", "Nothing you shouldn't breathe."],
     split: {
-      before: { slot: "soot", badge: "✕", cap: "Open flame, soot, mold, constant rebuying" },
-      after: { slot: "nightstand", badge: "✓", cap: "Flame-free, waterless, weeks of presence" },
+      before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
+      after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
     },
-    desc: "A candle gives you **one warm hour**, soot on the jar, and a flame you can't walk away from. A water-tank diffuser grows **mold you end up breathing** and quietly dies within months. This is neither: **pure oil, diffused dry**, nothing burning, nothing to clean, nothing to break down. And the unit is covered by the **Lifetime Diffuser Warranty**.",
+    desc: "A candle gives you **one warm hour** and leaves soot on the jar, smoke in the air, and a flame you can't walk away from. Maison Croyez gives you the same warmth, **evenly through the whole room, with nothing burning**, nothing to babysit, and nothing your kids or pets can knock over.",
+  },
+
+  angleLasts: { /* A5 — diffusers that actually last */
+    eyebrow: "Built to outlast them all",
+    heading: ["No water. No mold.", "No problems."],
+    split: {
+      before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
+      after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
+    },
+    desc: "Water-tank diffusers grow **mold you end up breathing**. They clog, leak, and quietly die within months. This one is waterless: pure oil, diffused dry, zero cleaning, nothing to break down. **Plug it in once, forget it for weeks**, and if anything ever fails, **the lifetime warranty replaces it**.",
+  },
+
+  angleClean: { /* A3 — clean, non-chemical */
+    eyebrow: "Clean enough for every nose in the house",
+    heading: ["Nothing burning.", "Nothing synthetic."],
+    img: "dog",
+    desc: "Every fragrance is built from **100% organic oils: hypoallergenic, pet-friendly**, and free of the synthetic haze that gives sensitive noses headaches. Nothing burns, nothing clings to fabric, **nothing you wouldn't want in the air your family breathes all day**.",
+    badges: ["🌿 100% organic oils", "🤍 Hypoallergenic", "🐾 Pet-friendly", "🕯️ Flame-free"],
   },
 
   mathSec: {
@@ -229,6 +268,8 @@ const CONFIG = {
     items: [
       { q: "When am I charged for the subscription?", a: "Today you pay $89.95 for the diffuser. Your first 100ml fragrance ships free with it. Your card is charged $29.95 for the next bottle when it ships, about 30 days later. You'll get an email reminder before every renewal." },
       { q: "Can I swap scents or cancel?", a: "Anytime, from the link in any subscription email. Swap to a different intention, skip a month, or cancel in a few taps. No calls, no forms, no guilt." },
+      { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on G3 Full Presence. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
+      { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
       { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. G1 Subtle stretches a bottle even further." },
       { q: "Do I need an app, WiFi, or batteries?", a: "No app, no WiFi, no batteries. One button cycles G1 Subtle, G2 Balanced, and G3 Full Presence. Set it and forget it." },
       { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
@@ -393,12 +434,8 @@ function BuyBox() {
           <div class="price-row">
             <span class="price">${B.offer.price}</span>
           </div>
-          <div class="stack">
-            <div class="stack-title">${B.offer.stackTitle}</div>
-            <ul>${B.offer.stack.map((l) => html`<li key=${l}>${l}</li>`)}</ul>
-          </div>
           <ul class="offer-bullets">
-            ${B.offer.bullets.map((b) => html`<li key=${b.text}><span>${b.text}</span></li>`)}
+            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
 
           <div class="picker-title">${B.pickerTitle}</div>
@@ -444,6 +481,39 @@ function BuyBox() {
         </div>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
+    </section>`;
+}
+
+/* ---------- A1: intention map doubles as the scent selector ---------- */
+function AngleIntention() {
+  const M = CONFIG.angleIntention;
+  const [scent, setScent] = useScent();
+  const pick = (f) => {
+    setScent(f.key);
+    const el = document.getElementById("buybox");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  return html`
+    <section class="section imap">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>${M.heading[0]}<br/><em>${M.heading[1]}</em></h2>
+          <p class="lede">${M.note}</p>
+        </div>
+        <div class="igrid">
+          ${CONFIG.fragrances.map((f) => html`
+            <button class=${"icard iclick" + (scent.key === f.key ? " on" : "")} key=${f.name} style=${{ background: f.grad }} onClick=${() => pick(f)}>
+              <div class="irow">
+                <${Img} slot=${f.img} tone="linen" style=${{ width: "64px", flex: "0 0 64px", borderRadius: "12px", minHeight: "64px" }} alt=${f.name}/>
+                <div style=${{ flex: 1, textAlign: "left" }}><h3>${f.name}</h3><div class="intent">${f.intention}</div></div>
+                ${scent.key === f.key && html`<span class="ipicked caps">Your pick ✓</span>`}
+              </div>
+              <p class="iline">${f.line}</p>
+              <div class="chips">${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}</div>
+              <p class="ritual">${f.ritual}</p>
+            </button>`)}
+        </div>
+      </div>
     </section>`;
 }
 
@@ -656,10 +726,14 @@ function StickyBar() {
 function App() {
   const sections = {
     buybox: () => html`<${BuyBox} key="bb"/>`,
+    angleIntention: () => html`<${AngleIntention} key="a1"/>`,
     angleFill: () => html`<${AngleFill} key="a7"/>`,
     howTo: () => html`<${HowTo} key="ht"/>`,
     angleLux: () => html`<${AngleBand} key="a4" cfg=${CONFIG.angleLux} tinted=${true}/>`,
-    leavingBehind: () => html`<${AngleSplit} key="lb" cfg=${CONFIG.leavingBehind}/>`,
+    angleCompliment: () => html`<${AngleBand} key="a2" cfg=${CONFIG.angleCompliment}/>`,
+    angleCandles: () => html`<${AngleSplit} key="a6" cfg=${CONFIG.angleCandles}/>`,
+    angleLasts: () => html`<${AngleSplit} key="a5" cfg=${CONFIG.angleLasts}/>`,
+    angleClean: () => html`<${AngleBand} key="a3" cfg=${CONFIG.angleClean} tinted=${true}/>`,
     mathSec: () => html`<${MathSec} key="math"/>`,
     reviewWall: () => html`<${ReviewWall} key="rw"/>`,
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,

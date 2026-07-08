@@ -1062,3 +1062,26 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 /* PDP round 17 — tighter title-to-price gap (owner: -25%+) */
 .pdp-buy .buybox h1{margin:0}
 .pdp-buy .rating{margin:0}
+/* PDP round 18 — full-bleed product carousel with arrows (owner) */
+.gal{position:relative}
+.gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-slide{flex:0 0 100%;scroll-snap-align:center;border-radius:0}
+.gal-arw{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;padding:0;
+  background:rgba(255,255,255,.82);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(36,28,24,.18);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+}
+.gal-arw.prev{left:10px}
+.gal-arw.next{right:10px}
+.gal-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:2}
+.gal-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.gal-dots span.on{background:#fff}
+/* full-bleed on mobile: flush to top + both sides */
+@media(max-width:899px){
+  .pdp-buy{padding-top:0}
+  .gal{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+  .gal-slide{border-radius:0}
+}

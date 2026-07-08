@@ -38,18 +38,21 @@ const CONFIG = {
     "reviewWall", "guarantee", "faq",
   ],
 
-  /* --- gallery: the live PDP's own CDN images, same order --- */
+  /* --- gallery: EXACT product media, in the product's own order --- */
   gallery: [
     "slot:product",
-    "image-5_1_1.png?v=1773273488",
-    "25-min.png?v=1767910199",
-    "image-6_1_1.png?v=1773273488",
-    "image-2_1_1.png?v=1773273488",
     "image-1_1_1.png?v=1773273488",
+    "image-2_1_1.png?v=1773273488",
     "image-3_1_1.png?v=1773273488",
     "image-4_1_1.png?v=1773273488",
     "image-7_1_1.png?v=1773273488",
-    "26-min.png?v=1773273488",
+    "image-5_1_1.png?v=1773273488",
+    "24_60499c64-0c0b-48a4-8b5b-0785ce8dfa67.png?v=1779491849",
+    "image-6_1_1.png?v=1773273488",
+    "23_c869164d-5fdc-4499-b988-63a77e4acd84.png?v=1779491861",
+    "29_9898eecd-68da-4bd1-b33e-7a6cb2a0ab23.png?v=1779491862",
+    "26_ea76002e-317d-442d-afbc-5b85aa8011b8.png?v=1779491861",
+    "28_1b850a51-fe5a-4bec-82bc-24165d7e196c.png?v=1779491861",
   ],
 
   buybox: {
@@ -423,15 +426,35 @@ function Gallery() {
     ? (CONFIG.images[f.slice(5)] || {}).src || ""
     : (emb[key(f)] || (CDNIMG + f + "&width=900"));
   const urls = CONFIG.gallery.map(resolve);
-  const thumbs = CONFIG.gallery.map(resolve);
+  const trackRef = useRef(null);
+  const go = (n) => {
+    const el = trackRef.current;
+    const i = Math.max(0, Math.min(urls.length - 1, n));
+    if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+    setIdx(i);
+  };
+  const onScroll = (e) => {
+    const el = e.target;
+    const n = Math.round(el.scrollLeft / el.clientWidth);
+    if (n !== idx) setIdx(n);
+  };
   return html`
     <div class="gal">
-      <div class="gal-main ph sq"><img class="simg" src=${urls[idx]} alt="Maison Croyez diffuser" fetchpriority="high" decoding="async"/></div>
-      <div class="gal-thumbs">
-        ${thumbs.map((t, i) => html`
-          <button key=${i} class=${"gal-th" + (i === idx ? " on" : "")} onClick=${() => setIdx(i)} aria-label=${"Image " + (i + 1)}>
-            <img src=${t} alt="" loading="lazy"/>
-          </button>`)}
+      <div class="gal-track" ref=${trackRef} onScroll=${onScroll}>
+        ${urls.map((u, i) => html`
+          <div class="gal-slide ph sq" key=${i}>
+            <img class="simg" src=${u} alt=${"Maison Croyez diffuser " + (i + 1)}
+              decoding="async" loading=${i ? "lazy" : "eager"} fetchpriority=${i ? "auto" : "high"}/>
+          </div>`)}
+      </div>
+      <button class="gal-arw prev" onClick=${() => go(idx - 1)} aria-label="Previous image">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="gal-arw next" onClick=${() => go(idx + 1)} aria-label="Next image">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="gal-dots" aria-hidden="true">
+        ${urls.map((_, i) => html`<span key=${i} class=${i === idx ? "on" : ""}></span>`)}
       </div>
     </div>`;
 }

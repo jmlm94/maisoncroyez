@@ -171,6 +171,11 @@ const CONFIG = {
     eyebrow: "A scent for every intention",
     heading: ["Every scent carries an intention.", "Tap the energy you want more of."],
     img: "intentionHero",
+    bullets: [
+      "Candles and plug-ins make a room smell nice for an hour. **We compose every fragrance around an intention** \u2014 love, abundance, energy, focus \u2014 from 100% organic oils.",
+      "So you don't just pick a scent. **You choose the energy you want your home to hold**, and the diffuser keeps it in the air all day.",
+      "That's what makes Maison Croyez different: **your home doesn't just smell expensive, it feels intentional.**",
+    ],
   },
 
   angleFill: { /* A7 — room-filling performance */
@@ -510,6 +515,7 @@ function AngleIntention() {
           <h2>${M.heading[0]}<br/><em>${M.heading[1]}</em></h2>
         </div>
         <div class="narrow"><${Img} slot=${M.img} alt="Every scent carries an intention"/></div>
+        ${M.bullets && html`<${AngleBullets} items=${M.bullets}/>`}
       </div>
     </section>`;
 }

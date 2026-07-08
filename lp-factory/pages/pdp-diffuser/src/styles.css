@@ -945,3 +945,31 @@ h1 em, h2 em, h3 em, .cline em{
 .picker-label.small{font-size:clamp(1.1rem,4.2vw,1.3rem);margin-top:6px;color:var(--rosewood-deep)}
 .angle-desc{font-size:1.18rem;line-height:1.7}
 .angle-desc strong{font-weight:700;font-style:italic}
+
+/* PDP round 5 — conversion audit */
+.stack{background:var(--cream);border:1.5px solid var(--blush);border-radius:14px;padding:14px 16px}
+.stack-title{font-weight:700;font-size:.95rem;margin-bottom:8px}
+.stack ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.stack li{font-size:.94rem;line-height:1.5;padding-left:16px;position:relative}
+.stack li::before{content:"";position:absolute;left:2px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--rosewood-deep)}
+.offer-bullets li{padding-left:18px;position:relative}
+.offer-bullets li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--grad-em)}
+.pick{position:relative}
+.pick-badge{
+  position:absolute;top:10px;right:12px;
+  background:#1F1A17;color:#F5EFE6;border-radius:999px;padding:3px 10px;
+  font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.14em;font-size:.52rem;
+}
+.pick .pick-dot{margin-right:0}
+.pick.on .pick-badge{top:10px}
+.pick-ritual{font-family:'Unna',serif;font-style:italic;font-size:.9rem;color:var(--ink-soft)}
+.pick.on .pick-ritual{color:var(--ink)}
+.trust-strip{
+  text-align:center;font-family:'Outfit',sans-serif;font-weight:600;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#1F1A17;
+  border-top:1px solid var(--blush);border-bottom:1px solid var(--blush);padding:11px 4px;
+}
+.picker-label.small{font-family:'Be Vietnam Pro',sans-serif;font-size:.92rem;color:var(--ink-soft);line-height:1.5}
+.pick-badge{top:-9px;right:14px;box-shadow:0 2px 8px rgba(31,26,23,.25)}
+.pick{margin-top:4px}

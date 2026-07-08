@@ -1,7 +1,5 @@
 name: verify-lp
-# run: 16
-# Verification relay: the Claude sandbox can't reach cdn.shopify.com or the
-# storefront, so this workflow checks them and commits live screenshots.
+# run: 17 — Lighthouse performance audit of the live PDP
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -15,78 +13,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Probe css version
+      - name: Lighthouse mobile + desktop
         run: |
-          curl -sSL -o /tmp/c "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser.css?v=chk$(date +%s)"
-          echo "bytes=$(wc -c < /tmp/c) r17=$(grep -c 'PDP round 17' /tmp/c || true) h1margin=$(grep -c 'buybox h1{margin:0}' /tmp/c || true)"
-      - name: Probe app.js cache keys
-        run: |
-          for q in "v=1783543191" "v=r12-2026070820" "v=r12-$(date -u +%Y%m%d%H)" "nocache=$(date +%s)"; do
-            curl -sSL -o /tmp/a --max-time 30 "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser-app.js?$q"
-            echo "$q -> bytes=$(wc -c < /tmp/a) gal2=$(grep -c gal2 /tmp/a || true)"
+          set -euo pipefail
+          npm i -s lighthouse@12 > /dev/null 2>&1
+          URL="https://maisoncroyez.com/pages/diffuser"
+          npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox"             --only-categories=performance --output=json --output-path=/tmp/lh-mobile.json || true
+          npx lighthouse "$URL" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox"             --only-categories=performance --output=json --output-path=/tmp/lh-desktop.json || true
+          for f in mobile desktop; do
+            echo "===== $f ====="
+            python3 - "$f" <<'PY'
+import json, sys
+d = json.load(open(f"/tmp/lh-{sys.argv[1]}.json"))
+a = d["audits"]
+print("perf score:", round(d["categories"]["performance"]["score"] * 100))
+for k in ["server-response-time","first-contentful-paint","largest-contentful-paint","total-blocking-time","cumulative-layout-shift","speed-index","interactive"]:
+    print(f"{k}: {a[k]['displayValue']}")
+tot = a["total-byte-weight"]
+print("total bytes:", tot["displayValue"])
+print("-- heaviest resources --")
+for it in tot["details"]["items"][:8]:
+    print(round(it["totalBytes"]/1024), "KB", it["url"][:110])
+lcp = a.get("largest-contentful-paint-element", {})
+try:
+    el = lcp["details"]["items"][0]["items"][0]["node"]["snippet"]
+    print("LCP element:", el[:150])
+except Exception:
+    pass
+PY
           done
-      - name: Check CDN bundles
-        run: |
-          for f in mc-lp-diffuser.css mc-lp-vendor.js mc-lp-diffuser-assets.js mc-lp-diffuser-app.js; do
-            echo "== $f"
-            curl -sSL -o /tmp/f --max-time 60 -w "status=%{http_code} bytes=%{size_download}\n" "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f"
-          done
-      - name: Check page HTML
-        run: |
-          curl -sSL -o /tmp/p --max-time 30 -w "status=%{http_code} bytes=%{size_download}\n" "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
-          if grep -q "mc-lp-diffuser-assets" /tmp/p && grep -q 'id="root"' /tmp/p; then echo "LOADER PRESENT"; else echo "LOADER MISSING"; exit 1; fi
-      - name: Test real cart composition (diffuser + fragrance on selling plan)
-        run: |
-          JAR=/tmp/cookies.txt
-          curl -sS -c $JAR -o /dev/null "https://maisoncroyez.com/pages/diffuser"
-          RESP=$(curl -sS -b $JAR -c $JAR -X POST "https://maisoncroyez.com/cart/add.js" \
-            -H "Content-Type: application/json" -H "Accept: application/json" \
-            -d '{"items":[{"id":45216681590893,"quantity":1},{"id":41212020457581,"quantity":1,"selling_plan":1605206125}]}')
-          echo "$RESP" | python3 -c "import json,sys; r=json.load(sys.stdin); [print(i['product_title'],'| price:',i['price'],'| plan:',(i.get('selling_plan_allocation') or {}).get('selling_plan',{}).get('id')) for i in r['items']]"
-          echo "$RESP" | grep -q '1605206125' && echo "CART: SELLING PLAN ATTACHED" || { echo "CART: selling plan missing"; exit 1; }
-          CART=$(curl -sS -b $JAR "https://maisoncroyez.com/cart.js")
-          echo "$CART" | python3 -c "import json,sys; c=json.load(sys.stdin); print('item_count',c['item_count'],'total',c['total_price']); [print(i['product_title'],'|',i['price'],'| plan:',i.get('selling_plan_allocation',{}).get('selling_plan',{}).get('id')) for i in c['items']]"
-      - name: Save page HTML
-        run: |
-          curl -sSL -o page-html.txt "https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
-          wc -c page-html.txt
-      - name: Screenshot live page (scroll-through for lazy media)
-        run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          cat > shot.mjs <<'EOS'
-          import { chromium } from 'playwright';
-          const shots = [[390, 844, 'live-mobile.png'], [1440, 900, 'live-desktop.png']];
-          const b = await chromium.launch();
-          for (const [w, h, path] of shots) {
-            const page = await b.newPage({ viewport: { width: w, height: h } });
-            await page.goto('https://maisoncroyez.com/pages/diffuser?cb=' + Date.now(), { waitUntil: 'load', timeout: 60000 });
-            await page.waitForTimeout(8000);
-            await page.evaluate(async () => {
-              for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); }
-              window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 1200));
-            });
-            await page.screenshot({ path, fullPage: true });
-            if (path === 'live-mobile.png') {
-              await page.locator('.buybox .atc').scrollIntoViewIfNeeded();
-              await page.waitForTimeout(500);
-              await page.locator('.buybox .atc').click();
-              await page.waitForTimeout(4000);
-              await page.screenshot({ path: 'live-drawer.png' });
-            }
-            await page.close();
-          }
-          await b.close();
-          EOS
-          node shot.mjs
-          ls -la live-*.png || true
-      - name: Commit screenshots
-        run: |
           mkdir -p lp-factory/pages/pdp-diffuser/verify
-          mv live-mobile.png live-desktop.png live-drawer.png page-html.txt lp-factory/pages/pdp-diffuser/verify/
+          cp /tmp/lh-mobile.json /tmp/lh-desktop.json lp-factory/pages/pdp-diffuser/verify/
+      - name: Commit reports
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify
-          git commit -m "PDP diffuser live verification screenshots"
+          git commit -m "Lighthouse reports for /pages/diffuser"
           git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

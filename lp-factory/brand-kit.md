@@ -57,8 +57,10 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
 - Live page #2: `/pages/adv-scent-ritual` (gid://shopify/Page/117105819757, templateSuffix `mc-lp`, advertorial Blueprint 002)
 - Live page #3: `/pages/diffuser` (gid://shopify/Page/117264089197, DEFAULT template — renders INSIDE theme layout per owner; body-embed loader, deployed 2026-07-08). Cold-traffic PDP, Blueprint 003. Real cart: diffuser 45216681590893 + chosen fragrance variant on Subi selling plan 1605206125 -> /cart.
   - Theme wraps page body in `.prose` (h1 `.page > h1.h1.text-center` hidden via inline body style). ALL page CSS selectors are `#root`-prefixed (build step) so theme `.prose` rules can't override; body carries `#root` full-bleed breakout inline.
-  - Loader version key: `'r2-'+hour` — bump the `rN-` counter via pageUpdate on every fileUpdate for INSTANT cache-bust (hourly key alone can be poisoned by a pre-update request in the same hour).
+  - Loader version key: `'r5-'+hour` (bump rN via pageUpdate on every fileUpdate) — bump the `rN-` counter via pageUpdate on every fileUpdate for INSTANT cache-bust (hourly key alone can be poisoned by a pre-update request in the same hour).
   - Cart wiring verified LIVE 2026-07-08 (Actions relay): POST /cart/add.js -> diffuser $89.95 one-time + fragrance $29.95/mo on plan 1605206125, cart total $119.90. Subi first-order-free applies at checkout; owner test checkout still pending.
+  - ATC opens the theme cart drawer (Impact): `document.dispatchEvent(new CustomEvent('cart:refresh'))` + `#cart-drawer.show()`, /cart fallback. Verified live by clicking ATC on a runner 2026-07-08.
+  - Headline emphasis is SOLID PURPLE #7C3AED sitewide on this page (owner ruling 2026-07-08, no gradient text).
 - mc-lp-diffuser CDN files (fileUpdate keeps URL, bumps ?v):
   - css `gid://shopify/GenericFile/29317693440109` -> `.../files/mc-lp-diffuser.css` (fonts + page styles + theme-integration block; core css NOT used to avoid adv style collisions)
   - assets `gid://shopify/GenericFile/29317693472877` -> `.../files/mc-lp-diffuser-assets.js`

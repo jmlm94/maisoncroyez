@@ -998,3 +998,26 @@ h1 em, h2 em, h3 em, .cline em{
 .scard-int{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.58rem;color:var(--rosewood-deep);padding:0 8px}
 .scard-pick{position:absolute;top:10px;left:10px;background:var(--ink);color:#fff;border-radius:999px;padding:4px 10px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.54rem}
 .howsteps .ph{max-width:50%;margin:0 auto}
+
+/* PDP round 8 */
+.price-row .compare{font-family:'Be Vietnam Pro',sans-serif;font-weight:600;color:var(--ink-soft);text-decoration:line-through}
+.price-note{font-size:.92rem;color:var(--ink-soft);margin-top:-6px}
+.booklet-note{
+  background:linear-gradient(120deg,#FBEFD9 0%,#F6DFEA 100%);
+  border-radius:14px;padding:13px 16px;margin-top:10px;
+  font-size:.97rem;line-height:1.55;text-align:center;
+}
+.booklet-note strong{font-weight:700}
+.trust-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:7px 16px}
+.trust-strip .tsi{white-space:nowrap}
+.angle-bullets{
+  list-style:none;max-width:640px;margin:20px auto 0;padding:0;
+  display:flex;flex-direction:column;gap:15px;text-align:left;
+}
+.angle-bullets li{position:relative;padding-left:27px;font-size:1.18rem;line-height:1.65;color:var(--ink)}
+.angle-bullets li::before{
+  content:"";position:absolute;left:2px;top:.6em;width:10px;height:10px;
+  border-radius:50%;background:var(--grad-em);
+}
+.angle-bullets strong{font-weight:700;font-style:italic}
+.guarantee .angle-bullets{margin-bottom:26px}

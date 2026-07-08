@@ -12,7 +12,6 @@ MANIFEST = {
     'soot': ('soot.jpg', 'image/jpeg'),
     'mold': ('mold.jpg', 'image/jpeg'),
     'hotel': ('hotel.jpg', 'image/jpeg'),
-    'dog': ('dog.jpg', 'image/jpeg'),
     'product': ('diseno-87.jpg', 'image/jpeg'),
     'nightstand': ('diseno-88.jpg', 'image/jpeg'),
     'logoLight': ('logo-black-trim.png', 'image/png'),

@@ -34,8 +34,8 @@ const CONFIG = {
   sectionOrder: [
     "buybox",
     "angleIntention", "angleFill", "howTo",
-    "angleLux", "angleCompliment", "angleCandles", "angleLasts", "angleClean",
-    "mathSec", "reviewWall", "guarantee", "faq",
+    "angleLux", "angleCompliment", "angleCandles", "angleLasts",
+    "reviewWall", "guarantee", "faq",
   ],
 
   /* --- gallery: the live PDP's own CDN images, same order --- */
@@ -57,6 +57,8 @@ const CONFIG = {
     title: { pre: "The Maison Croyez Diffuser +", em: "30-Days of Free Fragrance." },
     offer: {
       price: "$89.95",
+      compareAt: "$129.95",
+      note: "Your first 100ml fragrance ($39.95 value) is included free today.",
       bullets: [
         { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes. A scent guests notice at the door." },
         { icon: "leaf", text: "Waterless, flame-free and hypoallergenic. No mold, no soot, no upkeep, ever." },
@@ -66,12 +68,16 @@ const CONFIG = {
     pickerTitle: "Select your free fragrance:",
     pickerLabel: "Not sure? Your order includes a sample booklet, so you will smell all seven before your next bottle.",
     cta: { label: "Add to Cart", sub: "Your first fragrance is free today" },
-    trustStrip: "90-Day Money-Back · Lifetime Diffuser Warranty · Pet-Friendly · Free Shipping",
+    booklet: "\ud83c\udf81 **FREE Sample Booklet included** \u2014 all 7 scents to smell at home, so your next bottle is exactly the one you want.",
+    trustStrip: [
+      { icon: "shield", text: "90-Day Money-Back" },
+      { icon: "infinity", text: "Lifetime Diffuser Warranty" },
+      { icon: "paw", text: "Pet-Friendly" },
+      { icon: "truck", text: "Free Shipping" },
+    ],
     accordions: [
-      { q: "Will I actually be able to smell it?", a: "Yes. It fills up to 600 sq ft, corner to corner, in under 10 minutes. Soft, but impossible to ignore." },
-      { q: "Is it safe for my kids and pets?", a: "100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "When am I charged for the subscription?", a: "Today: $89.95 for the diffuser, first bottle free. Your next bottle ships in 30 days at $29.95, with an email reminder before every renewal." },
-      { q: "Can I cancel or swap scents?", a: "Anytime, in a few taps, from the link in any email. Swap intentions, skip a month, or cancel. No calls, no forms." },
+      { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
+      { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
       { q: "What if I don't like the scent?", a: "You have a 90-day risk-free trial on everything. Swap to a different intention or return it for a full refund." },
       { q: "Will it look cheap on my shelf?", a: "Matte white and woven linen, no cords in sight lines, no glowing screens. Most guests assume it's a designer speaker." },
       { q: "Is this another diffuser that dies in 3 months?", a: "No water means no mold and nothing to break down. And it's covered by a lifetime warranty, so it literally can't be." },
@@ -175,9 +181,13 @@ const CONFIG = {
     eyebrow: "Room-filling performance",
     heading: ["Finally, a diffuser you can actually smell", "and feel anywhere, anytime."],
     video: "gif3",
-    desc: "Most diffusers die four feet from their own base. This one uses waterless cold-air diffusion to push pure fragrance oil into **every corner of up to 600 square feet in under ten minutes**. G1 Subtle for every day, G3 Full Presence before guests arrive, and the scent **stays present all day** instead of vanishing in an hour.",
+    bullets: [
+      "Most diffusers smell lovely\u2026 from four feet away. This one pushes scent into **every corner of up to 600 sq ft in under ten minutes**.",
+      "It's waterless: pure fragrance oil, never diluted, so **the scent actually carries** instead of hugging the machine.",
+      "Keep it soft for every day, or turn it up before people come over. Either way, **it stays present all day**, not for an hour.",
+    ],
     stats: [
-      { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on G3 Full Presence. Not four feet of air around a flame." },
+      { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on the highest setting. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
       { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle of continuous presence. About 10x longer than candles." },
     ],
@@ -186,10 +196,14 @@ const CONFIG = {
   howTo: {
     eyebrow: "How it works",
     heading: ["Three steps.", "That's the whole ritual."],
-    desc: "No water to refill, no app to pair, no wick to trim. **Pour the fragrance in once, press the button once**, and your home takes it from there, **for weeks at a time**.",
+    bullets: [
+      "No water to refill, no app to pair, no wick to trim.",
+      "**Pour the fragrance in once, press the button once.** That's the entire setup.",
+      "Your home takes it from there, **for weeks at a time**.",
+    ],
     steps: [
       { gif: "gif1", title: "Pour in your intention", body: "Your free 100ml fragrance. No water, no dilution." },
-      { gif: "gif2", title: "Press once", body: "One button. G1 Subtle, G2 Balanced, G3 Full Presence." },
+      { gif: "gif2", title: "Press once", body: "One button, three strengths: from a soft everyday scent to full presence for guests." },
       { gif: "gif3", title: "Walk away", body: "Under 10 minutes to fill the room. Weeks of presence." },
     ],
   },
@@ -197,7 +211,11 @@ const CONFIG = {
   angleLux: { /* A4 — instant luxury */
     eyebrow: "Instant luxury",
     heading: ["Your home, feeling like a five-star hotel,", "without paying the $1,000/night tag."],
-    desc: "Five-star hotels pay perfumers a fortune so the lobby makes you exhale the second you walk in. **We bottled that exact tradition and put it in a plug-in.** Guests walk into your home and assume you spent thousands. **You spent $89.95.**",
+    bullets: [
+      "Five-star hotels pay perfumers a fortune so the lobby makes you exhale the second you walk in.",
+      "**We bottled that exact tradition and put it in a plug-in.**",
+      "Guests walk into your home and assume you spent thousands. **You spent $89.95.**",
+    ],
     img: "hotel",
   },
 
@@ -205,11 +223,10 @@ const CONFIG = {
     eyebrow: "The compliment effect",
     heading: ["The scent that makes guests say", "\u201cwhat\u2019s that smell?\u201d in the middle of a conversation."],
     img: "guests",
-    desc: "It's the first thing people notice and the last thing they can place. **Guests stop in the entryway, ask what it is**, and remember your home as **the one that smelled incredible**. You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
-    quotes: [
-      { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Suddenly my house is “the cozy one” in the group chat." },
-      { name: "Dana W.", text: "My daughter asked why our house feels so cozy lately. It feels different in here, not just smells different." },
-      { name: "Jordan P.", text: "It's the first thing guests mention and the last thing I'd give up." },
+    bullets: [
+      "It's the first thing people notice and the last thing they can place.",
+      "**Guests stop in the entryway and ask what it is.** Your home becomes **the one that smelled incredible**.",
+      "You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
     ],
   },
 
@@ -220,7 +237,11 @@ const CONFIG = {
       before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
       after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
     },
-    desc: "A candle gives you **one warm hour** and leaves soot on the jar, smoke in the air, and a flame you can't walk away from. Maison Croyez gives you the same warmth, **evenly through the whole room, with nothing burning**, nothing to babysit, and nothing your kids or pets can knock over.",
+    bullets: [
+      "A candle gives you **one warm hour**, then leaves soot on the jar and smoke in the air.",
+      "And it's an open flame. You can't walk away from it, let alone leave the house with it going.",
+      "This gives you the same warmth, **evenly through the whole room, with nothing burning**, nothing to babysit, and nothing your kids or pets can knock over.",
+    ],
   },
 
   angleLasts: { /* A5 — diffusers that actually last */
@@ -230,24 +251,14 @@ const CONFIG = {
       before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
       after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
     },
-    desc: "Water-tank diffusers grow **mold you end up breathing**. They clog, leak, and quietly die within months. This one is waterless: pure oil, diffused dry, zero cleaning, nothing to break down. **Plug it in once, forget it for weeks**, and if anything ever fails, **the lifetime warranty replaces it**.",
+    bullets: [
+      "Water-tank diffusers grow **mold you end up breathing**, then clog, leak, and quietly die within months.",
+      "This one is waterless: pure oil, diffused dry, **zero cleaning, nothing to break down**.",
+      "**Plug it in once, forget it for weeks.** And if anything ever fails, **the lifetime warranty replaces it**.",
+    ],
   },
 
-  angleClean: { /* A3 — clean, non-chemical */
-    eyebrow: "Clean enough for every nose in the house",
-    heading: ["Nothing burning.", "Nothing synthetic."],
-    img: "dog",
-    desc: "Every fragrance is built from **100% organic oils: hypoallergenic, pet-friendly**, and free of the synthetic haze that gives sensitive noses headaches. Nothing burns, nothing clings to fabric, **nothing you wouldn't want in the air your family breathes all day**.",
-    badges: ["🌿 100% organic oils", "🤍 Hypoallergenic", "🐾 Pet-friendly", "🕯️ Flame-free"],
-  },
 
-  mathSec: {
-    eyebrow: "Do the math",
-    heading: ["Cheaper than the", "candle habit it replaces."],
-    old: { title: "The candle habit", lines: ["$60–$250 a month, forever", "Strongest for the first hour", "Smoke, soot, rebuying"] },
-    neu: { title: "Maison Croyez", lines: ["$89.95 once for the diffuser", "First 100ml bottle free", "Then $29.95 a month, cancel anytime"] },
-    verdict: "One month of a serious candle habit pays for the entire system.",
-  },
 
   /* Fictional, in-voice — owner ruling 2026-07-04: ships live. */
   reviewWall: {
@@ -266,7 +277,11 @@ const CONFIG = {
   guarantee: {
     badge: { big: "90", mid: "Day · Risk-Free", small: "Lifetime Diffuser Warranty" },
     heading: ["Love the way your home feels in 90 days,", "or your money back."],
-    body: "Run it. Live with it. Let people walk in. If Maison Croyez doesn't change how your home feels (and how it's complimented), send it back within 90 days for a full refund. And the diffuser itself is covered for life.",
+    bullets: [
+      "Run it. Live with it. Let people walk in.",
+      "If Maison Croyez doesn't change how your home feels (and how it's complimented), send it back within 90 days for **a full refund**.",
+      "And the diffuser itself? **Covered for life.**",
+    ],
     cta: { label: "Add to Cart", sub: "First fragrance free today" },
   },
 
@@ -275,10 +290,10 @@ const CONFIG = {
     items: [
       { q: "When am I charged for the subscription?", a: "Today you pay $89.95 for the diffuser. Your first 100ml fragrance ships free with it. Your card is charged $29.95 for the next bottle when it ships, about 30 days later. You'll get an email reminder before every renewal." },
       { q: "Can I swap scents or cancel?", a: "Anytime, from the link in any subscription email. Swap to a different intention, skip a month, or cancel in a few taps. No calls, no forms, no guilt." },
-      { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on G3 Full Presence. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
+      { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
       { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. G1 Subtle stretches a bottle even further." },
-      { q: "Do I need an app, WiFi, or batteries?", a: "No app, no WiFi, no batteries. One button cycles G1 Subtle, G2 Balanced, and G3 Full Presence. Set it and forget it." },
+      { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. Running it on low stretches a bottle even further." },
+      { q: "Do I need an app, WiFi, or batteries?", a: "No app, no WiFi, no batteries. One button cycles three strengths, from subtle to full presence. Set it and forget it." },
       { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
       { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. You choose scents by the feeling you want more of, not just the notes." },
       { q: "What makes this different from candles?", a: "No flame, no soot, no smoke, and no four-hour lifespan. The same warmth and presence, evenly through the whole room, for weeks per bottle instead of evenings per jar." },
@@ -320,6 +335,10 @@ const Img = ({ slot, tone = "warm", style, alt = "" }) => {
   return html`<${Placeholder} sq=${true} tone=${tone} style=${style} cap=${"AWAITING MEDIA — " + (im ? im.file : slot)}/>`;
 };
 const SerifHead = ({ pre, em }) => html`<h2>${pre}${em && html` <em>${em}</em>`}</h2>`;
+const AngleBullets = ({ items }) => html`
+  <ul class="angle-bullets">
+    ${items.map((b) => html`<li key=${b}><${Rich} s=${b}/></li>`)}
+  </ul>`;
 const Rich = ({ s }) => {
   const parts = s.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
   return parts.map((p, i) => p.startsWith("**") ? html`<strong key=${i}>${p.slice(2, -2)}</strong>` : p);
@@ -440,7 +459,9 @@ function BuyBox() {
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="price-row">
             <span class="price">${B.offer.price}</span>
+            <span class="compare">${B.offer.compareAt}</span>
           </div>
+          ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
           <ul class="offer-bullets">
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
@@ -474,7 +495,10 @@ function BuyBox() {
             <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
             <span class="btn-sub">${B.cta.sub}</span>
           </button>
-          <div class="trust-strip">${B.trustStrip}</div>
+          ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
+          <div class="trust-strip">
+            ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}
+          </div>
 
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`
@@ -538,6 +562,7 @@ function AngleFill() {
         </div>
         <div class="narrow"><${Img} slot=${S.video} alt="The mist filling a room"/></div>
         ${S.desc && html`<p class="angle-desc"><${Rich} s=${S.desc}/></p>`}
+        ${S.bullets && html`<${AngleBullets} items=${S.bullets}/>`}
         <div style=${{ height: "26px" }}></div>
         ${S.stats.map((s) => html`
           <div class="stat" key=${s.label}>
@@ -554,7 +579,7 @@ const HowTo = () => html`
     <div class="wrap">
       <div class="section-head">
         <${SerifHead} pre=${CONFIG.howTo.heading[0]} em=${CONFIG.howTo.heading[1]}/>
-        ${CONFIG.howTo.desc && html`<p class="angle-desc"><${Rich} s=${CONFIG.howTo.desc}/></p>`}
+        ${CONFIG.howTo.bullets && html`<${AngleBullets} items=${CONFIG.howTo.bullets}/>`}
       </div>
       <div class="howsteps">
         ${CONFIG.howTo.steps.map((s, i) => html`
@@ -577,6 +602,7 @@ const AngleBand = ({ cfg, tinted }) => html`
       </div>
       <${Img} slot=${cfg.img} alt=${cfg.heading.join(" ")}/>
       ${cfg.desc && html`<p class="angle-desc"><${Rich} s=${cfg.desc}/></p>`}
+      ${cfg.bullets && html`<${AngleBullets} items=${cfg.bullets}/>`}
       ${cfg.badges && html`
         <div class="badge-band">
           ${cfg.badges.map((b) => html`<span class="chip big" key=${b}>${b}</span>`)}
@@ -612,35 +638,11 @@ const AngleSplit = ({ cfg }) => {
           <${Half} side=${cfg.split.after} good=${true}/>
         </div>
         ${cfg.desc && html`<p class="angle-desc"><${Rich} s=${cfg.desc}/></p>`}
+        ${cfg.bullets && html`<${AngleBullets} items=${cfg.bullets}/>`}
       </div>
     </section>`;
 };
 
-const MathSec = () => {
-  const M = CONFIG.mathSec;
-  return html`
-    <section class="section">
-      <div class="wrap narrow">
-        <div class="section-head">
-          <${SerifHead} pre=${M.heading[0]} em=${M.heading[1]}/>
-        </div>
-        <div class="mathbox mathbox-big">
-          <div class="math-grid">
-            <div class="math-col old">
-              <div class="math-title caps">${M.old.title}</div>
-              ${M.old.lines.map((l) => html`<p key=${l}>${l}</p>`)}
-            </div>
-            <div class="math-vs" aria-hidden="true">vs</div>
-            <div class="math-col neu">
-              <div class="math-title caps">${M.neu.title}</div>
-              ${M.neu.lines.map((l) => html`<p key=${l}>${l}</p>`)}
-            </div>
-          </div>
-          <p class="math-verdict">${M.verdict}</p>
-        </div>
-      </div>
-    </section>`;
-};
 
 const ReviewWall = () => html`
   <section class="section ugc">
@@ -672,7 +674,7 @@ function GuaranteeSec() {
           <span class="gb3">${CONFIG.guarantee.badge.small}</span>
         </div>
         <h2>${CONFIG.guarantee.heading[0]} <em>${CONFIG.guarantee.heading[1]}</em></h2>
-        <p class="gbody">${CONFIG.guarantee.body}</p>
+        <${AngleBullets} items=${CONFIG.guarantee.bullets}/>
         <button class="btn" disabled=${busy} onClick=${() => addToCart(scent, setBusy, setToast)}>
           <span>${busy ? "Adding…" : CONFIG.guarantee.cta.label + " ➔"}</span>
           <span class="btn-sub">${CONFIG.guarantee.cta.sub}</span>
@@ -736,8 +738,6 @@ function App() {
     angleCompliment: () => html`<${AngleBand} key="a2" cfg=${CONFIG.angleCompliment}/>`,
     angleCandles: () => html`<${AngleSplit} key="a6" cfg=${CONFIG.angleCandles}/>`,
     angleLasts: () => html`<${AngleSplit} key="a5" cfg=${CONFIG.angleLasts}/>`,
-    angleClean: () => html`<${AngleBand} key="a3" cfg=${CONFIG.angleClean} tinted=${true}/>`,
-    mathSec: () => html`<${MathSec} key="math"/>`,
     reviewWall: () => html`<${ReviewWall} key="rw"/>`,
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,
     faq: () => html`<${Faq} key="faq"/>`,

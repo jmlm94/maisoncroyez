@@ -38,4 +38,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify
           git commit -m "PDP diffuser live verification screenshots"
+          git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

@@ -81,7 +81,7 @@ const CONFIG = {
   /* --- fragrances: real variant IDs + printed-box intentions --- */
   fragrances: [
     {
-      key: "love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
+      key: "love", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
       desc: "For the home you want to feel held in, and the people you want closer.",
@@ -89,7 +89,7 @@ const CONFIG = {
       ritual: "Run Golden Blossom Harmony where everyone gathers. Let the room hold them softer.",
     },
     {
-      key: "abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
+      key: "abundance", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
       desc: "For the season you\u2019re calling in more: money, room, opportunity.",
@@ -97,7 +97,7 @@ const CONFIG = {
       ritual: "Run Crisp Citrus Scape when you open the windows. Make room for more.",
     },
     {
-      key: "focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
+      key: "focus", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
       desc: "For the woman whose mind won\u2019t stop. Stillness first, focus after.",
@@ -105,7 +105,7 @@ const CONFIG = {
       ritual: "Run Chilled Citrus at 8 a.m. on G2. Let the morning open quietly.",
     },
     {
-      key: "ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
+      key: "ideas", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
       desc: "For the projects you keep postponing. Air that says: start.",
@@ -113,7 +113,7 @@ const CONFIG = {
       ritual: "Run Honey Nectar in the first hour of your day. Watch ideas ask to be built.",
     },
     {
-      key: "energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493, topSeller: true,
+      key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493, topSeller: true,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
       desc: "For heavy days and low rooms. Turn the frequency back up.",
@@ -121,7 +121,7 @@ const CONFIG = {
       ritual: "Run Euphoric Bloom before people arrive. The room wakes up first.",
     },
     {
-      key: "purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
+      key: "purify", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
       desc: "For when you need yesterday out of the house.",
@@ -129,7 +129,7 @@ const CONFIG = {
       ritual: "Run Wildwood Mystique when the day finally leaves. Clear the air; keep the calm.",
     },
     {
-      key: "midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
+      key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
       desc: "For the evenings you don\u2019t plan on spending alone much longer.",
@@ -141,6 +141,13 @@ const CONFIG = {
   images: {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
+    photo_love: { file: "scent-love", src: A.photo_love || "" },
+    photo_abundance: { file: "scent-abundance", src: A.photo_abundance || "" },
+    photo_focus: { file: "scent-focus", src: A.photo_focus || "" },
+    photo_ideas: { file: "scent-ideas", src: A.photo_ideas || "" },
+    photo_energy: { file: "scent-energy", src: A.photo_energy || "" },
+    photo_purify: { file: "scent-purify", src: A.photo_purify || "" },
+    photo_midnight: { file: "scent-midnight", src: A.photo_midnight || "" },
     mold:    { file: "hf gen — ultrasonic tank mold", src: A.mold || "" },
     hotel:   { file: "hf gen — five-star suite entry", src: A.hotel || "" },
     dog:     { file: "hf gen — dog asleep by diffuser", src: A.dog || "" },
@@ -166,7 +173,7 @@ const CONFIG = {
 
   angleFill: { /* A7 — room-filling performance */
     eyebrow: "Room-filling performance",
-    heading: ["Finally, a diffuser", "you can actually smell."],
+    heading: ["Finally, a diffuser you can actually smell", "and feel anywhere, anytime."],
     video: "gif3",
     desc: "Most diffusers die four feet from their own base. This one uses waterless cold-air diffusion to push pure fragrance oil into **every corner of up to 600 square feet in under ten minutes**. G1 Subtle for every day, G3 Full Presence before guests arrive, and the scent **stays present all day** instead of vanishing in an hour.",
     stats: [
@@ -189,14 +196,14 @@ const CONFIG = {
 
   angleLux: { /* A4 — instant luxury */
     eyebrow: "Instant luxury",
-    heading: ["Your home.", "But five-star."],
-    desc: "The scents are composed in the French perfumery tradition five-star hotels use to make you **exhale the moment you check in**. Warm, layered, deliberately understated. **One plug-in makes the whole room feel designed**, without touching your décor or your renovation budget.",
+    heading: ["Your home, feeling like a five-star hotel,", "without paying the $1,000/night tag."],
+    desc: "Five-star hotels pay perfumers a fortune so the lobby makes you exhale the second you walk in. **We bottled that exact tradition and put it in a plug-in.** Guests walk into your home and assume you spent thousands. **You spent $89.95.**",
     img: "hotel",
   },
 
   angleCompliment: { /* A2 — the compliment effect */
     eyebrow: "The compliment effect",
-    heading: ["The scent that makes guests", "stop mid-sentence."],
+    heading: ["The scent that makes guests say", "\u201cwhat\u2019s that smell?\u201d in the middle of a conversation."],
     img: "guests",
     desc: "It's the first thing people notice and the last thing they can place. **Guests stop in the entryway, ask what it is**, and remember your home as **the one that smelled incredible**. You'll hear \u201cit feels so good in here\u201d more in the first month than in the last five years.",
     quotes: [
@@ -208,7 +215,7 @@ const CONFIG = {
 
   angleCandles: { /* A6 — safer than candles */
     eyebrow: "Safer than candles",
-    heading: ["Everything you love about candles.", "Nothing you shouldn't breathe."],
+    heading: ["Your candles were the problem", "all along."],
     split: {
       before: { slot: "soot", badge: "✕", cap: "Open flame, soot, four-hour lifespan" },
       after: { slot: "nightstand", badge: "✓", cap: "Flame-free, kid-proof, weeks of presence" },
@@ -500,17 +507,13 @@ function AngleIntention() {
           <h2>${M.heading[0]}<br/><em>${M.heading[1]}</em></h2>
           <p class="lede">${M.note}</p>
         </div>
-        <div class="igrid">
+        <div class="sgrid">
           ${CONFIG.fragrances.map((f) => html`
-            <button class=${"icard iclick" + (scent.key === f.key ? " on" : "")} key=${f.name} style=${{ background: f.grad }} onClick=${() => pick(f)}>
-              <div class="irow">
-                <${Img} slot=${f.img} tone="linen" style=${{ width: "64px", flex: "0 0 64px", borderRadius: "12px", minHeight: "64px" }} alt=${f.name}/>
-                <div style=${{ flex: 1, textAlign: "left" }}><h3>${f.name}</h3><div class="intent">${f.intention}</div></div>
-                ${scent.key === f.key && html`<span class="ipicked caps">Your pick ✓</span>`}
-              </div>
-              <p class="iline">${f.line}</p>
-              <div class="chips">${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}</div>
-              <p class="ritual">${f.ritual}</p>
+            <button class=${"scard" + (scent.key === f.key ? " on" : "")} key=${f.key} onClick=${() => pick(f)}>
+              <${Img} slot=${f.photo} alt=${f.name}/>
+              <span class="scard-name">${f.name}</span>
+              <span class="scard-int">${f.intention}</span>
+              ${scent.key === f.key && html`<span class="scard-pick">Your pick ✓</span>`}
             </button>`)}
         </div>
       </div>

@@ -983,3 +983,18 @@ h1 em, h2 em, h3 em, .cline em{
   font-size:.57rem;padding:4px 11px;box-shadow:0 2px 8px rgba(124,58,237,.3);
 }
 .pick-ing{padding-right:86px}
+
+/* PDP round 7 */
+.pick.on .pick-badge{top:auto}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:720px;margin:0 auto}
+.scard{
+  background:var(--cream);border:2px solid transparent;border-radius:16px;overflow:hidden;
+  padding:0 0 12px;text-align:center;display:flex;flex-direction:column;gap:6px;
+  font:inherit;color:inherit;cursor:pointer;position:relative;
+}
+.scard .ph{border-radius:0}
+.scard.on{border-color:var(--ink)}
+.scard-name{font-family:'Unna',serif;font-weight:700;font-size:1.05rem;letter-spacing:-.02em;padding:4px 8px 0;line-height:1.1}
+.scard-int{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.58rem;color:var(--rosewood-deep);padding:0 8px}
+.scard-pick{position:absolute;top:10px;left:10px;background:var(--ink);color:#fff;border-radius:999px;padding:4px 10px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.54rem}
+.howsteps .ph{max-width:50%;margin:0 auto}

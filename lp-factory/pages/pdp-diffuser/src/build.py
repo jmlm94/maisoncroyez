@@ -21,6 +21,7 @@ MANIFEST = {
     'gif2': ('www2-c.mp4', 'video/mp4'), 'gif2w': ('www2-c.webm', 'video/webm'),
     'gif3': ('www3-c.mp4', 'video/mp4'), 'gif3w': ('www3-c.webm', 'video/webm'),
     **{f'frag{i}': (f'frag{i}.jpg', 'image/jpeg') for i in range(1, 8)},
+    **{f'photo_{k}': (f'scent-{k}.jpg', 'image/jpeg') for k in ['love','abundance','focus','ideas','energy','purify','midnight']},
 }
 A = os.path.join(os.path.dirname(__file__) or '.', '..', 'assets', 'processed')
 

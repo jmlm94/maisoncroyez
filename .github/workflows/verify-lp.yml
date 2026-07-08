@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 7
+# run: 8
 # Verification relay: the Claude sandbox can't reach cdn.shopify.com or the
 # storefront, so this workflow checks them and commits live screenshots.
 on:
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Probe app.js cache keys
         run: |
-          for q in "v=1783543191" "v=r7-2026070820" "v=r7-$(date -u +%Y%m%d%H)" "nocache=$(date +%s)"; do
+          for q in "v=1783543191" "v=r8-2026070820" "v=r8-$(date -u +%Y%m%d%H)" "nocache=$(date +%s)"; do
             curl -sSL -o /tmp/a --max-time 30 "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser-app.js?$q"
             echo "$q -> bytes=$(wc -c < /tmp/a) gal2=$(grep -c gal2 /tmp/a || true)"
           done

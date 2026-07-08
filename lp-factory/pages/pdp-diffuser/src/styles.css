@@ -1037,3 +1037,10 @@ section.faq{background:#FFFFFF}
 .howto .angle-bullets li{color:#EFE3D8}
 #sec-angleCandles .section{padding-bottom:20px}
 #sec-angleLasts .section{padding-top:20px}
+
+/* PDP round 13 — live-theme fixes */
+/* PDP round 13b — headline emphasis: solid purple, no gradient (owner) */
+h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
+  background:none;-webkit-background-clip:unset;background-clip:unset;
+  color:#7C3AED;-webkit-text-fill-color:#7C3AED;
+}

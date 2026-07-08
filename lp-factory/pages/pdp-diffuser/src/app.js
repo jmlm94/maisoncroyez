@@ -17,7 +17,7 @@ const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 const CART = {
   diffuserVariant: 45216681590893,   /* Maison Croyez — Home Scent Diffuser · $89.95 */
   sellingPlan: 1605206125,           /* Subi "Monthly (Get 25% OFF)" → $29.95/mo */
-  cartUrl: "/cart",
+  cartUrl: "/cart",           /* fallback only — primary UX opens the theme cart drawer */
 };
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
@@ -345,7 +345,7 @@ async function addToCart(fragrance, setBusy, setToast) {
     { id: fragrance.variant, quantity: 1, selling_plan: CART.sellingPlan },
   ];
   if (!onStore()) {
-    setToast(`Preview mode. On the live store this adds: the diffuser ($89.95) + ${fragrance.name} (free first bottle, then $29.95/mo) and opens the cart.`);
+    setToast(`Preview mode. On the live store this adds: the diffuser ($89.95) + ${fragrance.name} (free first bottle, then $29.95/mo) and opens the cart drawer.`);
     return;
   }
   try {
@@ -356,7 +356,16 @@ async function addToCart(fragrance, setBusy, setToast) {
       body: JSON.stringify({ items }),
     });
     if (!r.ok) throw new Error("cart " + r.status);
-    window.location.href = CART.cartUrl;
+    /* Impact theme: refresh + open the cart drawer (same pattern the store's
+       Instant integration uses); fall back to /cart if the drawer is missing */
+    const drawer = document.getElementById("cart-drawer");
+    if (drawer && typeof drawer.show === "function") {
+      document.dispatchEvent(new CustomEvent("cart:refresh"));
+      drawer.show();
+      setBusy(false);
+    } else {
+      window.location.href = CART.cartUrl;
+    }
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");

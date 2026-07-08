@@ -57,16 +57,23 @@ jobs:
               window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 1200));
             });
             await page.screenshot({ path, fullPage: true });
+            if (path === 'live-mobile.png') {
+              await page.locator('.buybox .atc').scrollIntoViewIfNeeded();
+              await page.waitForTimeout(500);
+              await page.locator('.buybox .atc').click();
+              await page.waitForTimeout(4000);
+              await page.screenshot({ path: 'live-drawer.png' });
+            }
             await page.close();
           }
           await b.close();
           EOS
           node shot.mjs
-          ls -la live-*.png
+          ls -la live-*.png || true
       - name: Commit screenshots
         run: |
           mkdir -p lp-factory/pages/pdp-diffuser/verify
-          mv live-mobile.png live-desktop.png page-html.txt lp-factory/pages/pdp-diffuser/verify/
+          mv live-mobile.png live-desktop.png live-drawer.png page-html.txt lp-factory/pages/pdp-diffuser/verify/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify

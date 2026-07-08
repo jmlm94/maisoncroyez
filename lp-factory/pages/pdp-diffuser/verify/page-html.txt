@@ -518,7 +518,7 @@ Shopify.SignInWithShop.User.recognized = false;</script>
     window.addEventListener('load', asyncLoad, false);
   }
 })();</script>
-<script id="__st">var __st={"a":2036367469,"offset":-14400,"reqid":"0837f8e2-228c-4174-b044-1b3b810690e7-1783543846","pageurl":"maisoncroyez.com\/pages\/diffuser?cb=1783543846","s":"pages-117264089197","u":"c3215a26b167","p":"page","rtyp":"page","rid":117264089197};</script>
+<script id="__st">var __st={"a":2036367469,"offset":-14400,"reqid":"f0151ba5-6526-4f29-af3a-6f8696f5c5b4-1783543230","pageurl":"maisoncroyez.com\/pages\/diffuser?cb=1783543230","s":"pages-117264089197","u":"300046f3c85e","p":"page","rtyp":"page","rid":117264089197};</script>
 <script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
 <script id="form-persister">!function(){'use strict';const t='contact',e='new_comment',n=[[t,t],['blogs',e],['comments',e],[t,'customer']],o='password',r='form_key',c=['recaptcha-v3-token','g-recaptcha-response','h-captcha-response',o],s=()=>{try{return window.sessionStorage}catch{return}},i='__shopify_v',u=t=>t.elements[r],a=function(){const t=[...n].map((([t,e])=>`form[action*='/${t}']:not([data-nocaptcha='true']) input[name='form_type'][value='${e}']`)).join(',');var e;return e=t,()=>e?[...document.querySelectorAll(e)].map((t=>t.form)):[]}();function m(t){const e=u(t);a().includes(t)&&(!e||!e.value)&&function(t){try{if(!s())return;!function(t){const e=s();if(!e)return;const n=u(t);if(!n)return;const o=n.value;o&&e.removeItem(o)}(t);const e=Array.from(Array(32),(()=>Math.random().toString(36)[2])).join('');!function(t,e){u(t)||t.append(Object.assign(document.createElement('input'),{type:'hidden',name:r})),t.elements[r].value=e}(t,e),function(t,e){const n=s();if(!n)return;const r=[...t.querySelectorAll(`input[type='${o}']`)].map((({name:t})=>t)),u=[...c,...r],a={};for(const[o,c]of new FormData(t).entries())u.includes(o)||(a[o]=c);n.setItem(e,JSON.stringify({[i]:1,action:t.action,data:a}))}(t,e)}catch(e){console.error('failed to persist form',e)}}(t)}const f=t=>{if('true'===t.dataset.persistBound)return;const e=function(t,e){const n=function(t){return'function'==typeof t.submit?t.submit:HTMLFormElement.prototype.submit}(t).bind(t);return function(){let t;return()=>{t||(t=!0,(()=>{try{e(),n()}catch(t){(t=>{console.error('form submit failed',t)})(t)}})(),setTimeout((()=>t=!1),250))}}()}(t,(()=>{m(t)}));!function(t,e){if('function'==typeof t.submit&&'function'==typeof e)try{t.submit=e}catch{}}(t,e),t.addEventListener('submit',(t=>{t.preventDefault(),e()})),t.dataset.persistBound='true'};!function(){function t(t){const e=(t=>{const e=t.target;return e instanceof HTMLFormElement?e:e&&e.form})(t);e&&m(e)}document.addEventListener('submit',t),document.addEventListener('DOMContentLoaded',(()=>{const e=a();for(const t of e)f(t);var n;n=document.body,new window.MutationObserver((t=>{for(const e of t)if('childList'===e.type&&e.addedNodes.length)for(const t of e.addedNodes)1===t.nodeType&&'FORM'===t.tagName&&a().includes(t)&&f(t)})).observe(n,{childList:!0,subtree:!0,attributes:!1}),document.removeEventListener('submit',t)}))}()}();</script>
 <script integrity="sha256-JjoPp5ZfB1sSAs5SQaol1x1GgvveM+BgmRzyDexInEQ=" data-source-attribution="shopify.loadfeatures" defer="defer" src="//maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js" crossorigin="anonymous"></script>
@@ -564,6 +564,16 @@ Shopify.SignInWithShop.User.recognized = false;</script>
     window.ps_extension_shop_id = 5063;
 </script>
 
+<!-- END app block --><!-- BEGIN app block: shopify://apps/instant-ai-page-builder/blocks/instant_core/927e19d9-4e68-41db-99c7-d8debdc1f80d -->
+<script>
+window.Instant = {
+  initialized: true,
+  initializedAppEmbed: true,
+  initializedVersion: 'latest',
+  swiperScriptUrl: 'https://cdn.shopify.com/extensions/019efa4b-b55f-74d4-bd3d-535479180924/instant-5-81/assets/swiper-bundle.min.js'
+};
+</script>
+
 <!-- END app block --><!-- BEGIN app block: shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507 -->
 
 
@@ -597,16 +607,6 @@ Shopify.SignInWithShop.User.recognized = false;</script>
 
 
 
-<!-- END app block --><!-- BEGIN app block: shopify://apps/instant-ai-page-builder/blocks/instant_core/927e19d9-4e68-41db-99c7-d8debdc1f80d -->
-<script>
-window.Instant = {
-  initialized: true,
-  initializedAppEmbed: true,
-  initializedVersion: 'latest',
-  swiperScriptUrl: 'https://cdn.shopify.com/extensions/019efa4b-b55f-74d4-bd3d-535479180924/instant-5-81/assets/swiper-bundle.min.js'
-};
-</script>
-
 <!-- END app block --><script src="https://cdn.shopify.com/extensions/019f1dda-5fbf-7e22-8300-8a9a19adf650/test-sms-35/assets/sdk-embed-script-loader.js" type="text/javascript" defer="defer"></script>
 <script src="https://cdn.shopify.com/extensions/019efa4b-b55f-74d4-bd3d-535479180924/instant-5-81/assets/instant-core.min.js" type="text/javascript" defer="defer"></script>
 <link href="https://monorail-edge.shopifysvc.com" rel="dns-prefetch">
@@ -618,7 +618,7 @@ window.Instant = {
   window.ShopifyAnalytics = window.ShopifyAnalytics || {};
   window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
   window.ShopifyAnalytics.meta.currency = 'USD';
-  var meta = {"page":{"pageType":"page","resourceType":"page","resourceId":117264089197,"requestId":"0837f8e2-228c-4174-b044-1b3b810690e7-1783543846"}};
+  var meta = {"page":{"pageType":"page","resourceType":"page","resourceId":117264089197,"requestId":"f0151ba5-6526-4f29-af3a-6f8696f5c5b4-1783543230"}};
   for (var attr in meta) {
     window.ShopifyAnalytics.meta[attr] = meta[attr];
   }
@@ -762,7 +762,7 @@ first.parentNode.insertBefore(script, first);
 
     };
     trekkie.load(
-      {"Trekkie":{"appName":"storefront","development":false,"defaultAttributes":{"shopId":2036367469,"isMerchantRequest":null,"themeId":134636273773,"themeCityHash":"15659531740634173843","contentLanguage":"en","currency":"USD","eventMetadataId":"23f77d39-5da2-4fe5-8c61-4f3bd70167d4"},"isServerSideCookieWritingEnabled":true,"monorailRegion":"shop_domain","enabledBetaFlags":["b5387b81","d5bdd5d0"]},"Session Attribution":{},"S2S":{"facebookCapiEnabled":true,"source":"trekkie-storefront-renderer","apiClientId":580111}}
+      {"Trekkie":{"appName":"storefront","development":false,"defaultAttributes":{"shopId":2036367469,"isMerchantRequest":null,"themeId":134636273773,"themeCityHash":"15659531740634173843","contentLanguage":"en","currency":"USD","eventMetadataId":"13f8f5f6-5cad-4868-adb1-51a8244bf5a1"},"isServerSideCookieWritingEnabled":true,"monorailRegion":"shop_domain","enabledBetaFlags":["b5387b81","d5bdd5d0"]},"Session Attribution":{},"S2S":{"facebookCapiEnabled":true,"source":"trekkie-storefront-renderer","apiClientId":580111}}
     );
 
     var loaded = false;
@@ -777,7 +777,7 @@ first.parentNode.insertBefore(script, first);
       try { window.ShopifyAnalytics.merchantGoogleAnalytics.call(this); } catch(error) {};
       document.write = originalDocumentWrite;
 
-      window.ShopifyAnalytics.lib.page(null,{"pageType":"page","resourceType":"page","resourceId":117264089197,"requestId":"0837f8e2-228c-4174-b044-1b3b810690e7-1783543846","shopifyEmitted":true});
+      window.ShopifyAnalytics.lib.page(null,{"pageType":"page","resourceType":"page","resourceId":117264089197,"requestId":"f0151ba5-6526-4f29-af3a-6f8696f5c5b4-1783543230","shopifyEmitted":true});
 
       var match = window.location.pathname.match(/checkouts\/(.+)\/(thank_you|post_purchase)/)
       var token = match? match[1]: undefined;
@@ -797,7 +797,7 @@ first.parentNode.insertBefore(script, first);
   src="https://maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.6.1.min.js"
   data-application="storefront-renderer"
   data-shop-id="2036367469"
-  data-render-region="gcp-us-west1"
+  data-render-region="gcp-us-east1"
   data-page-type="page"
   data-theme-instance-id="134636273773"
   data-theme-name="Impact"
@@ -997,7 +997,7 @@ first.parentNode.insertBefore(script, first);
 fbq('init','980908600592309');fbq('track','PageView');
 </script>
 <script>
-(function(){var v='r7-'+new Date().toISOString().slice(0,13).replace(/[^0-9]/g,'');
+(function(){var v='r6-'+new Date().toISOString().slice(0,13).replace(/[^0-9]/g,'');
 var B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/';
 var l=document.createElement('link');l.rel='stylesheet';l.href=B+'mc-lp-diffuser.css?v='+v;
 document.head.appendChild(l);

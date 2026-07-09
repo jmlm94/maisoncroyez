@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 21 — confirm advertorial CTA URL swap
+# run: 22 — verify PDP header gap + dots + price
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -12,14 +12,34 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Check served advertorial app.js for new CTA URL
+      - uses: actions/checkout@v4
+      - name: Screenshot live PDP top (mobile)
         run: |
-          H=$(date -u +%Y%m%d%H)
-          for key in "$H" "chk$(date +%s)"; do
-            curl -sSL -o /tmp/a "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-adv-scent-ritual-app.js?v=$key"
-            NEW=$(grep -c 'pages/diffuser' /tmp/a || true)
-            OLD=$(grep -c 'products/diffuser-scents' /tmp/a || true)
-            echo "v=$key -> pages/diffuser=$NEW  products/diffuser-scents=$OLD  bytes=$(wc -c </tmp/a)"
-          done
-          echo "== live page HTML loader hour =="
-          curl -sSL "https://maisoncroyez.com/pages/adv-scent-ritual?cb=$(date +%s)" | grep -o "mc-lp-adv-scent-ritual-app" | head -1
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > shot.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          await page.goto('https://maisoncroyez.com/pages/diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+          await page.waitForTimeout(9000);
+          const dots = await page.evaluate(()=>document.querySelectorAll('.gal-dots span').length);
+          const price = await page.evaluate(()=>{const e=document.querySelector('.price-row .price');return e?getComputedStyle(e).fontSize:'none';});
+          console.log('DOTS='+dots+' PRICEFS='+price);
+          await page.screenshot({ path:'pdp-top.png', clip:{x:0,y:0,width:390,height:520} });
+          await page.evaluate(()=>document.querySelector('.price-row')?.scrollIntoView({block:'center'}));
+          await page.waitForTimeout(400);
+          await page.screenshot({ path:'pdp-price.png', clip:{x:0,y:0,width:390,height:400} });
+          await b.close();
+          EOS
+          node shot.mjs
+      - name: Commit
+        run: |
+          mkdir -p lp-factory/pages/pdp-diffuser/verify
+          mv pdp-top.png pdp-price.png lp-factory/pages/pdp-diffuser/verify/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/pdp-diffuser/verify
+          git commit -m "PDP round19 verification"
+          git pull --rebase origin claude/maison-landing-page-iyikm5
+          git push

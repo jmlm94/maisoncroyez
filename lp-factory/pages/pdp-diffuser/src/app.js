@@ -454,7 +454,7 @@ function Gallery() {
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="gal-dots" aria-hidden="true">
-        ${urls.map((_, i) => html`<span key=${i} class=${i === idx ? "on" : ""}></span>`)}
+        ${(() => { const N = Math.min(4, urls.length); const per = Math.ceil(urls.length / N); const act = Math.min(N - 1, Math.floor(idx / per)); return Array.from({ length: N }, (_, i) => html`<span key=${i} class=${i === act ? "on" : ""}></span>`); })()}
       </div>
     </div>`;
 }

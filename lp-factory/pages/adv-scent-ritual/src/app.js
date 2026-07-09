@@ -19,7 +19,7 @@ const CONFIG = {
   },
 
   links: {
-    productUrl: "https://maisoncroyez.com/products/diffuser-scents",
+    productUrl: "https://maisoncroyez.com/pages/diffuser",
     kitUrls: { studio: "", condo: "", house: "" },
     ctaMode: "link",
     newTab: false,

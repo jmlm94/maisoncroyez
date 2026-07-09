@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 19 — Lighthouse re-audit after media de-embed
+# run: 20 — verify carousel + screenshot
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -13,21 +13,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lighthouse mobile + desktop
+      - name: Screenshot live page (mobile + desktop)
         run: |
-          set -euo pipefail
-          npm i -s lighthouse@12 > /dev/null 2>&1
-          URL="https://maisoncroyez.com/pages/diffuser?cb=$(date +%s)"
-          npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=lh-mobile.json
-          npx lighthouse "$URL" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=lh-desktop.json
-          ls -la lh-*.json
-      - name: Commit reports
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > shot.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          for (const [w,h,p] of [[390,844,'live-mobile.png'],[1440,900,'live-desktop.png']]) {
+            const page = await b.newPage({ viewport:{width:w,height:h} });
+            await page.goto('https://maisoncroyez.com/pages/diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+            await page.waitForTimeout(9000);
+            await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,70));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1000)); });
+            await page.screenshot({ path:p, fullPage:true });
+            await page.close();
+          }
+          await b.close();
+          EOS
+          node shot.mjs
+          ls -la live-*.png
+      - name: Commit
         run: |
           mkdir -p lp-factory/pages/pdp-diffuser/verify
-          mv lh-mobile.json lh-desktop.json lp-factory/pages/pdp-diffuser/verify/
+          mv live-mobile.png live-desktop.png lp-factory/pages/pdp-diffuser/verify/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser/verify
-          git commit -m "Lighthouse re-audit after media de-embed"
+          git commit -m "Carousel verification screenshots"
           git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

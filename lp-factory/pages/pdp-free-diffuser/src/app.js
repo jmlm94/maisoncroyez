@@ -66,7 +66,7 @@ const CONFIG = {
       compareAt: "$239.95",
       valueStack: [
         { label: "3 \u00d7 100ml manifestation fragrances", value: "$39.95/fragrance" },
-        { label: "Maison Croyez waterless diffuser", strike: "$119.95", value: "FREE" },
+        { label: "Maison Croyez diffuser", strike: "$119.95", value: "FREE" },
         { label: "You pay today", value: "$119.95", total: true },
       ],
       bullets: [

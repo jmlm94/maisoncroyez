@@ -5,7 +5,7 @@ const html = htm.bind(h);
 /* ================================================================
    FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004)
    Offer: pick 3 × 100ml fragrances (90 days) for $119.95 today +
-   the diffuser ($120 value) FREE. Renews at $119.95 every 3 months,
+   the diffuser ($119.95 value) FREE. Renews at $119.95 every 3 months,
    cancel anytime. DESIGN PHASE — checkout wiring lands once the Subi
    quarterly selling plan exists; ATC shows a preview toast until then.
    Cloned from pdp-diffuser (Blueprint 003); /pages/diffuser stays
@@ -29,7 +29,7 @@ const CONFIG = {
 
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" },
-    text: "Subscribe to 90 days of fragrance — get the $120 diffuser FREE",
+    text: "Subscribe to 90 days of fragrance — get the $119.95 diffuser FREE",
     cta: "",
   },
 
@@ -59,14 +59,15 @@ const CONFIG = {
 
   buybox: {
     microProof: "2,500+ women already manifesting what they want in their spaces.",
-    title: { pre: "90 Days of Intention Fragrance +", em: "a FREE Maison Croyez Diffuser." },
+    title: { pre: "90-Day Manifestation Ritual +", em: "FREE Maison Croyez Diffuser." },
     offer: {
-      price: "$119.95",
-      compareAt: "$239.80",
-      note: "Pick any 3 full-size fragrances. The diffuser \u2014 a $120 value \u2014 is yours free.",
+      price: "$39.95",
+      priceUnit: "/fragrance",
+      compareAt: "$239.95",
+      note: "Pick any 3 full-size fragrances. The diffuser \u2014 a $119.95 value \u2014 is yours free.",
       valueStack: [
-        { label: "3 \u00d7 100ml intention fragrances", value: "$119.85" },
-        { label: "Maison Croyez waterless diffuser", strike: "$120.00", value: "FREE" },
+        { label: "3 \u00d7 100ml manifestation fragrances", value: "$39.95/fragrance" },
+        { label: "Maison Croyez waterless diffuser", strike: "$119.95", value: "FREE" },
         { label: "You pay today", value: "$119.95", total: true },
       ],
       bullets: [
@@ -88,7 +89,7 @@ const CONFIG = {
     ],
     accordions: [
       { q: "How does the subscription work?", a: "Today you pay $119.95 and get 3 full-size fragrances \u2014 90 days of scent \u2014 plus the diffuser, free. Every 3 months, your next 3 bottles ship for $119.95. Swap scents, skip a shipment, or cancel anytime in a few taps." },
-      { q: "Is the diffuser really free?", a: "Yes. Your $119.95 covers the three fragrances ($119.85 value). The diffuser \u2014 a $120 value \u2014 costs you $0, and it's yours to keep even if you cancel." },
+      { q: "Is the diffuser really free?", a: "Yes. Your $119.95 covers the three fragrances ($119.85 value). The diffuser \u2014 a $119.95 value \u2014 costs you $0, and it's yours to keep even if you cancel." },
       { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
       { q: "What if I don't like a scent?", a: "You have a 90-day risk-free trial on everything, and you can swap any bottle to a different intention before each shipment. Not feeling it at all? Return for a full refund." },
@@ -291,7 +292,7 @@ const CONFIG = {
     heading: ["Questions?", "We've got answers."],
     items: [
       { q: "When am I charged for the subscription?", a: "Today you pay $119.95 for your first 3 full-size fragrances — 90 days of scent — and your diffuser ships free with them. Then $119.95 every 3 months for your next 3 bottles. You'll get an email reminder before every renewal." },
-      { q: "Is the diffuser really free?", a: "Yes. Your $119.95 covers the three fragrances ($119.85 value) — the diffuser, a $120 value, costs you $0. And it's yours to keep even if you cancel later." },
+      { q: "Is the diffuser really free?", a: "Yes. Your $119.95 covers the three fragrances ($119.85 value) — the diffuser, a $119.95 value, costs you $0. And it's yours to keep even if you cancel later." },
       { q: "Can I swap scents or cancel?", a: "Anytime, from the link in any subscription email. Swap any of your 3 bottles to a different intention, skip a shipment, or cancel in a few taps. No calls, no forms, no guilt — and you keep the diffuser." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
       { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
@@ -364,7 +365,7 @@ async function addToCart(setBusy, setToast) {
   }
   const names = selStore.picks().map((f) => f.name).join(" + ");
   if (!onStore()) {
-    setToast(`Preview mode. On the live store this adds: ${names} ($119.95 for 90 days, renews every 3 months) + your FREE diffuser ($120 value) and opens the cart drawer.`);
+    setToast(`Preview mode. On the live store this adds: ${names} ($119.95 for 90 days, renews every 3 months) + your FREE diffuser ($119.95 value) and opens the cart drawer.`);
     return;
   }
   /* DESIGN PHASE — real wiring lands with the Subi quarterly plan:
@@ -499,7 +500,7 @@ function BuyBox() {
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="price-row">
-            <span class="price">${B.offer.price}</span>
+            <span class="price">${B.offer.price}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${B.offer.compareAt}</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
@@ -552,8 +553,8 @@ function BuyBox() {
 
           <div class=${"free-line" + (total >= PICK_MAX ? " on" : "")}>
             ${total >= PICK_MAX
-              ? html`🎁 <strong>FREE Maison Croyez Diffuser added to your order</strong> — <span class="strike">$120.00</span> <strong>$0</strong>`
-              : `🔒 Your FREE diffuser ($120 value) unlocks when you pick ${PICK_MAX - total} more`}
+              ? html`🎁 <strong>FREE Maison Croyez Diffuser added to your order</strong> — <span class="strike">$119.95</span> <strong>$0</strong>`
+              : `🔒 Your FREE diffuser ($119.95 value) unlocks when you pick ${PICK_MAX - total} more`}
           </div>
 
           <button class="btn atc" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>

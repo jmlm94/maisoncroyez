@@ -1113,3 +1113,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 /* FREE-DIFFUSER LP round 2 — per-fragrance price + valstack breathing room (owner) */
 .price-unit{font-size:1rem;font-weight:600;color:var(--ink-soft);margin-left:2px;letter-spacing:0}
 .valstack{margin-bottom:12px}
+
+/* FREE-DIFFUSER LP round 3 — value box tinted like the selector bar (owner) */
+.valstack{background:#F4EDFB;border-color:#E2D2F6}
+.valstack .vrow.total{border-top-color:#DCC9F3}

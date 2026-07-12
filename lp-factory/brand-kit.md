@@ -64,6 +64,14 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
   - Cart wiring verified LIVE 2026-07-08 (Actions relay): POST /cart/add.js -> diffuser $89.95 one-time + fragrance $29.95/mo on plan 1605206125, cart total $119.90. Subi first-order-free applies at checkout; owner test checkout still pending.
   - ATC opens the theme cart drawer (Impact): `document.dispatchEvent(new CustomEvent('cart:refresh'))` + `#cart-drawer.show()`, /cart fallback. Verified live by clicking ATC on a runner 2026-07-08.
   - Headline emphasis AND the Top Seller badge are SOLID PURPLE #7C3AED on this page (owner rulings 2026-07-08, no gradient text/badge). Native-gallery experiment reverted same day; rounded gallery + thumb row stays.
+- Live page #4: `/pages/free-diffuser` (gid://shopify/Page/117412692077, DEFAULT template, body-embed loader, deployed 2026-07-12). "90-Day Manifestation Ritual", Blueprint 004, split-test twin of #3.
+  - Offer: pick 3 fragrance SKUs on Subi QUARTERLY plan 2615967853 ("Every 3 months", no intro discount) = $119.85/quarter + FREE diffuser. Advertised as $39.95/fragrance, compare-at $239.95.
+  - Free diffuser = DUPLICATE product gid://shopify/Product/8153621921901 (variant 45450822778989, $119.95, same customer-facing title, handle maison-croyez-home-scent-diffuser) zeroed by automatic BXGY discount gid://shopify/DiscountAutomaticNode/1375641600109 (buy 3 from the 7 fragrance products -> dup diffuser 100% off, 1/order). ORIGINAL diffuser 45216681590893 stays $89.95 — do NOT change its price, /pages/diffuser depends on it.
+  - Loader version key: `'fd1-'+hour`; loads mc-lp-free-diffuser.css + mc-lp-vendor.js + mc-lp-diffuser-assets.js (REUSED, same slots) + mc-lp-free-diffuser-app.js.
+  - Deploy CSS = mc-lp-diffuser.css + #root-prefixed FD appendix (valstack/sel-bar/pick-qty/free-line rules).
+- mc-lp-free-diffuser CDN files (fileUpdate keeps URL, bumps ?v):
+  - css `gid://shopify/GenericFile/29348024909933` -> `.../files/mc-lp-free-diffuser.css`
+  - app `gid://shopify/GenericFile/29348024942701` -> `.../files/mc-lp-free-diffuser-app.js`
 - mc-lp-diffuser CDN files (fileUpdate keeps URL, bumps ?v):
   - css `gid://shopify/GenericFile/29317693440109` -> `.../files/mc-lp-diffuser.css` (fonts + page styles + theme-integration block; core css NOT used to avoid adv style collisions)
   - assets `gid://shopify/GenericFile/29317693472877` -> `.../files/mc-lp-diffuser-assets.js`

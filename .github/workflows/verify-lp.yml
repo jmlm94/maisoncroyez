@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 24 — free-diffuser LP live verification (render + pick-3 + real cart)
+# run: 25 — free-diffuser LP live verification (render + pick-3 + real cart), log committed
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -91,12 +91,12 @@ jobs:
           await page.screenshot({ path:'fd-live-full.png', fullPage:true });
           await b.close();
           EOS
-          node check.mjs
+          node check.mjs 2>&1 | tee verify-log.txt
       - name: Commit screenshots
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv fd-live-full.png fd-drawer.png lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv fd-live-full.png fd-drawer.png verify-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify

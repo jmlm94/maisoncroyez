@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 25 — free-diffuser LP live verification (render + pick-3 + real cart), log committed
+# run: 26 — free-diffuser LP re-check after BXGY isSubscription fix
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]

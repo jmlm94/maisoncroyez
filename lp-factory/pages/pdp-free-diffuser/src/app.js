@@ -14,11 +14,12 @@ const html = htm.bind(h);
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
-/* --- checkout wiring (diffuser variant is real; quarterly plan TBD) --- */
+/* --- checkout wiring: 3 fragrance SKUs on the Subi quarterly plan +
+   free-diffuser duplicate product zeroed by an automatic BXGY discount --- */
 const CART = {
-  diffuserVariant: 45216681590893,   /* Maison Croyez — Home Scent Diffuser */
-  sellingPlan: null,                 /* TODO wiring phase: Subi QUARTERLY plan ($119.95/3mo) — owner creates in Subi app */
-  cartUrl: "/cart",           /* fallback only — primary UX opens the theme cart drawer */
+  diffuserVariant: 0,   /* TODO: $119.95 duplicate diffuser variant (this funnel only) */
+  sellingPlan: 0,       /* TODO: Subi quarterly plan gid (owner created 2026-07-12) */
+  cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 const PICK_MAX = 3;
 
@@ -367,9 +368,35 @@ async function addToCart(setBusy, setToast) {
     setToast(`Preview mode. On the live store this adds: ${names} ($119.95 for 90 days, renews every 3 months) + your FREE diffuser ($119.95 value) and opens the cart drawer.`);
     return;
   }
-  /* DESIGN PHASE — real wiring lands with the Subi quarterly plan:
-     3 fragrance lines on the quarterly selling plan + diffuser at $0. */
-  setToast("Almost there — checkout for this offer is being connected. Design preview only for now.");
+  /* 3 fragrance lines on the quarterly plan; duplicates merge into quantity.
+     The diffuser line is zeroed at cart level by the automatic BXGY discount. */
+  const items = Object.entries(selStore.counts).map(([k, n]) => ({
+    id: CONFIG.fragrances.find((f) => f.key === k).variant,
+    quantity: n,
+    selling_plan: CART.sellingPlan,
+  }));
+  items.push({ id: CART.diffuserVariant, quantity: 1 });
+  try {
+    setBusy(true);
+    const r = await fetch("/cart/add.js", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ items }),
+    });
+    if (!r.ok) throw new Error("cart " + r.status);
+    /* Impact theme: refresh + open the cart drawer; fall back to /cart */
+    const drawer = document.getElementById("cart-drawer");
+    if (drawer && typeof drawer.show === "function") {
+      document.dispatchEvent(new CustomEvent("cart:refresh"));
+      drawer.show();
+      setBusy(false);
+    } else {
+      window.location.href = CART.cartUrl;
+    }
+  } catch (e) {
+    setBusy(false);
+    setToast("Something hiccuped adding to your cart. Please try again.");
+  }
 }
 
 /* ================================================================

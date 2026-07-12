@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 23 — full health check of live PDP
+# run: 24 — free-diffuser LP live verification (render + pick-3 + real cart)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Health check live PDP
+      - name: Verify live free-diffuser LP
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
@@ -26,59 +26,80 @@ jobs:
           page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
           page.on('requestfailed', r=>{ const u=r.url(); if(/cdn\.shopify|maisoncroyez/.test(u)) failed.push(r.failure()?.errorText+' '+u.slice(0,90)); });
           const resp=[];
-          page.on('response', r=>{ const u=r.url(); if(/mc-lp-diffuser|mc-lp-d-/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,40)); });
-          await page.goto('https://maisoncroyez.com/pages/diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+          page.on('response', r=>{ const u=r.url(); if(/mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-lp-d-/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,50)); });
+          await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
           await page.waitForTimeout(9000);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
           const audit = await page.evaluate(()=>{
             const q=s=>document.querySelectorAll(s).length;
             const imgs=[...document.querySelectorAll('#root img')];
             const brokenImgs=imgs.filter(i=>i.complete && i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40));
-            const secs=[...document.querySelectorAll('#root section')].length;
             const atc=document.querySelector('.buybox .atc');
             return {
               root: !!document.getElementById('root'),
               rootHtmlLen: (document.getElementById('root')||{}).innerHTML?.length||0,
-              sections: secs,
+              h1: (document.querySelector('#root h1')||{}).innerText||'MISSING',
+              price: (document.querySelector('.price-row .price')||{}).innerText||'MISSING',
+              valstackRows: q('.valstack .vrow'),
+              selBar: (document.querySelector('.sel-bar')||{}).innerText||'MISSING',
+              freeLine: (document.querySelector('.free-line')||{}).innerText||'MISSING',
+              sections: q('#root section'),
               galSlides: q('.gal-slide'),
-              galDots: q('.gal-dots span'),
-              arrows: q('.gal-arw'),
               fragCards: q('.pick'),
-              atcText: atc? atc.innerText.replace(/\s+/g,' ').trim().slice(0,60):'MISSING',
+              atcText: atc? atc.innerText.replace(/\s+/g,' ').trim().slice(0,80):'MISSING',
               faqs: q('.faq .qa'),
               stickyExists: q('.sticky')>0,
               imgTotal: imgs.length,
               brokenImgs,
-              bodyScrollH: document.body.scrollHeight,
               overflowX: document.documentElement.scrollWidth>document.documentElement.clientWidth+2
             };
           });
-          // cart test
-          const jar='cookies';
+          // interact: pick 2x first scent + 1x third scent via real clicks
+          await page.click('.pick:nth-child(1)');
+          await page.waitForTimeout(300);
+          await page.click('.pick:nth-child(1) .pq-b:last-child');
+          await page.waitForTimeout(300);
+          await page.click('.pick:nth-child(3)');
+          await page.waitForTimeout(500);
+          const picked = await page.evaluate(()=>({
+            selBar:(document.querySelector('.sel-bar')||{}).innerText,
+            freeLine:(document.querySelector('.free-line')||{}).innerText,
+          }));
+          // real ATC click -> drawer
+          await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
+          await page.waitForTimeout(400);
+          await page.click('.buybox .atc');
+          await page.waitForTimeout(5000);
+          const drawer = await page.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            return {exists:!!d, open:d?(d.hasAttribute('open')||d.classList.contains('active')||getComputedStyle(d).visibility!=='hidden'):false};
+          });
+          await page.screenshot({ path:'fd-drawer.png' });
           const cart = await page.evaluate(async()=>{
-            try{
-              const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45216681590893,quantity:1},{id:41212020457581,quantity:1,selling_plan:1605206125}]})});
-              const j=await r.json();
-              return {ok:r.ok, items:(j.items||[]).map(i=>i.product_title+' $'+(i.price/100)+' plan:'+((i.selling_plan_allocation||{}).selling_plan||{}).id)};
-            }catch(e){return {err:String(e).slice(0,120)};}
+            const j=await (await fetch('/cart.js')).json();
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), v:i.variant_id, q:i.quantity, price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title+' -'+d.amount/100)}))};
           });
           console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
+          console.log('=== PICKED ==='); console.log(JSON.stringify(picked,null,1));
+          console.log('=== DRAWER ==='); console.log(JSON.stringify(drawer));
           console.log('=== CART ==='); console.log(JSON.stringify(cart,null,1));
           console.log('=== CONSOLE ERRORS ('+errs.length+') ==='); errs.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== FAILED REQUESTS ('+failed.length+') ==='); failed.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== OUR BUNDLE RESPONSES ==='); [...new Set(resp)].forEach(e=>console.log(' - '+e));
-          await page.screenshot({ path:'health-full.png', fullPage:true });
+          await page.evaluate(()=>window.scrollTo(0,0));
+          await page.waitForTimeout(800);
+          await page.screenshot({ path:'fd-live-full.png', fullPage:true });
           await b.close();
           EOS
           node check.mjs
-      - name: Commit screenshot
+      - name: Commit screenshots
         if: always()
         run: |
-          mkdir -p lp-factory/pages/pdp-diffuser/verify
-          mv health-full.png lp-factory/pages/pdp-diffuser/verify/ 2>/dev/null || true
+          mkdir -p lp-factory/pages/pdp-free-diffuser/verify
+          mv fd-live-full.png fd-drawer.png lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/pdp-diffuser/verify
-          git commit -m "PDP health check screenshot" || true
+          git add lp-factory/pages/pdp-free-diffuser/verify
+          git commit -m "Free-diffuser LP live verification screenshots" || true
           git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

@@ -17,8 +17,8 @@ const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 /* --- checkout wiring: 3 fragrance SKUs on the Subi quarterly plan +
    free-diffuser duplicate product zeroed by an automatic BXGY discount --- */
 const CART = {
-  diffuserVariant: 0,   /* TODO: $119.95 duplicate diffuser variant (this funnel only) */
-  sellingPlan: 0,       /* TODO: Subi quarterly plan gid (owner created 2026-07-12) */
+  diffuserVariant: 45450822778989,   /* $119.95 duplicate diffuser (this funnel only), zeroed by auto BXGY 1375641600109 */
+  sellingPlan: 2615967853,           /* Subi "Every 3 months" plan — bills + ships quarterly, no intro discount */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 const PICK_MAX = 3;

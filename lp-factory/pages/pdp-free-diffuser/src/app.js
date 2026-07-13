@@ -59,7 +59,7 @@ const CONFIG = {
   ],
 
   buybox: {
-    microProof: "2,500+ women already manifesting what they want in their spaces.",
+    microProof: "(4.6 rated on 2,500+ reviews)",
     title: { pre: "90-Day Manifestation Ritual +", em: "FREE Maison Croyez Diffuser." },
     offer: {
       price: "$39.95",
@@ -523,8 +523,8 @@ function BuyBox() {
       <div class="wrap">
         <${Gallery}/>
         <div class="buybox">
-          <div class="rating"><${Stars}/> ${B.microProof}</div>
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
+          <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
             <span class="price">${B.offer.price}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${B.offer.compareAt}</span>

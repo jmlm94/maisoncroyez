@@ -1117,3 +1117,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 /* FREE-DIFFUSER LP round 3 — value box tinted like the selector bar (owner) */
 .valstack{background:#F4EDFB;border-color:#E2D2F6}
 .valstack .vrow.total{border-top-color:#DCC9F3}
+
+/* FREE-DIFFUSER LP round 5 — centered price row + rating below title, +25% (owner) */
+.pdp-buy .price-row{justify-content:center}
+.buybox .rating{font-size:.83rem}

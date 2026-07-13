@@ -67,7 +67,7 @@ Per-scent card gradients: see `intentionMap.fragrances[].grad` in `src/app.js`.
 - Live page #4: `/pages/free-diffuser` (gid://shopify/Page/117412692077, DEFAULT template, body-embed loader, deployed 2026-07-12). "90-Day Manifestation Ritual", Blueprint 004, split-test twin of #3.
   - Offer: pick 3 fragrance SKUs on Subi QUARTERLY plan 2615967853 ("Every 3 months", no intro discount) = $119.85/quarter + FREE diffuser. Advertised as $39.95/fragrance, compare-at $239.95.
   - Free diffuser = DUPLICATE product gid://shopify/Product/8153621921901 (variant 45450822778989, $119.95, same customer-facing title, handle maison-croyez-home-scent-diffuser) zeroed by automatic BXGY discount gid://shopify/DiscountAutomaticNode/1375641600109 (buy 3 from the 7 fragrance products -> dup diffuser 100% off, 1/order). ORIGINAL diffuser 45216681590893 stays $89.95 — do NOT change its price, /pages/diffuser depends on it.
-  - Loader version key: `'fd1-'+hour`; loads mc-lp-free-diffuser.css + mc-lp-vendor.js + mc-lp-diffuser-assets.js (REUSED, same slots) + mc-lp-free-diffuser-app.js.
+  - Loader version key: `'fd3-'+hour` (bumped 2026-07-13, rounds 5-8); hero preload = Diseno_sin_titulo_92.png; loads mc-lp-free-diffuser.css + mc-lp-vendor.js + mc-lp-diffuser-assets.js (REUSED, same slots) + mc-lp-free-diffuser-app.js.
   - Deploy CSS = mc-lp-diffuser.css + #root-prefixed FD appendix (valstack/sel-bar/pick-qty/free-line rules).
 - mc-lp-free-diffuser CDN files (fileUpdate keeps URL, bumps ?v):
   - css `gid://shopify/GenericFile/29348024909933` -> `.../files/mc-lp-free-diffuser.css`

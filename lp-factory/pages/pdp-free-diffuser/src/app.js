@@ -43,7 +43,7 @@ const CONFIG = {
 
   /* --- gallery: EXACT product media, in the product's own order --- */
   gallery: [
-    "slot:product",
+    "Diseno_sin_titulo_92.png?v=1783904283",
     "image-1_1_1.png?v=1773273488",
     "image-2_1_1.png?v=1773273488",
     "image-3_1_1.png?v=1773273488",

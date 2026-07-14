@@ -1,0 +1,218 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MC Email Design — Welcome 01</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,700;1,700&family=Outfit:wght@400;700&family=Be+Vietnam+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root{
+    --blush:#ECDFDE; --blush-soft:#F3EAE8; --rosewood:#C4A59F; --rosewood-deep:#8A5B52;
+    --rosewood-tint:#E7D6D2; --cream:#F9F5F0; --ivory:#FFFFFF; --ink:#241C18;
+    --ink-soft:#5C4F48; --footer:#1E1613; --star:#F5B301;
+    --grad-em:linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%);
+    --grad-hero:linear-gradient(168deg,#F3E7E3 0%,#ECDFDE 34%,#E6CDBB 72%,#DCB99F 100%);
+    --grad-values:linear-gradient(160deg,#F6ECE6 0%,#ECDFDE 45%,#E9D3BE 100%);
+    --grad-badge:linear-gradient(145deg,#D9A98F 0%,#C4A59F 55%,#E3C1A4 100%);
+    --grad-cta:linear-gradient(135deg,#8A5B52 0%,#3A2721 90%);
+  }
+  body{margin:0;padding:0;background:#E9E4DF;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+  /* ------- preview chrome (NOT part of the email) ------- */
+  .pv-head{max-width:640px;margin:0 auto;padding:26px 20px 14px;text-align:center}
+  .pv-kicker{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#8A5B52}
+  .pv-title{font-family:'Unna',serif;font-weight:700;font-size:1.7rem;letter-spacing:-.03em;margin:6px 0 0}
+  .inbox{max-width:640px;margin:14px auto 10px;background:#FFFFFF;border:1px solid #DCD3CC;border-radius:14px;padding:14px 18px;text-align:left}
+  .inbox .from{font-weight:600;font-size:.9rem}
+  .inbox .subj{font-weight:600;font-size:.95rem;margin-top:2px}
+  .inbox .pre{color:#8b7f77;font-size:.85rem;margin-top:2px}
+  .inbox .tag{float:right;font-family:'Outfit',sans-serif;font-weight:700;font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;background:#F3EAE8;color:#8A5B52;border-radius:999px;padding:4px 10px}
+  .pv-note{max-width:640px;margin:0 auto 22px;text-align:center;font-size:.72rem;color:#8b7f77;padding:0 20px}
+
+  /* ------- email canvas ------- */
+  .email{max-width:600px;margin:0 auto 60px;background:var(--ivory);border-radius:4px;overflow:hidden;box-shadow:0 18px 60px rgba(60,38,30,.18)}
+
+  .announce{background:var(--grad-cta);color:#FBEFE8;text-align:center;padding:11px 16px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;line-height:1.6}
+  .hdr{background:var(--ivory);border-bottom:1px solid var(--rosewood-tint);text-align:center;padding:18px 20px}
+  .hdr img{height:40px;width:auto}
+
+  .hero{background:var(--grad-hero);text-align:center;padding:38px 28px 34px}
+  .stars{color:var(--star);letter-spacing:3px;font-size:1rem}
+  .microproof{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-top:8px}
+  h1{font-family:'Unna',serif;font-weight:700;font-size:2.5rem;line-height:.95;letter-spacing:-.04em;margin:16px auto 0;max-width:11em}
+  h1 em,h2 em,.cline em{font-style:italic;font-weight:700;background:var(--grad-em);-webkit-background-clip:text;background-clip:text;color:#C0589B;-webkit-text-fill-color:transparent}
+  @supports not (-webkit-background-clip:text){h1 em,h2 em,.cline em{color:#C0589B;-webkit-text-fill-color:currentColor}}
+  .sub{color:var(--ink-soft);font-size:1rem;line-height:1.6;max-width:30em;margin:14px auto 0}
+
+  .btn{display:block;max-width:420px;margin:24px auto 0;padding:17px 26px;border-radius:999px;background:#000000;color:#FFFFFF;text-decoration:none;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.84rem;box-shadow:0 12px 28px rgba(0,0,0,.28);text-align:center}
+  .btn .btn-sub{display:block;font-size:.6rem;letter-spacing:.18em;opacity:.85;margin-top:3px}
+  .btn.grad{background:var(--grad-em)}
+
+  .prooflines{margin:20px 0 0;padding:0;list-style:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink)}
+  .prooflines li{margin-top:6px}
+  .prooflines li::before{content:"·";color:var(--rosewood-deep);margin-right:8px;font-size:1rem}
+
+  .heroimg{position:relative;margin:28px auto 0;max-width:440px;border-radius:22px;overflow:hidden;box-shadow:0 10px 34px rgba(60,38,30,.16)}
+  .heroimg img{display:block;width:100%;height:auto}
+  .freechip{position:absolute;top:12px;right:12px;transform:rotate(6deg);background:var(--ink);color:#F6E8DF;border-radius:14px;padding:10px 14px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.1em;line-height:1.5;text-transform:uppercase}
+  .freechip .big{font-size:1rem;display:block}
+
+  .section{padding:44px 28px}
+  .eyebrow{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.2em;font-size:.64rem;color:var(--rosewood-deep)}
+  h2{font-family:'Unna',serif;font-weight:700;font-size:2rem;line-height:.96;letter-spacing:-.04em;margin:10px 0 0}
+  .lede{color:var(--ink-soft);font-size:.95rem;line-height:1.65;margin:12px 0 0}
+
+  .offer{background:var(--cream);text-align:center}
+  .offer .oimg{border-radius:22px;overflow:hidden;max-width:440px;margin:22px auto 0;position:relative;box-shadow:0 10px 34px rgba(60,38,30,.12)}
+  .offer .oimg img{display:block;width:100%}
+  .includes{background:var(--ivory);border:1px solid var(--rosewood-tint);border-radius:16px;padding:18px 20px;max-width:420px;margin:22px auto 0;text-align:left}
+  .includes .caps{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.6rem;color:var(--rosewood-deep);display:block;margin-bottom:8px}
+  .includes ul{margin:0;padding:0;list-style:none}
+  .includes li{font-size:.88rem;padding:4px 0;color:var(--ink)}
+  .includes li::before{content:"✓";color:var(--rosewood-deep);font-weight:700;margin-right:9px}
+  .includes li b{font-weight:600}
+  .includes li .free{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#F6E8DF;border-radius:6px;padding:2px 7px;margin-left:7px;white-space:nowrap}
+  .nocode{font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rosewood-deep);margin-top:14px}
+
+  .scents{background:var(--blush);text-align:center}
+  .scentrow{display:flex;gap:12px;justify-content:center;margin-top:24px}
+  .scent{flex:1;max-width:170px;background:var(--ivory);border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(60,38,30,.1);text-align:center}
+  .scent img{display:block;width:100%;height:auto}
+  .scent .sname{font-family:'Unna',serif;font-weight:700;font-size:.98rem;line-height:1.05;padding:10px 10px 2px}
+  .scent .sint{font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;color:var(--rosewood-deep);padding:0 10px 12px}
+  .morenote{font-family:'Be Vietnam Pro',sans-serif;font-style:italic;color:var(--ink-soft);font-size:.85rem;margin-top:16px}
+
+  .guarantee{background:var(--grad-values);text-align:center}
+  .gbadge{width:150px;height:150px;border-radius:99px;background:var(--grad-badge);margin:0 auto 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:5px solid rgba(253,251,248,.6);box-shadow:0 10px 34px rgba(60,38,30,.12)}
+  .gbadge .gb1{font-family:'Unna',serif;font-weight:700;font-size:2.1rem;line-height:1}
+  .gbadge .gb2{font-family:'Outfit',sans-serif;font-weight:700;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;margin-top:2px}
+  .gbadge .gb3{font-family:'Outfit',sans-serif;font-weight:700;font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep);margin-top:4px}
+  .trust3{display:flex;gap:10px;justify-content:center;margin-top:26px}
+  .trust3 .t{flex:1;max-width:150px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;line-height:1.7;color:var(--ink)}
+  .trust3 .t .em{font-size:22px;display:block;margin-bottom:6px;font-style:normal}
+
+  .ctabreak{background:var(--ivory);text-align:center;padding:40px 28px 48px}
+  .cline{font-family:'Unna',serif;font-weight:700;font-size:1.7rem;line-height:1.05;letter-spacing:-.04em}
+
+  .footer{background:var(--footer);color:#D8C6BC;padding:44px 28px 40px;text-align:center}
+  .footer img{height:34px;width:auto;margin:0 auto}
+  .footer .ftag{font-family:'Unna',serif;font-style:italic;font-size:1.15rem;color:var(--rosewood);margin:12px 0 26px}
+  .footer .fnav{font-size:.8rem;line-height:2.1}
+  .footer .fnav a{color:#D8C6BC;text-decoration:none;margin:0 9px}
+  .footer .legal{font-size:.68rem;color:#A8968C;line-height:1.7;margin-top:24px}
+  .footer .legal a{color:#A8968C}
+
+  @media(max-width:520px){
+    h1{font-size:2rem}
+    .scentrow{gap:8px}
+    .section{padding:38px 18px}
+    .hero{padding:32px 18px 30px}
+  }
+</style>
+
+<div class="pv-head">
+  <div class="pv-kicker">Maison Croyez · Email Design System</div>
+  <div class="pv-title">Sample: Welcome Email #1</div>
+</div>
+<div class="inbox">
+  <span class="tag">Preview</span>
+  <div class="from">Maison Croyez &lt;info@maisoncroyez.com&gt;</div>
+  <div class="subj">Your diffuser is on us. 🤍</div>
+  <div class="pre">Pick your first 3 scents — the diffuser comes free. No code needed.</div>
+</div>
+<div class="pv-note">Design-direction sample — final emails reuse each flow's existing copy with the offer swapped in. Copy below is drawn from the approved brand kit.</div>
+
+<div class="email">
+
+  <!-- announcement -->
+  <div class="announce">Free diffuser with your first 3 scents — added automatically at checkout</div>
+
+  <!-- header -->
+  <div class="hdr"><a href="https://maisoncroyez.com/pages/free-diffuser"><img src="@@logo-black-trim.png@@" alt="Maison Croyez" height="40"></a></div>
+
+  <!-- hero -->
+  <div class="hero">
+    <div class="stars">★★★★★</div>
+    <div class="microproof">Loved by 2,500+ women across the U.S.</div>
+    <h1>The invisible detail that makes your home feel <em>finished.</em></h1>
+    <p class="sub">Fragrance that feels like you cleaned the whole house — even when you didn’t. Choose your first three intentions, and the diffuser itself is our gift to you.</p>
+    <a class="btn" href="https://maisoncroyez.com/pages/free-diffuser">Claim My Free Diffuser ➔<span class="btn-sub">No code needed — added at checkout</span></a>
+    <ul class="prooflines">
+      <li>90-Day Risk-Free Trial</li>
+      <li>Lifetime Warranty</li>
+      <li>Free Shipping</li>
+    </ul>
+    <div class="heroimg">
+      <img src="@@dsc8424.jpg@@" alt="The Maison Croyez diffuser at home">
+      <div class="freechip"><span class="big">Free</span>Diffuser</div>
+    </div>
+  </div>
+
+  <!-- offer -->
+  <div class="section offer">
+    <div class="eyebrow">The Welcome Offer</div>
+    <h2>Your first 3 scents come with the diffuser, <em>free.</em></h2>
+    <p class="lede">Pick the three intentions you want your home to hold. We’ll add the diffuser to your order — on us.</p>
+    <div class="oimg"><img src="@@offer45.jpg@@" alt="Maison Croyez diffuser with fragrance"></div>
+    <div class="includes">
+      <span class="caps">Your kit includes</span>
+      <ul>
+        <li><b>3 × 100ml fragrances</b> — your choice of intention</li>
+        <li><b>The Maison Croyez diffuser</b><span class="free">Free · $89 value</span></li>
+        <li><b>30+ days</b> of continuous diffusion per bottle</li>
+        <li><b>Fills a room</b> in under 10 minutes</li>
+      </ul>
+    </div>
+    <a class="btn" href="https://maisoncroyez.com/pages/free-diffuser">Pick My 3 Scents ➔<span class="btn-sub">Free diffuser included</span></a>
+    <div class="nocode">No code · added automatically at checkout</div>
+  </div>
+
+  <!-- scents -->
+  <div class="section scents">
+    <div class="eyebrow">Choose Your Intention</div>
+    <h2>Every scent is tied to an <em>intention.</em></h2>
+    <div class="scentrow">
+      <div class="scent"><img src="@@frag1.jpg@@" alt="Honey Nectar"><div class="sname">Honey Nectar</div><div class="sint">Turn Ideas Into Reality</div></div>
+      <div class="scent"><img src="@@frag2.jpg@@" alt="Golden Blossom Harmony"><div class="sname">Golden Blossom</div><div class="sint">Love</div></div>
+      <div class="scent"><img src="@@frag3.jpg@@" alt="Euphoric Bloom"><div class="sname">Euphoric Bloom</div><div class="sint">Raise Energy</div></div>
+    </div>
+    <div class="morenote">…and 4 more intentions waiting for you.</div>
+  </div>
+
+  <!-- guarantee -->
+  <div class="section guarantee">
+    <div class="gbadge">
+      <span class="gb1">90</span>
+      <span class="gb2">Day Trial</span>
+      <span class="gb3">Risk-Free</span>
+    </div>
+    <h2>Love it, or it’s <em>on us.</em></h2>
+    <p class="lede">Try Maison Croyez in your own home for 90 days. If it doesn’t change how your space feels, we’ll refund you in full — no hassle, no stress.</p>
+    <div class="trust3">
+      <div class="t"><span class="em">🕊️</span>90-Day<br>Risk-Free Trial</div>
+      <div class="t"><span class="em">♾️</span>Lifetime<br>Warranty</div>
+      <div class="t"><span class="em">📦</span>Free<br>Shipping</div>
+    </div>
+  </div>
+
+  <!-- final CTA -->
+  <div class="ctabreak">
+    <div class="cline">Your home is <em>your signature.</em></div>
+    <a class="btn grad" href="https://maisoncroyez.com/pages/free-diffuser">Claim My Free Diffuser ➔<span class="btn-sub">With your first 3 scents</span></a>
+  </div>
+
+  <!-- footer -->
+  <div class="footer">
+    <img src="@@logo-cream-trim.png@@" alt="Maison Croyez">
+    <div class="ftag">Scent, as part of your design.</div>
+    <div class="fnav">
+      <a href="https://maisoncroyez.com">Shop</a>·
+      <a href="https://maisoncroyez.com/pages/free-diffuser">Free Diffuser Offer</a>·
+      <a href="https://maisoncroyez.com">Contact</a>
+    </div>
+    <div class="legal">
+      You’re receiving this because you subscribed at maisoncroyez.com.<br>
+      Maison Croyez · 1825 NW 112th Ave, Miami, FL 33172<br>
+      <a href="#">Unsubscribe</a> · <a href="#">Manage preferences</a>
+    </div>
+  </div>
+
+</div>

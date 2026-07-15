@@ -1132,13 +1132,10 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
    ivory -> postcard card stock #F2EDE2; all purple -> antique gold #A67C3D;
    how-to band -> near-black #141414 with pure white type */
 :root{
-  --ivory:#F2EDE2;
   --grad-em:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);
 }
 h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67C3D;-webkit-text-fill-color:#A67C3D}
 .pick-badge{background:#A67C3D;box-shadow:0 2px 8px rgba(166,124,61,.3)}
-.imap{background:#F2EDE2}
-section.faq{background:#F2EDE2}
 .sel-bar{background:#F5EEDD;border-color:#E2D2AC}
 .sel-dots span{background:#E5D9BC}
 .sel-dots span.on{background:#A67C3D}
@@ -1152,5 +1149,6 @@ section.faq{background:#F2EDE2}
 .howto .section-head h2{color:#FFFFFF}
 .howto h2 em{color:#C9A25C;-webkit-text-fill-color:#C9A25C}
 .howto .angle-bullets li{color:#FFFFFF}
-.howto .hstep h3{color:#FFFFFF}
-.howto .hstep p{color:#FFFFFF}
+/* step cards stay light -> card text stays ink (round 11: white-on-card was unreadable) */
+.howto .hstep h3{color:var(--ink)}
+.howto .hstep p{color:var(--ink-soft)}

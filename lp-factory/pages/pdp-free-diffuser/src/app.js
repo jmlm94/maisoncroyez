@@ -70,6 +70,7 @@ const CONFIG = {
         { label: "Maison Croyez diffuser", strike: "$119.95", value: "FREE" },
         { label: "You pay today", value: "$119.95", total: true },
       ],
+      valueFoot: "Each 100ml bottle lasts 30+ days of continuous scent — your 3 bottles cover 3+ months.",
       bullets: [
         { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes with scents that make guests say \u201cwhat\u2019s that smell\u201d in the middle of a chat." },
         { icon: "leaf", text: "No water needed = no mold = no maintenance required." },
@@ -79,6 +80,7 @@ const CONFIG = {
     pickerTitle: "Pick your 3 fragrances:",
     pickerLabel: "Any mix you like \u2014 three different intentions, or a triple of your favorite. Tap a scent to add it.",
     cta: { label: "Claim My Free Diffuser", sub: "$119.95 today \u00b7 renews every 3 months \u00b7 cancel anytime" },
+    postCta: "\ud83d\udd04 Your next 3 bottles ship in 3 months \u2014 swap fragrances anytime.",
     booklet: "\ud83c\udf81 **FREE Sample Booklet included** \u2014 all 7 scents to smell at home, so your next three bottles are exactly the ones you want.",
     trustStrip: [
       { icon: "shield", text: "90-Day Money-Back" },
@@ -537,6 +539,7 @@ function BuyBox() {
                   <span>${v.label}</span>
                   <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
                 </div>`)}
+              ${B.offer.valueFoot && html`<div class="vfoot">${B.offer.valueFoot}</div>`}
             </div>`}
           <ul class="offer-bullets">
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
@@ -587,6 +590,7 @@ function BuyBox() {
             <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
             <span class="btn-sub">${B.cta.sub}</span>
           </button>
+          ${B.postCta && html`<div class="post-cta">${B.postCta}</div>`}
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
           <div class="trust-strip">
             ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}

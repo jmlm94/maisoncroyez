@@ -1123,3 +1123,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 
 /* FREE-DIFFUSER LP round 6 — 15px gap between gallery image and title (owner) */
 .pdp-buy .gal{margin-bottom:15px}
+
+/* FREE-DIFFUSER LP round 9 — value-stack duration footnote + post-CTA ship/swap note (owner) */
+.valstack .vfoot{font-size:.85rem;color:var(--ink-soft);border-top:1px dashed #DCC9F3;padding-top:8px;line-height:1.5}
+.post-cta{text-align:center;font-size:.9rem;color:var(--ink-soft);line-height:1.5;margin-top:2px}

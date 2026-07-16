@@ -1,30 +1,188 @@
-perf run 1 goto: HTTP 429
-perf run 2 goto: HTTP 429
-perf run 3 goto: HTTP 429
+perf run 1 goto attempt 1: HTTP 429
+perf run 1 goto attempt 2: HTTP 429
+perf run 1 goto attempt 3: HTTP 200
+perf run 2 goto attempt 1: HTTP 429
+perf run 2 goto attempt 2: HTTP 429
+perf run 2 goto attempt 3: HTTP 200
+perf run 3 goto attempt 1: HTTP 429
+perf run 3 goto attempt 2: HTTP 429
+perf run 3 goto attempt 3: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=33ms FCP=228ms LCP=228ms CLS=0 TBT=0ms load=214ms reqs=0 transfer=0KB
-run2: TTFB=32ms FCP=232ms LCP=232ms CLS=0 TBT=0ms load=214ms reqs=0 transfer=0KB
-run3: TTFB=30ms FCP=228ms LCP=228ms CLS=0 TBT=0ms load=211ms reqs=0 transfer=0KB
+run1: TTFB=15ms FCP=512ms LCP=5064ms CLS=0.0009 TBT=788ms load=10028ms reqs=167 transfer=2519KB
+run2: TTFB=18ms FCP=392ms LCP=4936ms CLS=0.0009 TBT=804ms load=10384ms reqs=168 transfer=2520KB
+run3: TTFB=14ms FCP=420ms LCP=4968ms CLS=0.0009 TBT=775ms load=9945ms reqs=167 transfer=2519KB
 === MEDIAN ===
-{"ttfbMs":32,"fcpMs":228,"lcpMs":228,"cls":0,"tbtMs":0,"loadMs":214,"totalTransferKB":0}
+{"ttfbMs":15,"fcpMs":420,"lcpMs":4968,"cls":0.0009,"tbtMs":788,"loadMs":10028,"totalTransferKB":2519}
 === LCP ELEMENT (per run) ===
-run1: pre
-run2: pre
-run3: pre
+run1: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
+run2: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
+run3: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
 === LAYOUT SHIFT SOURCES (run1, >0.01) ===
 []
 === FONTS LOADED (run1) ===
-{"unna":true,"unnaB":true,"outfit":true,"bvp":true} []
+{"unna":true,"unnaB":true,"outfit":false,"bvp":true} []
 === VIDEO REQS DURING LOAD, NO SCROLL (run1 — expect none) ===
-[]
+[{"f":"mc-lp-d-gif1.mp4","transferKB":0},{"f":"mc-lp-d-gif2.mp4","transferKB":0},{"f":"mc-lp-d-gif3.mp4","transferKB":0},{"f":"mc-lp-d-gif1.webm","transferKB":76},{"f":"mc-lp-d-gif2.webm","transferKB":129},{"f":"mc-lp-d-gif3.webm","transferKB":112}]
 === HERO IMG (run1) ===
-[]
+[{"transferKB":58,"ms":4628}]
 === OUR BUNDLES (run1) ===
-[]
+[
+ {
+  "f": "mc-lp-free-diffuser.css",
+  "transferKB": 11,
+  "decodedKB": 61,
+  "ms": 1777
+ },
+ {
+  "f": "mc-lp-vendor.js",
+  "transferKB": 43,
+  "decodedKB": 140,
+  "ms": 4173
+ },
+ {
+  "f": "mc-lp-diffuser-assets.js",
+  "transferKB": 1,
+  "decodedKB": 2,
+  "ms": 311
+ },
+ {
+  "f": "mc-lp-free-diffuser-app.js",
+  "transferKB": 12,
+  "decodedKB": 34,
+  "ms": 1941
+ },
+ {
+  "f": "mc-lp-d-frag2.jpg",
+  "transferKB": 20,
+  "decodedKB": 20,
+  "ms": 1574
+ },
+ {
+  "f": "mc-lp-d-frag4.jpg",
+  "transferKB": 14,
+  "decodedKB": 13,
+  "ms": 1131
+ },
+ {
+  "f": "mc-lp-d-frag6.jpg",
+  "transferKB": 19,
+  "decodedKB": 19,
+  "ms": 1609
+ },
+ {
+  "f": "mc-lp-d-frag1.jpg",
+  "transferKB": 22,
+  "decodedKB": 22,
+  "ms": 1709
+ },
+ {
+  "f": "mc-lp-d-frag3.jpg",
+  "transferKB": 20,
+  "decodedKB": 20,
+  "ms": 1594
+ },
+ {
+  "f": "mc-lp-d-gif1.mp4",
+  "transferKB": 0,
+  "decodedKB": 0,
+  "ms": 644
+ },
+ {
+  "f": "mc-lp-d-gif2.mp4",
+  "transferKB": 0,
+  "decodedKB": 0,
+  "ms": 657
+ },
+ {
+  "f": "mc-lp-d-gif3.mp4",
+  "transferKB": 0,
+  "decodedKB": 0,
+  "ms": 663
+ },
+ {
+  "f": "mc-lp-d-gif1.webm",
+  "transferKB": 76,
+  "decodedKB": 75,
+  "ms": 1405
+ },
+ {
+  "f": "mc-lp-d-gif2.webm",
+  "transferKB": 129,
+  "decodedKB": 129,
+  "ms": 2165
+ },
+ {
+  "f": "mc-lp-d-gif3.webm",
+  "transferKB": 112,
+  "decodedKB": 112,
+  "ms": 1985
+ }
+]
 === TOP TRANSFERS (run1) ===
-[]
+[
+ {
+  "f": "merriweather_n4.349a72bc63b970a8b7f00dc33f5bda2ec52f79c",
+  "transferKB": 330,
+  "ms": 9714
+ },
+ {
+  "f": "merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff7839",
+  "transferKB": 328,
+  "ms": 9692
+ },
+ {
+  "f": "hydrate.GRgWJ6fJ.js",
+  "transferKB": 204,
+  "ms": 2065
+ },
+ {
+  "f": "mc-lp-d-gif2.webm",
+  "transferKB": 129,
+  "ms": 2165
+ },
+ {
+  "f": "mc-lp-d-gif3.webm",
+  "transferKB": 112,
+  "ms": 1985
+ },
+ {
+  "f": "useShopPayExternalAppContext.CfOiP1Sb.js",
+  "transferKB": 103,
+  "ms": 656
+ },
+ {
+  "f": "fbevents.js",
+  "transferKB": 103,
+  "ms": 2050
+ },
+ {
+  "f": "mc-lp-d-gif1.webm",
+  "transferKB": 76,
+  "ms": 1405
+ },
+ {
+  "f": "page-OnePage.CqNxh0IW.js",
+  "transferKB": 70,
+  "ms": 491
+ },
+ {
+  "f": "b38536c96w7d3b3514p5ca1b06em82de9160m.js",
+  "transferKB": 66,
+  "ms": 5202
+ },
+ {
+  "f": "980908600592309",
+  "transferKB": 65,
+  "ms": 1112
+ },
+ {
+  "f": "context-browser.Qmrelpi0.js",
+  "transferKB": 64,
+  "ms": 469
+ }
+]
 === BY TYPE (run1) ===
-{}
+{"early-hints":{"n":3,"kb":0},"link":{"n":52,"kb":1436},"script":{"n":60,"kb":523},"beacon":{"n":13,"kb":0},"img":{"n":12,"kb":95},"css":{"n":3,"kb":0},"fetch":{"n":11,"kb":1},"iframe":{"n":2,"kb":29},"xmlhttprequest":{"n":1,"kb":0},"other":{"n":4,"kb":116},"video":{"n":6,"kb":317}}
 --- asset headers ---
 == mc-lp-free-diffuser.css ==
 content-type: text/css

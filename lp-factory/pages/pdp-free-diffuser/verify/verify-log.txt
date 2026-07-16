@@ -6,7 +6,7 @@ goto attempt 3: HTTP 200
 === AUDIT ===
 {
  "root": true,
- "rootHtmlLen": 30704,
+ "rootHtmlLen": 31466,
  "h1": "30-Day Manifestation Ritual + FREE Maison Croyez Diffuser.",
  "price": "$39.95",
  "valstackRows": 3,
@@ -57,30 +57,39 @@ goto attempt 3: HTTP 200
  ]
 }
 === INP PROXY (interaction event durations) ===
-{"worstEventMs":64,"events":[{"n":"pointerover","d":64},{"n":"pointerenter","d":64},{"n":"pointerenter","d":64},{"n":"pointerenter","d":64},{"n":"pointerenter","d":64},{"n":"pointerenter","d":64},{"n":"pointerenter","d":64},{"n":"pointerenter","d":64},{"n":"mouseover","d":64},{"n":"pointerout","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16}]}
+{"worstEventMs":32,"events":[{"n":"pointerover","d":32},{"n":"pointerenter","d":32},{"n":"pointerenter","d":32},{"n":"pointerenter","d":32},{"n":"pointerenter","d":32},{"n":"pointerenter","d":32},{"n":"pointerenter","d":32},{"n":"pointerenter","d":32},{"n":"mouseover","d":32},{"n":"pointerout","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16}]}
 === CONSOLE ERRORS (4) ===
  - Failed to load resource: the server responded with a status of 429 ()
  - Failed to load resource: the server responded with a status of 429 ()
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (5) ===
+=== FAILED REQUESTS (8) ===
+ - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=4308a85f-c34d-4bfd-b1af-1d65cc4f1618&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=27ffea21-908b-4167-ba95-664e9e9c3421&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
 === OUR BUNDLE RESPONSES ===
- - 200 mc-lp-diffuser-assets.js?v=fd6-2026071621
- - 200 mc-lp-free-diffuser.css?v=fd6-2026071621
- - 200 mc-lp-free-diffuser-app.js?v=fd6-2026071621
- - 200 mc-lp-vendor.js?v=fd6-2026071621
- - 200 mc-lp-d-frag4.jpg?v=1783552928
- - 200 mc-lp-d-frag2.jpg?v=1783552928
- - 200 mc-lp-d-frag1.jpg?v=1783552928
- - 200 mc-lp-d-frag6.jpg?v=1783552928
+ - 200 mc-lp-free-diffuser.css?v=fd6-2026071623
+ - 200 mc-lp-diffuser-assets.js?v=fd6-2026071623
+ - 200 mc-lp-free-diffuser-app.js?v=fd6-2026071623
+ - 200 mc-lp-vendor.js?v=fd6-2026071623
  - 200 mc-lp-d-frag3.jpg?v=1783552928
- - 200 mc-lp-d-frag5.jpg?v=1783552928
+ - 200 mc-lp-d-frag2.jpg?v=1783552928
+ - 200 mc-lp-d-frag4.jpg?v=1783552928
+ - 200 mc-lp-d-frag6.jpg?v=1783552928
  - 200 mc-lp-d-frag7.jpg?v=1783552928
+ - 200 mc-lp-d-frag1.jpg?v=1783552928
+ - 200 mc-lp-d-frag5.jpg?v=1783552928
  - 200 mc-lp-d-intention.jpg?v=1783552928
+ - 206 mc-lp-d-gif2.mp4?v=1783552928
+ - 206 mc-lp-d-gif1.mp4?v=1783552928
+ - 206 mc-lp-d-gif3.mp4?v=1783552928
+ - 206 mc-lp-d-gif1.webm?v=1783552928
+ - 206 mc-lp-d-gif2.webm?v=1783552928
+ - 206 mc-lp-d-gif3.webm?v=1783552928
  - 200 mc-lp-d-diseno90.jpg?v=1783552928

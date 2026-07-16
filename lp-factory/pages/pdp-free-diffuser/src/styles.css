@@ -1158,3 +1158,8 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 .term-row{display:flex;gap:11px;align-items:flex-start;font-size:.92rem;line-height:1.5;color:var(--ink);text-align:left}
 .term-ic{flex:0 0 auto;font-size:1.05rem;line-height:1.4}
 .term-tx strong{font-weight:700}
+
+/* FREE-DIFFUSER LP round 13 — sober line icons in terms, ATC main message only (owner) */
+.term-ic{color:var(--ink);display:flex;align-items:center;padding-top:2px}
+.term-ic svg{display:block}
+.btn.atc span:first-child{font-size:1.02rem}

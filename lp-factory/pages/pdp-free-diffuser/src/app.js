@@ -77,14 +77,14 @@ const CONFIG = {
     },
     pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
-    cta: { label: "Claim My Free Diffuser", sub: "Complete your 3-month subscription and the diffuser is yours" },
+    cta: { label: "Claim My Free Diffuser", sub: "" },
     terms: [
-      { icon: "\ud83d\udce6", text: "**Today:** your first fragrance for $39.95 \u2014 the FREE diffuser ships with it and your subscription begins." },
-      { icon: "\ud83d\udd04", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
-      { icon: "\ud83c\udf81", text: "**The diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month." },
-      { icon: "\u26a0\ufe0f", text: "**Early cancellation fee:** cancel before month 3 and the diffuser's full price ($120) applies." },
+      { icon: "box", text: "**Today:** your first fragrance for $39.95 \u2014 the FREE diffuser ships with it and your subscription begins." },
+      { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
+      { icon: "gift", text: "**The diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month." },
+      { icon: "alert", text: "**Early cancellation fee:** cancel before month 3 and the diffuser's full price ($120) applies." },
     ],
-    booklet: "\ud83c\udf81 **FREE Sample Booklet included** \u2014 all 7 scents to smell at home, so next month's bottle is exactly the one you want.",
+    booklet: "",
     trustStrip: [
       { icon: "shield", text: "90-Day Money-Back" },
       { icon: "infinity", text: "Lifetime Diffuser Warranty" },
@@ -323,6 +323,19 @@ const EMOJI = {
 };
 const Icon = ({ name }) => html`<span class="emoji" role="img" aria-hidden="true">${EMOJI[name] || EMOJI.sparkle}</span>`;
 
+/* Sober monochrome line icons for the offer terms (owner: no emoji there) */
+const TERM_PATHS = {
+  box: "M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5m0 0l9-5m-9 5v9",
+  swap: "M4 7h13m0 0l-3-3m3 3l-3 3M20 17H7m0 0l3 3m-3-3l3-3",
+  gift: "M20 12v9H4v-9m-1-5h18v5H3V7zm9-3s-1.5-3-4-3-2.5 3 0 3h4zm0 0s1.5-3 4-3 2.5 3 0 3h-4zm0 0v17",
+  alert: "M12 4L2 20h20L12 4zm0 7v4m0 3v.5",
+};
+const TermIcon = ({ name }) => html`
+  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"
+    stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d=${TERM_PATHS[name] || TERM_PATHS.box}/>
+  </svg>`;
+
 /* ================================================================
    Shared bits
    ================================================================ */
@@ -547,13 +560,13 @@ function BuyBox() {
 
           <button class="btn atc" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
-            <span class="btn-sub">${B.cta.sub}</span>
+            ${B.cta.sub && html`<span class="btn-sub">${B.cta.sub}</span>`}
           </button>
           ${B.terms && html`
             <div class="offer-terms">
               ${B.terms.map((t) => html`
                 <div class="term-row" key=${t.text}>
-                  <span class="term-ic" aria-hidden="true">${t.icon}</span>
+                  <span class="term-ic" aria-hidden="true"><${TermIcon} name=${t.icon}/></span>
                   <span class="term-tx"><${Rich} s=${t.text}/></span>
                 </div>`)}
             </div>`}

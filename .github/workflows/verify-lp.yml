@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 31 — offer v2 live check
+# run: 32 — offer v2 selectors + performance audit (LCP/CLS/TBT lab, CrUX p75 field)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify live free-diffuser LP
+      - name: Verify live free-diffuser LP (offer v2)
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
@@ -27,6 +27,10 @@ jobs:
           page.on('requestfailed', r=>{ const u=r.url(); if(/cdn\.shopify|maisoncroyez/.test(u)) failed.push(r.failure()?.errorText+' '+u.slice(0,90)); });
           const resp=[];
           page.on('response', r=>{ const u=r.url(); if(/mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-lp-d-/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,50)); });
+          await page.addInitScript(() => {
+            window.__perf={events:[]};
+            new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__perf.events.push({n:e.name,d:Math.round(e.duration)});}).observe({type:'event',durationThreshold:16,buffered:true});
+          });
           await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
           await page.waitForTimeout(9000);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
@@ -54,16 +58,19 @@ jobs:
               overflowX: document.documentElement.scrollWidth>document.documentElement.clientWidth+2
             };
           });
-          // interact: pick 2x first scent + 1x third scent via real clicks
-          await page.click('.pick:nth-child(1)');
-          await page.waitForTimeout(300);
-          await page.click('.pick:nth-child(1) .pq-b:last-child');
-          await page.waitForTimeout(300);
+          // offer v2: SINGLE-select picker — swap radio to 3rd scent, then back to 1st
           await page.click('.pick:nth-child(3)');
-          await page.waitForTimeout(500);
+          await page.waitForTimeout(400);
+          const pickedAlt = await page.evaluate(()=>({
+            selBar:(document.querySelector('.sel-bar')||{}).innerText,
+            selectedCount:document.querySelectorAll('.pick.sel,.pick.selected,.pick[aria-checked="true"],.pick input:checked').length
+          }));
+          await page.click('.pick:nth-child(1)');
+          await page.waitForTimeout(400);
           const picked = await page.evaluate(()=>({
             selBar:(document.querySelector('.sel-bar')||{}).innerText,
             freeLine:(document.querySelector('.free-line')||{}).innerText,
+            selectedCount:document.querySelectorAll('.pick.sel,.pick.selected,.pick[aria-checked="true"],.pick input:checked').length
           }));
           // real ATC click -> drawer
           await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
@@ -79,10 +86,13 @@ jobs:
             const j=await (await fetch('/cart.js')).json();
             return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), v:i.variant_id, q:i.quantity, price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title+' -'+d.amount/100)}))};
           });
+          const inpProxy = await page.evaluate(()=>{ const ds=window.__perf.events.map(e=>e.d).sort((a,b)=>b-a); return {worstEventMs:ds[0]||0, events:window.__perf.events.slice(0,12)}; });
           console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
-          console.log('=== PICKED ==='); console.log(JSON.stringify(picked,null,1));
+          console.log('=== PICKED-ALT (3rd scent) ==='); console.log(JSON.stringify(pickedAlt));
+          console.log('=== PICKED (back to 1st) ==='); console.log(JSON.stringify(picked));
           console.log('=== DRAWER ==='); console.log(JSON.stringify(drawer));
           console.log('=== CART ==='); console.log(JSON.stringify(cart,null,1));
+          console.log('=== INP PROXY (interaction event durations) ==='); console.log(JSON.stringify(inpProxy));
           console.log('=== CONSOLE ERRORS ('+errs.length+') ==='); errs.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== FAILED REQUESTS ('+failed.length+') ==='); failed.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== OUR BUNDLE RESPONSES ==='); [...new Set(resp)].forEach(e=>console.log(' - '+e));
@@ -92,14 +102,92 @@ jobs:
           await b.close();
           EOS
           node check.mjs 2>&1 | tee verify-log.txt
-      - name: Commit screenshots
+      - name: Performance audit (throttled mobile lab x3)
+        if: always()
+        run: |
+          cat > perf.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const URL='https://maisoncroyez.com/pages/free-diffuser';
+          const runs=[];
+          for(let i=0;i<3;i++){
+            const b=await chromium.launch();
+            const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,userAgent:'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36'});
+            const page=await ctx.newPage();
+            const cdp=await ctx.newCDPSession(page);
+            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            await page.addInitScript(()=>{
+              window.__m={lcp:0,cls:0,fcp:0,lt:[]};
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__m.cls+=e.value;}).observe({type:'layout-shift',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(e.name==='first-contentful-paint') window.__m.fcp=e.startTime;}).observe({type:'paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
+            });
+            const t0=Date.now();
+            await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+            await page.waitForTimeout(12000);
+            const m=await page.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const res=performance.getEntriesByType('resource');
+              const ours=res.filter(r=>/mc-lp/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),decodedKB:Math.round(r.decodedBodySize/1024),ms:Math.round(r.duration)}));
+              const byType={};
+              for(const r of res){const t=r.initiatorType||'other';byType[t]=byType[t]||{n:0,kb:0};byType[t].n++;byType[t].kb+=Math.round(r.transferSize/1024);}
+              const top=[...res].sort((a,b)=>b.transferSize-a.transferSize).slice(0,12).map(r=>({f:r.name.split('?')[0].split('/').pop().slice(0,55),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
+              const tbt=window.__m.lt.reduce((s,t)=>s+Math.max(0,t.d-50),0);
+              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),cls:+window.__m.cls.toFixed(4),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),byType,ourBundles:ours,topTransfers:top};
+            });
+            m.wallMs=Date.now()-t0; runs.push(m); await b.close();
+          }
+          const med=k=>{const v=runs.map(r=>r[k]).sort((a,b)=>a-b);return v[1];};
+          console.log('=== PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===');
+          runs.forEach((r,i)=>console.log('run'+(i+1)+': TTFB='+r.ttfbMs+'ms FCP='+r.fcpMs+'ms LCP='+r.lcpMs+'ms CLS='+r.cls+' TBT='+r.tbtMs+'ms load='+r.loadMs+'ms reqs='+r.reqCount+' transfer='+r.totalTransferKB+'KB'));
+          console.log('=== MEDIAN ===');
+          console.log(JSON.stringify({ttfbMs:med('ttfbMs'),fcpMs:med('fcpMs'),lcpMs:med('lcpMs'),cls:med('cls'),tbtMs:med('tbtMs'),loadMs:med('loadMs'),totalTransferKB:med('totalTransferKB')}));
+          console.log('=== OUR BUNDLES (run1) ==='); console.log(JSON.stringify(runs[0].ourBundles,null,1));
+          console.log('=== TOP TRANSFERS (run1) ==='); console.log(JSON.stringify(runs[0].topTransfers,null,1));
+          console.log('=== BY TYPE (run1) ==='); console.log(JSON.stringify(runs[0].byType));
+          EOS
+          node perf.mjs 2>&1 | tee perf-log.txt
+          echo "--- asset headers ---" | tee -a perf-log.txt
+          for f in mc-lp-free-diffuser.css mc-lp-free-diffuser-app.js mc-lp-vendor.js mc-lp-diffuser-assets.js; do
+            echo "== $f ==" | tee -a perf-log.txt
+            curl -sI -H 'Accept-Encoding: br,gzip' "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f?v=fd5check" | grep -iE 'content-length|content-encoding|content-type|cache-control|x-cache' | tee -a perf-log.txt
+          done
+      - name: CrUX field data p75 (PageSpeed Insights API)
+        if: always()
+        run: |
+          curl -s "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%2Fmaisoncroyez.com%2Fpages%2Ffree-diffuser&strategy=mobile" -o psi.json || true
+          node -e '
+            try{
+              const j=require("./psi.json");
+              const out={};
+              const fx=(le,tag)=>{ if(!le||!le.metrics) return; const m=le.metrics;
+                out[tag]={ lcp75_ms:(m.LARGEST_CONTENTFUL_PAINT_MS||{}).percentile??null,
+                           inp75_ms:(m.INTERACTION_TO_NEXT_PAINT||{}).percentile??null,
+                           cls75:((m.CUMULATIVE_LAYOUT_SHIFT_SCORE||{}).percentile??null)!==null?(m.CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile/100):null,
+                           fcp75_ms:(m.FIRST_CONTENTFUL_PAINT_MS||{}).percentile??null,
+                           ttfb75_ms:(m.EXPERIMENTAL_TIME_TO_FIRST_BYTE||{}).percentile??null,
+                           overall:le.overall_category }; };
+              fx(j.loadingExperience,"page_field_data");
+              fx(j.originLoadingExperience,"origin_field_data");
+              if(j.loadingExperience && j.loadingExperience.origin_fallback) out.note="page-level CrUX unavailable (low traffic) — origin-level shown";
+              const lh=j.lighthouseResult;
+              if(lh) out.lighthouse_lab={ perf_score:Math.round((lh.categories.performance.score||0)*100),
+                lcp:lh.audits["largest-contentful-paint"].displayValue, cls:lh.audits["cumulative-layout-shift"].displayValue,
+                tbt:lh.audits["total-blocking-time"].displayValue, fcp:lh.audits["first-contentful-paint"].displayValue,
+                si:lh.audits["speed-index"].displayValue };
+              if(j.error) out.error=j.error.message;
+              console.log(JSON.stringify(out,null,1));
+            }catch(e){console.log("PSI parse failed: "+e.message);}
+          ' 2>&1 | tee psi-summary.txt
+      - name: Commit results
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv fd-live-full.png fd-drawer.png verify-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv fd-live-full.png fd-drawer.png verify-log.txt perf-log.txt psi-summary.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP live verification screenshots" || true
+          git commit -m "Free-diffuser LP verify run 32: offer v2 checks + perf audit" || true
           git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

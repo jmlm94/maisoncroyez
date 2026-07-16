@@ -353,7 +353,13 @@ const LazyVid = ({ im }) => {
     if (!el) return;
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { rootMargin: "600px 0px" });
     io.observe(el);
-    return () => io.disconnect();
+    /* fallback: attach during idle shortly after full page load, so fast
+       scrollers never see an empty frame (does not touch the LCP window) */
+    let t;
+    const arm = () => { t = setTimeout(() => setOn(true), 2500); };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => { io.disconnect(); clearTimeout(t); window.removeEventListener("load", arm); };
   }, []);
   if (!on) return html`<video ref=${ref} class="simg" muted playsInline preload="none"></video>`;
   return html`<video class="simg" autoPlay loop muted playsInline preload="none"

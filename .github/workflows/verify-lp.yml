@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 33 — post font-deinline + lazy-video: re-measure, CLS attribution, font checks
+# run: 34 — retry 33 (runner got 403-blocked by Shopify bot protection); add status diagnostics
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -13,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Wait out bot-protection block if present
+        run: |
+          for i in $(seq 1 10); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36' 'https://maisoncroyez.com/pages/free-diffuser')
+            echo "attempt $i: HTTP $code" | tee -a gate-log.txt
+            if [ "$code" = "200" ]; then break; fi
+            sleep 45
+          done
       - name: Verify live free-diffuser LP (offer v2)
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
@@ -31,7 +39,15 @@ jobs:
             window.__perf={events:[]};
             new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__perf.events.push({n:e.name,d:Math.round(e.duration)});}).observe({type:'event',durationThreshold:16,buffered:true});
           });
-          await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+          let nav=null;
+          for(let a=0;a<4;a++){
+            nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+            console.log('goto attempt '+(a+1)+': HTTP '+(nav?nav.status():'?'));
+            if(nav && nav.status()===200) break;
+            const snip=(await page.content()).replace(/\s+/g,' ').slice(0,300);
+            console.log('BODY SNIPPET: '+snip);
+            await page.waitForTimeout(30000);
+          }
           await page.waitForTimeout(9000);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
           const audit = await page.evaluate(()=>{
@@ -125,7 +141,8 @@ jobs:
               new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
             });
             const t0=Date.now();
-            await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+            const nv=await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+            console.log('perf run '+(i+1)+' goto: HTTP '+(nv?nv.status():'?'));
             await page.waitForTimeout(12000);
             const m=await page.evaluate(()=>{
               const nav=performance.getEntriesByType('navigation')[0]||{};

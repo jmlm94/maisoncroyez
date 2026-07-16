@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 32 — offer v2 selectors + performance audit (LCP/CLS/TBT lab, CrUX p75 field)
+# run: 33 — post font-deinline + lazy-video: re-measure, CLS attribution, font checks
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -117,9 +117,10 @@ jobs:
             await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
             await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
             await page.addInitScript(()=>{
-              window.__m={lcp:0,cls:0,fcp:0,lt:[]};
-              new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});
-              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__m.cls+=e.value;}).observe({type:'layout-shift',buffered:true});
+              window.__m={lcp:0,lcpEl:'',cls:0,fcp:0,lt:[],shifts:[]};
+              const sel=n=>{ if(!n||!n.tagName) return '?'; let s=n.tagName.toLowerCase(); if(n.id) s+='#'+n.id; if(n.className&&typeof n.className==='string') s+='.'+n.className.trim().split(/\s+/).slice(0,2).join('.'); return s; };
+              new PerformanceObserver(l=>{for(const e of l.getEntries()){ window.__m.lcp=e.startTime; window.__m.lcpEl=sel(e.element)+(e.url?' url='+e.url.split('/').pop().slice(0,50):''); }}).observe({type:'largest-contentful-paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput){ window.__m.cls+=e.value; if(e.value>0.01) window.__m.shifts.push({t:Math.round(e.startTime),v:+e.value.toFixed(4),src:(e.sources||[]).slice(0,3).map(s=>sel(s.node)).join(',')}); }}).observe({type:'layout-shift',buffered:true});
               new PerformanceObserver(l=>{for(const e of l.getEntries()) if(e.name==='first-contentful-paint') window.__m.fcp=e.startTime;}).observe({type:'paint',buffered:true});
               new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
             });
@@ -134,7 +135,11 @@ jobs:
               for(const r of res){const t=r.initiatorType||'other';byType[t]=byType[t]||{n:0,kb:0};byType[t].n++;byType[t].kb+=Math.round(r.transferSize/1024);}
               const top=[...res].sort((a,b)=>b.transferSize-a.transferSize).slice(0,12).map(r=>({f:r.name.split('?')[0].split('/').pop().slice(0,55),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
               const tbt=window.__m.lt.reduce((s,t)=>s+Math.max(0,t.d-50),0);
-              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),cls:+window.__m.cls.toFixed(4),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),byType,ourBundles:ours,topTransfers:top};
+              const fonts={unna:document.fonts.check('16px Unna'),unnaB:document.fonts.check('bold 16px Unna'),outfit:document.fonts.check('16px Outfit'),bvp:document.fonts.check('16px "Be Vietnam Pro"')};
+              const fontReqs=res.filter(r=>/mc-lp-f-/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
+              const vidReqs=res.filter(r=>/\.(mp4|webm)/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024)}));
+              const hero=res.filter(r=>/Diseno_sin_titulo_92/.test(r.name)).map(r=>({transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
+              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),shifts:window.__m.shifts.slice(0,10),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),fonts,fontReqs,vidReqs,hero,byType,ourBundles:ours,topTransfers:top};
             });
             m.wallMs=Date.now()-t0; runs.push(m); await b.close();
           }
@@ -143,6 +148,11 @@ jobs:
           runs.forEach((r,i)=>console.log('run'+(i+1)+': TTFB='+r.ttfbMs+'ms FCP='+r.fcpMs+'ms LCP='+r.lcpMs+'ms CLS='+r.cls+' TBT='+r.tbtMs+'ms load='+r.loadMs+'ms reqs='+r.reqCount+' transfer='+r.totalTransferKB+'KB'));
           console.log('=== MEDIAN ===');
           console.log(JSON.stringify({ttfbMs:med('ttfbMs'),fcpMs:med('fcpMs'),lcpMs:med('lcpMs'),cls:med('cls'),tbtMs:med('tbtMs'),loadMs:med('loadMs'),totalTransferKB:med('totalTransferKB')}));
+          console.log('=== LCP ELEMENT (per run) ==='); runs.forEach((r,i)=>console.log('run'+(i+1)+': '+r.lcpEl));
+          console.log('=== LAYOUT SHIFT SOURCES (run1, >0.01) ==='); console.log(JSON.stringify(runs[0].shifts,null,1));
+          console.log('=== FONTS LOADED (run1) ==='); console.log(JSON.stringify(runs[0].fonts), JSON.stringify(runs[0].fontReqs));
+          console.log('=== VIDEO REQS DURING LOAD, NO SCROLL (run1 — expect none) ==='); console.log(JSON.stringify(runs[0].vidReqs));
+          console.log('=== HERO IMG (run1) ==='); console.log(JSON.stringify(runs[0].hero));
           console.log('=== OUR BUNDLES (run1) ==='); console.log(JSON.stringify(runs[0].ourBundles,null,1));
           console.log('=== TOP TRANSFERS (run1) ==='); console.log(JSON.stringify(runs[0].topTransfers,null,1));
           console.log('=== BY TYPE (run1) ==='); console.log(JSON.stringify(runs[0].byType));

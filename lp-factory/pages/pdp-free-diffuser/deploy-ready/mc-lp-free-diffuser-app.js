@@ -3,25 +3,23 @@ const { useState, useEffect, useRef, useCallback, createElement: h } = React;
 const html = htm.bind(h);
 
 /* ================================================================
-   FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004)
-   Offer: pick 3 × 100ml fragrances (90 days) for $119.95 today +
-   the diffuser ($119.95 value) FREE. Renews at $119.95 every 3 months,
-   cancel anytime. DESIGN PHASE — checkout wiring lands once the Subi
-   quarterly selling plan exists; ATC shows a preview toast until then.
+   FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004, offer v2)
+   Offer: pick 1 × 100ml fragrance at $39.95/mo (3-month minimum) +
+   the diffuser ($120 value) FREE. 25% off additional subscription
+   fragrances. Early cancellation fee = diffuser price ($120).
    Cloned from pdp-diffuser (Blueprint 003); /pages/diffuser stays
    live untouched for split-testing.
    Fictional reviews ship live per owner ruling 2026-07-04.
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
-/* --- checkout wiring: 3 fragrance SKUs on the Subi quarterly plan +
-   free-diffuser duplicate product zeroed by an automatic BXGY discount --- */
+/* --- checkout wiring: 1 fragrance SKU on Subi "plan 3" ($39.95/mo,
+   3-month min) + free-diffuser duplicate zeroed by auto BXGY 1375641600109 --- */
 const CART = {
-  diffuserVariant: 45450822778989,   /* $119.95 duplicate diffuser (this funnel only), zeroed by auto BXGY 1375641600109 */
-  sellingPlan: 2615967853,           /* Subi "Every 3 months" plan — bills + ships quarterly, no intro discount */
+  diffuserVariant: 45450822778989,   /* $120 duplicate diffuser (this funnel only) */
+  sellingPlan: 0,                    /* WIRING: Subi "Plan 3" gid — filled by deploy chat */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
-const PICK_MAX = 3;
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
 
@@ -30,7 +28,7 @@ const CONFIG = {
 
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" },
-    text: "Subscribe to 90 days of fragrance — get the $119.95 diffuser FREE",
+    text: "Get the $120 diffuser FREE — just pick your first fragrance",
     cta: "",
   },
 
@@ -60,28 +58,33 @@ const CONFIG = {
 
   buybox: {
     microProof: "(4.6 rated on 2,500+ reviews)",
-    title: { pre: "90-Day Manifestation Ritual +", em: "FREE Maison Croyez Diffuser." },
+    title: { pre: "30-Day Manifestation Ritual +", em: "FREE Maison Croyez Diffuser." },
     offer: {
       price: "$39.95",
-      priceUnit: "/fragrance",
-      compareAt: "$239.95",
+      priceUnit: "",
+      compareAt: "$159.95",
       valueStack: [
-        { label: "3 \u00d7 100ml manifestation fragrances", value: "$39.95/fragrance" },
-        { label: "Maison Croyez diffuser", strike: "$119.95", value: "FREE" },
-        { label: "You pay today", value: "$119.95", total: true },
+        { label: "1 \u00d7 100ml manifestation fragrance", value: "$39.95" },
+        { label: "Maison Croyez diffuser", strike: "$120.00", value: "FREE" },
+        { label: "You pay today", value: "$39.95", total: true },
       ],
-      valueFoot: "Each 100ml bottle lasts 30+ days of continuous scent — your 3 bottles cover 3+ months.",
+      valueFoot: "Your 100ml bottle lasts 30+ days of continuous scent \u2014 and a fresh bottle arrives every month.",
       bullets: [
         { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes with scents that make guests say \u201cwhat\u2019s that smell\u201d in the middle of a chat." },
         { icon: "leaf", text: "No water needed = no mold = no maintenance required." },
         { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
       ],
     },
-    pickerTitle: "Pick your 3 fragrances:",
-    pickerLabel: "Any mix you like \u2014 three different intentions, or a triple of your favorite. Tap a scent to add it.",
-    cta: { label: "Claim My Free Diffuser", sub: "$119.95 today \u00b7 renews every 3 months \u00b7 cancel anytime" },
-    postCta: "\ud83d\udd04 Your next 3 bottles ship in 3 months \u2014 swap fragrances anytime.",
-    booklet: "\ud83c\udf81 **FREE Sample Booklet included** \u2014 all 7 scents to smell at home, so your next three bottles are exactly the ones you want.",
+    pickerTitle: "Pick your fragrance:",
+    pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
+    cta: { label: "Claim My Free Diffuser", sub: "Complete your 3-month subscription and the diffuser is yours" },
+    terms: [
+      { icon: "\ud83d\udce6", text: "**Today:** your first fragrance for $39.95 \u2014 the FREE diffuser ships with it and your subscription begins." },
+      { icon: "\ud83d\udd04", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
+      { icon: "\ud83c\udf81", text: "**The diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month." },
+      { icon: "\u26a0\ufe0f", text: "**Early cancellation fee:** cancel before month 3 and the diffuser's full price ($120) applies." },
+    ],
+    booklet: "\ud83c\udf81 **FREE Sample Booklet included** \u2014 all 7 scents to smell at home, so next month's bottle is exactly the one you want.",
     trustStrip: [
       { icon: "shield", text: "90-Day Money-Back" },
       { icon: "infinity", text: "Lifetime Diffuser Warranty" },
@@ -90,11 +93,11 @@ const CONFIG = {
       { icon: "truck", text: "Free Shipping" },
     ],
     accordions: [
-      { q: "How does the subscription work?", a: "Today you pay $119.95 and get 3 full-size fragrances \u2014 90 days of scent \u2014 plus the diffuser, free. Every 3 months, your next 3 bottles ship for $119.95. Swap scents, skip a shipment, or cancel anytime in a few taps." },
-      { q: "Is the diffuser really free?", a: "Yes. Your $119.95 covers the three fragrances ($119.85 value). The diffuser \u2014 a $119.95 value \u2014 costs you $0, and it's yours to keep even if you cancel." },
+      { q: "How does the subscription work?", a: "Today you pay $39.95 for your first 100ml fragrance, and the diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },
+      { q: "Is the diffuser really free?", a: "Yes \u2014 complete your 3-month subscription and it costs you $0 (a $120 value). The only exception: if you cancel before month 3, the diffuser's full $120 price applies as an early cancellation fee." },
       { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "What if I don't like a scent?", a: "You have a 90-day risk-free trial on everything, and you can swap any bottle to a different intention before each shipment. Not feeling it at all? Return for a full refund." },
+      { q: "What if I don't like a scent?", a: "You have a 90-day risk-free trial on everything, and you can swap to a different intention before any month's shipment. Not feeling it at all? Return for a full refund." },
     ],
   },
 
@@ -217,7 +220,7 @@ const CONFIG = {
       "Your home takes it from there, **for weeks at a time**.",
     ],
     steps: [
-      { gif: "gif1", title: "Pour in your intention", body: "Any of your three 100ml fragrances. No water, no dilution." },
+      { gif: "gif1", title: "Pour in your intention", body: "Your 100ml fragrance. No water, no dilution." },
       { gif: "gif2", title: "Press once", body: "One button, three strengths: from a soft everyday scent to full presence for guests." },
       { gif: "gif3", title: "Walk away", body: "Under 10 minutes to fill the room. Weeks of presence." },
     ],
@@ -274,7 +277,7 @@ const CONFIG = {
       { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. First home fragrance we've agreed on in eleven years of marriage." },
       { name: "Tiana M.", text: "Bought Crisp Citrus for “abundance” half as a joke. The joke's over: my office finally feels like a place where things get finished." },
       { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
-      { name: "Sophie M.", text: "The subscription is the part I didn't expect to love. Three fresh bottles show up right as the last one fades. I've swapped scents twice, took 10 seconds." },
+      { name: "Sophie M.", text: "The subscription is the part I didn't expect to love. A fresh bottle shows up right as the last one fades. I've swapped scents twice, took 10 seconds." },
       { name: "Camille B.", text: "Guests walk in and go quiet for a second. That pause is why I bought it." },
     ],
   },
@@ -287,15 +290,15 @@ const CONFIG = {
       "If Maison Croyez doesn't change how your home feels (and how it's complimented), send it back within 90 days for **a full refund**.",
       "And the diffuser itself? **Covered for life.**",
     ],
-    cta: { label: "Claim My Free Diffuser", sub: "$119.95 today · diffuser included free" },
+    cta: { label: "Claim My Free Diffuser", sub: "$39.95 today · diffuser included free" },
   },
 
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged for the subscription?", a: "Today you pay $119.95 for your first 3 full-size fragrances — 90 days of scent — and your diffuser ships free with them. Then $119.95 every 3 months for your next 3 bottles. You'll get an email reminder before every renewal." },
-      { q: "Is the diffuser really free?", a: "Yes. Your $119.95 covers the three fragrances ($119.85 value) — the diffuser, a $119.95 value, costs you $0. And it's yours to keep even if you cancel later." },
-      { q: "Can I swap scents or cancel?", a: "Anytime, from the link in any subscription email. Swap any of your 3 bottles to a different intention, skip a shipment, or cancel in a few taps. No calls, no forms, no guilt — and you keep the diffuser." },
+      { q: "When am I charged for the subscription?", a: "Today you pay $39.95 for your first 100ml fragrance, and your diffuser — a $120 value — ships free with it. Then $39.95 each month for your next bottle, with a 3-month minimum. You'll get an email reminder before every renewal." },
+      { q: "Is the diffuser really free?", a: "Yes — complete your 3-month subscription and it costs you $0 (a $120 value), yours to keep forever. Cancel before month 3 and the diffuser's full $120 price applies as an early cancellation fee." },
+      { q: "Can I swap scents or cancel?", a: "Swap anytime, from the link in any subscription email — pick a different intention before any month's shipment, in a few taps. You also get 25% off any additional fragrances you add. After your 3-month minimum, pause or cancel whenever you like." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
       { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
       { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. Running it on low stretches a bottle even further." },
@@ -307,7 +310,7 @@ const CONFIG = {
     ],
   },
 
-  sticky: { label: "Claim My Free Diffuser · $119.95" },
+  sticky: { label: "Claim My Free Diffuser · $39.95" },
 };
 
 /* ================================================================
@@ -357,27 +360,17 @@ const Rich = ({ s }) => {
    ================================================================ */
 const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
 async function addToCart(setBusy, setToast) {
-  const total = selStore.total();
-  if (total < PICK_MAX) {
-    const left = PICK_MAX - total;
-    setToast(`Pick ${left} more fragrance${left > 1 ? "s" : ""} to unlock your free diffuser.`);
-    const el = document.getElementById("buybox");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    return;
-  }
-  const names = selStore.picks().map((f) => f.name).join(" + ");
+  const scent = scentStore.get();
   if (!onStore()) {
-    setToast(`Preview mode. On the live store this adds: ${names} ($119.95 for 90 days, renews every 3 months) + your FREE diffuser ($119.95 value) and opens the cart drawer.`);
+    setToast(`Preview mode. On the live store this adds: ${scent.name} ($39.95/month, 3-month minimum) + your FREE diffuser ($120 value) and opens the cart drawer.`);
     return;
   }
-  /* 3 fragrance lines on the quarterly plan; duplicates merge into quantity.
-     The diffuser line is zeroed at cart level by the automatic BXGY discount. */
-  const items = Object.entries(selStore.counts).map(([k, n]) => ({
-    id: CONFIG.fragrances.find((f) => f.key === k).variant,
-    quantity: n,
-    selling_plan: CART.sellingPlan,
-  }));
-  items.push({ id: CART.diffuserVariant, quantity: 1 });
+  /* 1 fragrance line on the monthly plan; the diffuser line is zeroed
+     at cart level by the automatic BXGY discount. */
+  const items = [
+    { id: scent.variant, quantity: 1, selling_plan: CART.sellingPlan },
+    { id: CART.diffuserVariant, quantity: 1 },
+  ];
   try {
     setBusy(true);
     const r = await fetch("/cart/add.js", {
@@ -402,39 +395,23 @@ async function addToCart(setBusy, setToast) {
 }
 
 /* ================================================================
-   Global pick-3 selection (buy box + sticky bar stay in sync)
-   counts: fragrance key -> qty; duplicates of the same scent allowed
+   Global scent selection (buy box + sticky bar stay in sync)
+   Single pick; first scent (Top Seller) preselected.
    ================================================================ */
-const selStore = {
-  counts: {},
+const scentStore = {
+  key: CONFIG.fragrances[0].key,
   listeners: new Set(),
-  total() { return Object.values(this.counts).reduce((a, b) => a + b, 0); },
-  qty(k) { return this.counts[k] || 0; },
-  add(k) {
-    if (this.total() >= PICK_MAX) return false;
-    this.counts = { ...this.counts, [k]: (this.counts[k] || 0) + 1 };
-    this.emit(); return true;
-  },
-  remove(k) {
-    if (!this.counts[k]) return;
-    const c = { ...this.counts };
-    c[k] -= 1; if (!c[k]) delete c[k];
-    this.counts = c; this.emit();
-  },
-  picks() {
-    return Object.entries(this.counts).flatMap(([k, n]) =>
-      Array(n).fill(CONFIG.fragrances.find((f) => f.key === k)));
-  },
-  emit() { this.listeners.forEach((fn) => fn()); },
+  get() { return CONFIG.fragrances.find((f) => f.key === this.key); },
+  set(k) { this.key = k; this.listeners.forEach((fn) => fn(k)); },
 };
-function useSel() {
-  const [, setTick] = useState(0);
+function useScent() {
+  const [key, setKey] = useState(scentStore.key);
   useEffect(() => {
-    const fn = () => setTick((t) => t + 1);
-    selStore.listeners.add(fn);
-    return () => selStore.listeners.delete(fn);
+    const fn = (k) => setKey(k);
+    scentStore.listeners.add(fn);
+    return () => scentStore.listeners.delete(fn);
   }, []);
-  return selStore;
+  return [CONFIG.fragrances.find((f) => f.key === key), (k) => scentStore.set(k)];
 }
 
 /* ================================================================
@@ -512,14 +489,10 @@ function Toast({ msg, onClose }) {
 
 function BuyBox() {
   const B = CONFIG.buybox;
-  const sel = useSel();
-  const total = sel.total();
+  const [scent, setScent] = useScent();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
-  const tapPick = (f) => {
-    if (!sel.add(f.key)) setToast("You've picked all 3 — tap − on a scent to swap one out.");
-  };
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
@@ -547,17 +520,11 @@ function BuyBox() {
 
           <div class="picker-title">${B.pickerTitle}</div>
           <div class="picker-label small">${B.pickerLabel}</div>
-          <div class="sel-bar" role="status">
-            <span class="sel-dots" aria-hidden="true">
-              ${Array.from({ length: PICK_MAX }, (_, i) => html`<span key=${i} class=${i < total ? "on" : ""}></span>`)}
-            </span>
-            <span><strong>${total} of ${PICK_MAX} selected</strong>${total < PICK_MAX ? ` — pick ${PICK_MAX - total} more to unlock your free diffuser` : " — free diffuser unlocked 🎁"}</span>
-          </div>
-          <div class="picker" role="group" aria-label="Pick your 3 fragrances">
-            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); return html`
-              <button key=${f.key} class=${"pick" + (q > 0 ? " on" : "")}
-                aria-pressed=${q > 0}
-                onClick=${() => tapPick(f)} style=${{ background: q > 0 ? f.grad : "" }}>
+          <div class="picker" role="radiogroup" aria-label="Pick your fragrance">
+            ${CONFIG.fragrances.map((f) => html`
+              <button key=${f.key} class=${"pick" + (scent.key === f.key ? " on" : "")}
+                role="radio" aria-checked=${scent.key === f.key}
+                onClick=${() => setScent(f.key)} style=${{ background: scent.key === f.key ? f.grad : "" }}>
                 ${f.topSeller && html`<span class="pick-badge">Top Seller</span>`}
                 <span class="pick-row">
                   <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
@@ -565,32 +532,31 @@ function BuyBox() {
                     <span class="pick-name">${f.name}</span>
                     <span class="pick-int">${f.intention}</span>
                   </span>
-                  ${q > 0
-                    ? html`<span class="pick-qty">
-                        <span class="pq-b" role="button" aria-label=${"Remove one " + f.name} onClick=${(e) => { e.stopPropagation(); sel.remove(f.key); }}>−</span>
-                        <span class="pq-n">${q}</span>
-                        <span class=${"pq-b" + (total >= PICK_MAX ? " off" : "")} role="button" aria-label=${"Add one more " + f.name} onClick=${(e) => { e.stopPropagation(); sel.add(f.key); }}>+</span>
-                      </span>`
-                    : html`<span class="pick-dot" aria-hidden="true"></span>`}
+                  <span class="pick-dot" aria-hidden="true"></span>
                 </span>
                 <span class="pick-desc">${f.desc}</span>
                 <span class="pick-ing">
                   ${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
                 </span>
-              </button>`; })}
+              </button>`)}
           </div>
 
-          <div class=${"free-line" + (total >= PICK_MAX ? " on" : "")}>
-            ${total >= PICK_MAX
-              ? html`🎁 <strong>FREE Maison Croyez Diffuser added to your order</strong> — <span class="strike">$119.95</span> <strong>$0</strong>`
-              : `🔒 Your FREE diffuser ($119.95 value) unlocks when you pick ${PICK_MAX - total} more`}
+          <div class="free-line on">
+            🎁 <strong>FREE Maison Croyez Diffuser added to your order</strong> — <span class="strike">$120.00</span> <strong>$0</strong>
           </div>
 
           <button class="btn atc" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
             <span class="btn-sub">${B.cta.sub}</span>
           </button>
-          ${B.postCta && html`<div class="post-cta">${B.postCta}</div>`}
+          ${B.terms && html`
+            <div class="offer-terms">
+              ${B.terms.map((t) => html`
+                <div class="term-row" key=${t.text}>
+                  <span class="term-ic" aria-hidden="true">${t.icon}</span>
+                  <span class="term-tx"><${Rich} s=${t.text}/></span>
+                </div>`)}
+            </div>`}
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
           <div class="trust-strip">
             ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}
@@ -786,8 +752,7 @@ function Faq() {
 
 function StickyBar() {
   const [show, setShow] = useState(false);
-  const sel = useSel();
-  const total = sel.total();
+  const [scent] = useScent();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   useEffect(() => {
@@ -801,7 +766,7 @@ function StickyBar() {
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
         <span>${busy ? "Adding…" : CONFIG.sticky.label + " ➔"}</span>
-        <span class="btn-sub">${total < PICK_MAX ? `${total} of ${PICK_MAX} fragrances picked` : "3 fragrances + FREE diffuser 🎁"}</span>
+        <span class="btn-sub">${scent.name} + FREE diffuser 🎁</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </div>`;

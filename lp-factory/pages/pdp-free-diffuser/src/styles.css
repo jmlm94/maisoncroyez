@@ -1152,3 +1152,9 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 /* step cards stay light -> card text stays ink (round 11: white-on-card was unreadable) */
 .howto .hstep h3{color:var(--ink)}
 .howto .hstep p{color:var(--ink-soft)}
+
+/* FREE-DIFFUSER LP round 12 — offer v2: single-pick + terms rows under ATC (owner) */
+.offer-terms{display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:#F7F3EE;border:1px solid var(--blush);border-radius:14px}
+.term-row{display:flex;gap:11px;align-items:flex-start;font-size:.92rem;line-height:1.5;color:var(--ink);text-align:left}
+.term-ic{flex:0 0 auto;font-size:1.05rem;line-height:1.4}
+.term-tx strong{font-weight:700}

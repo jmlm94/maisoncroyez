@@ -1,9 +1,12 @@
+perf run 1 goto: HTTP 429
+perf run 2 goto: HTTP 429
+perf run 3 goto: HTTP 429
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=49ms FCP=244ms LCP=244ms CLS=0 TBT=0ms load=234ms reqs=0 transfer=0KB
-run2: TTFB=47ms FCP=232ms LCP=232ms CLS=0 TBT=0ms load=218ms reqs=0 transfer=0KB
-run3: TTFB=51ms FCP=244ms LCP=244ms CLS=0 TBT=0ms load=232ms reqs=0 transfer=0KB
+run1: TTFB=33ms FCP=228ms LCP=228ms CLS=0 TBT=0ms load=214ms reqs=0 transfer=0KB
+run2: TTFB=32ms FCP=232ms LCP=232ms CLS=0 TBT=0ms load=214ms reqs=0 transfer=0KB
+run3: TTFB=30ms FCP=228ms LCP=228ms CLS=0 TBT=0ms load=211ms reqs=0 transfer=0KB
 === MEDIAN ===
-{"ttfbMs":49,"fcpMs":244,"lcpMs":244,"cls":0,"tbtMs":0,"loadMs":232,"totalTransferKB":0}
+{"ttfbMs":32,"fcpMs":228,"lcpMs":228,"cls":0,"tbtMs":0,"loadMs":214,"totalTransferKB":0}
 === LCP ELEMENT (per run) ===
 run1: pre
 run2: pre

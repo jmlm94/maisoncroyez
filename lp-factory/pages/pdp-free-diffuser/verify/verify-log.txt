@@ -1,95 +1,13 @@
-=== AUDIT ===
-{
- "root": true,
- "rootHtmlLen": 29741,
- "h1": "90-Day Manifestation Ritual + FREE Maison Croyez Diffuser.",
- "price": "$39.95/fragrance",
- "valstackRows": 3,
- "selBar": "0 of 3 selected — pick 3 more to unlock your free diffuser",
- "freeLine": "🔒 Your FREE diffuser ($119.95 value) unlocks when you pick 3 more",
- "sections": 10,
- "galSlides": 13,
- "fragCards": 7,
- "atcText": "CLAIM MY FREE DIFFUSER ➔ $119.95 TODAY · RENEWS EVERY 3 MONTHS · CANCEL ANYTIME",
- "faqs": 16,
- "stickyExists": true,
- "imgTotal": 27,
- "brokenImgs": [],
- "overflowX": false
-}
-=== PICKED ===
-{
- "selBar": "3 of 3 selected — free diffuser unlocked 🎁",
- "freeLine": "🎁 FREE Maison Croyez Diffuser added to your order — $119.95 $0"
-}
-=== DRAWER ===
-{"exists":true,"open":true}
-=== CART ===
-{
- "total": 119.85,
- "items": [
-  {
-   "t": "Maison Croyez — Home Scent Diffuser",
-   "v": 45450822778989,
-   "q": 1,
-   "price": 119.95,
-   "line": 0,
-   "plan": null,
-   "discounts": [
-    "Free Diffuser — 90-Day Manifestation Ritual -119.95"
-   ]
-  },
-  {
-   "t": "Chilled Citrus – Relaxation & Concentratio",
-   "v": 41212021506157,
-   "q": 1,
-   "price": 39.95,
-   "line": 39.95,
-   "plan": 2615967853,
-   "discounts": [
-    "Free Diffuser — 90-Day Manifestation Ritual -0"
-   ]
-  },
-  {
-   "t": "Golden Blossom Harmony – Love (100ml)",
-   "v": 41212020457581,
-   "q": 2,
-   "price": 39.95,
-   "line": 79.9,
-   "plan": 2615967853,
-   "discounts": [
-    "Free Diffuser — 90-Day Manifestation Ritual -0"
-   ]
-  }
- ]
-}
-=== CONSOLE ERRORS (2) ===
- - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
 
- - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (5) ===
- - net::ERR_ABORTED https://maisoncroyez.com/api/collect
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=f1bb7307-d53f-436d-b690-fec5ac63e9a1&target_or
- - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
- - net::ERR_ABORTED https://maisoncroyez.com/api/collect
- - net::ERR_ABORTED https://maisoncroyez.com/api/collect
-=== OUR BUNDLE RESPONSES ===
- - 200 mc-lp-free-diffuser.css?v=fd4-2026071618
- - 200 mc-lp-vendor.js?v=fd4-2026071618
- - 200 mc-lp-diffuser-assets.js?v=fd4-2026071618
- - 200 mc-lp-free-diffuser-app.js?v=fd4-2026071618
- - 206 mc-lp-d-gif3.mp4?v=1783552928
- - 206 mc-lp-d-gif1.mp4?v=1783552928
- - 206 mc-lp-d-gif2.mp4?v=1783552928
- - 200 mc-lp-d-frag3.jpg?v=1783552928
- - 200 mc-lp-d-frag2.jpg?v=1783552928
- - 200 mc-lp-d-frag6.jpg?v=1783552928
- - 200 mc-lp-d-frag1.jpg?v=1783552928
- - 200 mc-lp-d-frag7.jpg?v=1783552928
- - 200 mc-lp-d-intention.jpg?v=1783552928
- - 200 mc-lp-d-frag4.jpg?v=1783552928
- - 200 mc-lp-d-frag5.jpg?v=1783552928
- - 206 mc-lp-d-gif3.webm?v=1783552928
- - 206 mc-lp-d-gif2.webm?v=1783552928
- - 206 mc-lp-d-gif1.webm?v=1783552928
- - 200 mc-lp-d-diseno90.jpg?v=1783552928
+page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('.pick:nth-child(1) .pq-b:last-child')
+
+    at /home/runner/work/maisoncroyez/maisoncroyez/check.mjs:40:12 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.23.1

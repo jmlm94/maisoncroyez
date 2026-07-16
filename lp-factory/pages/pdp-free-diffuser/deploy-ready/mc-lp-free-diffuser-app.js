@@ -342,16 +342,32 @@ const TermIcon = ({ name }) => html`
 const Stars = () => html`<span class="stars" aria-label="5 out of 5 stars">★★★★★</span>`;
 const Placeholder = ({ tone = "", cap, style, sq }) =>
   html`<div class=${"ph " + tone + (sq ? " sq" : "")} style=${style}>${cap && html`<span class="ph-cap">${cap}</span>`}</div>`;
+/* Videos: autoPlay defeats preload="none" (browser fetches immediately even
+   below the fold). Gate source attachment on approach (600px) instead — the
+   loop is already playing by the time it scrolls into view. */
+const LazyVid = ({ im }) => {
+  const ref = useRef(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { rootMargin: "600px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  if (!on) return html`<video ref=${ref} class="simg" muted playsInline preload="none"></video>`;
+  return html`<video class="simg" autoPlay loop muted playsInline preload="none"
+      onCanPlay=${(e) => e.target.play().catch(() => {})}>
+      <source src=${im.src} type="video/mp4"/>
+      ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
+    </video>`;
+};
 const Img = ({ slot, tone = "warm", style, alt = "", eager = false }) => {
   const im = CONFIG.images[slot];
   if (im && im.src) {
     const isVid = im.src.startsWith("data:video") || /\.(mp4|webm)($|\?)/.test(im.src);
     const media = isVid
-      ? html`<video class="simg" autoPlay loop muted playsInline preload="none"
-          onCanPlay=${(e) => e.target.play().catch(() => {})}>
-          <source src=${im.src} type="video/mp4"/>
-          ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
-        </video>`
+      ? html`<${LazyVid} im=${im}/>`
       : html`<img class="simg" src=${im.src} alt=${alt} decoding="async"
           loading=${eager ? "eager" : "lazy"} fetchpriority=${eager ? "high" : "auto"}/>`;
     return html`<div class="ph sq" style=${style}>${media}</div>`;

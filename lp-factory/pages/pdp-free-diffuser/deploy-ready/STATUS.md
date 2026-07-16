@@ -1,12 +1,17 @@
 # Deploy status — offer v2
 
-offer v2: store wiring + uploads done at 2026-07-16 19:19 UTC.
-Cache key flipped fd4- -> fd5- at 19:25 UTC (owner waived the 25-min propagation wait).
+Offer v2 wiring + design: LIVE and verified (run 32, 19:28 UTC): h1/price/single-select
+correct; cart = 1 fragrance $39.95 on plan 2627895405 + diffuser $120 -> $0 by
+"Free Diffuser — 90-Day Manifestation Ritual"; total $39.95.
 
-Verify run 31 (19:25 UTC): INCONCLUSIVE — workflow crashed on old pick-3 selector
-(.pq-b no longer exists), which is consistent with the v2 single-select page being live,
-but no screenshots were captured.
+Perf audit (run 32, Slow-4G/4x-CPU lab, median of 3): TTFB 30ms, FCP 436ms,
+LCP 15.9s, CLS 1.18, TBT 1.1s, 3.95MB/190 reqs. CrUX p75 blocked by PSI quota.
 
-Verify run 32 (triggered next): offer v2 selectors + performance audit
-(3x throttled mobile lab LCP/CLS/TBT, CrUX p75 field data via PSI, asset transfer sizes).
-Results will land in verify/ (verify-log.txt, perf-log.txt, psi-summary.txt, screenshots).
+Perf round 1 (uploaded 19:50 UTC, zero visual change):
+- fonts subset + de-inlined to 9 CDN woff2 files (CSS 189KB gz -> 13KB gz)
+- videos lazy-load via IntersectionObserver (autoPlay was defeating preload=none)
+Waiting origin propagation; next: flip cache key fd5- -> fd6-, verify run 33
+(re-measure + CLS source attribution + font checks).
+
+Theme baggage (needs owner/theme change, out of scope here): ~1MB Merriweather
+(3 x 330KB, unused by LP), ~1MB theme PNGs, 200KB+ theme JS.

@@ -77,7 +77,7 @@ const CONFIG = {
     },
     pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
-    cta: { label: "Claim My Free Diffuser", sub: "" },
+    cta: { label: "Claim My Free Diffuser", sub: "Free Sample Booklet included" },
     terms: [
       { icon: "box", text: "**Today:** your first fragrance for $39.95 \u2014 the FREE diffuser ships with it and your subscription begins." },
       { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },

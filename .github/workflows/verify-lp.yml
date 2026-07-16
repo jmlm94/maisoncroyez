@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 34 — retry 33 (runner got 403-blocked by Shopify bot protection); add status diagnostics
+# run: 35 — final re-measure on fixed bundle; paced to dodge storefront rate limiting
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -141,8 +141,13 @@ jobs:
               new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
             });
             const t0=Date.now();
-            const nv=await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
-            console.log('perf run '+(i+1)+' goto: HTTP '+(nv?nv.status():'?'));
+            let nv=null;
+            for(let a=0;a<5;a++){
+              nv=await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+              console.log('perf run '+(i+1)+' goto attempt '+(a+1)+': HTTP '+(nv?nv.status():'?'));
+              if(nv && nv.status()===200) break;
+              await page.waitForTimeout(45000);
+            }
             await page.waitForTimeout(12000);
             const m=await page.evaluate(()=>{
               const nav=performance.getEntriesByType('navigation')[0]||{};
@@ -159,6 +164,7 @@ jobs:
               return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),shifts:window.__m.shifts.slice(0,10),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),fonts,fontReqs,vidReqs,hero,byType,ourBundles:ours,topTransfers:top};
             });
             m.wallMs=Date.now()-t0; runs.push(m); await b.close();
+            if(i<2) await new Promise(r=>setTimeout(r,70000));
           }
           const med=k=>{const v=runs.map(r=>r[k]).sort((a,b)=>a-b);return v[1];};
           console.log('=== PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===');

@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 29 — gold palette live check
+# run: 30 — gold palette re-check on fd4 key (run 29 raced the key flip)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]

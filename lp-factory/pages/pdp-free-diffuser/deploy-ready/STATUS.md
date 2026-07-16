@@ -1,17 +1,24 @@
-# Deploy status — offer v2
+# Deploy status — offer v2 + perf round 1
 
-Offer v2 wiring + design: LIVE and verified (run 32, 19:28 UTC): h1/price/single-select
-correct; cart = 1 fragrance $39.95 on plan 2627895405 + diffuser $120 -> $0 by
-"Free Diffuser — 90-Day Manifestation Ritual"; total $39.95.
+## Offer v2 (DONE, verified live)
+- Subi "Plan 3" 2627895405 wired; duplicate diffuser variant 45450822778989 at $120.00;
+  BXGY 1375641600109 unlocks with 1 subscription fragrance.
+- Verified end-to-end (runs 32/34/35): single-select picker, ATC, cart = 1 fragrance
+  $39.95 on plan 2627895405 + diffuser $120 -> $0, total $39.95.
 
-Perf audit (run 32, Slow-4G/4x-CPU lab, median of 3): TTFB 30ms, FCP 436ms,
-LCP 15.9s, CLS 1.18, TBT 1.1s, 3.95MB/190 reqs. CrUX p75 blocked by PSI quota.
+## Performance round 1 (DONE, verified live — run 35 vs run 32, Slow-4G/4xCPU mobile lab, median of 3)
+- LCP  15.9s  -> 5.0s   (-69%)
+- CLS  1.18   -> 0.0009 (fixed; was late-CSS render shift)
+- TBT  1.12s  -> 0.79s
+- Full load 18.4s -> 10.0s; transfer 3.95MB -> 2.52MB during load
+- How: render-critical CSS 189KB -> 11-13KB compressed (fonts subset via pyftsubset and
+  de-inlined to 9 CDN woff2 files mc-lp-f-*.woff2, GenericFiles 293940275/6/7/8/9xx);
+  videos lazy via IntersectionObserver + post-load idle fallback (LazyVid).
+- Cache key: loader still fd6-+hour (hourly rollover picked up new bytes; fd7 flip unnecessary).
+- CrUX p75 field data (lcp75/inp75/cls75): PSI anonymous quota exhausted all day — page-level
+  CrUX likely absent anyway (page is new). Retry when quota resets; lab INP proxy healthy (<=64ms).
 
-Perf round 1 (uploaded 19:50 UTC, zero visual change):
-- fonts subset + de-inlined to 9 CDN woff2 files (CSS 189KB gz -> 13KB gz)
-- videos lazy-load via IntersectionObserver (autoPlay was defeating preload=none)
-Waiting origin propagation; next: flip cache key fd5- -> fd6-, verify run 33
-(re-measure + CLS source attribution + font checks).
-
-Theme baggage (needs owner/theme change, out of scope here): ~1MB Merriweather
-(3 x 330KB, unused by LP), ~1MB theme PNGs, 200KB+ theme JS.
+## Next lever (needs owner decision — theme, out of scope this session)
+- LCP element is the hero image (58KB, but 4.6s on Slow-4G due to contention from theme baggage):
+  3x Merriweather fonts ~330KB EACH (~1MB, unused by the LP), ~1MB theme PNGs, hydrate.js 204KB.
+  A lighter page template / theme font change would push LCP toward ~2.5s.

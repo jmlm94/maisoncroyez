@@ -1,16 +1,9 @@
-# Deploy status — mc-lp-free-diffuser.css
+# Deploy status — offer v2
 
-## DEPLOY COMPLETE — 2026-07-15 17:37 UTC
+offer v2: store wiring + uploads done at 2026-07-16 19:19 UTC, waiting propagation
 
-1. Shop sanity check: Maison Croyez / maisoncroyez.com ✅
-2. Staged upload of mc-lp-free-diffuser.css (310,590 bytes): HTTP 201 ✅ (17:08 UTC)
-3. fileUpdate on gid://shopify/GenericFile/29348024909933: fileStatus READY, no userErrors ✅ (17:10 UTC)
-4. Waited 25+ min for Shopify file-origin propagation ✅ (17:10 → 17:36 UTC)
-5. Page cache key flipped fd3- → fd4- on gid://shopify/Page/117412692077 via pageUpdate: no userErrors ✅ (17:37 UTC)
-   - Body re-queried and verified: fd4- present, everything else unchanged.
-6. Verification workflow run 29 (gold palette live check) triggered via verify-lp.yml push.
-   Results (screenshots + verify-log.txt) will be committed by CI to lp-factory/pages/pdp-free-diffuser/verify/.
-
-The live page https://maisoncroyez.com/pages/free-diffuser now loads the new CSS
-(gold palette) under the fd4- cache key. No products, prices, discounts, or other
-pages were touched.
+- Subi "Plan 3" selling plan 2627895405 wired into src/app.js + deploy-ready app.js (pushed)
+- Duplicate diffuser variant 45450822778989 set to $120.00
+- BXGY discount 1375641600109 updated: 1 subscription fragrance unlocks free diffuser
+- CSS + JS bundles uploaded (HTTP 201) and fileUpdate READY on GenericFiles 29348024909933 / 29348024942701
+- Next: 25-min propagation wait, then page cache-key flip fd4- -> fd5- and live verify

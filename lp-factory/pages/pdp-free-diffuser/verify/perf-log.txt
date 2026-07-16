@@ -1,0 +1,201 @@
+=== PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
+run1: TTFB=32ms FCP=444ms LCP=15944ms CLS=1.1384 TBT=1122ms load=18386ms reqs=190 transfer=3953KB
+run2: TTFB=28ms FCP=436ms LCP=16128ms CLS=1.1807 TBT=1238ms load=18412ms reqs=190 transfer=3953KB
+run3: TTFB=30ms FCP=432ms LCP=15684ms CLS=1.2201 TBT=976ms load=18382ms reqs=190 transfer=3953KB
+=== MEDIAN ===
+{"ttfbMs":30,"fcpMs":436,"lcpMs":15944,"cls":1.1807,"tbtMs":1122,"loadMs":18386,"totalTransferKB":3953}
+=== OUR BUNDLES (run1) ===
+[
+ {
+  "f": "mc-lp-free-diffuser.css",
+  "transferKB": 189,
+  "decodedKB": 298,
+  "ms": 14825
+ },
+ {
+  "f": "mc-lp-vendor.js",
+  "transferKB": 43,
+  "decodedKB": 140,
+  "ms": 4282
+ },
+ {
+  "f": "mc-lp-diffuser-assets.js",
+  "transferKB": 1,
+  "decodedKB": 2,
+  "ms": 319
+ },
+ {
+  "f": "mc-lp-free-diffuser-app.js",
+  "transferKB": 12,
+  "decodedKB": 34,
+  "ms": 1956
+ },
+ {
+  "f": "mc-lp-d-gif1.mp4",
+  "transferKB": 0,
+  "decodedKB": 0,
+  "ms": 6166
+ },
+ {
+  "f": "mc-lp-d-gif2.mp4",
+  "transferKB": 0,
+  "decodedKB": 0,
+  "ms": 6168
+ },
+ {
+  "f": "mc-lp-d-frag2.jpg",
+  "transferKB": 20,
+  "decodedKB": 20,
+  "ms": 4694
+ },
+ {
+  "f": "mc-lp-d-frag4.jpg",
+  "transferKB": 14,
+  "decodedKB": 13,
+  "ms": 3955
+ },
+ {
+  "f": "mc-lp-d-frag6.jpg",
+  "transferKB": 19,
+  "decodedKB": 19,
+  "ms": 4712
+ },
+ {
+  "f": "mc-lp-d-frag3.jpg",
+  "transferKB": 20,
+  "decodedKB": 20,
+  "ms": 4699
+ },
+ {
+  "f": "mc-lp-d-frag1.jpg",
+  "transferKB": 22,
+  "decodedKB": 22,
+  "ms": 5028
+ },
+ {
+  "f": "mc-lp-d-frag5.jpg",
+  "transferKB": 19,
+  "decodedKB": 19,
+  "ms": 4723
+ },
+ {
+  "f": "mc-lp-d-frag7.jpg",
+  "transferKB": 18,
+  "decodedKB": 18,
+  "ms": 4544
+ },
+ {
+  "f": "mc-lp-d-gif3.mp4",
+  "transferKB": 0,
+  "decodedKB": 0,
+  "ms": 6045
+ },
+ {
+  "f": "mc-lp-d-gif1.webm",
+  "transferKB": 76,
+  "decodedKB": 75,
+  "ms": 4264
+ },
+ {
+  "f": "mc-lp-d-gif2.webm",
+  "transferKB": 129,
+  "decodedKB": 129,
+  "ms": 5557
+ },
+ {
+  "f": "mc-lp-d-gif3.webm",
+  "transferKB": 112,
+  "decodedKB": 112,
+  "ms": 5137
+ }
+]
+=== TOP TRANSFERS (run1) ===
+[
+ {
+  "f": "merriweather_n4.349a72bc63b970a8b7f00dc33f5bda2ec52f79c",
+  "transferKB": 330,
+  "ms": 17854
+ },
+ {
+  "f": "merriweather_i7.f0c0f7ed3a3954dab58b704b14a01616fb5b0c9",
+  "transferKB": 328,
+  "ms": 13606
+ },
+ {
+  "f": "merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff7839",
+  "transferKB": 328,
+  "ms": 17828
+ },
+ {
+  "f": "hydrate.GRgWJ6fJ.js",
+  "transferKB": 204,
+  "ms": 1149
+ },
+ {
+  "f": "mc-lp-free-diffuser.css",
+  "transferKB": 189,
+  "ms": 14825
+ },
+ {
+  "f": "mc-lp-d-gif2.webm",
+  "transferKB": 129,
+  "ms": 5557
+ },
+ {
+  "f": "mc-lp-d-gif3.webm",
+  "transferKB": 112,
+  "ms": 5137
+ },
+ {
+  "f": "useShopPayExternalAppContext.CfOiP1Sb.js",
+  "transferKB": 103,
+  "ms": 655
+ },
+ {
+  "f": "fbevents.js",
+  "transferKB": 103,
+  "ms": 7613
+ },
+ {
+  "f": "image-5_1_1.png",
+  "transferKB": 92,
+  "ms": 8743
+ },
+ {
+  "f": "29_9898eecd-68da-4bd1-b33e-7a6cb2a0ab23.png",
+  "transferKB": 85,
+  "ms": 8435
+ },
+ {
+  "f": "image-4_1_1.png",
+  "transferKB": 83,
+  "ms": 8363
+ }
+]
+=== BY TYPE (run1) ===
+{"early-hints":{"n":3,"kb":0},"link":{"n":59,"kb":1631},"script":{"n":60,"kb":523},"beacon":{"n":14,"kb":0},"img":{"n":26,"kb":1004},"css":{"n":4,"kb":328},"fetch":{"n":11,"kb":1},"xmlhttprequest":{"n":1,"kb":0},"iframe":{"n":2,"kb":29},"video":{"n":6,"kb":317},"other":{"n":4,"kb":116}}
+--- asset headers ---
+== mc-lp-free-diffuser.css ==
+content-type: text/css
+content-length: 193566
+cache-control: public, max-age=31557600
+content-encoding: br
+x-content-type-options: nosniff
+== mc-lp-free-diffuser-app.js ==
+content-type: text/javascript
+content-length: 11629
+cache-control: public, max-age=31557600
+content-encoding: br
+x-content-type-options: nosniff
+== mc-lp-vendor.js ==
+content-type: text/javascript
+content-length: 43851
+cache-control: public, max-age=31557600
+content-encoding: br
+x-content-type-options: nosniff
+== mc-lp-diffuser-assets.js ==
+content-type: text/javascript
+content-length: 288
+cache-control: public, max-age=31557600
+content-encoding: br
+x-content-type-options: nosniff

@@ -17,7 +17,7 @@ const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
    3-month min) + free-diffuser duplicate zeroed by auto BXGY 1375641600109 --- */
 const CART = {
   diffuserVariant: 45450822778989,   /* $120 duplicate diffuser (this funnel only) */
-  sellingPlan: 0,                    /* WIRING: Subi "Plan 3" gid — filled by deploy chat */
+  sellingPlan: 2627895405,                    /* WIRING: Subi "Plan 3" gid — filled by deploy chat */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 

@@ -58,7 +58,7 @@ const CONFIG = {
 
   buybox: {
     microProof: "(4.6 rated on 2,500+ reviews)",
-    title: { pre: "30-Day Manifestation Ritual +", em: "FREE Maison Croyez Diffuser." },
+    title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "Award-Winning Diffuser included for free." },
     offer: {
       price: "$39.95",
       priceUnit: "",
@@ -68,7 +68,6 @@ const CONFIG = {
         { label: "Maison Croyez diffuser", strike: "$120.00", value: "FREE" },
         { label: "You pay today", value: "$39.95", total: true },
       ],
-      valueFoot: "Your 100ml bottle lasts 30+ days of continuous scent \u2014 and a fresh bottle arrives every month.",
       bullets: [
         { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes with scents that make guests say \u201cwhat\u2019s that smell\u201d in the middle of a chat." },
         { icon: "leaf", text: "No water needed = no mold = no maintenance required." },
@@ -77,20 +76,17 @@ const CONFIG = {
     },
     pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
-    cta: { label: "Claim My Free Diffuser", sub: "Free Sample Booklet included" },
+    cta: { label: "Claim My Free Diffuser", sub: "This offer ends today" },
     terms: [
       { icon: "box", text: "**Today:** your first fragrance for $39.95 \u2014 the FREE diffuser ships with it and your subscription begins." },
       { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
       { icon: "gift", text: "**The diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month." },
-      { icon: "alert", text: "**Early cancellation fee:** cancel before month 3 and the diffuser's full price ($120) applies." },
     ],
     booklet: "",
     trustStrip: [
       { icon: "shield", text: "90-Day Money-Back" },
       { icon: "infinity", text: "Lifetime Diffuser Warranty" },
       { icon: "repeat", text: "Cancel Anytime" },
-      { icon: "paw", text: "Pet-Friendly" },
-      { icon: "truck", text: "Free Shipping" },
     ],
     accordions: [
       { q: "How does the subscription work?", a: "Today you pay $39.95 for your first 100ml fragrance, and the diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },

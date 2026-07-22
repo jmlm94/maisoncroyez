@@ -22,3 +22,10 @@
 - LCP element is the hero image (58KB, but 4.6s on Slow-4G due to contention from theme baggage):
   3x Merriweather fonts ~330KB EACH (~1MB, unused by the LP), ~1MB theme PNGs, hydrate.js 204KB.
   A lighter page template / theme font change would push LCP toward ~2.5s.
+
+## Content round 2 (2026-07-22, verified live — run 36, fd7 key)
+- New H1: "Maison Croyez Manifestation & Attraction Organic Scents — Award-Winning Diffuser included for free."
+- ATC buttons #0A9400 / white; subline "This offer ends today" (was booklet line)
+- Removed: value-stack footnote, early-cancellation term row, Pet-Friendly + Free Shipping icons
+- Funnel re-verified: cart = fragrance $39.95 on plan 2627895405 + diffuser $120 -> $0, total $39.95
+- Preview artifact 277243ec updated to match

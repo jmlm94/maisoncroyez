@@ -1166,3 +1166,15 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 
 /* FREE-DIFFUSER LP round 14 — booklet line inside ATC + extra gap before terms (owner) */
 .offer-terms{margin-top:10px}
+
+/* ---------- free-diffuser quantity selector (sober) ---------- */
+.qtysel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:2px 0 20px}
+.qopt{
+  background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;
+  padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;
+  color:var(--ink);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.qopt .qicons{display:flex;gap:5px;color:var(--ink);opacity:.9}
+.qopt .qnum{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
+.qopt .qsub{font-family:'Outfit',sans-serif;font-weight:500;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.qopt.on{border:1.5px solid var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}

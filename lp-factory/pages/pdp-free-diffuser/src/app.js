@@ -74,6 +74,8 @@ const CONFIG = {
         { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
       ],
     },
+    qtyTitle: "How many FREE diffusers would you like?",
+    qtySub: "Each free diffuser comes with its own monthly fragrance.",
     pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
     cta: { label: "Claim My Free Diffuser", sub: "This offer ends today" },
@@ -377,6 +379,14 @@ const Img = ({ slot, tone = "warm", style, alt = "", eager = false }) => {
   return html`<${Placeholder} sq=${true} tone=${tone} style=${style} cap=${"AWAITING MEDIA — " + (im ? im.file : slot)}/>`;
 };
 const SerifHead = ({ pre, em }) => html`<h2>${pre}${em && html` <em>${em}</em>`}</h2>`;
+/* minimalist diffuser glyph for the quantity selector — thin line body + mist */
+const DiffuserIcon = () => html`
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+    stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+    <rect x="8.4" y="8" width="7.2" height="13" rx="3.4"/>
+    <path d="M12 8V6.2"/>
+    <path d="M10.4 3.6h.01M13.6 3.6h.01M12 1.6h.01"/>
+  </svg>`;
 const AngleBullets = ({ items }) => html`
   <ul class="angle-bullets">
     ${items.map((b) => html`<li key=${b}><${Rich} s=${b}/></li>`)}
@@ -391,16 +401,24 @@ const Rich = ({ s }) => {
    ================================================================ */
 const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
 async function addToCart(setBusy, setToast) {
-  const scent = scentStore.get();
-  if (!onStore()) {
-    setToast(`Preview mode. On the live store this adds: ${scent.name} ($39.95/month, 3-month minimum) + your FREE diffuser ($120 value) and opens the cart drawer.`);
+  const scents = selStore.scents();
+  const n = selStore.count;
+  if (!selStore.complete()) {
+    const left = n - scents.length;
+    setToast(`Almost there — pick ${left} more scent${left > 1 ? "s" : ""} to claim your ${n} FREE diffusers.`);
+    const bb = document.getElementById("buybox");
+    if (bb) bb.scrollIntoView({ behavior: "smooth" });
     return;
   }
-  /* 1 fragrance line on the monthly plan; the diffuser line is zeroed
-     at cart level by the automatic BXGY discount. */
+  if (!onStore()) {
+    setToast(`Preview mode. On the live store this adds: ${scents.map((s) => s.name).join(" + ")} (${usd(39.95 * n)}/month, 3-month minimum) + ${n > 1 ? n + " FREE diffusers" : "your FREE diffuser"} (${usd(120 * n)} value) and opens the cart drawer.`);
+    return;
+  }
+  /* one fragrance line per diffuser, each on the monthly plan; diffuser
+     lines are zeroed at cart level by the automatic BXGY discount. */
   const items = [
-    { id: scent.variant, quantity: 1, selling_plan: CART.sellingPlan },
-    { id: CART.diffuserVariant, quantity: 1 },
+    ...scents.map((s) => ({ id: s.variant, quantity: 1, selling_plan: CART.sellingPlan })),
+    { id: CART.diffuserVariant, quantity: n },
   ];
   try {
     setBusy(true);
@@ -426,24 +444,46 @@ async function addToCart(setBusy, setToast) {
 }
 
 /* ================================================================
-   Global scent selection (buy box + sticky bar stay in sync)
-   Single pick; first scent (Top Seller) preselected.
+   Global selection (buy box + sticky bar stay in sync)
+   Diffuser count (1-3) + one distinct scent per diffuser.
+   First scent (Top Seller) preselected; count 1 behaves as before.
    ================================================================ */
-const scentStore = {
-  key: CONFIG.fragrances[0].key,
+const selStore = {
+  count: 1,
+  keys: [CONFIG.fragrances[0].key],
   listeners: new Set(),
-  get() { return CONFIG.fragrances.find((f) => f.key === this.key); },
-  set(k) { this.key = k; this.listeners.forEach((fn) => fn(k)); },
+  scents() { return this.keys.map((k) => CONFIG.fragrances.find((f) => f.key === k)); },
+  complete() { return this.keys.length === this.count; },
+  emit() { this.listeners.forEach((fn) => fn()); },
+  setCount(n) {
+    this.count = n;
+    if (this.keys.length > n) this.keys = this.keys.slice(0, n);
+    this.emit();
+  },
+  toggle(k) {
+    if (this.keys.includes(k)) {
+      if (this.count === 1) return;              /* radio mode: never empty */
+      this.keys = this.keys.filter((x) => x !== k);
+    } else if (this.count === 1) {
+      this.keys = [k];                           /* radio swap */
+    } else if (this.keys.length < this.count) {
+      this.keys = [...this.keys, k];
+    } else {
+      return;                                    /* full — deselect one first */
+    }
+    this.emit();
+  },
 };
-function useScent() {
-  const [key, setKey] = useState(scentStore.key);
+function useSelection() {
+  const [, force] = useState(0);
   useEffect(() => {
-    const fn = (k) => setKey(k);
-    scentStore.listeners.add(fn);
-    return () => scentStore.listeners.delete(fn);
+    const fn = () => force((x) => x + 1);
+    selStore.listeners.add(fn);
+    return () => selStore.listeners.delete(fn);
   }, []);
-  return [CONFIG.fragrances.find((f) => f.key === key), (k) => scentStore.set(k)];
+  return selStore;
 }
+const usd = (v) => "$" + v.toFixed(2);
 
 /* ================================================================
    Sections
@@ -520,7 +560,14 @@ function Toast({ msg, onClose }) {
 
 function BuyBox() {
   const B = CONFIG.buybox;
-  const [scent, setScent] = useScent();
+  const sel = useSelection();
+  const n = sel.count;
+  const missing = n - sel.keys.length;
+  const valueRows = [
+    { label: `${n} × 100ml manifestation fragrance${n > 1 ? "s" : ""}`, value: usd(39.95 * n) },
+    { label: `${n} × Maison Croyez diffuser${n > 1 ? "s" : ""}`, strike: usd(120 * n), value: "FREE" },
+    { label: "You pay today", value: usd(39.95 * n), total: true },
+  ];
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
@@ -532,30 +579,40 @@ function BuyBox() {
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
-            <span class="price">${B.offer.price}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
-            <span class="compare">${B.offer.compareAt}</span>
+            <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
+            <span class="compare">${usd(159.95 * n)}</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
-          ${B.offer.valueStack && html`
-            <div class="valstack">
-              ${B.offer.valueStack.map((v) => html`
-                <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
-                  <span>${v.label}</span>
-                  <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
-                </div>`)}
-              ${B.offer.valueFoot && html`<div class="vfoot">${B.offer.valueFoot}</div>`}
-            </div>`}
+          <div class="valstack">
+            ${valueRows.map((v) => html`
+              <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
+                <span>${v.label}</span>
+                <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
+              </div>`)}
+          </div>
           <ul class="offer-bullets">
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
 
-          <div class="picker-title">${B.pickerTitle}</div>
-          <div class="picker-label small">${B.pickerLabel}</div>
-          <div class="picker" role="radiogroup" aria-label="Pick your fragrance">
-            ${CONFIG.fragrances.map((f) => html`
-              <button key=${f.key} class=${"pick" + (scent.key === f.key ? " on" : "")}
-                role="radio" aria-checked=${scent.key === f.key}
-                onClick=${() => setScent(f.key)} style=${{ background: scent.key === f.key ? f.grad : "" }}>
+          <div class="picker-title">${B.qtyTitle}</div>
+          <div class="picker-label small">${B.qtySub}</div>
+          <div class="qtysel" role="radiogroup" aria-label="How many free diffusers would you like">
+            ${[1, 2, 3].map((q) => html`
+              <button key=${q} class=${"qopt" + (n === q ? " on" : "")}
+                role="radio" aria-checked=${n === q} onClick=${() => sel.setCount(q)}>
+                <span class="qicons">${Array.from({ length: q }, (_, i) => html`<${DiffuserIcon} key=${i}/>`)}</span>
+                <span class="qnum">${q === 1 ? "1 Diffuser" : q + " Diffusers"}</span>
+                <span class="qsub">${q} fragrance${q > 1 ? "s" : ""}/mo</span>
+              </button>`)}
+          </div>
+
+          <div class="picker-title">${n > 1 ? "Pick your " + n + " fragrances:" : B.pickerTitle}</div>
+          <div class="picker-label small">${B.pickerLabel}${n > 1 ? ` (${sel.keys.length} of ${n} selected)` : ""}</div>
+          <div class="picker" role=${n > 1 ? "group" : "radiogroup"} aria-label="Pick your fragrance">
+            ${CONFIG.fragrances.map((f) => { const on = sel.keys.includes(f.key); return html`
+              <button key=${f.key} class=${"pick" + (on ? " on" : "")}
+                role=${n > 1 ? "checkbox" : "radio"} aria-checked=${on}
+                onClick=${() => sel.toggle(f.key)} style=${{ background: on ? f.grad : "" }}>
                 ${f.topSeller && html`<span class="pick-badge">Top Seller</span>`}
                 <span class="pick-row">
                   <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
@@ -569,16 +626,16 @@ function BuyBox() {
                 <span class="pick-ing">
                   ${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
                 </span>
-              </button>`)}
+              </button>`; })}
           </div>
 
           <div class="free-line on">
-            🎁 <strong>FREE Maison Croyez Diffuser added to your order</strong> — <span class="strike">$120.00</span> <strong>$0</strong>
+            🎁 <strong>${n > 1 ? n + " FREE Maison Croyez Diffusers" : "FREE Maison Croyez Diffuser"} added to your order</strong> — <span class="strike">${usd(120 * n)}</span> <strong>$0</strong>
           </div>
 
-          <button class="btn atc" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
-            ${B.cta.sub && html`<span class="btn-sub">${B.cta.sub}</span>`}
+          <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
+            <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : B.cta.label + " ➔"}</span>
+            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : B.cta.sub}</span>`}
           </button>
           ${B.terms && html`
             <div class="offer-terms">
@@ -783,7 +840,7 @@ function Faq() {
 
 function StickyBar() {
   const [show, setShow] = useState(false);
-  const [scent] = useScent();
+  const sel = useSelection();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   useEffect(() => {
@@ -793,11 +850,12 @@ function StickyBar() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  const left = sel.count - sel.keys.length;
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
         <span>${busy ? "Adding…" : CONFIG.sticky.label + " ➔"}</span>
-        <span class="btn-sub">${scent.name} + FREE diffuser 🎁</span>
+        <span class="btn-sub">${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} to continue` : sel.scents().map((s) => s.name).join(" + ") + (sel.count > 1 ? ` + ${sel.count} FREE diffusers 🎁` : " + FREE diffuser 🎁")}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </div>`;

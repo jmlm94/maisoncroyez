@@ -29,3 +29,19 @@
 - Removed: value-stack footnote, early-cancellation term row, Pet-Friendly + Free Shipping icons
 - Funnel re-verified: cart = fragrance $39.95 on plan 2627895405 + diffuser $120 -> $0, total $39.95
 - Preview artifact 277243ec updated to match
+
+## Offer v3 — multi-diffuser (BUILT, NOT DEPLOYED — waiting for owner go)
+Preview: artifact 277243ec (label per-diffuser-copy). Code in repo (src/ = deploy source).
+Features: 1/2/3 free-diffuser selector (Most Popular on 2), pick-N fragrances with
+repeatable scents (xN stepper), dynamic price/value-stack/free-line/ATC, per-diffuser
+copy in terms + FAQs, cart sends N fragrance bottles on plan 2627895405 + diffuser qty N.
+
+LAUNCH CHECKLIST (on owner go):
+1. Rebuild deploy CSS: patched deploy-ready css + new qtysel/qpop/pqb rules from src/styles.css
+   (deploy css carries ~2.5KB round-13/14 fixes NOT in src — patch, do not regenerate).
+2. cp src/app.js -> deploy-ready/mc-lp-free-diffuser-app.js
+3. discountAutomaticBxgyUpdate 1375641600109: usesPerOrderLimit 1 -> 3 (else only 1 of N zeroed).
+4. Check inventory on duplicate diffuser variant 45450822778989 (orders can pull 3).
+5. stagedUploadsCreate + curl + fileUpdate (GenericFiles 29348024909933 css / 29348024942701 js).
+6. Wait ~20 min propagation, flip page 117412692077 cache key fd7- -> fd8-.
+7. Trigger verify run 37; check cart: N bottles on plan + N diffusers all at $0, total 39.95*N.

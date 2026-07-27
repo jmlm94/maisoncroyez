@@ -79,9 +79,9 @@ const CONFIG = {
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
     cta: { label: "Claim My Free Diffuser", sub: "This offer ends today" },
     terms: [
-      { icon: "box", text: "**Today:** your first fragrance for $39.95 \u2014 the FREE diffuser ships with it and your subscription begins." },
+      { icon: "box", text: "**Today:** your first fragrance for $39.95 per diffuser \u2014 every FREE diffuser ships with its own fragrance and your subscription begins." },
       { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
-      { icon: "gift", text: "**The diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month." },
+      { icon: "gift", text: "**Every diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month per diffuser." },
     ],
     booklet: "",
     trustStrip: [
@@ -90,8 +90,8 @@ const CONFIG = {
       { icon: "repeat", text: "Cancel Anytime" },
     ],
     accordions: [
-      { q: "How does the subscription work?", a: "Today you pay $39.95 for your first 100ml fragrance, and the diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },
-      { q: "Is the diffuser really free?", a: "Yes \u2014 complete your 3-month subscription and it costs you $0 (a $120 value). The only exception: if you cancel before month 3, the diffuser's full $120 price applies as an early cancellation fee." },
+      { q: "How does the subscription work?", a: "Today you pay $39.95 per diffuser for its first 100ml fragrance, and each diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95 per diffuser, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },
+      { q: "Is the diffuser really free?", a: "Yes \u2014 complete your 3-month subscription and every diffuser costs you $0 (a $120 value each). The only exception: if you cancel before month 3, a $120 early cancellation fee applies per diffuser." },
       { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
       { q: "What if I don't like a scent?", a: "You have a 90-day risk-free trial on everything, and you can swap to a different intention before any month's shipment. Not feeling it at all? Return for a full refund." },
@@ -294,7 +294,7 @@ const CONFIG = {
     heading: ["Questions?", "We've got answers."],
     items: [
       { q: "When am I charged for the subscription?", a: "Today you pay $39.95 for your first 100ml fragrance, and your diffuser — a $120 value — ships free with it. Then $39.95 each month for your next bottle, with a 3-month minimum. You'll get an email reminder before every renewal." },
-      { q: "Is the diffuser really free?", a: "Yes — complete your 3-month subscription and it costs you $0 (a $120 value), yours to keep forever. Cancel before month 3 and the diffuser's full $120 price applies as an early cancellation fee." },
+      { q: "Is the diffuser really free?", a: "Yes — complete your 3-month subscription and every diffuser costs you $0 (a $120 value each), yours to keep forever. Cancel before month 3 and a $120 early cancellation fee applies per diffuser." },
       { q: "Can I swap scents or cancel?", a: "Swap anytime, from the link in any subscription email — pick a different intention before any month's shipment, in a few taps. You also get 25% off any additional fragrances you add. After your 3-month minimum, pause or cancel whenever you like." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
       { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
@@ -605,6 +605,7 @@ function BuyBox() {
             ${[1, 2, 3].map((q) => html`
               <button key=${q} class=${"qopt" + (n === q ? " on" : "")}
                 role="radio" aria-checked=${n === q} onClick=${() => sel.setCount(q)}>
+                ${q === 2 && html`<span class="qpop">Most Popular</span>`}
                 <span class="qicons">${Array.from({ length: q }, (_, i) => html`<${DiffuserIcon} key=${i}/>`)}</span>
                 <span class="qnum">${q === 1 ? "1 Diffuser" : q + " Diffusers"}</span>
                 <span class="qsub">${q} fragrance${q > 1 ? "s" : ""} required</span>
@@ -646,7 +647,7 @@ function BuyBox() {
           </div>
 
           <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : B.cta.label + " ➔"}</span>
+            <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
             ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : B.cta.sub}</span>`}
           </button>
           ${B.terms && html`

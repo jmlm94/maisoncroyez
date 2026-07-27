@@ -1170,6 +1170,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 /* ---------- free-diffuser quantity selector (sober) ---------- */
 .qtysel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:2px 0 20px}
 .qopt{
+  position:relative;overflow:visible;
   background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;
   padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;
   color:var(--ink);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
@@ -1188,3 +1189,9 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 }
 .pqb.dis{opacity:.35}
 .pqn{font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;min-width:24px;text-align:center}
+
+.qpop{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:#F6EDE7;border-radius:999px;padding:3px 9px;white-space:nowrap;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.11em;text-transform:uppercase;
+}

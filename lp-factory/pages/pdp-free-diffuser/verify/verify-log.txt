@@ -6,7 +6,7 @@ goto attempt 3: HTTP 200
 === AUDIT ===
 {
  "root": true,
- "rootHtmlLen": 30754,
+ "rootHtmlLen": 30410,
  "h1": "Maison Croyez Manifestation & Attraction Organic Scents — Award-Winning Diffuser included for free.",
  "price": "$39.95",
  "valstackRows": 3,
@@ -18,6 +18,7 @@ goto attempt 3: HTTP 200
  "atcText": "CLAIM MY FREE DIFFUSER ➔ THIS OFFER ENDS TODAY",
  "faqs": 16,
  "stickyExists": true,
+ "trustIcons": 0,
  "imgTotal": 27,
  "brokenImgs": [],
  "overflowX": false
@@ -64,29 +65,31 @@ goto attempt 3: HTTP 200
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (5) ===
+=== FAILED REQUESTS (7) ===
+ - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=3cefed92-4d5b-41a9-8717-84de7388772e&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=cde1bdde-8a1e-463a-9c1b-7267b46c473f&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
  - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928
+ - net::ERR_ABORTED https://maisoncroyez.com/api/collect
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
 === OUR BUNDLE RESPONSES ===
- - 200 mc-lp-free-diffuser.css?v=fd8-2026072816
- - 200 mc-lp-diffuser-assets.js?v=fd8-2026072816
- - 200 mc-lp-free-diffuser-app.js?v=fd8-2026072816
- - 200 mc-lp-vendor.js?v=fd8-2026072816
+ - 200 mc-lp-free-diffuser.css?v=fd9-2026072816
+ - 200 mc-lp-diffuser-assets.js?v=fd9-2026072816
+ - 200 mc-lp-free-diffuser-app.js?v=fd9-2026072816
+ - 200 mc-lp-vendor.js?v=fd9-2026072816
+ - 200 mc-lp-d-frag2.jpg?v=1783552928
+ - 200 mc-lp-d-frag4.jpg?v=1783552928
+ - 200 mc-lp-d-frag6.jpg?v=1783552928
  - 200 mc-lp-d-frag1.jpg?v=1783552928
  - 200 mc-lp-d-frag7.jpg?v=1783552928
- - 200 mc-lp-d-frag2.jpg?v=1783552928
  - 200 mc-lp-d-frag3.jpg?v=1783552928
- - 200 mc-lp-d-frag4.jpg?v=1783552928
- - 200 mc-lp-d-frag5.jpg?v=1783552928
  - 200 mc-lp-d-intention.jpg?v=1783552928
- - 200 mc-lp-d-frag6.jpg?v=1783552928
+ - 200 mc-lp-d-frag5.jpg?v=1783552928
  - 206 mc-lp-d-gif2.mp4?v=1783552928
  - 206 mc-lp-d-gif1.mp4?v=1783552928
  - 206 mc-lp-d-gif3.mp4?v=1783552928
  - 206 mc-lp-d-gif2.webm?v=1783552928
- - 206 mc-lp-d-gif1.webm?v=1783552928
  - 206 mc-lp-d-gif3.webm?v=1783552928
+ - 206 mc-lp-d-gif1.webm?v=1783552928
  - 200 mc-lp-d-diseno90.jpg?v=1783552928

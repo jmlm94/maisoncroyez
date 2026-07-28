@@ -85,9 +85,6 @@ const CONFIG = {
     ],
     booklet: "",
     trustStrip: [
-      { icon: "shield", text: "90-Day Money-Back" },
-      { icon: "infinity", text: "Lifetime Diffuser Warranty" },
-      { icon: "repeat", text: "Cancel Anytime" },
     ],
     accordions: [
       { q: "How does the subscription work?", a: "Today you pay $39.95 per diffuser for its first 100ml fragrance, and each diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95 per diffuser, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },
@@ -659,9 +656,9 @@ function BuyBox() {
                 </div>`)}
             </div>`}
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
-          <div class="trust-strip">
+          ${B.trustStrip.length > 0 && html`<div class="trust-strip">
             ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}
-          </div>
+          </div>`}
 
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`

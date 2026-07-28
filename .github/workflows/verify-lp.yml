@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 37 — verify REVERT to offer v2 on fd8 key (owner rollback)
+# run: 38 — final: v2 on fd9 key, trust strip removed
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -69,6 +69,7 @@ jobs:
               atcText: atc? atc.innerText.replace(/\s+/g,' ').trim().slice(0,80):'MISSING',
               faqs: q('.faq .qa'),
               stickyExists: q('.sticky')>0,
+              trustIcons: q('.trust-strip .tsi'),
               imgTotal: imgs.length,
               brokenImgs,
               overflowX: document.documentElement.scrollWidth>document.documentElement.clientWidth+2

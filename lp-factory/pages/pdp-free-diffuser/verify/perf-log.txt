@@ -3,17 +3,16 @@ perf run 1 goto attempt 2: HTTP 429
 perf run 1 goto attempt 3: HTTP 200
 perf run 2 goto attempt 1: HTTP 429
 perf run 2 goto attempt 2: HTTP 429
-perf run 2 goto attempt 3: HTTP 503
-perf run 2 goto attempt 4: HTTP 200
+perf run 2 goto attempt 3: HTTP 200
 perf run 3 goto attempt 1: HTTP 429
 perf run 3 goto attempt 2: HTTP 429
 perf run 3 goto attempt 3: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=58ms FCP=684ms LCP=4868ms CLS=0.0009 TBT=873ms load=10132ms reqs=166 transfer=2524KB
-run2: TTFB=41ms FCP=580ms LCP=4988ms CLS=0.0009 TBT=848ms load=10049ms reqs=166 transfer=2524KB
-run3: TTFB=65ms FCP=412ms LCP=4296ms CLS=0.0009 TBT=842ms load=9838ms reqs=166 transfer=2524KB
+run1: TTFB=45ms FCP=416ms LCP=4180ms CLS=0.0014 TBT=765ms load=9898ms reqs=159 transfer=2522KB
+run2: TTFB=84ms FCP=516ms LCP=4608ms CLS=0.0014 TBT=910ms load=9734ms reqs=158 transfer=2522KB
+run3: TTFB=59ms FCP=460ms LCP=4520ms CLS=0.0014 TBT=878ms load=9641ms reqs=158 transfer=2522KB
 === MEDIAN ===
-{"ttfbMs":58,"fcpMs":580,"lcpMs":4868,"cls":0.0009,"tbtMs":848,"loadMs":10049,"totalTransferKB":2524}
+{"ttfbMs":59,"fcpMs":460,"lcpMs":4520,"cls":0.0014,"tbtMs":878,"loadMs":9734,"totalTransferKB":2522}
 === LCP ELEMENT (per run) ===
 run1: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
 run2: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
@@ -25,98 +24,98 @@ run3: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
 === VIDEO REQS DURING LOAD, NO SCROLL (run1 — expect none) ===
 [{"f":"mc-lp-d-gif1.mp4","transferKB":0},{"f":"mc-lp-d-gif2.mp4","transferKB":0},{"f":"mc-lp-d-gif3.mp4","transferKB":0},{"f":"mc-lp-d-gif1.webm","transferKB":76},{"f":"mc-lp-d-gif2.webm","transferKB":129},{"f":"mc-lp-d-gif3.webm","transferKB":112}]
 === HERO IMG (run1) ===
-[{"transferKB":58,"ms":4264}]
+[{"transferKB":58,"ms":3896}]
 === OUR BUNDLES (run1) ===
 [
  {
   "f": "mc-lp-free-diffuser.css",
   "transferKB": 11,
   "decodedKB": 61,
-  "ms": 1721
+  "ms": 1598
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
   "decodedKB": 140,
-  "ms": 3809
+  "ms": 3500
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
   "decodedKB": 2,
-  "ms": 312
+  "ms": 289
  },
  {
   "f": "mc-lp-free-diffuser-app.js",
   "transferKB": 12,
   "decodedKB": 34,
-  "ms": 1869
+  "ms": 1732
  },
  {
   "f": "mc-lp-d-frag2.jpg",
   "transferKB": 20,
   "decodedKB": 20,
-  "ms": 1813
+  "ms": 2309
  },
  {
   "f": "mc-lp-d-frag4.jpg",
   "transferKB": 14,
   "decodedKB": 13,
-  "ms": 1390
+  "ms": 2101
  },
  {
   "f": "mc-lp-d-frag6.jpg",
   "transferKB": 19,
   "decodedKB": 19,
-  "ms": 1820
+  "ms": 2316
  },
  {
   "f": "mc-lp-d-frag1.jpg",
   "transferKB": 22,
   "decodedKB": 22,
-  "ms": 1919
+  "ms": 2401
  },
  {
   "f": "mc-lp-d-frag3.jpg",
   "transferKB": 20,
   "decodedKB": 20,
-  "ms": 1798
+  "ms": 2330
  },
  {
   "f": "mc-lp-d-gif1.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 633
+  "ms": 648
  },
  {
   "f": "mc-lp-d-gif2.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 655
+  "ms": 660
  },
  {
   "f": "mc-lp-d-gif3.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 661
+  "ms": 673
  },
  {
   "f": "mc-lp-d-gif1.webm",
   "transferKB": 76,
   "decodedKB": 75,
-  "ms": 1355
+  "ms": 1506
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
   "decodedKB": 129,
-  "ms": 2142
+  "ms": 2257
  },
  {
   "f": "mc-lp-d-gif3.webm",
   "transferKB": 112,
   "decodedKB": 112,
-  "ms": 1963
+  "ms": 2084
  }
 ]
 === TOP TRANSFERS (run1) ===
@@ -124,66 +123,66 @@ run3: img.simg url=Diseno_sin_titulo_92.png?v=1783904283&width=900
  {
   "f": "merriweather_n4.349a72bc63b970a8b7f00dc33f5bda2ec52f79c",
   "transferKB": 330,
-  "ms": 9563
+  "ms": 9257
  },
  {
   "f": "merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff7839",
   "transferKB": 328,
-  "ms": 9549
+  "ms": 9244
  },
  {
-  "f": "hydrate.CgTQqFiu.js",
-  "transferKB": 205,
-  "ms": 2034
+  "f": "hydrate.ChzX2YGe.js",
+  "transferKB": 207,
+  "ms": 2479
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
-  "ms": 2142
+  "ms": 2257
  },
  {
   "f": "mc-lp-d-gif3.webm",
   "transferKB": 112,
-  "ms": 1963
- },
- {
-  "f": "useShopPayExternalAppContext.4A6cFurR.js",
-  "transferKB": 103,
-  "ms": 662
+  "ms": 2084
  },
  {
   "f": "fbevents.js",
-  "transferKB": 103,
-  "ms": 2063
+  "transferKB": 104,
+  "ms": 2244
+ },
+ {
+  "f": "useShopPayExternalAppContext.bPWZhFZJ.js",
+  "transferKB": 102,
+  "ms": 648
  },
  {
   "f": "mc-lp-d-gif1.webm",
   "transferKB": 76,
-  "ms": 1355
+  "ms": 1506
  },
  {
-  "f": "OnePage.C4k2G2xf.js",
+  "f": "OnePage.DB9BUXH2.js",
   "transferKB": 71,
   "ms": 498
  },
  {
-  "f": "b6392291bw48edd0b4p524860cam091f7eeam.js",
-  "transferKB": 67,
-  "ms": 5056
+  "f": "b5b420bebw79a47f5bp51dad21bmd4c4ae2fm.js",
+  "transferKB": 68,
+  "ms": 4379
  },
  {
   "f": "980908600592309",
-  "transferKB": 65,
-  "ms": 1135
+  "transferKB": 66,
+  "ms": 1153
  },
  {
-  "f": "context-browser.D0Z9vbBg.js",
-  "transferKB": 64,
-  "ms": 469
+  "f": "context-browser.DGHPYhWi.js",
+  "transferKB": 65,
+  "ms": 470
  }
 ]
 === BY TYPE (run1) ===
-{"early-hints":{"n":3,"kb":0},"link":{"n":52,"kb":1438},"script":{"n":58,"kb":524},"beacon":{"n":14,"kb":0},"img":{"n":12,"kb":95},"css":{"n":3,"kb":0},"fetch":{"n":11,"kb":1},"iframe":{"n":2,"kb":29},"xmlhttprequest":{"n":1,"kb":0},"other":{"n":4,"kb":116},"video":{"n":6,"kb":317}}
+{"early-hints":{"n":3,"kb":0},"link":{"n":48,"kb":1430},"script":{"n":58,"kb":527},"beacon":{"n":14,"kb":0},"img":{"n":9,"kb":103},"css":{"n":3,"kb":0},"fetch":{"n":11,"kb":1},"iframe":{"n":2,"kb":29},"other":{"n":4,"kb":116},"xmlhttprequest":{"n":1,"kb":0},"video":{"n":6,"kb":317}}
 --- asset headers ---
 == mc-lp-free-diffuser.css ==
 content-type: text/css
@@ -193,7 +192,7 @@ content-encoding: br
 x-content-type-options: nosniff
 == mc-lp-free-diffuser-app.js ==
 content-type: text/javascript
-content-length: 11719
+content-length: 11690
 cache-control: public, max-age=31557600
 content-encoding: br
 x-content-type-options: nosniff

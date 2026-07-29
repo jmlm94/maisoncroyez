@@ -69,15 +69,15 @@ const CONFIG = {
         { label: "You pay today", value: "$39.95", total: true },
       ],
       bullets: [
-        { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes with scents that make guests say \u201cwhat\u2019s that smell\u201d in the middle of a chat." },
-        { icon: "leaf", text: "No water needed = no mold = no maintenance required." },
-        { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
+        { icon: "wind", text: "Surprise your guests, our manifestation scents make them stop mid-sentence to ask what smells so good." },
+        { icon: "sparkle", text: "Attract and manifest love, energy, relaxation, abundance and more, every scent is composed around an intention." },
+        { icon: "leaf", text: "Finally ditch expensive, fast-burning candles whose scent disappears after 30 minutes." },
       ],
     },
     qtyTitle: "How many FREE diffusers would you like?",
     pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
-    cta: { label: "Claim My Free Diffuser", sub: "This offer ends today" },
+    cta: { label: "Claim My Free Diffuser", sub: "Only **79** free diffusers left!" },
     terms: [
       { icon: "box", text: "**Today:** your first fragrance for $39.95 per diffuser \u2014 every FREE diffuser ships with its own fragrance and your subscription begins." },
       { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
@@ -85,9 +85,6 @@ const CONFIG = {
     ],
     booklet: "",
     trustStrip: [
-      { icon: "shield", text: "90-Day Money-Back" },
-      { icon: "infinity", text: "Lifetime Diffuser Warranty" },
-      { icon: "repeat", text: "Cancel Anytime" },
     ],
     accordions: [
       { q: "How does the subscription work?", a: "Today you pay $39.95 per diffuser for its first 100ml fragrance, and each diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95 per diffuser, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },
@@ -129,7 +126,7 @@ const CONFIG = {
       chips: ["🥛 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
     },
     {
-      key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493, topSeller: true,
+      key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
       desc: "For heavy days and low rooms. Turn the frequency back up.",
@@ -143,7 +140,7 @@ const CONFIG = {
       chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
     },
     {
-      key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
+      key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
       desc: "For the evenings you don\u2019t plan on spending alone much longer.",
@@ -183,7 +180,7 @@ const CONFIG = {
      ================================================================ */
   angleIntention: { /* A1 — the moat */
     eyebrow: "A scent for every intention",
-    heading: ["Every scent carries an intention.", "Tap the energy you want more of."],
+    heading: ["Love? Relaxation? Abundance?", "Connect your intentions with our manifestation scents."],
     img: "intentionHero",
     bullets: [
       "Candles and plug-ins make a room smell nice for an hour. **We compose every fragrance around an intention** \u2014 love, abundance, energy, focus \u2014 from 100% organic oils.",
@@ -382,9 +379,9 @@ const SerifHead = ({ pre, em }) => html`<h2>${pre}${em && html` <em>${em}</em>`}
 const DiffuserIcon = () => html`
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
     stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-    <rect x="8.4" y="8" width="7.2" height="13" rx="3.4"/>
-    <path d="M12 8V6.2"/>
-    <path d="M10.4 3.6h.01M13.6 3.6h.01M12 1.6h.01"/>
+    <path d="M7.6 12.2c0-2 2-3.2 4.4-3.2s4.4 1.2 4.4 3.2v5.6a3.2 3.2 0 0 1-3.2 3.2h-2.4a3.2 3.2 0 0 1-3.2-3.2v-5.6z"/>
+    <path d="M9.9 12.5h4.2"/>
+    <path d="M12 6.6c-.6-.9.6-1.5 0-2.6"/>
   </svg>`;
 const AngleBullets = ({ items }) => html`
   <ul class="angle-bullets">
@@ -463,6 +460,7 @@ const selStore = {
   complete() { return this.keys.length === this.count; },
   emit() { this.listeners.forEach((fn) => fn()); },
   setCount(n) {
+    if (n < this.count) this.keys = [];   /* downgrade: start the picks over */
     this.count = n;
     if (this.keys.length > n) this.keys = this.keys.slice(0, n);
     this.emit();
@@ -589,6 +587,9 @@ function BuyBox() {
             <span class="compare">${usd(159.95 * n)}</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
+          <ul class="offer-bullets">
+            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
+          </ul>
           <div class="valstack">
             ${valueRows.map((v) => html`
               <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
@@ -596,9 +597,6 @@ function BuyBox() {
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
           </div>
-          <ul class="offer-bullets">
-            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
-          </ul>
 
           <div class="picker-title">${B.qtyTitle}</div>
           <div class="qtysel" role="radiogroup" aria-label="How many free diffusers would you like">
@@ -648,7 +646,7 @@ function BuyBox() {
 
           <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
-            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : B.cta.sub}</span>`}
+            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
           </button>
           ${B.terms && html`
             <div class="offer-terms">
@@ -659,9 +657,9 @@ function BuyBox() {
                 </div>`)}
             </div>`}
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
-          <div class="trust-strip">
+          ${B.trustStrip.length > 0 && html`<div class="trust-strip">
             ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}
-          </div>
+          </div>`}
 
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`

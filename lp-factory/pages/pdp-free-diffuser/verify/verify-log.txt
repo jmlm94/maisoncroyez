@@ -65,31 +65,30 @@ goto attempt 3: HTTP 200
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (7) ===
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=3cefed92-4d5b-41a9-8717-84de7388772e&target_or
+=== FAILED REQUESTS (6) ===
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
+ - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=43db4396-e1a1-4388-adce-ef946348ca5d&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
  - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928
- - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
 === OUR BUNDLE RESPONSES ===
- - 200 mc-lp-free-diffuser.css?v=fd9-2026072816
- - 200 mc-lp-diffuser-assets.js?v=fd9-2026072816
- - 200 mc-lp-free-diffuser-app.js?v=fd9-2026072816
- - 200 mc-lp-vendor.js?v=fd9-2026072816
- - 200 mc-lp-d-frag2.jpg?v=1783552928
- - 200 mc-lp-d-frag4.jpg?v=1783552928
- - 200 mc-lp-d-frag6.jpg?v=1783552928
+ - 200 mc-lp-free-diffuser.css?v=fd9-2026072916
+ - 200 mc-lp-diffuser-assets.js?v=fd9-2026072916
+ - 200 mc-lp-free-diffuser-app.js?v=fd9-2026072916
+ - 200 mc-lp-vendor.js?v=fd9-2026072916
  - 200 mc-lp-d-frag1.jpg?v=1783552928
- - 200 mc-lp-d-frag7.jpg?v=1783552928
+ - 200 mc-lp-d-frag4.jpg?v=1783552928
+ - 200 mc-lp-d-frag2.jpg?v=1783552928
+ - 200 mc-lp-d-frag6.jpg?v=1783552928
  - 200 mc-lp-d-frag3.jpg?v=1783552928
- - 200 mc-lp-d-intention.jpg?v=1783552928
  - 200 mc-lp-d-frag5.jpg?v=1783552928
- - 206 mc-lp-d-gif2.mp4?v=1783552928
- - 206 mc-lp-d-gif1.mp4?v=1783552928
+ - 200 mc-lp-d-frag7.jpg?v=1783552928
+ - 200 mc-lp-d-intention.jpg?v=1783552928
  - 206 mc-lp-d-gif3.mp4?v=1783552928
- - 206 mc-lp-d-gif2.webm?v=1783552928
+ - 206 mc-lp-d-gif1.mp4?v=1783552928
+ - 206 mc-lp-d-gif2.mp4?v=1783552928
  - 206 mc-lp-d-gif3.webm?v=1783552928
  - 206 mc-lp-d-gif1.webm?v=1783552928
+ - 206 mc-lp-d-gif2.webm?v=1783552928
  - 200 mc-lp-d-diseno90.jpg?v=1783552928

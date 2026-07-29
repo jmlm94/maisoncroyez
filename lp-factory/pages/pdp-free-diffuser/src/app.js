@@ -69,8 +69,8 @@ const CONFIG = {
         { label: "You pay today", value: "$39.95", total: true },
       ],
       bullets: [
-        { icon: "wind", text: "Surprise your guests \u2014 our manifestation scents make them stop mid-sentence to ask what smells so good." },
-        { icon: "sparkle", text: "Attract and manifest love, energy, relaxation, abundance and more \u2014 every scent is composed around an intention." },
+        { icon: "wind", text: "Surprise your guests, our manifestation scents make them stop mid-sentence to ask what smells so good." },
+        { icon: "sparkle", text: "Attract and manifest love, energy, relaxation, abundance and more, every scent is composed around an intention." },
         { icon: "leaf", text: "Finally ditch expensive, fast-burning candles whose scent disappears after 30 minutes." },
       ],
     },

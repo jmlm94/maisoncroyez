@@ -371,33 +371,41 @@ html,body{overflow-x:clip !important}
 }#root h1 em, #root h2 em, #root h3 em, #root .cline em, #root .art-h2.gradfull, #root .art-h2.gradfull em{color:#A67C3D;-webkit-text-fill-color:#A67C3D}#root .pick-badge{background:#A67C3D;box-shadow:0 2px 8px rgba(166,124,61,.3)}#root .sel-bar{background:#F5EEDD;border-color:#E2D2AC}#root .sel-dots span{background:#E5D9BC}#root .sel-dots span.on{background:#A67C3D}#root .valstack{background:#F5EEDD;border-color:#E2D2AC}#root .valstack .vrow.total{border-top-color:#DECBA0}#root .valstack .vfoot{border-top-color:#DECBA0}#root .valstack .vfree{color:#A67C3D}#root .free-line{border-color:#E2D2AC}#root .free-line.on{background:linear-gradient(120deg,#F5EEDD 0%,#FBEFD9 100%);border-color:#DEC98F}#root .howto{background:#141414}#root .howto .section-head h2{color:#FFFFFF}#root .howto h2 em{color:#C9A25C;-webkit-text-fill-color:#C9A25C}#root .howto .angle-bullets li{color:#FFFFFF}#root .howto .hstep h3{color:var(--ink)}#root .howto .hstep p{color:var(--ink-soft)}#root .offer-terms{display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:#F7F3EE;border:1px solid var(--blush);border-radius:14px}#root .term-row{display:flex;gap:11px;align-items:flex-start;font-size:.92rem;line-height:1.5;color:var(--ink);text-align:left}#root .term-ic{flex:0 0 auto;font-size:1.05rem;line-height:1.4}#root .term-tx strong{font-weight:700}#root .term-ic{color:var(--ink);display:flex;align-items:center;padding-top:2px}#root .term-ic svg{display:block}#root .btn.atc span:first-child{font-size:1.02rem}#root .offer-terms{margin-top:10px}
 
 /* ---------- free-diffuser quantity selector (sober) ---------- */
-.qtysel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:2px 0 20px}
-.qopt{
+#root .qtysel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:2px 0 20px}
+#root .qopt{
   position:relative;overflow:visible;
   background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;
   padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;
   color:var(--ink);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
 }
-.qopt .qicons{display:flex;gap:5px;color:var(--ink);opacity:.9}
-.qopt .qnum{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
-.qopt .qsub{font-family:'Outfit',sans-serif;font-weight:500;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
-.qopt.on{border:1.5px solid var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}
+#root .qopt .qicons{display:flex;gap:5px;color:var(--ink);opacity:.9}
+#root .qopt .qnum{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
+#root .qopt .qsub{font-family:'Outfit',sans-serif;font-weight:500;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+#root .qopt.on{border:1.5px solid var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}
 
 /* per-scent quantity stepper (multi-diffuser mode) */
-.pick-qtyc{display:flex;align-items:center;gap:8px;flex:0 0 auto}
-.pqb{
+#root .pick-qtyc{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+#root .pqb{
   width:27px;height:27px;border-radius:50%;border:1.5px solid var(--ink);background:#fff;
   color:var(--ink);font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem;line-height:1;
   display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
 }
-.pqb.dis{opacity:.35}
-.pqn{font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;min-width:24px;text-align:center}
+#root .pqb.dis{opacity:.35}
+#root .pqn{font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;min-width:24px;text-align:center}
 
-.qpop{
+#root .qpop{
   position:absolute;top:-9px;left:50%;transform:translateX(-50%);
   background:var(--ink);color:#F6EDE7;border-radius:999px;padding:3px 9px;white-space:nowrap;
   font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.11em;text-transform:uppercase;
 }
+
+#root .qopt .qicons{flex-direction:row;flex-wrap:nowrap;justify-content:center}
+#root .qopt .qicons svg{display:block;flex:0 0 auto;width:20px;height:20px;margin:0}
+#root .qopt{text-align:center}
+#root .qopt .qsub{text-align:center}
+#root .pqb{padding:0;flex:0 0 27px;box-sizing:border-box}
+#root .pick-row{flex-wrap:nowrap}
+#root .pick-txt{min-width:0}
 
 /* FREE-DIFFUSER LP round 12 — "Most Popular" chip matches Top Seller gold (owner) */
 #root .qpop{background:#A67C3D;color:#FFFFFF;box-shadow:0 2px 8px rgba(166,124,61,.3)}

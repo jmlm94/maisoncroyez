@@ -587,6 +587,9 @@ function BuyBox() {
             <span class="compare">${usd(159.95 * n)}</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
+          <ul class="offer-bullets">
+            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
+          </ul>
           <div class="valstack">
             ${valueRows.map((v) => html`
               <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
@@ -594,9 +597,6 @@ function BuyBox() {
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
           </div>
-          <ul class="offer-bullets">
-            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
-          </ul>
 
           <div class="picker-title">${B.qtyTitle}</div>
           <div class="qtysel" role="radiogroup" aria-label="How many free diffusers would you like">

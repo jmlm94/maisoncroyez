@@ -647,7 +647,7 @@ function BuyBox() {
 
           <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
-            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
+            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffuser${n > 1 ? "s" : ""} = ${n} fragrance${n > 1 ? "s" : ""}` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
           </button>
           ${B.terms && html`
             <div class="offer-terms">

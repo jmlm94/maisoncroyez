@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 41 — offer v3 scoped-CSS fix check: qty selector icons/borders, stepper circles, fd11 key
+# run: 42 — offer v3 full visitor UX walkthrough: qty switches, scent stacking, stepper/icon geometry, cart
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -21,7 +21,7 @@ jobs:
             if [ "$code" = "200" ]; then break; fi
             sleep 45
           done
-      - name: Verify live free-diffuser LP (offer v2)
+      - name: Verify live free-diffuser LP (offer v3 visitor walkthrough)
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
@@ -34,88 +34,154 @@ jobs:
           page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
           page.on('requestfailed', r=>{ const u=r.url(); if(/cdn\.shopify|maisoncroyez/.test(u)) failed.push(r.failure()?.errorText+' '+u.slice(0,90)); });
           const resp=[];
-          page.on('response', r=>{ const u=r.url(); if(/mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-lp-d-/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,50)); });
-          await page.addInitScript(() => {
-            window.__perf={events:[]};
-            new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__perf.events.push({n:e.name,d:Math.round(e.duration)});}).observe({type:'event',durationThreshold:16,buffered:true});
-          });
+          page.on('response', r=>{ const u=r.url(); if(/mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-lp-fd-hero/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,60)); });
           let nav=null;
           for(let a=0;a<4;a++){
             nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
             console.log('goto attempt '+(a+1)+': HTTP '+(nav?nav.status():'?'));
             if(nav && nav.status()===200) break;
-            const snip=(await page.content()).replace(/\s+/g,' ').slice(0,300);
-            console.log('BODY SNIPPET: '+snip);
             await page.waitForTimeout(30000);
           }
           await page.waitForTimeout(9000);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
+          const state = () => page.evaluate(()=>{
+            const atc=document.querySelector('.buybox .atc');
+            return {
+              price:(document.querySelector('.price-row .price')||{}).innerText||'MISSING',
+              compare:(document.querySelector('.price-row .compare')||{}).innerText||'',
+              selected:[...document.querySelectorAll('.pick[aria-checked="true"]')].map(p=>(p.querySelector('.pick-name')||{}).innerText+' '+((p.querySelector('.pqn')||{}).innerText||'')),
+              atcText:atc?atc.innerText.replace(/\s+/g,' ').trim().slice(0,80):'MISSING',
+              atcDisabled:atc?atc.disabled:null,
+              freeLine:(document.querySelector('.free-line')||{}).innerText||'MISSING',
+              valstack:[...document.querySelectorAll('.valstack .vrow')].map(r=>r.innerText.replace(/\s+/g,' '))
+            };
+          });
+          const geometry = () => page.evaluate(()=>{
+            const out={};
+            const q2=document.querySelectorAll('.qopt')[1];
+            if(q2){
+              const icons=[...q2.querySelectorAll('.qicons svg')].map(s=>s.getBoundingClientRect());
+              out.qopt2_iconCount=icons.length;
+              out.qopt2_iconsSameRow=icons.length<2?true:Math.abs(icons[0].top-icons[1].top)<3;
+              out.qopt2_iconSize=icons[0]?Math.round(icons[0].width)+'x'+Math.round(icons[0].height):'none';
+              const st=getComputedStyle(q2);
+              out.qopt_border=st.borderTopWidth+' '+st.borderTopStyle;
+              const sub=q2.querySelector('.qsub'), qr=q2.getBoundingClientRect(), sr=sub?sub.getBoundingClientRect():null;
+              out.qsub_centered=sr?Math.abs((sr.left+sr.width/2)-(qr.left+qr.width/2))<4:null;
+            }
+            const on=document.querySelector('.pick[aria-checked="true"] .pick-qtyc');
+            if(on){
+              const minus=on.querySelectorAll('.pqb')[0], plus=on.querySelectorAll('.pqb')[1], n=on.querySelector('.pqn');
+              const mr=minus.getBoundingClientRect(), pr=plus.getBoundingClientRect(), nr=n.getBoundingClientRect();
+              const card=on.closest('.pick').getBoundingClientRect();
+              out.stepper_sameRow=Math.abs((mr.top+mr.height/2)-(pr.top+pr.height/2))<3 && Math.abs((mr.top+mr.height/2)-(nr.top+nr.height/2))<4;
+              out.stepper_circle=Math.round(mr.width)+'x'+Math.round(mr.height)+' / '+Math.round(pr.width)+'x'+Math.round(pr.height);
+              out.stepper_insideCard=pr.right<=card.right+1 && mr.left>=card.left-1;
+            }
+            const qpop=document.querySelector('.qpop');
+            out.qpop_bg=qpop?getComputedStyle(qpop).backgroundColor:'MISSING';
+            const badge=document.querySelector('.pick-badge');
+            out.badge_bg=badge?getComputedStyle(badge).backgroundColor:'MISSING';
+            return out;
+          });
           const audit = await page.evaluate(()=>{
             const q=s=>document.querySelectorAll(s).length;
             const imgs=[...document.querySelectorAll('#root img')];
-            const brokenImgs=imgs.filter(i=>i.complete && i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40));
-            const atc=document.querySelector('.buybox .atc');
+            const gal1=document.querySelector('.gal-slide img');
             return {
-              root: !!document.getElementById('root'),
-              rootHtmlLen: (document.getElementById('root')||{}).innerHTML?.length||0,
-              h1: (document.querySelector('#root h1')||{}).innerText||'MISSING',
-              price: (document.querySelector('.price-row .price')||{}).innerText||'MISSING',
-              valstackRows: q('.valstack .vrow'),
-              selBar: (document.querySelector('.sel-bar')||{}).innerText||'MISSING',
-              freeLine: (document.querySelector('.free-line')||{}).innerText||'MISSING',
-              sections: q('#root section'),
-              galSlides: q('.gal-slide'),
-              fragCards: q('.pick'),
-              atcText: atc? atc.innerText.replace(/\s+/g,' ').trim().slice(0,80):'MISSING',
-              faqs: q('.faq .qa'),
-              stickyExists: q('.sticky')>0,
-              trustIcons: q('.trust-strip .tsi'),
-              imgTotal: imgs.length,
-              brokenImgs,
-              overflowX: document.documentElement.scrollWidth>document.documentElement.clientWidth+2
+              root:!!document.getElementById('root'),
+              h1:(document.querySelector('#root h1')||{}).innerText||'MISSING',
+              heroSrc:gal1?gal1.currentSrc.split('/').pop().slice(0,50):'MISSING',
+              qtyOpts:q('.qopt'), fragCards:q('.pick'),
+              topSellerCards:[...document.querySelectorAll('.pick:has(.pick-badge) .pick-name')].map(e=>e.innerText),
+              boldScarcity:!!document.querySelector('.buybox .atc .btn-sub strong'),
+              bulletsFirst:(()=>{const bb=document.querySelector('.offer-bullets'),vs=document.querySelector('.valstack');return bb&&vs?bb.getBoundingClientRect().top<vs.getBoundingClientRect().top:null;})(),
+              faqs:q('.faq .qa'),
+              brokenImgs:imgs.filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40)),
+              overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
             };
           });
-          // offer v2: SINGLE-select picker — swap radio to 3rd scent, then back to 1st
-          await page.click('.pick:nth-child(3)');
-          await page.waitForTimeout(400);
-          const pickedAlt = await page.evaluate(()=>({
-            selBar:(document.querySelector('.sel-bar')||{}).innerText,
-            selectedCount:document.querySelectorAll('.pick.sel,.pick.selected,.pick[aria-checked="true"],.pick input:checked').length
-          }));
-          await page.click('.pick:nth-child(1)');
-          await page.waitForTimeout(400);
-          const picked = await page.evaluate(()=>({
-            selBar:(document.querySelector('.sel-bar')||{}).innerText,
-            freeLine:(document.querySelector('.free-line')||{}).innerText,
-            selectedCount:document.querySelectorAll('.pick.sel,.pick.selected,.pick[aria-checked="true"],.pick input:checked').length
-          }));
-          // real ATC click -> drawer
+          console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
+          console.log('=== S0 initial ==='); console.log(JSON.stringify(await state()));
+          // VISITOR JOURNEY
+          const qopt=i=>page.click('.qopt:nth-child('+i+')').then(()=>page.waitForTimeout(400));
+          const pickByName=async n=>{ await page.locator('.pick',{hasText:n}).first().click(); await page.waitForTimeout(300); };
+          await qopt(2);
+          console.log('=== S1 chose 2 diffusers ==='); console.log(JSON.stringify(await state()));
+          await pickByName('Crisp Citrus Scape');
+          await pickByName('Midnight Sensation');
+          console.log('=== S2 picked 2 scents ==='); console.log(JSON.stringify(await state()));
+          await page.locator('.qopt:nth-child(2)').scrollIntoViewIfNeeded(); await page.waitForTimeout(300);
+          await page.screenshot({path:'fd-ux-m-qtysel.png'});
+          console.log('=== GEO mobile (2 picked) ==='); console.log(JSON.stringify(await geometry(),null,1));
+          await qopt(3);
+          console.log('=== S3 upgrade 2->3 (picks kept, needs 1 more) ==='); console.log(JSON.stringify(await state()));
+          // stack a scent with the + stepper
+          await page.locator('.pick',{hasText:'Crisp Citrus Scape'}).locator('.pqb').nth(1).click(); await page.waitForTimeout(400);
+          console.log('=== S4 stacked Crisp x2 via + ==='); console.log(JSON.stringify(await state()));
+          console.log('=== GEO mobile (stepper x2) ==='); console.log(JSON.stringify(await geometry(),null,1));
+          await page.locator('.pick',{hasText:'Crisp Citrus Scape'}).scrollIntoViewIfNeeded(); await page.waitForTimeout(300);
+          await page.screenshot({path:'fd-ux-m-stepper.png'});
+          // minus back down
+          await page.locator('.pick',{hasText:'Crisp Citrus Scape'}).locator('.pqb').nth(0).click(); await page.waitForTimeout(400);
+          console.log('=== S5 minus back to x1 ==='); console.log(JSON.stringify(await state()));
+          await qopt(1);
+          console.log('=== S6 downgrade 3->1 (expect picks CLEARED + ATC locked) ==='); console.log(JSON.stringify(await state()));
+          await pickByName('Golden Blossom Harmony');
+          console.log('=== S7 picked 1 (radio mode, ATC unlocked) ==='); console.log(JSON.stringify(await state()));
+          await pickByName('Euphoric Bloom');
+          console.log('=== S8 radio swap to Euphoric (still 1 selected) ==='); console.log(JSON.stringify(await state()));
+          // final purchase config: 3 diffusers, Golden x2 + Euphoric x1
+          await qopt(3);
+          await pickByName('Golden Blossom Harmony');
+          await page.locator('.pick',{hasText:'Golden Blossom Harmony'}).locator('.pqb').nth(1).click(); await page.waitForTimeout(400);
+          console.log('=== S9 final: 3 diffusers, Golden x2 + Euphoric x1 ==='); console.log(JSON.stringify(await state()));
+          // real ATC -> cart
           await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
           await page.waitForTimeout(400);
           await page.click('.buybox .atc');
           await page.waitForTimeout(5000);
-          const drawer = await page.evaluate(()=>{
-            const d=document.getElementById('cart-drawer');
-            return {exists:!!d, open:d?(d.hasAttribute('open')||d.classList.contains('active')||getComputedStyle(d).visibility!=='hidden'):false};
-          });
           await page.screenshot({ path:'fd-drawer.png' });
           const cart = await page.evaluate(async()=>{
             const j=await (await fetch('/cart.js')).json();
-            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), v:i.variant_id, q:i.quantity, price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title+' -'+d.amount/100)}))};
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), v:i.variant_id, q:i.quantity, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title+' -'+d.amount/100)}))};
           });
-          const inpProxy = await page.evaluate(()=>{ const ds=window.__perf.events.map(e=>e.d).sort((a,b)=>b-a); return {worstEventMs:ds[0]||0, events:window.__perf.events.slice(0,12)}; });
-          console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
-          console.log('=== PICKED-ALT (3rd scent) ==='); console.log(JSON.stringify(pickedAlt));
-          console.log('=== PICKED (back to 1st) ==='); console.log(JSON.stringify(picked));
-          console.log('=== DRAWER ==='); console.log(JSON.stringify(drawer));
-          console.log('=== CART ==='); console.log(JSON.stringify(cart,null,1));
-          console.log('=== INP PROXY (interaction event durations) ==='); console.log(JSON.stringify(inpProxy));
+          console.log('=== CART (expect Golden x2 + Euphoric x1 on plan 2627895405, 3 diffusers -> $0, total 119.85) ===');
+          console.log(JSON.stringify(cart,null,1));
           console.log('=== CONSOLE ERRORS ('+errs.length+') ==='); errs.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== FAILED REQUESTS ('+failed.length+') ==='); failed.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== OUR BUNDLE RESPONSES ==='); [...new Set(resp)].forEach(e=>console.log(' - '+e));
           await page.evaluate(()=>window.scrollTo(0,0));
           await page.waitForTimeout(800);
           await page.screenshot({ path:'fd-live-full.png', fullPage:true });
+          // DESKTOP PASS — the two areas the owner flagged
+          const d = await b.newPage({ viewport:{width:1320,height:900} });
+          await d.goto('https://maisoncroyez.com/pages/free-diffuser?cb=d'+Date.now(), {waitUntil:'load',timeout:60000});
+          await d.waitForTimeout(9000);
+          await d.click('.qopt:nth-child(2)'); await d.waitForTimeout(400);
+          await d.locator('.pick',{hasText:'Crisp Citrus Scape'}).first().click(); await d.waitForTimeout(400);
+          const dgeo = await d.evaluate(()=>{
+            const out={};
+            const q2=document.querySelectorAll('.qopt')[1];
+            const icons=q2?[...q2.querySelectorAll('.qicons svg')].map(s=>s.getBoundingClientRect()):[];
+            out.qopt2_iconsSameRow=icons.length<2?('only '+icons.length):Math.abs(icons[0].top-icons[1].top)<3;
+            out.qopt_border=q2?getComputedStyle(q2).borderTopWidth+' '+getComputedStyle(q2).borderTopStyle:'?';
+            const sub=q2?q2.querySelector('.qsub'):null;
+            if(sub){const qr=q2.getBoundingClientRect(), sr=sub.getBoundingClientRect(); out.qsub_centered=Math.abs((sr.left+sr.width/2)-(qr.left+qr.width/2))<4;}
+            const on=document.querySelector('.pick[aria-checked="true"] .pick-qtyc');
+            if(on){
+              const bs=on.querySelectorAll('.pqb'), n=on.querySelector('.pqn');
+              const mr=bs[0].getBoundingClientRect(), pr=bs[1].getBoundingClientRect(), nr=n.getBoundingClientRect();
+              const card=on.closest('.pick').getBoundingClientRect();
+              out.stepper_sameRow=Math.abs((mr.top+mr.height/2)-(pr.top+pr.height/2))<3 && Math.abs((mr.top+mr.height/2)-(nr.top+nr.height/2))<4;
+              out.stepper_circle=Math.round(mr.width)+'x'+Math.round(mr.height)+' / '+Math.round(pr.width)+'x'+Math.round(pr.height);
+              out.stepper_insideCard=pr.right<=card.right+1 && mr.left>=card.left-1;
+            }
+            return out;
+          });
+          console.log('=== GEO DESKTOP 1320px ==='); console.log(JSON.stringify(dgeo,null,1));
+          await d.locator('.qtysel').screenshot({path:'fd-ux-d-qtysel.png'});
+          await d.locator('.pick',{hasText:'Crisp Citrus Scape'}).first().screenshot({path:'fd-ux-d-pick.png'});
           await b.close();
           EOS
           node check.mjs 2>&1 | tee verify-log.txt
@@ -154,15 +220,9 @@ jobs:
               const nav=performance.getEntriesByType('navigation')[0]||{};
               const res=performance.getEntriesByType('resource');
               const ours=res.filter(r=>/mc-lp/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),decodedKB:Math.round(r.decodedBodySize/1024),ms:Math.round(r.duration)}));
-              const byType={};
-              for(const r of res){const t=r.initiatorType||'other';byType[t]=byType[t]||{n:0,kb:0};byType[t].n++;byType[t].kb+=Math.round(r.transferSize/1024);}
-              const top=[...res].sort((a,b)=>b.transferSize-a.transferSize).slice(0,12).map(r=>({f:r.name.split('?')[0].split('/').pop().slice(0,55),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
               const tbt=window.__m.lt.reduce((s,t)=>s+Math.max(0,t.d-50),0);
-              const fonts={unna:document.fonts.check('16px Unna'),unnaB:document.fonts.check('bold 16px Unna'),outfit:document.fonts.check('16px Outfit'),bvp:document.fonts.check('16px "Be Vietnam Pro"')};
-              const fontReqs=res.filter(r=>/mc-lp-f-/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
-              const vidReqs=res.filter(r=>/\.(mp4|webm)/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024)}));
-              const hero=res.filter(r=>/Diseno_sin_titulo_92/.test(r.name)).map(r=>({transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
-              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),shifts:window.__m.shifts.slice(0,10),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),fonts,fontReqs,vidReqs,hero,byType,ourBundles:ours,topTransfers:top};
+              const hero=res.filter(r=>/mc-lp-fd-hero-callouts/.test(r.name)).map(r=>({transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
+              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),shifts:window.__m.shifts.slice(0,10),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),hero,ourBundles:ours};
             });
             m.wallMs=Date.now()-t0; runs.push(m); await b.close();
             if(i<2) await new Promise(r=>setTimeout(r,70000));
@@ -173,55 +233,18 @@ jobs:
           console.log('=== MEDIAN ===');
           console.log(JSON.stringify({ttfbMs:med('ttfbMs'),fcpMs:med('fcpMs'),lcpMs:med('lcpMs'),cls:med('cls'),tbtMs:med('tbtMs'),loadMs:med('loadMs'),totalTransferKB:med('totalTransferKB')}));
           console.log('=== LCP ELEMENT (per run) ==='); runs.forEach((r,i)=>console.log('run'+(i+1)+': '+r.lcpEl));
-          console.log('=== LAYOUT SHIFT SOURCES (run1, >0.01) ==='); console.log(JSON.stringify(runs[0].shifts,null,1));
-          console.log('=== FONTS LOADED (run1) ==='); console.log(JSON.stringify(runs[0].fonts), JSON.stringify(runs[0].fontReqs));
-          console.log('=== VIDEO REQS DURING LOAD, NO SCROLL (run1 — expect none) ==='); console.log(JSON.stringify(runs[0].vidReqs));
-          console.log('=== HERO IMG (run1) ==='); console.log(JSON.stringify(runs[0].hero));
+          console.log('=== NEW HERO IMG (run1) ==='); console.log(JSON.stringify(runs[0].hero));
           console.log('=== OUR BUNDLES (run1) ==='); console.log(JSON.stringify(runs[0].ourBundles,null,1));
-          console.log('=== TOP TRANSFERS (run1) ==='); console.log(JSON.stringify(runs[0].topTransfers,null,1));
-          console.log('=== BY TYPE (run1) ==='); console.log(JSON.stringify(runs[0].byType));
           EOS
           node perf.mjs 2>&1 | tee perf-log.txt
-          echo "--- asset headers ---" | tee -a perf-log.txt
-          for f in mc-lp-free-diffuser.css mc-lp-free-diffuser-app.js mc-lp-vendor.js mc-lp-diffuser-assets.js; do
-            echo "== $f ==" | tee -a perf-log.txt
-            curl -sI -H 'Accept-Encoding: br,gzip' "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f?v=fd5check" | grep -iE 'content-length|content-encoding|content-type|cache-control|x-cache' | tee -a perf-log.txt
-          done
-      - name: CrUX field data p75 (PageSpeed Insights API)
-        if: always()
-        run: |
-          curl -s "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%2Fmaisoncroyez.com%2Fpages%2Ffree-diffuser&strategy=mobile" -o psi.json || true
-          node -e '
-            try{
-              const j=require("./psi.json");
-              const out={};
-              const fx=(le,tag)=>{ if(!le||!le.metrics) return; const m=le.metrics;
-                out[tag]={ lcp75_ms:(m.LARGEST_CONTENTFUL_PAINT_MS||{}).percentile??null,
-                           inp75_ms:(m.INTERACTION_TO_NEXT_PAINT||{}).percentile??null,
-                           cls75:((m.CUMULATIVE_LAYOUT_SHIFT_SCORE||{}).percentile??null)!==null?(m.CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile/100):null,
-                           fcp75_ms:(m.FIRST_CONTENTFUL_PAINT_MS||{}).percentile??null,
-                           ttfb75_ms:(m.EXPERIMENTAL_TIME_TO_FIRST_BYTE||{}).percentile??null,
-                           overall:le.overall_category }; };
-              fx(j.loadingExperience,"page_field_data");
-              fx(j.originLoadingExperience,"origin_field_data");
-              if(j.loadingExperience && j.loadingExperience.origin_fallback) out.note="page-level CrUX unavailable (low traffic) — origin-level shown";
-              const lh=j.lighthouseResult;
-              if(lh) out.lighthouse_lab={ perf_score:Math.round((lh.categories.performance.score||0)*100),
-                lcp:lh.audits["largest-contentful-paint"].displayValue, cls:lh.audits["cumulative-layout-shift"].displayValue,
-                tbt:lh.audits["total-blocking-time"].displayValue, fcp:lh.audits["first-contentful-paint"].displayValue,
-                si:lh.audits["speed-index"].displayValue };
-              if(j.error) out.error=j.error.message;
-              console.log(JSON.stringify(out,null,1));
-            }catch(e){console.log("PSI parse failed: "+e.message);}
-          ' 2>&1 | tee psi-summary.txt
       - name: Commit results
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv fd-live-full.png fd-drawer.png verify-log.txt perf-log.txt psi-summary.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv fd-live-full.png fd-drawer.png fd-ux-m-qtysel.png fd-ux-m-stepper.png fd-ux-d-qtysel.png fd-ux-d-pick.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP verify run 32: offer v2 checks + perf audit" || true
+          git commit -m "Free-diffuser LP verify run 42: offer v3 visitor UX walkthrough" || true
           git pull --rebase origin claude/maison-landing-page-iyikm5
           git push

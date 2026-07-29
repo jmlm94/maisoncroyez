@@ -1,16 +1,18 @@
 perf run 1 goto attempt 1: HTTP 429
-perf run 1 goto attempt 2: HTTP 200
+perf run 1 goto attempt 2: HTTP 429
+perf run 1 goto attempt 3: HTTP 200
 perf run 2 goto attempt 1: HTTP 429
-perf run 2 goto attempt 2: HTTP 200
+perf run 2 goto attempt 2: HTTP 429
+perf run 2 goto attempt 3: HTTP 200
 perf run 3 goto attempt 1: HTTP 429
 perf run 3 goto attempt 2: HTTP 429
 perf run 3 goto attempt 3: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=256ms FCP=540ms LCP=3328ms CLS=0.0014 TBT=567ms load=13926ms reqs=148 transfer=2448KB
-run2: TTFB=326ms FCP=580ms LCP=3148ms CLS=0.0014 TBT=503ms load=14645ms reqs=131 transfer=2372KB
-run3: TTFB=241ms FCP=584ms LCP=6164ms CLS=0.0014 TBT=584ms load=9882ms reqs=157 transfer=2516KB
+run1: TTFB=11ms FCP=424ms LCP=6056ms CLS=0.0014 TBT=815ms load=9700ms reqs=156 transfer=2504KB
+run2: TTFB=17ms FCP=424ms LCP=6084ms CLS=0.0014 TBT=814ms load=9730ms reqs=156 transfer=2504KB
+run3: TTFB=11ms FCP=420ms LCP=6076ms CLS=0.0014 TBT=818ms load=9673ms reqs=158 transfer=2505KB
 === MEDIAN ===
-{"ttfbMs":256,"fcpMs":580,"lcpMs":3328,"cls":0.0014,"tbtMs":567,"loadMs":13926,"totalTransferKB":2448}
+{"ttfbMs":11,"fcpMs":424,"lcpMs":6076,"cls":0.0014,"tbtMs":815,"loadMs":9700,"totalTransferKB":2504}
 === LCP ELEMENT (per run) ===
 run1: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run2: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
@@ -29,85 +31,85 @@ run3: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
   "decodedKB": 84,
-  "ms": 2923
+  "ms": 5757
  },
  {
   "f": "mc-lp-free-diffuser.css",
   "transferKB": 11,
   "decodedKB": 63,
-  "ms": 762
+  "ms": 1663
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
   "decodedKB": 140,
-  "ms": 2120
+  "ms": 3786
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
   "decodedKB": 2,
-  "ms": 189
+  "ms": 304
  },
  {
   "f": "mc-lp-free-diffuser-app.js",
   "transferKB": 13,
   "decodedKB": 37,
-  "ms": 953
- },
- {
-  "f": "mc-lp-d-frag2.jpg",
-  "transferKB": 20,
-  "decodedKB": 20,
-  "ms": 1198
+  "ms": 1811
  },
  {
   "f": "mc-lp-d-frag4.jpg",
   "transferKB": 14,
   "decodedKB": 13,
-  "ms": 982
+  "ms": 1144
+ },
+ {
+  "f": "mc-lp-d-frag2.jpg",
+  "transferKB": 20,
+  "decodedKB": 20,
+  "ms": 1559
  },
  {
   "f": "mc-lp-d-frag6.jpg",
   "transferKB": 19,
   "decodedKB": 19,
-  "ms": 1233
+  "ms": 1587
  },
  {
   "f": "mc-lp-d-gif1.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 741
+  "ms": 646
  },
  {
   "f": "mc-lp-d-gif2.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 1247
+  "ms": 668
  },
  {
   "f": "mc-lp-d-gif3.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 1708
+  "ms": 673
  },
  {
   "f": "mc-lp-d-gif1.webm",
   "transferKB": 76,
   "decodedKB": 75,
-  "ms": 2486
+  "ms": 1484
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
   "decodedKB": 129,
-  "ms": 3551
+  "ms": 2257
  },
  {
   "f": "mc-lp-d-gif3.webm",
   "transferKB": 112,
   "decodedKB": 112,
-  "ms": 2965
+  "ms": 2087
  }
 ]
 === TOP TRANSFERS (run1) ===
@@ -115,66 +117,66 @@ run3: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
  {
   "f": "merriweather_n4.349a72bc63b970a8b7f00dc33f5bda2ec52f79c",
   "transferKB": 330,
-  "ms": 8086
+  "ms": 9279
  },
  {
   "f": "merriweather_n7.19270b7a7a551caaabc4ca9d96160fde1ff7839",
   "transferKB": 328,
-  "ms": 5611
+  "ms": 9265
  },
  {
   "f": "hydrate.DySuJ2sG.js",
   "transferKB": 207,
-  "ms": 2179
+  "ms": 2487
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
-  "ms": 3551
+  "ms": 2257
  },
  {
   "f": "mc-lp-d-gif3.webm",
   "transferKB": 112,
-  "ms": 2965
+  "ms": 2087
  },
  {
   "f": "fbevents.js",
   "transferKB": 104,
-  "ms": 809
+  "ms": 2159
  },
  {
   "f": "useShopPayExternalAppContext.ERv0zhsm.js",
   "transferKB": 102,
-  "ms": 1106
+  "ms": 649
  },
  {
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
-  "ms": 2923
+  "ms": 5757
  },
  {
   "f": "mc-lp-d-gif1.webm",
   "transferKB": 76,
-  "ms": 2486
+  "ms": 1484
  },
  {
   "f": "OnePage.Cqzu2M1x.js",
   "transferKB": 71,
-  "ms": 790
+  "ms": 499
  },
  {
   "f": "bdb2e2262w5773267dpae7c6deam788d1861m.js",
   "transferKB": 68,
-  "ms": 10955
+  "ms": 4709
  },
  {
   "f": "980908600592309",
   "transferKB": 66,
-  "ms": 492
+  "ms": 1185
  }
 ]
 === BY TYPE (run1) ===
-{"early-hints":{"n":3,"kb":0},"link":{"n":40,"kb":1394},"script":{"n":58,"kb":528},"beacon":{"n":13,"kb":0},"img":{"n":7,"kb":61},"css":{"n":3,"kb":0},"xmlhttprequest":{"n":1,"kb":0},"fetch":{"n":11,"kb":1},"iframe":{"n":2,"kb":29},"other":{"n":4,"kb":116},"video":{"n":6,"kb":317}}
+{"early-hints":{"n":3,"kb":0},"link":{"n":48,"kb":1455},"script":{"n":58,"kb":523},"beacon":{"n":13,"kb":0},"img":{"n":7,"kb":61},"css":{"n":3,"kb":0},"fetch":{"n":11,"kb":1},"iframe":{"n":2,"kb":29},"xmlhttprequest":{"n":1,"kb":0},"other":{"n":4,"kb":116},"video":{"n":6,"kb":317}}
 --- asset headers ---
 == mc-lp-free-diffuser.css ==
 content-type: text/css

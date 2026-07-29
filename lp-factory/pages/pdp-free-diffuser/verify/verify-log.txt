@@ -1,6 +1,8 @@
 goto attempt 1: HTTP 429
 BODY SNIPPET: <html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">local_rate_limited</pre></body></html>
-goto attempt 2: HTTP 200
+goto attempt 2: HTTP 429
+BODY SNIPPET: <html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">local_rate_limited</pre></body></html>
+goto attempt 3: HTTP 200
 === AUDIT ===
 {
  "root": true,
@@ -56,38 +58,40 @@ goto attempt 2: HTTP 200
  ]
 }
 === INP PROXY (interaction event durations) ===
-{"worstEventMs":16,"events":[{"n":"pointerout","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16},{"n":"pointerover","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16}]}
-=== CONSOLE ERRORS (3) ===
+{"worstEventMs":32,"events":[{"n":"pointerout","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16},{"n":"pointerleave","d":16},{"n":"pointerover","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16},{"n":"pointerenter","d":16}]}
+=== CONSOLE ERRORS (4) ===
+ - Failed to load resource: the server responded with a status of 429 ()
  - Failed to load resource: the server responded with a status of 429 ()
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (8) ===
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=6a151eb6-d8f3-42f2-a249-3f65d293acbb&target_or
- - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
+=== FAILED REQUESTS (9) ===
+ - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=a151e6af-9edd-48bd-9277-3c46d40a0ca3&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
+ - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
+ - net::ERR_BLOCKED_BY_ORB https://cdn.shopify.com/proxy/0e1c258f9979759d197d7550aa582c845686efacc10b03606803e31aa344
  - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928
  - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928
  - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
 === OUR BUNDLE RESPONSES ===
- - 200 mc-lp-free-diffuser.css?v=fd10-2026072920
- - 200 mc-lp-vendor.js?v=fd10-2026072920
- - 200 mc-lp-diffuser-assets.js?v=fd10-2026072920
- - 200 mc-lp-free-diffuser-app.js?v=fd10-2026072920
+ - 200 mc-lp-free-diffuser.css?v=fd11-2026072920
+ - 200 mc-lp-diffuser-assets.js?v=fd11-2026072920
+ - 200 mc-lp-free-diffuser-app.js?v=fd11-2026072920
+ - 200 mc-lp-vendor.js?v=fd11-2026072920
  - 200 mc-lp-d-frag7.jpg?v=1783552928
- - 200 mc-lp-d-frag6.jpg?v=1783552928
+ - 200 mc-lp-d-frag4.jpg?v=1783552928
+ - 200 mc-lp-d-frag2.jpg?v=1783552928
  - 200 mc-lp-d-frag1.jpg?v=1783552928
  - 200 mc-lp-d-frag3.jpg?v=1783552928
  - 200 mc-lp-d-frag5.jpg?v=1783552928
- - 200 mc-lp-d-frag2.jpg?v=1783552928
- - 200 mc-lp-d-frag4.jpg?v=1783552928
- - 206 mc-lp-d-gif1.mp4?v=1783552928
+ - 200 mc-lp-d-frag6.jpg?v=1783552928
+ - 200 mc-lp-d-intention.jpg?v=1783552928
  - 206 mc-lp-d-gif2.mp4?v=1783552928
+ - 206 mc-lp-d-gif1.mp4?v=1783552928
  - 206 mc-lp-d-gif3.mp4?v=1783552928
  - 206 mc-lp-d-gif1.webm?v=1783552928
  - 206 mc-lp-d-gif2.webm?v=1783552928
  - 206 mc-lp-d-gif3.webm?v=1783552928
- - 200 mc-lp-d-intention.jpg?v=1783552928
  - 200 mc-lp-d-diseno90.jpg?v=1783552928

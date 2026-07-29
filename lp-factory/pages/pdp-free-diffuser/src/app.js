@@ -69,9 +69,9 @@ const CONFIG = {
         { label: "You pay today", value: "$39.95", total: true },
       ],
       bullets: [
-        { icon: "wind", text: "Fills up to 600 sq ft in under 10 minutes with scents that make guests say \u201cwhat\u2019s that smell\u201d in the middle of a chat." },
-        { icon: "leaf", text: "No water needed = no mold = no maintenance required." },
-        { icon: "sparkle", text: "Every scent is composed around an intention, so your home attracts the energy you choose." },
+        { icon: "wind", text: "Surprise your guests \u2014 our manifestation scents make them stop mid-sentence to ask what smells so good." },
+        { icon: "sparkle", text: "Attract and manifest love, energy, relaxation, abundance and more \u2014 every scent is composed around an intention." },
+        { icon: "leaf", text: "Finally ditch expensive, fast-burning candles whose scent disappears after 30 minutes." },
       ],
     },
     qtyTitle: "How many FREE diffusers would you like?",
@@ -180,7 +180,7 @@ const CONFIG = {
      ================================================================ */
   angleIntention: { /* A1 — the moat */
     eyebrow: "A scent for every intention",
-    heading: ["Every scent carries an intention.", "Tap the energy you want more of."],
+    heading: ["Love? Relaxation? Abundance?", "Connect your intentions with our manifestation scents."],
     img: "intentionHero",
     bullets: [
       "Candles and plug-ins make a room smell nice for an hour. **We compose every fragrance around an intention** \u2014 love, abundance, energy, focus \u2014 from 100% organic oils.",

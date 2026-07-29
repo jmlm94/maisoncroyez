@@ -126,7 +126,7 @@ const CONFIG = {
       chips: ["🥛 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
     },
     {
-      key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493, topSeller: true,
+      key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
       desc: "For heavy days and low rooms. Turn the frequency back up.",
@@ -140,7 +140,7 @@ const CONFIG = {
       chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
     },
     {
-      key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293,
+      key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
       desc: "For the evenings you don\u2019t plan on spending alone much longer.",

@@ -460,6 +460,7 @@ const selStore = {
   complete() { return this.keys.length === this.count; },
   emit() { this.listeners.forEach((fn) => fn()); },
   setCount(n) {
+    if (n < this.count) this.keys = [];   /* downgrade: start the picks over */
     this.count = n;
     if (this.keys.length > n) this.keys = this.keys.slice(0, n);
     this.emit();

@@ -77,7 +77,7 @@ const CONFIG = {
     qtyTitle: "How many FREE diffusers would you like?",
     pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
-    cta: { label: "Claim My Free Diffuser", sub: "This offer ends today" },
+    cta: { label: "Claim My Free Diffuser", sub: "Only **79** free diffusers left!" },
     terms: [
       { icon: "box", text: "**Today:** your first fragrance for $39.95 per diffuser \u2014 every FREE diffuser ships with its own fragrance and your subscription begins." },
       { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
@@ -646,7 +646,7 @@ function BuyBox() {
 
           <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
-            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : B.cta.sub}</span>`}
+            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffusers = ${n} fragrances` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
           </button>
           ${B.terms && html`
             <div class="offer-terms">

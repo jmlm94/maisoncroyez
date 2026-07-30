@@ -1198,3 +1198,16 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 
 /* FREE-DIFFUSER LP round 12 — "Most Popular" chip matches Top Seller gold (owner) */
 .qpop{background:#A67C3D;color:#FFFFFF;box-shadow:0 2px 8px rgba(166,124,61,.3)}
+
+/* FREE-DIFFUSER LP round 16 — offer-clarity rework A+C (owner pick 2026-07-30) */
+.offer-anchor{font-family:'Outfit',sans-serif;font-weight:600;font-size:.98rem;color:var(--ink);margin:-2px 0 0;text-align:left;line-height:1.4}
+.offer-anchor strong{font-weight:800;color:#A67C3D}
+.valstack .vfoot{font-size:.85rem;color:var(--ink-soft);border-top:1px dashed #DECBA0;padding-top:8px;line-height:1.5}
+.valstack .vfoot strong{color:var(--ink)}
+.hiw{background:#fff;border:1.5px solid var(--blush);border-radius:14px;padding:14px 15px;display:flex;flex-direction:column;gap:11px}
+.hiw-row{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;line-height:1.5;text-align:left;color:var(--ink)}
+.hiw-row span:last-child{flex:1 1 auto}
+.hiw-k{flex:0 0 96px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;background:var(--blush-soft);border:1px solid var(--blush);border-radius:999px;padding:5px 4px;text-align:center;margin-top:2px;white-space:nowrap}
+.hiw-row:last-child .hiw-k{background:#A67C3D;border-color:#A67C3D;color:#FFFFFF}
+.preterms{text-align:center;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.01em;color:var(--ink);line-height:1.55}
+.preterms .pt2{display:block;font-weight:500;font-size:.76rem;color:var(--ink-soft);margin-top:3px}

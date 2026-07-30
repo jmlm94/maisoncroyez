@@ -583,7 +583,6 @@ function BuyBox() {
         <div class="buybox">
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
-          <div class="offer-anchor"><strong>${"$" + Math.round(239.85 * n)}</strong> of value, yours for <strong>${usd(39.95 * n)}/month</strong> only.<span class="oa2">No strings attached after third month.</span></div>
           <div class="price-row">
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>

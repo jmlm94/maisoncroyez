@@ -598,7 +598,7 @@ function BuyBox() {
                 <span>${v.label}</span>
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
-            <div class="vfoot">3-month total: <strong>${usd(119.85 * n)}</strong> · you receive <strong>${"$" + Math.round(239.85 * n)}+</strong> in product value</div>
+            <div class="vfoot"><strong>3-month commitment</strong> if you love it. Return right away + <strong>full refund</strong> if you don't.</div>
           </div>
 
           <div class="picker-title">${B.qtyTitle}</div>
@@ -647,10 +647,6 @@ function BuyBox() {
             🎁 <strong>${n > 1 ? n + " FREE Maison Croyez Diffusers" : "FREE Maison Croyez Diffuser"} added to your order</strong> — <span class="strike">${usd(120 * n)}</span> <strong>$0</strong>
           </div>
 
-          <div class="preterms">
-            3-month commitment if you love it. Return right away + full refund if you don't.
-            <span class="pt2">🛡 30-day money-back guarantee · ${usd(39.95 * n)}/month · cancel anytime after month 3</span>
-          </div>
           <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
             ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffuser${n > 1 ? "s" : ""} = ${n} fragrance${n > 1 ? "s" : ""}` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}

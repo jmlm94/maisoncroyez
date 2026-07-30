@@ -583,7 +583,7 @@ function BuyBox() {
         <div class="buybox">
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
-          <div class="offer-anchor"><strong>${"$" + Math.round(239.85 * n)}</strong> of value — yours for <strong>${usd(39.95 * n)}/month</strong></div>
+          <div class="offer-anchor"><strong>${"$" + Math.round(239.85 * n)}</strong> of value, yours for <strong>${usd(39.95 * n)}/month</strong> only.<span class="oa2">No strings attached after third month.</span></div>
           <div class="price-row">
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>
@@ -647,27 +647,20 @@ function BuyBox() {
             🎁 <strong>${n > 1 ? n + " FREE Maison Croyez Diffusers" : "FREE Maison Croyez Diffuser"} added to your order</strong> — <span class="strike">${usd(120 * n)}</span> <strong>$0</strong>
           </div>
 
-          <div class="hiw" aria-label="How the free-diffuser plan works">
-            <div class="hiw-row"><span class="hiw-k">Today</span><span>Pay <strong>${usd(39.95 * n)}</strong> — your first ${n > 1 ? n + " fragrances ship" : "fragrance ships"} with your ${n > 1 ? n + " FREE diffusers ($" + 120 * n + " value)" : "FREE $120 diffuser"}.</span></div>
-            <div class="hiw-row"><span class="hiw-k">Months 2–3</span><span><strong>${usd(39.95 * n)}/mo</strong> for a fresh fragrance${n > 1 ? " per diffuser" : ""} each month — swap intentions anytime.</span></div>
-            <div class="hiw-row"><span class="hiw-k">After month 3</span><span>Keep, pause, or cancel in two clicks. The ${n > 1 ? "diffusers are" : "diffuser is"} yours to keep, $0.</span></div>
-          </div>
           <div class="preterms">
-            ${usd(39.95 * n)}/month · 3-month minimum · cancel anytime after month 3
-            <span class="pt2">🛡 30-day money-back guarantee — return everything for a full refund and we cancel your subscription.</span>
+            3-month commitment if you love it. Return right away + full refund if you don't.
+            <span class="pt2">🛡 30-day money-back guarantee · ${usd(39.95 * n)}/month · cancel anytime after month 3</span>
           </div>
           <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
             ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffuser${n > 1 ? "s" : ""} = ${n} fragrance${n > 1 ? "s" : ""}` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
           </button>
-          ${B.terms && html`
-            <div class="offer-terms">
-              ${B.terms.map((t) => html`
-                <div class="term-row" key=${t.text}>
-                  <span class="term-ic" aria-hidden="true"><${TermIcon} name=${t.icon}/></span>
-                  <span class="term-tx"><${Rich} s=${t.text}/></span>
-                </div>`)}
-            </div>`}
+          <div class="hiw" aria-label="How the free-diffuser plan works">
+            <div class="hiw-row"><span class="hiw-k">Today</span><span>Pay <strong>${usd(39.95 * n)}</strong> — your first ${n > 1 ? n + " fragrances ship" : "fragrance ships"} with your ${n > 1 ? n + " FREE diffusers ($" + 120 * n + " value)" : "FREE $120 diffuser"}.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Months 2–3</span><span><strong>${usd(39.95 * n)}/mo</strong> for a fresh fragrance${n > 1 ? " per diffuser" : ""} each month — swap intentions anytime.</span></div>
+            <div class="hiw-row"><span class="hiw-k">After month 3</span><span>Keep, pause, or cancel in two clicks. The ${n > 1 ? "diffusers are" : "diffuser is"} yours to keep, $0.</span></div>
+            <div class="hiw-row"><span class="hiw-k">🛡 30 Days</span><span><strong>Money-back guarantee</strong> — don't love it? Return it for a full refund and we cancel your commitment.</span></div>
+          </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
           ${B.trustStrip.length > 0 && html`<div class="trust-strip">
             ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}

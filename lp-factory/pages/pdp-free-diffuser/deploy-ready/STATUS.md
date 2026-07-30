@@ -50,3 +50,16 @@ LAUNCH CHECKLIST (on owner go):
 5. [DONE 07-29, both 201 + READY] stagedUploadsCreate + curl + fileUpdate (GenericFiles 29348024909933 css / 29348024942701 js).
 6. Wait ~20 min propagation, flip page 117412692077 cache key fd7- -> fd8-.
 7. Trigger verify run 37; check cart: N bottles on plan + N diffusers all at $0, total 39.95*N.
+
+
+## Offer-clarity rework (DEPLOYED 2026-07-30, fd12 key)
+Fixes checkout-shock leak (ATC high, checkout completion ~25-30%).
+- Price row: $39.95/mo + badge "3-Month Commitment · Return & Cancel Anytime*"
+- Value stack footer: "3-month commitment if you love it. Return right away + full refund if you don't."
+- How-it-works timeline BELOW ATC (replaces icon terms rows): Today / Months 2-3 /
+  After month 3 / gold 30-Days money-back guarantee row
+- All guarantee copy 90 -> 30 days (owner correction); refunds cancel the subscription
+- Sticky bar price scales with diffuser count + /mo (was hardcoded $39.95)
+- Owner applying via language editor: drawer terms line under total, checkout
+  subscription strings; Subi plan rename "Monthly Scent Drop · $39.95/mo · 3-month min"
+- Verify: run 44

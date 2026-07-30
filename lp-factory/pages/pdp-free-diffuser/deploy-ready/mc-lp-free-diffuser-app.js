@@ -62,7 +62,7 @@ const CONFIG = {
     title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "Award-Winning Diffuser included for free." },
     offer: {
       price: "$39.95",
-      priceUnit: "",
+      priceUnit: "/mo",
       compareAt: "$159.95",
       valueStack: [
         { label: "1 \u00d7 100ml manifestation fragrance", value: "$39.95" },
@@ -92,7 +92,7 @@ const CONFIG = {
       { q: "Is the diffuser really free?", a: "Yes \u2014 complete your 3-month subscription and every diffuser costs you $0 (a $120 value each). The only exception: if you cancel before month 3, a $120 early cancellation fee applies per diffuser." },
       { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "What if I don't like a scent?", a: "You have a 90-day risk-free trial on everything, and you can swap to a different intention before any month's shipment. Not feeling it at all? Return for a full refund." },
+      { q: "What if I don't like a scent?", a: "You have a 30-day risk-free trial on everything, and you can swap to a different intention before any month's shipment. Not feeling it at all? Return everything for a full refund and we cancel your subscription." },
     ],
   },
 
@@ -278,11 +278,11 @@ const CONFIG = {
   },
 
   guarantee: {
-    badge: { big: "90", mid: "Day · Risk-Free", small: "Lifetime Diffuser Warranty" },
-    heading: ["Love the way your home feels in 90 days,", "or your money back."],
+    badge: { big: "30", mid: "Day · Risk-Free", small: "Lifetime Diffuser Warranty" },
+    heading: ["Love the way your home feels in 30 days,", "or your money back."],
     bullets: [
       "Run it. Live with it. Let people walk in.",
-      "If Maison Croyez doesn't change how your home feels (and how it's complimented), send it back within 90 days for **a full refund**.",
+      "If Maison Croyez doesn't change how your home feels (and how it's complimented), send everything back within 30 days for **a full refund** — and we cancel your subscription with it. **You are never locked in during your trial.**",
       "And the diffuser itself? **Covered for life.**",
     ],
     cta: { label: "Claim My Free Diffuser", sub: "$39.95 today · diffuser included free" },
@@ -301,7 +301,7 @@ const CONFIG = {
       { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
       { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. You choose scents by the feeling you want more of, not just the notes." },
       { q: "What makes this different from candles?", a: "No flame, no soot, no smoke, and no four-hour lifespan. The same warmth and presence, evenly through the whole room, for weeks per bottle instead of evenings per jar." },
-      { q: "What if I don't love it?", a: "You have a 90-day money-back guarantee on the whole experience and the Lifetime Diffuser Warranty on the unit. If your home doesn't feel different, we refund you in full." },
+      { q: "What if I don't love it?", a: "You have a 30-day money-back guarantee on the whole experience — return the diffuser and scent for a full refund and your subscription is cancelled — plus the Lifetime Diffuser Warranty on the unit." },
     ],
   },
 
@@ -586,6 +586,7 @@ function BuyBox() {
           <div class="price-row">
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>
+            <span class="price-badge">3-Month Commitment · Return & Cancel Anytime*</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
           <ul class="offer-bullets">
@@ -597,6 +598,7 @@ function BuyBox() {
                 <span>${v.label}</span>
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
+            <div class="vfoot"><strong>3-month commitment</strong> if you love it. Return right away + <strong>full refund</strong> if you don't.</div>
           </div>
 
           <div class="picker-title">${B.qtyTitle}</div>
@@ -649,14 +651,12 @@ function BuyBox() {
             <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
             ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffuser${n > 1 ? "s" : ""} = ${n} fragrance${n > 1 ? "s" : ""}` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
           </button>
-          ${B.terms && html`
-            <div class="offer-terms">
-              ${B.terms.map((t) => html`
-                <div class="term-row" key=${t.text}>
-                  <span class="term-ic" aria-hidden="true"><${TermIcon} name=${t.icon}/></span>
-                  <span class="term-tx"><${Rich} s=${t.text}/></span>
-                </div>`)}
-            </div>`}
+          <div class="hiw" aria-label="How the free-diffuser plan works">
+            <div class="hiw-row"><span class="hiw-k">Today</span><span>Pay <strong>${usd(39.95 * n)}</strong> — your first ${n > 1 ? n + " fragrances ship" : "fragrance ships"} with your ${n > 1 ? n + " FREE diffusers ($" + 120 * n + " value)" : "FREE $120 diffuser"}.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Months 2–3</span><span><strong>${usd(39.95 * n)}/mo</strong> for a fresh fragrance${n > 1 ? " per diffuser" : ""} each month — swap intentions anytime.</span></div>
+            <div class="hiw-row"><span class="hiw-k">After month 3</span><span>Keep, pause, or cancel in two clicks. The ${n > 1 ? "diffusers are" : "diffuser is"} yours to keep, $0.</span></div>
+            <div class="hiw-row"><span class="hiw-k">🛡 30 Days</span><span><strong>Money-back guarantee</strong> — don't love it? Return it for a full refund and we cancel your commitment.</span></div>
+          </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
           ${B.trustStrip.length > 0 && html`<div class="trust-strip">
             ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}
@@ -815,7 +815,7 @@ function GuaranteeSec() {
   return html`
     <section class="section guarantee">
       <div class="wrap">
-        <div class="gbadge" role="img" aria-label="90 day risk-free, lifetime warranty">
+        <div class="gbadge" role="img" aria-label="30 day risk-free, lifetime warranty">
           <span class="gb1">${CONFIG.guarantee.badge.big}</span>
           <span class="gb2">${CONFIG.guarantee.badge.mid}</span>
           <span class="gb3">${CONFIG.guarantee.badge.small}</span>
@@ -866,7 +866,7 @@ function StickyBar() {
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
-        <span>${busy ? "Adding…" : CONFIG.sticky.label + " ➔"}</span>
+        <span>${busy ? "Adding…" : (sel.count > 1 ? "Claim My " + sel.count + " FREE Diffusers · " + usd(39.95 * sel.count) + "/mo" : "Claim My Free Diffuser · $39.95/mo") + " ➔"}</span>
         <span class="btn-sub">${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} to continue` : sel.label() + (sel.count > 1 ? ` + ${sel.count} FREE diffusers 🎁` : " + FREE diffuser 🎁")}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>

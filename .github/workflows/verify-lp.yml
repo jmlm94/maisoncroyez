@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 43 — offer v3 re-check after CSS propagation: geometry asserts + stylesheet content probe
+# run: 44 — offer-clarity rework live check: /mo price, commitment badge, vfoot, timeline+guarantee row, 30-day copy
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -95,6 +95,13 @@ jobs:
               qtyOpts:q('.qopt'), fragCards:q('.pick'),
               topSellerCards:[...document.querySelectorAll('.pick:has(.pick-badge) .pick-name')].map(e=>e.innerText),
               boldScarcity:!!document.querySelector('.buybox .atc .btn-sub strong'),
+              priceBadge:(document.querySelector('.price-badge')||{}).innerText||'MISSING',
+              priceUnit:(document.querySelector('.price-unit')||{}).innerText||'MISSING',
+              vfoot:(document.querySelector('.valstack .vfoot')||{}).innerText||'MISSING',
+              hiwRows:[...document.querySelectorAll('.hiw-row')].map(r=>r.innerText.replace(/\s+/g,' ').slice(0,80)),
+              hiwBelowAtc:(()=>{const h=document.querySelector('.hiw'),a=document.querySelector('.buybox .atc');return h&&a?h.getBoundingClientRect().top>a.getBoundingClientRect().top:null;})(),
+              day30refs:(document.body.innerText.match(/30[- ]day/gi)||[]).length,
+              day90refs:(document.body.innerText.match(/90[- ]day/gi)||[]).length,
               bulletsFirst:(()=>{const bb=document.querySelector('.offer-bullets'),vs=document.querySelector('.valstack');return bb&&vs?bb.getBoundingClientRect().top<vs.getBoundingClientRect().top:null;})(),
               faqs:q('.faq .qa'),
               brokenImgs:imgs.filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40)),
@@ -252,6 +259,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP verify run 43: offer v3 UX re-check post-propagation" || true
+          git commit -m "Free-diffuser LP verify run 44: offer-clarity rework live check" || true
           git pull --rebase -X theirs origin claude/maison-landing-page-iyikm5
           git push

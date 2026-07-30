@@ -586,7 +586,7 @@ function BuyBox() {
           <div class="price-row">
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>
-            <span class="price-badge">3-Month Commitment · 30-Day Returns</span>
+            <span class="price-badge">3-Month Commitment · Return & Cancel Anytime*</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
           <ul class="offer-bullets">

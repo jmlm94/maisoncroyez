@@ -1217,3 +1217,10 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 .hiw{margin-top:10px}
 .hiw-k{flex:0 0 104px}
 .hiw-row:last-child .hiw-k{background:#A67C3D;border-color:#A67C3D;color:#FFFFFF}
+
+/* round 16c — /mo on big price + commitment badge in price row */
+.price-row{flex-wrap:wrap;row-gap:6px}
+.price-badge{
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;
+  background:#F5EEDD;border:1px solid #DECBA0;color:var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap;
+}

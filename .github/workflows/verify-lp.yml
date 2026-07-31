@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 44 — offer-clarity rework live check: /mo price, commitment badge, vfoot, timeline+guarantee row, 30-day copy
+# run: 45 — delivery-cadence pass live check: green 30-day badge, valstack sub-line, picker + timeline wording
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -259,6 +259,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP verify run 44: offer-clarity rework live check" || true
+          git commit -m "Free-diffuser LP verify run 45: delivery-cadence pass live check" || true
           git pull --rebase -X theirs origin claude/maison-landing-page-iyikm5
           git push

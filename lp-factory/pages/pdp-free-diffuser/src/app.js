@@ -569,7 +569,7 @@ function BuyBox() {
   const n = sel.count;
   const missing = n - sel.keys.length;
   const valueRows = [
-    { label: `${n} × 100ml manifestation fragrance${n > 1 ? "s" : ""} — delivered every 30 days`, value: usd(39.95 * n) },
+    { label: `${n} × 100ml manifestation fragrance${n > 1 ? "s" : ""}`, sub: "Delivered every 30 days", value: usd(39.95 * n) },
     { label: `${n} × Maison Croyez diffuser${n > 1 ? "s" : ""}`, strike: usd(120 * n), value: "FREE" },
     { label: "You pay today", value: usd(39.95 * n), total: true },
   ];
@@ -586,7 +586,7 @@ function BuyBox() {
           <div class="price-row">
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>
-            <span class="price-badge">Delivered Every 30 Days</span>
+            <span class="price-badge green">Delivered Every 30 Days</span>
             <span class="price-badge">3-Month Commitment · Return & Cancel Anytime*</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
@@ -596,7 +596,7 @@ function BuyBox() {
           <div class="valstack">
             ${valueRows.map((v) => html`
               <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
-                <span>${v.label}</span>
+                <span>${v.label}${v.sub && html`<span class="vsub">${v.sub}</span>`}</span>
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
             <div class="vfoot"><strong>3-month commitment</strong> if you love it. Return right away + <strong>full refund</strong> if you don't.</div>

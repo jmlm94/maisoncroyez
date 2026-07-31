@@ -77,7 +77,7 @@ const CONFIG = {
     },
     qtyTitle: "How many FREE diffusers would you like?",
     pickerTitle: "Pick your fragrance:",
-    pickerLabel: "Tap a scent to select it \u2014 you can swap to a different intention every month.",
+    pickerLabel: "Tap a scent to select it \u2014 a new bottle arrives every 30 days, and you can swap intentions before each delivery.",
     cta: { label: "Claim My Free Diffuser", sub: "Only **79** free diffusers left!" },
     terms: [
       { icon: "box", text: "**Today:** your first fragrance for $39.95 per diffuser \u2014 every FREE diffuser ships with its own fragrance and your subscription begins." },
@@ -569,7 +569,7 @@ function BuyBox() {
   const n = sel.count;
   const missing = n - sel.keys.length;
   const valueRows = [
-    { label: `${n} × 100ml manifestation fragrance${n > 1 ? "s" : ""}`, value: usd(39.95 * n) },
+    { label: `${n} × 100ml manifestation fragrance${n > 1 ? "s" : ""}`, sub: "Delivered every 30 days", value: usd(39.95 * n) },
     { label: `${n} × Maison Croyez diffuser${n > 1 ? "s" : ""}`, strike: usd(120 * n), value: "FREE" },
     { label: "You pay today", value: usd(39.95 * n), total: true },
   ];
@@ -586,6 +586,7 @@ function BuyBox() {
           <div class="price-row">
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>
+            <span class="price-badge green">Delivered Every 30 Days</span>
             <span class="price-badge">3-Month Commitment · Return & Cancel Anytime*</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
@@ -595,7 +596,7 @@ function BuyBox() {
           <div class="valstack">
             ${valueRows.map((v) => html`
               <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
-                <span>${v.label}</span>
+                <span>${v.label}${v.sub && html`<span class="vsub">${v.sub}</span>`}</span>
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
             <div class="vfoot"><strong>3-month commitment</strong> if you love it. Return right away + <strong>full refund</strong> if you don't.</div>
@@ -653,7 +654,7 @@ function BuyBox() {
           </button>
           <div class="hiw" aria-label="How the free-diffuser plan works">
             <div class="hiw-row"><span class="hiw-k">Today</span><span>Pay <strong>${usd(39.95 * n)}</strong> — your first ${n > 1 ? n + " fragrances ship" : "fragrance ships"} with your ${n > 1 ? n + " FREE diffusers ($" + 120 * n + " value)" : "FREE $120 diffuser"}.</span></div>
-            <div class="hiw-row"><span class="hiw-k">Months 2–3</span><span><strong>${usd(39.95 * n)}/mo</strong> for a fresh fragrance${n > 1 ? " per diffuser" : ""} each month — swap intentions anytime.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Months 2–3</span><span><strong>${usd(39.95 * n)}/mo</strong> for a fresh fragrance${n > 1 ? " per diffuser" : ""} delivered every 30 days — swap intentions anytime.</span></div>
             <div class="hiw-row"><span class="hiw-k">After month 3</span><span>Keep, pause, or cancel in two clicks. The ${n > 1 ? "diffusers are" : "diffuser is"} yours to keep, $0.</span></div>
             <div class="hiw-row"><span class="hiw-k">🛡 30 Days</span><span><strong>Money-back guarantee</strong> — don't love it? Return it for a full refund and we cancel your commitment.</span></div>
           </div>

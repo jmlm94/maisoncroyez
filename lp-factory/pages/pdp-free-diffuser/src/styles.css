@@ -1224,3 +1224,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
   font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;
   background:#F5EEDD;border:1px solid #DECBA0;color:var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap;
 }
+
+/* round 16d — gold delivery badge + valstack delivery sub-line */
+.price-badge.green{background:#0A9400;border-color:#0A9400;color:#FFFFFF}
+.valstack .vsub{display:block;font-size:.78rem;color:var(--ink-soft);font-weight:500;margin-top:1px}

@@ -423,3 +423,8 @@ html,body{overflow-x:clip !important}
 #root .hiw-row span:last-child{flex:1 1 auto}
 #root .hiw-k{flex:0 0 104px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;background:var(--blush-soft);border:1px solid var(--blush);border-radius:999px;padding:5px 4px;text-align:center;margin-top:2px;white-space:nowrap}
 #root .hiw-row:last-child .hiw-k{background:#A67C3D;border-color:#A67C3D;color:#FFFFFF}
+
+
+/* round 16d — gold delivery badge + valstack delivery sub-line */
+#root .price-badge.green{background:#0A9400;border-color:#0A9400;color:#FFFFFF}
+#root .valstack .vsub{display:block;font-size:.78rem;color:var(--ink-soft);font-weight:500;margin-top:1px}

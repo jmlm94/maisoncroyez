@@ -580,12 +580,12 @@ function BuyBox() {
   const ritual = sel.plan === "ritual";
   const valueRows = ritual
     ? [
-        { label: "Your first 100ml scent", sub: "A new scent arrives as the last one finishes", value: usd(OFFER.price) },
+        { label: "Maison Croyez Manifestation Scent", sub: "Lasts 45 days, a new one arrives before.", value: usd(OFFER.price) },
         { label: "Maison Croyez diffuser", strike: usd(OFFER.diffuserValue), value: "FREE" },
         { label: "You pay today", value: usd(OFFER.price), total: true },
       ]
     : [
-        { label: "One-Time Set: diffuser + one 100ml scent", value: usd(OFFER.oneTime) },
+        { label: "Maison Croyez Diffuser & Manifestation Scent", sub: "No refills included.", value: usd(OFFER.oneTime) },
         { label: "You pay today", value: usd(OFFER.oneTime), total: true },
       ];
   const [busy, setBusy] = useState(false);
@@ -612,7 +612,7 @@ function BuyBox() {
             <span>Feel you're in a five-star hotel for only <strong>$1.11 a day</strong>.</span>
           </div>
 
-          <div class="picker-title">Choose how you'd like it:</div>
+          <div class="picker-title plansel-title">Choose how you'd like it:</div>
           <div class="plansel" role="radiogroup" aria-label="Choose your option">
             <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
               <span class="plan-badge">#1 most ordered!</span>
@@ -621,7 +621,7 @@ function BuyBox() {
                 <li>Free diffuser plus your first 100ml scent.</li>
                 <li>Renews every 45 days. A new scent arrives as the last one finishes.</li>
                 <li>No minimum. Cancel anytime.</li>
-                <li>30-day guarantee: full refund, prepaid return label, the scent stays with you.</li>
+                <li><strong>30-day guarantee: full refund, prepaid return label, the scent stays with you.</strong></li>
               </ul>
             </button>
             <button class=${"plan" + (!ritual ? " on" : "")} role="radio" aria-checked=${!ritual} onClick=${() => sel.setPlan("onetime")}>
@@ -643,7 +643,6 @@ function BuyBox() {
           </div>
 
           <div class="picker-title">${B.pickerTitle}</div>
-          <div class="picker-label small">${B.pickerLabel}</div>
           <div class="picker" role="radiogroup" aria-label="Pick your fragrance">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; return html`
               <button key=${f.key} class=${"pick" + (on ? " on" : "")}

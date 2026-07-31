@@ -4,7 +4,7 @@ const html = htm.bind(h);
 
 /* ================================================================
    FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004, offer v4)
-   THE 90-DAY RITUAL: $49.95 today = free diffuser ($89.95 value) +
+   THE MANIFESTATION RITUAL: $49.95 today = free diffuser ($89.95 value) +
    first 100ml scent. Renews $49.95 every 45 days, no minimum,
    cancel anytime. Diffuser becomes the customer's on the 3rd
    delivery (day 90) + free full-size gift scent. Leave earlier:
@@ -15,13 +15,13 @@ const html = htm.bind(h);
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
-/* --- checkout wiring: ritual scent on the Subi "The 90-Day Ritual"
+/* --- checkout wiring: ritual scent on the Subi "The Manifestation Ritual"
    plan + diffuser duplicate zeroed by auto BXGY 1375641600109 when a
    ritual subscription is in the cart. One-Time Set adds both with no
    plan, so the diffuser stays at full price. --- */
 const CART = {
   diffuserVariant: 45450822778989,   /* duplicate diffuser (this funnel only) — reprice to $89.95 at deploy */
-  sellingPlan: 0,                    /* WIRING: Subi "The 90-Day Ritual" plan gid ($49.95 / 45 days) — create in Subi, fill before deploy */
+  sellingPlan: 0,                    /* WIRING: Subi "The Manifestation Ritual" plan gid ($49.95 / 45 days) — create in Subi, fill before deploy */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 
@@ -94,7 +94,7 @@ const CONFIG = {
     trustStrip: [
     ],
     accordions: [
-      { q: "How does The 90-Day Ritual work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. There is no minimum, and you can swap scents, pause, or cancel anytime." },
+      { q: "How does The Manifestation Ritual work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. There is no minimum, and you can swap scents, pause, or cancel anytime." },
       { q: "Is the diffuser really free?", a: "Yes. It ships free with your first scent, and on your third delivery, around day 90, it becomes permanently yours. We even add a free full-size scent as a gift. If you leave before then, send the diffuser back with the free label we provide, or keep it for $49.95." },
       { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
@@ -263,7 +263,7 @@ const CONFIG = {
     bullets: [
       "Water-tank diffusers grow **mold you end up breathing**, then clog, leak, and quietly die within months.",
       "This one is waterless: pure oil, diffused dry, **zero cleaning, nothing to break down**.",
-      "**Plug it in once, forget it for weeks.** And if anything ever fails, **the lifetime warranty replaces it**.",
+      "**Plug it in once, forget it for weeks.** And if anything ever fails, **the 1-year warranty replaces it**.",
     ],
   },
 
@@ -284,12 +284,12 @@ const CONFIG = {
   },
 
   guarantee: {
-    badge: { big: "30", mid: "Day · Risk-Free", small: "Lifetime Diffuser Warranty" },
+    badge: { big: "30", mid: "Day · Risk-Free", small: "1-Year Diffuser Warranty" },
     heading: ["Love the way your home feels in 30 days,", "or your money back."],
     bullets: [
       "Run it. Live with it. Let people walk in.",
       "Live with it for 30 days. If your space doesn't feel different, **we refund every dollar**, send a prepaid label for the diffuser, and **the scent stays with you**.",
-      "And the diffuser itself? **Covered for life.**",
+      "And the diffuser itself? **Covered by a 1-Year Warranty.**",
     ],
     cta: { label: "Begin your ritual", sub: "$49.95 today · diffuser included free" },
   },
@@ -307,7 +307,7 @@ const CONFIG = {
       { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
       { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. You choose scents by the feeling you want more of, not just the notes." },
       { q: "What makes this different from candles?", a: "No flame, no soot, no smoke, and no four-hour lifespan. The same warmth and presence, evenly through the whole room, for weeks per bottle instead of evenings per jar." },
-      { q: "What if I don't love it?", a: "Live with it for 30 days. If your space doesn't feel different, we refund every dollar, send a prepaid label for the diffuser, and the scent stays with you. The diffuser also carries a Lifetime Warranty for as long as it's yours." },
+      { q: "What if I don't love it?", a: "Live with it for 30 days. If your space doesn't feel different, we refund every dollar, send a prepaid label for the diffuser, and the scent stays with you. The diffuser also carries a 1-Year Warranty." },
     ],
   },
 
@@ -601,7 +601,7 @@ function BuyBox() {
           <div class="subline">${B.subline}</div>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
-            <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">/month</span></span>
+            <span class="price">${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>
             <span class="price-badge">1-Year Warranty</span>
           </div>
           <ul class="offer-bullets">
@@ -674,7 +674,7 @@ function BuyBox() {
             <span class="btn-sub">${ritual ? html`<${Rich} s=${B.cta.sub}/>` : "One payment. Free shipping."}</span>
           </button>
 
-          <div class="hiw-title">Choosing The 90-day ritual? Order stress-free:</div>
+          <div class="hiw-title">Choosing The Manifestation Ritual? Order stress-free:</div>
           <div class="hiw" aria-label="How the ritual works">
             <div class="hiw-row"><span class="hiw-k">Today</span><span><strong>${usd(OFFER.price)}</strong>: your diffuser and first scent ship free.</span></div>
             <div class="hiw-row"><span class="hiw-k">Every 45 days</span><span>A new scent arrives as the last one finishes, <strong>${usd(OFFER.price)}</strong>. Swap or cancel anytime.</span></div>
@@ -835,7 +835,7 @@ function GuaranteeSec() {
   return html`
     <section class="section guarantee">
       <div class="wrap">
-        <div class="gbadge" role="img" aria-label="30 day risk-free, lifetime warranty">
+        <div class="gbadge" role="img" aria-label="30 day risk-free, 1-year warranty">
           <span class="gb1">${CONFIG.guarantee.badge.big}</span>
           <span class="gb2">${CONFIG.guarantee.badge.mid}</span>
           <span class="gb3">${CONFIG.guarantee.badge.small}</span>

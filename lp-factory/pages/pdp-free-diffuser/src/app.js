@@ -3,22 +3,33 @@ const { useState, useEffect, useRef, useCallback, createElement: h } = React;
 const html = htm.bind(h);
 
 /* ================================================================
-   FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004, offer v2)
-   Offer: pick 1 × 100ml fragrance at $39.95/mo (3-month minimum) +
-   the diffuser ($120 value) FREE. 25% off additional subscription
-   fragrances. Early cancellation fee = diffuser price ($120).
-   Cloned from pdp-diffuser (Blueprint 003); /pages/diffuser stays
-   live untouched for split-testing.
+   FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004, offer v4)
+   THE 90-DAY RITUAL: $49.95 today = free diffuser ($89.95 value) +
+   first 100ml scent. Renews $49.95 every 45 days, no minimum,
+   cancel anytime. Diffuser becomes the customer's on the 3rd
+   delivery (day 90) + free full-size gift scent. Leave earlier:
+   free return label, or keep it for $49.95. 30-day guarantee:
+   full refund, prepaid diffuser label, customer keeps the scent.
+   Anchor: One-Time Set (diffuser + one scent) $139.95.
    Fictional reviews ship live per owner ruling 2026-07-04.
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
-/* --- checkout wiring: 1 fragrance SKU on Subi "plan 3" ($39.95/mo,
-   3-month min) + free-diffuser duplicate zeroed by auto BXGY 1375641600109 --- */
+/* --- checkout wiring: ritual scent on the Subi "The 90-Day Ritual"
+   plan + diffuser duplicate zeroed by auto BXGY 1375641600109 when a
+   ritual subscription is in the cart. One-Time Set adds both with no
+   plan, so the diffuser stays at full price. --- */
 const CART = {
-  diffuserVariant: 45450822778989,   /* $120 duplicate diffuser (this funnel only) */
-  sellingPlan: 2627895405,                    /* WIRING: Subi "Plan 3" gid — filled by deploy chat */
+  diffuserVariant: 45450822778989,   /* duplicate diffuser (this funnel only) — reprice to $89.95 at deploy */
+  sellingPlan: 0,                    /* WIRING: Subi "The 90-Day Ritual" plan gid ($49.95 / 45 days) — create in Subi, fill before deploy */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
+};
+
+const OFFER = {
+  price: 49.95,        /* ritual: today + every 45 days */
+  oneTime: 139.95,     /* One-Time Set anchor */
+  diffuserValue: 89.95,
+  firstBoxValue: 139.90,
 };
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
@@ -28,7 +39,7 @@ const CONFIG = {
 
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" },
-    text: "Get the $120 diffuser FREE — just pick your first fragrance",
+    text: "Get the $89.95 diffuser free with your first scent",
     cta: "",
   },
 
@@ -60,6 +71,7 @@ const CONFIG = {
   buybox: {
     microProof: "(4.6 rated on 2,500+ reviews)",
     title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "Award-Winning Diffuser included for free." },
+    subline: "No commitments. 30 days to fall in love, full refund if you don't.",
     offer: {
       price: "$39.95",
       priceUnit: "",
@@ -75,24 +87,18 @@ const CONFIG = {
         { icon: "leaf", text: "Finally ditch expensive, fast-burning candles whose scent disappears after 30 minutes." },
       ],
     },
-    qtyTitle: "How many FREE diffusers would you like?",
-    pickerTitle: "Pick your fragrance:",
-    pickerLabel: "Tap a scent to select it \u2014 a new bottle arrives every 30 days, and you can swap intentions before each delivery.",
-    cta: { label: "Claim My Free Diffuser", sub: "Only **79** free diffusers left!" },
-    terms: [
-      { icon: "box", text: "**Today:** your first fragrance for $39.95 per diffuser \u2014 every FREE diffuser ships with its own fragrance and your subscription begins." },
-      { icon: "swap", text: "**Swap scents anytime** \u2014 plus 25% OFF any additional subscription fragrances." },
-      { icon: "gift", text: "**Every diffuser is 100% free** when you complete your 3-month subscription. You only ever pay $39.95/month per diffuser." },
-    ],
+        pickerTitle: "Pick your fragrance:",
+    pickerLabel: "Tap a scent to select it. A new scent arrives as the last one finishes, and you can swap intentions before each delivery.",
+    cta: { label: "Begin your ritual", sub: "Free shipping. Cancel anytime." },
     booklet: "",
     trustStrip: [
     ],
     accordions: [
-      { q: "How does the subscription work?", a: "Today you pay $39.95 per diffuser for its first 100ml fragrance, and each diffuser \u2014 a $120 value \u2014 ships free with it. A fresh bottle arrives every month at the same $39.95 per diffuser, with a 3-month minimum. After month 3, swap, pause, or cancel anytime. Plus: 25% off any additional fragrances you add to your subscription." },
-      { q: "Is the diffuser really free?", a: "Yes \u2014 complete your 3-month subscription and every diffuser costs you $0 (a $120 value each). The only exception: if you cancel before month 3, a $120 early cancellation fee applies per diffuser." },
+      { q: "How does The 90-Day Ritual work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. There is no minimum, and you can swap scents, pause, or cancel anytime." },
+      { q: "Is the diffuser really free?", a: "Yes. It ships free with your first scent, and on your third delivery, around day 90, it becomes permanently yours. We even add a free full-size scent as a gift. If you leave before then, send the diffuser back with the free label we provide, or keep it for $49.95." },
       { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "What if I don't like a scent?", a: "You have a 30-day risk-free trial on everything, and you can swap to a different intention before any month's shipment. Not feeling it at all? Return everything for a full refund and we cancel your subscription." },
+      { q: "What if I don't like a scent?", a: "You can swap to a different intention before any delivery. And you have 30 days to fall in love: if your space doesn't feel different, we refund every dollar, send a prepaid label for the diffuser, and the scent stays with you." },
     ],
   },
 
@@ -282,18 +288,18 @@ const CONFIG = {
     heading: ["Love the way your home feels in 30 days,", "or your money back."],
     bullets: [
       "Run it. Live with it. Let people walk in.",
-      "If Maison Croyez doesn't change how your home feels (and how it's complimented), send everything back within 30 days for **a full refund** — and we cancel your subscription with it. **You are never locked in during your trial.**",
+      "Live with it for 30 days. If your space doesn't feel different, **we refund every dollar**, send a prepaid label for the diffuser, and **the scent stays with you**.",
       "And the diffuser itself? **Covered for life.**",
     ],
-    cta: { label: "Claim My Free Diffuser", sub: "$39.95 today · diffuser included free" },
+    cta: { label: "Begin your ritual", sub: "$49.95 today · diffuser included free" },
   },
 
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged for the subscription?", a: "Today you pay $39.95 for your first 100ml fragrance, and your diffuser — a $120 value — ships free with it. Then $39.95 each month for your next bottle, with a 3-month minimum. You'll get an email reminder before every renewal." },
-      { q: "Is the diffuser really free?", a: "Yes — complete your 3-month subscription and every diffuser costs you $0 (a $120 value each), yours to keep forever. Cancel before month 3 and a $120 early cancellation fee applies per diffuser." },
-      { q: "Can I swap scents or cancel?", a: "Swap anytime, from the link in any subscription email — pick a different intention before any month's shipment, in a few taps. You also get 25% off any additional fragrances you add. After your 3-month minimum, pause or cancel whenever you like." },
+      { q: "When am I charged?", a: "Today you pay $49.95 for your first box: your first 100ml scent plus the diffuser, an $89.95 value, shipped free. Then $49.95 every 45 days as each new scent ships. You'll get an email reminder before every renewal, and you can cancel anytime." },
+      { q: "Is the diffuser really free?", a: "Yes. It ships free with your first scent, and on your third delivery, around day 90, it becomes permanently yours, plus we ship a free full-size scent as a gift. If you leave before then, return the diffuser with the free label we provide, or keep it for $49.95." },
+      { q: "Can I swap scents or cancel?", a: "Both, anytime, from the link in any delivery email. Pick a different intention before any shipment in a few taps, or pause and cancel whenever you like. There is no minimum." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
       { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
       { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. Running it on low stretches a bottle even further." },
@@ -301,11 +307,11 @@ const CONFIG = {
       { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
       { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. You choose scents by the feeling you want more of, not just the notes." },
       { q: "What makes this different from candles?", a: "No flame, no soot, no smoke, and no four-hour lifespan. The same warmth and presence, evenly through the whole room, for weeks per bottle instead of evenings per jar." },
-      { q: "What if I don't love it?", a: "You have a 30-day money-back guarantee on the whole experience — return the diffuser and scent for a full refund and your subscription is cancelled — plus the Lifetime Diffuser Warranty on the unit." },
+      { q: "What if I don't love it?", a: "Live with it for 30 days. If your space doesn't feel different, we refund every dollar, send a prepaid label for the diffuser, and the scent stays with you. The diffuser also carries a Lifetime Warranty for as long as it's yours." },
     ],
   },
 
-  sticky: { label: "Claim My Free Diffuser · $39.95" },
+  sticky: {},
 };
 
 /* ================================================================
@@ -398,28 +404,48 @@ const Rich = ({ s }) => {
    ================================================================ */
 const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
 async function addToCart(setBusy, setToast) {
-  const scents = selStore.scents();
-  const n = selStore.count;
-  if (!selStore.complete()) {
-    const left = n - scents.length;
-    setToast(`Almost there — pick ${left} more scent${left > 1 ? "s" : ""} to claim your ${n} FREE diffusers.`);
-    const bb = document.getElementById("buybox");
-    if (bb) bb.scrollIntoView({ behavior: "smooth" });
+  const scent = selStore.scents()[0];
+  const ritual = selStore.plan === "ritual";
+  if (!scent) {
+    setToast("Pick your scent above to continue.");
+    return;
+  }
+  if (ritual && !selStore.consent) {
+    setToast("Please tick the box above the button to confirm how the diffuser gift works.");
+    const cb = document.getElementById("ritual-consent");
+    if (cb) cb.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
   if (!onStore()) {
-    setToast(`Preview mode. On the live store this adds: ${selStore.label()} (${usd(39.95 * n)}/month, 3-month minimum) + ${n > 1 ? n + " FREE diffusers" : "your FREE diffuser"} (${usd(120 * n)} value) and opens the cart drawer.`);
+    setToast(ritual
+      ? `Preview mode. On the live store this adds ${scent.name} on The 90-Day Ritual ($49.95 today, then $49.95 every 45 days) plus your free diffuser ($89.95 value), records your gift-terms consent, and opens the cart drawer.`
+      : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $139.95, and opens the cart drawer.`);
     return;
   }
-  /* one fragrance bottle per diffuser (repeats collapse into quantities),
-     each on the monthly plan; diffuser lines are zeroed at cart level by
-     the automatic BXGY discount. */
-  const items = [
-    ...selStore.grouped().map(({ f, q }) => ({ id: f.variant, quantity: q, selling_plan: CART.sellingPlan })),
-    { id: CART.diffuserVariant, quantity: n },
-  ];
+  /* ritual: scent on the 45-day plan + diffuser (zeroed at cart level by
+     the automatic BXGY discount). one-time: both at full price, no plan.
+     consent persists as a line item property AND a cart attribute. */
+  const props = { diffuser_terms_accepted: "yes" };
+  const items = ritual
+    ? [
+        { id: scent.variant, quantity: 1, selling_plan: CART.sellingPlan, properties: props },
+        { id: CART.diffuserVariant, quantity: 1, properties: props },
+      ]
+    : [
+        { id: scent.variant, quantity: 1 },
+        { id: CART.diffuserVariant, quantity: 1 },
+      ];
   try {
     setBusy(true);
+    if (ritual) {
+      try {
+        await fetch("/cart/update.js", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ attributes: props }),
+        });
+      } catch (e) { /* attribute is a courtesy copy; the line item property is the record */ }
+    }
     const r = await fetch("/cart/add.js", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -448,8 +474,12 @@ async function addToCart(setBusy, setToast) {
    ================================================================ */
 const selStore = {
   count: 1,
+  plan: "ritual",                     /* "ritual" | "onetime" */
+  consent: false,                     /* ritual gift terms checkbox */
   keys: [CONFIG.fragrances[0].key],   /* one entry per bottle; repeats allowed */
   listeners: new Set(),
+  setPlan(p) { this.plan = p; this.emit(); },
+  setConsent(v) { this.consent = !!v; this.emit(); },
   scents() { return this.keys.map((k) => CONFIG.fragrances.find((f) => f.key === k)); },
   qty(k) { return this.keys.filter((x) => x === k).length; },
   grouped() {
@@ -566,32 +596,72 @@ function Toast({ msg, onClose }) {
 function BuyBox() {
   const B = CONFIG.buybox;
   const sel = useSelection();
-  const n = sel.count;
-  const missing = n - sel.keys.length;
-  const valueRows = [
-    { label: `${n} × 100ml manifestation fragrance${n > 1 ? "s" : ""}`, sub: "Delivered every 30 days", value: usd(39.95 * n) },
-    { label: `${n} × Maison Croyez diffuser${n > 1 ? "s" : ""}`, strike: usd(120 * n), value: "FREE" },
-    { label: "You pay today", value: usd(39.95 * n), total: true },
-  ];
+  const ritual = sel.plan === "ritual";
+  const valueRows = ritual
+    ? [
+        { label: "Your first 100ml scent", sub: "A new scent arrives as the last one finishes", value: usd(OFFER.price) },
+        { label: "Maison Croyez diffuser", strike: usd(OFFER.diffuserValue), value: "FREE" },
+        { label: "You pay today", value: usd(OFFER.price), total: true },
+      ]
+    : [
+        { label: "One-Time Set: diffuser + one 100ml scent", value: usd(OFFER.oneTime) },
+        { label: "You pay today", value: usd(OFFER.oneTime), total: true },
+      ];
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
+  const locked = busy || (ritual && !sel.consent);
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
         <${Gallery}/>
         <div class="buybox">
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
+          <div class="subline">${B.subline}</div>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
-            <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
-            <span class="compare">${usd(159.95 * n)}</span>
-            <span class="price-badge green">Delivered Every 30 Days</span>
+            <span class="price">${ritual ? usd(OFFER.price) : usd(OFFER.oneTime)}</span>
+            ${ritual && html`<span class="compare">${usd(OFFER.firstBoxValue)}</span>`}
+            ${ritual && html`<span class="price-badge green">A new scent every 45 days</span>`}
           </div>
-          ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
+          ${ritual && html`<div class="price-note">Your first box: ${usd(OFFER.firstBoxValue)} of Maison for ${usd(OFFER.price)}.</div>`}
           <ul class="offer-bullets">
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
+          <div class="dayrate">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3v2M5.6 5.6l1.4 1.4M3 12h2M18.4 5.6L17 7M21 12h-2M12 8a4 4 0 0 1 4 4c0 1.6-.9 2.6-1.8 3.5-.7.7-1.2 1.3-1.2 2.5h-2c0-1.2-.5-1.8-1.2-2.5C8.9 14.6 8 13.6 8 12a4 4 0 0 1 4-4z"/></svg>
+            <span>Five-star hotel energy for <strong>$1.11 a day</strong>.</span>
+          </div>
+
+          <div class="picker-title">Choose how you'd like it:</div>
+          <div class="plansel" role="radiogroup" aria-label="Choose your option">
+            <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
+              <span class="plan-badge">Most chosen</span>
+              <span class="plan-head"><span class="plan-name">The 90-Day Ritual</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
+              <ul>
+                <li>Free diffuser plus your first 100ml scent. You pick 1 of 7.</li>
+                <li>Renews at ${usd(OFFER.price)} every 45 days. A new scent arrives as the last one finishes.</li>
+                <li>No minimum. Cancel anytime.</li>
+                <li>30-day guarantee: full refund, prepaid return label, the scent stays with you.</li>
+                <li>Day 90, your third delivery: the diffuser is permanently yours, plus a free full-size scent as a gift.</li>
+                <li>Free shipping.</li>
+              </ul>
+            </button>
+            <button class=${"plan" + (!ritual ? " on" : "")} role="radio" aria-checked=${!ritual} onClick=${() => sel.setPlan("onetime")}>
+              <span class="plan-head"><span class="plan-name">One-Time Set</span><span class="plan-price">${usd(OFFER.oneTime)}</span></span>
+              <ul>
+                <li>Diffuser plus one 100ml scent. No subscription.</li>
+                <li>Free shipping.</li>
+              </ul>
+            </button>
+          </div>
+          <div class="note45">Billed every 45 days, not 30. Timed to how you actually use it.</div>
+
+          <div class="exitfeat">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h11"/></svg>
+            <span><strong>Cancel anytime.</strong> Leave before your third delivery and just send the diffuser back with a free label, or keep it for ${usd(OFFER.price)}. After day 90 it's yours forever.</span>
+          </div>
+
           <div class="valstack">
             ${valueRows.map((v) => html`
               <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
@@ -600,24 +670,12 @@ function BuyBox() {
               </div>`)}
           </div>
 
-          <div class="picker-title">${B.qtyTitle}</div>
-          <div class="qtysel" role="radiogroup" aria-label="How many free diffusers would you like">
-            ${[1, 2, 3].map((q) => html`
-              <button key=${q} class=${"qopt" + (n === q ? " on" : "")}
-                role="radio" aria-checked=${n === q} onClick=${() => sel.setCount(q)}>
-                ${q === 2 && html`<span class="qpop">Most Popular</span>`}
-                <span class="qicons">${Array.from({ length: q }, (_, i) => html`<${DiffuserIcon} key=${i}/>`)}</span>
-                <span class="qnum">${q === 1 ? "1 Diffuser" : q + " Diffusers"}</span>
-                <span class="qsub">${q} fragrance${q > 1 ? "s" : ""} required</span>
-              </button>`)}
-          </div>
-
-          <div class="picker-title">${n > 1 ? "Pick your " + n + " fragrances:" : B.pickerTitle}</div>
-          <div class="picker-label small">${B.pickerLabel}${n > 1 ? ` (${sel.keys.length} of ${n} selected)` : ""}</div>
-          <div class="picker" role=${n > 1 ? "group" : "radiogroup"} aria-label="Pick your fragrance">
-            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; return html`
+          <div class="picker-title">${B.pickerTitle}</div>
+          <div class="picker-label small">${B.pickerLabel}</div>
+          <div class="picker" role="radiogroup" aria-label="Pick your fragrance">
+            ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; return html`
               <button key=${f.key} class=${"pick" + (on ? " on" : "")}
-                role=${n > 1 ? "checkbox" : "radio"} aria-checked=${on}
+                role="radio" aria-checked=${on}
                 onClick=${() => sel.add(f.key)} style=${{ background: on ? f.grad : "" }}>
                 ${f.topSeller && html`<span class="pick-badge">Top Seller</span>`}
                 <span class="pick-row">
@@ -626,14 +684,7 @@ function BuyBox() {
                     <span class="pick-name">${f.name}</span>
                     <span class="pick-int">${f.intention}</span>
                   </span>
-                  ${n > 1 && on ? html`
-                    <span class="pick-qtyc">
-                      <span role="button" tabindex="0" class="pqb" aria-label=${"One less " + f.name}
-                        onClick=${(e) => { e.stopPropagation(); sel.remove(f.key); }}>−</span>
-                      <span class="pqn">×${q}</span>
-                      <span role="button" tabindex="0" class=${"pqb" + (sel.keys.length >= n ? " dis" : "")} aria-label=${"One more " + f.name}
-                        onClick=${(e) => { e.stopPropagation(); sel.add(f.key); }}>+</span>
-                    </span>` : html`<span class="pick-dot" aria-hidden="true"></span>`}
+                  <span class="pick-dot" aria-hidden="true"></span>
                 </span>
                 <span class="pick-desc">${f.desc}</span>
                 <span class="pick-ing">
@@ -642,24 +693,27 @@ function BuyBox() {
               </button>`; })}
           </div>
 
-          <div class="free-line on">
-            🎁 <strong>${n > 1 ? n + " FREE Maison Croyez Diffusers" : "FREE Maison Croyez Diffuser"} added to your order</strong> — <span class="strike">${usd(120 * n)}</span> <strong>$0</strong>
-          </div>
+          ${ritual && html`<div class="free-line on">
+            <strong>FREE Maison Croyez Diffuser added to your order</strong> <span class="strike">${usd(OFFER.diffuserValue)}</span> <strong>$0</strong>
+          </div>`}
 
-          <button class="btn atc" disabled=${busy || missing > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding…" : missing > 0 ? `Pick ${missing} more scent${missing > 1 ? "s" : ""} above` : (n > 1 ? "Claim My " + n + " FREE Diffusers" : B.cta.label) + " ➔"}</span>
-            ${B.cta.sub && html`<span class="btn-sub">${missing > 0 ? `${n} diffuser${n > 1 ? "s" : ""} = ${n} fragrance${n > 1 ? "s" : ""}` : html`<${Rich} s=${B.cta.sub}/>`}</span>`}
+          ${ritual && html`<label class="consent" id="ritual-consent">
+            <input type="checkbox" checked=${sel.consent} onChange=${(e) => sel.setConsent(e.target.checked)}/>
+            <span>I understand my diffuser is a gift that becomes fully mine on my third delivery. If I leave before then, I'll return it with the free label provided, or keep it for ${usd(OFFER.price)}.</span>
+          </label>`}
+
+          <button class="btn atc" disabled=${locked} onClick=${() => addToCart(setBusy, setToast)}>
+            <span>${busy ? "Adding…" : (ritual ? B.cta.label : "Add the One-Time Set") + " ➔"}</span>
+            <span class="btn-sub">${ritual ? (sel.consent ? B.cta.sub : "Tick the box above to continue") : "One payment. Free shipping."}</span>
           </button>
-          <div class="hiw" aria-label="How the free-diffuser plan works">
-            <div class="hiw-row"><span class="hiw-k">Today</span><span>Pay <strong>${usd(39.95 * n)}</strong> — your first ${n > 1 ? n + " fragrances ship" : "fragrance ships"} with your ${n > 1 ? n + " FREE diffusers ($" + 120 * n + " value)" : "FREE $120 diffuser"}.</span></div>
-            <div class="hiw-row"><span class="hiw-k">Months 2–3</span><span><strong>${usd(39.95 * n)}/mo</strong> for a fresh fragrance${n > 1 ? " per diffuser" : ""} delivered every 30 days — swap intentions anytime.</span></div>
-            <div class="hiw-row"><span class="hiw-k">After month 3</span><span>Keep, pause, or cancel in two clicks. The ${n > 1 ? "diffusers are" : "diffuser is"} yours to keep, $0.</span></div>
-            <div class="hiw-row"><span class="hiw-k">🛡 30 Days</span><span><strong>Money-back guarantee</strong> — don't love it? Return it for a full refund and we cancel your commitment.</span></div>
+
+          <div class="hiw" aria-label="How The 90-Day Ritual works">
+            <div class="hiw-row"><span class="hiw-k">Today</span><span><strong>${usd(OFFER.price)}</strong>: your diffuser and first scent ship free.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Every 45 days</span><span>A new scent arrives as the last one finishes, <strong>${usd(OFFER.price)}</strong>. Swap or cancel anytime.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Day 90</span><span>On your third delivery the diffuser becomes <strong>permanently yours</strong>, and a free full-size scent ships as our gift.</span></div>
+            <div class="hiw-row"><span class="hiw-k">30 Days</span><span><strong>Money-back guarantee</strong>: full refund if your space doesn't feel different. We send a prepaid label for the diffuser, the scent stays with you.</span></div>
           </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
-          ${B.trustStrip.length > 0 && html`<div class="trust-strip">
-            ${B.trustStrip.map((t) => html`<span class="tsi" key=${t.text}><${Icon} name=${t.icon}/> ${t.text}</span>`)}
-          </div>`}
 
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`
@@ -864,9 +918,9 @@ function StickyBar() {
   const left = sel.count - sel.keys.length;
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
-        <span>${busy ? "Adding…" : (sel.count > 1 ? "Claim My " + sel.count + " FREE Diffusers · " + usd(39.95 * sel.count) + "/mo" : "Claim My Free Diffuser · $39.95/mo") + " ➔"}</span>
-        <span class="btn-sub">${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} to continue` : sel.label() + (sel.count > 1 ? ` + ${sel.count} FREE diffusers 🎁` : " + FREE diffuser 🎁")}</span>
+      <button class="btn" disabled=${busy || (sel.plan === "ritual" && !sel.consent)} onClick=${() => addToCart(setBusy, setToast)}>
+        <span>${busy ? "Adding…" : (sel.plan === "ritual" ? "Begin your ritual · " + usd(OFFER.price) : "One-Time Set · " + usd(OFFER.oneTime)) + " ➔"}</span>
+        <span class="btn-sub">${sel.plan === "ritual" && !sel.consent ? "Tick the gift-terms box in the offer above" : sel.label() + " + Maison Croyez diffuser"}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </div>`;

@@ -1228,3 +1228,24 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 /* round 16d — gold delivery badge + valstack delivery sub-line */
 .price-badge.green{background:#0A9400;border-color:#0A9400;color:#FFFFFF}
 .valstack .vsub{display:block;font-size:.78rem;color:var(--ink-soft);font-weight:500;margin-top:1px}
+
+/* ============ round 17 — THE 90-DAY RITUAL (offer v4, preview) ============ */
+.subline{font-family:'Be Vietnam Pro',sans-serif;font-size:.97rem;line-height:1.5;color:var(--ink-soft);margin:2px 0 0}
+.price-note{font-family:'Outfit',sans-serif;font-weight:600;font-size:.85rem;color:#A67C3D}
+.dayrate{display:flex;gap:10px;align-items:center;background:#F5EEDD;border:1px solid #DECBA0;border-radius:12px;padding:11px 14px;font-family:'Outfit',sans-serif;font-weight:500;font-size:.92rem;color:var(--ink);text-align:left}
+.dayrate svg{flex:0 0 auto;color:#A67C3D}
+.plansel{display:flex;flex-direction:column;gap:14px;margin-top:2px}
+.plan{position:relative;overflow:visible;text-align:left;background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;padding:16px 15px 14px;display:flex;flex-direction:column;gap:9px;color:var(--ink);cursor:pointer;font:inherit;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+.plan.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}
+.plan-badge{position:absolute;top:-10px;left:14px;background:#A67C3D;color:#FFFFFF;border-radius:999px;padding:4px 11px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}
+.plan-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.plan-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem}
+.plan-price{font-family:'Outfit',sans-serif;font-weight:800;font-size:.98rem;white-space:nowrap}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:6px;margin:0;padding:0}
+.plan li{font-size:.88rem;line-height:1.45;padding-left:15px;position:relative;text-align:left}
+.plan li::before{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;border-radius:50%;background:#A67C3D}
+.note45{text-align:center;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.01em;color:var(--ink-soft)}
+.exitfeat{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1.5px solid #DECBA0;border-radius:14px;padding:13px 15px;font-size:.92rem;line-height:1.55;text-align:left;color:var(--ink)}
+.exitfeat svg{flex:0 0 auto;color:#A67C3D;margin-top:2px}
+.consent{display:flex;gap:11px;align-items:flex-start;text-align:left;font-size:.86rem;line-height:1.5;color:var(--ink);background:var(--blush-soft);border:1.5px solid var(--blush);border-radius:12px;padding:12px 13px;cursor:pointer}
+.consent input{width:19px;height:19px;flex:0 0 19px;margin:1px 0 0;accent-color:#0A9400;cursor:pointer}

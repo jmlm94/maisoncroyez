@@ -2,101 +2,90 @@ perf run 1 goto attempt 1: HTTP 429
 perf run 1 goto attempt 2: HTTP 429
 perf run 1 goto attempt 3: HTTP 200
 perf run 2 goto attempt 1: HTTP 429
-perf run 2 goto attempt 2: HTTP 200
+perf run 2 goto attempt 2: HTTP 429
+perf run 2 goto attempt 3: HTTP 200
 perf run 3 goto attempt 1: HTTP 429
 perf run 3 goto attempt 2: HTTP 429
 perf run 3 goto attempt 3: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=32ms FCP=452ms LCP=6076ms CLS=0.0016 TBT=899ms load=9706ms reqs=158 transfer=2450KB
-run2: TTFB=16ms FCP=564ms LCP=5948ms CLS=0.0012 TBT=964ms load=9641ms reqs=156 transfer=2417KB
-run3: TTFB=26ms FCP=684ms LCP=6152ms CLS=0.0012 TBT=968ms load=9698ms reqs=156 transfer=2417KB
+run1: TTFB=12ms FCP=424ms LCP=5868ms CLS=0.0012 TBT=884ms load=9562ms reqs=159 transfer=2416KB
+run2: TTFB=13ms FCP=452ms LCP=5880ms CLS=0.0012 TBT=936ms load=9624ms reqs=157 transfer=2414KB
+run3: TTFB=23ms FCP=500ms LCP=5956ms CLS=0.0012 TBT=884ms load=9793ms reqs=158 transfer=2414KB
 === MEDIAN ===
-{"ttfbMs":26,"fcpMs":564,"lcpMs":6076,"cls":0.0012,"tbtMs":964,"loadMs":9698,"totalTransferKB":2417}
+{"ttfbMs":13,"fcpMs":452,"lcpMs":5880,"cls":0.0012,"tbtMs":884,"loadMs":9624,"totalTransferKB":2414}
 === LCP ELEMENT (per run) ===
 run1: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run2: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run3: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 === NEW HERO IMG (run1) ===
-[{"transferKB":84,"ms":5753}]
+[{"transferKB":84,"ms":5579}]
 === OUR BUNDLES (run1) ===
 [
  {
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
   "decodedKB": 84,
-  "ms": 5753
+  "ms": 5579
  },
  {
   "f": "mc-lp-free-diffuser.css",
-  "transferKB": 11,
-  "decodedKB": 65,
-  "ms": 1840
+  "transferKB": 12,
+  "decodedKB": 67,
+  "ms": 1829
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
   "decodedKB": 140,
-  "ms": 3805
+  "ms": 3802
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
   "decodedKB": 2,
-  "ms": 307
+  "ms": 297
  },
  {
   "f": "mc-lp-free-diffuser-app.js",
   "transferKB": 13,
   "decodedKB": 38,
-  "ms": 1981
+  "ms": 1855
  },
  {
   "f": "mc-lp-d-frag2.jpg",
   "transferKB": 20,
   "decodedKB": 20,
-  "ms": 1566
- },
- {
-  "f": "mc-lp-d-frag4.jpg",
-  "transferKB": 14,
-  "decodedKB": 13,
-  "ms": 1135
- },
- {
-  "f": "mc-lp-d-frag6.jpg",
-  "transferKB": 19,
-  "decodedKB": 19,
-  "ms": 1558
+  "ms": 1389
  },
  {
   "f": "mc-lp-d-gif1.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 632
+  "ms": 656
  },
  {
   "f": "mc-lp-d-gif2.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 653
+  "ms": 666
  },
  {
   "f": "mc-lp-d-gif3.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 658
+  "ms": 678
  },
  {
   "f": "mc-lp-d-gif1.webm",
   "transferKB": 76,
   "decodedKB": 75,
-  "ms": 1384
+  "ms": 1454
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
   "decodedKB": 129,
-  "ms": 2155
+  "ms": 2207
  },
  {
   "f": "mc-lp-d-gif3.webm",

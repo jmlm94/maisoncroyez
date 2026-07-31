@@ -608,7 +608,7 @@ function BuyBox() {
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
           <div class="dayrate">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3v2M5.6 5.6l1.4 1.4M3 12h2M18.4 5.6L17 7M21 12h-2M12 8a4 4 0 0 1 4 4c0 1.6-.9 2.6-1.8 3.5-.7.7-1.2 1.3-1.2 2.5h-2c0-1.2-.5-1.8-1.2-2.5C8.9 14.6 8 13.6 8 12a4 4 0 0 1 4-4z"/></svg>
+            <span class="dayrate-ic" role="img" aria-hidden="true">🛎️</span>
             <span>Feel you're in a five-star hotel for only <strong>$1.11 a day</strong>.</span>
           </div>
 

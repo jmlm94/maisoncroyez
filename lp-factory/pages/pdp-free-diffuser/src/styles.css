@@ -1252,7 +1252,9 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 
 /* round 17b — owner revision pass */
 .price-from{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.05rem;color:var(--ink-soft);margin-right:5px;letter-spacing:0}
-.dayrate{justify-content:center;text-align:center;background:linear-gradient(115deg,#F7EFDC 0%,#EDD9AE 55%,#DDBE83 100%);border-color:#CBA25B}
+.dayrate{justify-content:center;text-align:center;background:linear-gradient(115deg,#F5CDE5 0%,#E4D9F2 50%,#DCC8F0 100%);border-color:#D9C4F5}
+.dayrate-ic{font-size:1.25rem;line-height:1}
+.dayrate span:last-child{font-weight:700}
 .hiw-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;text-align:left;margin:12px 0 -2px}
 
 /* round 17c — price unit for 45-day cadence */

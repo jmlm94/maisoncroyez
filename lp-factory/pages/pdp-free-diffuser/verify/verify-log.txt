@@ -32,7 +32,7 @@ goto attempt 3: HTTP 200
  "overflowX": false
 }
 === CSS PROBE (must be scoped) ===
-{"href":"v=fd13-2026073101","len":66192,"scopedQtysel":true,"scopedPqb":true,"round12":false}
+{"href":"v=fd13-2026073116","len":66192,"scopedQtysel":true,"scopedPqb":true,"round12":false}
 === S0 initial ===
 {"price":"$39.95/mo","compare":"$159.95","selected":["Golden Blossom Harmony "],"atcText":"CLAIM MY FREE DIFFUSER ➔ ONLY 79 FREE DIFFUSERS LEFT!","atcDisabled":false,"freeLine":"🎁 FREE Maison Croyez Diffuser added to your order — $120.00 $0","valstack":["1 × 100ml manifestation fragrance Delivered every 30 days $39.95","1 × Maison Croyez diffuser $120.00FREE","You pay today $39.95"]}
 === S1 chose 2 diffusers ===
@@ -121,18 +121,21 @@ goto attempt 3: HTTP 200
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (5) ===
+=== FAILED REQUESTS (8) ===
+ - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=3c7ee1e5-b124-4284-b90d-da2422b4266b&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=df84e52a-57b4-4f58-9bb0-ebfecaa30166&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928
+ - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
 === OUR BUNDLE RESPONSES ===
  - 200 mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
- - 200 mc-lp-free-diffuser.css?v=fd13-2026073101
- - 200 mc-lp-diffuser-assets.js?v=fd13-2026073101
- - 200 mc-lp-free-diffuser-app.js?v=fd13-2026073101
- - 200 mc-lp-vendor.js?v=fd13-2026073101
+ - 200 mc-lp-free-diffuser-app.js?v=fd13-2026073116
+ - 200 mc-lp-free-diffuser.css?v=fd13-2026073116
+ - 200 mc-lp-diffuser-assets.js?v=fd13-2026073116
+ - 200 mc-lp-vendor.js?v=fd13-2026073116
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^

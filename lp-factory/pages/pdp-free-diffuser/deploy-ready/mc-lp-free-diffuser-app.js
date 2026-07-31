@@ -62,7 +62,7 @@ const CONFIG = {
     title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "Award-Winning Diffuser included for free." },
     offer: {
       price: "$39.95",
-      priceUnit: "/mo",
+      priceUnit: "",
       compareAt: "$159.95",
       valueStack: [
         { label: "1 \u00d7 100ml manifestation fragrance", value: "$39.95" },
@@ -587,7 +587,6 @@ function BuyBox() {
             <span class="price">${usd(39.95 * n)}${B.offer.priceUnit && html`<span class="price-unit">${B.offer.priceUnit}</span>`}</span>
             <span class="compare">${usd(159.95 * n)}</span>
             <span class="price-badge green">Delivered Every 30 Days</span>
-            <span class="price-badge">3-Month Commitment · Return & Cancel Anytime*</span>
           </div>
           ${B.offer.note && html`<div class="price-note">${B.offer.note}</div>`}
           <ul class="offer-bullets">

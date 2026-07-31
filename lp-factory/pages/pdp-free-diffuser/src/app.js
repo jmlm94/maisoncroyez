@@ -95,10 +95,11 @@ const CONFIG = {
     ],
     accordions: [
       { q: "How does The Manifestation Ritual work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. There is no minimum, and you can swap scents, pause, or cancel anytime." },
-      { q: "Is the diffuser really free?", a: "Yes. It ships free with your first scent, and on your third delivery, around day 90, it becomes permanently yours. We even add a free full-size scent as a gift. If you leave before then, send the diffuser back with the free label we provide, or keep it for $49.95." },
-      { q: "Will I actually be able to smell it or is it gonna fade away fast?", a: "You'll smell it, and it stays. It fills up to 600 sq ft, corner to corner, in under 10 minutes, then keeps the room scented all day instead of fading in an hour." },
+      { q: "Am I committed to a subscription?", a: "No. The Manifestation Ritual only continues if you decide to keep going after your first 30 days: there is no minimum, and you can cancel anytime from any delivery email. And if you choose the One-Time Set, there is no subscription at all. One payment, and you're free." },
+      { q: "Which scent should I choose?", a: "Choose by what you want to attract. Each of the 7 scents is composed around one intention: love, abundance, raised energy, relaxation and concentration, purification, love manifestation, or turning ideas into reality. Trust the one your home is asking for, and remember you can swap before any delivery." },
+      { q: "Will it grow mold like water diffusers?", a: "No. Water-tank diffusers grow mold you end up breathing, then clog and leak. Maison Croyez is waterless: pure fragrance oil diffused dry, no tank, zero cleaning, nothing to break down." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "What if I don't like a scent?", a: "You can swap to a different intention before any delivery. And you have 30 days to fall in love: if your space doesn't feel different, we refund every dollar, send a prepaid label for the diffuser, and the scent stays with you." },
+      { q: "What about warranty and guarantees?", a: "Two layers. First, a 30-day money-back guarantee: if your space doesn't feel different, we refund every dollar, send a prepaid label for the diffuser, and the scent stays with you. Second, the diffuser carries a 1-Year Warranty: if anything ever fails, we replace it." },
     ],
   },
 

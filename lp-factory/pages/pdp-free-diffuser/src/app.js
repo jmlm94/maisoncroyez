@@ -89,7 +89,7 @@ const CONFIG = {
     },
         pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it. A new scent arrives as the last one finishes, and you can swap intentions before each delivery.",
-    cta: { label: "Begin your ritual", sub: "Free shipping. Cancel anytime." },
+    cta: { label: "Claim My Free Diffuser", sub: "Only **79** free diffusers left!" },
     booklet: "",
     trustStrip: [
     ],
@@ -410,26 +410,18 @@ async function addToCart(setBusy, setToast) {
     setToast("Pick your scent above to continue.");
     return;
   }
-  if (ritual && !selStore.consent) {
-    setToast("Please tick the box above the button to confirm how the diffuser gift works.");
-    const cb = document.getElementById("ritual-consent");
-    if (cb) cb.scrollIntoView({ behavior: "smooth", block: "center" });
-    return;
-  }
   if (!onStore()) {
     setToast(ritual
-      ? `Preview mode. On the live store this adds ${scent.name} on The 90-Day Ritual ($49.95 today, then $49.95 every 45 days) plus your free diffuser ($89.95 value), records your gift-terms consent, and opens the cart drawer.`
+      ? `Preview mode. On the live store this adds ${scent.name} on The Manifestation Ritual ($49.95 today, then $49.95 every 45 days) plus your free diffuser ($89.95 value) and opens the cart drawer.`
       : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $139.95, and opens the cart drawer.`);
     return;
   }
   /* ritual: scent on the 45-day plan + diffuser (zeroed at cart level by
-     the automatic BXGY discount). one-time: both at full price, no plan.
-     consent persists as a line item property AND a cart attribute. */
-  const props = { diffuser_terms_accepted: "yes" };
+     the automatic BXGY discount). one-time: both at full price, no plan. */
   const items = ritual
     ? [
-        { id: scent.variant, quantity: 1, selling_plan: CART.sellingPlan, properties: props },
-        { id: CART.diffuserVariant, quantity: 1, properties: props },
+        { id: scent.variant, quantity: 1, selling_plan: CART.sellingPlan },
+        { id: CART.diffuserVariant, quantity: 1 },
       ]
     : [
         { id: scent.variant, quantity: 1 },
@@ -437,15 +429,6 @@ async function addToCart(setBusy, setToast) {
       ];
   try {
     setBusy(true);
-    if (ritual) {
-      try {
-        await fetch("/cart/update.js", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({ attributes: props }),
-        });
-      } catch (e) { /* attribute is a courtesy copy; the line item property is the record */ }
-    }
     const r = await fetch("/cart/add.js", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -475,11 +458,9 @@ async function addToCart(setBusy, setToast) {
 const selStore = {
   count: 1,
   plan: "ritual",                     /* "ritual" | "onetime" */
-  consent: false,                     /* ritual gift terms checkbox */
   keys: [CONFIG.fragrances[0].key],   /* one entry per bottle; repeats allowed */
   listeners: new Set(),
   setPlan(p) { this.plan = p; this.emit(); },
-  setConsent(v) { this.consent = !!v; this.emit(); },
   scents() { return this.keys.map((k) => CONFIG.fragrances.find((f) => f.key === k)); },
   qty(k) { return this.keys.filter((x) => x === k).length; },
   grouped() {
@@ -610,7 +591,7 @@ function BuyBox() {
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
-  const locked = busy || (ritual && !sel.consent);
+  const locked = busy;
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
@@ -620,46 +601,37 @@ function BuyBox() {
           <div class="subline">${B.subline}</div>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
-            <span class="price">${ritual ? usd(OFFER.price) : usd(OFFER.oneTime)}</span>
-            ${ritual && html`<span class="compare">${usd(OFFER.firstBoxValue)}</span>`}
-            ${ritual && html`<span class="price-badge green">A new scent every 45 days</span>`}
+            <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">/month</span></span>
+            <span class="price-badge">1-Year Warranty</span>
           </div>
-          ${ritual && html`<div class="price-note">Your first box: ${usd(OFFER.firstBoxValue)} of Maison for ${usd(OFFER.price)}.</div>`}
           <ul class="offer-bullets">
             ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
           </ul>
           <div class="dayrate">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3v2M5.6 5.6l1.4 1.4M3 12h2M18.4 5.6L17 7M21 12h-2M12 8a4 4 0 0 1 4 4c0 1.6-.9 2.6-1.8 3.5-.7.7-1.2 1.3-1.2 2.5h-2c0-1.2-.5-1.8-1.2-2.5C8.9 14.6 8 13.6 8 12a4 4 0 0 1 4-4z"/></svg>
-            <span>Five-star hotel energy for <strong>$1.11 a day</strong>.</span>
+            <span>Feel you're in a five-star hotel for only <strong>$1.11 a day</strong>.</span>
           </div>
 
           <div class="picker-title">Choose how you'd like it:</div>
           <div class="plansel" role="radiogroup" aria-label="Choose your option">
             <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
-              <span class="plan-badge">Most chosen</span>
-              <span class="plan-head"><span class="plan-name">The 90-Day Ritual</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
+              <span class="plan-badge">#1 most ordered!</span>
+              <span class="plan-head"><span class="plan-name">The Manifestation Ritual</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
               <ul>
-                <li>Free diffuser plus your first 100ml scent. You pick 1 of 7.</li>
-                <li>Renews at ${usd(OFFER.price)} every 45 days. A new scent arrives as the last one finishes.</li>
+                <li>Free diffuser plus your first 100ml scent.</li>
+                <li>Renews every 45 days. A new scent arrives as the last one finishes.</li>
                 <li>No minimum. Cancel anytime.</li>
                 <li>30-day guarantee: full refund, prepaid return label, the scent stays with you.</li>
-                <li>Day 90, your third delivery: the diffuser is permanently yours, plus a free full-size scent as a gift.</li>
-                <li>Free shipping.</li>
               </ul>
             </button>
             <button class=${"plan" + (!ritual ? " on" : "")} role="radio" aria-checked=${!ritual} onClick=${() => sel.setPlan("onetime")}>
               <span class="plan-head"><span class="plan-name">One-Time Set</span><span class="plan-price">${usd(OFFER.oneTime)}</span></span>
               <ul>
                 <li>Diffuser plus one 100ml scent. No subscription.</li>
-                <li>Free shipping.</li>
+                <li>No automatic refills.</li>
+                <li>Cannot swap scents.</li>
               </ul>
             </button>
-          </div>
-          <div class="note45">Billed every 45 days, not 30. Timed to how you actually use it.</div>
-
-          <div class="exitfeat">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h11"/></svg>
-            <span><strong>Cancel anytime.</strong> Leave before your third delivery and just send the diffuser back with a free label, or keep it for ${usd(OFFER.price)}. After day 90 it's yours forever.</span>
           </div>
 
           <div class="valstack">
@@ -697,20 +669,15 @@ function BuyBox() {
             <strong>FREE Maison Croyez Diffuser added to your order</strong> <span class="strike">${usd(OFFER.diffuserValue)}</span> <strong>$0</strong>
           </div>`}
 
-          ${ritual && html`<label class="consent" id="ritual-consent">
-            <input type="checkbox" checked=${sel.consent} onChange=${(e) => sel.setConsent(e.target.checked)}/>
-            <span>I understand my diffuser is a gift that becomes fully mine on my third delivery. If I leave before then, I'll return it with the free label provided, or keep it for ${usd(OFFER.price)}.</span>
-          </label>`}
-
           <button class="btn atc" disabled=${locked} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : (ritual ? B.cta.label : "Add the One-Time Set") + " ➔"}</span>
-            <span class="btn-sub">${ritual ? (sel.consent ? B.cta.sub : "Tick the box above to continue") : "One payment. Free shipping."}</span>
+            <span class="btn-sub">${ritual ? html`<${Rich} s=${B.cta.sub}/>` : "One payment. Free shipping."}</span>
           </button>
 
-          <div class="hiw" aria-label="How The 90-Day Ritual works">
+          <div class="hiw-title">Choosing The 90-day ritual? Order stress-free:</div>
+          <div class="hiw" aria-label="How the ritual works">
             <div class="hiw-row"><span class="hiw-k">Today</span><span><strong>${usd(OFFER.price)}</strong>: your diffuser and first scent ship free.</span></div>
             <div class="hiw-row"><span class="hiw-k">Every 45 days</span><span>A new scent arrives as the last one finishes, <strong>${usd(OFFER.price)}</strong>. Swap or cancel anytime.</span></div>
-            <div class="hiw-row"><span class="hiw-k">Day 90</span><span>On your third delivery the diffuser becomes <strong>permanently yours</strong>, and a free full-size scent ships as our gift.</span></div>
             <div class="hiw-row"><span class="hiw-k">30 Days</span><span><strong>Money-back guarantee</strong>: full refund if your space doesn't feel different. We send a prepaid label for the diffuser, the scent stays with you.</span></div>
           </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
@@ -918,9 +885,9 @@ function StickyBar() {
   const left = sel.count - sel.keys.length;
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy || (sel.plan === "ritual" && !sel.consent)} onClick=${() => addToCart(setBusy, setToast)}>
-        <span>${busy ? "Adding…" : (sel.plan === "ritual" ? "Begin your ritual · " + usd(OFFER.price) : "One-Time Set · " + usd(OFFER.oneTime)) + " ➔"}</span>
-        <span class="btn-sub">${sel.plan === "ritual" && !sel.consent ? "Tick the gift-terms box in the offer above" : sel.label() + " + Maison Croyez diffuser"}</span>
+      <button class="btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
+        <span>${busy ? "Adding…" : (sel.plan === "ritual" ? "Claim My Free Diffuser · " + usd(OFFER.price) : "One-Time Set · " + usd(OFFER.oneTime)) + " ➔"}</span>
+        <span class="btn-sub">${sel.label() + " + Maison Croyez diffuser"}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </div>`;

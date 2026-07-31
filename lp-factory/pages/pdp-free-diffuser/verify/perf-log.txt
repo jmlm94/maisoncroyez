@@ -1,106 +1,107 @@
 perf run 1 goto attempt 1: HTTP 429
 perf run 1 goto attempt 2: HTTP 429
 perf run 1 goto attempt 3: HTTP 200
-perf run 2 goto attempt 1: HTTP 200
+perf run 2 goto attempt 1: HTTP 429
+perf run 2 goto attempt 2: HTTP 200
 perf run 3 goto attempt 1: HTTP 429
 perf run 3 goto attempt 2: HTTP 429
 perf run 3 goto attempt 3: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=15ms FCP=668ms LCP=6308ms CLS=0.0016 TBT=931ms load=9884ms reqs=161 transfer=2453KB
-run2: TTFB=29ms FCP=576ms LCP=6192ms CLS=0.0016 TBT=877ms load=9781ms reqs=158 transfer=2451KB
-run3: TTFB=15ms FCP=424ms LCP=6036ms CLS=0.0016 TBT=945ms load=9625ms reqs=158 transfer=2451KB
+run1: TTFB=14ms FCP=428ms LCP=6044ms CLS=0.0016 TBT=849ms load=9595ms reqs=160 transfer=2452KB
+run2: TTFB=11ms FCP=420ms LCP=5880ms CLS=0.0016 TBT=835ms load=9640ms reqs=158 transfer=2451KB
+run3: TTFB=23ms FCP=424ms LCP=6100ms CLS=0.0016 TBT=848ms load=9613ms reqs=159 transfer=2451KB
 === MEDIAN ===
-{"ttfbMs":15,"fcpMs":576,"lcpMs":6192,"cls":0.0016,"tbtMs":931,"loadMs":9781,"totalTransferKB":2451}
+{"ttfbMs":14,"fcpMs":424,"lcpMs":6044,"cls":0.0016,"tbtMs":848,"loadMs":9613,"totalTransferKB":2451}
 === LCP ELEMENT (per run) ===
 run1: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run2: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run3: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 === NEW HERO IMG (run1) ===
-[{"transferKB":84,"ms":5754}]
+[{"transferKB":84,"ms":5756}]
 === OUR BUNDLES (run1) ===
 [
  {
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
   "decodedKB": 84,
-  "ms": 5754
+  "ms": 5756
  },
  {
   "f": "mc-lp-free-diffuser.css",
   "transferKB": 11,
   "decodedKB": 65,
-  "ms": 1683
+  "ms": 1691
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
   "decodedKB": 140,
-  "ms": 3805
+  "ms": 3806
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
   "decodedKB": 2,
-  "ms": 294
+  "ms": 303
  },
  {
   "f": "mc-lp-free-diffuser-app.js",
   "transferKB": 13,
-  "decodedKB": 39,
-  "ms": 1973
- },
- {
-  "f": "mc-lp-d-frag2.jpg",
-  "transferKB": 20,
-  "decodedKB": 20,
-  "ms": 1585
+  "decodedKB": 38,
+  "ms": 1975
  },
  {
   "f": "mc-lp-d-frag4.jpg",
   "transferKB": 14,
   "decodedKB": 13,
-  "ms": 1161
+  "ms": 1167
+ },
+ {
+  "f": "mc-lp-d-frag2.jpg",
+  "transferKB": 20,
+  "decodedKB": 20,
+  "ms": 1573
  },
  {
   "f": "mc-lp-d-frag6.jpg",
   "transferKB": 19,
   "decodedKB": 19,
-  "ms": 1569
+  "ms": 1580
  },
  {
   "f": "mc-lp-d-gif1.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 659
+  "ms": 653
  },
  {
   "f": "mc-lp-d-gif2.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 668
+  "ms": 664
  },
  {
   "f": "mc-lp-d-gif3.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 673
+  "ms": 670
  },
  {
   "f": "mc-lp-d-gif1.webm",
   "transferKB": 76,
   "decodedKB": 75,
-  "ms": 1454
+  "ms": 1456
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
   "decodedKB": 129,
-  "ms": 2213
+  "ms": 2214
  },
  {
   "f": "mc-lp-d-gif3.webm",
   "transferKB": 112,
   "decodedKB": 112,
-  "ms": 2034
+  "ms": 2035
  }
 ]

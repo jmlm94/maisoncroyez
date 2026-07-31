@@ -16,7 +16,7 @@ goto attempt 3: HTTP 200
  "boldScarcity": true,
  "priceBadge": "DELIVERED EVERY 30 DAYS",
  "priceUnit": "MISSING",
- "vfoot": "3-month commitment if you love it. Return right away + full refund if you don't.",
+ "vfoot": "MISSING",
  "hiwRows": [
   "TODAY Pay $39.95 — your first fragrance ships with your FREE $120 diffuser.",
   "MONTHS 2–3 $39.95/mo for a fresh fragrance delivered every 30 days — swap intent",
@@ -32,7 +32,7 @@ goto attempt 3: HTTP 200
  "overflowX": false
 }
 === CSS PROBE (must be scoped) ===
-{"href":"v=fd14-2026073119","len":66192,"scopedQtysel":true,"scopedPqb":true,"round12":false}
+{"href":"v=fd15-2026073119","len":66192,"scopedQtysel":true,"scopedPqb":true,"round12":false}
 === S0 initial ===
 {"price":"$39.95","compare":"$159.95","selected":["Golden Blossom Harmony "],"atcText":"CLAIM MY FREE DIFFUSER ➔ ONLY 79 FREE DIFFUSERS LEFT!","atcDisabled":false,"freeLine":"🎁 FREE Maison Croyez Diffuser added to your order — $120.00 $0","valstack":["1 × 100ml manifestation fragrance Delivered every 30 days $39.95","1 × Maison Croyez diffuser $120.00FREE","You pay today $39.95"]}
 === S1 chose 2 diffusers ===
@@ -121,20 +121,19 @@ goto attempt 3: HTTP 200
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
-=== FAILED REQUESTS (7) ===
+=== FAILED REQUESTS (6) ===
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
- - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=4770f58c-cf65-4922-92f8-55d2698d505f&target_or
+ - net::ERR_BLOCKED_BY_RESPONSE https://shop.app/pay/hop?analytics_trace_id=71255b1e-9660-4aa9-81f7-21e0679b3d15&target_or
  - net::ERR_ABORTED https://maisoncroyez.com/shopify_pay/accelerated_checkout
  - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928
- - net::ERR_ABORTED https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
  - net::ERR_ABORTED https://maisoncroyez.com/api/collect
 === OUR BUNDLE RESPONSES ===
  - 200 mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
- - 200 mc-lp-free-diffuser.css?v=fd14-2026073119
- - 200 mc-lp-diffuser-assets.js?v=fd14-2026073119
- - 200 mc-lp-vendor.js?v=fd14-2026073119
- - 200 mc-lp-free-diffuser-app.js?v=fd14-2026073119
+ - 200 mc-lp-free-diffuser.css?v=fd15-2026073119
+ - 200 mc-lp-free-diffuser-app.js?v=fd15-2026073119
+ - 200 mc-lp-diffuser-assets.js?v=fd15-2026073119
+ - 200 mc-lp-vendor.js?v=fd15-2026073119
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^

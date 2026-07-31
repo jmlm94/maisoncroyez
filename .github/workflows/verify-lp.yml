@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 47 — simplified price row live check: clean $39.95, single green delivery badge, no commitment pill
+# run: 48 — fd15 final state check: value stack without commitment line
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -259,6 +259,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP verify run 47: simplified price row live check" || true
+          git commit -m "Free-diffuser LP verify run 48: fd15 final state check" || true
           git pull --rebase -X theirs origin claude/maison-landing-page-iyikm5
           git push

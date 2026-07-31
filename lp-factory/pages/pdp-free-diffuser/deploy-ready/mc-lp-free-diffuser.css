@@ -428,3 +428,24 @@ html,body{overflow-x:clip !important}
 /* round 16d — gold delivery badge + valstack delivery sub-line */
 #root .price-badge.green{background:#0A9400;border-color:#0A9400;color:#FFFFFF}
 #root .valstack .vsub{display:block;font-size:.78rem;color:var(--ink-soft);font-weight:500;margin-top:1px}
+
+
+/* ============ round 17 — THE MANIFESTATION RITUAL (offer v4, deployed 2026-08-01) ============ */
+#root .subline{font-family:'Be Vietnam Pro',sans-serif;font-size:.97rem;line-height:1.5;color:var(--ink-soft);margin:2px 0 0}
+#root .price-from{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.05rem;color:var(--ink-soft);margin-right:5px;letter-spacing:0}
+#root .price-row .price-unit{font-size:.92rem;font-weight:600;margin-left:7px;color:var(--ink-soft)}
+#root .dayrate{display:flex;gap:10px;align-items:center;justify-content:center;text-align:center;background:linear-gradient(115deg,#F5CDE5 0%,#E4D9F2 50%,#DCC8F0 100%);border:1px solid #D9C4F5;border-radius:12px;padding:11px 14px;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink)}
+#root .dayrate-ic{font-size:1.25rem;line-height:1}
+#root .dayrate span:last-child{font-weight:700}
+#root .plansel{display:flex;flex-direction:column;gap:14px;margin-top:2px}
+#root .plansel-title{margin-bottom:10px}
+#root .plan{position:relative;overflow:visible;text-align:left;background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;padding:16px 15px 14px;display:flex;flex-direction:column;gap:9px;color:var(--ink);cursor:pointer;font:inherit;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+#root .plan.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}
+#root .plan-badge{position:absolute;top:-10px;left:14px;background:#A67C3D;color:#FFFFFF;border-radius:999px;padding:4px 11px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}
+#root .plan-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+#root .plan-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem}
+#root .plan-price{font-family:'Outfit',sans-serif;font-weight:800;font-size:.98rem;white-space:nowrap}
+#root .plan ul{list-style:none;display:flex;flex-direction:column;gap:6px;margin:0;padding:0}
+#root .plan li{font-size:.88rem;line-height:1.45;padding-left:15px;position:relative;text-align:left}
+#root .plan li::before{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;border-radius:50%;background:#A67C3D}
+#root .hiw-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;text-align:left;margin:12px 0 -2px}

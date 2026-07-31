@@ -63,3 +63,20 @@ Fixes checkout-shock leak (ATC high, checkout completion ~25-30%).
 - Owner applying via language editor: drawer terms line under total, checkout
   subscription strings; Subi plan rename "Monthly Scent Drop · $39.95/mo · 3-month min"
 - Verify: run 44
+
+
+## OFFER V4 — THE MANIFESTATION RITUAL (DEPLOYED 2026-07-31, fd17 key)
+Replaces the 3-month commitment offer entirely.
+- Two options: The Manifestation Ritual ($49.95 today + every 45 days, Subi
+  Plan 4 gid 2661875821, no minimum, cancel anytime, '#1 most ordered!')
+  vs One-Time Set (displayed $139.95; cart charges $49.95 scent + $89.95
+  diffuser = $139.90, no plan, no discount)
+- H1 em: 'FREE Award Winning Diffuser.'; subline 'No commitments...'
+- Store side: all 7 fragrances $49.95 + Plan 4 attached; diffuser dup
+  45450822778989 at $89.95; BXGY 1375641600109 unchanged (subscription-only,
+  zeroes diffuser for ritual carts only)
+- 1-Year Warranty everywhere (lifetime removed); 30-day guarantee verbatim;
+  buybox FAQ = owner's 6 questions
+- KNOWN NICKEL: page displays One-Time Set $139.95, cart totals $139.90
+  (components). Direction favors customer; owner aware.
+- Verify: run 49 (v4 walkthrough: both cart paths, cart cleared between)

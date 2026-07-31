@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 48 — fd15 final state check: value stack without commitment line
+# run: 49 — OFFER V4 LIVE: The Manifestation Ritual, two-option block, both cart paths
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5]
@@ -21,7 +21,7 @@ jobs:
             if [ "$code" = "200" ]; then break; fi
             sleep 45
           done
-      - name: Verify live free-diffuser LP (offer v3 visitor walkthrough)
+      - name: Verify live free-diffuser LP (offer v4 visitor walkthrough)
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
@@ -29,10 +29,9 @@ jobs:
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-          const errs=[], failed=[];
+          const errs=[];
           page.on('console', m=>{ if(m.type()==='error') errs.push(m.text().slice(0,200)); });
           page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
-          page.on('requestfailed', r=>{ const u=r.url(); if(/cdn\.shopify|maisoncroyez/.test(u)) failed.push(r.failure()?.errorText+' '+u.slice(0,90)); });
           const resp=[];
           page.on('response', r=>{ const u=r.url(); if(/mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-lp-fd-hero/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,60)); });
           let nav=null;
@@ -44,66 +43,23 @@ jobs:
           }
           await page.waitForTimeout(9000);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
-          const state = () => page.evaluate(()=>{
-            const atc=document.querySelector('.buybox .atc');
-            return {
-              price:(document.querySelector('.price-row .price')||{}).innerText||'MISSING',
-              compare:(document.querySelector('.price-row .compare')||{}).innerText||'',
-              selected:[...document.querySelectorAll('.pick[aria-checked="true"]')].map(p=>(p.querySelector('.pick-name')||{}).innerText+' '+((p.querySelector('.pqn')||{}).innerText||'')),
-              atcText:atc?atc.innerText.replace(/\s+/g,' ').trim().slice(0,80):'MISSING',
-              atcDisabled:atc?atc.disabled:null,
-              freeLine:(document.querySelector('.free-line')||{}).innerText||'MISSING',
-              valstack:[...document.querySelectorAll('.valstack .vrow')].map(r=>r.innerText.replace(/\s+/g,' '))
-            };
-          });
-          const geometry = () => page.evaluate(()=>{
-            const out={};
-            const q2=document.querySelectorAll('.qopt')[1];
-            if(q2){
-              const icons=[...q2.querySelectorAll('.qicons svg')].map(s=>s.getBoundingClientRect());
-              out.qopt2_iconCount=icons.length;
-              out.qopt2_iconsSameRow=icons.length<2?true:Math.abs(icons[0].top-icons[1].top)<3;
-              out.qopt2_iconSize=icons[0]?Math.round(icons[0].width)+'x'+Math.round(icons[0].height):'none';
-              const st=getComputedStyle(q2);
-              out.qopt_border=st.borderTopWidth+' '+st.borderTopStyle;
-              const sub=q2.querySelector('.qsub'), qr=q2.getBoundingClientRect(), sr=sub?sub.getBoundingClientRect():null;
-              out.qsub_centered=sr?Math.abs((sr.left+sr.width/2)-(qr.left+qr.width/2))<4:null;
-            }
-            const on=document.querySelector('.pick[aria-checked="true"] .pick-qtyc');
-            if(on){
-              const minus=on.querySelectorAll('.pqb')[0], plus=on.querySelectorAll('.pqb')[1], n=on.querySelector('.pqn');
-              const mr=minus.getBoundingClientRect(), pr=plus.getBoundingClientRect(), nr=n.getBoundingClientRect();
-              const card=on.closest('.pick').getBoundingClientRect();
-              out.stepper_sameRow=Math.abs((mr.top+mr.height/2)-(pr.top+pr.height/2))<3 && Math.abs((mr.top+mr.height/2)-(nr.top+nr.height/2))<4;
-              out.stepper_circle=Math.round(mr.width)+'x'+Math.round(mr.height)+' / '+Math.round(pr.width)+'x'+Math.round(pr.height);
-              out.stepper_insideCard=pr.right<=card.right+1 && mr.left>=card.left-1;
-            }
-            const qpop=document.querySelector('.qpop');
-            out.qpop_bg=qpop?getComputedStyle(qpop).backgroundColor:'MISSING';
-            const badge=document.querySelector('.pick-badge');
-            out.badge_bg=badge?getComputedStyle(badge).backgroundColor:'MISSING';
-            return out;
-          });
           const audit = await page.evaluate(()=>{
             const q=s=>document.querySelectorAll(s).length;
             const imgs=[...document.querySelectorAll('#root img')];
-            const gal1=document.querySelector('.gal-slide img');
+            const t=document.body.innerText;
             return {
-              root:!!document.getElementById('root'),
               h1:(document.querySelector('#root h1')||{}).innerText||'MISSING',
-              heroSrc:gal1?gal1.currentSrc.split('/').pop().slice(0,50):'MISSING',
-              qtyOpts:q('.qopt'), fragCards:q('.pick'),
-              topSellerCards:[...document.querySelectorAll('.pick:has(.pick-badge) .pick-name')].map(e=>e.innerText),
-              boldScarcity:!!document.querySelector('.buybox .atc .btn-sub strong'),
-              priceBadge:(document.querySelector('.price-badge')||{}).innerText||'MISSING',
-              priceUnit:(document.querySelector('.price-unit')||{}).innerText||'MISSING',
-              vfoot:(document.querySelector('.valstack .vfoot')||{}).innerText||'MISSING',
-              hiwRows:[...document.querySelectorAll('.hiw-row')].map(r=>r.innerText.replace(/\s+/g,' ').slice(0,80)),
-              hiwBelowAtc:(()=>{const h=document.querySelector('.hiw'),a=document.querySelector('.buybox .atc');return h&&a?h.getBoundingClientRect().top>a.getBoundingClientRect().top:null;})(),
-              day30refs:(document.body.innerText.match(/30[- ]day/gi)||[]).length,
-              day90refs:(document.body.innerText.match(/90[- ]day/gi)||[]).length,
-              bulletsFirst:(()=>{const bb=document.querySelector('.offer-bullets'),vs=document.querySelector('.valstack');return bb&&vs?bb.getBoundingClientRect().top<vs.getBoundingClientRect().top:null;})(),
-              faqs:q('.faq .qa'),
+              subline:(document.querySelector('.subline')||{}).innerText||'MISSING',
+              priceRow:(document.querySelector('.price-row')||{}).innerText.replace(/\s+/g,' ')||'MISSING',
+              dayrate:(document.querySelector('.dayrate')||{}).innerText||'MISSING',
+              planCards:q('.plan'), planBadge:(document.querySelector('.plan-badge')||{}).innerText||'MISSING',
+              ritualCardOn:!!document.querySelector('.plan.on'),
+              fragCards:q('.pick'), buyboxFaqs:q('.buybox .acc.faq .qa'),
+              hiwTitle:(document.querySelector('.hiw-title')||{}).innerText||'MISSING',
+              hiwRows:[...document.querySelectorAll('.hiw-row .hiw-k')].map(k=>k.innerText),
+              sweep:{ commitment:(t.match(/commitment/gi)||[]).length, threeMonth:(t.match(/3[- ]month|3 months|month minimum/gi)||[]).length,
+                      d120:(t.match(/\$120/g)||[]).length, d3995:(t.match(/\$39\.95/g)||[]).length, lifetime:(t.match(/lifetime/gi)||[]).length,
+                      oneYear:(t.match(/1-Year/gi)||[]).length, days45:(t.match(/45 days/gi)||[]).length },
               brokenImgs:imgs.filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40)),
               overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
             };
@@ -113,89 +69,48 @@ jobs:
             const l=[...document.querySelectorAll('link[rel=stylesheet]')].find(x=>/mc-lp-free-diffuser\.css/.test(x.href));
             if(!l) return {found:false};
             const t=await (await fetch(l.href)).text();
-            return {href:l.href.split('?')[1], len:t.length, scopedQtysel:t.includes('#root .qtysel'), scopedPqb:t.includes('#root .pqb'), round12:t.includes('round 12')};
+            return {href:l.href.split('?')[1], len:t.length, v4Scoped:t.includes('#root .plansel')&&t.includes('#root .dayrate')};
           });
-          console.log('=== CSS PROBE (must be scoped) ==='); console.log(JSON.stringify(cssProbe));
-          console.log('=== S0 initial ==='); console.log(JSON.stringify(await state()));
-          // VISITOR JOURNEY
-          const qopt=i=>page.click('.qopt:nth-child('+i+')').then(()=>page.waitForTimeout(400));
-          const pickByName=async n=>{ await page.locator('.pick',{hasText:n}).first().click(); await page.waitForTimeout(300); };
-          await qopt(2);
-          console.log('=== S1 chose 2 diffusers ==='); console.log(JSON.stringify(await state()));
-          await pickByName('Crisp Citrus Scape');
-          await pickByName('Midnight Sensation');
-          console.log('=== S2 picked 2 scents ==='); console.log(JSON.stringify(await state()));
-          await page.locator('.qopt:nth-child(2)').scrollIntoViewIfNeeded(); await page.waitForTimeout(300);
-          await page.screenshot({path:'fd-ux-m-qtysel.png'});
-          console.log('=== GEO mobile (2 picked) ==='); console.log(JSON.stringify(await geometry(),null,1));
-          await qopt(3);
-          console.log('=== S3 upgrade 2->3 (picks kept, needs 1 more) ==='); console.log(JSON.stringify(await state()));
-          // stack a scent with the + stepper
-          await page.locator('.pick',{hasText:'Crisp Citrus Scape'}).locator('.pqb').nth(1).click(); await page.waitForTimeout(400);
-          console.log('=== S4 stacked Crisp x2 via + ==='); console.log(JSON.stringify(await state()));
-          console.log('=== GEO mobile (stepper x2) ==='); console.log(JSON.stringify(await geometry(),null,1));
-          await page.locator('.pick',{hasText:'Crisp Citrus Scape'}).scrollIntoViewIfNeeded(); await page.waitForTimeout(300);
-          await page.screenshot({path:'fd-ux-m-stepper.png'});
-          // minus back down
-          await page.locator('.pick',{hasText:'Crisp Citrus Scape'}).locator('.pqb').nth(0).click(); await page.waitForTimeout(400);
-          console.log('=== S5 minus back to x1 ==='); console.log(JSON.stringify(await state()));
-          await qopt(1);
-          console.log('=== S6 downgrade 3->1 (expect picks CLEARED + ATC locked) ==='); console.log(JSON.stringify(await state()));
-          await pickByName('Golden Blossom Harmony');
-          console.log('=== S7 picked 1 (radio mode, ATC unlocked) ==='); console.log(JSON.stringify(await state()));
-          await pickByName('Euphoric Bloom');
-          console.log('=== S8 radio swap to Euphoric (still 1 selected) ==='); console.log(JSON.stringify(await state()));
-          // final purchase config: 3 diffusers, Golden x2 + Euphoric x1
-          await qopt(3);
-          await pickByName('Golden Blossom Harmony');
-          await page.locator('.pick',{hasText:'Golden Blossom Harmony'}).locator('.pqb').nth(1).click(); await page.waitForTimeout(400);
-          console.log('=== S9 final: 3 diffusers, Golden x2 + Euphoric x1 ==='); console.log(JSON.stringify(await state()));
-          // real ATC -> cart
-          await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
+          console.log('=== CSS PROBE ==='); console.log(JSON.stringify(cssProbe));
+          // RITUAL: pick Midnight, ATC, inspect cart
+          await page.evaluate(()=>[...document.querySelectorAll('.pick')].find(x=>x.innerText.includes('Midnight Sensation')).click());
           await page.waitForTimeout(400);
+          await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
+          await page.waitForTimeout(300);
           await page.click('.buybox .atc');
           await page.waitForTimeout(5000);
           await page.screenshot({ path:'fd-drawer.png' });
-          const cart = await page.evaluate(async()=>{
+          const cartRitual = await page.evaluate(async()=>{
             const j=await (await fetch('/cart.js')).json();
-            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), v:i.variant_id, q:i.quantity, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title+' -'+d.amount/100)}))};
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), q:i.quantity, price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title.slice(0,30)+' -'+d.amount/100)}))};
           });
-          console.log('=== CART (expect Golden x2 + Euphoric x1 on plan 2627895405, 3 diffusers -> $0, total 119.85) ===');
-          console.log(JSON.stringify(cart,null,1));
+          console.log('=== CART RITUAL (expect scent 49.95 on plan 2661875821 + diffuser 89.95 -> 0, total 49.95) ===');
+          console.log(JSON.stringify(cartRitual,null,1));
+          // clear cart, ONE-TIME path
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          await page.waitForTimeout(1000);
+          await page.evaluate(()=>document.querySelectorAll('.plan')[1].click());
+          await page.waitForTimeout(500);
+          const oneTimeUi = await page.evaluate(()=>({
+            atc:(document.querySelector('.buybox .atc')||{}).innerText.replace(/\s+/g,' '),
+            valstack:[...document.querySelectorAll('.valstack .vrow')].map(r=>r.innerText.replace(/\s+/g,' ')),
+            freeLineGone:!document.querySelector('.free-line')
+          }));
+          console.log('=== ONE-TIME UI ==='); console.log(JSON.stringify(oneTimeUi,null,1));
+          await page.evaluate(()=>document.querySelector('.buybox .atc').click());
+          await page.waitForTimeout(5000);
+          const cartOne = await page.evaluate(async()=>{
+            const j=await (await fetch('/cart.js')).json();
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), q:i.quantity, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title.slice(0,30)+' -'+d.amount/100)}))};
+          });
+          console.log('=== CART ONE-TIME (expect scent 49.95 + diffuser 89.95, NO plan, NO discount, total 139.90; page displays 139.95) ===');
+          console.log(JSON.stringify(cartOne,null,1));
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           console.log('=== CONSOLE ERRORS ('+errs.length+') ==='); errs.slice(0,15).forEach(e=>console.log(' - '+e));
-          console.log('=== FAILED REQUESTS ('+failed.length+') ==='); failed.slice(0,15).forEach(e=>console.log(' - '+e));
           console.log('=== OUR BUNDLE RESPONSES ==='); [...new Set(resp)].forEach(e=>console.log(' - '+e));
           await page.evaluate(()=>window.scrollTo(0,0));
           await page.waitForTimeout(800);
           await page.screenshot({ path:'fd-live-full.png', fullPage:true });
-          // DESKTOP PASS — the two areas the owner flagged
-          const d = await b.newPage({ viewport:{width:1320,height:900} });
-          await d.goto('https://maisoncroyez.com/pages/free-diffuser?cb=d'+Date.now(), {waitUntil:'load',timeout:60000});
-          await d.waitForTimeout(9000);
-          await d.click('.qopt:nth-child(2)'); await d.waitForTimeout(400);
-          await d.locator('.pick',{hasText:'Crisp Citrus Scape'}).first().click(); await d.waitForTimeout(400);
-          const dgeo = await d.evaluate(()=>{
-            const out={};
-            const q2=document.querySelectorAll('.qopt')[1];
-            const icons=q2?[...q2.querySelectorAll('.qicons svg')].map(s=>s.getBoundingClientRect()):[];
-            out.qopt2_iconsSameRow=icons.length<2?('only '+icons.length):Math.abs(icons[0].top-icons[1].top)<3;
-            out.qopt_border=q2?getComputedStyle(q2).borderTopWidth+' '+getComputedStyle(q2).borderTopStyle:'?';
-            const sub=q2?q2.querySelector('.qsub'):null;
-            if(sub){const qr=q2.getBoundingClientRect(), sr=sub.getBoundingClientRect(); out.qsub_centered=Math.abs((sr.left+sr.width/2)-(qr.left+qr.width/2))<4;}
-            const on=document.querySelector('.pick[aria-checked="true"] .pick-qtyc');
-            if(on){
-              const bs=on.querySelectorAll('.pqb'), n=on.querySelector('.pqn');
-              const mr=bs[0].getBoundingClientRect(), pr=bs[1].getBoundingClientRect(), nr=n.getBoundingClientRect();
-              const card=on.closest('.pick').getBoundingClientRect();
-              out.stepper_sameRow=Math.abs((mr.top+mr.height/2)-(pr.top+pr.height/2))<3 && Math.abs((mr.top+mr.height/2)-(nr.top+nr.height/2))<4;
-              out.stepper_circle=Math.round(mr.width)+'x'+Math.round(mr.height)+' / '+Math.round(pr.width)+'x'+Math.round(pr.height);
-              out.stepper_insideCard=pr.right<=card.right+1 && mr.left>=card.left-1;
-            }
-            return out;
-          });
-          console.log('=== GEO DESKTOP 1320px ==='); console.log(JSON.stringify(dgeo,null,1));
-          await d.locator('.qtysel').screenshot({path:'fd-ux-d-qtysel.png'});
-          await d.locator('.pick',{hasText:'Crisp Citrus Scape'}).first().screenshot({path:'fd-ux-d-pick.png'});
           await b.close();
           EOS
           node check.mjs 2>&1 | tee verify-log.txt
@@ -259,6 +174,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP verify run 48: fd15 final state check" || true
+          git commit -m "Free-diffuser LP verify run 49: offer v4 Manifestation Ritual live check" || true
           git pull --rebase -X theirs origin claude/maison-landing-page-iyikm5
           git push

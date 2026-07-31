@@ -21,7 +21,7 @@ const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
    plan, so the diffuser stays at full price. --- */
 const CART = {
   diffuserVariant: 45450822778989,   /* duplicate diffuser (this funnel only) — reprice to $89.95 at deploy */
-  sellingPlan: 0,                    /* WIRING: Subi "The Manifestation Ritual" plan gid ($49.95 / 45 days) — create in Subi, fill before deploy */
+  sellingPlan: 2661875821,           /* Subi Plan 4: Delivered every 45 days, $49.95 (wired 2026-08-01) */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 
@@ -70,7 +70,7 @@ const CONFIG = {
 
   buybox: {
     microProof: "(4.6 rated on 2,500+ reviews)",
-    title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "Award-Winning Diffuser included for free." },
+    title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "FREE Award Winning Diffuser." },
     subline: "No commitments. 30 days to fall in love, full refund if you don't.",
     offer: {
       price: "$39.95",

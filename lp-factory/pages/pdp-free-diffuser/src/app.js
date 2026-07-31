@@ -598,7 +598,6 @@ function BuyBox() {
                 <span>${v.label}${v.sub && html`<span class="vsub">${v.sub}</span>`}</span>
                 <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
               </div>`)}
-            <div class="vfoot"><strong>3-month commitment</strong> if you love it. Return right away + <strong>full refund</strong> if you don't.</div>
           </div>
 
           <div class="picker-title">${B.qtyTitle}</div>

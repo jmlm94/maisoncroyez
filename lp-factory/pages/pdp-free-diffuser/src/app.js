@@ -601,7 +601,7 @@ function BuyBox() {
           <div class="subline">${B.subline}</div>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
-            <span class="price">${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>
+            <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>
             <span class="price-badge">1-Year Warranty</span>
           </div>
           <ul class="offer-bullets">

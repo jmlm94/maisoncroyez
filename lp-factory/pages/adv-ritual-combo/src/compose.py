@@ -66,7 +66,7 @@ old_order = '''"articleHeader", "heroSplit", "comments", "articleStory",
     "intentionMap", "articleClose",
     "offer1", "guarantee", "reviewWall", "faq",'''
 new_order = '''"articleHeader", "heroSplit", "articleStory",
-    "intentionMap", "articleClose",
+    "articleClose",
     "reviewWall",'''
 assert old_order in adv_app, 'sectionOrder not found'
 adv_app = adv_app.replace(old_order, new_order)
@@ -85,16 +85,28 @@ def cut(src, start_marker, end_marker, max_span):
     assert 0 < e - s < max_span, 'cut bounds look wrong for %r' % start_marker
     return src[:s] + src[e:]
 
-# pricing + candle-math comparison ($89.95 price-pop through "we'll see.")
-adv_app = cut(adv_app, '{ t: "p", cls: "price-pop"',
-              '{ t: "h2", pre: "The First", em: "Evening:"', 3000)
+# "Here We Go Again" (smoke image, browser-tabs intro, bullets) plus the
+# pricing + candle-math comparison, through "we'll see."
+adv_app = cut(adv_app, '{ t: "img", slot: "product"',
+              '{ t: "h2", pre: "The First", em: "Evening:"', 8000)
 # timeline (heading, evening/week entries, "no more" checks)
 adv_app = cut(adv_app, '{ t: "h2", pre: "The Timeline: What Actually Happened."',
               '{ t: "h2", pre: "So What Makes This Actually Different?"', 4000)
+# "So What Makes This Actually Different?" (heading, paragraphs, three cards)
+adv_app = cut(adv_app, '{ t: "h2", pre: "So What Makes This Actually Different?"',
+              '{ t: "img", slot: "lab"', 3000)
 # perfumery / product-development lifestyle image
 lab_img = '{ t: "img", slot: "lab", alt: "Composed in the French perfumery tradition" },'
 assert lab_img in adv_app
 adv_app = adv_app.replace(lab_img, '')
+
+# owner trim round 3 (2026-08-01): new advertorial headline
+old_head = 'headline: { pre: "One Evening With This $89.95 Diffuser Did What", em: "$2,500 in Candles Couldn\\u2019t.", post: "" },'
+if old_head not in adv_app:
+    old_head = old_head.replace('\\u2019', '’')
+assert old_head in adv_app, 'advertorial headline not found'
+adv_app = adv_app.replace(old_head,
+    'headline: { pre: "I got this scent, they gave me a free diffuser and in one evening, it did what", em: "$2,500/year in candles couldn’t.", post: "" },')
 for lbl in ['Choose Your Intention', 'Try It Risk-Free for 90 Days', 'Choose Your Kit', 'Choose your intention', 'Get Yours Now', 'Check Availability']:
     adv_app = adv_app.replace('label: "%s"' % lbl, 'label: "Claim My Free Diffuser"')
     adv_app = adv_app.replace('t: "cta", label: "%s"' % lbl, 't: "cta", label: "Claim My Free Diffuser"')
@@ -106,6 +118,19 @@ adv_css = scope_css(R(ADV, 'styles.css'), '#advroot', keep_globals=False)
 
 # ---------- sales page pieces ----------
 lp_app = R(LP, 'app.js').replace('document.getElementById("root")', 'document.getElementById("saleroot")')
+
+# owner trim round 3 (2026-08-01): drop howTo, angleCandles, angleLasts from
+# the sales half of the combo page only (live Shopify page is untouched)
+old_lp_order = '''"buybox",
+    "angleIntention", "angleFill", "howTo",
+    "angleLux", "angleCandles", "angleLasts",
+    "reviewWall", "guarantee", "faq",'''
+new_lp_order = '''"buybox",
+    "angleIntention", "angleFill",
+    "angleLux",
+    "reviewWall", "guarantee", "faq",'''
+assert old_lp_order in lp_app, 'LP sectionOrder not found'
+lp_app = lp_app.replace(old_lp_order, new_lp_order)
 lp_img = R(LP, 'images.js')
 gal = ''
 GALDIR = os.path.join(LP, '..', 'assets', 'gallery')

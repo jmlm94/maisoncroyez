@@ -77,6 +77,24 @@ hs = adv_app.index('{ t: "h2", pre: "The Honest"')
 he = adv_app.index('{ t: "cta", label: "Try It Risk-Free for 90 Days"')
 assert 0 < he - hs < 2000, 'Honest Truth block bounds look wrong'
 adv_app = adv_app[:hs] + adv_app[he:]
+
+# owner trim round 2 (2026-08-01):
+def cut(src, start_marker, end_marker, max_span):
+    s = src.index(start_marker)
+    e = src.index(end_marker)
+    assert 0 < e - s < max_span, 'cut bounds look wrong for %r' % start_marker
+    return src[:s] + src[e:]
+
+# pricing + candle-math comparison ($89.95 price-pop through "we'll see.")
+adv_app = cut(adv_app, '{ t: "p", cls: "price-pop"',
+              '{ t: "h2", pre: "The First", em: "Evening:"', 3000)
+# timeline (heading, evening/week entries, "no more" checks)
+adv_app = cut(adv_app, '{ t: "h2", pre: "The Timeline: What Actually Happened."',
+              '{ t: "h2", pre: "So What Makes This Actually Different?"', 4000)
+# perfumery / product-development lifestyle image
+lab_img = '{ t: "img", slot: "lab", alt: "Composed in the French perfumery tradition" },'
+assert lab_img in adv_app
+adv_app = adv_app.replace(lab_img, '')
 for lbl in ['Choose Your Intention', 'Try It Risk-Free for 90 Days', 'Choose Your Kit', 'Choose your intention', 'Get Yours Now', 'Check Availability']:
     adv_app = adv_app.replace('label: "%s"' % lbl, 'label: "Claim My Free Diffuser"')
     adv_app = adv_app.replace('t: "cta", label: "%s"' % lbl, 't: "cta", label: "Claim My Free Diffuser"')

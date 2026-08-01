@@ -71,7 +71,6 @@ const CONFIG = {
   buybox: {
     microProof: "(4.6 rated on 2,500+ reviews)",
     title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "FREE Award Winning Diffuser." },
-    subline: "No commitments. 30 days to fall in love, full refund if you don't.",
     offer: {
       price: "$39.95",
       priceUnit: "",
@@ -599,7 +598,6 @@ function BuyBox() {
         <${Gallery}/>
         <div class="buybox">
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
-          <div class="subline">${B.subline}</div>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <div class="price-row">
             <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>

@@ -1,0 +1,42 @@
+{% comment %}
+  MC LP Factory — universal landing page template (paste ONCE as templates/page.mc-lp.liquid).
+  Serves UNLIMITED landing pages: each page loads bundles named after its handle:
+    mc-lp-{{ page.handle }}-assets.js  (media)
+    mc-lp-{{ page.handle }}-app.js     (code + copy)
+  plus shared mc-lp-core.css and mc-lp-vendor.js.
+  DO NOT paste until Claude has staged those shared files on the CDN (migration step).
+  Hourly auto-versioning: Claude's CDN fileUpdates go live within the hour, no edits here.
+{% endcomment %}
+{% layout none %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ page.title }} — Maison Croyez</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-core.css?v={{ 'now' | date: '%Y%m%d%H' }}">
+<style>html,body{overflow-x:clip !important}</style>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '980908600592309');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=980908600592309&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function(){var v=new Date().toISOString().slice(0,13).replace(/[^0-9]/g,'');
+var h={{ page.handle | json }};
+['mc-lp-vendor.js','mc-lp-'+h+'-assets.js','mc-lp-'+h+'-app.js'].forEach(function(f){
+var s=document.createElement('script');s.src='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/'+f+'?v='+v;
+s.async=false;document.body.appendChild(s);});})();
+</script>
+</body>
+</html>

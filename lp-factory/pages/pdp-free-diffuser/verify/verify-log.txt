@@ -1,0 +1,101 @@
+goto attempt 1: HTTP 429
+goto attempt 2: HTTP 429
+goto attempt 3: HTTP 200
+=== AUDIT ===
+{
+ "h1": "Maison Croyez Manifestation & Attraction Organic Scents — FREE Award Winning Diffuser.",
+ "subline": "No commitments. 30 days to fall in love, full refund if you don't.",
+ "priceRow": "from $49.95every 45 days 1-YEAR WARRANTY",
+ "dayrate": "🛎️\nFeel you're in a five-star hotel for only $1.11 a day.",
+ "planCards": 2,
+ "planBadge": "#1 MOST ORDERED!",
+ "ritualCardOn": true,
+ "fragCards": 7,
+ "buyboxFaqs": 6,
+ "hiwTitle": "Choosing The Manifestation Ritual? Order stress-free:",
+ "hiwRows": [
+  "TODAY",
+  "EVERY 45 DAYS",
+  "30 DAYS"
+ ],
+ "sweep": {
+  "commitment": 1,
+  "threeMonth": 0,
+  "d120": 0,
+  "d3995": 0,
+  "lifetime": 0,
+  "oneYear": 6,
+  "days45": 6
+ },
+ "brokenImgs": [],
+ "overflowX": false
+}
+=== CSS PROBE ===
+{"href":"v=fd17-2026080100","len":68464,"v4Scoped":true}
+=== CART RITUAL (expect scent 49.95 on plan 2661875821 + diffuser 89.95 -> 0, total 49.95) ===
+{
+ "total": 49.95,
+ "items": [
+  {
+   "t": "Maison Croyez — Home Scent Diffuser",
+   "q": 1,
+   "price": 89.95,
+   "line": 0,
+   "plan": null,
+   "discounts": [
+    "Manifestation Ritual (Swap &am -89.95"
+   ]
+  },
+  {
+   "t": "Midnight Sensation – Love Manifestation (1",
+   "q": 1,
+   "price": 49.95,
+   "line": 49.95,
+   "plan": 2661875821,
+   "discounts": [
+    "Manifestation Ritual (Swap &am -0"
+   ]
+  }
+ ]
+}
+=== ONE-TIME UI ===
+{
+ "atc": "ADD THE ONE-TIME SET ➔ ONE PAYMENT. FREE SHIPPING.",
+ "valstack": [
+  "Maison Croyez Diffuser & Manifestation Scent No refills included. $139.95",
+  "You pay today $139.95"
+ ],
+ "freeLineGone": true
+}
+=== CART ONE-TIME (expect scent 49.95 + diffuser 89.95, NO plan, NO discount, total 139.90; page displays 139.95) ===
+{
+ "total": 139.9,
+ "items": [
+  {
+   "t": "Maison Croyez — Home Scent Diffuser",
+   "q": 1,
+   "line": 89.95,
+   "plan": null,
+   "discounts": []
+  },
+  {
+   "t": "Midnight Sensation – Love Manifestation (1",
+   "q": 1,
+   "line": 49.95,
+   "plan": null,
+   "discounts": []
+  }
+ ]
+}
+=== CONSOLE ERRORS (4) ===
+ - Failed to load resource: the server responded with a status of 429 ()
+ - Failed to load resource: the server responded with a status of 429 ()
+ - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
+
+ - Failed to load resource: the server responded with a status of 403 ()
+=== OUR BUNDLE RESPONSES ===
+ - 200 mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
+ - 200 mc-lp-free-diffuser.css?v=fd17-2026080100
+ - 200 mc-lp-diffuser-assets.js?v=fd17-2026080100
+ - 200 mc-lp-free-diffuser-app.js?v=fd17-2026080100
+ - 200 mc-lp-vendor.js?v=fd17-2026080100

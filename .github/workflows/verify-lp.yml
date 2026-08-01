@@ -1,0 +1,179 @@
+name: verify-lp
+# run: 53 — reliability loop 4 of 4 (offer v4, both cart paths + perf)
+on:
+  push:
+    branches: [claude/maison-landing-page-iyikm5]
+    paths: ['.github/workflows/verify-lp.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait out bot-protection block if present
+        run: |
+          for i in $(seq 1 10); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36' 'https://maisoncroyez.com/pages/free-diffuser')
+            echo "attempt $i: HTTP $code" | tee -a gate-log.txt
+            if [ "$code" = "200" ]; then break; fi
+            sleep 45
+          done
+      - name: Verify live free-diffuser LP (offer v4 visitor walkthrough)
+        run: |
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > check.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const errs=[];
+          page.on('console', m=>{ if(m.type()==='error') errs.push(m.text().slice(0,200)); });
+          page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
+          const resp=[];
+          page.on('response', r=>{ const u=r.url(); if(/mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-lp-fd-hero/.test(u)) resp.push(r.status()+' '+u.split('/').pop().slice(0,60)); });
+          let nav=null;
+          for(let a=0;a<4;a++){
+            nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+            console.log('goto attempt '+(a+1)+': HTTP '+(nav?nav.status():'?'));
+            if(nav && nav.status()===200) break;
+            await page.waitForTimeout(30000);
+          }
+          await page.waitForTimeout(9000);
+          await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
+          const audit = await page.evaluate(()=>{
+            const q=s=>document.querySelectorAll(s).length;
+            const imgs=[...document.querySelectorAll('#root img')];
+            const t=document.body.innerText;
+            return {
+              h1:(document.querySelector('#root h1')||{}).innerText||'MISSING',
+              subline:(document.querySelector('.subline')||{}).innerText||'MISSING',
+              priceRow:(document.querySelector('.price-row')||{}).innerText.replace(/\s+/g,' ')||'MISSING',
+              dayrate:(document.querySelector('.dayrate')||{}).innerText||'MISSING',
+              planCards:q('.plan'), planBadge:(document.querySelector('.plan-badge')||{}).innerText||'MISSING',
+              ritualCardOn:!!document.querySelector('.plan.on'),
+              fragCards:q('.pick'), buyboxFaqs:q('.buybox .acc.faq .qa'),
+              hiwTitle:(document.querySelector('.hiw-title')||{}).innerText||'MISSING',
+              hiwRows:[...document.querySelectorAll('.hiw-row .hiw-k')].map(k=>k.innerText),
+              sweep:{ commitment:(t.match(/commitment/gi)||[]).length, threeMonth:(t.match(/3[- ]month|3 months|month minimum/gi)||[]).length,
+                      d120:(t.match(/\$120/g)||[]).length, d3995:(t.match(/\$39\.95/g)||[]).length, lifetime:(t.match(/lifetime/gi)||[]).length,
+                      oneYear:(t.match(/1-Year/gi)||[]).length, days45:(t.match(/45 days/gi)||[]).length },
+              brokenImgs:imgs.filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40)),
+              overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
+            };
+          });
+          console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
+          const cssProbe = await page.evaluate(async()=>{
+            const l=[...document.querySelectorAll('link[rel=stylesheet]')].find(x=>/mc-lp-free-diffuser\.css/.test(x.href));
+            if(!l) return {found:false};
+            const t=await (await fetch(l.href)).text();
+            return {href:l.href.split('?')[1], len:t.length, v4Scoped:t.includes('#root .plansel')&&t.includes('#root .dayrate')};
+          });
+          console.log('=== CSS PROBE ==='); console.log(JSON.stringify(cssProbe));
+          // RITUAL: pick Midnight, ATC, inspect cart
+          await page.evaluate(()=>[...document.querySelectorAll('.pick')].find(x=>x.innerText.includes('Midnight Sensation')).click());
+          await page.waitForTimeout(400);
+          await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
+          await page.waitForTimeout(300);
+          await page.click('.buybox .atc');
+          await page.waitForTimeout(5000);
+          await page.screenshot({ path:'fd-drawer.png' });
+          const cartRitual = await page.evaluate(async()=>{
+            const j=await (await fetch('/cart.js')).json();
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), q:i.quantity, price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title.slice(0,30)+' -'+d.amount/100)}))};
+          });
+          console.log('=== CART RITUAL (expect scent 49.95 on plan 2661875821 + diffuser 89.95 -> 0, total 49.95) ===');
+          console.log(JSON.stringify(cartRitual,null,1));
+          // clear cart, ONE-TIME path
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          await page.waitForTimeout(1000);
+          await page.evaluate(()=>document.querySelectorAll('.plan')[1].click());
+          await page.waitForTimeout(500);
+          const oneTimeUi = await page.evaluate(()=>({
+            atc:(document.querySelector('.buybox .atc')||{}).innerText.replace(/\s+/g,' '),
+            valstack:[...document.querySelectorAll('.valstack .vrow')].map(r=>r.innerText.replace(/\s+/g,' ')),
+            freeLineGone:!document.querySelector('.free-line')
+          }));
+          console.log('=== ONE-TIME UI ==='); console.log(JSON.stringify(oneTimeUi,null,1));
+          await page.evaluate(()=>document.querySelector('.buybox .atc').click());
+          await page.waitForTimeout(5000);
+          const cartOne = await page.evaluate(async()=>{
+            const j=await (await fetch('/cart.js')).json();
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), q:i.quantity, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title.slice(0,30)+' -'+d.amount/100)}))};
+          });
+          console.log('=== CART ONE-TIME (expect scent 49.95 + diffuser 89.95, NO plan, NO discount, total 139.90; page displays 139.95) ===');
+          console.log(JSON.stringify(cartOne,null,1));
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          console.log('=== CONSOLE ERRORS ('+errs.length+') ==='); errs.slice(0,15).forEach(e=>console.log(' - '+e));
+          console.log('=== OUR BUNDLE RESPONSES ==='); [...new Set(resp)].forEach(e=>console.log(' - '+e));
+          await page.evaluate(()=>window.scrollTo(0,0));
+          await page.waitForTimeout(800);
+          await page.screenshot({ path:'fd-live-full.png', fullPage:true });
+          await b.close();
+          EOS
+          node check.mjs 2>&1 | tee verify-log.txt
+      - name: Performance audit (throttled mobile lab x3)
+        if: always()
+        run: |
+          cat > perf.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const URL='https://maisoncroyez.com/pages/free-diffuser';
+          const runs=[];
+          for(let i=0;i<3;i++){
+            const b=await chromium.launch();
+            const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,userAgent:'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36'});
+            const page=await ctx.newPage();
+            const cdp=await ctx.newCDPSession(page);
+            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            await page.addInitScript(()=>{
+              window.__m={lcp:0,lcpEl:'',cls:0,fcp:0,lt:[],shifts:[]};
+              const sel=n=>{ if(!n||!n.tagName) return '?'; let s=n.tagName.toLowerCase(); if(n.id) s+='#'+n.id; if(n.className&&typeof n.className==='string') s+='.'+n.className.trim().split(/\s+/).slice(0,2).join('.'); return s; };
+              new PerformanceObserver(l=>{for(const e of l.getEntries()){ window.__m.lcp=e.startTime; window.__m.lcpEl=sel(e.element)+(e.url?' url='+e.url.split('/').pop().slice(0,50):''); }}).observe({type:'largest-contentful-paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput){ window.__m.cls+=e.value; if(e.value>0.01) window.__m.shifts.push({t:Math.round(e.startTime),v:+e.value.toFixed(4),src:(e.sources||[]).slice(0,3).map(s=>sel(s.node)).join(',')}); }}).observe({type:'layout-shift',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(e.name==='first-contentful-paint') window.__m.fcp=e.startTime;}).observe({type:'paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
+            });
+            const t0=Date.now();
+            let nv=null;
+            for(let a=0;a<5;a++){
+              nv=await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+              console.log('perf run '+(i+1)+' goto attempt '+(a+1)+': HTTP '+(nv?nv.status():'?'));
+              if(nv && nv.status()===200) break;
+              await page.waitForTimeout(45000);
+            }
+            await page.waitForTimeout(12000);
+            const m=await page.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const res=performance.getEntriesByType('resource');
+              const ours=res.filter(r=>/mc-lp/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),decodedKB:Math.round(r.decodedBodySize/1024),ms:Math.round(r.duration)}));
+              const tbt=window.__m.lt.reduce((s,t)=>s+Math.max(0,t.d-50),0);
+              const hero=res.filter(r=>/mc-lp-fd-hero-callouts/.test(r.name)).map(r=>({transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
+              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),shifts:window.__m.shifts.slice(0,10),tbtMs:Math.round(tbt),longtasks:window.__m.lt.length,loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),hero,ourBundles:ours};
+            });
+            m.wallMs=Date.now()-t0; runs.push(m); await b.close();
+            if(i<2) await new Promise(r=>setTimeout(r,70000));
+          }
+          const med=k=>{const v=runs.map(r=>r[k]).sort((a,b)=>a-b);return v[1];};
+          console.log('=== PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===');
+          runs.forEach((r,i)=>console.log('run'+(i+1)+': TTFB='+r.ttfbMs+'ms FCP='+r.fcpMs+'ms LCP='+r.lcpMs+'ms CLS='+r.cls+' TBT='+r.tbtMs+'ms load='+r.loadMs+'ms reqs='+r.reqCount+' transfer='+r.totalTransferKB+'KB'));
+          console.log('=== MEDIAN ===');
+          console.log(JSON.stringify({ttfbMs:med('ttfbMs'),fcpMs:med('fcpMs'),lcpMs:med('lcpMs'),cls:med('cls'),tbtMs:med('tbtMs'),loadMs:med('loadMs'),totalTransferKB:med('totalTransferKB')}));
+          console.log('=== LCP ELEMENT (per run) ==='); runs.forEach((r,i)=>console.log('run'+(i+1)+': '+r.lcpEl));
+          console.log('=== NEW HERO IMG (run1) ==='); console.log(JSON.stringify(runs[0].hero));
+          console.log('=== OUR BUNDLES (run1) ==='); console.log(JSON.stringify(runs[0].ourBundles,null,1));
+          EOS
+          node perf.mjs 2>&1 | tee perf-log.txt
+      - name: Commit results
+        if: always()
+        run: |
+          mkdir -p lp-factory/pages/pdp-free-diffuser/verify
+          mv fd-live-full.png fd-drawer.png fd-ux-m-qtysel.png fd-ux-m-stepper.png fd-ux-d-qtysel.png fd-ux-d-pick.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/pdp-free-diffuser/verify
+          git commit -m "Free-diffuser LP verify run 53: reliability loop 4 of 4" || true
+          git pull --rebase -X theirs origin claude/maison-landing-page-iyikm5
+          git push

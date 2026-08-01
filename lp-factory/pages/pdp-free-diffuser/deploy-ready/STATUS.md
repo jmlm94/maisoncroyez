@@ -80,3 +80,13 @@ Replaces the 3-month commitment offer entirely.
 - KNOWN NICKEL: page displays One-Time Set $139.95, cart totals $139.90
   (components). Direction favors customer; owner aware.
 - Verify: run 49 (v4 walkthrough: both cart paths, cart cleared between)
+
+### Post-launch (2026-08-01)
+- BUG+FIX: One-Time Set add-to-cart 422 — all 7 fragrance products had
+  requiresSellingPlan=true (old Subi setting). Set false via API; one-time
+  path works since.
+- Owner renamed BXGY discount to 'Manifestation Ritual (Swap...)'.
+- RELIABILITY CERTIFICATION: 4 consecutive live loops (runs 50-53), all
+  green. Ritual cart 49.95 w/ plan 2661875821 + diffuser 89.95->0;
+  One-Time 139.90 no plan no discount. Perf medians stable: FCP
+  420-452ms, LCP ~5.9s (Slow-4G/4xCPU lab), CLS 0.0012, ~2.42MB.

@@ -60,6 +60,23 @@ def scope_css(css, container, keep_globals):
 # ---------- advertorial pieces ----------
 adv_app = R(ADV, 'app.js')
 adv_app = adv_app.replace('productUrl: "https://maisoncroyez.com/pages/diffuser"', 'productUrl: "#buybox"')
+
+# owner trim (2026-08-01): drop comments, offer1, guarantee, faq sections
+old_order = '''"articleHeader", "heroSplit", "comments", "articleStory",
+    "intentionMap", "articleClose",
+    "offer1", "guarantee", "reviewWall", "faq",'''
+new_order = '''"articleHeader", "heroSplit", "articleStory",
+    "intentionMap", "articleClose",
+    "reviewWall",'''
+assert old_order in adv_app, 'sectionOrder not found'
+adv_app = adv_app.replace(old_order, new_order)
+
+# owner trim: remove "The Honest Truth" block inside articleClose (h2 + 3 paragraphs),
+# keeping "Why I'm Telling You All This" and the closing CTA
+hs = adv_app.index('{ t: "h2", pre: "The Honest"')
+he = adv_app.index('{ t: "cta", label: "Try It Risk-Free for 90 Days"')
+assert 0 < he - hs < 2000, 'Honest Truth block bounds look wrong'
+adv_app = adv_app[:hs] + adv_app[he:]
 for lbl in ['Choose Your Intention', 'Try It Risk-Free for 90 Days', 'Choose Your Kit', 'Choose your intention', 'Get Yours Now', 'Check Availability']:
     adv_app = adv_app.replace('label: "%s"' % lbl, 'label: "Claim My Free Diffuser"')
     adv_app = adv_app.replace('t: "cta", label: "%s"' % lbl, 't: "cta", label: "Claim My Free Diffuser"')

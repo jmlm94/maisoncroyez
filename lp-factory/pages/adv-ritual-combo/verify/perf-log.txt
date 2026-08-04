@@ -2,16 +2,17 @@ perf run 1 goto attempt 1: HTTP 429
 perf run 1 goto attempt 2: HTTP 429
 perf run 1 goto attempt 3: HTTP 200
 perf run 2 goto attempt 1: HTTP 429
-perf run 2 goto attempt 2: HTTP 200
+perf run 2 goto attempt 2: HTTP 429
+perf run 2 goto attempt 3: HTTP 200
 perf run 3 goto attempt 1: HTTP 429
 perf run 3 goto attempt 2: HTTP 429
 perf run 3 goto attempt 3: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=16ms FCP=432ms LCP=4712ms CLS=0.2179 TBT=979ms load=11286ms reqs=167 transfer=2478KB
-run2: TTFB=9ms FCP=436ms LCP=4724ms CLS=0.2179 TBT=958ms load=11175ms reqs=166 transfer=2477KB
-run3: TTFB=14ms FCP=596ms LCP=4860ms CLS=0.2179 TBT=988ms load=11263ms reqs=165 transfer=2476KB
+run1: TTFB=23ms FCP=436ms LCP=4748ms CLS=0.2082 TBT=1056ms load=11243ms reqs=166 transfer=2477KB
+run2: TTFB=26ms FCP=428ms LCP=4700ms CLS=0.2082 TBT=1064ms load=11250ms reqs=165 transfer=2476KB
+run3: TTFB=26ms FCP=444ms LCP=4740ms CLS=0.2082 TBT=1089ms load=11367ms reqs=166 transfer=2477KB
 === MEDIAN ===
-{"ttfbMs":14,"fcpMs":436,"lcpMs":4724,"cls":0.2179,"tbtMs":979,"loadMs":11263,"totalTransferKB":2477}
+{"ttfbMs":26,"fcpMs":436,"lcpMs":4740,"cls":0.2082,"tbtMs":1064,"loadMs":11250,"totalTransferKB":2477}
 === LCP ELEMENT (per run) ===
 run1: h1
 run2: h1
@@ -21,42 +22,42 @@ run3: h1
  {
   "f": "mc-adv-grave.jpg",
   "transferKB": 78,
-  "ms": 6228
+  "ms": 6172
  },
  {
   "f": "mc-adv-split-after.jpg",
   "transferKB": 54,
-  "ms": 4554
+  "ms": 4520
  },
  {
   "f": "mc-lp-free-diffuser.css",
   "transferKB": 12,
-  "ms": 1963
+  "ms": 2021
  },
  {
   "f": "mc-adv-ritual.css",
-  "transferKB": 8,
-  "ms": 1647
+  "transferKB": 9,
+  "ms": 1763
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
-  "ms": 4121
+  "ms": 4129
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
-  "ms": 322
+  "ms": 289
  },
  {
   "f": "mc-adv-ritual-assets.js",
   "transferKB": 0,
-  "ms": 336
+  "ms": 295
  },
  {
   "f": "mc-adv-ritual-app.js",
   "transferKB": 20,
-  "ms": 2753
+  "ms": 2768
  },
  {
   "f": "mc-adv-narrator.jpg",
@@ -66,21 +67,21 @@ run3: h1
  {
   "f": "mc-adv-pain-scene.jpg",
   "transferKB": 25,
-  "ms": 1955
+  "ms": 1964
  },
  {
   "f": "mc-adv-product.jpg",
   "transferKB": 75,
-  "ms": 3615
+  "ms": 3672
  },
  {
   "f": "mc-adv-first-evening.jpg",
   "transferKB": 64,
-  "ms": 3300
+  "ms": 3357
  },
  {
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
-  "ms": 3675
+  "ms": 3730
  }
 ]

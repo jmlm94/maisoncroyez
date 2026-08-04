@@ -179,6 +179,6 @@ print('combo preview.html', os.path.getsize(out) // 1024, 'KB')
 
 # artifact variant: content only (the Artifact host wraps it in its own document skeleton)
 artifact_doc = ''.join(['<title>Maison Croyez: Ritual Advertorial</title>\n<style>\n'] + body_parts)
-art = os.path.join(HERE, 'ritual-advertorial-v2.html')
+art = os.path.join(HERE, 'ritual-advertorial-v3.html')
 open(art, 'w').write(artifact_doc)
 print('combo artifact html', os.path.getsize(art) // 1024, 'KB')

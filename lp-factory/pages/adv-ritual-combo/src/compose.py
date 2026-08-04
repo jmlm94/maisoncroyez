@@ -74,23 +74,14 @@ adv_css = scope_css(R(ADV, 'styles.css'), '#advroot', keep_globals=False)
 # ---------- sales half: live LP source + combo-only patches ----------
 lp_app = R(LP, 'app.js').replace('document.getElementById("root")', 'document.getElementById("saleroot")')
 
-# journey order: education first, offer last (live page keeps buybox first)
+# sales half is the buy box alone (owner cut the education sections 2026-08-04)
 old_lp_order = '''"buybox",
     "angleIntention", "angleFill", "howTo",
     "angleLux", "angleCandles", "angleLasts",
     "reviewWall", "guarantee", "faq",'''
-new_lp_order = '''"angleIntention", "angleFill",
-    "angleLux",
-    "buybox",'''
+new_lp_order = '"buybox",'
 assert old_lp_order in lp_app, 'LP sectionOrder not found'
 lp_app = lp_app.replace(old_lp_order, new_lp_order)
-
-# buy box headline: narrator hand-off instead of the PDP product title
-old_title = 'title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \\u2014", em: "FREE Award Winning Diffuser." },'
-if old_title not in lp_app:
-    old_title = old_title.replace('\\u2014', '—')
-assert old_title in lp_app, 'LP buybox title not found'
-lp_app = lp_app.replace(old_title, 'title: { pre: "Choose your scent.", em: "The diffuser is on us." },')
 
 # only one sticky bar on the combo page: the advertorial's delayed one
 assert lp_app.count('<${StickyBar}/>`;') == 1
@@ -159,6 +150,9 @@ combo_css = """
 #saleroot .cbenef-col ul{list-style:none;margin:0;padding:0}
 #saleroot .cbenef-col li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:16.5px;line-height:1.5}
 #saleroot .cbenef-col .ck{color:#2E7D4F;font-weight:700;flex:0 0 auto}
+#saleroot .gal{max-width:82%;margin:0 auto}
+#saleroot .gal .gal-slide,#saleroot .gal .gal-slide img{border-radius:18px;overflow:hidden}
+#saleroot .gal .gal-track{border-radius:18px}
 """
 
 fonts = R(ADV, 'fonts.css')
@@ -187,6 +181,6 @@ print('combo preview.html', os.path.getsize(out) // 1024, 'KB')
 
 # artifact variant: content only (the Artifact host wraps it in its own document skeleton)
 artifact_doc = ''.join(['<title>Maison Croyez: Ritual Advertorial</title>\n<style>\n'] + body_parts)
-art = os.path.join(HERE, 'ritual-advertorial.html')
+art = os.path.join(HERE, 'ritual-advertorial-v2.html')
 open(art, 'w').write(artifact_doc)
 print('combo artifact html', os.path.getsize(art) // 1024, 'KB')

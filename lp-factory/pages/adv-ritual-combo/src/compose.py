@@ -100,47 +100,25 @@ lp_app = lp_app.replace('    <${StickyBar}/>`;', '`;')
 assert 'value: "30+ DAYS"' in lp_app
 lp_app = lp_app.replace('value: "30+ DAYS"', 'value: "45+ DAYS"')
 
-# simple benefits section (3 diffuser + 3 fragrance) right before the buy box
-benefits_component = '''function ComboBenefits() {
-  const cols = [
-    { title: "The Diffuser", items: [
-      "Waterless: no tank, no mold, zero cleaning",
-      "Fills up to 600 sq ft in under 10 minutes",
-      "One button, three strengths, 1-Year Warranty",
-    ]},
-    { title: "The Fragrances", items: [
-      "100% organic oils, safe around kids and pets",
-      "Each scent composed around an intention",
-      "One 100ml bottle lasts 45+ days",
-    ]},
-  ];
-  return html`
-    <section class="section cbenef">
-      <div class="wrap">
-        <div class="section-head">
-          <${SerifHead} pre="Everything you get," em="at a glance."/>
-        </div>
-        <div class="cbenef-grid">
-          ${cols.map((c) => html`
-            <div class="cbenef-col" key=${c.title}>
-              <h3 class="caps">${c.title}</h3>
-              <ul>${c.items.map((it) => html`<li key=${it}><span class="ck" aria-hidden="true">\\u2713</span>${it}</li>`)}</ul>
-            </div>`)}
-        </div>
-      </div>
-    </section>`;
-}
-
-function App() {'''
-assert lp_app.count('function App() {') == 1
-lp_app = lp_app.replace('function App() {', benefits_component)
-old_bb_entry = '    buybox: () => html`<${BuyBox} key="bb"/>`,'
-assert old_bb_entry in lp_app
-lp_app = lp_app.replace(old_bb_entry,
-    '    comboBenefits: () => html`<${ComboBenefits} key="cbf"/>`,\n' + old_bb_entry)
-assert new_lp_order in lp_app
-lp_app = lp_app.replace(new_lp_order, new_lp_order.replace('"buybox",', '"comboBenefits",\n    "buybox",'))
-assert '"comboBenefits"' in lp_app and 'comboBenefits: () =>' in lp_app
+# simple benefits block (3 diffuser + 3 fragrance) inside the buy box,
+# directly above the FAQ accordion
+def benefit_col(title, items):
+    lis = ''.join('<li><span class="ck" aria-hidden="true">✓</span>%s</li>' % it for it in items)
+    return '<div class="cbenef-col"><h3 class="caps">%s</h3><ul>%s</ul></div>' % (title, lis)
+benefits_html = ('          <div class="cbenef-grid">\n            '
+    + benefit_col('The Diffuser', [
+        'Waterless: no tank, no mold, zero cleaning',
+        'Fills up to 600 sq ft in under 10 minutes',
+        'One button, three strengths, 1-Year Warranty',
+    ]) + '\n            '
+    + benefit_col('The Fragrances', [
+        '100% organic oils, safe around kids and pets',
+        'Each scent composed around an intention',
+        'One 100ml bottle lasts 45+ days',
+    ]) + '\n          </div>\n')
+faq_anchor = '          <div class="acc faq">'
+assert lp_app.count(faq_anchor) == 1
+lp_app = lp_app.replace(faq_anchor, benefits_html + faq_anchor)
 
 lp_img = R(LP, 'images.js')
 lp_prev = R(LP, 'preview.html')
@@ -174,8 +152,8 @@ combo_css = """
 #advroot .art-cta .btn .btn-sub{font-size:.74rem}
 #advroot .art-h2.allblack,#advroot .art-h2.allblack em{color:#241C18;background:none;-webkit-background-clip:initial;-webkit-text-fill-color:initial;background-clip:initial}
 #saleroot .pick:not(.on) .pick-desc,#saleroot .pick:not(.on) .pick-ing{display:none}
-#saleroot .cbenef-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:560px;margin:0 auto}
-@media(min-width:700px){#saleroot .cbenef-grid{grid-template-columns:1fr 1fr;max-width:760px}}
+#saleroot .cbenef-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:26px 0 10px}
+@media(min-width:700px){#saleroot .cbenef-grid{grid-template-columns:1fr 1fr}}
 #saleroot .cbenef-col{background:#FFFFFF;border:1px solid #EFE7DD;border-radius:16px;padding:22px 24px}
 #saleroot .cbenef-col h3{font-size:13px;letter-spacing:.08em;margin-bottom:12px;color:#8A6F5C}
 #saleroot .cbenef-col ul{list-style:none;margin:0;padding:0}

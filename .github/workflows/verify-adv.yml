@@ -1,5 +1,5 @@
 name: verify-adv
-# run: 2 — round 2: no announce/header, full gallery, CTA +14%, headlines +15% (ss2)
+# run: 3 — re-verify round 2 after page-cache propagation (run 2 hit stale ss1 HTML)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -179,6 +179,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/adv-ritual-combo/verify
-          git commit -m "the-scent-story verify run 2: round-2 layout changes" || true
+          git commit -m "the-scent-story verify run 3: round-2 layout on fresh ss2 HTML" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

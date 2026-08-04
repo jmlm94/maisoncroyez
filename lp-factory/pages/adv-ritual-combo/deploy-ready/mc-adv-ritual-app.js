@@ -626,7 +626,6 @@ function App() {
   };
 
   return html`
-    <${Announcement}/>
     ${CONFIG.sectionOrder.map((k) => sections[k] ? html`
       <div key=${k} id=${"sec-" + k}>
         ${CONFIG.showSectionLabels && html`<div class="seclabel">${k}</div>`}

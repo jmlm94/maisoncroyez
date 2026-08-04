@@ -139,8 +139,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 # unselected scent card details so the tall buy box scans faster on mobile
 combo_css = """
 #advroot .art-p{font-size:18px;line-height:1.65}
-#advroot .art-cta .btn{font-size:1.03rem;padding:20px 31px}
-#advroot .art-cta .btn .btn-sub{font-size:.74rem}
+#advroot .art-cta .btn{font-size:.98rem;padding:19px 30px}
+#advroot .art-cta .btn .btn-sub{font-size:.71rem}
+#advroot .art-head h1{font-size:clamp(2.3rem,9.2vw,3.45rem)}
+#advroot .art-h2{font-size:clamp(1.96rem,7.6vw,2.65rem)}
+#advroot .section-head h2{font-size:clamp(2.19rem,7.4vw,3.11rem)}
+#saleroot .pdp-buy h1{font-size:clamp(1.96rem,8.05vw,2.88rem)}
 #advroot .art-h2.allblack,#advroot .art-h2.allblack em{color:#241C18;background:none;-webkit-background-clip:initial;-webkit-text-fill-color:initial;background-clip:initial}
 #saleroot .pick:not(.on) .pick-desc,#saleroot .pick:not(.on) .pick-ing{display:none}
 #saleroot .cbenef-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:26px 0 10px}
@@ -150,7 +154,6 @@ combo_css = """
 #saleroot .cbenef-col ul{list-style:none;margin:0;padding:0}
 #saleroot .cbenef-col li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:16.5px;line-height:1.5}
 #saleroot .cbenef-col .ck{color:#2E7D4F;font-weight:700;flex:0 0 auto}
-#saleroot .gal{max-width:82%;margin:0 auto}
 """
 
 fonts = R(ADV, 'fonts.css')

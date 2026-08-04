@@ -57,7 +57,7 @@ const CONFIG = {
   articleHeader: {
     eyebrow: "Special Report",
     kicker: "If you love candles but your home never smells like them an hour later, read this before you buy another one.",
-    headline: { pre: "I got this scent, they gave me a free diffuser and in one evening, it did what", em: "$2,500/year in candles couldn’t.", post: "" },
+    headline: { pre: "I received the viral Maison Croyez diffuser for free, and it did what", em: "$2,500/year in candles never could.", post: "" },
     byline: { name: "By Rebecca H.", note: "Home & Ritual" }, /* date auto-renders */
   },
 
@@ -102,6 +102,7 @@ const CONFIG = {
     { t: "p", s: "**At my worst I finally counted it up: over $250 a month. More than $2,500 total. And my home still felt like nobody lived there.**" },
     { t: "p", s: "And I know I’m not the only one." },
     { t: "img", slot: "painScene", alt: "Evenings that felt flat no matter what was burning" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
 
     { t: "h2", pre: "The Fragrance Graveyard in", em: "My Hallway Closet." },
     { t: "p", s: "Here’s what I tried, in order of disappointment:" },
@@ -127,34 +128,29 @@ const CONFIG = {
     { t: "p", s: "She walked me to her console table and pointed at a small linen-wrapped cylinder I’d honestly assumed was a speaker." },
     { t: "p", s: "It was a **Maison Croyez** diffuser, and the fragrance inside was one she’d chosen off a map of seven intentions, for one specific reason: *love.*" },
     { t: "img", slot: "product", alt: "The Maison Croyez waterless diffuser" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
 
-    { t: "h2", pre: "The Part I Made Her", em: "Repeat Twice." },
-    { t: "p", s: "Elena doesn’t buy the diffuser at all. **She buys the scent, and the diffuser comes free with it.**" },
-    { t: "p", s: "A new 100ml bottle arrives every 45 days, before the last one runs out, so her home never has an off week. No minimum, cancel whenever." },
-    { t: "p", s: "And if it isn’t for you, there’s a 30-day guarantee: full refund, and they even send you the return label." },
-    { t: "p", s: "I ordered that night and chose the scent Elena runs in her gathering room: **Golden Blossom Harmony, the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
+    { t: "h2", pre: "She Told Me She Got the Diffuser", em: "for FREE?" },
+    { t: "p", s: "I made her repeat it. Twice. Elena never bought the diffuser at all. **She buys the scent, and the award-winning diffuser came free with it.**" },
+    { t: "p", s: "I didn’t believe her. Nothing in this category is free, and no bottle I’ve ever owned survived a month. But there it was on her console: **one 100ml bottle lasts 45+ days**, because it diffuses pure oil in timed pulses instead of burning or misting itself away like every brand in my closet." },
+    { t: "p", s: "A new bottle arrives every 45 days, right before the last one runs out, so her home never has an off week. No minimum, cancel whenever. And a 30-day guarantee: full refund, they even send the return label." },
     { t: "p", s: "I remember thinking: *we’ll see.*" },
 
-    { t: "h2", pre: "The First", em: "Evening:", cls: "center gradfull" },
+    { t: "h2", pre: "So I Bought It: $49.95, the Diffuser Free, My 45+ Day Fragrance.", em: "This Is What Happened.", cls: "center gradfull" },
+    { t: "p", s: "I chose the scent Elena runs in her gathering room: **Golden Blossom Harmony, the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
     { t: "img", slot: "firstEvening", alt: "The living room, the first evening" },
     { t: "p", s: "It arrived on a Thursday. I set it on the console by my entryway (no water, no setup) and pressed the button once to G2 while I started dinner." },
     { t: "p", s: "Ten minutes later I walked back through the living room and stopped. Not because it smelled strong. Because it smelled *finished*. Everywhere, evenly, like the whole apartment had been dipped in golden hour. Honeysuckle, but quiet. Warm, but nothing burning." },
     { t: "p", s: "That night I sat on my couch and didn’t light a thing. The apartment already felt like someone lovely lived there. It took me an embarrassing hour to accept that person was me." },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
 
-    { t: "h2", pre: "So What Makes This Actually Different?", em: "" },
-    { t: "p", s: "I’m not a perfumer. But after two months of living with it, here’s what I understand:" },
-    { t: "p", s: "**Most home fragrance fails because it’s decoration. This works because it’s composition.**" },
+    { t: "h2", pre: "Two Months In, Here’s What", em: "Actually Changed." },
+    { t: "p", s: "I’m not a perfumer. I can only tell you how it feels to live with it:" },
     { t: "cards", items: [
-      { title: "Waterless technology", body: "Pure fragrance oil, diffused dry. No water dilution, no tank, no mold, no residue. The scent that fills the room is exactly the scent in the bottle." },
-      { title: "Composed around intentions", body: "Seven fragrances in the French perfumery tradition, each built around what you want more of: love, abundance, clarity, purification. Not around what a focus group liked." },
-      { title: "A bottle outlasts a candle drawer", body: "One 100ml bottle runs 30+ days of continuous diffusion, about 10x longer than burning candles for the same presence." },
+      { title: "My home finally holds my intention", body: "I chose love, and that’s what the house carries now. The air feels decided, warm on purpose, the way Elena’s always did." },
+      { title: "My guests feel it before I say a word", body: "It’s the first thing people mention at the door. Not “what candle is that,” but “why does it feel so good in here?”" },
+      { title: "I stopped paying the candle tax", body: "The drawer of $136 candles stays closed. One bottle, 45+ days, and my home never has an off week." },
     ]},
-    { t: "p", s: "Two months in, I finally sat down and did the math properly." },
-    { t: "math",
-      old: { title: "My candle habit", lines: ["$250+ a month, every month", "Candles, melts, sprays, repeat", "Strongest for the first hour"] },
-      neu: { title: "Maison Croyez", lines: ["$49.95 every 45 days, about $1.11 a day", "The diffuser itself: free with the scent", "30-day guarantee, full refund"] },
-      verdict: "Six days of my old habit cost more than 45 days of this. I did that math three times.",
-    },
   ],
 
   intentionMap: {
@@ -217,7 +213,7 @@ const CONFIG = {
     { t: "p", s: "If you’ve started wondering whether that walk-into-a-boutique-hotel feeling is just for other people’s houses…" },
     { t: "p", s: "**Try this instead.**" },
     { t: "p", s: "Below is everything I learned about how it works. And at the very bottom, the exact offer I got: **you choose the scent, and the award-winning diffuser comes free with it.**" },
-    { t: "cta", label: "Claim My Free Diffuser", sub: "30-day guarantee" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
   ],
 
   offer: {
@@ -244,17 +240,17 @@ const CONFIG = {
 
   /* Fictional, in-voice — owner confirmed these ship live (2026-07-04). */
   reviewWall: {
-    heading: ["2,500+ women came home to a different house.", "Here’s what they’re saying:"],
+    heading: ["7 of my friends came over,", "and this is what they said:"],
     items: [
-      { name: "Marisol V.", text: "Every person who walks into my home asks what that scent is. Golden Blossom in the entry, and suddenly my house is “the cozy one” in the group chat." },
-      { name: "Kate D.", text: "I did the candle math after reading a page like this one. $70 a month, gone in hours. One bottle has lasted me five weeks and my living room finally feels intentional." },
-      { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven’t touched in a month except to switch modes. And the scent is actually everywhere, not just next to it." },
-      { name: "Tiana M.", text: "Bought Crisp Citrus for “abundance” half as a joke. The joke’s over: my office finally feels like a place where things get finished." },
-      { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. It’s the first home fragrance we’ve agreed on in eleven years of marriage." },
-      { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
-      { name: "Jordan P.", text: "It’s the first thing guests mention and the last thing I’d give up. My home finally feels like it’s on my side." },
+      { name: "Marisol V.", text: "The second you opened the door I needed to know what that was. My coat still smelled like your hallway when I got home. In the best way." },
+      { name: "Kate D.", text: "I sat on your couch for three hours and left smelling like golden hour. What IS that scent? I almost took the bottle home with me." },
+      { name: "Renee A.", text: "You know I’m picky about scented anything, half of them give me a headache. Your place doesn’t smell perfumed. It smells decided. I get it now." },
+      { name: "Tiana M.", text: "Your apartment feels like a boutique hotel lobby now. I walked in, exhaled, and forgot what I was stressed about. I need one for my office." },
+      { name: "Grace L.", text: "I brought my husband, the one who’s allergic to everything. He didn’t sneeze once, and HE was the one who asked me to look it up on the drive home." },
+      { name: "Ayesha K.", text: "Your entryway at dusk is a different planet. My sister and I talked about your house the entire ride back. WHO lives like this?" },
+      { name: "Jordan P.", text: "It was the first thing I noticed walking in and the last thing I mentioned before leaving. Your home feels like it’s on your side now." },
     ],
-    cta: { label: "Claim My Free Diffuser", sub: "30-day guarantee · cancel anytime" },
+    cta: { label: "Claim FREE Diffuser", sub: "30-day guarantee · cancel anytime" },
   },
 
   faq: {
@@ -273,7 +269,7 @@ const CONFIG = {
     ],
   },
 
-  sticky: { label: "Claim My Free Diffuser" },
+  sticky: { label: "Claim FREE Diffuser" },
 };
 
 /* ================================================================

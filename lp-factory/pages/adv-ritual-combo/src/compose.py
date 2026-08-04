@@ -65,7 +65,7 @@ def scope_css(css, container, keep_globals):
 
 # ---------- advertorial half: the local fork ----------
 adv_app = R(HERE, 'adv-app.js')
-assert '#buybox' in adv_app and 'Claim My Free Diffuser' in adv_app
+assert '#buybox' in adv_app and 'Claim FREE Diffuser' in adv_app
 adv_app = adv_app.replace('MC_ASSETS', 'MC_ASSETS_ADV')
 adv_app = adv_app.replace('document.getElementById("root")', 'document.getElementById("advroot")')
 adv_img = R(ADV, 'images.js').replace('window.MC_ASSETS=', 'window.MC_ASSETS_ADV=')
@@ -96,6 +96,52 @@ lp_app = lp_app.replace(old_title, 'title: { pre: "Choose your scent.", em: "The
 assert lp_app.count('<${StickyBar}/>`;') == 1
 lp_app = lp_app.replace('    <${StickyBar}/>`;', '`;')
 
+# bottle-life claim aligned with the 45-day refill cadence (combo only)
+assert 'value: "30+ DAYS"' in lp_app
+lp_app = lp_app.replace('value: "30+ DAYS"', 'value: "45+ DAYS"')
+
+# simple benefits section (3 diffuser + 3 fragrance) right before the buy box
+benefits_component = '''function ComboBenefits() {
+  const cols = [
+    { title: "The Diffuser", items: [
+      "Waterless: no tank, no mold, zero cleaning",
+      "Fills up to 600 sq ft in under 10 minutes",
+      "One button, three strengths, 1-Year Warranty",
+    ]},
+    { title: "The Fragrances", items: [
+      "100% organic oils, safe around kids and pets",
+      "Each scent composed around an intention",
+      "One 100ml bottle lasts 45+ days",
+    ]},
+  ];
+  return html`
+    <section class="section cbenef">
+      <div class="wrap">
+        <div class="section-head">
+          <${SerifHead} pre="Everything you get," em="at a glance."/>
+        </div>
+        <div class="cbenef-grid">
+          ${cols.map((c) => html`
+            <div class="cbenef-col" key=${c.title}>
+              <h3 class="caps">${c.title}</h3>
+              <ul>${c.items.map((it) => html`<li key=${it}><span class="ck" aria-hidden="true">\\u2713</span>${it}</li>`)}</ul>
+            </div>`)}
+        </div>
+      </div>
+    </section>`;
+}
+
+function App() {'''
+assert lp_app.count('function App() {') == 1
+lp_app = lp_app.replace('function App() {', benefits_component)
+old_bb_entry = '    buybox: () => html`<${BuyBox} key="bb"/>`,'
+assert old_bb_entry in lp_app
+lp_app = lp_app.replace(old_bb_entry,
+    '    comboBenefits: () => html`<${ComboBenefits} key="cbf"/>`,\n' + old_bb_entry)
+assert new_lp_order in lp_app
+lp_app = lp_app.replace(new_lp_order, new_lp_order.replace('"buybox",', '"comboBenefits",\n    "buybox",'))
+assert '"comboBenefits"' in lp_app and 'comboBenefits: () =>' in lp_app
+
 lp_img = R(LP, 'images.js')
 lp_prev = R(LP, 'preview.html')
 gal = ''
@@ -125,6 +171,13 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 combo_css = """
 #advroot .art-p{font-size:18px;line-height:1.65}
 #saleroot .pick:not(.on) .pick-desc,#saleroot .pick:not(.on) .pick-ing{display:none}
+#saleroot .cbenef-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:560px;margin:0 auto}
+@media(min-width:700px){#saleroot .cbenef-grid{grid-template-columns:1fr 1fr;max-width:760px}}
+#saleroot .cbenef-col{background:#FFFFFF;border:1px solid #EFE7DD;border-radius:16px;padding:22px 24px}
+#saleroot .cbenef-col h3{font-size:13px;letter-spacing:.08em;margin-bottom:12px;color:#8A6F5C}
+#saleroot .cbenef-col ul{list-style:none;margin:0;padding:0}
+#saleroot .cbenef-col li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:16.5px;line-height:1.5}
+#saleroot .cbenef-col .ck{color:#2E7D4F;font-weight:700;flex:0 0 auto}
 """
 
 fonts = R(ADV, 'fonts.css')

@@ -3,7 +3,7 @@ goto attempt 2: HTTP 429
 goto attempt 3: HTTP 200
 === AUDIT ===
 {
- "advChildren": 7,
+ "advChildren": 6,
  "saleChildren": 1,
  "h1": "I received the viral Maison Croyez diffuser for free, and it did what $2,500/year in candles never could.",
  "buyboxTitle": "Maison Croyez Manifestation & Attraction Organic Scents — FREE Award Winning Diffuser.",
@@ -32,7 +32,7 @@ goto attempt 3: HTTP 200
  "overflowX": false
 }
 === CSS PROBE ===
-{"href":"v=ss1-2026080419","len":47292,"scoped":true}
+{"href":"v=ss2-2026080420","len":47491,"scoped":true}
 === CTA ANCHOR (expect ~0) === 20
 === CART RITUAL (expect scent 49.95 on plan 2661875821 + diffuser 89.95 -> 0, total 49.95) ===
 {
@@ -88,14 +88,14 @@ goto attempt 3: HTTP 200
  - Failed to load resource: the server responded with a status of 403 ()
 === OUR BUNDLE RESPONSES ===
  - 200 mc-adv-grave.jpg
- - 200 mc-lp-free-diffuser.css
- - 200 mc-adv-ritual.css
- - 200 mc-adv-ritual-app.js
  - 200 mc-adv-split-after.jpg
- - 200 mc-lp-vendor.js
+ - 200 mc-adv-ritual.css
+ - 200 mc-lp-free-diffuser.css
  - 200 mc-lp-diffuser-assets.js
+ - 200 mc-adv-ritual-app.js
  - 200 mc-adv-ritual-assets.js
- - 200 mc-adv-narrator.jpg
- - 200 mc-adv-product.jpg
+ - 200 mc-lp-vendor.js
  - 200 mc-adv-pain-scene.jpg
+ - 200 mc-adv-narrator.jpg
  - 200 mc-adv-first-evening.jpg
+ - 200 mc-adv-product.jpg

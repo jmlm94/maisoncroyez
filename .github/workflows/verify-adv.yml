@@ -1,0 +1,184 @@
+name: verify-adv
+# run: 1 — the-scent-story launch verification (advertorial + buy box, both cart paths + perf)
+on:
+  push:
+    branches: [claude/maison-offer-v2-deploy-dspkwe]
+    paths: ['.github/workflows/verify-adv.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait out bot-protection block if present
+        run: |
+          for i in $(seq 1 10); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36' 'https://maisoncroyez.com/pages/the-scent-story')
+            echo "attempt $i: HTTP $code" | tee -a gate-log.txt
+            if [ "$code" = "200" ]; then break; fi
+            sleep 45
+          done
+      - name: Verify live the-scent-story page (advertorial walkthrough + both cart paths)
+        run: |
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > check.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const errs=[];
+          page.on('console', m=>{ if(m.type()==='error') errs.push(m.text().slice(0,200)); });
+          page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
+          const resp=[];
+          page.on('response', r=>{ const u=r.url(); if(/mc-adv-ritual|mc-lp-free-diffuser|mc-lp-vendor|mc-lp-diffuser-assets|mc-adv-(narrator|grave|split|first|pain|product)/.test(u)) resp.push(r.status()+' '+u.split('/').pop().split('?')[0].slice(0,50)); });
+          let nav=null;
+          for(let a=0;a<4;a++){
+            nav=await page.goto('https://maisoncroyez.com/pages/the-scent-story?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+            console.log('goto attempt '+(a+1)+': HTTP '+(nav?nav.status():'?'));
+            if(nav && nav.status()===200) break;
+            await page.waitForTimeout(30000);
+          }
+          await page.waitForTimeout(9000);
+          await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,60));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
+          const audit = await page.evaluate(()=>{
+            const q=s=>document.querySelectorAll(s).length;
+            const advT=(document.getElementById('advroot')||{innerText:''}).innerText;
+            const saleT=(document.getElementById('root')||{innerText:''}).innerText;
+            const t=advT+saleT;
+            const imgs=[...document.querySelectorAll('#advroot img, #root img')];
+            const grid=document.querySelector('#root .cbenef-grid');
+            const faq=document.querySelector('#root .acc.faq');
+            return {
+              advChildren:(document.getElementById('advroot')||{children:[]}).children.length,
+              saleChildren:(document.getElementById('root')||{children:[]}).children.length,
+              h1:(document.querySelector('#advroot h1')||{}).innerText||'MISSING',
+              buyboxTitle:(document.querySelector('#root h1')||{}).innerText||'MISSING',
+              advCtas:q('#advroot a[href="#buybox"]'),
+              ctaLabel:(document.querySelector('#advroot .art-cta .btn')||{}).innerText.replace(/\s+/g,' ')||'MISSING',
+              friendsWall:advT.includes('7 of my friends'),
+              disbelief:advT.toLowerCase().includes('for free?'),
+              boughtIt:advT.includes('So I Bought It'),
+              saleSections:[...document.querySelectorAll('#root [id^=sec-]')].map(d=>d.id),
+              benefitsBeforeFaq:!!grid&&!!faq&&(grid.compareDocumentPosition(faq)&4)>0,
+              benefitItems:q('#root .cbenef-col li'),
+              planCards:q('#root .plan'), fragPicks:q('#root .pick'), buyboxFaqs:q('#root .acc.faq .qa'),
+              stickyBars:q('.sticky'),
+              sweep:{ ninety:(t.match(/90[- ]day/gi)||[]).length, lifetime:(t.match(/lifetime/gi)||[]).length,
+                      oneYear:(t.match(/1-Year/gi)||[]).length, days45:(t.match(/45\+? day/gi)||[]).length,
+                      lessThan100:(t.match(/Less than 100/gi)||[]).length },
+              brokenImgs:imgs.filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.currentSrc.split('/').pop().slice(0,40)),
+              overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
+            };
+          });
+          console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
+          const cssProbe = await page.evaluate(async()=>{
+            const l=[...document.querySelectorAll('link[rel=stylesheet]')].find(x=>/mc-adv-ritual\.css/.test(x.href));
+            if(!l) return {found:false};
+            const t=await (await fetch(l.href)).text();
+            return {href:l.href.split('?')[1], len:t.length, scoped:t.includes('#advroot .art-p')&&t.includes('#root .cbenef-grid')};
+          });
+          console.log('=== CSS PROBE ==='); console.log(JSON.stringify(cssProbe));
+          // CTA anchor: click first advertorial CTA, expect buybox at top
+          await page.evaluate(()=>window.scrollTo(0,0));
+          await page.click('#advroot a[href="#buybox"]');
+          await page.waitForTimeout(1800);
+          const anchor = await page.evaluate(()=>Math.round(document.getElementById('buybox').getBoundingClientRect().top));
+          console.log('=== CTA ANCHOR (expect ~0) === '+anchor);
+          // RITUAL: Golden Blossom preselected, ATC, inspect cart
+          await page.evaluate(()=>document.querySelector('#root .buybox .atc, #root .atc').scrollIntoView({block:'center'}));
+          await page.waitForTimeout(300);
+          await page.click('#root .buybox .atc, #root .atc');
+          await page.waitForTimeout(5000);
+          await page.screenshot({ path:'ss-drawer.png' });
+          const cartRitual = await page.evaluate(async()=>{
+            const j=await (await fetch('/cart.js')).json();
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), q:i.quantity, price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title.slice(0,30)+' -'+d.amount/100)}))};
+          });
+          console.log('=== CART RITUAL (expect scent 49.95 on plan 2661875821 + diffuser 89.95 -> 0, total 49.95) ===');
+          console.log(JSON.stringify(cartRitual,null,1));
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          await page.waitForTimeout(1000);
+          // ONE-TIME path
+          await page.evaluate(()=>document.querySelectorAll('#root .plan')[1].click());
+          await page.waitForTimeout(500);
+          await page.evaluate(()=>document.querySelector('#root .buybox .atc, #root .atc').click());
+          await page.waitForTimeout(5000);
+          const cartOne = await page.evaluate(async()=>{
+            const j=await (await fetch('/cart.js')).json();
+            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,42), q:i.quantity, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, discounts:(i.discounts||[]).map(d=>d.title.slice(0,30)+' -'+d.amount/100)}))};
+          });
+          console.log('=== CART ONE-TIME (expect scent 49.95 + diffuser 89.95, NO plan, NO discount, total 139.90) ===');
+          console.log(JSON.stringify(cartOne,null,1));
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          console.log('=== CONSOLE ERRORS ('+errs.length+') ==='); errs.slice(0,15).forEach(e=>console.log(' - '+e));
+          console.log('=== OUR BUNDLE RESPONSES ==='); [...new Set(resp)].forEach(e=>console.log(' - '+e));
+          await page.evaluate(()=>window.scrollTo(0,0));
+          await page.waitForTimeout(800);
+          await page.screenshot({ path:'ss-live-full.png', fullPage:true });
+          await b.close();
+          EOS
+          node check.mjs 2>&1 | tee verify-log.txt
+      - name: Performance audit (throttled mobile lab x3)
+        if: always()
+        run: |
+          cat > perf.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const URL='https://maisoncroyez.com/pages/the-scent-story';
+          const runs=[];
+          for(let i=0;i<3;i++){
+            const b=await chromium.launch();
+            const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,userAgent:'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36'});
+            const page=await ctx.newPage();
+            const cdp=await ctx.newCDPSession(page);
+            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            await page.addInitScript(()=>{
+              window.__m={lcp:0,lcpEl:'',cls:0,fcp:0,lt:[]};
+              const sel=n=>{ if(!n||!n.tagName) return '?'; let s=n.tagName.toLowerCase(); if(n.id) s+='#'+n.id; if(n.className&&typeof n.className==='string') s+='.'+n.className.trim().split(/\s+/).slice(0,2).join('.'); return s; };
+              new PerformanceObserver(l=>{for(const e of l.getEntries()){ window.__m.lcp=e.startTime; window.__m.lcpEl=sel(e.element)+(e.url?' url='+e.url.split('/').pop().slice(0,50):''); }}).observe({type:'largest-contentful-paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__m.cls+=e.value;}).observe({type:'layout-shift',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(e.name==='first-contentful-paint') window.__m.fcp=e.startTime;}).observe({type:'paint',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
+            });
+            const t0=Date.now();
+            let nv=null;
+            for(let a=0;a<5;a++){
+              nv=await page.goto(URL+'?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+              console.log('perf run '+(i+1)+' goto attempt '+(a+1)+': HTTP '+(nv?nv.status():'?'));
+              if(nv && nv.status()===200) break;
+              await page.waitForTimeout(45000);
+            }
+            await page.waitForTimeout(12000);
+            const m=await page.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const res=performance.getEntriesByType('resource');
+              const ours=res.filter(r=>/mc-adv|mc-lp/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
+              const tbt=window.__m.lt.reduce((s,t)=>s+Math.max(0,t.d-50),0);
+              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),tbtMs:Math.round(tbt),loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),ourBundles:ours};
+            });
+            m.wallMs=Date.now()-t0; runs.push(m); await b.close();
+            if(i<2) await new Promise(r=>setTimeout(r,40000));
+          }
+          const med=k=>{const v=runs.map(r=>r[k]).sort((a,b)=>a-b);return v[1];};
+          console.log('=== PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===');
+          runs.forEach((r,i)=>console.log('run'+(i+1)+': TTFB='+r.ttfbMs+'ms FCP='+r.fcpMs+'ms LCP='+r.lcpMs+'ms CLS='+r.cls+' TBT='+r.tbtMs+'ms load='+r.loadMs+'ms reqs='+r.reqCount+' transfer='+r.totalTransferKB+'KB'));
+          console.log('=== MEDIAN ===');
+          console.log(JSON.stringify({ttfbMs:med('ttfbMs'),fcpMs:med('fcpMs'),lcpMs:med('lcpMs'),cls:med('cls'),tbtMs:med('tbtMs'),loadMs:med('loadMs'),totalTransferKB:med('totalTransferKB')}));
+          console.log('=== LCP ELEMENT (per run) ==='); runs.forEach((r,i)=>console.log('run'+(i+1)+': '+r.lcpEl));
+          console.log('=== OUR BUNDLES (run1) ==='); console.log(JSON.stringify(runs[0].ourBundles,null,1));
+          EOS
+          node perf.mjs 2>&1 | tee perf-log.txt
+      - name: Commit results
+        if: always()
+        run: |
+          mkdir -p lp-factory/pages/adv-ritual-combo/verify
+          mv ss-live-full.png ss-drawer.png verify-log.txt perf-log.txt lp-factory/pages/adv-ritual-combo/verify/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/adv-ritual-combo/verify
+          git commit -m "the-scent-story verify run 1: launch walkthrough" || true
+          git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
+          git push

@@ -102,7 +102,7 @@ const CONFIG = {
     { t: "p", s: "**At my worst I finally counted it up: over $250 a month. More than $2,500 total. And my home still felt like nobody lived there.**" },
     { t: "p", s: "And I know I’m not the only one." },
     { t: "img", slot: "painScene", alt: "Evenings that felt flat no matter what was burning" },
-    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "Less than 100 free diffusers available 🚨" },
 
     { t: "h2", pre: "The Fragrance Graveyard in", em: "My Hallway Closet." },
     { t: "p", s: "Here’s what I tried, in order of disappointment:" },
@@ -128,7 +128,7 @@ const CONFIG = {
     { t: "p", s: "She walked me to her console table and pointed at a small linen-wrapped cylinder I’d honestly assumed was a speaker." },
     { t: "p", s: "It was a **Maison Croyez** diffuser, and the fragrance inside was one she’d chosen off a map of seven intentions, for one specific reason: *love.*" },
     { t: "img", slot: "product", alt: "The Maison Croyez waterless diffuser" },
-    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "Less than 100 free diffusers available 🚨" },
 
     { t: "h2", pre: "She Told Me She Got the Diffuser", em: "for FREE?" },
     { t: "p", s: "I made her repeat it. Twice. Elena never bought the diffuser at all. **She buys the scent, and the award-winning diffuser came free with it.**" },
@@ -136,13 +136,13 @@ const CONFIG = {
     { t: "p", s: "A new bottle arrives every 45 days, right before the last one runs out, so her home never has an off week. No minimum, cancel whenever. And a 30-day guarantee: full refund, they even send the return label." },
     { t: "p", s: "I remember thinking: *we’ll see.*" },
 
-    { t: "h2", pre: "So I Bought It: $49.95, the Diffuser Free, My 45+ Day Fragrance.", em: "This Is What Happened.", cls: "center gradfull" },
+    { t: "h2", pre: "So I Bought It: $49.95, the Diffuser Free, My 45+ Day Fragrance.", em: "This Is What Happened.", cls: "center allblack" },
     { t: "p", s: "I chose the scent Elena runs in her gathering room: **Golden Blossom Harmony, the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
     { t: "img", slot: "firstEvening", alt: "The living room, the first evening" },
     { t: "p", s: "It arrived on a Thursday. I set it on the console by my entryway (no water, no setup) and pressed the button once to G2 while I started dinner." },
     { t: "p", s: "Ten minutes later I walked back through the living room and stopped. Not because it smelled strong. Because it smelled *finished*. Everywhere, evenly, like the whole apartment had been dipped in golden hour. Honeysuckle, but quiet. Warm, but nothing burning." },
     { t: "p", s: "That night I sat on my couch and didn’t light a thing. The apartment already felt like someone lovely lived there. It took me an embarrassing hour to accept that person was me." },
-    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "Less than 100 free diffusers available 🚨" },
 
     { t: "h2", pre: "Two Months In, Here’s What", em: "Actually Changed." },
     { t: "p", s: "I’m not a perfumer. I can only tell you how it feels to live with it:" },
@@ -213,7 +213,7 @@ const CONFIG = {
     { t: "p", s: "If you’ve started wondering whether that walk-into-a-boutique-hotel feeling is just for other people’s houses…" },
     { t: "p", s: "**Try this instead.**" },
     { t: "p", s: "Below is everything I learned about how it works. And at the very bottom, the exact offer I got: **you choose the scent, and the award-winning diffuser comes free with it.**" },
-    { t: "cta", label: "Claim FREE Diffuser", sub: "30-day guarantee" },
+    { t: "cta", label: "Claim FREE Diffuser", sub: "Less than 100 free diffusers available 🚨" },
   ],
 
   offer: {
@@ -250,7 +250,7 @@ const CONFIG = {
       { name: "Ayesha K.", text: "Your entryway at dusk is a different planet. My sister and I talked about your house the entire ride back. WHO lives like this?" },
       { name: "Jordan P.", text: "It was the first thing I noticed walking in and the last thing I mentioned before leaving. Your home feels like it’s on your side now." },
     ],
-    cta: { label: "Claim FREE Diffuser", sub: "30-day guarantee · cancel anytime" },
+    cta: { label: "Claim FREE Diffuser", sub: "Less than 100 free diffusers available 🚨" },
   },
 
   faq: {
@@ -586,17 +586,14 @@ function Faq() {
 }
 
 function StickyBar() {
-  /* combo behavior: stay hidden through the first half of the article so the
-     opening reads as pure editorial; hide again once the buy box is on screen */
+  /* combo behavior: appear as soon as the reader scrolls past the first
+     screen; hide once the buy box itself is on screen */
   const [show, setShow] = useState(false);
   useEffect(() => {
     const onScroll = () => {
-      const adv = document.getElementById("advroot");
-      if (!adv) return;
-      const pastHalf = window.scrollY > adv.offsetHeight * 0.55;
       const bb = document.getElementById("buybox");
       const bbVisible = bb && bb.getBoundingClientRect().top < window.innerHeight;
-      setShow(pastHalf && !bbVisible);
+      setShow(window.scrollY > 400 && !bbVisible);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();

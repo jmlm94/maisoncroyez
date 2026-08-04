@@ -170,6 +170,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 # unselected scent card details so the tall buy box scans faster on mobile
 combo_css = """
 #advroot .art-p{font-size:18px;line-height:1.65}
+#advroot .art-cta .btn{font-size:1.03rem;padding:20px 31px}
+#advroot .art-cta .btn .btn-sub{font-size:.74rem}
+#advroot .art-h2.allblack,#advroot .art-h2.allblack em{color:#241C18;background:none;-webkit-background-clip:initial;-webkit-text-fill-color:initial;background-clip:initial}
 #saleroot .pick:not(.on) .pick-desc,#saleroot .pick:not(.on) .pick-ing{display:none}
 #saleroot .cbenef-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:560px;margin:0 auto}
 @media(min-width:700px){#saleroot .cbenef-grid{grid-template-columns:1fr 1fr;max-width:760px}}

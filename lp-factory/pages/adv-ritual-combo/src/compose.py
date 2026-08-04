@@ -151,8 +151,6 @@ combo_css = """
 #saleroot .cbenef-col li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:16.5px;line-height:1.5}
 #saleroot .cbenef-col .ck{color:#2E7D4F;font-weight:700;flex:0 0 auto}
 #saleroot .gal{max-width:82%;margin:0 auto}
-#saleroot .gal .gal-slide,#saleroot .gal .gal-slide img{border-radius:18px;overflow:hidden}
-#saleroot .gal .gal-track{border-radius:18px}
 """
 
 fonts = R(ADV, 'fonts.css')

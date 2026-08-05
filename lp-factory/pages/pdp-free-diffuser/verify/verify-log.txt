@@ -1,5 +1,5 @@
 goto attempt 1: HTTP 200
-=== PAGE CACHE KEY (expect fd24-) === fd24-
+=== PAGE CACHE KEY (expect fd25-) === fd25-
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -15,7 +15,17 @@ goto attempt 1: HTTP 200
   "name": "— Diane R.",
   "quoteStart": "“I was nervous about the subscription and buying a"
  },
- "value": "Full value$139.90",
+ "value": "MISSING",
+ "headerPx": "14.4px",
+ "shipbarMb": "10px",
+ "totalRow": [
+  "Today's total: @16.2px",
+  "$49.95 USD @16.2px"
+ ],
+ "button": {
+  "text": "Secure Checkout ➔",
+  "bg": "rgb(17, 17, 17)"
+ },
  "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
  "trustBadges": [
   "🛡️30-DayGuarantee",
@@ -31,11 +41,11 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "hidden"
  },
  "oneView": {
-  "innerScrollH": 443,
-  "innerClientH": 443,
+  "innerScrollH": 449,
+  "innerClientH": 449,
   "scrollers": []
  },
- "ctaText": "LOCK FREE DIFFUSER NOW ➔"
+ "ctaText": "Secure Checkout ➔"
 }
 === ONE-TIME CART (expect 139.90) === {"total":139.9,"n":2}
 === ONE-TIME DRAWER ===
@@ -53,6 +63,16 @@ goto attempt 1: HTTP 200
   "quoteStart": "MISSING"
  },
  "value": "MISSING",
+ "headerPx": "14.4px",
+ "shipbarMb": "10px",
+ "totalRow": [
+  "Today's total: @16.2px",
+  "$139.90 USD @16.2px"
+ ],
+ "button": {
+  "text": "Secure Checkout ➔",
+  "bg": "rgb(17, 17, 17)"
+ },
  "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
  "trustBadges": [
   "🛡️30-DayGuarantee",
@@ -68,18 +88,23 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "absent"
  },
  "oneView": {
-  "innerScrollH": 241,
-  "innerClientH": 241,
+  "innerScrollH": 251,
+  "innerClientH": 251,
   "scrollers": []
  },
- "ctaText": "LOCK FREE DIFFUSER NOW ➔"
+ "ctaText": "Secure Checkout ➔"
 }
 === VERDICT ===
 PASS circleHeader
 PASS shipbar
-FAIL diffuserFree
+PASS diffuserFree
 PASS testi
-PASS value13990
+PASS noFullValue
+PASS header90
+PASS shipbarPad
+PASS todaysTotal
+PASS secureCta
+PASS blackCta
 PASS urg19
 PASS trust3
 PASS noPaysafe

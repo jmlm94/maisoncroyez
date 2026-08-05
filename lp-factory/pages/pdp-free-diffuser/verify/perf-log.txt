@@ -2,54 +2,54 @@ perf run 1 goto attempt 1: HTTP 200
 perf run 2 goto attempt 1: HTTP 200
 perf run 3 goto attempt 1: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=48ms FCP=468ms LCP=5776ms CLS=0.0395 TBT=899ms load=9423ms reqs=152 transfer=2392KB
-run2: TTFB=37ms FCP=444ms LCP=5788ms CLS=0.0395 TBT=883ms load=9256ms reqs=153 transfer=2393KB
-run3: TTFB=42ms FCP=452ms LCP=5620ms CLS=0.0395 TBT=878ms load=9423ms reqs=156 transfer=2395KB
+run1: TTFB=40ms FCP=468ms LCP=5640ms CLS=0.0395 TBT=938ms load=9423ms reqs=154 transfer=2393KB
+run2: TTFB=40ms FCP=456ms LCP=5824ms CLS=0.0395 TBT=947ms load=9412ms reqs=152 transfer=2392KB
+run3: TTFB=45ms FCP=468ms LCP=5804ms CLS=0.0395 TBT=923ms load=9298ms reqs=152 transfer=2393KB
 === MEDIAN ===
-{"ttfbMs":42,"fcpMs":452,"lcpMs":5776,"cls":0.0395,"tbtMs":883,"loadMs":9423,"totalTransferKB":2393}
+{"ttfbMs":40,"fcpMs":468,"lcpMs":5804,"cls":0.0395,"tbtMs":938,"loadMs":9412,"totalTransferKB":2393}
 === LCP ELEMENT (per run) ===
 run1: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run2: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 run3: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
 === NEW HERO IMG (run1) ===
-[{"transferKB":84,"ms":5456}]
+[{"transferKB":84,"ms":5268}]
 === OUR BUNDLES (run1) ===
 [
  {
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
   "decodedKB": 84,
-  "ms": 5456
+  "ms": 5268
  },
  {
   "f": "mc-lp-free-diffuser.css",
   "transferKB": 12,
   "decodedKB": 67,
-  "ms": 1843
+  "ms": 1861
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
   "decodedKB": 140,
-  "ms": 3658
+  "ms": 3682
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
   "decodedKB": 2,
-  "ms": 303
+  "ms": 294
  },
  {
   "f": "mc-lp-free-diffuser-app.js",
   "transferKB": 13,
   "decodedKB": 38,
-  "ms": 1991
+  "ms": 1994
  },
  {
   "f": "mc-lp-d-gif1.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 750
+  "ms": 780
  },
  {
   "f": "mc-lp-d-gif2.mp4",
@@ -61,24 +61,24 @@ run3: img.simg url=mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
   "f": "mc-lp-d-gif3.mp4",
   "transferKB": 0,
   "decodedKB": 0,
-  "ms": 780
- },
- {
-  "f": "mc-lp-d-gif1.webm",
-  "transferKB": 76,
-  "decodedKB": 75,
-  "ms": 1613
+  "ms": 783
  },
  {
   "f": "mc-lp-d-gif2.webm",
   "transferKB": 129,
   "decodedKB": 129,
-  "ms": 2335
+  "ms": 2347
+ },
+ {
+  "f": "mc-lp-d-gif1.webm",
+  "transferKB": 76,
+  "decodedKB": 75,
+  "ms": 1653
  },
  {
   "f": "mc-lp-d-gif3.webm",
   "transferKB": 112,
   "decodedKB": 112,
-  "ms": 2158
+  "ms": 2179
  }
 ]

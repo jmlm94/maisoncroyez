@@ -1268,3 +1268,8 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 
 /* round 19: offer bullets 10% smaller, bold via Rich */
 .offer-bullets li{font-size:.95rem}
+
+/* round 20: buybox bullets polish — padding above, emoji baseline, italic impact words */
+.price-row{margin-bottom:16px}
+.offer-bullets .emoji{line-height:1.5;margin-top:1px}
+.offer-bullets li strong{font-style:italic}

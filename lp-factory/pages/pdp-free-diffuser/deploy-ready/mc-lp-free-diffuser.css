@@ -455,3 +455,8 @@ html,body{overflow-x:clip !important}
 
 /* round 19: offer bullets 10% smaller, bold via Rich */
 #root .offer-bullets li{font-size:.95rem}
+
+/* round 20: buybox bullets polish — padding above, emoji baseline, italic impact words */
+#root .price-row{margin-bottom:16px}
+#root .offer-bullets .emoji{line-height:1.5;margin-top:1px}
+#root .offer-bullets li strong{font-style:italic}

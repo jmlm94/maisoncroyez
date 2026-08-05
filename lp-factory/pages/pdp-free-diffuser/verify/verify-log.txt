@@ -1,10 +1,10 @@
 goto attempt 1: HTTP 200
-=== PAGE CACHE KEY (expect fd25-) === fd25-
+=== PAGE CACHE KEY (expect fd26-) === fd26-
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
  "found": true,
- "header": "Congrats — your free diffuser is reserved ✓",
+ "header": "Congrats! Your free diffuser is reserved ✓",
  "shipbar": "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝",
  "diffuserPrice": [
   "Maison Croyez — Home Scent Dif -> FREE",
@@ -17,14 +17,20 @@ goto attempt 1: HTTP 200
  },
  "value": "MISSING",
  "headerPx": "14.4px",
- "shipbarMb": "10px",
+ "shipbarBox": {
+  "pt": "11px",
+  "pb": "11px",
+  "mt": "6px",
+  "mb": "14px"
+ },
  "totalRow": [
   "Today's total: @16.2px",
   "$49.95 USD @16.2px"
  ],
  "button": {
   "text": "Secure Checkout ➔",
-  "bg": "rgb(17, 17, 17)"
+  "bg": "rgb(17, 17, 17)",
+  "tt": "uppercase"
  },
  "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
  "trustBadges": [
@@ -41,8 +47,8 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "hidden"
  },
  "oneView": {
-  "innerScrollH": 449,
-  "innerClientH": 449,
+  "innerScrollH": 469,
+  "innerClientH": 469,
   "scrollers": []
  },
  "ctaText": "Secure Checkout ➔"
@@ -64,14 +70,20 @@ goto attempt 1: HTTP 200
  },
  "value": "MISSING",
  "headerPx": "14.4px",
- "shipbarMb": "10px",
+ "shipbarBox": {
+  "pt": "11px",
+  "pb": "11px",
+  "mt": "6px",
+  "mb": "14px"
+ },
  "totalRow": [
   "Today's total: @16.2px",
   "$139.90 USD @16.2px"
  ],
  "button": {
   "text": "Secure Checkout ➔",
-  "bg": "rgb(17, 17, 17)"
+  "bg": "rgb(17, 17, 17)",
+  "tt": "uppercase"
  },
  "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
  "trustBadges": [
@@ -88,8 +100,8 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "absent"
  },
  "oneView": {
-  "innerScrollH": 251,
-  "innerClientH": 251,
+  "innerScrollH": 271,
+  "innerClientH": 271,
   "scrollers": []
  },
  "ctaText": "Secure Checkout ➔"
@@ -105,6 +117,7 @@ PASS shipbarPad
 PASS todaysTotal
 PASS secureCta
 PASS blackCta
+PASS capsCta
 PASS urg19
 PASS trust3
 PASS noPaysafe
@@ -114,7 +127,8 @@ PASS onetimeHeader
 PASS onetimeNoTesti
 PASS cartCircle
 PASS cartOnetime
-=== CONSOLE ERRORS (2) ===
+=== CONSOLE ERRORS (3) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
+ - Failed to load resource: the server responded with a status of 503 ()

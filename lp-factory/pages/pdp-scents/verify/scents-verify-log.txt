@@ -1,0 +1,47 @@
+goto 1: 200
+mc-scents-root present: true
+=== AUDIT ===
+{
+ "found": true,
+ "h1": "Maison Croyez Manifestation & Attraction Organic Scents (100ml).",
+ "picks": 7,
+ "usps": 3,
+ "subPlanVisible": false,
+ "price": "$49.95",
+ "atcLabel": "ADD TO CART · $49.95 ➔",
+ "chapters": 7,
+ "flatImgs": 7,
+ "sections": {
+  "oils": true,
+  "sig": true,
+  "revs": 2,
+  "faq": 4,
+  "ctabreak": true
+ },
+ "rootVisible": true,
+ "noOldGrid": true,
+ "noStaleAnnouncement": true,
+ "overflowX": false
+}
+=== IMG AFTER MIDNIGHT PICK === mc-lp-d-frag7.jpg?v=1783552958&width=900
+=== CART (expect 49.95 one-time Midnight, no plan) === {"total":49.95,"n":1,"plan":false,"title":"Midnight Sensation – Love Manifestation"}
+=== DRAWER === {"found":true,"open":true,"standard":true}
+=== VERDICT ===
+PASS fresh
+PASS rootVisible
+PASS title
+PASS sevenPicks
+PASS usps3
+PASS subHiddenUntilPlan
+PASS oneTimePrice
+PASS sevenChapters
+PASS flatLays
+PASS allSections
+PASS imgSwap
+PASS noOldGrid
+PASS noStaleAnnouncement
+PASS noOverflow
+PASS cartOneTime
+PASS drawerOpened
+PASS drawerStandard
+=== PAGE ERRORS (0) ===

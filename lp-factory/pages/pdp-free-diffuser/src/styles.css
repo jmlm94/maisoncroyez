@@ -1273,3 +1273,6 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 .price-row{margin-bottom:16px}
 .offer-bullets .emoji{line-height:1.5;margin-top:1px}
 .offer-bullets li strong{font-style:italic}
+
+/* round 21: tighten spacing above and below the price row */
+.price-row{margin:-4px 0 -2px}

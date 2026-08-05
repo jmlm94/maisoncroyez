@@ -460,3 +460,6 @@ html,body{overflow-x:clip !important}
 #root .price-row{margin-bottom:16px}
 #root .offer-bullets .emoji{line-height:1.5;margin-top:1px}
 #root .offer-bullets li strong{font-style:italic}
+
+/* round 21: tighten spacing above and below the price row */
+#root .price-row{margin:-4px 0 -2px}

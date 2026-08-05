@@ -1557,10 +1557,9 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 
 /* ================================================================
-   round 24 — cart drawer takeover (live store only; no-op in preview).
-   r24 tweaks: header -10% + count bubble aligned, shipbar bottom
-   margin, full-value line removed, total row renamed "Today's total:"
-   at -10%, CTA black "Secure Checkout ➔".
+   round 25 — cart drawer takeover (live store only; no-op in preview).
+   r25 tweaks: header "Congrats!" (bang, not dash), shipbar more
+   vertical breathing room, CTA uppercased SECURE CHECKOUT.
    Replaces the old drawer look per the approved mock: hides theme
    clutter (gift bar, qty steppers, remove links, discount tag pills,
    Subi plan line), compacts spacing so the whole drawer fits one
@@ -1592,7 +1591,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     "#cart-drawer .line-item__info a.bold{font-size:.85rem;line-height:1.3}" +
     "#cart-drawer .line-item__info{font-size:.85rem}" +
     /* --- injected pieces --- */
-    "#cart-drawer .mc-shipbar{background:#E4F0E4;color:#1C5E1C;font-size:.72rem;font-weight:700;text-align:center;padding:6px 12px;letter-spacing:.04em;margin-bottom:10px}" +
+    "#cart-drawer .mc-shipbar{background:#E4F0E4;color:#1C5E1C;font-size:.72rem;font-weight:700;text-align:center;padding:11px 12px;letter-spacing:.04em;margin:6px 0 14px}" +
     "#cart-drawer .mc-free{color:#0A9400;font-weight:700}" +
     "#cart-drawer .mc-testi{margin:10px 0 2px;background:#fff;border:1px solid #EFE7DD;border-radius:12px;padding:9px 12px}" +
     "#cart-drawer .mc-tstars{color:#E8B23A;font-size:.72rem;letter-spacing:2px}" +
@@ -1600,7 +1599,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     "#cart-drawer .mc-tq{font-size:.72rem;font-style:italic;margin-top:5px;line-height:1.45}" +
     "#cart-drawer .mc-tname{font-size:.66rem;color:#6E5B4F;margin-top:4px;font-weight:700}" +
     "#cart-drawer .mc-urgline{font-size:.72rem !important;line-height:1.4 !important}" +
-    "#cart-drawer form.buy-buttons button,#cart-drawer form.buy-buttons .btn{background:#111 !important;border-color:#111 !important;color:#fff !important;text-transform:none}" +
+    "#cart-drawer form.buy-buttons button,#cart-drawer form.buy-buttons .btn{background:#111 !important;border-color:#111 !important;color:#fff !important;text-transform:uppercase}" +
     "#cart-drawer .mc-trust{display:flex;justify-content:space-around;margin-top:8px;padding-top:7px;border-top:1px solid #EFE7DD}" +
     "#cart-drawer .mc-trust>div{text-align:center;font-size:.56rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8A6F5C;line-height:1.45}" +
     "#cart-drawer .mc-trust>div>span{display:block;font-size:.95rem;margin-bottom:1px}";
@@ -1628,7 +1627,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     if (!top) return;
 
     var h = top.querySelector("p.h5");
-    var want = isCircle ? "Congrats — your free diffuser is reserved ✓" : "Your Maison Croyez Set";
+    var want = isCircle ? "Congrats! Your free diffuser is reserved ✓" : "Your Maison Croyez Set";
     if (h && h.textContent !== want) h.textContent = want;
 
     if (!drawer.querySelector(".mc-shipbar")) {

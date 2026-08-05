@@ -8,7 +8,7 @@ mc-kits-root present: true
   "condo": false,
   "house": false
  },
- "badges": false,
+ "badges": true,
  "noScentPicker": true,
  "scentMentionsOnlySeparate": false,
  "videos": 3,
@@ -19,33 +19,39 @@ mc-kits-root present: true
   "ctabreak": true
  },
  "themeHidden": false,
- "atcLabel": "Add to My Home · $89.95 ➔",
+ "rootVisible": true,
+ "atcLabel": "ADD TO MY HOME · $89.95 ➔",
  "overflowX": false
 }
-node:internal/modules/run_main:123
-    triggerUncaughtException(
-    ^
-
-page.click: Timeout 30000ms exceeded.
-Call log:
-  - waiting for locator('#kx-atc')
-    - locator resolved to <button class="btn" id="kx-atc">…</button>
-  - attempting click action
-    2 × waiting for element to be visible, enabled and stable
-      - element is not visible
-    - retrying click action
-    - waiting 20ms
-    2 × waiting for element to be visible, enabled and stable
-      - element is not visible
-    - retrying click action
-      - waiting 100ms
-    58 × waiting for element to be visible, enabled and stable
-       - element is not visible
-     - retrying click action
-       - waiting 500ms
-
-    at /home/runner/work/maisoncroyez/maisoncroyez/check.mjs:49:12 {
-  name: 'TimeoutError'
+=== STUDIO CART (expect 89.95, no plan) === {"total":89.95,"n":1,"plan":false,"title":"Studio Kit (1 Diffuser)"}
+=== DRAWER AFTER KIT ADD (expect STANDARD theme drawer) ===
+{
+ "found": true,
+ "open": true,
+ "standard": {
+  "noShipbar": true,
+  "noTesti": true,
+  "noTrust": true,
+  "noUrgline": true,
+  "giftBarVisible": true,
+  "qtyVisible": true
+ },
+ "header": "Congrats, you're almost there!"
 }
-
-Node.js v22.23.1
+=== HOUSE CART (expect 289.95, no plan) === {"total":289.95,"n":1,"plan":false,"title":"House Kit (5 Diffusers)"}
+=== VERDICT ===
+PASS freshLoader
+PASS rootVisible
+PASS title
+PASS threePlans
+FAIL savingsShown
+PASS noScentPicker
+PASS videos3
+PASS allSections
+FAIL themeHidden
+PASS noOverflow
+PASS cartStudio
+PASS cartHouse
+PASS drawerOpened
+PASS drawerStandard
+=== PAGE ERRORS (0) ===

@@ -1,5 +1,5 @@
 name: verify-scents
-# run: 2 — templateSuffix -> collection-landing-page (default collection.json was the same Instant section; banner renders description)
+# run: 3 — pf2: gallery uses the product's own variant images (14-20.png)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -98,7 +98,7 @@ jobs:
             sevenChapters:audit.chapters===7,
             flatLays:audit.flatImgs===7,
             allSections:audit.sections.oils&&audit.sections.sig&&audit.sections.revs===2&&audit.sections.faq===4&&audit.sections.ctabreak,
-            imgSwap:/mc-lp-d-frag7/.test(imgMid),
+            imgSwap:/19\.png/.test(imgMid),
             noOldGrid:audit.noOldGrid,
             noStaleAnnouncement:audit.noStaleAnnouncement,
             noOverflow:!audit.overflowX,
@@ -120,6 +120,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-scents/verify
-          git commit -m "verify-scents run 2: collection-landing-page template" || true
+          git commit -m "verify-scents run 3: variant product images on pf2" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

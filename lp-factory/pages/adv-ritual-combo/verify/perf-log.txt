@@ -2,11 +2,11 @@ perf run 1 goto attempt 1: HTTP 200
 perf run 2 goto attempt 1: HTTP 200
 perf run 3 goto attempt 1: HTTP 200
 === PERF RUNS (Slow4G 150ms RTT / 1.6Mbps / 4x CPU, Pixel-class) ===
-run1: TTFB=44ms FCP=580ms LCP=4704ms CLS=0.3294 TBT=1082ms load=11065ms reqs=170 transfer=2541KB
-run2: TTFB=42ms FCP=444ms LCP=4808ms CLS=0.3294 TBT=926ms load=10962ms reqs=170 transfer=2541KB
-run3: TTFB=49ms FCP=448ms LCP=4572ms CLS=0.3294 TBT=975ms load=10926ms reqs=172 transfer=2543KB
+run1: TTFB=44ms FCP=464ms LCP=4636ms CLS=0.3294 TBT=926ms load=10936ms reqs=170 transfer=2541KB
+run2: TTFB=35ms FCP=444ms LCP=4524ms CLS=0.3294 TBT=1016ms load=10947ms reqs=171 transfer=2541KB
+run3: TTFB=38ms FCP=444ms LCP=4608ms CLS=0.3294 TBT=971ms load=11077ms reqs=170 transfer=2541KB
 === MEDIAN ===
-{"ttfbMs":44,"fcpMs":448,"lcpMs":4704,"cls":0.3294,"tbtMs":975,"loadMs":10962,"totalTransferKB":2541}
+{"ttfbMs":38,"fcpMs":444,"lcpMs":4608,"cls":0.3294,"tbtMs":971,"loadMs":10947,"totalTransferKB":2541}
 === LCP ELEMENT (per run) ===
 run1: h1
 run2: h1
@@ -16,86 +16,86 @@ run3: h1
  {
   "f": "mc-lp-f-unna-700.woff2",
   "transferKB": 18,
-  "ms": 2539
+  "ms": 2437
  },
  {
   "f": "mc-lp-f-unna-700i.woff2",
   "transferKB": 20,
-  "ms": 2676
+  "ms": 2564
  },
  {
   "f": "mc-lp-f-bvp-400.woff2",
   "transferKB": 16,
-  "ms": 2367
+  "ms": 2320
  },
  {
   "f": "mc-lp-f-outfit-700.woff2",
   "transferKB": 11,
-  "ms": 1860
- },
- {
-  "f": "mc-adv-split-after.jpg",
-  "transferKB": 54,
-  "ms": 4419
+  "ms": 1783
  },
  {
   "f": "mc-adv-grave.jpg",
   "transferKB": 78,
-  "ms": 6121
+  "ms": 6237
+ },
+ {
+  "f": "mc-adv-split-after.jpg",
+  "transferKB": 54,
+  "ms": 4800
  },
  {
   "f": "mc-lp-free-diffuser.css",
   "transferKB": 12,
-  "ms": 2006
+  "ms": 1944
  },
  {
   "f": "mc-adv-ritual.css",
   "transferKB": 9,
-  "ms": 1540
+  "ms": 1501
  },
  {
   "f": "mc-lp-vendor.js",
   "transferKB": 43,
-  "ms": 3943
+  "ms": 4009
  },
  {
   "f": "mc-lp-diffuser-assets.js",
   "transferKB": 1,
-  "ms": 345
+  "ms": 362
  },
  {
   "f": "mc-adv-ritual-assets.js",
   "transferKB": 0,
-  "ms": 338
+  "ms": 339
  },
  {
   "f": "mc-adv-ritual-app.js",
   "transferKB": 20,
-  "ms": 2717
+  "ms": 2606
  },
  {
   "f": "mc-adv-narrator.jpg",
   "transferKB": 18,
-  "ms": 1740
+  "ms": 1581
  },
  {
   "f": "mc-adv-pain-scene.jpg",
   "transferKB": 25,
-  "ms": 2190
+  "ms": 1975
  },
  {
   "f": "mc-adv-product.jpg",
   "transferKB": 75,
-  "ms": 3935
+  "ms": 3726
  },
  {
   "f": "mc-adv-first-evening.jpg",
   "transferKB": 66,
-  "ms": 3721
+  "ms": 3482
  },
  {
   "f": "mc-lp-fd-hero-callouts.jpg",
   "transferKB": 84,
-  "ms": 3916
+  "ms": 3759
  }
 ]

@@ -1556,4 +1556,157 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 
+/* ================================================================
+   round 23 — cart drawer takeover (live store only; no-op in preview).
+   Replaces the old drawer look per the approved mock: hides theme
+   clutter (gift bar, qty steppers, remove links, discount tag pills,
+   Subi plan line), compacts spacing so the whole drawer fits one
+   mobile view without scrolling, injects the member testimonial and
+   trust badges, shortens the urgency line. Idempotent writes so the
+   MutationObserver settles.
+   ================================================================ */
+(function () {
+  var drawer = document.getElementById("cart-drawer");
+  if (!drawer) return;
+
+  var css = "" +
+    /* --- hide old-drawer clutter --- */
+    "#cart-drawer .booklet-gift-container{display:none !important}" +
+    "#cart-drawer .line-item ul.contents{display:none !important}" +
+    "#cart-drawer line-item-quantity{display:none !important}" +
+    "#cart-drawer .line-item__actions{display:none !important}" +
+    "#cart-drawer .line-item__info>p.text-sm{display:none !important}" +
+    /* --- compact everything to one view --- */
+    "#cart-drawer .cart-drawer__top{padding-top:10px;padding-bottom:8px}" +
+    "#cart-drawer .cart-drawer__top p.h5{font-size:1rem;line-height:1.25}" +
+    "#cart-drawer .v-stack{gap:10px !important}" +
+    "#cart-drawer .cart-drawer__line-items{display:flex;flex-direction:column;gap:10px}" +
+    "#cart-drawer .line-item{align-items:center}" +
+    "#cart-drawer .line-item__media-wrapper{width:52px;min-width:52px}" +
+    "#cart-drawer .line-item__media{width:52px;height:52px;object-fit:cover}" +
+    "#cart-drawer .line-item__info a.bold{font-size:.85rem;line-height:1.3}" +
+    "#cart-drawer .line-item__info{font-size:.85rem}" +
+    /* --- injected pieces --- */
+    "#cart-drawer .mc-shipbar{background:#E4F0E4;color:#1C5E1C;font-size:.72rem;font-weight:700;text-align:center;padding:6px 12px;letter-spacing:.04em}" +
+    "#cart-drawer .mc-free{color:#0A9400;font-weight:700}" +
+    "#cart-drawer .mc-testi{margin:10px 0 2px;background:#fff;border:1px solid #EFE7DD;border-radius:12px;padding:9px 12px}" +
+    "#cart-drawer .mc-tstars{color:#E8B23A;font-size:.72rem;letter-spacing:2px}" +
+    "#cart-drawer .mc-tver{color:#1C5E1C;background:#E4F0E4;border-radius:999px;padding:1px 7px;font-size:.55rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-left:5px;vertical-align:middle}" +
+    "#cart-drawer .mc-tq{font-size:.72rem;font-style:italic;margin-top:5px;line-height:1.45}" +
+    "#cart-drawer .mc-tname{font-size:.66rem;color:#6E5B4F;margin-top:4px;font-weight:700}" +
+    "#cart-drawer .mc-value{display:flex;justify-content:space-between;font-size:.8rem;color:#6E5B4F}" +
+    "#cart-drawer .mc-value .mc-strike{text-decoration:line-through}" +
+    "#cart-drawer .mc-urgline{font-size:.72rem !important;line-height:1.4 !important}" +
+    "#cart-drawer .mc-trust{display:flex;justify-content:space-around;margin-top:8px;padding-top:7px;border-top:1px solid #EFE7DD}" +
+    "#cart-drawer .mc-trust>div{text-align:center;font-size:.56rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8A6F5C;line-height:1.45}" +
+    "#cart-drawer .mc-trust>div>span{display:block;font-size:.95rem;margin-bottom:1px}";
+  if (!document.getElementById("mc-drawer-style")) {
+    var st = document.createElement("style");
+    st.id = "mc-drawer-style";
+    st.textContent = css;
+    document.head.appendChild(st);
+  }
+
+  var isCircle = null;
+  function refreshCircle(cb) {
+    fetch("/cart.js", { headers: { "Accept": "application/json" } })
+      .then(function (r) { return r.json(); })
+      .then(function (c) {
+        isCircle = (c.items || []).some(function (i) { return i.selling_plan_allocation; });
+        if (cb) cb();
+      })
+      .catch(function () { /* keep previous state */ });
+  }
+
+  function apply() {
+    if (isCircle === null) return;
+    var top = drawer.querySelector(".cart-drawer__top");
+    if (!top) return;
+
+    var h = top.querySelector("p.h5");
+    var want = isCircle ? "Congrats — your free diffuser is reserved ✓" : "Your Maison Croyez Set";
+    if (h && h.textContent !== want) h.textContent = want;
+
+    if (!drawer.querySelector(".mc-shipbar")) {
+      var bar = document.createElement("div");
+      bar.className = "mc-shipbar";
+      bar.textContent = "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝";
+      top.insertAdjacentElement("afterend", bar);
+    }
+
+    drawer.querySelectorAll(".line-item").forEach(function (li) {
+      var link = li.querySelector("a.bold");
+      var name = link ? link.textContent : "";
+      if (isCircle && /diffuser/i.test(name)) {
+        var sp = li.querySelector("sale-price");
+        if (sp && sp.textContent.indexOf("FREE") === -1) sp.innerHTML = '<span class="mc-free">FREE</span>';
+      }
+    });
+
+    var items = drawer.querySelector(".cart-drawer__line-items");
+    var testi = drawer.querySelector(".mc-testi");
+    if (isCircle && items && !testi) {
+      var t = document.createElement("div");
+      t.className = "mc-testi";
+      t.innerHTML =
+        '<div class="mc-tstars">★★★★★ <span class="mc-tver">Verified Circle member</span></div>' +
+        '<p class="mc-tq">“I was nervous about the subscription and buying a scent I couldn’t smell. But the free diffuser and 30-day guarantee made it easy. Three weeks in, my living room smells like a hotel lobby, it’s safe around my cat, and the scent lasts weeks, not minutes like my old candles. I’m staying on.”</p>' +
+        '<div class="mc-tname">— Diane R.</div>';
+      items.insertAdjacentElement("afterend", t);
+    } else if (!isCircle && testi) {
+      testi.remove();
+    }
+
+    var payRow = null;
+    drawer.querySelectorAll(".h-stack.justify-between, .h-stack.gap-4").forEach(function (r) {
+      if (/PAY TODAY/i.test(r.textContent)) payRow = r;
+    });
+    var val = drawer.querySelector(".mc-value");
+    if (isCircle && payRow && !val) {
+      var v = document.createElement("div");
+      v.className = "mc-value";
+      v.innerHTML = '<span>Full value</span><span class="mc-strike">$139.90</span>';
+      payRow.insertAdjacentElement("beforebegin", v);
+    } else if (!isCircle && val) {
+      val.remove();
+    }
+
+    /* shorten the urgency paragraph under the total to one line */
+    drawer.querySelectorAll("p").forEach(function (pEl) {
+      if (/Attention:/.test(pEl.textContent) && !pEl.classList.contains("mc-urgline")) {
+        pEl.classList.add("mc-urgline");
+        pEl.innerHTML = "Only <b>19</b> free diffusers left. Yours is reserved at checkout.";
+      }
+    });
+
+    var form = drawer.querySelector("form.buy-buttons");
+    if (form && !drawer.querySelector(".mc-trust")) {
+      var tr = document.createElement("div");
+      tr.className = "mc-trust";
+      tr.innerHTML =
+        '<div><span>🛡️</span>30-Day<br>Guarantee</div>' +
+        '<div><span>♾️</span>1-Year<br>Warranty</div>' +
+        '<div><span>🔁</span>Cancel & Swap<br>Anytime</div>';
+      form.insertAdjacentElement("afterend", tr);
+    }
+  }
+
+  var scheduled = false;
+  function schedule() {
+    if (scheduled) return;
+    scheduled = true;
+    setTimeout(function () { scheduled = false; refreshCircle(apply); }, 180);
+  }
+  new MutationObserver(function (muts) {
+    for (var i = 0; i < muts.length; i++) {
+      var tgt = muts[i].target;
+      if (tgt && tgt.closest && tgt.closest(".mc-testi,.mc-trust,.mc-shipbar,.mc-value")) continue;
+      schedule();
+      return;
+    }
+  }).observe(drawer, { childList: true, subtree: true });
+  document.addEventListener("cart:refresh", schedule);
+  schedule();
+})();
+
 })();

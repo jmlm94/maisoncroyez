@@ -1,5 +1,5 @@
 name: drawer-recon
-# run: 1 — capture Impact theme cart-drawer DOM structure for the injector
+# run: 2 — target #cart-drawer directly (fixed-position elements have null offsetParent)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -32,11 +32,10 @@ jobs:
           await page.click('.buybox .atc');
           await page.waitForTimeout(6000);
           const skeleton = await page.evaluate(()=>{
-            const cands=[...document.querySelectorAll('cart-drawer, #CartDrawer, .cart-drawer, [id*="cart-drawer" i], [class*="cart-drawer" i], .drawer[open], dialog[open]')];
-            const el=cands.find(c=>c.offsetParent!==null||c.hasAttribute('open'))||cands[0];
+            const el=document.getElementById('cart-drawer');
             if(!el) return {found:false, bodyClasses:document.body.className};
             const walk=(n,d)=>{
-              if(d>7||n.nodeType!==1) return '';
+              if(d>8||n.nodeType!==1) return '';
               const tag=n.tagName.toLowerCase();
               const cls=(typeof n.className==='string'&&n.className)?'.'+n.className.trim().split(/\s+/).slice(0,3).join('.'):'';
               const id=n.id?'#'+n.id:'';
@@ -45,7 +44,7 @@ jobs:
               for(const c of n.children) out+=walk(c,d+1);
               return out;
             };
-            return {found:true, tag:el.tagName, id:el.id, cls:el.className, skeleton:walk(el,0).slice(0,14000)};
+            return {found:true, tag:el.tagName, id:el.id, cls:el.className, skeleton:walk(el,0).slice(0,22000)};
           });
           console.log(JSON.stringify({found:skeleton.found, tag:skeleton.tag, id:skeleton.id, cls:skeleton.cls},null,1));
           console.log('=== SKELETON ===');
@@ -62,6 +61,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "drawer recon: Impact theme cart drawer DOM skeleton" || true
+          git commit -m "drawer recon 2: #cart-drawer skeleton" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

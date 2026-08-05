@@ -29,13 +29,28 @@ goto attempt 1: HTTP 200
  "overflowX": false
 }
 === CSS PROBE ===
-{"href":"v=fd20-2026080517","len":68590,"v4Scoped":true}
-node:internal/modules/run_main:123
-    triggerUncaughtException(
-    ^
+{"href":"v=fd22-2026080517","len":68770,"v4Scoped":true}
+=== RITUAL MATRIX (7 scents, each expect total 49.95, plan 2661875821, diffuser -> 0) ===
+PASS {"scent":"Honey Nectar","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+PASS {"scent":"Golden Blossom Harmony","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+PASS {"scent":"Euphoric Bloom","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+PASS {"scent":"Crisp Citrus Scape","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+PASS {"scent":"Wildwood Mystique","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+PASS {"scent":"Chilled Citrus","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+PASS {"scent":"Midnight Sensation","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
+=== ONE-TIME MATRIX (expect total 139.90, no plan, no discount) ===
+PASS {"scent":"Golden Blossom Harmony","total":139.9,"anyPlan":false,"anyDisc":false,"PASS":true}
+PASS {"scent":"Midnight Sensation","total":139.9,"anyPlan":false,"anyDisc":false,"PASS":true}
+=== BULLET PROBE (expect ~15.2px, 5 bolds, connectDiffuser true) ===
+{"size":"15.2px","bolds":5,"connectDiffuser":true}
+=== CONSOLE ERRORS (3) ===
+ - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
-page.evaluate: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
-    at grab (/home/runner/work/maisoncroyez/maisoncroyez/check.mjs:49:28)
-    at /home/runner/work/maisoncroyez/maisoncroyez/check.mjs:63:17
-
-Node.js v22.23.1
+ - Failed to load resource: the server responded with a status of 403 ()
+ - Failed to load resource: the server responded with a status of 503 ()
+=== OUR BUNDLE RESPONSES ===
+ - 200 mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
+ - 200 mc-lp-free-diffuser.css?v=fd22-2026080517
+ - 200 mc-lp-vendor.js?v=fd22-2026080517
+ - 200 mc-lp-diffuser-assets.js?v=fd22-2026080517
+ - 200 mc-lp-free-diffuser-app.js?v=fd22-2026080517

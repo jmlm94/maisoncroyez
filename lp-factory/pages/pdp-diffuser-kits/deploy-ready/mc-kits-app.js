@@ -32,9 +32,31 @@
       n = p;
     }
   }
-  takeover();
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", takeover);
-  window.addEventListener("load", takeover);
+  /* the Instant header group carries an old announcement: "The diffuser is
+     free. Just pick the scent." — wrong offer for this page; hide just that
+     block, keep the logo/nav */
+  function hideStaleAnnouncement() {
+    document.querySelectorAll(".shopify-section-group-header-group").forEach(function (sec) {
+      for (var i = 0; i < sec.children.length; i++) {
+        var c = sec.children[i];
+        var t = (c.textContent || "");
+        if (/Just pick the scent|diffuser is free/i.test(t) && !c.querySelector("nav") && t.replace(/\s+/g, " ").trim().length < 260) {
+          c.style.setProperty("display", "none", "important");
+        } else {
+          c.querySelectorAll("div,p,section").forEach(function (el) {
+            var tt = (el.textContent || "").replace(/\s+/g, " ").trim();
+            if (/Just pick the scent|diffuser is free/i.test(tt) && tt.length < 260 && !el.querySelector("nav,img")) {
+              el.style.setProperty("display", "none", "important");
+            }
+          });
+        }
+      }
+    });
+  }
+  function boot() { takeover(); hideStaleAnnouncement(); }
+  boot();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  window.addEventListener("load", boot);
 
   var KITS = {
     studio: { variant: 43824890511469, name: "The Studio Kit — 1 Diffuser", price: "$89.95", compare: "" },

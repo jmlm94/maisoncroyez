@@ -1,5 +1,5 @@
 name: verify-kits
-# run: 1 — kits PDP takeover live on /products/diffuser-scents (kt1): logic + carts + standard drawer
+# run: 2 — hardened takeover (kt2): force ancestor chain visible; root-visibility + main-scoped instant check
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -48,7 +48,8 @@ jobs:
               scentMentionsOnlySeparate:/available separately/.test(t),
               videos:r.querySelectorAll('.hstep video').length,
               sections:{benefits:!!r.querySelector('.benefits'), howto:!!r.querySelector('.howto'), faq:r.querySelectorAll('.qa').length, ctabreak:!!r.querySelector('.ctabreak')},
-              themeHidden:(()=>{ const inst=document.querySelector('.__instant'); return !inst || !vis(inst); })(),
+              themeHidden:(()=>{ const inst=document.querySelector('main .__instant, #main .__instant'); return !inst || !vis(inst); })(),
+              rootVisible:(()=>{ const rc=r.getBoundingClientRect(); return rc.height>2000 && getComputedStyle(r).display!=='none'; })(),
               atcLabel:(r.querySelector('#kx-atclabel')||{}).innerText||'MISSING',
               overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
             };
@@ -98,6 +99,7 @@ jobs:
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           const checks={
             freshLoader:fresh,
+            rootVisible:audit.rootVisible,
             title:/Special Home Kits/.test(audit.h1),
             threePlans:audit.plans===3,
             savingsShown:audit.savings.condo&&audit.savings.house,
@@ -160,6 +162,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser-kits/verify
-          git commit -m "verify-kits run 1: kits PDP takeover on kt1" || true
+          git commit -m "verify-kits run 2: hardened takeover on kt2" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

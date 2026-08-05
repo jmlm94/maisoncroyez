@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 62 — r27 drawer (Your cart + testi both paths) + intentions section rework (fd28)
+# run: 63 — intentions image reverted to original gallery asset (fd29)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -44,7 +44,7 @@ jobs:
             const s=[...document.querySelectorAll('script')].map(x=>x.textContent).join(' ');
             return (s.match(/fd\d+-/)||['?'])[0];
           });
-          console.log('=== PAGE CACHE KEY (expect fd28-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd29-) === '+loader);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,50));} });
           await page.waitForTimeout(1500);
           const section = await page.evaluate(()=>{
@@ -57,7 +57,8 @@ jobs:
               bMold:t.includes('no mold, no cleaning, no leaks'),
               bFeeling:t.includes('you choose the feeling your home holds all day'),
               oldTitleGone:!t.includes('Love? Relaxation? Abundance?'),
-              img:img?{loaded:img.complete&&img.naturalWidth>0,src:(img.currentSrc||img.src).split('/').pop().slice(0,50)}:null
+              v2Gone:![...document.querySelectorAll('#root img')].some(i=>/mc-lp-intentions-v2/.test(i.currentSrc||i.src)),
+              img:(()=>{const h=[...document.querySelectorAll('#root *')].filter(e=>e.children.length===0&&e.textContent.includes('complimenting your spaces'))[0];if(!h)return null;const sec=h.closest('section')||h.parentElement.parentElement.parentElement;const im=sec?sec.querySelector('img'):null;return im?{loaded:im.complete&&im.naturalWidth>0,src:(im.currentSrc||im.src).split('/').pop().slice(0,50)}:null;})()
             };
           });
           console.log('=== INTENTIONS SECTION ==='); console.log(JSON.stringify(section));
@@ -174,7 +175,8 @@ jobs:
             rmWorks:afterRm.n===1,
             secTitle:section.title&&section.italicLine&&section.oldTitleGone,
             secBullets:section.b600&&section.bMold&&section.bFeeling,
-            secImg:!!(section.img&&section.img.loaded)
+            secImg:!!(section.img&&section.img.loaded),
+            v2ImgGone:section.v2Gone
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -225,6 +227,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 62: r27 drawer + intentions section on fd28" || true
+          git commit -m "verify run 63: intentions image reverted on fd29" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

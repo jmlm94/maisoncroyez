@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 63 — intentions image reverted to original gallery asset (fd29)
+# run: 64 — Anadir image restored in intentions section (fd30); stale-edge retry loop
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -32,19 +32,22 @@ jobs:
           const errs=[];
           page.on('console', m=>{ if(m.type()==='error') errs.push(m.text().slice(0,200)); });
           page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
-          let nav=null;
-          for(let a=0;a<4;a++){
-            nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
+          let loader='?';
+          for(let a=0;a<8;a++){
+            const nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(), {waitUntil:'load',timeout:60000});
             console.log('goto attempt '+(a+1)+': HTTP '+(nav?nav.status():'?'));
-            if(nav && nav.status()===200) break;
-            await page.waitForTimeout(30000);
+            if(nav && nav.status()===200){
+              await page.waitForTimeout(9000);
+              loader = await page.evaluate(()=>{
+                const s=[...document.querySelectorAll('script')].map(x=>x.textContent).join(' ');
+                return (s.match(/fd\d+-/)||['?'])[0];
+              });
+              console.log('cache key seen: '+loader);
+              if(loader==='fd30-') break;
+            }
+            await page.waitForTimeout(60000);
           }
-          await page.waitForTimeout(9000);
-          const loader = await page.evaluate(()=>{
-            const s=[...document.querySelectorAll('script')].map(x=>x.textContent).join(' ');
-            return (s.match(/fd\d+-/)||['?'])[0];
-          });
-          console.log('=== PAGE CACHE KEY (expect fd29-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd30-) === '+loader);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,50));} });
           await page.waitForTimeout(1500);
           const section = await page.evaluate(()=>{
@@ -57,7 +60,7 @@ jobs:
               bMold:t.includes('no mold, no cleaning, no leaks'),
               bFeeling:t.includes('you choose the feeling your home holds all day'),
               oldTitleGone:!t.includes('Love? Relaxation? Abundance?'),
-              v2Gone:![...document.querySelectorAll('#root img')].some(i=>/mc-lp-intentions-v2/.test(i.currentSrc||i.src)),
+              v2Present:[...document.querySelectorAll('#root img')].some(i=>/mc-lp-intentions-v2/.test(i.currentSrc||i.src)),
               img:(()=>{const h=[...document.querySelectorAll('#root *')].filter(e=>e.children.length===0&&e.textContent.includes('complimenting your spaces'))[0];if(!h)return null;const sec=h.closest('section')||h.parentElement.parentElement.parentElement;const im=sec?sec.querySelector('img'):null;return im?{loaded:im.complete&&im.naturalWidth>0,src:(im.currentSrc||im.src).split('/').pop().slice(0,50)}:null;})()
             };
           });
@@ -176,7 +179,7 @@ jobs:
             secTitle:section.title&&section.italicLine&&section.oldTitleGone,
             secBullets:section.b600&&section.bMold&&section.bFeeling,
             secImg:!!(section.img&&section.img.loaded),
-            v2ImgGone:section.v2Gone
+            v2ImgBack:section.v2Present&&!!(section.img&&/mc-lp-intentions-v2/.test(section.img.src))
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -227,6 +230,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 63: intentions image reverted on fd29" || true
+          git commit -m "verify run 64: Anadir image restored on fd30" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

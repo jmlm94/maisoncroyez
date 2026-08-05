@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 4 — default product template recon: main DOM skeleton for body-embed takeover
+# run 5 — euphoric-bloom PDP copy capture (USPs/benefits source for scents PDP)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -22,7 +22,7 @@ jobs:
           const b = await chromium.launch();
           const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
           for(let a=0;a<4;a++){
-            const nav=await page.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-scents-100ml?cb='+Date.now(),{waitUntil:'load',timeout:60000});
+            const nav=await page.goto('https://maisoncroyez.com/products/euphoric-bloom-for-energy-100ml?cb='+Date.now(),{waitUntil:'load',timeout:60000});
             console.log('goto '+(a+1)+': '+(nav?nav.status():'?'));
             if(nav && nav.status()===200) break;
             await page.waitForTimeout(30000);
@@ -30,24 +30,13 @@ jobs:
           await page.waitForTimeout(9000);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,80));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
           const dump = await page.evaluate(()=>{
-            const main=document.querySelector('main')||document.body;
-            const walk=(n,d)=>{
-              if(d>6||n.nodeType!==1) return '';
-              const tag=n.tagName.toLowerCase();
-              if(/^(svg|path|script|style|link)$/.test(tag)) return '';
-              const cls=(typeof n.className==='string'&&n.className)?'.'+n.className.trim().split(/\s+/).slice(0,4).join('.'):'';
-              const id=n.id?'#'+n.id:'';
-              let out='  '.repeat(d)+tag+id+cls+'\n';
-              for(const c of n.children) out+=walk(c,d+1);
-              return out;
-            };
-            const desc=document.querySelector('.product-info__description, .prose, [class*=description]');
-            return {skeleton:walk(main,0).slice(0,18000), descSel:desc?(desc.tagName.toLowerCase()+'.'+String(desc.className).trim().split(/\s+/).join('.')):'NOT FOUND', sections:[...document.querySelectorAll('main .shopify-section, .shopify-section')].map(x=>x.id+' :: '+String(x.className)).slice(0,25)};
+            const t=document.body.innerText;
+            const imgs=[...document.querySelectorAll('img')].map(i=>(i.currentSrc||i.src).split('/').pop().split('?')[0]).filter(s=>s&&!/^data:/.test(s)).slice(0,40);
+            return {textLen:t.length, imgs, text:t.slice(0,16000)};
           });
-          console.log('=== DESCRIPTION NODE === '+dump.descSel);
-          console.log('=== SECTIONS ==='); dump.sections.forEach(x=>console.log(' - '+x));
-          console.log('=== MAIN SKELETON ===');
-          console.log(dump.skeleton);
+          console.log('=== IMAGES ==='); dump.imgs.forEach(x=>console.log(' - '+x));
+          console.log('=== PAGE TEXT ('+dump.textLen+' chars) ===');
+          console.log(dump.text);
           await page.screenshot({ path:'kits-page-full.png', fullPage:true });
           await b.close();
           EOS

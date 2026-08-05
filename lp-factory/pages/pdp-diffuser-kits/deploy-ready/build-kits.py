@@ -119,15 +119,30 @@ app = """/* mc-kits-app.js — /products/diffuser-scents takeover (build kits ro
   var root = document.getElementById("mc-kits-root");
   if (!root) return;
 
-  /* hide every sibling on the path root -> <main>, keep header/footer/drawer */
+  /* hide every sibling on the path root -> <main>, force the chain itself
+     visible (the Instant-built default template keeps the description block
+     hidden), keep header/footer/drawer */
   function takeover() {
     var n = root;
     while (n && n.parentElement) {
       var p = n.parentElement;
       for (var i = 0; i < p.children.length; i++) {
         var c = p.children[i];
-        if (c !== n && !/^(SCRIPT|STYLE|LINK)$/.test(c.tagName)) c.style.display = "none";
+        if (c !== n && !/^(SCRIPT|STYLE|LINK)$/.test(c.tagName)) c.style.setProperty("display", "none", "important");
       }
+      p.style.setProperty("display", "block", "important");
+      p.style.setProperty("visibility", "visible", "important");
+      p.style.setProperty("opacity", "1", "important");
+      p.style.setProperty("height", "auto", "important");
+      p.style.setProperty("max-height", "none", "important");
+      p.style.setProperty("overflow", "visible", "important");
+      p.style.setProperty("position", "static", "important");
+      p.style.setProperty("transform", "none", "important");
+      p.style.setProperty("clip-path", "none", "important");
+      p.style.setProperty("padding", "0", "important");
+      p.style.setProperty("margin", "0", "important");
+      p.style.setProperty("width", "auto", "important");
+      p.style.setProperty("max-width", "none", "important");
       if (p.tagName === "MAIN" || p.id === "main" || p === document.body) break;
       n = p;
     }

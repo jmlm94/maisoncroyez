@@ -1,0 +1,67 @@
+name: drawer-recon
+# run: 1 — capture Impact theme cart-drawer DOM structure for the injector
+on:
+  push:
+    branches: [claude/maison-offer-v2-deploy-dspkwe]
+    paths: ['.github/workflows/drawer-recon.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  recon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Open drawer and dump its DOM skeleton
+        run: |
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > recon.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844} });
+          for(let a=0;a<4;a++){
+            const nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(),{waitUntil:'load',timeout:60000});
+            if(nav && nav.status()===200) break;
+            await page.waitForTimeout(30000);
+          }
+          await page.waitForTimeout(9000);
+          await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
+          await page.waitForTimeout(400);
+          await page.click('.buybox .atc');
+          await page.waitForTimeout(6000);
+          const skeleton = await page.evaluate(()=>{
+            const cands=[...document.querySelectorAll('cart-drawer, #CartDrawer, .cart-drawer, [id*="cart-drawer" i], [class*="cart-drawer" i], .drawer[open], dialog[open]')];
+            const el=cands.find(c=>c.offsetParent!==null||c.hasAttribute('open'))||cands[0];
+            if(!el) return {found:false, bodyClasses:document.body.className};
+            const walk=(n,d)=>{
+              if(d>7||n.nodeType!==1) return '';
+              const tag=n.tagName.toLowerCase();
+              const cls=(typeof n.className==='string'&&n.className)?'.'+n.className.trim().split(/\s+/).slice(0,3).join('.'):'';
+              const id=n.id?'#'+n.id:'';
+              const txt=(n.children.length===0&&n.textContent.trim())?' {'+n.textContent.trim().slice(0,40)+'}':'';
+              let out='  '.repeat(d)+tag+id+cls+txt+'\n';
+              for(const c of n.children) out+=walk(c,d+1);
+              return out;
+            };
+            return {found:true, tag:el.tagName, id:el.id, cls:el.className, skeleton:walk(el,0).slice(0,14000)};
+          });
+          console.log(JSON.stringify({found:skeleton.found, tag:skeleton.tag, id:skeleton.id, cls:skeleton.cls},null,1));
+          console.log('=== SKELETON ===');
+          console.log(skeleton.skeleton||'none');
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          await b.close();
+          EOS
+          node recon.mjs 2>&1 | tee drawer-dom.txt
+      - name: Commit results
+        if: always()
+        run: |
+          mkdir -p lp-factory/pages/pdp-free-diffuser/verify
+          mv drawer-dom.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/pdp-free-diffuser/verify
+          git commit -m "drawer recon: Impact theme cart drawer DOM skeleton" || true
+          git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
+          git push

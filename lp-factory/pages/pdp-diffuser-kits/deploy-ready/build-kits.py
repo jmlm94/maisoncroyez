@@ -174,9 +174,9 @@ app = """/* mc-kits-app.js — /products/diffuser-scents takeover (build kits ro
   window.addEventListener("load", boot);
 
   var KITS = {
-    studio: { variant: __VAR_STUDIO__, name: "The Studio Kit — 1 Diffuser", price: "$89.95", compare: "" },
-    condo:  { variant: __VAR_CONDO__,  name: "The Condo Kit — 3 Diffusers", price: "$189.95", compare: "$269.85" },
-    house:  { variant: __VAR_HOUSE__,  name: "The House Kit — 5 Diffusers", price: "$289.95", compare: "$449.75" }
+    studio: { variant: __VAR_STUDIO__, name: "The Studio Kit — 1 Diffuser", price: "$89.95", compare: "", img: "__IMG_KIT1__" },
+    condo:  { variant: __VAR_CONDO__,  name: "The Condo Kit — 3 Diffusers", price: "$189.95", compare: "$269.85", img: "__IMG_KIT3__" },
+    house:  { variant: __VAR_HOUSE__,  name: "The House Kit — 5 Diffusers", price: "$289.95", compare: "$449.75", img: "__IMG_KIT5__" }
   };
   var sel = "studio";
 
@@ -192,6 +192,12 @@ app = """/* mc-kits-app.js — /products/diffuser-scents takeover (build kits ro
     if (KITS[k].compare) { compEl.textContent = KITS[k].compare; compEl.style.display = ""; }
     else compEl.style.display = "none";
     atcLabel.textContent = "Add to My Home \\u00B7 " + KITS[k].price + " \\u2794";
+    /* each kit shows its own photo (1 / 3 / 5 diffusers) */
+    var main = root.querySelector("#kx-mainimg");
+    if (main && main.src !== KITS[k].img) main.src = KITS[k].img;
+    root.querySelectorAll(".thumbs button").forEach(function (b) {
+      b.classList.toggle("on", b.getAttribute("data-src") === KITS[k].img);
+    });
   }
   root.querySelectorAll(".plan").forEach(function (p) {
     p.addEventListener("click", function () { select(p.getAttribute("data-kit")); });
@@ -333,7 +339,10 @@ app = (app
        .replace("__VAR_STUDIO__", str(VAR["studio"]))
        .replace("__VAR_CONDO__", str(VAR["condo"]))
        .replace("__VAR_HOUSE__", str(VAR["house"]))
-       .replace("__PAGE_HTML__", json.dumps(page_html)))
+       .replace("__PAGE_HTML__", json.dumps(page_html))
+       .replace("__IMG_KIT1__", IMG["main"])
+       .replace("__IMG_KIT3__", IMG["t1"])
+       .replace("__IMG_KIT5__", IMG["t2"]))
 
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))

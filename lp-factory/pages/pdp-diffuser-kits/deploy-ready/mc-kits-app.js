@@ -59,9 +59,9 @@
   window.addEventListener("load", boot);
 
   var KITS = {
-    studio: { variant: 43824890511469, name: "The Studio Kit — 1 Diffuser", price: "$89.95", compare: "" },
-    condo:  { variant: 43824890544237,  name: "The Condo Kit — 3 Diffusers", price: "$189.95", compare: "$269.85" },
-    house:  { variant: 43824890577005,  name: "The House Kit — 5 Diffusers", price: "$289.95", compare: "$449.75" }
+    studio: { variant: 43824890511469, name: "The Studio Kit — 1 Diffuser", price: "$89.95", compare: "", img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/25-min.png?v=1767910199&width=900" },
+    condo:  { variant: 43824890544237,  name: "The Condo Kit — 3 Diffusers", price: "$189.95", compare: "$269.85", img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/26-min.png?v=1773273488&width=900" },
+    house:  { variant: 43824890577005,  name: "The House Kit — 5 Diffusers", price: "$289.95", compare: "$449.75", img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/27-min.png?v=1773273488&width=900" }
   };
   var sel = "studio";
 
@@ -77,6 +77,12 @@
     if (KITS[k].compare) { compEl.textContent = KITS[k].compare; compEl.style.display = ""; }
     else compEl.style.display = "none";
     atcLabel.textContent = "Add to My Home \u00B7 " + KITS[k].price + " \u2794";
+    /* each kit shows its own photo (1 / 3 / 5 diffusers) */
+    var main = root.querySelector("#kx-mainimg");
+    if (main && main.src !== KITS[k].img) main.src = KITS[k].img;
+    root.querySelectorAll(".thumbs button").forEach(function (b) {
+      b.classList.toggle("on", b.getAttribute("data-src") === KITS[k].img);
+    });
   }
   root.querySelectorAll(".plan").forEach(function (p) {
     p.addEventListener("click", function () { select(p.getAttribute("data-kit")); });

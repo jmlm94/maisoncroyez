@@ -158,7 +158,7 @@ const CONFIG = {
   images: {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
-    intentionHero: { file: "diseno-91", src: A.intentionHero || "" },
+    intentionHero: { file: "anadir-subtitulo-1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-intentions-v2.jpg?v=1785962123" },
     photo_love: { file: "scent-love", src: A.photo_love || "" },
     photo_abundance: { file: "scent-abundance", src: A.photo_abundance || "" },
     photo_focus: { file: "scent-focus", src: A.photo_focus || "" },
@@ -187,12 +187,12 @@ const CONFIG = {
      ================================================================ */
   angleIntention: { /* A1 — the moat */
     eyebrow: "A scent for every intention",
-    heading: ["Love? Relaxation? Abundance?", "Connect your intentions with our manifestation scents."],
+    heading: ["Get ready to hear your guests complimenting your spaces", "for weeks, not hours, within a single fill."],
     img: "intentionHero",
     bullets: [
-      "Candles and plug-ins make a room smell nice for an hour. **We compose every fragrance around an intention** \u2014 love, abundance, energy, focus \u2014 from 100% organic oils.",
-      "So you don't just pick a scent. **You choose the energy you want your home to hold**, and the diffuser keeps it in the air all day.",
-      "That's what makes Maison Croyez different: **your home doesn't just smell expensive, it feels intentional.**",
+      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 45 days** \u2014 with nothing burning, nothing to babysit.",
+      "Completely waterless: **no mold, no cleaning, no leaks.** 100% organic, **safe around kids and pets**, and designed to look like decor on your shelf, not hide behind it.",
+      "Each scent is composed around a powerful intention \u2014 love, abundance, energy, relaxation, purification. You don't just pick a fragrance, **you choose the feeling your home holds all day.**",
     ],
   },
 
@@ -916,10 +916,10 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 
 /* ================================================================
-   round 26 — cart drawer takeover (live store only; no-op in preview).
-   r26: discreet ✕ remove button per line item (delegates to the
-   theme's hidden Remove link). Prior rounds: Congrats! header,
-   roomier shipbar, uppercase SECURE CHECKOUT CTA.
+   round 27 — cart drawer takeover (live store only; no-op in preview).
+   r27: one-time header "Your cart"; testimonial shown in BOTH cart
+   paths. r26: discreet ✕ remove per line item (delegates to the
+   theme's hidden Remove link).
    Replaces the old drawer look per the approved mock: hides theme
    clutter (gift bar, qty steppers, remove links, discount tag pills,
    Subi plan line), compacts spacing so the whole drawer fits one
@@ -989,7 +989,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     if (!top) return;
 
     var h = top.querySelector("p.h5");
-    var want = isCircle ? "Congrats! Your free diffuser is reserved ✓" : "Your Maison Croyez Set";
+    var want = isCircle ? "Congrats! Your free diffuser is reserved ✓" : "Your cart";
     if (h && h.textContent !== want) h.textContent = want;
 
     if (!drawer.querySelector(".mc-shipbar")) {
@@ -1023,7 +1023,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 
     var items = drawer.querySelector(".cart-drawer__line-items");
     var testi = drawer.querySelector(".mc-testi");
-    if (isCircle && items && !testi) {
+    if (items && !testi) {
       var t = document.createElement("div");
       t.className = "mc-testi";
       t.innerHTML =
@@ -1031,8 +1031,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
         '<p class="mc-tq">“I was nervous about the subscription and buying a scent I couldn’t smell. But the free diffuser and 30-day guarantee made it easy. Three weeks in, my living room smells like a hotel lobby, it’s safe around my cat, and the scent lasts weeks, not minutes like my old candles. I’m staying on.”</p>' +
         '<div class="mc-tname">— Diane R.</div>';
       items.insertAdjacentElement("afterend", t);
-    } else if (!isCircle && testi) {
-      testi.remove();
     }
 
     /* rename the total row and shrink it 10% (keeps theme's live price) */

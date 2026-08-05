@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 61 — round-26: per-item ✕ remove button, functional removal test (fd27)
+# run: 62 — r27 drawer (Your cart + testi both paths) + intentions section rework (fd28)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -44,7 +44,27 @@ jobs:
             const s=[...document.querySelectorAll('script')].map(x=>x.textContent).join(' ');
             return (s.match(/fd\d+-/)||['?'])[0];
           });
-          console.log('=== PAGE CACHE KEY (expect fd27-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd28-) === '+loader);
+          await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,50));} });
+          await page.waitForTimeout(1500);
+          const section = await page.evaluate(()=>{
+            const t=document.body.innerText;
+            const img=[...document.querySelectorAll('#root img')].find(i=>/mc-lp-intentions-v2/.test(i.currentSrc||i.src));
+            return {
+              title:t.includes('Get ready to hear your guests complimenting your spaces'),
+              italicLine:t.includes('for weeks, not hours, within a single fill.'),
+              b600:t.includes('600 sq ft for over 45 days'),
+              bMold:t.includes('no mold, no cleaning, no leaks'),
+              bFeeling:t.includes('you choose the feeling your home holds all day'),
+              oldTitleGone:!t.includes('Love? Relaxation? Abundance?'),
+              img:img?{loaded:img.complete&&img.naturalWidth>0,src:(img.currentSrc||img.src).split('/').pop().slice(0,50)}:null
+            };
+          });
+          console.log('=== INTENTIONS SECTION ==='); console.log(JSON.stringify(section));
+          const secEl=await page.evaluateHandle(()=>{const h=[...document.querySelectorAll('#root h2, #root h3, #root .ang-title, #root [class*=head]')].find(e=>e.textContent.includes('complimenting your spaces'));return h?h.closest('section')||h.parentElement.parentElement:document.body;});
+          try{ await secEl.asElement().scrollIntoViewIfNeeded(); await page.waitForTimeout(1200); await page.screenshot({path:'fd-section-intentions.png'});}catch(e){console.log('section shot skipped: '+e.message.slice(0,80));}
+          await page.evaluate(()=>window.scrollTo(0,0));
+          await page.waitForTimeout(800);
           const grab = async()=>page.evaluate(async()=>{
             for(let a=0;a<6;a++){
               const r=await fetch('/cart.js');
@@ -104,7 +124,7 @@ jobs:
           const circle=await drawerAudit();
           console.log('=== CIRCLE CART (expect 49.95) === '+JSON.stringify(cart1));
           console.log('=== CIRCLE DRAWER ==='); console.log(JSON.stringify(circle,null,1));
-          await page.screenshot({ path:'fd-drawer-r26-circle.png' });
+          await page.screenshot({ path:'fd-drawer-r27-circle.png' });
           // functional removal: click the scent line's ✕, expect items 2 -> 1
           await page.evaluate(()=>{ const btns=[...document.querySelectorAll('#cart-drawer .mc-rm')]; if(btns.length) btns[btns.length-1].click(); });
           await page.waitForTimeout(6000);
@@ -123,7 +143,7 @@ jobs:
           const onetime=await drawerAudit();
           console.log('=== ONE-TIME CART (expect 139.90) === '+JSON.stringify(cart2));
           console.log('=== ONE-TIME DRAWER ==='); console.log(JSON.stringify(onetime,null,1));
-          await page.screenshot({ path:'fd-drawer-r26-onetime.png' });
+          await page.screenshot({ path:'fd-drawer-r27-onetime.png' });
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           // --- VERDICT ---
           const hid=circle.hidden||{};
@@ -146,12 +166,15 @@ jobs:
             noPaysafe:!circle.paysafe,
             clutterHidden:allHidden,
             oneViewFit:fitOK,
-            onetimeHeader:onetime.header==='Your Maison Croyez Set',
-            onetimeNoTesti:!onetime.testi.present,
+            onetimeHeader:onetime.header==='Your cart',
+            onetimeTesti:onetime.testi.present&&/Diane/.test(onetime.testi.name),
             cartCircle:cart1.total===49.95,
             cartOnetime:cart2.total===139.9,
             rmBtns:circle.removeBtns===2,
-            rmWorks:afterRm.n===1
+            rmWorks:afterRm.n===1,
+            secTitle:section.title&&section.italicLine&&section.oldTitleGone,
+            secBullets:section.b600&&section.bMold&&section.bFeeling,
+            secImg:!!(section.img&&section.img.loaded)
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -198,10 +221,10 @@ jobs:
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv fd-drawer-r26-circle.png fd-drawer-r26-onetime.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv fd-drawer-r27-circle.png fd-drawer-r27-onetime.png fd-section-intentions.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 61: round-26 remove button on fd27" || true
+          git commit -m "verify run 62: r27 drawer + intentions section on fd28" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

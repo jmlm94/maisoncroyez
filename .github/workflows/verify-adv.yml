@@ -1,5 +1,5 @@
 name: verify-adv
-# run: 4 — CLS fix: preload above-fold fonts (unna-700/700i, bvp-400, outfit-700), key ss3
+# run: 5 — CLS fix attempt 2: reserved root heights (advroot 110vh, root 100vh)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -179,6 +179,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/adv-ritual-combo/verify
-          git commit -m "the-scent-story verify run 4: font-preload CLS fix on ss3" || true
+          git commit -m "the-scent-story verify run 5: reserved-height CLS fix" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

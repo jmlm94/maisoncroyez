@@ -69,8 +69,8 @@ const CONFIG = {
   ],
 
   buybox: {
-    microProof: "(4.6 rated on 2,500+ reviews)",
-    title: { pre: "Maison Croyez Manifestation & Attraction Organic Scents \u2014", em: "FREE Award Winning Diffuser." },
+    microProof: "2,500+ houses smelling incredible.",
+    title: { pre: "Maison Croyez Organic Premium Scents +", em: "Waterless & Leakproof Award Winning Home Diffuser." },
     offer: {
       price: "$39.95",
       priceUnit: "",
@@ -81,9 +81,9 @@ const CONFIG = {
         { label: "You pay today", value: "$39.95", total: true },
       ],
       bullets: [
-        { icon: "wind", text: "Surprise your guests, our manifestation scents make them stop mid-sentence to ask what smells so good." },
-        { icon: "sparkle", text: "Attract and manifest love, energy, relaxation, abundance and more, every scent is composed around an intention." },
-        { icon: "leaf", text: "Finally ditch expensive, fast-burning candles whose scent disappears after 30 minutes." },
+        { icon: "wind", text: "Surprise your guests with LITTLE TO NO EFFORT AT ALL. Just connect, pour your manifestation scent, and get ready for compliments." },
+        { icon: "sparkle", text: "Start calling what you want in life: Money, abundance, clarity, love, success. There’s a scent for each intention." },
+        { icon: "leaf", text: "No more mold, bad smell or leaking. Our diffuser is 100% waterless and leak-proof, and doesn’t require any maintenance." },
       ],
     },
         pickerTitle: "Pick your fragrance:",
@@ -93,8 +93,8 @@ const CONFIG = {
     trustStrip: [
     ],
     accordions: [
-      { q: "How does The Manifestation Ritual work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. No minimum. Cancel anytime." },
-      { q: "Am I committed to a subscription?", a: "No. The Manifestation Ritual only continues if you decide to keep going after your first 30 days: there is no minimum, and you can cancel anytime from any delivery email. And if you choose the One-Time Set, there is no subscription at all. One payment, and you're free." },
+      { q: "How does the Manifestation Circle work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. No minimum. Cancel anytime." },
+      { q: "Am I committed to a subscription?", a: "No. The Manifestation Circle membership only continues if you decide to keep going after your first 30 days: there is no minimum, and you can cancel anytime from any delivery email. And if you choose the One-Time Set, there is no subscription at all. One payment, and you're free." },
       { q: "Which scent should I choose?", a: "Choose by what you want to attract. Each of the 7 scents is composed around one intention: love, abundance, raised energy, relaxation and concentration, purification, love manifestation, or turning ideas into reality. Trust the one your home is asking for, and remember you can swap before any delivery." },
       { q: "Will it grow mold like water diffusers?", a: "Not at all. Our diffuser is completely waterless, meaning no mold risks and no cleaning is required." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
@@ -599,6 +599,7 @@ function BuyBox() {
         <div class="buybox">
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
+          <div class="microreview">“Seven of my friends have asked the same question, WHO lives here?”</div>
           <div class="price-row">
             <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>
             <span class="price-badge">1-Year Warranty</span>
@@ -615,20 +616,20 @@ function BuyBox() {
           <div class="plansel" role="radiogroup" aria-label="Choose your option">
             <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
               <span class="plan-badge">#1 most ordered!</span>
-              <span class="plan-head"><span class="plan-name">The Manifestation Ritual</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
+              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
               <ul>
-                <li>Free diffuser plus your first 100ml scent.</li>
-                <li>Renews every 45 days. A new scent arrives as the last one finishes.</li>
-                <li>No minimum. Cancel anytime.</li>
-                <li><strong>30-day guarantee: full refund, prepaid return label, the scent stays with you.</strong></li>
+                <li>Members get their diffuser free along with your 100ml scent. Lasts 45+ days.</li>
+                <li>Renews every 45 days. Swap scents anytime you want.</li>
+                <li>Access to new launches, special deals, and more.</li>
+                <li><strong>30-day guarantee: Full refund, return label, membership cancelled, you keep the scent for free.</strong></li>
               </ul>
             </button>
             <button class=${"plan" + (!ritual ? " on" : "")} role="radio" aria-checked=${!ritual} onClick=${() => sel.setPlan("onetime")}>
               <span class="plan-head"><span class="plan-name">One-Time Set</span><span class="plan-price">${usd(OFFER.oneTime)}</span></span>
               <ul>
-                <li>Diffuser plus one 100ml scent. No subscription.</li>
-                <li>No automatic refills.</li>
-                <li>Cannot swap scents.</li>
+                <li>Includes one diffuser plus one 100ml scent. No subscription needed.</li>
+                <li>No automatic refills or swapping options.</li>
+                <li><strong>Join our Circle within 30 days after purchase and we’ll give you a free 100ml fragrance.</strong></li>
               </ul>
             </button>
           </div>
@@ -672,11 +673,11 @@ function BuyBox() {
             <span class="btn-sub">${ritual ? html`<${Rich} s=${B.cta.sub}/>` : "One payment. Free shipping."}</span>
           </button>
 
-          <div class="hiw-title">Choosing The Manifestation Ritual? Order stress-free:</div>
+          <div class="hiw-title">Joining the Manifestation Circle? You need to know this:</div>
           <div class="hiw" aria-label="How the ritual works">
-            <div class="hiw-row"><span class="hiw-k">Today</span><span><strong>${usd(OFFER.price)}</strong>: your diffuser and first scent ship free.</span></div>
-            <div class="hiw-row"><span class="hiw-k">Every 45 days</span><span>A new scent arrives as the last one finishes, <strong>${usd(OFFER.price)}</strong>. Swap or cancel anytime.</span></div>
-            <div class="hiw-row"><span class="hiw-k">30 Days</span><span><strong>Money-back guarantee</strong>: full refund if your space doesn't feel different. We send a prepaid label for the diffuser, the scent stays with you.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Today</span><span>Only <strong>${usd(OFFER.price)}</strong>. Your scent and diffuser ship free. You’ll see a subscription notice at checkout. Cancel anytime stress-free.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Every 45 days</span><span>A new scent arrives as the last one finishes so your home doesn’t lose power. Swap scents when needed.</span></div>
+            <div class="hiw-row"><span class="hiw-k">30 Days</span><span><strong>Money-Back Guarantee</strong>: It’s a membership, but if your space doesn’t feel different, let us know, we’ll cancel it and send you a return label. You won’t pay a dime after.</span></div>
           </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
 

@@ -4,7 +4,9 @@ goto attempt 1: HTTP 200
  "advChildren": 6,
  "saleChildren": 1,
  "h1": "I received the viral Maison Croyez diffuser for free, and it did what $2,500/year in candles never could.",
- "buyboxTitle": "Maison Croyez Manifestation & Attraction Organic Scents — FREE Award Winning Diffuser.",
+ "buyboxTitle": "Maison Croyez Organic Premium Scents + Waterless & Leakproof Award Winning Home Diffuser.",
+ "circleName": true,
+ "scarcity19": true,
  "advCtas": 6,
  "ctaLabel": "CLAIM FREE DIFFUSER ➔ LESS THAN 100 FREE DIFFUSERS AVAILABLE 🚨",
  "friendsWall": true,
@@ -23,14 +25,14 @@ goto attempt 1: HTTP 200
   "ninety": 0,
   "lifetime": 0,
   "oneYear": 3,
-  "days45": 10,
+  "days45": 11,
   "lessThan100": 5
  },
  "brokenImgs": [],
  "overflowX": false
 }
 === CSS PROBE ===
-{"href":"v=ss3-2026080514","len":47491,"scoped":true}
+{"href":"v=ss4-2026080515","len":47491,"scoped":true}
 === CTA ANCHOR (expect ~0) === 20
 === CART RITUAL (expect scent 49.95 on plan 2661875821 + diffuser 89.95 -> 0, total 49.95) ===
 {
@@ -78,20 +80,21 @@ goto attempt 1: HTTP 200
   }
  ]
 }
-=== CONSOLE ERRORS (2) ===
+=== CONSOLE ERRORS (3) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
+ - Failed to load resource: the server responded with a status of 503 ()
 === OUR BUNDLE RESPONSES ===
  - 200 mc-adv-grave.jpg
- - 200 mc-lp-free-diffuser.css
- - 200 mc-adv-ritual-assets.js
- - 200 mc-adv-ritual.css
- - 200 mc-lp-diffuser-assets.js
  - 200 mc-adv-split-after.jpg
- - 200 mc-lp-vendor.js
+ - 200 mc-lp-diffuser-assets.js
+ - 200 mc-adv-ritual-assets.js
  - 200 mc-adv-ritual-app.js
- - 200 mc-adv-pain-scene.jpg
- - 200 mc-adv-first-evening.jpg
- - 200 mc-adv-narrator.jpg
+ - 200 mc-lp-free-diffuser.css
+ - 200 mc-adv-ritual.css
+ - 200 mc-lp-vendor.js
  - 200 mc-adv-product.jpg
+ - 200 mc-adv-pain-scene.jpg
+ - 200 mc-adv-narrator.jpg
+ - 200 mc-adv-first-evening.jpg

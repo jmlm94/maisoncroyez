@@ -53,7 +53,7 @@ def chapter_cards():
     out=[]
     for s in SCENTS:
         out.append(f'''      <div class="icard">
-        <div class="ph" style="background:{s['grad']}"><img src="{d(s['img'])}" alt="{s['name']}" loading="lazy"></div>
+        <img class="flat" src="{d('scent-'+s['key']+'.jpg')}" alt="{s['name']}" loading="lazy">
         <div class="ic-int">{s['intent']}</div>
         <h3>{s['name']}</h3>
         <p>{s['line']}</p>
@@ -102,7 +102,7 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
 
 /* scent picker */
 .sec-label{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rosewood-deep);margin:18px 0 10px}
-.picker{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.picker{display:grid;grid-template-columns:1fr;gap:12px}
 .pick{position:relative;text-align:left;border:2px solid transparent;border-radius:14px;padding:12px 12px 11px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s, box-shadow .15s}
 .pick.on{border-color:var(--ink);box-shadow:0 6px 16px rgba(36,28,24,.14)}
 .pick-badge{position:absolute;top:-9px;right:10px;background:var(--gold);color:#fff;border-radius:999px;padding:3px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}
@@ -146,8 +146,7 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
 .chapter .sub{text-align:center;color:var(--ink-soft);font-size:.95rem;margin-bottom:20px}
 .igrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .icard{background:#fff;border:1px solid var(--rosewood-tint);border-radius:18px;padding:10px 10px 13px;display:flex;flex-direction:column;gap:7px;text-align:left}
-.icard .ph{border-radius:12px;padding:10px}
-.icard .ph img{border-radius:8px;mix-blend-mode:multiply}
+.icard .flat{border-radius:12px}
 .icard h3{font-size:1.12rem;line-height:1.05}
 .ic-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.53rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep)}
 .icard p{font-size:.78rem;line-height:1.45;color:var(--ink-soft)}
@@ -206,7 +205,7 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
   <div class="buycol">
     <div class="pdp-head">
       <div class="eyebrow">Maison Croyez — Power Fragrances</div>
-      <h1>Maison Croyez Manifestation &amp; Attraction <span class="em">Organic Scents.</span></h1>
+      <h1>Maison Croyez Manifestation &amp; Attraction <span class="em">Organic Scents (100ml).</span></h1>
       <p class="lede">Every scent is composed around an intention — love, abundance, energy, relaxation, purification. Choose what you want to attract into your home; the fragrance does the rest.</p>
       <div class="microproof"><span class="stars">★★★★★</span>Loved by 2,500+ women across the U.S.</div>
       <div class="price-row"><div class="price" id="price">$39.95</div><div class="compare" id="compare">$49.95</div><div class="per" id="per">per bottle · every 45 days</div></div>
@@ -217,12 +216,12 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
       </div>
     </div>
 
-    <div class="sec-label">1 · Choose your intention</div>
+    <div class="sec-label">1 · Choose your intention:</div>
     <div class="picker">
 __PICKS__
     </div>
 
-    <div class="sec-label">2 · Choose how you buy</div>
+    <div class="sec-label">2 · Choose how you buy:</div>
     <div class="plansel">
       <button class="plan on" data-plan="sub">
         <span class="plan-badge">Save $10</span>

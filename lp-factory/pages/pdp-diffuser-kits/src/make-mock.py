@@ -121,14 +121,26 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
 .ctabreak h2{font-size:1.75rem;margin-bottom:8px}
 .ctabreak p{color:var(--ink-soft);font-size:.95rem;margin-bottom:6px}
 .footer{background:#1E1613;color:#CDBFB6;text-align:center;font-size:.72rem;padding:20px;margin-top:0}
-@media(min-width:760px){
-  .wrap{max-width:560px}
+/* ---------- desktop ---------- */
+.pdpwrap{max-width:1080px;margin:0 auto;padding:0 20px}
+@media(min-width:960px){
+  .pdp-grid{display:grid;grid-template-columns:1.02fr 1fr;gap:46px;align-items:start}
+  .gal{position:sticky;top:18px;margin-top:26px}
+  .pdp-head h1{font-size:2.6rem}
+  .wrap{max-width:640px}
+  .bgrid{grid-template-columns:repeat(3,1fr);gap:26px 22px;max-width:960px;margin:0 auto}
+  .benefits .wrap,.howto .wrap{max-width:1000px}
+  .howsteps{flex-direction:row;max-width:none;gap:22px;align-items:stretch}
+  .howsteps>*{flex:1}
+  .hbullets{max-width:34em}
+  .benefits h2,.howto h2,.faq h2,.ctabreak h2{font-size:2rem}
 }
 </style>
 
 <div class="mockbar">Design mock — /products/diffuser-scents rework · not live</div>
 
-<div class="wrap">
+<div class="pdpwrap">
+  <div class="pdp-grid">
   <div class="gal">
     <div class="main"><img id="mainimg" src="__IMG_MAIN__" alt="Maison Croyez diffuser"></div>
     <div class="thumbs">
@@ -140,6 +152,7 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
     </div>
   </div>
 
+  <div class="buycol">
   <div class="pdp-head">
     <div class="eyebrow">Maison Croyez — Diffuser Kits</div>
     <h1>Maison Croyez Diffuser — <span class="em">Special Home Kits.</span></h1>
@@ -184,6 +197,22 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
     <div><span>♾️</span>Lifetime<br>Warranty</div>
     <div><span>🚚</span>Free<br>Shipping</div>
   </div>
+  </div><!--/buycol-->
+  </div><!--/pdp-grid-->
+</div>
+
+<div class="benefits">
+  <div class="wrap">
+    <h2>Designed to disappear into your space. <span class="em">Built to transform it.</span></h2>
+    <div class="bgrid">
+      <div class="cell"><div class="ic">💧</div><b>Waterless</b><p>No water, no mold, no bacteria. Zero residue, zero upkeep.</p></div>
+      <div class="cell"><div class="ic">💨</div><b>Room-Filling</b><p>Every corner in under 10 minutes. Refined, never overpowering.</p></div>
+      <div class="cell"><div class="ic">🕯️</div><b>Flame-Free</b><p>No soot, no smoke, no fire risk. The clean upgrade from candles.</p></div>
+      <div class="cell"><div class="ic">🌿</div><b>Clean &amp; Safe</b><p>Hypoallergenic and pet-friendly with 100% organic fragrance oils.</p></div>
+      <div class="cell"><div class="ic">✨</div><b>Design-Forward</b><p>A diffuser that looks as good as your furniture. No ugly cords.</p></div>
+      <div class="cell"><div class="ic">🧴</div><b>Fits Every Scent</b><p>Works with all 7 intention fragrances — swap moods room by room.</p></div>
+    </div>
+  </div>
 </div>
 
 <div class="howto">
@@ -198,20 +227,6 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
       <div class="hstep"><img src="__IMG_S1__" alt="Pouring fragrance into the diffuser"><div class="hnum">1</div><h3>Pour in your intention</h3><p>Your 100ml fragrance. No water, no dilution.</p></div>
       <div class="hstep"><img src="__IMG_S2__" alt="Pressing the diffuser button"><div class="hnum">2</div><h3>Press once</h3><p>One button, three strengths: from a soft everyday scent to full presence for guests.</p></div>
       <div class="hstep"><img src="__IMG_S3__" alt="Diffuser filling the room"><div class="hnum">3</div><h3>Walk away</h3><p>Under 10 minutes to fill the room. Weeks of presence.</p></div>
-    </div>
-  </div>
-</div>
-
-<div class="benefits">
-  <div class="wrap">
-    <h2>Designed to disappear into your space. <span class="em">Built to transform it.</span></h2>
-    <div class="bgrid">
-      <div class="cell"><div class="ic">💧</div><b>Waterless</b><p>No water, no mold, no bacteria. Zero residue, zero upkeep.</p></div>
-      <div class="cell"><div class="ic">💨</div><b>Room-Filling</b><p>Every corner in under 10 minutes. Refined, never overpowering.</p></div>
-      <div class="cell"><div class="ic">🕯️</div><b>Flame-Free</b><p>No soot, no smoke, no fire risk. The clean upgrade from candles.</p></div>
-      <div class="cell"><div class="ic">🌿</div><b>Clean &amp; Safe</b><p>Hypoallergenic and pet-friendly with 100% organic fragrance oils.</p></div>
-      <div class="cell"><div class="ic">✨</div><b>Design-Forward</b><p>A diffuser that looks as good as your furniture. No ugly cords.</p></div>
-      <div class="cell"><div class="ic">🧴</div><b>Fits Every Scent</b><p>Works with all 7 intention fragrances — swap moods room by room.</p></div>
     </div>
   </div>
 </div>

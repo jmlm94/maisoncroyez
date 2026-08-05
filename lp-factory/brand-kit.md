@@ -1,6 +1,15 @@
 # Maison Croyez — LP Brand Kit
 Single source of truth for every landing page. A fresh Claude session should read this file first.
 
+> **2026-08-05 — CURRENT DESIGN LANGUAGE:** the free-diffuser / Manifestation Circle PDP is the
+> reference design now. Full extracted spec (exact palette incl. conversion green `#0A9400`,
+> plan-card gold `#A67C3D`, drawer colors, buttons, component recipes):
+> **`pages/pdp-free-diffuser/DESIGN-SYSTEM.md`** — use that file when replicating the design on
+> other pages. Live references: `/pages/free-diffuser` and `/pages/the-scent-story`.
+> Notable deltas vs the older kit below: buy CTAs are solid **green `#0A9400`** pills (not black);
+> guarantee copy is **30-Day Guarantee · 1-Year Warranty · Cancel & Swap Anytime**; offer is
+> Manifestation Circle $49.95 w/ free diffuser (one-time set $139.90).
+
 ## Design tokens
 - **Palette:** base white `#FFFFFF` · blush `#ECDFDE` · blush-soft `#F3EAE8` · rosewood `#C4A59F` · rosewood-deep `#8A5B52` · cream `#F9F5F0` · ink `#241C18` · footer `#1E1613`
 - **Signature gradient (emphasis words, stat bars, sticky CTA):** `linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%)` — brighter variant for dark grounds: `#C9A9F9 → #F2A9CB → #FFC46B`

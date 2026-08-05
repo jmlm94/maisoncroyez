@@ -1,5 +1,5 @@
 goto attempt 1: HTTP 200
-=== PAGE CACHE KEY (expect fd26-) === fd26-
+=== PAGE CACHE KEY (expect fd27-) === fd27-
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -38,6 +38,7 @@ goto attempt 1: HTTP 200
   "♾️1-YearWarranty",
   "🔁Cancel & SwapAnytime"
  ],
+ "removeBtns": 2,
  "paysafe": false,
  "hidden": {
   "giftBar": "hidden",
@@ -53,6 +54,7 @@ goto attempt 1: HTTP 200
  },
  "ctaText": "Secure Checkout ➔"
 }
+=== REMOVE TEST (expect n 2 -> 1) === {"total":89.95,"n":1}
 === ONE-TIME CART (expect 139.90) === {"total":139.9,"n":2}
 === ONE-TIME DRAWER ===
 {
@@ -91,6 +93,7 @@ goto attempt 1: HTTP 200
   "♾️1-YearWarranty",
   "🔁Cancel & SwapAnytime"
  ],
+ "removeBtns": 2,
  "paysafe": false,
  "hidden": {
   "giftBar": "hidden",
@@ -127,8 +130,9 @@ PASS onetimeHeader
 PASS onetimeNoTesti
 PASS cartCircle
 PASS cartOnetime
-=== CONSOLE ERRORS (3) ===
+PASS rmBtns
+PASS rmWorks
+=== CONSOLE ERRORS (2) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
- - Failed to load resource: the server responded with a status of 503 ()

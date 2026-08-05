@@ -718,9 +718,9 @@ const CONFIG = {
         { label: "You pay today", value: "$39.95", total: true },
       ],
       bullets: [
-        { icon: "wind", text: "Surprise your guests with LITTLE TO NO EFFORT AT ALL. Just connect, pour your manifestation scent, and get ready for compliments." },
-        { icon: "sparkle", text: "Start calling what you want in life: Money, abundance, clarity, love, success. There’s a scent for each intention." },
-        { icon: "leaf", text: "No more mold, bad smell or leaking. Our diffuser is 100% waterless and leak-proof, and doesn’t require any maintenance." },
+        { icon: "wind", text: "Surprise your guests with **LITTLE TO NO EFFORT AT ALL**. Just connect your diffuser, pour your manifestation scent, and **get ready for compliments**." },
+        { icon: "sparkle", text: "Start calling what you want in life: **Money, abundance, clarity, love, success.** There’s a scent for each intention." },
+        { icon: "leaf", text: "**No more mold, bad smell or leaking.** Our diffuser is **100% waterless and leak-proof**, and doesn’t require any maintenance." },
       ],
     },
         pickerTitle: "Pick your fragrance:",
@@ -1242,7 +1242,7 @@ function BuyBox() {
             <span class="price-badge">1-Year Warranty</span>
           </div>
           <ul class="offer-bullets">
-            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span>${b.text}</span></li>`)}
+            ${B.offer.bullets.map((b) => html`<li key=${b.text}><${Icon} name=${b.icon}/><span><${Rich} s=${b.text}/></span></li>`)}
           </ul>
           <div class="dayrate">
             <span class="dayrate-ic" role="img" aria-hidden="true">🛎️</span>

@@ -1,5 +1,7 @@
 goto attempt 1: HTTP 200
-=== PAGE CACHE KEY (expect fd27-) === fd27-
+=== PAGE CACHE KEY (expect fd28-) === fd28-
+=== INTENTIONS SECTION ===
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"img":{"loaded":true,"src":"mc-lp-intentions-v2.jpg?v=1785962123"}}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -59,16 +61,16 @@ goto attempt 1: HTTP 200
 === ONE-TIME DRAWER ===
 {
  "found": true,
- "header": "Your Maison Croyez Set",
+ "header": "Your cart",
  "shipbar": "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝",
  "diffuserPrice": [
   "Maison Croyez — Home Scent Dif -> Sale price$89.95",
   "Golden Blossom Harmony – Love  -> Sale price$49.95"
  ],
  "testi": {
-  "present": false,
-  "name": "MISSING",
-  "quoteStart": "MISSING"
+  "present": true,
+  "name": "— Diane R.",
+  "quoteStart": "“I was nervous about the subscription and buying a"
  },
  "value": "MISSING",
  "headerPx": "14.4px",
@@ -103,8 +105,8 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "absent"
  },
  "oneView": {
-  "innerScrollH": 271,
-  "innerClientH": 271,
+  "innerScrollH": 457,
+  "innerClientH": 457,
   "scrollers": []
  },
  "ctaText": "Secure Checkout ➔"
@@ -127,12 +129,17 @@ PASS noPaysafe
 PASS clutterHidden
 PASS oneViewFit
 PASS onetimeHeader
-PASS onetimeNoTesti
+PASS onetimeTesti
 PASS cartCircle
 PASS cartOnetime
 PASS rmBtns
 PASS rmWorks
-=== CONSOLE ERRORS (2) ===
+PASS secTitle
+PASS secBullets
+PASS secImg
+=== CONSOLE ERRORS (4) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
+ - Failed to load resource: the server responded with a status of 503 ()
+ - Failed to load resource: the server responded with a status of 503 ()

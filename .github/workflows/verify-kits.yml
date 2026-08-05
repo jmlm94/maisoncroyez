@@ -1,0 +1,165 @@
+name: verify-kits
+# run: 1 — kits PDP takeover live on /products/diffuser-scents (kt1): logic + carts + standard drawer
+on:
+  push:
+    branches: [claude/maison-offer-v2-deploy-dspkwe]
+    paths: ['.github/workflows/verify-kits.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify kits PDP
+        run: |
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > check.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const errs=[];
+          page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
+          let fresh=false;
+          for(let a=0;a<8;a++){
+            const nav=await page.goto('https://maisoncroyez.com/products/diffuser-scents?cb='+Date.now(),{waitUntil:'load',timeout:60000});
+            console.log('goto '+(a+1)+': '+(nav?nav.status():'?'));
+            if(nav && nav.status()===200){
+              await page.waitForTimeout(8000);
+              fresh=await page.evaluate(()=>!!document.getElementById('mc-kits-root'));
+              console.log('mc-kits-root present: '+fresh);
+              if(fresh) break;
+            }
+            await page.waitForTimeout(60000);
+          }
+          const audit=await page.evaluate(()=>{
+            const r=document.getElementById('mc-kits-root');
+            const t=document.body.innerText;
+            const vis=el=>{ if(!el) return false; const rc=el.getBoundingClientRect(); return rc.width>0&&rc.height>0&&getComputedStyle(el).display!=='none'; };
+            return {
+              h1:(r.querySelector('h1')||{}).innerText||'MISSING',
+              plans:r.querySelectorAll('.plan').length,
+              savings:{condo:t.includes('You save $79.90'), house:t.includes('You save $159.80')},
+              badges:t.includes('BEST VALUE')||t.includes('Best Value'),
+              noScentPicker:!/Choose your fragrance|0 of 5 selected/.test(t),
+              scentMentionsOnlySeparate:/available separately/.test(t),
+              videos:r.querySelectorAll('.hstep video').length,
+              sections:{benefits:!!r.querySelector('.benefits'), howto:!!r.querySelector('.howto'), faq:r.querySelectorAll('.qa').length, ctabreak:!!r.querySelector('.ctabreak')},
+              themeHidden:(()=>{ const inst=document.querySelector('.__instant'); return !inst || !vis(inst); })(),
+              atcLabel:(r.querySelector('#kx-atclabel')||{}).innerText||'MISSING',
+              overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
+            };
+          });
+          console.log('=== AUDIT ==='); console.log(JSON.stringify(audit,null,1));
+          await page.screenshot({ path:'kits-live-full.png', fullPage:true });
+          const grab=async()=>page.evaluate(async()=>{
+            for(let a=0;a<6;a++){
+              const r=await fetch('/cart.js'); const txt=await r.text();
+              try{ const j=JSON.parse(txt); return {total:j.total_price/100, n:j.items.length, plan:j.items.some(i=>i.selling_plan_allocation), title:(j.items[0]||{}).variant_title||''}; }
+              catch(e){ await new Promise(res=>setTimeout(res,4000)); }
+            }
+            return {total:-1, gated:true};
+          });
+          // studio (default) ATC
+          await page.evaluate(()=>{document.querySelector('#kx-atc').scrollIntoView({block:'center'})});
+          await page.waitForTimeout(400);
+          await page.click('#kx-atc');
+          await page.waitForTimeout(7000);
+          const cartStudio=await grab();
+          const drawer1=await page.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            if(!d) return {found:false};
+            const cs=getComputedStyle(d);
+            const open=d.hasAttribute('open')||cs.visibility==='visible';
+            return {found:true, open,
+              standard:{ noShipbar:!d.querySelector('.mc-shipbar'), noTesti:!d.querySelector('.mc-testi'), noTrust:!d.querySelector('.mc-trust'), noUrgline:!d.querySelector('.mc-urgline'),
+                giftBarVisible:(()=>{const g=d.querySelector('.booklet-gift-container');return g?getComputedStyle(g).display!=='none':'absent';})(),
+                qtyVisible:(()=>{const q=d.querySelector('line-item-quantity');return q?getComputedStyle(q).display!=='none':'absent';})() },
+              header:(d.querySelector('.cart-drawer__top p.h5')||{}).textContent||'?'
+            };
+          });
+          console.log('=== STUDIO CART (expect 89.95, no plan) === '+JSON.stringify(cartStudio));
+          console.log('=== DRAWER AFTER KIT ADD (expect STANDARD theme drawer) ==='); console.log(JSON.stringify(drawer1,null,1));
+          await page.screenshot({ path:'kits-drawer.png' });
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          await page.waitForTimeout(4000);
+          await page.keyboard.press('Escape');
+          await page.waitForTimeout(1200);
+          // house kit ATC
+          await page.evaluate(()=>{const ps=document.querySelectorAll('#mc-kits-root .plan'); ps[ps.length-1].click();});
+          await page.waitForTimeout(400);
+          await page.evaluate(()=>document.querySelector('#kx-atc').click());
+          await page.waitForTimeout(7000);
+          const cartHouse=await grab();
+          console.log('=== HOUSE CART (expect 289.95, no plan) === '+JSON.stringify(cartHouse));
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          const checks={
+            freshLoader:fresh,
+            title:/Special Home Kits/.test(audit.h1),
+            threePlans:audit.plans===3,
+            savingsShown:audit.savings.condo&&audit.savings.house,
+            noScentPicker:audit.noScentPicker,
+            videos3:audit.videos===3,
+            allSections:audit.sections.benefits&&audit.sections.howto&&audit.sections.faq===4&&audit.sections.ctabreak,
+            themeHidden:audit.themeHidden,
+            noOverflow:!audit.overflowX,
+            cartStudio:cartStudio.total===89.95&&!cartStudio.plan,
+            cartHouse:cartHouse.total===289.95&&!cartHouse.plan,
+            drawerOpened:drawer1.found&&drawer1.open,
+            drawerStandard:drawer1.standard&&drawer1.standard.noShipbar&&drawer1.standard.noTesti&&drawer1.standard.noTrust&&drawer1.standard.noUrgline
+          };
+          console.log('=== VERDICT ===');
+          Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
+          console.log('=== PAGE ERRORS ('+errs.length+') ==='); errs.slice(0,10).forEach(e=>console.log(' - '+e));
+          await b.close();
+          EOS
+          node check.mjs 2>&1 | tee kits-verify-log.txt
+      - name: Perf spot-check
+        if: always()
+        run: |
+          cat > perf.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b=await chromium.launch();
+          const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,userAgent:'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36'});
+          const page=await ctx.newPage();
+          const cdp=await ctx.newCDPSession(page);
+          await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+          await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+          await page.addInitScript(()=>{
+            window.__m={lcp:0,cls:0,fcp:0};
+            new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});
+            new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__m.cls+=e.value;}).observe({type:'layout-shift',buffered:true});
+            new PerformanceObserver(l=>{for(const e of l.getEntries()) if(e.name==='first-contentful-paint') window.__m.fcp=e.startTime;}).observe({type:'paint',buffered:true});
+          });
+          let nv=null;
+          for(let a=0;a<5;a++){
+            nv=await page.goto('https://maisoncroyez.com/products/diffuser-scents?perf='+Date.now(),{waitUntil:'load',timeout:120000});
+            console.log('perf goto '+(a+1)+': '+(nv?nv.status():'?'));
+            if(nv && nv.status()===200) break;
+            await page.waitForTimeout(45000);
+          }
+          await page.waitForTimeout(12000);
+          const m=await page.evaluate(()=>{
+            const nav=performance.getEntriesByType('navigation')[0]||{};
+            const res=performance.getEntriesByType('resource');
+            const kits=res.filter(r=>/mc-kits/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024)}));
+            return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),cls:+window.__m.cls.toFixed(4),loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),kits};
+          });
+          console.log('=== PERF (Slow4G / 4x CPU) ==='); console.log(JSON.stringify(m));
+          await b.close();
+          EOS
+          node perf.mjs 2>&1 | tee kits-perf-log.txt
+      - name: Commit results
+        if: always()
+        run: |
+          mkdir -p lp-factory/pages/pdp-diffuser-kits/verify
+          mv kits-live-full.png kits-drawer.png kits-verify-log.txt kits-perf-log.txt lp-factory/pages/pdp-diffuser-kits/verify/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/pdp-diffuser-kits/verify
+          git commit -m "verify-kits run 1: kits PDP takeover on kt1" || true
+          git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
+          git push

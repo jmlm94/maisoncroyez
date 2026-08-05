@@ -1,0 +1,120 @@
+@font-face{font-family:'Unna';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-400.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Unna';font-style:italic;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-400i.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Unna';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-700.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Unna';font-style:italic;font-weight:700;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-700i.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-outfit-400.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-outfit-700.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-400.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:500;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-500.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-600.woff2?v=1784231284) format('woff2');}
+
+#mc-scents-root{--blush:#ECDFDE;--blush-soft:#F3EAE8;--rosewood:#C4A59F;--rosewood-deep:#8A5B52;--rosewood-tint:#E7D6D2;--cream:#F9F5F0;--ivory:#FFFFFF;--cta:#0A9400;--ink:#241C18;--ink-soft:#5C4F48;--gold:#A67C3D;--star:#F5B301;--radius:22px;--shadow:0 10px 34px rgba(60,38,30,.12);
+font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);line-height:1.55;font-size:16px;text-align:left}
+#mc-scents-root *{margin:0;padding:0;box-sizing:border-box}
+#mc-scents-root img{max-width:100%;display:block;margin:0 !important}
+#mc-scents-root button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+#mc-scents-root h1,#mc-scents-root h2,#mc-scents-root h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.05em;text-wrap:balance}
+#mc-scents-root .em{font-family:'Unna',serif;font-style:italic}
+#mc-scents-root .wrap{max-width:640px;margin:0 auto;padding:0 20px}
+#mc-scents-root .pdpwrap{max-width:1080px;margin:0 auto;padding:0 20px}
+#mc-scents-root .eyebrow{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.2em;font-size:.68rem;color:var(--rosewood-deep)}
+#mc-scents-root .gal{margin:14px 0 6px}
+#mc-scents-root .gal .main{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+#mc-scents-root .pdp-head{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+#mc-scents-root .pdp-head h1{font-size:2.36rem}
+#mc-scents-root .pdp-head .lede{color:var(--ink-soft);font-size:.95rem}
+#mc-scents-root .microproof{font-family:'Outfit',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink)}
+#mc-scents-root .microproof .stars{color:var(--star);letter-spacing:1px;margin-right:6px}
+#mc-scents-root .price-row{display:flex;align-items:baseline;gap:12px;margin-top:2px}
+#mc-scents-root .price-row .price{font-family:'Unna',serif;font-weight:700;font-size:2.5rem;line-height:1}
+#mc-scents-root .price-row .compare{color:var(--ink-soft);text-decoration:line-through;font-weight:600;font-size:1.05rem}
+#mc-scents-root .price-row .per{font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep)}
+#mc-scents-root .usp-row{display:flex;gap:8px;margin-top:4px}
+#mc-scents-root .usp{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;padding:10px 6px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+#mc-scents-root .usp span{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px}
+#mc-scents-root .usp .u1{background:linear-gradient(145deg,#DFF3D8 0%,#BCE4C0 100%)}
+#mc-scents-root .usp .u2{background:linear-gradient(145deg,#FBE3C9 0%,#F6C99B 100%)}
+#mc-scents-root .usp .u3{background:linear-gradient(145deg,#E4D9F2 0%,#CBB7EA 100%)}
+#mc-scents-root .usp:nth-child(1){background:rgba(188,228,192,.18)}
+#mc-scents-root .usp:nth-child(2){background:rgba(246,201,155,.18)}
+#mc-scents-root .usp:nth-child(3){background:rgba(203,183,234,.18)}
+#mc-scents-root .sec-label{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rosewood-deep);margin:18px 0 10px}
+#mc-scents-root .picker{display:grid;grid-template-columns:1fr;gap:12px}
+#mc-scents-root .pick{position:relative;text-align:left;border:2px solid transparent;border-radius:14px;padding:12px 12px 11px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s, box-shadow .15s;width:100%}
+#mc-scents-root .pick.on{border-color:var(--ink);box-shadow:0 6px 16px rgba(36,28,24,.14)}
+#mc-scents-root .pick-badge{position:absolute;top:-9px;right:10px;background:var(--gold);color:#fff;border-radius:999px;padding:3px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}
+#mc-scents-root .pk-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;line-height:1.25}
+#mc-scents-root .pk-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(36,28,24,.62)}
+#mc-scents-root .pk-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+#mc-scents-root .pk-chips i{font-style:normal;background:rgba(255,255,255,.72);border-radius:999px;padding:2px 7px;font-size:.6rem;font-weight:600}
+#mc-scents-root .plansel{display:flex;flex-direction:column;gap:22px;margin:8px 0 4px}
+#mc-scents-root .plan{position:relative;text-align:left;background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;padding:16px 15px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,box-shadow .15s,background .15s;width:100%}
+#mc-scents-root .plan.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}
+#mc-scents-root .plan-badge{position:absolute;top:-10px;left:14px;background:var(--gold);color:#fff;border-radius:999px;padding:4px 11px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}
+#mc-scents-root .plan-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+#mc-scents-root .plan-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem}
+#mc-scents-root .plan-price{font-family:'Outfit',sans-serif;font-weight:800;font-size:.98rem;white-space:nowrap}
+#mc-scents-root .plan-price .was{color:var(--ink-soft);text-decoration:line-through;font-weight:600;font-size:.82rem;margin-right:6px}
+#mc-scents-root .plan ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+#mc-scents-root .plan li{font-size:.88rem;line-height:1.45;padding-left:15px;position:relative}
+#mc-scents-root .plan li::before{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+#mc-scents-root .plan p{font-size:.88rem;line-height:1.45;color:var(--ink-soft)}
+#mc-scents-root .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;padding:17px 26px;border-radius:999px;background:var(--cta);color:#fff;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.98rem;box-shadow:0 12px 28px rgba(0,0,0,.28);margin-top:14px}
+#mc-scents-root .btn small{font-size:.62rem;letter-spacing:.14em;font-weight:700;opacity:.92}
+#mc-scents-root .btn[disabled]{opacity:.6}
+#mc-scents-root .trust{display:flex;justify-content:space-around;margin:16px 0 6px;padding-top:12px;border-top:1px solid var(--rosewood-tint)}
+#mc-scents-root .trust>div{text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.07em;text-transform:uppercase;color:var(--rosewood-deep);line-height:1.45}
+#mc-scents-root .trust>div span{display:block;font-size:.95rem;margin-bottom:1px}
+#mc-scents-root .oils{background:var(--cream);margin-top:34px;padding:34px 0 36px;text-align:center}
+#mc-scents-root .oils h2{font-size:1.75rem;margin-bottom:10px}
+#mc-scents-root .oils p{color:var(--ink-soft);max-width:34em;margin:0 auto 18px;font-size:.95rem}
+#mc-scents-root .statrow{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+#mc-scents-root .stat{background:#fff;border:1px solid var(--rosewood-tint);border-radius:12px;padding:10px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rosewood-deep)}
+#mc-scents-root .stat b{display:block;font-size:.95rem;color:var(--ink);letter-spacing:0}
+#mc-scents-root .chapter{padding:36px 0 8px}
+#mc-scents-root .chapter h2{font-size:1.75rem;text-align:center;margin-bottom:6px}
+#mc-scents-root .chapter .sub{text-align:center;color:var(--ink-soft);font-size:.95rem;margin-bottom:20px}
+#mc-scents-root .igrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#mc-scents-root .icard{background:#fff;border:1px solid var(--rosewood-tint);border-radius:18px;padding:10px 10px 13px;display:flex;flex-direction:column;gap:7px;text-align:left}
+#mc-scents-root .icard .flat{border-radius:12px}
+#mc-scents-root .icard h3{font-size:1.12rem;line-height:1.05}
+#mc-scents-root .ic-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.53rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep)}
+#mc-scents-root .icard p{font-size:.78rem;line-height:1.45;color:var(--ink-soft)}
+#mc-scents-root .icard .pk-chips i{background:var(--cream);border:1px solid var(--rosewood-tint)}
+#mc-scents-root .ic-pick{margin-top:auto;background:var(--ink);color:#fff;border-radius:999px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;width:fit-content}
+#mc-scents-root .sig{background:#141414;margin-top:34px;padding:38px 0 42px;color:#fff}
+#mc-scents-root .sig h2{font-size:1.75rem;text-align:center;color:#fff;margin-bottom:12px}
+#mc-scents-root .sig h2 .em{color:#C9A25C}
+#mc-scents-root .sig .lede{color:rgba(255,255,255,.85);text-align:center;max-width:36em;margin:0 auto 24px;font-size:.93rem}
+#mc-scents-root .sigrid{display:grid;gap:14px}
+#mc-scents-root .sigcell{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:16px}
+#mc-scents-root .sigcell b{font-family:'Unna',serif;font-weight:700;font-size:1.25rem;display:block;margin-bottom:5px;letter-spacing:-.03em}
+#mc-scents-root .sigcell p{font-size:.88rem;color:rgba(255,255,255,.82);line-height:1.5}
+#mc-scents-root .perks{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}
+#mc-scents-root .perk{background:rgba(201,162,92,.15);border:1px solid rgba(201,162,92,.4);color:#E8CFA0;border-radius:999px;padding:6px 13px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase}
+#mc-scents-root .revs{padding:36px 0 8px}
+#mc-scents-root .revs h2{font-size:1.75rem;text-align:center;margin-bottom:18px}
+#mc-scents-root .rev{background:#fff;border:1px solid var(--rosewood-tint);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+#mc-scents-root .rev .stars{color:var(--star);font-size:.8rem;letter-spacing:2px;margin-bottom:6px}
+#mc-scents-root .rev p{font-style:italic;font-size:.92rem;line-height:1.55;color:var(--ink-soft)}
+#mc-scents-root .rev span{display:block;margin-top:7px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rosewood-deep)}
+#mc-scents-root .faq{padding:30px 0 8px}
+#mc-scents-root .faq h2{font-size:1.75rem;text-align:center;margin-bottom:16px}
+#mc-scents-root .qa{border-bottom:1px solid var(--rosewood-tint)}
+#mc-scents-root .qa summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 2px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+#mc-scents-root .qa summary::-webkit-details-marker{display:none}
+#mc-scents-root .qa summary:after{content:"+";font-family:'Unna',serif;font-size:1.3rem;color:var(--rosewood-deep)}
+#mc-scents-root .qa[open] summary:after{content:"–"}
+#mc-scents-root .qa p{font-size:.9rem;line-height:1.55;color:var(--ink-soft);padding:0 2px 14px}
+#mc-scents-root .ctabreak{background:var(--blush);margin-top:36px;padding:42px 0 46px;text-align:center}
+#mc-scents-root .ctabreak h2{font-size:1.75rem;margin-bottom:8px}
+#mc-scents-root .ctabreak p{color:var(--ink-soft);font-size:.95rem;margin-bottom:6px}
+@media(min-width:960px){
+#mc-scents-root .pdp-grid{display:grid;grid-template-columns:1.02fr 1fr;gap:46px;align-items:start}
+#mc-scents-root .gal{position:sticky;top:18px;margin-top:26px}
+#mc-scents-root .pdp-head h1{font-size:2.6rem}
+#mc-scents-root .igrid{max-width:1000px;margin:0 auto;gap:16px}
+#mc-scents-root .sigrid{grid-template-columns:repeat(3,1fr);max-width:1000px;margin:0 auto}
+#mc-scents-root .chapter .wrap,#mc-scents-root .sig .wrap{max-width:1040px}
+#mc-scents-root .oils h2,#mc-scents-root .chapter h2,#mc-scents-root .sig h2,#mc-scents-root .revs h2,#mc-scents-root .faq h2,#mc-scents-root .ctabreak h2{font-size:2rem}
+}

@@ -135,14 +135,14 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
     </div>
   </div>
 
+  <div class="microreview">“I’ve tried so many diffusers that barely work. This one filled my entire living room in five minutes. Three weeks later, it’s still going strong.”<span>— Priya S. · Verified Buyer</span></div>
+
   <ul class="offer-bullets">
     <li><span class="e">💧</span><span>Completely waterless: <b>no mold, no cleaning, no leaks</b> — zero maintenance, ever.</span></li>
     <li><span class="e">💨</span><span>Fills rooms <b>up to 1,075 sq ft in under 10 minutes</b> — corner to corner, not a slow trickle.</span></li>
     <li><span class="e">🎛️</span><span>One button, three modes (G1 · G2 · G3) with timer &amp; auto-off — <b>set the mood, then forget it.</b></span></li>
     <li><span class="e">✨</span><span>Minimalist matte body that <b>looks like decor, not a gadget</b> — flame-free, safe around kids and pets.</span></li>
   </ul>
-
-  <div class="microreview">“I’ve tried so many diffusers that barely work. This one filled my entire living room in five minutes. Three weeks later, it’s still going strong.”<span>— Priya S. · Verified Buyer</span></div>
 
   <div class="plansel">
     <button class="plan on" data-price="$89.95" data-compare="" data-label="The Studio Kit · $89.95">

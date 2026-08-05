@@ -1,56 +1,95 @@
 goto attempt 1: HTTP 200
-=== AUDIT ===
+=== PAGE CACHE KEY (expect fd24-) === fd24-
+=== CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
+=== CIRCLE DRAWER ===
 {
- "h1": "Maison Croyez Organic Premium Scents + Waterless & Leakproof Award Winning Home Diffuser.",
- "subline": "MISSING",
- "priceRow": "from $49.95every 45 days 1-YEAR WARRANTY",
- "dayrate": "🛎️\nFeel you're in a five-star hotel for only $1.11 a day.",
- "planCards": 2,
- "planBadge": "#1 MOST ORDERED!",
- "ritualCardOn": true,
- "fragCards": 7,
- "buyboxFaqs": 6,
- "hiwTitle": "Joining the Manifestation Circle? You need to know this:",
- "hiwRows": [
-  "TODAY",
-  "EVERY 45 DAYS",
-  "30 DAYS"
+ "found": true,
+ "header": "Congrats — your free diffuser is reserved ✓",
+ "shipbar": "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝",
+ "diffuserPrice": [
+  "Maison Croyez — Home Scent Dif -> FREE",
+  "Golden Blossom Harmony – Love  -> Sale price$49.95"
  ],
- "sweep": {
-  "commitment": 0,
-  "threeMonth": 0,
-  "d120": 0,
-  "d3995": 0,
-  "lifetime": 0,
-  "oneYear": 6,
-  "days45": 6
+ "testi": {
+  "present": true,
+  "name": "— Diane R.",
+  "quoteStart": "“I was nervous about the subscription and buying a"
  },
- "brokenImgs": [],
- "overflowX": false
+ "value": "Full value$139.90",
+ "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
+ "trustBadges": [
+  "🛡️30-DayGuarantee",
+  "♾️1-YearWarranty",
+  "🔁Cancel & SwapAnytime"
+ ],
+ "paysafe": false,
+ "hidden": {
+  "giftBar": "hidden",
+  "discountPills": "hidden",
+  "qtyStepper": "hidden",
+  "removeLink": "hidden",
+  "subiPlanLine": "hidden"
+ },
+ "oneView": {
+  "innerScrollH": 443,
+  "innerClientH": 443,
+  "scrollers": []
+ },
+ "ctaText": "LOCK FREE DIFFUSER NOW ➔"
 }
-=== CSS PROBE ===
-{"href":"v=fd22-2026080517","len":68770,"v4Scoped":true}
-=== RITUAL MATRIX (7 scents, each expect total 49.95, plan 2661875821, diffuser -> 0) ===
-PASS {"scent":"Honey Nectar","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-PASS {"scent":"Golden Blossom Harmony","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-PASS {"scent":"Euphoric Bloom","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-PASS {"scent":"Crisp Citrus Scape","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-PASS {"scent":"Wildwood Mystique","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-PASS {"scent":"Chilled Citrus","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-PASS {"scent":"Midnight Sensation","total":49.95,"plan":2661875821,"diffuserLine":0,"PASS":true}
-=== ONE-TIME MATRIX (expect total 139.90, no plan, no discount) ===
-PASS {"scent":"Golden Blossom Harmony","total":139.9,"anyPlan":false,"anyDisc":false,"PASS":true}
-PASS {"scent":"Midnight Sensation","total":139.9,"anyPlan":false,"anyDisc":false,"PASS":true}
-=== BULLET PROBE (expect ~15.2px, 5 bolds, connectDiffuser true) ===
-{"size":"15.2px","bolds":5,"connectDiffuser":true}
-=== CONSOLE ERRORS (3) ===
+=== ONE-TIME CART (expect 139.90) === {"total":139.9,"n":2}
+=== ONE-TIME DRAWER ===
+{
+ "found": true,
+ "header": "Your Maison Croyez Set",
+ "shipbar": "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝",
+ "diffuserPrice": [
+  "Maison Croyez — Home Scent Dif -> Sale price$89.95",
+  "Golden Blossom Harmony – Love  -> Sale price$49.95"
+ ],
+ "testi": {
+  "present": false,
+  "name": "MISSING",
+  "quoteStart": "MISSING"
+ },
+ "value": "MISSING",
+ "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
+ "trustBadges": [
+  "🛡️30-DayGuarantee",
+  "♾️1-YearWarranty",
+  "🔁Cancel & SwapAnytime"
+ ],
+ "paysafe": false,
+ "hidden": {
+  "giftBar": "hidden",
+  "discountPills": "absent",
+  "qtyStepper": "hidden",
+  "removeLink": "hidden",
+  "subiPlanLine": "absent"
+ },
+ "oneView": {
+  "innerScrollH": 241,
+  "innerClientH": 241,
+  "scrollers": []
+ },
+ "ctaText": "LOCK FREE DIFFUSER NOW ➔"
+}
+=== VERDICT ===
+PASS circleHeader
+PASS shipbar
+FAIL diffuserFree
+PASS testi
+PASS value13990
+PASS urg19
+PASS trust3
+PASS noPaysafe
+PASS clutterHidden
+PASS oneViewFit
+PASS onetimeHeader
+PASS onetimeNoTesti
+PASS cartCircle
+PASS cartOnetime
+=== CONSOLE ERRORS (2) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
- - Failed to load resource: the server responded with a status of 503 ()
-=== OUR BUNDLE RESPONSES ===
- - 200 mc-lp-fd-hero-callouts.jpg?v=1785357236&width=900
- - 200 mc-lp-free-diffuser.css?v=fd22-2026080517
- - 200 mc-lp-vendor.js?v=fd22-2026080517
- - 200 mc-lp-diffuser-assets.js?v=fd22-2026080517
- - 200 mc-lp-free-diffuser-app.js?v=fd22-2026080517

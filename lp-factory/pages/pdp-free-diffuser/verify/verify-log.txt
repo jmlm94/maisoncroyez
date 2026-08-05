@@ -1,10 +1,8 @@
 goto attempt 1: HTTP 200
-cache key seen: fd28-
-goto attempt 2: HTTP 200
-cache key seen: fd30-
-=== PAGE CACHE KEY (expect fd30-) === fd30-
+cache key seen: fd31-
+=== PAGE CACHE KEY (expect fd31-) === fd31-
 === INTENTIONS SECTION ===
-{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"img":null}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -140,9 +138,9 @@ PASS rmWorks
 PASS secTitle
 PASS secBullets
 FAIL secImg
-FAIL v2ImgBack
-=== CONSOLE ERRORS (3) ===
- - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
-
- - Failed to load resource: the server responded with a status of 403 ()
- - Failed to load resource: the server responded with a status of 503 ()
+PASS v2ImgOnPage
+PASS calloutsGone
+PASS firstGalleryIsProduct
+=== CONSOLE ERRORS (2) ===
+ - Invalid 'X-Frame-Options' header encountered when loading 'https://maisoncroyez.com/': 'ALLOW-FROM https://maisoncroyez.com' is not a recognized directive. The header will be ignored.
+ - Failed to load resource: the server responded with a status of 504 ()

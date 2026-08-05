@@ -5,8 +5,8 @@ mc-kits-root present: true
  "h1": "Maison Croyez Diffuser — Special Home Kits.",
  "plans": 3,
  "savings": {
-  "condo": false,
-  "house": false
+  "condo": true,
+  "house": true
  },
  "badges": true,
  "noScentPicker": true,
@@ -18,7 +18,8 @@ mc-kits-root present: true
   "faq": 4,
   "ctabreak": true
  },
- "themeHidden": false,
+ "themeHidden": true,
+ "noStaleAnnouncement": true,
  "rootVisible": true,
  "atcLabel": "ADD TO MY HOME · $89.95 ➔",
  "overflowX": false
@@ -44,12 +45,13 @@ PASS freshLoader
 PASS rootVisible
 PASS title
 PASS threePlans
-FAIL savingsShown
+PASS savingsShown
 PASS noScentPicker
 PASS videos3
 PASS allSections
-FAIL themeHidden
+PASS themeHidden
 PASS noOverflow
+PASS noStaleAnnouncement
 PASS cartStudio
 PASS cartHouse
 PASS drawerOpened

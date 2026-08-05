@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 58 — round-23 drawer takeover on fd24: one-view fit, theme clutter hidden, mc pieces present
+# run: 59 — round-24 drawer polish on fd25: Today's total, black Secure Checkout CTA, no full-value line
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -44,7 +44,7 @@ jobs:
             const s=[...document.querySelectorAll('script')].map(x=>x.textContent).join(' ');
             return (s.match(/fd\d+-/)||['?'])[0];
           });
-          console.log('=== PAGE CACHE KEY (expect fd24-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd25-) === '+loader);
           const grab = async()=>page.evaluate(async()=>{
             for(let a=0;a<6;a++){
               const r=await fetch('/cart.js');
@@ -74,6 +74,10 @@ jobs:
               }),
               testi:{present:!!d.querySelector('.mc-testi'), name:txt('.mc-tname'), quoteStart:txt('.mc-tq').slice(0,50)},
               value:txt('.mc-value'),
+              headerPx:(()=>{const el=d.querySelector('.cart-drawer__top p.h5');return el?getComputedStyle(el).fontSize:'?';})(),
+              shipbarMb:(()=>{const el=d.querySelector('.mc-shipbar');return el?getComputedStyle(el).marginBottom:'?';})(),
+              totalRow:(()=>{const sps=[...d.querySelectorAll('span.h5')].filter(s=>/Today|PAY TODAY|USD/i.test(s.textContent));return sps.map(s=>s.textContent.trim()+' @'+getComputedStyle(s).fontSize);})(),
+              button:(()=>{const btn=d.querySelector('form.buy-buttons button, form.buy-buttons .btn');if(!btn)return{};const cs=getComputedStyle(btn);return {text:btn.textContent.trim().replace(/\s+/g,' ').slice(0,50), bg:cs.backgroundColor};})(),
               urgline:txt('.mc-urgline'),
               trustBadges:[...d.querySelectorAll('.mc-trust>div')].map(x=>x.textContent.trim().replace(/\s+/g,' ')),
               paysafe:!!d.querySelector('.mc-paysafe'),
@@ -99,7 +103,7 @@ jobs:
           const circle=await drawerAudit();
           console.log('=== CIRCLE CART (expect 49.95) === '+JSON.stringify(cart1));
           console.log('=== CIRCLE DRAWER ==='); console.log(JSON.stringify(circle,null,1));
-          await page.screenshot({ path:'fd-drawer-r23-circle.png' });
+          await page.screenshot({ path:'fd-drawer-r24-circle.png' });
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           await page.waitForTimeout(4000);
           await page.keyboard.press('Escape');
@@ -113,7 +117,7 @@ jobs:
           const onetime=await drawerAudit();
           console.log('=== ONE-TIME CART (expect 139.90) === '+JSON.stringify(cart2));
           console.log('=== ONE-TIME DRAWER ==='); console.log(JSON.stringify(onetime,null,1));
-          await page.screenshot({ path:'fd-drawer-r23-onetime.png' });
+          await page.screenshot({ path:'fd-drawer-r24-onetime.png' });
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           // --- VERDICT ---
           const hid=circle.hidden||{};
@@ -122,9 +126,14 @@ jobs:
           const checks={
             circleHeader:circle.header.indexOf('Congrats')===0,
             shipbar:/FREE SHIPPING UNLOCKED/.test(circle.shipbar),
-            diffuserFree:circle.diffuserPrice.some(x=>/Diffuser/i.test(x)&&/FREE/.test(x)),
+            diffuserFree:circle.diffuserPrice.some(x=>/-> FREE/.test(x)),
             testi:circle.testi.present&&/Diane/.test(circle.testi.name),
-            value13990:/139\.90/.test(circle.value),
+            noFullValue:circle.value==='MISSING',
+            header90:parseFloat(circle.headerPx)<=14.5,
+            shipbarPad:parseFloat(circle.shipbarMb)>=9,
+            todaysTotal:circle.totalRow.some(x=>/Today's total:/.test(x))&&!circle.totalRow.some(x=>/PAY TODAY/.test(x)),
+            secureCta:/Secure Checkout/i.test((circle.button||{}).text||''),
+            blackCta:/rgb\(17, 17, 17\)/.test((circle.button||{}).bg||''),
             urg19:/Only 19 free diffusers left/.test(circle.urgline),
             trust3:circle.trustBadges.length===3,
             noPaysafe:!circle.paysafe,
@@ -180,10 +189,10 @@ jobs:
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv fd-drawer-r23-circle.png fd-drawer-r23-onetime.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv fd-drawer-r24-circle.png fd-drawer-r24-onetime.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 58: round-23 drawer takeover on fd24" || true
+          git commit -m "verify run 59: round-24 drawer polish on fd25" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

@@ -916,7 +916,10 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 
 /* ================================================================
-   round 23 — cart drawer takeover (live store only; no-op in preview).
+   round 24 — cart drawer takeover (live store only; no-op in preview).
+   r24 tweaks: header -10% + count bubble aligned, shipbar bottom
+   margin, full-value line removed, total row renamed "Today's total:"
+   at -10%, CTA black "Secure Checkout ➔".
    Replaces the old drawer look per the approved mock: hides theme
    clutter (gift bar, qty steppers, remove links, discount tag pills,
    Subi plan line), compacts spacing so the whole drawer fits one
@@ -937,7 +940,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     "#cart-drawer .line-item__info>p.text-sm{display:none !important}" +
     /* --- compact everything to one view --- */
     "#cart-drawer .cart-drawer__top{padding-top:10px;padding-bottom:8px}" +
-    "#cart-drawer .cart-drawer__top p.h5{font-size:1rem;line-height:1.25}" +
+    "#cart-drawer .cart-drawer__top p.h5{font-size:.9rem;line-height:1.25}" +
+    "#cart-drawer .cart-drawer__top .h-stack.grow{align-items:center}" +
+    "#cart-drawer .cart-drawer__top .count-bubble{align-self:center}" +
     "#cart-drawer .v-stack{gap:10px !important}" +
     "#cart-drawer .cart-drawer__line-items{display:flex;flex-direction:column;gap:10px}" +
     "#cart-drawer .line-item{align-items:center}" +
@@ -946,16 +951,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     "#cart-drawer .line-item__info a.bold{font-size:.85rem;line-height:1.3}" +
     "#cart-drawer .line-item__info{font-size:.85rem}" +
     /* --- injected pieces --- */
-    "#cart-drawer .mc-shipbar{background:#E4F0E4;color:#1C5E1C;font-size:.72rem;font-weight:700;text-align:center;padding:6px 12px;letter-spacing:.04em}" +
+    "#cart-drawer .mc-shipbar{background:#E4F0E4;color:#1C5E1C;font-size:.72rem;font-weight:700;text-align:center;padding:6px 12px;letter-spacing:.04em;margin-bottom:10px}" +
     "#cart-drawer .mc-free{color:#0A9400;font-weight:700}" +
     "#cart-drawer .mc-testi{margin:10px 0 2px;background:#fff;border:1px solid #EFE7DD;border-radius:12px;padding:9px 12px}" +
     "#cart-drawer .mc-tstars{color:#E8B23A;font-size:.72rem;letter-spacing:2px}" +
     "#cart-drawer .mc-tver{color:#1C5E1C;background:#E4F0E4;border-radius:999px;padding:1px 7px;font-size:.55rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-left:5px;vertical-align:middle}" +
     "#cart-drawer .mc-tq{font-size:.72rem;font-style:italic;margin-top:5px;line-height:1.45}" +
     "#cart-drawer .mc-tname{font-size:.66rem;color:#6E5B4F;margin-top:4px;font-weight:700}" +
-    "#cart-drawer .mc-value{display:flex;justify-content:space-between;font-size:.8rem;color:#6E5B4F}" +
-    "#cart-drawer .mc-value .mc-strike{text-decoration:line-through}" +
     "#cart-drawer .mc-urgline{font-size:.72rem !important;line-height:1.4 !important}" +
+    "#cart-drawer form.buy-buttons button,#cart-drawer form.buy-buttons .btn{background:#111 !important;border-color:#111 !important;color:#fff !important;text-transform:none}" +
     "#cart-drawer .mc-trust{display:flex;justify-content:space-around;margin-top:8px;padding-top:7px;border-top:1px solid #EFE7DD}" +
     "#cart-drawer .mc-trust>div{text-align:center;font-size:.56rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8A6F5C;line-height:1.45}" +
     "#cart-drawer .mc-trust>div>span{display:block;font-size:.95rem;margin-bottom:1px}";
@@ -1016,19 +1020,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
       testi.remove();
     }
 
-    var payRow = null;
-    drawer.querySelectorAll(".h-stack.justify-between, .h-stack.gap-4").forEach(function (r) {
-      if (/PAY TODAY/i.test(r.textContent)) payRow = r;
+    /* rename the total row and shrink it 10% (keeps theme's live price) */
+    drawer.querySelectorAll(".h-stack.justify-between span.h5, .h-stack.gap-4 span.h5").forEach(function (sp) {
+      if (/PAY TODAY/i.test(sp.textContent)) sp.textContent = "Today's total:";
+      if (/PAY TODAY|Today's total:|USD|\$/.test(sp.textContent) && !sp.dataset.mcScaled) {
+        sp.style.fontSize = (parseFloat(getComputedStyle(sp).fontSize) * 0.9) + "px";
+        sp.dataset.mcScaled = "1";
+      }
     });
-    var val = drawer.querySelector(".mc-value");
-    if (isCircle && payRow && !val) {
-      var v = document.createElement("div");
-      v.className = "mc-value";
-      v.innerHTML = '<span>Full value</span><span class="mc-strike">$139.90</span>';
-      payRow.insertAdjacentElement("beforebegin", v);
-    } else if (!isCircle && val) {
-      val.remove();
-    }
 
     /* shorten the urgency paragraph under the total to one line */
     drawer.querySelectorAll("p").forEach(function (pEl) {
@@ -1039,6 +1038,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     });
 
     var form = drawer.querySelector("form.buy-buttons");
+    var btn = form && form.querySelector("button, .btn");
+    if (btn && !/Secure Checkout/i.test(btn.textContent)) {
+      var tw = document.createTreeWalker(btn, NodeFilter.SHOW_TEXT), tn, best = null;
+      while ((tn = tw.nextNode())) if (tn.nodeValue.trim().length > 3) best = tn;
+      if (best) best.nodeValue = "Secure Checkout ➔";
+    }
     if (form && !drawer.querySelector(".mc-trust")) {
       var tr = document.createElement("div");
       tr.className = "mc-trust";

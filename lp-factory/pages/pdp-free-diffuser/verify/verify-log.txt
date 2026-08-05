@@ -1,12 +1,15 @@
 goto attempt 1: HTTP 200
-=== PAGE CACHE KEY (expect fd29-) === fd24-
+cache key seen: fd28-
+goto attempt 2: HTTP 200
+cache key seen: fd30-
+=== PAGE CACHE KEY (expect fd30-) === fd30-
 === INTENTIONS SECTION ===
-{"title":false,"italicLine":false,"b600":false,"bMold":false,"bFeeling":false,"oldTitleGone":false,"v2Gone":true,"img":null}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"img":null}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
  "found": true,
- "header": "Congrats — your free diffuser is reserved ✓",
+ "header": "Congrats! Your free diffuser is reserved ✓",
  "shipbar": "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝",
  "diffuserPrice": [
   "Maison Croyez — Home Scent Dif -> FREE",
@@ -17,22 +20,22 @@ goto attempt 1: HTTP 200
   "name": "— Diane R.",
   "quoteStart": "“I was nervous about the subscription and buying a"
  },
- "value": "Full value$139.90",
- "headerPx": "16px",
+ "value": "MISSING",
+ "headerPx": "14.4px",
  "shipbarBox": {
-  "pt": "6px",
-  "pb": "6px",
-  "mt": "0px",
-  "mb": "0px"
+  "pt": "11px",
+  "pb": "11px",
+  "mt": "6px",
+  "mb": "14px"
  },
  "totalRow": [
-  "YOU ONLY PAY TODAY: @18px",
-  "$49.95 USD @18px"
+  "Today's total: @16.2px",
+  "$49.95 USD @16.2px"
  ],
  "button": {
-  "text": "LOCK FREE DIFFUSER NOW ➔",
-  "bg": "rgb(10, 148, 0)",
-  "tt": "none"
+  "text": "Secure Checkout ➔",
+  "bg": "rgb(17, 17, 17)",
+  "tt": "uppercase"
  },
  "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
  "trustBadges": [
@@ -40,7 +43,7 @@ goto attempt 1: HTTP 200
   "♾️1-YearWarranty",
   "🔁Cancel & SwapAnytime"
  ],
- "removeBtns": 0,
+ "removeBtns": 2,
  "paysafe": false,
  "hidden": {
   "giftBar": "hidden",
@@ -50,44 +53,44 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "hidden"
  },
  "oneView": {
-  "innerScrollH": 443,
-  "innerClientH": 443,
+  "innerScrollH": 469,
+  "innerClientH": 469,
   "scrollers": []
  },
- "ctaText": "LOCK FREE DIFFUSER NOW ➔"
+ "ctaText": "Secure Checkout ➔"
 }
-=== REMOVE TEST (expect n 2 -> 1) === {"total":49.95,"n":2}
+=== REMOVE TEST (expect n 2 -> 1) === {"total":89.95,"n":1}
 === ONE-TIME CART (expect 139.90) === {"total":139.9,"n":2}
 === ONE-TIME DRAWER ===
 {
  "found": true,
- "header": "Your Maison Croyez Set",
+ "header": "Your cart",
  "shipbar": "FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝",
  "diffuserPrice": [
   "Maison Croyez — Home Scent Dif -> Sale price$89.95",
   "Golden Blossom Harmony – Love  -> Sale price$49.95"
  ],
  "testi": {
-  "present": false,
-  "name": "MISSING",
-  "quoteStart": "MISSING"
+  "present": true,
+  "name": "— Diane R.",
+  "quoteStart": "“I was nervous about the subscription and buying a"
  },
  "value": "MISSING",
- "headerPx": "16px",
+ "headerPx": "14.4px",
  "shipbarBox": {
-  "pt": "6px",
-  "pb": "6px",
-  "mt": "0px",
-  "mb": "0px"
+  "pt": "11px",
+  "pb": "11px",
+  "mt": "6px",
+  "mb": "14px"
  },
  "totalRow": [
-  "YOU ONLY PAY TODAY: @18px",
-  "$139.90 USD @18px"
+  "Today's total: @16.2px",
+  "$139.90 USD @16.2px"
  ],
  "button": {
-  "text": "LOCK FREE DIFFUSER NOW ➔",
-  "bg": "rgb(10, 148, 0)",
-  "tt": "none"
+  "text": "Secure Checkout ➔",
+  "bg": "rgb(17, 17, 17)",
+  "tt": "uppercase"
  },
  "urgline": "Only 19 free diffusers left. Yours is reserved at checkout.",
  "trustBadges": [
@@ -95,7 +98,7 @@ goto attempt 1: HTTP 200
   "♾️1-YearWarranty",
   "🔁Cancel & SwapAnytime"
  ],
- "removeBtns": 0,
+ "removeBtns": 2,
  "paysafe": false,
  "hidden": {
   "giftBar": "hidden",
@@ -105,42 +108,41 @@ goto attempt 1: HTTP 200
   "subiPlanLine": "absent"
  },
  "oneView": {
-  "innerScrollH": 241,
-  "innerClientH": 241,
+  "innerScrollH": 457,
+  "innerClientH": 457,
   "scrollers": []
  },
- "ctaText": "LOCK FREE DIFFUSER NOW ➔"
+ "ctaText": "Secure Checkout ➔"
 }
 === VERDICT ===
-FAIL circleHeader
+PASS circleHeader
 PASS shipbar
 PASS diffuserFree
 PASS testi
-FAIL noFullValue
-FAIL header90
-FAIL shipbarPad
-FAIL todaysTotal
-FAIL secureCta
-FAIL blackCta
-FAIL capsCta
+PASS noFullValue
+PASS header90
+PASS shipbarPad
+PASS todaysTotal
+PASS secureCta
+PASS blackCta
+PASS capsCta
 PASS urg19
 PASS trust3
 PASS noPaysafe
 PASS clutterHidden
 PASS oneViewFit
-FAIL onetimeHeader
-FAIL onetimeTesti
+PASS onetimeHeader
+PASS onetimeTesti
 PASS cartCircle
 PASS cartOnetime
-FAIL rmBtns
-FAIL rmWorks
-FAIL secTitle
-FAIL secBullets
+PASS rmBtns
+PASS rmWorks
+PASS secTitle
+PASS secBullets
 FAIL secImg
-PASS v2ImgGone
-=== CONSOLE ERRORS (4) ===
+FAIL v2ImgBack
+=== CONSOLE ERRORS (3) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
- - Failed to load resource: the server responded with a status of 503 ()
  - Failed to load resource: the server responded with a status of 503 ()

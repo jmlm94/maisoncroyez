@@ -1,5 +1,5 @@
 name: verify-adv
-# run: 5 — CLS fix attempt 2: reserved root heights (advroot 110vh, root 100vh)
+# run: 6 — Circle deploy verification (ss4) + layout-shift source instrumentation
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -56,6 +56,7 @@ jobs:
               saleChildren:(document.getElementById('root')||{children:[]}).children.length,
               h1:(document.querySelector('#advroot h1')||{}).innerText||'MISSING',
               buyboxTitle:(document.querySelector('#root h1')||{}).innerText||'MISSING',
+              circleName:saleT.includes('Manifestation Circle'), scarcity19:saleT.includes('19') && saleT.toLowerCase().includes('free diffusers left'),
               advCtas:q('#advroot a[href="#buybox"]'),
               ctaLabel:(document.querySelector('#advroot .art-cta .btn')||{}).innerText.replace(/\s+/g,' ')||'MISSING',
               friendsWall:advT.includes('7 of my friends'),
@@ -136,10 +137,10 @@ jobs:
             await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
             await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
             await page.addInitScript(()=>{
-              window.__m={lcp:0,lcpEl:'',cls:0,fcp:0,lt:[]};
+              window.__m={lcp:0,lcpEl:'',cls:0,fcp:0,lt:[],shifts:[]};
               const sel=n=>{ if(!n||!n.tagName) return '?'; let s=n.tagName.toLowerCase(); if(n.id) s+='#'+n.id; if(n.className&&typeof n.className==='string') s+='.'+n.className.trim().split(/\s+/).slice(0,2).join('.'); return s; };
               new PerformanceObserver(l=>{for(const e of l.getEntries()){ window.__m.lcp=e.startTime; window.__m.lcpEl=sel(e.element)+(e.url?' url='+e.url.split('/').pop().slice(0,50):''); }}).observe({type:'largest-contentful-paint',buffered:true});
-              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__m.cls+=e.value;}).observe({type:'layout-shift',buffered:true});
+              new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput){ window.__m.cls+=e.value; if(e.value>0.005) window.__m.shifts.push({t:Math.round(e.startTime),v:+e.value.toFixed(4),src:(e.sources||[]).slice(0,3).map(s=>sel(s.node)).join(',')}); }}).observe({type:'layout-shift',buffered:true});
               new PerformanceObserver(l=>{for(const e of l.getEntries()) if(e.name==='first-contentful-paint') window.__m.fcp=e.startTime;}).observe({type:'paint',buffered:true});
               new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__m.lt.push({s:Math.round(e.startTime),d:Math.round(e.duration)});}).observe({type:'longtask',buffered:true});
             });
@@ -157,7 +158,7 @@ jobs:
               const res=performance.getEntriesByType('resource');
               const ours=res.filter(r=>/mc-adv|mc-lp/.test(r.name)).map(r=>({f:r.name.split('?')[0].split('/').pop(),transferKB:Math.round(r.transferSize/1024),ms:Math.round(r.duration)}));
               const tbt=window.__m.lt.reduce((s,t)=>s+Math.max(0,t.d-50),0);
-              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),tbtMs:Math.round(tbt),loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),ourBundles:ours};
+              return {ttfbMs:Math.round(nav.responseStart||0),fcpMs:Math.round(window.__m.fcp),lcpMs:Math.round(window.__m.lcp),lcpEl:window.__m.lcpEl,cls:+window.__m.cls.toFixed(4),shifts:window.__m.shifts.slice(0,8),tbtMs:Math.round(tbt),loadMs:Math.round(nav.loadEventEnd||0),reqCount:res.length,totalTransferKB:Math.round(res.reduce((s,r)=>s+r.transferSize,0)/1024),ourBundles:ours};
             });
             m.wallMs=Date.now()-t0; runs.push(m); await b.close();
             if(i<2) await new Promise(r=>setTimeout(r,40000));
@@ -168,6 +169,7 @@ jobs:
           console.log('=== MEDIAN ===');
           console.log(JSON.stringify({ttfbMs:med('ttfbMs'),fcpMs:med('fcpMs'),lcpMs:med('lcpMs'),cls:med('cls'),tbtMs:med('tbtMs'),loadMs:med('loadMs'),totalTransferKB:med('totalTransferKB')}));
           console.log('=== LCP ELEMENT (per run) ==='); runs.forEach((r,i)=>console.log('run'+(i+1)+': '+r.lcpEl));
+          console.log('=== SHIFT SOURCES (run1) ==='); console.log(JSON.stringify(runs[0].shifts,null,1));
           console.log('=== OUR BUNDLES (run1) ==='); console.log(JSON.stringify(runs[0].ourBundles,null,1));
           EOS
           node perf.mjs 2>&1 | tee perf-log.txt
@@ -179,6 +181,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/adv-ritual-combo/verify
-          git commit -m "the-scent-story verify run 5: reserved-height CLS fix" || true
+          git commit -m "the-scent-story verify run 6: Circle deploy + CLS sources" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

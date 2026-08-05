@@ -449,3 +449,6 @@ html,body{overflow-x:clip !important}
 #root .plan li{font-size:.88rem;line-height:1.45;padding-left:15px;position:relative;text-align:left}
 #root .plan li::before{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;border-radius:50%;background:#A67C3D}
 #root .hiw-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;text-align:left;margin:12px 0 -2px}
+
+/* round 18: Circle rework — italic micro-review under rating */
+#root .microreview{font-style:italic;color:#6E5B4F;font-size:.95rem;margin:4px 0 2px}

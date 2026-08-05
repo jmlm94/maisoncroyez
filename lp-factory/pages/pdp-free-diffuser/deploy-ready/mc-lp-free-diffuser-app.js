@@ -52,7 +52,6 @@ const CONFIG = {
 
   /* --- gallery: EXACT product media, in the product's own order --- */
   gallery: [
-    "mc-lp-fd-hero-callouts.jpg?v=1785357236",
     "Diseno_sin_titulo_92.png?v=1783904283",
     "image-1_1_1.png?v=1773273488",
     "image-2_1_1.png?v=1773273488",

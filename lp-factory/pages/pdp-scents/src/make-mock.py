@@ -52,8 +52,8 @@ def pick_cards():
 def chapter_cards():
     out=[]
     for s in SCENTS:
-        out.append(f'''      <div class="icard" style="background:{s['grad']}">
-        <img src="{d(s['img'])}" alt="{s['name']}" loading="lazy">
+        out.append(f'''      <div class="icard">
+        <div class="ph" style="background:{s['grad']}"><img src="{d(s['img'])}" alt="{s['name']}" loading="lazy"></div>
         <div class="ic-int">{s['intent']}</div>
         <h3>{s['name']}</h3>
         <p>{s['line']}</p>
@@ -88,6 +88,17 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
 .price-row .price{font-family:'Unna',serif;font-weight:700;font-size:2.5rem;line-height:1}
 .price-row .compare{color:var(--ink-soft);text-decoration:line-through;font-weight:600;font-size:1.05rem}
 .price-row .per{font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep)}
+
+/* USP icon chips */
+.usp-row{display:flex;gap:8px;margin-top:4px}
+.usp{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;padding:10px 6px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.usp span{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px}
+.usp .u1{background:linear-gradient(145deg,#DFF3D8 0%,#BCE4C0 100%)}
+.usp .u2{background:linear-gradient(145deg,#FBE3C9 0%,#F6C99B 100%)}
+.usp .u3{background:linear-gradient(145deg,#E4D9F2 0%,#CBB7EA 100%)}
+.usp:nth-child(1){background:rgba(188,228,192,.18)}
+.usp:nth-child(2){background:rgba(246,201,155,.18)}
+.usp:nth-child(3){background:rgba(203,183,234,.18)}
 
 /* scent picker */
 .sec-label{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rosewood-deep);margin:18px 0 10px}
@@ -133,13 +144,15 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
 .chapter{padding:36px 0 8px}
 .chapter h2{font-size:1.75rem;text-align:center;margin-bottom:6px}
 .chapter .sub{text-align:center;color:var(--ink-soft);font-size:.95rem;margin-bottom:20px}
-.igrid{display:grid;gap:14px}
-.icard{border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);text-align:left}
-.icard img{border-radius:14px}
-.icard h3{font-size:1.45rem}
-.ic-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rosewood-deep)}
-.icard p{font-size:.9rem;line-height:1.5;color:rgba(36,28,24,.78)}
-.ic-pick{margin-top:4px;background:var(--ink);color:#fff;border-radius:999px;padding:10px 16px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;width:fit-content}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.icard{background:#fff;border:1px solid var(--rosewood-tint);border-radius:18px;padding:10px 10px 13px;display:flex;flex-direction:column;gap:7px;text-align:left}
+.icard .ph{border-radius:12px;padding:10px}
+.icard .ph img{border-radius:8px;mix-blend-mode:multiply}
+.icard h3{font-size:1.12rem;line-height:1.05}
+.ic-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.53rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep)}
+.icard p{font-size:.78rem;line-height:1.45;color:var(--ink-soft)}
+.icard .pk-chips i{background:var(--cream);border:1px solid var(--rosewood-tint)}
+.ic-pick{margin-top:auto;background:var(--ink);color:#fff;border-radius:999px;padding:9px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;width:fit-content}
 
 /* signature dark band */
 .sig{background:#141414;margin-top:34px;padding:38px 0 42px;color:#fff}
@@ -179,7 +192,7 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
   .pdp-grid{display:grid;grid-template-columns:1.02fr 1fr;gap:46px;align-items:start}
   .gal{position:sticky;top:18px;margin-top:26px}
   .pdp-head h1{font-size:2.6rem}
-  .igrid{grid-template-columns:1fr 1fr;max-width:1000px;margin:0 auto}
+  .igrid{max-width:1000px;margin:0 auto;gap:16px}
   .sigrid{grid-template-columns:repeat(3,1fr);max-width:1000px;margin:0 auto}
   .chapter .wrap,.sig .wrap{max-width:1040px}
   .oils h2,.chapter h2,.sig h2,.revs h2,.faq h2,.ctabreak h2{font-size:2rem}
@@ -193,10 +206,15 @@ h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing
   <div class="buycol">
     <div class="pdp-head">
       <div class="eyebrow">Maison Croyez — Power Fragrances</div>
-      <h1>Manifestation Scents — <span class="em">choose what you attract.</span></h1>
-      <p class="lede">Manifest the energy you’re seeking through high-end, 100% organic scents. Pick the intention — your home does the rest.</p>
+      <h1>Maison Croyez Manifestation &amp; Attraction <span class="em">Organic Scents.</span></h1>
+      <p class="lede">Every scent is composed around an intention — love, abundance, energy, relaxation, purification. Choose what you want to attract into your home; the fragrance does the rest.</p>
       <div class="microproof"><span class="stars">★★★★★</span>Loved by 2,500+ women across the U.S.</div>
       <div class="price-row"><div class="price" id="price">$39.95</div><div class="compare" id="compare">$49.95</div><div class="per" id="per">per bottle · every 45 days</div></div>
+      <div class="usp-row">
+        <div class="usp"><span class="u1">🌿</span>Organic</div>
+        <div class="usp"><span class="u2">🐾</span>Pet-Friendly</div>
+        <div class="usp"><span class="u3">⏳</span>Lasts Longer</div>
+      </div>
     </div>
 
     <div class="sec-label">1 · Choose your intention</div>
@@ -221,7 +239,7 @@ __PICKS__
       </button>
     </div>
 
-    <button class="btn" id="atc"><span id="atclabel">Start My Ritual · $39.95 ➔</span><small id="atcsub">Golden Blossom Harmony · every 45 days · Free shipping</small></button>
+    <button class="btn" id="atc"><span id="atclabel">Add to Cart · $39.95 ➔</span><small id="atcsub">Golden Blossom Harmony · every 45 days · Free shipping</small></button>
     <div class="trust">
       <div><span>🛡️</span>90-Day<br>Risk-Free Trial</div>
       <div><span>🔁</span>Swap or Cancel<br>Anytime</div>
@@ -294,7 +312,7 @@ function sync(){
   document.getElementById('price').textContent=sub?'$39.95':'$49.95';
   document.getElementById('compare').style.display=sub?'':'none';
   document.getElementById('per').textContent=sub?'per bottle · every 45 days':'one-time';
-  document.getElementById('atclabel').textContent=(sub?'Start My Ritual · $39.95':'Add to Cart · $49.95')+' ➔';
+  document.getElementById('atclabel').textContent='Add to Cart · '+(sub?'$39.95':'$49.95')+' ➔';
   document.getElementById('atcsub').textContent=s.name+(sub?' · every 45 days':' · one-time')+' · Free shipping';
 }
 document.querySelectorAll('.picker .pick').forEach(function(p){p.addEventListener('click',function(){sel=p.dataset.key;sync();});});

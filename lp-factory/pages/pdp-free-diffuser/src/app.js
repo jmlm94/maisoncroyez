@@ -88,7 +88,7 @@ const CONFIG = {
     },
         pickerTitle: "Pick your fragrance:",
     pickerLabel: "Tap a scent to select it. A new scent arrives as the last one finishes, and you can swap intentions before each delivery.",
-    cta: { label: "Claim My Free Diffuser", sub: "Only **79** free diffusers left!" },
+    cta: { label: "Claim My Free Diffuser", sub: "Only **19** free diffusers left!" },
     booklet: "",
     trustStrip: [
     ],

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run: 2 — target #cart-drawer directly (fixed-position elements have null offsetParent)
+# run 3 — kits-page recon: /products/diffuser-scents full screenshot + text dump (Instant template)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,54 +13,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Open drawer and dump its DOM skeleton
+      - name: Capture kits product page
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           cat > recon.mjs <<'EOS'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:390,height:844} });
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
           for(let a=0;a<4;a++){
-            const nav=await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(),{waitUntil:'load',timeout:60000});
+            const nav=await page.goto('https://maisoncroyez.com/products/diffuser-scents?cb='+Date.now(),{waitUntil:'load',timeout:60000});
+            console.log('goto '+(a+1)+': '+(nav?nav.status():'?'));
             if(nav && nav.status()===200) break;
             await page.waitForTimeout(30000);
           }
           await page.waitForTimeout(9000);
-          await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
-          await page.waitForTimeout(400);
-          await page.click('.buybox .atc');
-          await page.waitForTimeout(6000);
-          const skeleton = await page.evaluate(()=>{
-            const el=document.getElementById('cart-drawer');
-            if(!el) return {found:false, bodyClasses:document.body.className};
-            const walk=(n,d)=>{
-              if(d>8||n.nodeType!==1) return '';
-              const tag=n.tagName.toLowerCase();
-              const cls=(typeof n.className==='string'&&n.className)?'.'+n.className.trim().split(/\s+/).slice(0,3).join('.'):'';
-              const id=n.id?'#'+n.id:'';
-              const txt=(n.children.length===0&&n.textContent.trim())?' {'+n.textContent.trim().slice(0,40)+'}':'';
-              let out='  '.repeat(d)+tag+id+cls+txt+'\n';
-              for(const c of n.children) out+=walk(c,d+1);
-              return out;
-            };
-            return {found:true, tag:el.tagName, id:el.id, cls:el.className, skeleton:walk(el,0).slice(0,22000)};
+          await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,80));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1500)); });
+          const dump = await page.evaluate(()=>{
+            const t=document.body.innerText;
+            const scent=[...document.querySelectorAll('*')].filter(e=>e.children.length===0&&/scent|fragrance/i.test(e.textContent)).slice(0,30).map(e=>e.textContent.trim().slice(0,80));
+            const imgs=[...document.querySelectorAll('img')].map(i=>(i.currentSrc||i.src).split('/').pop().split('?')[0]).filter(s=>s&&!/^data:/.test(s)).slice(0,40);
+            return {textLen:t.length, scentMentions:scent, imgs, text:t.slice(0,12000)};
           });
-          console.log(JSON.stringify({found:skeleton.found, tag:skeleton.tag, id:skeleton.id, cls:skeleton.cls},null,1));
-          console.log('=== SKELETON ===');
-          console.log(skeleton.skeleton||'none');
-          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          console.log('=== SCENT MENTIONS ==='); dump.scentMentions.forEach(x=>console.log(' - '+x));
+          console.log('=== IMAGES ==='); dump.imgs.forEach(x=>console.log(' - '+x));
+          console.log('=== PAGE TEXT ('+dump.textLen+' chars, first 12000) ===');
+          console.log(dump.text);
+          await page.screenshot({ path:'kits-page-full.png', fullPage:true });
           await b.close();
           EOS
-          node recon.mjs 2>&1 | tee drawer-dom.txt
+          node recon.mjs 2>&1 | tee kits-recon.txt
       - name: Commit results
         if: always()
         run: |
-          mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv drawer-dom.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mkdir -p lp-factory/pages/pdp-diffuser-kits/recon
+          mv kits-recon.txt kits-page-full.png lp-factory/pages/pdp-diffuser-kits/recon/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "drawer recon 2: #cart-drawer skeleton" || true
+          git add lp-factory/pages/pdp-diffuser-kits
+          git commit -m "kits recon: /products/diffuser-scents screenshot + text" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

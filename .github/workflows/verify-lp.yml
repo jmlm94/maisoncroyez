@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 56 — round-19 bullets deploy (fd20) + FULL CART MATRIX: all 7 scents ritual + 2 one-time
+# run: 57 — cart matrix retry: paced ATC cycles + resilient cart.js fetch (run 56 tripped bot gate)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -75,8 +75,15 @@ jobs:
           // FULL CART MATRIX — every scent through the Circle (subscription) path
           const SCENTS=['Honey Nectar','Golden Blossom Harmony','Euphoric Bloom','Crisp Citrus Scape','Wildwood Mystique','Chilled Citrus','Midnight Sensation'];
           const grab = async()=>page.evaluate(async()=>{
-            const j=await (await fetch('/cart.js')).json();
-            return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,36), price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, disc:(i.discounts||[]).length}))};
+            for(let a=0;a<6;a++){
+              const r=await fetch('/cart.js');
+              const txt=await r.text();
+              try{
+                const j=JSON.parse(txt);
+                return {total:j.total_price/100, items:j.items.map(i=>({t:i.product_title.slice(0,36), price:i.price/100, line:i.final_line_price/100, plan:((i.selling_plan_allocation||{}).selling_plan||{}).id||null, disc:(i.discounts||[]).length}))};
+              }catch(e){ await new Promise(res=>setTimeout(res,4000)); }
+            }
+            return {total:-1, items:[], gated:true};
           });
           const matrix=[];
           for(const name of SCENTS){
@@ -87,14 +94,14 @@ jobs:
             await page.evaluate(()=>document.querySelector('.buybox .atc').scrollIntoView({block:'center'}));
             await page.waitForTimeout(200);
             await page.click('.buybox .atc');
-            await page.waitForTimeout(4500);
+            await page.waitForTimeout(6000);
             const c=await grab();
             const scent=c.items.find(i=>!/Diffuser/i.test(i.t))||{};
             const diff=c.items.find(i=>/Diffuser/i.test(i.t))||{};
             const pass=c.total===49.95 && scent.plan===2661875821 && diff.line===0;
             matrix.push({scent:name, total:c.total, plan:scent.plan, diffuserLine:diff.line, PASS:pass});
             await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
-            await page.waitForTimeout(800);
+            await page.waitForTimeout(4000);
           }
           console.log('=== RITUAL MATRIX (7 scents, each expect total 49.95, plan 2661875821, diffuser -> 0) ===');
           matrix.forEach(m=>console.log((m.PASS?'PASS':'FAIL')+' '+JSON.stringify(m)));
@@ -107,13 +114,13 @@ jobs:
             await page.evaluate((n)=>{const el=[...document.querySelectorAll('.pick')].find(x=>x.innerText.includes(n)); if(el) el.click();}, name);
             await page.waitForTimeout(400);
             await page.evaluate(()=>document.querySelector('.buybox .atc').click());
-            await page.waitForTimeout(4500);
+            await page.waitForTimeout(6000);
             const c=await grab();
             const anyPlan=c.items.some(i=>i.plan), anyDisc=c.items.some(i=>i.disc>0);
             const pass=c.total===139.9 && !anyPlan && !anyDisc;
             oneMatrix.push({scent:name, total:c.total, anyPlan, anyDisc, PASS:pass});
             await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
-            await page.waitForTimeout(800);
+            await page.waitForTimeout(4000);
           }
           console.log('=== ONE-TIME MATRIX (expect total 139.90, no plan, no discount) ===');
           oneMatrix.forEach(m=>console.log((m.PASS?'PASS':'FAIL')+' '+JSON.stringify(m)));

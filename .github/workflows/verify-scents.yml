@@ -1,5 +1,5 @@
 name: verify-scents
-# run: 1 — scents PDP takeover live on /collections/power-fragrances (pf1): content + one-time cart + standard drawer
+# run: 2 — templateSuffix -> collection-landing-page (default collection.json was the same Instant section; banner renders description)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -120,6 +120,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-scents/verify
-          git commit -m "verify-scents run 1: scents PDP takeover on pf1" || true
+          git commit -m "verify-scents run 2: collection-landing-page template" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

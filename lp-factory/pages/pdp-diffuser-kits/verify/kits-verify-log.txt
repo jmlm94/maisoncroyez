@@ -1,0 +1,51 @@
+goto 1: 200
+mc-kits-root present: true
+=== AUDIT ===
+{
+ "h1": "Maison Croyez Diffuser — Special Home Kits.",
+ "plans": 3,
+ "savings": {
+  "condo": false,
+  "house": false
+ },
+ "badges": false,
+ "noScentPicker": true,
+ "scentMentionsOnlySeparate": false,
+ "videos": 3,
+ "sections": {
+  "benefits": true,
+  "howto": true,
+  "faq": 4,
+  "ctabreak": true
+ },
+ "themeHidden": false,
+ "atcLabel": "Add to My Home · $89.95 ➔",
+ "overflowX": false
+}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#kx-atc')
+    - locator resolved to <button class="btn" id="kx-atc">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/runner/work/maisoncroyez/maisoncroyez/check.mjs:49:12 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.23.1

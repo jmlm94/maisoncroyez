@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 60 — round-25: Congrats! header, shipbar breathing room, SECURE CHECKOUT caps (fd26)
+# run: 61 — round-26: per-item ✕ remove button, functional removal test (fd27)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -44,7 +44,7 @@ jobs:
             const s=[...document.querySelectorAll('script')].map(x=>x.textContent).join(' ');
             return (s.match(/fd\d+-/)||['?'])[0];
           });
-          console.log('=== PAGE CACHE KEY (expect fd26-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd27-) === '+loader);
           const grab = async()=>page.evaluate(async()=>{
             for(let a=0;a<6;a++){
               const r=await fetch('/cart.js');
@@ -80,6 +80,7 @@ jobs:
               button:(()=>{const btn=d.querySelector('form.buy-buttons button, form.buy-buttons .btn');if(!btn)return{};const cs=getComputedStyle(btn);return {text:btn.textContent.trim().replace(/\s+/g,' ').slice(0,50), bg:cs.backgroundColor, tt:cs.textTransform};})(),
               urgline:txt('.mc-urgline'),
               trustBadges:[...d.querySelectorAll('.mc-trust>div')].map(x=>x.textContent.trim().replace(/\s+/g,' ')),
+              removeBtns:d.querySelectorAll('.mc-rm').length,
               paysafe:!!d.querySelector('.mc-paysafe'),
               hidden:{
                 giftBar:vis('.booklet-gift-container'),
@@ -103,7 +104,12 @@ jobs:
           const circle=await drawerAudit();
           console.log('=== CIRCLE CART (expect 49.95) === '+JSON.stringify(cart1));
           console.log('=== CIRCLE DRAWER ==='); console.log(JSON.stringify(circle,null,1));
-          await page.screenshot({ path:'fd-drawer-r25-circle.png' });
+          await page.screenshot({ path:'fd-drawer-r26-circle.png' });
+          // functional removal: click the scent line's ✕, expect items 2 -> 1
+          await page.evaluate(()=>{ const btns=[...document.querySelectorAll('#cart-drawer .mc-rm')]; if(btns.length) btns[btns.length-1].click(); });
+          await page.waitForTimeout(6000);
+          const afterRm=await grab();
+          console.log('=== REMOVE TEST (expect n 2 -> 1) === '+JSON.stringify(afterRm));
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           await page.waitForTimeout(4000);
           await page.keyboard.press('Escape');
@@ -117,7 +123,7 @@ jobs:
           const onetime=await drawerAudit();
           console.log('=== ONE-TIME CART (expect 139.90) === '+JSON.stringify(cart2));
           console.log('=== ONE-TIME DRAWER ==='); console.log(JSON.stringify(onetime,null,1));
-          await page.screenshot({ path:'fd-drawer-r25-onetime.png' });
+          await page.screenshot({ path:'fd-drawer-r26-onetime.png' });
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
           // --- VERDICT ---
           const hid=circle.hidden||{};
@@ -143,7 +149,9 @@ jobs:
             onetimeHeader:onetime.header==='Your Maison Croyez Set',
             onetimeNoTesti:!onetime.testi.present,
             cartCircle:cart1.total===49.95,
-            cartOnetime:cart2.total===139.9
+            cartOnetime:cart2.total===139.9,
+            rmBtns:circle.removeBtns===2,
+            rmWorks:afterRm.n===1
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -190,10 +198,10 @@ jobs:
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv fd-drawer-r25-circle.png fd-drawer-r25-onetime.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv fd-drawer-r26-circle.png fd-drawer-r26-onetime.png verify-log.txt perf-log.txt lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 60: round-25 drawer tweaks on fd26" || true
+          git commit -m "verify run 61: round-26 remove button on fd27" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

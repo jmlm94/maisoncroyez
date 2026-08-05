@@ -1557,9 +1557,10 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 
 /* ================================================================
-   round 25 — cart drawer takeover (live store only; no-op in preview).
-   r25 tweaks: header "Congrats!" (bang, not dash), shipbar more
-   vertical breathing room, CTA uppercased SECURE CHECKOUT.
+   round 26 — cart drawer takeover (live store only; no-op in preview).
+   r26: discreet ✕ remove button per line item (delegates to the
+   theme's hidden Remove link). Prior rounds: Congrats! header,
+   roomier shipbar, uppercase SECURE CHECKOUT CTA.
    Replaces the old drawer look per the approved mock: hides theme
    clutter (gift bar, qty steppers, remove links, discount tag pills,
    Subi plan line), compacts spacing so the whole drawer fits one
@@ -1585,7 +1586,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     "#cart-drawer .cart-drawer__top .count-bubble{align-self:center}" +
     "#cart-drawer .v-stack{gap:10px !important}" +
     "#cart-drawer .cart-drawer__line-items{display:flex;flex-direction:column;gap:10px}" +
-    "#cart-drawer .line-item{align-items:center}" +
+    "#cart-drawer .line-item{align-items:center;position:relative}" +
+    "#cart-drawer .mc-rm{position:absolute;top:-2px;right:0;background:none;border:0;padding:4px 2px;color:#B9AA9C;font-size:1rem;line-height:1;cursor:pointer}" +
+    "#cart-drawer .mc-rm:hover{color:#6E5B4F}" +
     "#cart-drawer .line-item__media-wrapper{width:52px;min-width:52px}" +
     "#cart-drawer .line-item__media{width:52px;height:52px;object-fit:cover}" +
     "#cart-drawer .line-item__info a.bold{font-size:.85rem;line-height:1.3}" +
@@ -1643,6 +1646,19 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
       if (isCircle && /diffuser/i.test(name)) {
         var sp = li.querySelector("sale-price");
         if (sp && sp.textContent.indexOf("FREE") === -1) sp.innerHTML = '<span class="mc-free">FREE</span>';
+      }
+      /* discreet per-item remove (delegates to the theme's hidden Remove link) */
+      if (!li.querySelector(".mc-rm")) {
+        var rm = document.createElement("button");
+        rm.className = "mc-rm";
+        rm.type = "button";
+        rm.setAttribute("aria-label", "Remove item");
+        rm.textContent = "✕";
+        rm.addEventListener("click", function () {
+          var themed = li.querySelector(".line-item__actions a, .line-item__actions button");
+          if (themed) themed.click();
+        });
+        li.appendChild(rm);
       }
     });
 

@@ -273,12 +273,12 @@ page_html = f"""
         <p>Best for 1-bedroom apartments, home office, bathroom.</p>
       </button>
       <button class="plan" data-kit="condo">
+        <span class="plan-badge">Best Value</span>
         <div class="plan-head"><span class="plan-name">The Condo Kit — 3 Diffusers</span><span class="plan-price"><span class="was">$269.85</span>$189.95</span></div>
         <span class="plan-save">You save $79.90</span>
         <p>Best for 2-bedroom apartments, townhomes.</p>
       </button>
       <button class="plan" data-kit="house">
-        <span class="plan-badge">Best Value</span>
         <div class="plan-head"><span class="plan-name">The House Kit — 5 Diffusers</span><span class="plan-price"><span class="was">$449.75</span>$289.95</span></div>
         <span class="plan-save">You save $159.80</span>
         <p>Best for penthouses, 4-bedroom houses, large spaces.</p>

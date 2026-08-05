@@ -1,5 +1,5 @@
 name: verify-kits
-# run: 4 — kt4: per-kit variant images (1/3/5 diffusers swap the gallery hero)
+# run: 5 — kt5: Best Value badge on Condo (3 diffusers)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -52,6 +52,7 @@ jobs:
               noStaleAnnouncement:!/Just pick the scent|The diffuser is free/i.test(t),
               rootVisible:(()=>{ const rc=r.getBoundingClientRect(); return rc.height>2000 && getComputedStyle(r).display!=='none'; })(),
               atcLabel:(r.querySelector('#kx-atclabel')||{}).innerText||'MISSING',
+              badgeOnCondo:(()=>{const c=r.querySelector('.plan[data-kit=condo] .plan-badge');const h=r.querySelector('.plan[data-kit=house] .plan-badge');return !!c&&!h;})(),
               overflowX:document.documentElement.scrollWidth>document.documentElement.clientWidth+2
             };
           });
@@ -120,6 +121,7 @@ jobs:
             themeHidden:audit.themeHidden,
             noOverflow:!audit.overflowX,
             noStaleAnnouncement:audit.noStaleAnnouncement,
+            badgeOnCondo:audit.badgeOnCondo,
             cartStudio:cartStudio.total===89.95&&!cartStudio.plan,
             cartHouse:cartHouse.total===289.95&&!cartHouse.plan,
             drawerOpened:drawer1.found&&drawer1.open,
@@ -175,6 +177,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-diffuser-kits/verify
-          git commit -m "verify-kits run 4: per-kit variant images on kt4" || true
+          git commit -m "verify-kits run 5: Best Value on Condo (kt5)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

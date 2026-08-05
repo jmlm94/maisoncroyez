@@ -22,6 +22,7 @@ mc-kits-root present: true
  "noStaleAnnouncement": true,
  "rootVisible": true,
  "atcLabel": "ADD TO MY HOME · $89.95 ➔",
+ "badgeOnCondo": true,
  "overflowX": false
 }
 === STUDIO CART (expect 89.95, no plan) === {"total":89.95,"n":1,"plan":false,"title":"Studio Kit (1 Diffuser)"}
@@ -53,6 +54,7 @@ PASS allSections
 PASS themeHidden
 PASS noOverflow
 PASS noStaleAnnouncement
+PASS badgeOnCondo
 PASS cartStudio
 PASS cartHouse
 PASS drawerOpened

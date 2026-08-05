@@ -15,7 +15,7 @@ When the owner creates the plan, set PLAN_ID and redeploy (one fileUpdate).
 PLAN_ID = 0  # <- Subi selling plan numeric id, e.g. 2661875821-style
 
 CDN = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/"
-FRAG_V = "?v=1783552958"
+PIMG = {"love":"18.png?v=1779490806","abundance":"16.png?v=1779490806","focus":"14.png?v=1779490806","ideas":"20.png?v=1779490807","energy":"17.png?v=1779490806","purify":"15.png?v=1779490806","midnight":"19.png?v=1779490806"}
 FLAT_V = "?v=1785972642"
 
 SCENTS = [
@@ -49,7 +49,7 @@ SCENTS = [
      "chips":["🌸 Moonflower","🌺 Night Lily","🤍 Skin Musk"]},
 ]
 
-def frag_url(s): return CDN + s["frag"] + FRAG_V + "&width=900"
+def frag_url(s): return CDN + PIMG[s["key"]] + "&width=900"
 def flat_url(s): return CDN + "mc-scents-flat-" + s["key"] + ".jpg" + FLAT_V + "&width=700"
 
 fonts = open("/home/user/maisoncroyez/lp-factory/pages/pdp-free-diffuser/src/fonts.css").read()

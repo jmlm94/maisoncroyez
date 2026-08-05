@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 54 — Circle rework deploy (fd19): title, membership copy, 19 left
+# run: 55 — re-verify Circle deploy after edge cache (run 54 hit stale fd17 HTML)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -174,6 +174,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "Free-diffuser LP verify run 54: Circle rework deploy" || true
+          git commit -m "Free-diffuser LP verify run 55: Circle deploy on fresh fd19" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

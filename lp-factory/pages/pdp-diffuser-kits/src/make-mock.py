@@ -91,6 +91,21 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
 .cell b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
 .cell p{font-size:.83rem;line-height:1.45;color:var(--ink-soft);max-width:15em}
 
+/* how-to (dark band, from main PDP) */
+.howto{background:#141414;margin-top:34px;padding:36px 0 42px}
+.howto h2{font-size:1.75rem;text-align:center;color:#FFFFFF;margin-bottom:18px}
+.howto h2 .em{color:#C9A25C}
+.howto .hbullets{list-style:none;display:flex;flex-direction:column;gap:10px;max-width:30em;margin:0 auto 24px}
+.howto .hbullets li{display:flex;gap:10px;align-items:flex-start;font-size:.94rem;line-height:1.55;color:#FFFFFF}
+.howto .hbullets li::before{content:"";flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#C9A25C;margin-top:.55em}
+.howto .hbullets b{font-style:italic}
+.howsteps{display:flex;flex-direction:column;gap:26px;max-width:480px;margin:0 auto}
+.hstep{background:var(--ivory);border-radius:var(--radius);padding:16px 16px 22px;box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;gap:10px}
+.hstep img{border-radius:14px}
+.hstep .hnum{width:34px;height:34px;border-radius:99px;background:linear-gradient(135deg,#8A5B52 0%,#3A2721 90%);color:#FFF3EC;display:flex;align-items:center;justify-content:center;margin:-28px auto 0;position:relative;font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;border:3px solid var(--ivory)}
+.hstep h3{font-family:'Unna',serif;font-weight:700;font-size:1.4rem;letter-spacing:-.03em}
+.hstep p{color:var(--ink-soft);font-size:.9rem;max-width:26em;margin:0 auto}
+
 /* FAQ */
 .faq{padding:34px 0 8px}
 .faq h2{font-size:1.6rem;text-align:center;margin-bottom:16px}
@@ -171,6 +186,22 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
   </div>
 </div>
 
+<div class="howto">
+  <div class="wrap">
+    <h2>Three steps. <span class="em">That’s the whole ritual.</span></h2>
+    <ul class="hbullets">
+      <li><span>No water to refill, no app to pair, no wick to trim.</span></li>
+      <li><span><b>Pour the fragrance in once, press the button once.</b> That’s the entire setup.</span></li>
+      <li><span>Your home takes it from there, <b>for weeks at a time</b>.</span></li>
+    </ul>
+    <div class="howsteps">
+      <div class="hstep"><img src="__IMG_S1__" alt="Pouring fragrance into the diffuser"><div class="hnum">1</div><h3>Pour in your intention</h3><p>Your 100ml fragrance. No water, no dilution.</p></div>
+      <div class="hstep"><img src="__IMG_S2__" alt="Pressing the diffuser button"><div class="hnum">2</div><h3>Press once</h3><p>One button, three strengths: from a soft everyday scent to full presence for guests.</p></div>
+      <div class="hstep"><img src="__IMG_S3__" alt="Diffuser filling the room"><div class="hnum">3</div><h3>Walk away</h3><p>Under 10 minutes to fill the room. Weeks of presence.</p></div>
+    </div>
+  </div>
+</div>
+
 <div class="benefits">
   <div class="wrap">
     <h2>Designed to disappear into your space. <span class="em">Built to transform it.</span></h2>
@@ -231,7 +262,10 @@ html = (html
   .replace('__IMG_T1__', d('26-min.jpg'))
   .replace('__IMG_T2__', d('27-min.jpg'))
   .replace('__IMG_T3__', d('image-1_1_1.jpg'))
-  .replace('__IMG_T4__', d('image-4_1_1.jpg')))
+  .replace('__IMG_T4__', d('image-4_1_1.jpg'))
+  .replace('__IMG_S1__', d('www1.jpg'))
+  .replace('__IMG_S2__', d('www2.jpg'))
+  .replace('__IMG_S3__', d('www3.jpg')))
 
 open('kits-page-mock.html','w').write(html)
 print('kits-page-mock.html', len(html)//1024, 'KB')

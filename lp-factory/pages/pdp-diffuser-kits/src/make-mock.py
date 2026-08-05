@@ -24,7 +24,7 @@ body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--ivory);c
 img{max-width:100%;display:block}
 h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.05em;text-wrap:balance}
 .wrap{max-width:520px;margin:0 auto;padding:0 20px}
-.em{font-family:'Unna',serif;font-style:italic;background:var(--grad-em);-webkit-background-clip:text;background-clip:text;color:transparent}
+.em{font-family:'Unna',serif;font-style:italic}
 .eyebrow{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.2em;font-size:.68rem;color:var(--rosewood-deep)}
 
 /* mock banner */
@@ -39,7 +39,7 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
 
 /* head block */
 .pdp-head{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.pdp-head h1{font-size:2.05rem}
+.pdp-head h1{font-size:2.36rem}
 .microproof{font-family:'Outfit',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink)}
 .microproof .stars{color:var(--star);letter-spacing:1px;margin-right:6px}
 
@@ -50,7 +50,7 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
 .price-row .today{font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rosewood-deep)}
 
 /* kit cards */
-.plansel{display:flex;flex-direction:column;gap:14px;margin:14px 0 4px}
+.plansel{display:flex;flex-direction:column;gap:22px;margin:16px 0 4px}
 .plan{position:relative;text-align:left;background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;padding:16px 15px 14px;display:flex;flex-direction:column;gap:8px;cursor:pointer;font:inherit;color:var(--ink);transition:border-color .15s,box-shadow .15s,background .15s}
 .plan.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}
 .plan-badge{position:absolute;top:-10px;left:14px;background:var(--gold);color:#fff;border-radius:999px;padding:4px 11px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}
@@ -127,14 +127,22 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
 
   <div class="pdp-head">
     <div class="eyebrow">Maison Croyez — Diffuser Kits</div>
-    <h1>Your <span class="em">whole home</span> is about to smell incredible.</h1>
+    <h1>Maison Croyez Diffuser — <span class="em">Special Home Kits.</span></h1>
     <div class="microproof"><span class="stars">★★★★★</span>Loved by 2,500+ women across the U.S.</div>
     <div class="price-row">
       <div class="price" id="price">$89.95</div>
       <div class="compare" id="compare" style="display:none">$269.85</div>
-      <div class="today">Today</div>
     </div>
   </div>
+
+  <ul class="offer-bullets">
+    <li><span class="e">💧</span><span>Completely waterless: <b>no mold, no cleaning, no leaks</b> — zero maintenance, ever.</span></li>
+    <li><span class="e">💨</span><span>Fills rooms <b>up to 1,075 sq ft in under 10 minutes</b> — corner to corner, not a slow trickle.</span></li>
+    <li><span class="e">🎛️</span><span>One button, three modes (G1 · G2 · G3) with timer &amp; auto-off — <b>set the mood, then forget it.</b></span></li>
+    <li><span class="e">✨</span><span>Minimalist matte body that <b>looks like decor, not a gadget</b> — flame-free, safe around kids and pets.</span></li>
+  </ul>
+
+  <div class="microreview">“I’ve tried so many diffusers that barely work. This one filled my entire living room in five minutes. Three weeks later, it’s still going strong.”<span>— Priya S. · Verified Buyer</span></div>
 
   <div class="plansel">
     <button class="plan on" data-price="$89.95" data-compare="" data-label="The Studio Kit · $89.95">
@@ -153,17 +161,6 @@ h1,h2{font-family:'Unna',serif;font-weight:700;line-height:.95;letter-spacing:-.
       <p>Best for penthouses, 4-bedroom houses, large spaces.</p>
     </button>
   </div>
-
-  <div class="note">🧴 <span><b>Diffusers only — fragrances are not included on this page.</b> Every diffuser works with all 7 Maison Croyez intention scents, available separately.</span></div>
-
-  <ul class="offer-bullets">
-    <li><span class="e">💧</span><span>Completely waterless: <b>no mold, no cleaning, no leaks</b> — zero maintenance, ever.</span></li>
-    <li><span class="e">💨</span><span>Fills rooms <b>up to 1,075 sq ft in under 10 minutes</b> — corner to corner, not a slow trickle.</span></li>
-    <li><span class="e">🎛️</span><span>One button, three modes (G1 · G2 · G3) with timer &amp; auto-off — <b>set the mood, then forget it.</b></span></li>
-    <li><span class="e">✨</span><span>Minimalist matte body that <b>looks like decor, not a gadget</b> — flame-free, safe around kids and pets.</span></li>
-  </ul>
-
-  <div class="microreview">“I’ve tried so many diffusers that barely work. This one filled my entire living room in five minutes. Three weeks later, it’s still going strong.”<span>— Priya S. · Verified Buyer</span></div>
 
   <button class="btn" id="atc"><span id="atclabel">Add to My Home · $89.95 ➔</span><small>One-time purchase · Free shipping</small></button>
 

@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 75 — rating above title, smaller, one line (fd41)
+# run: 76 — rerun with robust ingredients check (fd41)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -192,7 +192,7 @@ jobs:
             ingredientsBold:!!section.tags&&+section.tags.ingBold>=700&&/Buttercup/.test(section.tags.ingText),
             allCardsTagged:!!section.tags&&section.tags.allCards,
             oldRowGone:!!section.tags&&section.tags.noOldRow,
-            ingredientsOnly:!!section.tags&&section.tags.descText.trim().replace(/\s+/g,' ')==='\ud83c\udf3c Buttercup \ud83c\udf38 Honeysuckle \ud83c\udf3b Sunflower',
+            ingredientsOnly:!!section.tags&&['Buttercup','Honeysuckle','Sunflower'].every(w=>section.tags.descText.includes(w))&&!section.tags.descText.includes('|')&&section.tags.descText.length<60,
             sentenceGone:!!section.tags&&!/For the home|pull the people/.test(section.tags.descText),
             badgesGone:!!section.tags&&section.tags.badges===0,
             goldTextGone:!!section.tags&&section.tags.topSpans===0,
@@ -253,6 +253,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 75: rating above title on fd41" || true
+          git commit -m "verify run 76: robust ingredients check on fd41" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

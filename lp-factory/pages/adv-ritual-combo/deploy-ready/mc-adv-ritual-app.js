@@ -657,18 +657,18 @@ const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
 /* round 27b — per-scent tag pills (owner spec 2026-08-06) */
 const TAG_COLORS = {
-  "Calming":            { bg: "#A8D5BA", fg: "#333333" },
-  "Energizing":         { bg: "#FFD166", fg: "#333333" },
-  "Romantic":           { bg: "#E8A0BF", fg: "#333333" },
-  "Cozy":               { bg: "#D4A574", fg: "#333333" },
-  "Morning Routine":    { bg: "#87CEEB", fg: "#333333" },
-  "Entertaining Guests":{ bg: "#C9A0DC", fg: "#333333" },
-  "Winding Down":       { bg: "#2D4059", fg: "#FFFFFF" },
-  "Date Night":         { bg: "#8B1A3A", fg: "#FFFFFF" },
-  "Fresh & Clean":      { bg: "#B2DFDB", fg: "#333333" },
-  "Warm & Sweet":       { bg: "#FFCC80", fg: "#333333" },
-  "Floral & Soft":      { bg: "#F8BBD0", fg: "#333333" },
-  "Earthy & Woody":     { bg: "#A1887F", fg: "#FFFFFF" },
+  "Calming":            { bg: "#3D6B52" },
+  "Energizing":         { bg: "#8A5F00" },
+  "Romantic":           { bg: "#9C3D5F" },
+  "Cozy":               { bg: "#8A5A2B" },
+  "Morning Routine":    { bg: "#2E6E8E" },
+  "Entertaining Guests":{ bg: "#6E4B8E" },
+  "Winding Down":       { bg: "#2D4059" },
+  "Date Night":         { bg: "#8B1A3A" },
+  "Fresh & Clean":      { bg: "#2F6F6A" },
+  "Warm & Sweet":       { bg: "#9C6414" },
+  "Floral & Soft":      { bg: "#A84A6E" },
+  "Earthy & Woody":     { bg: "#6B4F44" },
 };
 const SCENT_TAGS = {
   focus:     { mood: "Calming",    best: "Morning Routine",     profile: "Fresh & Clean" },
@@ -1318,25 +1318,13 @@ function BuyBox() {
                   </span>
                   <span class="pick-dot" aria-hidden="true"></span>
                 </span>
-                <span class="pick-desc">${f.desc}</span>
-                <span class="pick-ing">
-                  ${f.chips.map((c) => html`<span class="chip" key=${c}>${c}</span>`)}
+                <span class="pick-desc">${f.desc} <b class="pick-ings">${f.chips.join(" \u00B7 ")}</b></span>
+                <span class="pick-tags">
+                  ${(() => { const tg = SCENT_TAGS[f.key]; return tg ? [tg.mood, tg.best, tg.profile].map((val) => html`
+                    <span class="tagpill" key=${val} style=${{ background: TAG_COLORS[val].bg }}>${val}</span>`) : null; })()}
                 </span>
               </button>`; })}
           </div>
-
-          ${(() => {
-            const fsel = CONFIG.fragrances.find((f) => sel.qty(f.key) > 0);
-            const tg = fsel && SCENT_TAGS[fsel.key];
-            if (!tg) return null;
-            return html`<div class="scent-tags">
-              ${[["Mood", tg.mood], ["Best For", tg.best], ["Scent Profile", tg.profile]].map(([lab, val]) => html`
-                <div class="stag" key=${lab}>
-                  <span class="stag-label">${lab}</span>
-                  <span class="stag-pill" style=${{ background: TAG_COLORS[val].bg, color: TAG_COLORS[val].fg }}>${val}</span>
-                </div>`)}
-            </div>`;
-          })()}
 
           ${ritual && html`<div class="free-line on">
             <strong>FREE Maison Croyez Diffuser added to your order</strong> <span class="strike">${usd(OFFER.diffuserValue)}</span> <strong>$0</strong>

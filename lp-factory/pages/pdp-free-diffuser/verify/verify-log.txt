@@ -1,10 +1,12 @@
 goto attempt 1: HTTP 200
 cache key seen: fd36-
-=== PAGE CACHE KEY (expect fd36-) === fd36-
+goto attempt 2: HTTP 200
+cache key seen: fd37-
+=== PAGE CACHE KEY (expect fd37-) === fd37-
 === INTENTIONS SECTION ===
-{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"top":{"text":"(Top Seller)","color":"rgb(166, 124, 61)","size":"14.72px","nameSize":"14.72px","weight":"700"},"badges":0,"topCount":3,"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
 === GOLDEN BLOSSOM CARD TAGS ===
-{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"allCards":true}
+{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"top":{"text":"(Top Seller)","color":"rgb(166, 124, 61)","size":"14.72px","nameSize":"14.72px","weight":"700"},"badges":0,"topCount":3,"allCards":true}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -151,7 +153,13 @@ PASS allCardsTagged
 PASS oldRowGone
 PASS ingredientsOnly
 PASS sentenceGone
-=== CONSOLE ERRORS (2) ===
+PASS badgesGone
+PASS topInline
+PASS topGold
+PASS topSameSize
+PASS threeTopSellers
+=== CONSOLE ERRORS (3) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()
+ - PAGEERROR: TypeError: Cannot read properties of null (reading 'sections--16973427310701__cart-drawer')

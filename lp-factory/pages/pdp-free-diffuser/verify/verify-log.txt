@@ -1,4 +1,6 @@
 goto attempt 1: HTTP 200
+cache key seen: fd39-
+goto attempt 2: HTTP 200
 cache key seen: fd41-
 === PAGE CACHE KEY (expect fd41-) === fd41-
 === INTENTIONS SECTION ===
@@ -149,7 +151,7 @@ PASS tagsWhiteBold
 PASS ingredientsBold
 PASS allCardsTagged
 PASS oldRowGone
-FAIL ingredientsOnly
+PASS ingredientsOnly
 PASS sentenceGone
 PASS badgesGone
 PASS goldTextGone

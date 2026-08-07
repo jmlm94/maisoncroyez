@@ -132,56 +132,42 @@ const CONFIG = {
       key: "love", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
-      desc: "For the home you want to feel held in —",
-      desc2: "pull the people you want closer.",
       chips: ["🌼 Buttercup", "🌸 Honeysuckle", "🌻 Sunflower"],
     },
     {
       key: "abundance", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
-      desc: "For the season you\u2019re calling in more \u2014",
-      desc2: "open the door to money, room, opportunity.",
       chips: ["🍃 Yuzu Leaf", "🍊 Green Mandarin", "🌲 Cypress"],
     },
     {
       key: "focus", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
-      desc: "For the woman whose mind won\u2019t stop \u2014",
-      desc2: "bring stillness first, focus after.",
       chips: ["🪻 Chilled Lavender", "🌿 Eucalyptus", "🍋 White Citrus"],
     },
     {
       key: "ideas", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
-      desc: "For the projects you keep postponing —",
-      desc2: "make the air say: start.",
       chips: ["🥛 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
     },
     {
       key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
-      desc: "For heavy days and low rooms —",
-      desc2: "turn the frequency back up.",
       chips: ["🍵 Jasmine Tea", "🍑 White Peach", "🪵 Sandalwood Crème"],
     },
     {
       key: "purify", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
-      desc: "For when you need yesterday out of the house —",
-      desc2: "sweep it out.",
       chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
     },
     {
       key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
-      desc: "For the evenings you don\u2019t plan on spending alone much longer \u2014",
-      desc2: "set the mood.",
       chips: ["🌙 Moonflower", "🌺 Night Lily", "🤍 Skin Musk"],
     },
   ],
@@ -688,7 +674,7 @@ function BuyBox() {
                   </span>
                   <span class="pick-dot" aria-hidden="true"></span>
                 </span>
-                <span class="pick-desc">${f.desc} <b class="pick-ings">${f.chips.join(" \u00B7 ")}</b> ${f.desc2}</span>
+                <span class="pick-desc"><b class="pick-ings">${f.chips.join(" \u00B7 ")}</b></span>
                 <span class="pick-tags">
                   ${(() => { const tg = SCENT_TAGS[f.key]; return tg ? [tg.mood, tg.best, tg.profile].map((val) => html`
                     <span class="tagpill" key=${val} style=${{ background: TAG_COLORS[val].bg }}>${val}</span>`) : null; })()}

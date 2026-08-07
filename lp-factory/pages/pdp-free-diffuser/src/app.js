@@ -668,7 +668,7 @@ function BuyBox() {
                 <span class="pick-row">
                   <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
                   <span class="pick-txt">
-                    <span class="pick-name">${f.name}${f.topSeller ? html` <span class="pick-top">(Top Seller)</span>` : ""}</span>
+                    <span class="pick-name">${f.name}${f.topSeller ? " 🏆" : ""}</span>
                     <span class="pick-int">${f.intention}</span>
                   </span>
                   <span class="pick-dot" aria-hidden="true"></span>

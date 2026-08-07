@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 69 — ingredients only on variant cards, sentence removed (fd35)
+# run: 70 — ingredients only, pipe separator (fd36)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -43,11 +43,11 @@ jobs:
                 return (s.match(/fd\d+-/)||['?'])[0];
               });
               console.log('cache key seen: '+loader);
-              if(loader==='fd35-') break;
+              if(loader==='fd36-') break;
             }
             await page.waitForTimeout(60000);
           }
-          console.log('=== PAGE CACHE KEY (expect fd35-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd36-) === '+loader);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,50));} });
           await page.waitForTimeout(1500);
           const section = await page.evaluate(()=>{
@@ -192,7 +192,7 @@ jobs:
             ingredientsBold:!!section.tags&&+section.tags.ingBold>=700&&/Buttercup/.test(section.tags.ingText),
             allCardsTagged:!!section.tags&&section.tags.allCards,
             oldRowGone:!!section.tags&&section.tags.noOldRow,
-            ingredientsOnly:!!section.tags&&section.tags.descText.trim()==='\ud83c\udf3c Buttercup \u00b7 \ud83c\udf38 Honeysuckle \u00b7 \ud83c\udf3b Sunflower',
+            ingredientsOnly:!!section.tags&&section.tags.descText.trim()==='\ud83c\udf3c Buttercup | \ud83c\udf38 Honeysuckle | \ud83c\udf3b Sunflower',
             sentenceGone:!!section.tags&&!/For the home|pull the people/.test(section.tags.descText)
           };
           console.log('=== VERDICT ===');
@@ -244,6 +244,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 69: ingredients-only cards on fd35" || true
+          git commit -m "verify run 70: pipe-separated ingredients on fd36" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

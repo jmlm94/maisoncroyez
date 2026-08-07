@@ -1,24 +1,10 @@
 goto attempt 1: HTTP 200
-cache key seen: fd36-
-goto attempt 2: HTTP 200
-cache key seen: fd37-
-goto attempt 3: HTTP 200
-cache key seen: fd37-
-goto attempt 4: HTTP 200
-cache key seen: fd37-
-goto attempt 5: HTTP 200
-cache key seen: fd37-
-goto attempt 6: HTTP 200
-cache key seen: fd37-
-goto attempt 7: HTTP 200
-cache key seen: fd37-
-goto attempt 8: HTTP 200
-cache key seen: fd37-
-=== PAGE CACHE KEY (expect fd40-) === fd37-
+cache key seen: fd41-
+=== PAGE CACHE KEY (expect fd41-) === fd41-
 === INTENTIONS SECTION ===
-{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony (Top Seller)","badges":0,"topSpans":3,"trophyNames":[],"valstack":1,"payToday":true,"freeLine":1,"freeBanner":true,"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"freeLine":0,"freeBanner":false,"rating":{"aboveTitle":true,"fontSize":"10.14px","oneLine":true,"noOverflow":true},"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
 === GOLDEN BLOSSOM CARD TAGS ===
-{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony (Top Seller)","badges":0,"topSpans":3,"trophyNames":[],"valstack":1,"payToday":true,"freeLine":1,"freeBanner":true,"allCards":true}
+{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"freeLine":0,"freeBanner":false,"rating":{"aboveTitle":true,"fontSize":"10.14px","oneLine":true,"noOverflow":true},"allCards":true}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -166,15 +152,15 @@ PASS oldRowGone
 FAIL ingredientsOnly
 PASS sentenceGone
 PASS badgesGone
-FAIL goldTextGone
-FAIL trophyInTitle
-FAIL threeTrophies
-FAIL valstackGone
-FAIL freeBannerGone
-=== CONSOLE ERRORS (4) ===
- - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
-
- - Failed to load resource: the server responded with a status of 403 ()
+PASS goldTextGone
+PASS trophyInTitle
+PASS threeTrophies
+PASS valstackGone
+PASS freeBannerGone
+PASS ratingAboveTitle
+PASS ratingSmaller
+PASS ratingOneLine
+=== CONSOLE ERRORS (2) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 
  - Failed to load resource: the server responded with a status of 403 ()

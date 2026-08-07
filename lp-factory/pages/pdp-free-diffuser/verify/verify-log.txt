@@ -1,10 +1,10 @@
 goto attempt 1: HTTP 200
-cache key seen: fd38-
-=== PAGE CACHE KEY (expect fd38-) === fd38-
+cache key seen: fd39-
+=== PAGE CACHE KEY (expect fd39-) === fd39-
 === INTENTIONS SECTION ===
-{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
 === GOLDEN BLOSSOM CARD TAGS ===
-{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","descText":"🌼 Buttercup | 🌸 Honeysuckle | 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"allCards":true}
+{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"allCards":true}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -155,6 +155,7 @@ PASS badgesGone
 PASS goldTextGone
 PASS trophyInTitle
 PASS threeTrophies
+PASS valstackGone
 === CONSOLE ERRORS (2) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 

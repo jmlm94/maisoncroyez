@@ -604,8 +604,8 @@ function BuyBox() {
       <div class="wrap">
         <${Gallery}/>
         <div class="buybox">
-          <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="rating"><${Stars}/> ${B.microProof}</div>
+          <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="microreview">“Seven of my friends have asked the same question, WHO lives here?”</div>
           <div class="price-row">
             <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>

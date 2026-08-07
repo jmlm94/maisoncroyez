@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 10 — screenshot the fragrance picker cards on live fd40 (clean buybox proof)
+# run 11 — screenshot the fragrance picker cards on live fd41 (rating above title proof)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -29,7 +29,7 @@ jobs:
               await page.waitForTimeout(9000);
               key=await page.evaluate(()=>{const m=document.documentElement.outerHTML.match(/var v='(fd\d+-)'/);return m?m[1]:'?';});
               console.log('loader key: '+key);
-              if(key==='fd40-' && await page.evaluate(()=>document.querySelectorAll('#root .pick').length>0)) break;
+              if(key==='fd41-' && await page.evaluate(()=>document.querySelectorAll('#root .pick').length>0)) break;
             }
             await page.waitForTimeout(60000);
           }
@@ -38,6 +38,10 @@ jobs:
           await page.waitForTimeout(800);
           const picker=await page.evaluateHandle(()=>document.querySelector('#root .picker'));
           await picker.asElement().screenshot({ path:'fd-picker-live.png' });
+          const bb=await page.evaluateHandle(()=>document.querySelector('#root .buybox'));
+          await page.evaluate(()=>document.querySelector('#root .buybox h1').scrollIntoView({block:'center'}));
+          await page.waitForTimeout(600);
+          await page.screenshot({ path:'fd-buybox-top.png' });
           await card.asElement().screenshot({ path:'fd-card-golden.png' });
           console.log('=== GOLDEN CARD TEXT ===');
           console.log(await card.asElement().innerText());
@@ -48,10 +52,10 @@ jobs:
         if: always()
         run: |
           mkdir -p lp-factory/pages/pdp-free-diffuser/verify
-          mv picker-recon.txt fd-picker-live.png fd-card-golden.png lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
+          mv picker-recon.txt fd-picker-live.png fd-card-golden.png fd-buybox-top.png lp-factory/pages/pdp-free-diffuser/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "picker recon: live fd40 card screenshots" || true
+          git commit -m "picker recon: live fd41 card screenshots" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

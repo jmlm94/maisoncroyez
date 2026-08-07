@@ -15,6 +15,31 @@ const html = htm.bind(h);
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
+/* round 27b — per-scent tag pills (owner spec 2026-08-06) */
+const TAG_COLORS = {
+  "Calming":            { bg: "#A8D5BA", fg: "#333333" },
+  "Energizing":         { bg: "#FFD166", fg: "#333333" },
+  "Romantic":           { bg: "#E8A0BF", fg: "#333333" },
+  "Cozy":               { bg: "#D4A574", fg: "#333333" },
+  "Morning Routine":    { bg: "#87CEEB", fg: "#333333" },
+  "Entertaining Guests":{ bg: "#C9A0DC", fg: "#333333" },
+  "Winding Down":       { bg: "#2D4059", fg: "#FFFFFF" },
+  "Date Night":         { bg: "#8B1A3A", fg: "#FFFFFF" },
+  "Fresh & Clean":      { bg: "#B2DFDB", fg: "#333333" },
+  "Warm & Sweet":       { bg: "#FFCC80", fg: "#333333" },
+  "Floral & Soft":      { bg: "#F8BBD0", fg: "#333333" },
+  "Earthy & Woody":     { bg: "#A1887F", fg: "#FFFFFF" },
+};
+const SCENT_TAGS = {
+  focus:     { mood: "Calming",    best: "Morning Routine",     profile: "Fresh & Clean" },
+  abundance: { mood: "Energizing", best: "Morning Routine",     profile: "Fresh & Clean" },
+  energy:    { mood: "Energizing", best: "Entertaining Guests", profile: "Floral & Soft" },
+  love:      { mood: "Cozy",       best: "Entertaining Guests", profile: "Warm & Sweet" },
+  ideas:     { mood: "Cozy",       best: "Winding Down",        profile: "Warm & Sweet" },
+  midnight:  { mood: "Romantic",   best: "Date Night",          profile: "Floral & Soft" },
+  purify:    { mood: "Calming",    best: "Winding Down",        profile: "Earthy & Woody" },
+};
+
 /* --- checkout wiring: ritual scent on the Subi "The Manifestation Ritual"
    plan + diffuser duplicate zeroed by auto BXGY 1375641600109 when a
    ritual subscription is in the cart. One-Time Set adds both with no
@@ -662,6 +687,19 @@ function BuyBox() {
                 </span>
               </button>`; })}
           </div>
+
+          ${(() => {
+            const fsel = CONFIG.fragrances.find((f) => sel.qty(f.key) > 0);
+            const tg = fsel && SCENT_TAGS[fsel.key];
+            if (!tg) return null;
+            return html`<div class="scent-tags">
+              ${[["Mood", tg.mood], ["Best For", tg.best], ["Scent Profile", tg.profile]].map(([lab, val]) => html`
+                <div class="stag" key=${lab}>
+                  <span class="stag-label">${lab}</span>
+                  <span class="stag-pill" style=${{ background: TAG_COLORS[val].bg, color: TAG_COLORS[val].fg }}>${val}</span>
+                </div>`)}
+            </div>`;
+          })()}
 
           ${ritual && html`<div class="free-line on">
             <strong>FREE Maison Croyez Diffuser added to your order</strong> <span class="strike">${usd(OFFER.diffuserValue)}</span> <strong>$0</strong>

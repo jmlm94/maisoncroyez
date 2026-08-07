@@ -595,16 +595,6 @@ function BuyBox() {
   const B = CONFIG.buybox;
   const sel = useSelection();
   const ritual = sel.plan === "ritual";
-  const valueRows = ritual
-    ? [
-        { label: "Maison Croyez Manifestation Scent", sub: "Lasts 45 days, a new one arrives before.", value: usd(OFFER.price) },
-        { label: "Maison Croyez Diffuser", strike: usd(OFFER.diffuserValue), value: "FREE" },
-        { label: "You pay today", value: usd(OFFER.price), total: true },
-      ]
-    : [
-        { label: "Maison Croyez Diffuser & Manifestation Scent", sub: "No refills included.", value: usd(OFFER.oneTime) },
-        { label: "You pay today", value: usd(OFFER.oneTime), total: true },
-      ];
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
@@ -651,14 +641,6 @@ function BuyBox() {
             </button>
           </div>
 
-          <div class="valstack">
-            ${valueRows.map((v) => html`
-              <div class=${"vrow" + (v.total ? " total" : "")} key=${v.label}>
-                <span>${v.label}${v.sub && html`<span class="vsub">${v.sub}</span>`}</span>
-                <span>${v.strike && html`<span class="strike">${v.strike}</span>`}<span class=${v.strike ? "vfree" : ""}>${v.value}</span></span>
-              </div>`)}
-          </div>
-
           <div class="picker-title">${B.pickerTitle}</div>
           <div class="picker" role="radiogroup" aria-label="Pick your fragrance">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; return html`
@@ -673,7 +655,7 @@ function BuyBox() {
                   </span>
                   <span class="pick-dot" aria-hidden="true"></span>
                 </span>
-                <span class="pick-desc"><b class="pick-ings">${f.chips.join(" | ")}</b></span>
+                <span class="pick-desc"><b class="pick-ings">${f.chips.join("  ")}</b></span>
                 <span class="pick-tags">
                   ${(() => { const tg = SCENT_TAGS[f.key]; return tg ? [tg.mood, tg.best, tg.profile].map((val) => html`
                     <span class="tagpill" key=${val} style=${{ background: TAG_COLORS[val].bg }}>${val}</span>`) : null; })()}

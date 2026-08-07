@@ -663,10 +663,6 @@ function BuyBox() {
               </button>`; })}
           </div>
 
-          ${ritual && html`<div class="free-line on">
-            <strong>FREE Maison Croyez Diffuser added to your order</strong> <span class="strike">${usd(OFFER.diffuserValue)}</span> <strong>$0</strong>
-          </div>`}
-
           <button class="btn atc" disabled=${locked} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : (ritual ? B.cta.label : "Add the One-Time Set") + " ➔"}</span>
             <span class="btn-sub">${ritual ? html`<${Rich} s=${B.cta.sub}/>` : "One payment. Free shipping."}</span>

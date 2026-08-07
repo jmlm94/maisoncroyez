@@ -1,12 +1,10 @@
 goto attempt 1: HTTP 200
-cache key seen: fd32-
-=== PAGE CACHE KEY (expect fd32-) === fd32-
+cache key seen: fd33-
+=== PAGE CACHE KEY (expect fd33-) === fd33-
 === INTENTIONS SECTION ===
-{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"labels":["Mood","Best For","Scent Profile"],"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(212, 165, 116)","rgb(201, 160, 220)","rgb(255, 204, 128)"],"fgs":["rgb(51, 51, 51)","rgb(51, 51, 51)","rgb(51, 51, 51)"],"radius":"20px","beforeAtc":true},"tagsMidnight":null,"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
-=== TAGS DEFAULT (Golden Blossom) ===
-{"labels":["Mood","Best For","Scent Profile"],"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(212, 165, 116)","rgb(201, 160, 220)","rgb(255, 204, 128)"],"fgs":["rgb(51, 51, 51)","rgb(51, 51, 51)","rgb(51, 51, 51)"],"radius":"20px","beforeAtc":true}
-=== TAGS AFTER MIDNIGHT ===
-{"values":["Romantic","Date Night","Floral & Soft"],"bgs":["rgb(232, 160, 191)","rgb(139, 26, 58)","rgb(248, 187, 208)"],"fgs":["rgb(51, 51, 51)","rgb(255, 255, 255)","rgb(51, 51, 51)"]}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup · 🌸 Honeysuckle · 🌻 Sunflower","noOldRow":true,"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
+=== GOLDEN BLOSSOM CARD TAGS ===
+{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup · 🌸 Honeysuckle · 🌻 Sunflower","noOldRow":true,"allCards":true}
 === CIRCLE CART (expect 49.95) === {"total":49.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -145,6 +143,12 @@ FAIL secImg
 PASS v2ImgOnPage
 PASS calloutsGone
 PASS firstGalleryIsProduct
+PASS tagsOnCard
+PASS tagsDark
+PASS tagsWhiteBold
+PASS ingredientsBold
+PASS allCardsTagged
+PASS oldRowGone
 === CONSOLE ERRORS (2) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".
 

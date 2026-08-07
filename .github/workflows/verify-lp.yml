@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 67 — round-27c: tags ON the variant cards, dark pills white bold, bold ingredients (fd33)
+# run: 68 — mixed sentence: ingredients woven mid-sentence on variant cards (fd34)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -43,11 +43,11 @@ jobs:
                 return (s.match(/fd\d+-/)||['?'])[0];
               });
               console.log('cache key seen: '+loader);
-              if(loader==='fd33-') break;
+              if(loader==='fd34-') break;
             }
             await page.waitForTimeout(60000);
           }
-          console.log('=== PAGE CACHE KEY (expect fd33-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd34-) === '+loader);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,50));} });
           await page.waitForTimeout(1500);
           const section = await page.evaluate(()=>{
@@ -62,7 +62,7 @@ jobs:
               oldTitleGone:!t.includes('Love? Relaxation? Abundance?'),
               v2Present:[...document.querySelectorAll('#root img')].some(i=>/mc-lp-intentions-v2/.test(i.currentSrc||i.src)),
               calloutsGone:!document.documentElement.outerHTML.includes('mc-lp-fd-hero-callouts'),
-              tags:(()=>{const card=[...document.querySelectorAll('#root .pick')].find(p=>p.innerText.includes('Golden Blossom'));if(!card)return null;const pills=[...card.querySelectorAll('.pick-tags .tagpill')];const ing=card.querySelector('.pick-ings');return {values:pills.map(x=>x.textContent),bgs:pills.map(x=>getComputedStyle(x).backgroundColor),fgs:pills.map(x=>getComputedStyle(x).color),weights:pills.map(x=>getComputedStyle(x).fontWeight),ingBold:ing?getComputedStyle(ing).fontWeight:'?',ingText:ing?ing.textContent.slice(0,50):'?',noOldRow:!document.querySelector('#root .scent-tags'),allCards:[...document.querySelectorAll('#root .pick')].every(p=>p.querySelectorAll('.pick-tags .tagpill').length===3)};})(),
+              tags:(()=>{const card=[...document.querySelectorAll('#root .pick')].find(p=>p.innerText.includes('Golden Blossom'));if(!card)return null;const pills=[...card.querySelectorAll('.pick-tags .tagpill')];const ing=card.querySelector('.pick-ings');return {values:pills.map(x=>x.textContent),bgs:pills.map(x=>getComputedStyle(x).backgroundColor),fgs:pills.map(x=>getComputedStyle(x).color),weights:pills.map(x=>getComputedStyle(x).fontWeight),ingBold:ing?getComputedStyle(ing).fontWeight:'?',ingText:ing?ing.textContent.slice(0,60):'?',descText:(card.querySelector('.pick-desc')||{innerText:'?'}).innerText.replace(/\s+/g,' ').slice(0,160),noOldRow:!document.querySelector('#root .scent-tags'),allCards:[...document.querySelectorAll('#root .pick')].every(p=>p.querySelectorAll('.pick-tags .tagpill').length===3)};})(),
               firstGallery:(()=>{const im=document.querySelector('#root .gallery img, #root [class*=gal] img, #root img');return im?(im.currentSrc||im.src).split('/').pop().slice(0,50):'none';})(),
               img:(()=>{const h=[...document.querySelectorAll('#root *')].filter(e=>e.children.length===0&&e.textContent.includes('complimenting your spaces'))[0];if(!h)return null;const sec=h.closest('section')||h.parentElement.parentElement.parentElement;const im=sec?sec.querySelector('img'):null;return im?{loaded:im.complete&&im.naturalWidth>0,src:(im.currentSrc||im.src).split('/').pop().slice(0,50)}:null;})()
             };
@@ -191,7 +191,10 @@ jobs:
             tagsWhiteBold:!!section.tags&&section.tags.fgs.every(c=>c==='rgb(255, 255, 255)')&&section.tags.weights.every(w=>+w>=700),
             ingredientsBold:!!section.tags&&+section.tags.ingBold>=700&&/Buttercup/.test(section.tags.ingText),
             allCardsTagged:!!section.tags&&section.tags.allCards,
-            oldRowGone:!!section.tags&&section.tags.noOldRow
+            oldRowGone:!!section.tags&&section.tags.noOldRow,
+            mixedLead:!!section.tags&&section.tags.descText.startsWith('For the home you want to feel held in \u2014'),
+            mixedTail:!!section.tags&&/pull the people you want closer\.$/.test(section.tags.descText),
+            ingsMidSentence:!!section.tags&&/held in \u2014 \ud83c\udf3c Buttercup \u00b7 \ud83c\udf38 Honeysuckle \u00b7 \ud83c\udf3b Sunflower pull/.test(section.tags.descText)
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -242,6 +245,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 67: variant-card tags on fd33" || true
+          git commit -m "verify run 68: mixed-sentence ingredients on fd34" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

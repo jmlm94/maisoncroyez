@@ -1,10 +1,10 @@
 goto attempt 1: HTTP 200
-cache key seen: fd42-
-=== PAGE CACHE KEY (expect fd42-) === fd42-
+cache key seen: fd43-
+=== PAGE CACHE KEY (expect fd43-) === fd43-
 === INTENTIONS SECTION ===
-{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"freeLine":0,"freeBanner":false,"rating":{"aboveTitle":true,"fontSize":"10.14px","oneLine":true,"noOverflow":true,"text":"★★★★★ 2,500+ GUESTS ASKED “WHAT’S THAT SMELL?” SO FAR!"},"r28":{"chips":3,"chipTwoLine":false,"badge":"FREE DIFFUSER INCLUDED","unit":"per month","planPrice":"$39.95/mo","planName":true,"selTitle":true,"dayrate":true,"noMicroreview":true,"ratingCopy":false,"noBullets":true},"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
+{"title":true,"italicLine":true,"b600":true,"bMold":true,"bFeeling":true,"oldTitleGone":true,"v2Present":true,"calloutsGone":true,"tags":{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"freeLine":0,"freeBanner":false,"rating":{"aboveTitle":true,"fontSize":"8px","oneLine":true,"noOverflow":true,"text":"★★★★★ 2,500+ GUESTS ASKED “WHAT’S THAT SMELL?” SO FAR!"},"r28":{"chips":3,"chipTwoLine":true,"badge":"FREE DIFFUSER INCLUDED","unit":"per month","planPrice":"$39.95/mo","planName":true,"selTitle":true,"dayrate":true,"noMicroreview":true,"ratingCopy":true,"noBullets":true},"allCards":true},"firstGallery":"Diseno_sin_titulo_92.png?v=1783904283&width=900","img":null}
 === GOLDEN BLOSSOM CARD TAGS ===
-{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"freeLine":0,"freeBanner":false,"rating":{"aboveTitle":true,"fontSize":"10.14px","oneLine":true,"noOverflow":true,"text":"★★★★★ 2,500+ GUESTS ASKED “WHAT’S THAT SMELL?” SO FAR!"},"r28":{"chips":3,"chipTwoLine":false,"badge":"FREE DIFFUSER INCLUDED","unit":"per month","planPrice":"$39.95/mo","planName":true,"selTitle":true,"dayrate":true,"noMicroreview":true,"ratingCopy":false,"noBullets":true},"allCards":true}
+{"values":["Cozy","Entertaining Guests","Warm & Sweet"],"bgs":["rgb(138, 90, 43)","rgb(110, 75, 142)","rgb(156, 100, 20)"],"fgs":["rgb(255, 255, 255)","rgb(255, 255, 255)","rgb(255, 255, 255)"],"weights":["700","700","700"],"ingBold":"700","ingText":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower","descText":"🌼 Buttercup 🌸 Honeysuckle 🌻 Sunflower","noOldRow":true,"nameText":"Golden Blossom Harmony 🏆","badges":0,"topSpans":0,"trophyNames":["Golden Blossom Harmony 🏆","Crisp Citrus Scape 🏆","Midnight Sensation 🏆"],"valstack":0,"payToday":false,"freeLine":0,"freeBanner":false,"rating":{"aboveTitle":true,"fontSize":"8px","oneLine":true,"noOverflow":true,"text":"★★★★★ 2,500+ GUESTS ASKED “WHAT’S THAT SMELL?” SO FAR!"},"r28":{"chips":3,"chipTwoLine":true,"badge":"FREE DIFFUSER INCLUDED","unit":"per month","planPrice":"$39.95/mo","planName":true,"selTitle":true,"dayrate":true,"noMicroreview":true,"ratingCopy":true,"noBullets":true},"allCards":true}
 === CIRCLE CART (expect 39.95, plan 2627895405) === {"total":39.95,"n":2}
 === CIRCLE DRAWER ===
 {
@@ -161,7 +161,7 @@ PASS ratingAboveTitle
 PASS ratingSmaller
 PASS ratingOneLine
 PASS chips3
-FAIL chipTwoLine
+PASS chipTwoLine
 PASS badgeFreeDiffuser
 PASS unitPerMonth
 PASS planPriceMo
@@ -169,7 +169,7 @@ PASS planNameNew
 PASS selTitleNew
 PASS dayrateNew
 PASS microreviewGone
-FAIL ratingCopyNew
+PASS ratingCopyNew
 PASS oldBulletsGone
 === CONSOLE ERRORS (2) ===
  - Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com".

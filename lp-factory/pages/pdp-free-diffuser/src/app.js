@@ -4,13 +4,13 @@ const html = htm.bind(h);
 
 /* ================================================================
    FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004, offer v4)
-   THE MANIFESTATION RITUAL: $39.95 today = free diffuser ($89.95 value) +
+   THE MANIFESTATION RITUAL: $39.95 today = free diffuser ($79.95 value) +
    first 100ml scent. Renews $39.95 per month, no minimum,
    cancel anytime. Diffuser becomes the customer's on the 3rd
    delivery (day 90) + free full-size gift scent. Leave earlier:
    free return label, or keep it for $49.95 (keep-fee). 30-day guarantee:
    full refund, prepaid diffuser label, customer keeps the scent.
-   Anchor: One-Time Set (diffuser + one scent) $119.95.
+   Anchor: One-Time Set (diffuser + one scent) $119.90.
    Fictional reviews ship live per owner ruling 2026-07-04.
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
@@ -45,16 +45,16 @@ const SCENT_TAGS = {
    ritual subscription is in the cart. One-Time Set adds both with no
    plan, so the diffuser stays at full price. --- */
 const CART = {
-  diffuserVariant: 45450822778989,   /* duplicate diffuser (this funnel only) — reprice to $89.95 at deploy */
-  sellingPlan: 2661875821,           /* Subi plan — owner to switch to $39.95 monthly before deploy */
+  diffuserVariant: 45450822778989,   /* duplicate diffuser (this funnel only) — $79.95 */
+  sellingPlan: 2627895405,           /* Subi Plan 3: Delivered every 30 days ✨, $39.95 */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 
 const OFFER = {
   price: 39.95,        /* ritual: today + monthly */
-  oneTime: 119.95,     /* One-Time Set anchor */
-  diffuserValue: 89.95,
-  firstBoxValue: 129.90,
+  oneTime: 119.90,     /* One-Time Set anchor */
+  diffuserValue: 79.95,
+  firstBoxValue: 119.90,
 };
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
@@ -64,7 +64,7 @@ const CONFIG = {
 
   announcement: {
     urgency: { confirmed: false, text: "SELLING FAST" },
-    text: "Get the $89.95 diffuser free with your first scent",
+    text: "Get the $79.95 diffuser free with your first scent",
     cta: "",
   },
 
@@ -314,7 +314,7 @@ const CONFIG = {
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged?", a: "Today you pay $39.95 for your first box: your first 100ml scent plus the diffuser, an $89.95 value, shipped free. Then $39.95 per month as each new scent ships. You'll get an email reminder before every renewal, and you can cancel anytime." },
+      { q: "When am I charged?", a: "Today you pay $39.95 for your first box: your first 100ml scent plus the diffuser, an $79.95 value, shipped free. Then $39.95 per month as each new scent ships. You'll get an email reminder before every renewal, and you can cancel anytime." },
       { q: "Is the diffuser really free?", a: "Yes. It ships free with your first scent, and on your third delivery, around day 90, it becomes permanently yours, plus we ship a free full-size scent as a gift. If you leave before then, return the diffuser with the free label we provide, or keep it for $49.95." },
       { q: "Can I swap scents or cancel?", a: "Both, anytime, from the link in any delivery email. Pick a different intention before any shipment in a few taps, or pause and cancel whenever you like. There is no minimum." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
@@ -429,8 +429,8 @@ async function addToCart(setBusy, setToast) {
   }
   if (!onStore()) {
     setToast(ritual
-      ? `Preview mode. On the live store this adds ${scent.name} on The Manifestation Ritual ($39.95 today, then $39.95 per month) plus your free diffuser ($89.95 value) and opens the cart drawer.`
-      : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $119.95, and opens the cart drawer.`);
+      ? `Preview mode. On the live store this adds ${scent.name} on The Manifestation Ritual ($39.95 today, then $39.95 per month) plus your free diffuser ($79.95 value) and opens the cart drawer.`
+      : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $119.90, and opens the cart drawer.`);
     return;
   }
   /* ritual: scent on the monthly plan + diffuser (zeroed at cart level by

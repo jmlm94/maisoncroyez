@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 11 — screenshot the fragrance picker cards on live fd41 (rating above title proof)
+# run 12 — screenshot the fragrance picker cards on live fd42 (round-28 buybox proof)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -29,7 +29,7 @@ jobs:
               await page.waitForTimeout(9000);
               key=await page.evaluate(()=>{const m=document.documentElement.outerHTML.match(/var v='(fd\d+-)'/);return m?m[1]:'?';});
               console.log('loader key: '+key);
-              if(key==='fd41-' && await page.evaluate(()=>document.querySelectorAll('#root .pick').length>0)) break;
+              if(key==='fd42-' && await page.evaluate(()=>document.querySelectorAll('#root .pick').length>0)) break;
             }
             await page.waitForTimeout(60000);
           }
@@ -56,6 +56,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "picker recon: live fd41 card screenshots" || true
+          git commit -m "picker recon: live fd42 card screenshots" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

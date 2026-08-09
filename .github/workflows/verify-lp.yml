@@ -1,5 +1,5 @@
 name: verify-lp
-# run: 76 — rerun with robust ingredients check (fd41)
+# run: 77 — round 28 live: $39.95/mo plan 3, $119.90 one-time, buybox rework (fd42)
 on:
   push:
     branches: [claude/maison-landing-page-iyikm5, claude/maison-offer-v2-deploy-dspkwe]
@@ -43,11 +43,11 @@ jobs:
                 return (s.match(/fd\d+-/)||['?'])[0];
               });
               console.log('cache key seen: '+loader);
-              if(loader==='fd41-') break;
+              if(loader==='fd42-') break;
             }
             await page.waitForTimeout(60000);
           }
-          console.log('=== PAGE CACHE KEY (expect fd41-) === '+loader);
+          console.log('=== PAGE CACHE KEY (expect fd42-) === '+loader);
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=600){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,50));} });
           await page.waitForTimeout(1500);
           const section = await page.evaluate(()=>{
@@ -56,13 +56,13 @@ jobs:
             return {
               title:t.includes('Get ready to hear your guests complimenting your spaces'),
               italicLine:t.includes('for weeks, not hours, within a single fill.'),
-              b600:t.includes('600 sq ft for over 45 days'),
+              b600:t.includes('600 sq ft for over 30 days'),
               bMold:t.includes('no mold, no cleaning, no leaks'),
               bFeeling:t.includes('you choose the feeling your home holds all day'),
               oldTitleGone:!t.includes('Love? Relaxation? Abundance?'),
               v2Present:[...document.querySelectorAll('#root img')].some(i=>/mc-lp-intentions-v2/.test(i.currentSrc||i.src)),
               calloutsGone:!document.documentElement.outerHTML.includes('mc-lp-fd-hero-callouts'),
-              tags:(()=>{const card=[...document.querySelectorAll('#root .pick')].find(p=>p.innerText.includes('Golden Blossom'));if(!card)return null;const pills=[...card.querySelectorAll('.pick-tags .tagpill')];const ing=card.querySelector('.pick-ings');return {values:pills.map(x=>x.textContent),bgs:pills.map(x=>getComputedStyle(x).backgroundColor),fgs:pills.map(x=>getComputedStyle(x).color),weights:pills.map(x=>getComputedStyle(x).fontWeight),ingBold:ing?getComputedStyle(ing).fontWeight:'?',ingText:ing?ing.textContent.slice(0,60):'?',descText:(card.querySelector('.pick-desc')||{innerText:'?'}).innerText.replace(/\s+/g,' ').slice(0,160),noOldRow:!document.querySelector('#root .scent-tags'),nameText:(card.querySelector('.pick-name')||{textContent:'?'}).textContent,badges:document.querySelectorAll('#root .pick-badge').length,topSpans:document.querySelectorAll('#root .pick-top').length,trophyNames:[...document.querySelectorAll('#root .pick-name')].filter(n=>n.textContent.includes('\ud83c\udfc6')).map(n=>n.textContent.trim()),valstack:document.querySelectorAll('#root .valstack').length,payToday:document.body.innerText.includes('You pay today'),freeLine:document.querySelectorAll('#root .free-line').length,freeBanner:document.body.innerText.includes('added to your order'),rating:(()=>{const bb=document.querySelector('#root .buybox');if(!bb)return null;const r=bb.querySelector('.rating');const h=bb.querySelector('h1');if(!r||!h)return null;const rr=r.getBoundingClientRect(),hr=h.getBoundingClientRect();const cs=getComputedStyle(r);return {aboveTitle:rr.top<hr.top,fontSize:cs.fontSize,oneLine:rr.height<parseFloat(cs.fontSize)*2.2,noOverflow:rr.right<=document.documentElement.clientWidth+2};})(),allCards:[...document.querySelectorAll('#root .pick')].every(p=>p.querySelectorAll('.pick-tags .tagpill').length===3)};})(),
+              tags:(()=>{const card=[...document.querySelectorAll('#root .pick')].find(p=>p.innerText.includes('Golden Blossom'));if(!card)return null;const pills=[...card.querySelectorAll('.pick-tags .tagpill')];const ing=card.querySelector('.pick-ings');return {values:pills.map(x=>x.textContent),bgs:pills.map(x=>getComputedStyle(x).backgroundColor),fgs:pills.map(x=>getComputedStyle(x).color),weights:pills.map(x=>getComputedStyle(x).fontWeight),ingBold:ing?getComputedStyle(ing).fontWeight:'?',ingText:ing?ing.textContent.slice(0,60):'?',descText:(card.querySelector('.pick-desc')||{innerText:'?'}).innerText.replace(/\s+/g,' ').slice(0,160),noOldRow:!document.querySelector('#root .scent-tags'),nameText:(card.querySelector('.pick-name')||{textContent:'?'}).textContent,badges:document.querySelectorAll('#root .pick-badge').length,topSpans:document.querySelectorAll('#root .pick-top').length,trophyNames:[...document.querySelectorAll('#root .pick-name')].filter(n=>n.textContent.includes('\ud83c\udfc6')).map(n=>n.textContent.trim()),valstack:document.querySelectorAll('#root .valstack').length,payToday:document.body.innerText.includes('You pay today'),freeLine:document.querySelectorAll('#root .free-line').length,freeBanner:document.body.innerText.includes('added to your order'),rating:(()=>{const bb=document.querySelector('#root .buybox');if(!bb)return null;const r=bb.querySelector('.rating');const h=bb.querySelector('h1');if(!r||!h)return null;const rr=r.getBoundingClientRect(),hr=h.getBoundingClientRect();const cs=getComputedStyle(r);return {aboveTitle:rr.top<hr.top,fontSize:cs.fontSize,oneLine:rr.height<parseFloat(cs.fontSize)*2.2,noOverflow:rr.right<=document.documentElement.clientWidth+2,text:r.innerText.replace(/\s+/g,' ').slice(0,80)};})(),r28:(()=>{const bb=document.querySelector('#root .buybox');if(!bb)return null;const t=bb.innerText;return {chips:bb.querySelectorAll('.usp3 .usp').length,chipTwoLine:(()=>{const tx=bb.querySelector('.usp3 .usp-tx');if(!tx)return false;const cs=getComputedStyle(tx);return tx.getBoundingClientRect().height>parseFloat(cs.fontSize)*1.9;})(),badge:(bb.querySelector('.price-badge')||{innerText:'?'}).innerText,unit:(bb.querySelector('.price-unit')||{innerText:'?'}).innerText,planPrice:(bb.querySelector('.plan-price')||{innerText:'?'}).innerText,planName:t.includes('claim your free diffuser plus'),selTitle:t.includes('Two ways to bring it home'),dayrate:t.includes('$1,000/night hotels')&&t.includes('$1.33 a day'),noMicroreview:!t.includes('WHO lives here'),ratingCopy:t.includes('what\u2019s that smell'),noBullets:!t.includes('LITTLE TO NO EFFORT')};})(),allCards:[...document.querySelectorAll('#root .pick')].every(p=>p.querySelectorAll('.pick-tags .tagpill').length===3)};})(),
               firstGallery:(()=>{const im=document.querySelector('#root .gallery img, #root [class*=gal] img, #root img');return im?(im.currentSrc||im.src).split('/').pop().slice(0,50):'none';})(),
               img:(()=>{const h=[...document.querySelectorAll('#root *')].filter(e=>e.children.length===0&&e.textContent.includes('complimenting your spaces'))[0];if(!h)return null;const sec=h.closest('section')||h.parentElement.parentElement.parentElement;const im=sec?sec.querySelector('img'):null;return im?{loaded:im.complete&&im.naturalWidth>0,src:(im.currentSrc||im.src).split('/').pop().slice(0,50)}:null;})()
             };
@@ -130,7 +130,7 @@ jobs:
           await page.waitForTimeout(7000);
           const cart1=await grab();
           const circle=await drawerAudit();
-          console.log('=== CIRCLE CART (expect 49.95) === '+JSON.stringify(cart1));
+          console.log('=== CIRCLE CART (expect 39.95, plan 2627895405) === '+JSON.stringify(cart1));
           console.log('=== CIRCLE DRAWER ==='); console.log(JSON.stringify(circle,null,1));
           await page.screenshot({ path:'fd-drawer-r27-circle.png' });
           // functional removal: click the scent line's ✕, expect items 2 -> 1
@@ -149,7 +149,7 @@ jobs:
           await page.waitForTimeout(7000);
           const cart2=await grab();
           const onetime=await drawerAudit();
-          console.log('=== ONE-TIME CART (expect 139.90) === '+JSON.stringify(cart2));
+          console.log('=== ONE-TIME CART (expect 119.90) === '+JSON.stringify(cart2));
           console.log('=== ONE-TIME DRAWER ==='); console.log(JSON.stringify(onetime,null,1));
           await page.screenshot({ path:'fd-drawer-r27-onetime.png' });
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
@@ -176,8 +176,8 @@ jobs:
             oneViewFit:fitOK,
             onetimeHeader:onetime.header==='Your cart',
             onetimeTesti:onetime.testi.present&&/Diane/.test(onetime.testi.name),
-            cartCircle:cart1.total===49.95,
-            cartOnetime:cart2.total===139.9,
+            cartCircle:cart1.total===39.95,
+            cartOnetime:cart2.total===119.9,
             rmBtns:circle.removeBtns===2,
             rmWorks:afterRm.n===1,
             secTitle:section.title&&section.italicLine&&section.oldTitleGone,
@@ -202,7 +202,18 @@ jobs:
             freeBannerGone:!!section.tags&&section.tags.freeLine===0&&!section.tags.freeBanner,
             ratingAboveTitle:!!section.tags&&!!section.tags.rating&&section.tags.rating.aboveTitle,
             ratingSmaller:!!section.tags&&!!section.tags.rating&&parseFloat(section.tags.rating.fontSize)<13,
-            ratingOneLine:!!section.tags&&!!section.tags.rating&&section.tags.rating.oneLine&&section.tags.rating.noOverflow
+            ratingOneLine:!!section.tags&&!!section.tags.rating&&section.tags.rating.oneLine&&section.tags.rating.noOverflow,
+            chips3:!!section.tags&&!!section.tags.r28&&section.tags.r28.chips===3,
+            chipTwoLine:!!section.tags&&!!section.tags.r28&&section.tags.r28.chipTwoLine,
+            badgeFreeDiffuser:!!section.tags&&!!section.tags.r28&&/free diffuser included/i.test(section.tags.r28.badge),
+            unitPerMonth:!!section.tags&&!!section.tags.r28&&section.tags.r28.unit==='per month',
+            planPriceMo:!!section.tags&&!!section.tags.r28&&section.tags.r28.planPrice==='$39.95/mo',
+            planNameNew:!!section.tags&&!!section.tags.r28&&section.tags.r28.planName,
+            selTitleNew:!!section.tags&&!!section.tags.r28&&section.tags.r28.selTitle,
+            dayrateNew:!!section.tags&&!!section.tags.r28&&section.tags.r28.dayrate,
+            microreviewGone:!!section.tags&&!!section.tags.r28&&section.tags.r28.noMicroreview,
+            ratingCopyNew:!!section.tags&&!!section.tags.r28&&section.tags.r28.ratingCopy,
+            oldBulletsGone:!!section.tags&&!!section.tags.r28&&section.tags.r28.noBullets
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -253,6 +264,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/verify
-          git commit -m "verify run 76: robust ingredients check on fd41" || true
+          git commit -m "verify run 77: round-28 pricing + buybox rework on fd42" || true
           git pull --rebase -X theirs origin ${GITHUB_REF_NAME}
           git push

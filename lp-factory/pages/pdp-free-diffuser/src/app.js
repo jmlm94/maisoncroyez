@@ -616,7 +616,7 @@ function BuyBox() {
           </div>
           <div class="dayrate">
             <span class="dayrate-ic" role="img" aria-hidden="true">🛎️</span>
-            <span>Your living room, bedroom and restroom, smelling like a five-star resort for just <strong>$1.33 a day</strong>.</span>
+            <span>Your spaces will smell like $1,000/night hotels for just <strong>$1.33 a day</strong>, guaranteed.</span>
           </div>
 
           <div class="picker-title plansel-title">Choose how you'd like it:</div>

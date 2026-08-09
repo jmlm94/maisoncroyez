@@ -655,7 +655,7 @@ function BuyBox() {
                   </span>
                   <span class="pick-dot" aria-hidden="true"></span>
                 </span>
-                <span class="pick-desc"><b class="pick-ings">${(a => a.slice(0, -1).join(", ") + " & " + a[a.length - 1])(f.chips.map(c => c.replace(/^[^ ]+ /, "")))}</b></span>
+                <span class="pick-desc"><b class="pick-ings">${f.chips.join("  ")}</b></span>
                 <span class="pick-tags">
                   ${(() => { const tg = SCENT_TAGS[f.key]; return tg ? [tg.mood, tg.best, tg.profile].map((val) => html`
                     <span class="tagpill" key=${val} style=${{ background: TAG_COLORS[val].bg }}>${val}</span>`) : null; })()}

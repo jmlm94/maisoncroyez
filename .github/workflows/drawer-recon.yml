@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 14 — capture aurahouse.com build-your-starter-kit funnel (structure + copy + screenshots)
+# run 15 — capture aurahouse.com build-your-starter-kit funnel (structure + copy + screenshots)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -31,9 +31,9 @@ jobs:
           await page.evaluate(async()=>{ for(let y=0;y<document.body.scrollHeight;y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,120));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,2000)); });
           const dump = await page.evaluate(()=>{
             const t=document.body.innerText;
-            const btns=[...document.querySelectorAll('button, a[class*=btn], [role=button]')].map(b=>b.innerText.trim().replace(/\s+/g,' ').slice(0,80)).filter(Boolean).slice(0,60);
+            const btns=[...document.querySelectorAll('button, a[class*=btn], [role=button]')].map(b=>String(b.innerText||b.textContent||'').trim().replace(/\s+/g,' ').slice(0,80)).filter(Boolean).slice(0,60);
             const imgs=[...document.querySelectorAll('img')].map(i=>(i.currentSrc||i.src).split('/').pop().split('?')[0]).filter(s=>s&&!/^data:/.test(s)).slice(0,50);
-            const steps=[...document.querySelectorAll('[class*=step],[class*=Step],[class*=progress],[class*=Progress]')].map(e=>e.className+' :: '+e.innerText.trim().replace(/\s+/g,' ').slice(0,120)).slice(0,30);
+            const steps=[...document.querySelectorAll('[class*=step],[class*=Step],[class*=progress],[class*=Progress]')].map(e=>String(e.className)+' :: '+String(e.innerText||'').trim().replace(/\s+/g,' ').slice(0,120)).slice(0,30);
             return {textLen:t.length, btns, imgs, steps, text:t.slice(0,18000)};
           });
           console.log('=== BUTTONS ==='); dump.btns.forEach(x=>console.log(' - '+x));

@@ -609,7 +609,7 @@ function BuyBox() {
           <div class="microreview">“Seven of my friends have asked the same question, WHO lives here?”</div>
           <div class="price-row">
             <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">per month</span></span>
-            <span class="price-badge">1-Year Warranty</span>
+            <span class="price-badge">Free Diffuser Included</span>
           </div>
           <div class="usp3">
             ${B.offer.bullets.map((b) => html`<span class="usp" key=${b.text}><span class="usp-ic"><${Icon} name=${b.icon}/></span><span class="usp-tx">${b.text}</span></span>`)}
@@ -623,7 +623,7 @@ function BuyBox() {
           <div class="plansel" role="radiogroup" aria-label="Choose your option">
             <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
               <span class="plan-badge">#1 most ordered!</span>
-              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
+              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)}</span></span>
               <ul>
                 <li>Members get their diffuser free along with your 100ml scent. Lasts 30+ days.</li>
                 <li>Renews monthly. Swap scents anytime you want.</li>

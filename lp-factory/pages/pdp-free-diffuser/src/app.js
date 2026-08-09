@@ -207,7 +207,7 @@ const CONFIG = {
     heading: ["Get ready to hear your guests complimenting your spaces", "for weeks, not hours, within a single fill."],
     img: "intentionHero",
     bullets: [
-      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 45 days** \u2014 with nothing burning, nothing to babysit.",
+      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 30 days** \u2014 with nothing burning, nothing to babysit.",
       "Completely waterless: **no mold, no cleaning, no leaks.** 100% organic, **safe around kids and pets**, and designed to look like decor on your shelf, not hide behind it.",
       "Each scent is composed around a powerful intention \u2014 love, abundance, energy, relaxation, purification. You don't just pick a fragrance, **you choose the feeling your home holds all day.**",
     ],
@@ -433,7 +433,7 @@ async function addToCart(setBusy, setToast) {
       : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $119.95, and opens the cart drawer.`);
     return;
   }
-  /* ritual: scent on the 45-day plan + diffuser (zeroed at cart level by
+  /* ritual: scent on the monthly plan + diffuser (zeroed at cart level by
      the automatic BXGY discount). one-time: both at full price, no plan. */
   const items = ritual
     ? [
@@ -625,7 +625,7 @@ function BuyBox() {
               <span class="plan-badge">#1 most ordered!</span>
               <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
               <ul>
-                <li>Members get their diffuser free along with your 100ml scent. Lasts 45+ days.</li>
+                <li>Members get their diffuser free along with your 100ml scent. Lasts 30+ days.</li>
                 <li>Renews monthly. Swap scents anytime you want.</li>
                 <li>Access to new launches, special deals, and more.</li>
                 <li><strong>30-day guarantee: Full refund, return label, membership cancelled, you keep the scent for free.</strong></li>

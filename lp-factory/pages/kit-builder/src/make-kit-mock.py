@@ -18,7 +18,6 @@ IMG = {
     'room1': b64('diseno-88.jpg'),
     'room3': b64('golden-room.jpg'),
     'room5': b64('hotel2.jpg'),
-    'guests': b64('guests.jpg'),
     'logo': b64('logo-black-trim.png', 'image/png'),
     **{f'frag{i}': b64(f'frag{i}.jpg') for i in range(1, 8)},
 }
@@ -48,12 +47,12 @@ FRAGS = [
 ]
 
 SPACES = [
-    {"key":"studio","label":"Studio","n":1,"img":"room1",
-     "lis":["1 diffuser — your signature space, covered.","Up to 600 sq ft of continuous presence."]},
-    {"key":"condo","label":"Condo","n":3,"img":"room3","pop":True,
-     "lis":["3 diffusers — living room, bedroom, bath.","Your whole home holds one intention."]},
-    {"key":"house","label":"House","n":5,"img":"room5",
-     "lis":["5 diffusers — every room covered.","Nothing breaks the spell between rooms."]},
+    {"key":"living","label":"Living Room","n":1,"img":"room1",
+     "lis":["1 free diffuser — your signature space, covered.","Up to 600 sq ft of continuous presence."]},
+    {"key":"bedroom","label":"Living Room & Bedroom","n":2,"img":"room3",
+     "lis":["2 free diffusers — where you host and where you rest.","One intention carries through your day and night."]},
+    {"key":"kitchen","label":"Living Room, Bedroom & Kitchen","n":3,"img":"room5","pop":True,
+     "lis":["3 free diffusers — your whole home holds the scent.","Nothing breaks the spell between rooms."]},
 ]
 
 frag_cards = ""
@@ -70,14 +69,6 @@ for i, f in enumerate(FRAGS):
         <span class="pick-desc"><b class="pick-ings">{f['ings']}</b></span>
         <span class="pick-tags">{pills}</span>
       </div>'''
-    if i == 2:
-        frag_cards += f'''
-      <div class="exitfeat testi">
-        <img src="{IMG['guests']}" alt="">
-        <div><div class="tstars">★★★★★</div>
-        <p class="tq">“Seven of my friends have asked the same question — WHO lives here?”</p>
-        <span class="twho">Diane R. · Verified Circle member</span></div>
-      </div>'''
 
 space_cards = ""
 for sp in SPACES:
@@ -85,10 +76,14 @@ for sp in SPACES:
     lis = "".join(f'<li>{x}</li>' for x in sp["lis"])
     space_cards += f'''
       <button class="plan{' on' if sp['n']==3 else ''}" data-n="{sp['n']}" type="button">{pop}
-        <img class="plan-img" src="{IMG[sp['img']]}" alt="">
-        <span class="plan-head"><span class="plan-name">{sp['label']}</span>
-        <span class="plan-price"><s>${sp['n']*79.95:.2f}</s> <b>FREE</b></span></span>
-        <ul>{lis}</ul>
+        <span class="plan-flex">
+          <img class="plan-img" src="{IMG[sp['img']]}" alt="">
+          <span class="plan-info">
+            <span class="plan-head"><span class="plan-name">{sp['label']}</span></span>
+            <span class="plan-price"><s>${sp['n']*79.95:.2f}</s> <b>FREE</b></span>
+            <ul>{lis}</ul>
+          </span>
+        </span>
       </button>'''
 
 html = f'''<title>Build Your Manifestation Kit — Maison Croyez</title>
@@ -110,14 +105,14 @@ body{{background:var(--cream);color:var(--ink);font-family:'Be Vietnam Pro',-app
 .rating{{display:flex;justify-content:center;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(.5rem,2.05vw,.64rem);letter-spacing:.05em;text-transform:uppercase;margin:10px 0 2px;white-space:nowrap}}
 .rating .stars{{color:var(--star);letter-spacing:1px}}
 h1{{font-family:'Unna',Georgia,serif;font-weight:700;text-align:center;font-size:2rem;line-height:1.12;margin:6px 0 4px;text-wrap:balance}}
-h1 em{{color:#A67C3D;font-style:italic}}
+h1 em{{color:var(--ink);font-style:italic}}
 .h1sub{{text-align:center;color:var(--ink-soft);font-size:.9rem;margin-bottom:12px}}
 .h1sub b{{color:var(--ink);font-weight:700}}
 .prog{{max-width:260px;margin:0 auto 5px;height:5px;background:var(--blush);border-radius:99px;overflow:hidden}}
 .prog i{{display:block;height:100%;background:var(--ink);transition:width .35s;border-radius:99px}}
 .pstep{{text-align:center;font-family:'Outfit',sans-serif;font-size:.6rem;letter-spacing:.16em;color:var(--rosewood-deep);text-transform:uppercase;font-weight:700;margin-bottom:14px}}
 .steptitle{{font-family:'Unna',Georgia,serif;font-size:1.5rem;font-weight:700;text-align:center;margin:6px 0 4px;line-height:1.15}}
-.steptitle em{{color:#A67C3D;font-style:italic}}
+.steptitle em{{color:var(--ink);font-style:italic}}
 .stepsub{{text-align:center;font-size:.88rem;color:var(--ink-soft);margin-bottom:14px;line-height:1.5}}
 .step{{display:none}}.step.on{{display:block;animation:fade .3s}}
 @keyframes fade{{from{{opacity:0;transform:translateY(8px)}}to{{opacity:1;transform:none}}}}
@@ -128,12 +123,14 @@ h1 em{{color:#A67C3D;font-style:italic}}
 .plan{{position:relative;overflow:visible;text-align:left;background:#fff;border:1.5px solid rgba(36,28,24,.16);border-radius:14px;padding:14px 15px;display:flex;flex-direction:column;gap:9px;color:var(--ink);cursor:pointer;font:inherit;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;width:100%}}
 .plan.on{{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 6px 16px rgba(36,28,24,.10);background:var(--blush-soft)}}
 .plan-badge{{position:absolute;top:-10px;left:14px;background:#A67C3D;color:#fff;border-radius:999px;padding:4px 11px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;box-shadow:0 2px 8px rgba(166,124,61,.3)}}
-.plan-img{{width:100%;height:96px;object-fit:cover;border-radius:10px}}
+.plan-flex{{display:flex;gap:12px;align-items:flex-start}}
+.plan-img{{width:88px;height:88px;object-fit:cover;border-radius:10px;flex:0 0 88px}}
+.plan-info{{display:flex;flex-direction:column;gap:5px;min-width:0}}
 .plan-head{{display:flex;justify-content:space-between;align-items:baseline;gap:10px}}
 .plan-name{{font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem}}
 .plan-price{{font-family:'Outfit',sans-serif;font-weight:800;font-size:.95rem;white-space:nowrap}}
 .plan-price s{{color:var(--ink-soft);font-weight:600;margin-right:4px}}
-.plan-price b{{color:#A67C3D}}
+.plan-price b{{color:var(--cta)}}
 .plan ul{{list-style:none;display:flex;flex-direction:column;gap:6px}}
 .plan li{{font-size:.88rem;line-height:1.45;padding-left:15px;position:relative}}
 .plan li::before{{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;border-radius:50%;background:#A67C3D}}
@@ -155,16 +152,23 @@ h1 em{{color:#A67C3D;font-style:italic}}
 .pick.on .add{{background:var(--ink);color:#fff}}
 .stepper .qty{{min-width:16px;text-align:center;font-weight:700}}
 .pick:not(.on) .sub{{opacity:.25;pointer-events:none}}
+/* usp chips — main-PDP style */
+.usp3{{display:flex;gap:8px;margin:14px 0 2px}}
+.usp3 .usp{{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:12px;padding:11px 6px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;text-align:center;color:var(--ink);line-height:1.35}}
+.usp3 .usp-ic{{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px}}
+.usp3 .usp-tx{{white-space:pre-line}}
+.usp3 .usp:nth-child(1) .usp-ic{{background:linear-gradient(145deg,#D8ECF3 0%,#B7D9E8 100%)}}
+.usp3 .usp:nth-child(2) .usp-ic{{background:linear-gradient(145deg,#FBE3C9 0%,#F6C99B 100%)}}
+.usp3 .usp:nth-child(3) .usp-ic{{background:linear-gradient(145deg,#DFF3D8 0%,#BCE4C0 100%)}}
+.usp3 .usp:nth-child(1){{background:rgba(183,217,232,.16)}}
+.usp3 .usp:nth-child(2){{background:rgba(246,201,155,.16)}}
+.usp3 .usp:nth-child(3){{background:rgba(188,228,192,.16)}}
 /* testimonial — LP gold box */
 .exitfeat{{display:flex;gap:11px;align-items:center;background:#fff;border:1.5px solid #DECBA0;border-radius:14px;padding:13px 15px;font-size:.92rem;line-height:1.55;text-align:left;color:var(--ink);margin:12px 0}}
-.testi img{{width:62px;height:62px;object-fit:cover;border-radius:10px;flex:0 0 62px}}
-.tstars{{color:var(--star);font-size:.8rem;letter-spacing:2px}}
-.tq{{font-family:'Unna',Georgia,serif;font-style:italic;font-weight:700;font-size:1rem;line-height:1.3;margin:2px 0}}
-.twho{{font-size:.72rem;color:var(--ink-soft)}}
 /* step 3 — LP valstack */
 .valstack{{border:1.5px solid #E2D2AC;border-radius:14px;background:#F5EEDD;padding:14px 16px;display:flex;flex-direction:column;gap:9px}}
 .vrow{{display:flex;justify-content:space-between;gap:10px;font-size:.92rem}}
-.vrow .vfree{{color:#A67C3D;font-weight:700;white-space:nowrap}}
+.vrow .vfree{{color:var(--cta);font-weight:700;white-space:nowrap}}
 .vrow s{{color:var(--ink-soft);margin-right:5px}}
 .vrow.total{{border-top:1.5px dashed #DECBA0;padding-top:10px;font-weight:700;font-size:1.05rem}}
 .valline{{text-align:center;font-size:.86rem;margin:10px 0 0;color:var(--ink-soft)}}
@@ -207,13 +211,21 @@ h1 em{{color:#A67C3D;font-style:italic}}
       <div class="steptitle">How many spaces are you <em>scenting?</em></div>
       <div class="stepsub">One diffuser covers up to 600 sq ft for over 30 days.</div>
       <div class="plansel">{space_cards}</div>
+      <div class="usp3">
+        <span class="usp"><span class="usp-ic">🌬️</span><span class="usp-tx">Surprise your guests
+effortlessly</span></span>
+        <span class="usp"><span class="usp-ic">✨</span><span class="usp-tx">Manifest what you
+want in life</span></span>
+        <span class="usp"><span class="usp-ic">🌿</span><span class="usp-tx">No mold, leaking
+or maintenance</span></span>
+      </div>
       <div class="trust-strip"><span>🚚 Free shipping</span><span>🛡️ 30-day guarantee</span><span>🔄 Cancel anytime</span></div>
       <div class="navrow"><button class="btn" onclick="go(2)"><span>Choose your scents ➔</span></button></div>
     </section>
 
     <section class="step" id="s2">
       <div class="steptitle">Stack your <em>intentions:</em></div>
-      <div class="stepsub" id="hint2">Pick at least <b>1</b> scent — one per diffuser. Add extras to rotate monthly.</div>
+      <div class="stepsub" id="hint2">Pick <b>3</b> scents — one for each of your free diffusers.</div>
       <div class="picker">{frag_cards}</div>
     </section>
 
@@ -254,21 +266,22 @@ function go(step){{
   document.getElementById('pnum').textContent=step;
   document.getElementById('sbar').classList.toggle('on', step===2);
   if(step===2){{N=+document.querySelector('.plan.on').dataset.n;
-    document.getElementById('hint2').innerHTML='Pick at least <b>'+N+'</b> scent'+(N>1?'s':'')+' — one per diffuser. Add extras to rotate monthly.';refresh();}}
+    document.getElementById('hint2').innerHTML='Pick <b>'+N+'</b> scent'+(N>1?'s':'')+' — one for each of your free diffusers.';refresh();}}
   if(step===3) buildSum();
   window.scrollTo(0,0);
 }}
 function count(){{var m=0;for(var k in picks)m+=picks[k];return m}}
 function refresh(){{
   var m=count();
-  document.getElementById('sb-count').textContent=m+' scent'+(m===1?'':'s')+' · '+N+' diffuser'+(N===1?'':'s');
+  document.getElementById('sb-count').textContent=m+' of '+N+' scents · '+N+' diffuser'+(N===1?'':'s');
   document.getElementById('sb-price').textContent='$'+(m*P).toFixed(2)+'/mo';
-  document.getElementById('sb-next').disabled=m<N;
+  document.getElementById('sb-next').disabled=m!==N;
   document.getElementById('sb-next').textContent=m<N?('Pick '+(N-m)+' more ➔'):'Review my kit ➔';
+  document.querySelectorAll('.pick .add').forEach(function(b){{b.disabled=m>=N;b.style.opacity=m>=N?'.25':'1'}});
 }}
 document.querySelectorAll('.pick').forEach(function(c){{
   var k=c.dataset.key;
-  c.querySelector('.add').onclick=function(){{picks[k]=(picks[k]||0)+1;c.classList.add('on');c.querySelector('.qty').textContent=picks[k];refresh();}};
+  c.querySelector('.add').onclick=function(){{if(count()>=N)return;picks[k]=(picks[k]||0)+1;c.classList.add('on');c.querySelector('.qty').textContent=picks[k];refresh();}};
   c.querySelector('.sub').onclick=function(){{picks[k]=Math.max(0,(picks[k]||0)-1);c.querySelector('.qty').textContent=picks[k];if(!picks[k])c.classList.remove('on');refresh();}};
 }});
 function buildSum(){{

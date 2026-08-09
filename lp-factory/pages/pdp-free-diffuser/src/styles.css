@@ -1287,3 +1287,14 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 
 /* PDP round 27k — rating above title, smaller, one line (owner) */
 .buybox .rating{font-size:clamp(.55rem,2.6vw,.7rem);letter-spacing:.08em;white-space:nowrap}
+
+/* PDP round 28b — buybox bullets as 3 icon chips (owner) */
+.usp3{display:flex;gap:8px;margin:2px 0}
+.usp3 .usp{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:12px;padding:11px 6px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;text-align:center;color:var(--ink);line-height:1.35}
+.usp3 .usp-ic{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px}
+.usp3 .usp:nth-child(1) .usp-ic{background:linear-gradient(145deg,#D8ECF3 0%,#B7D9E8 100%)}
+.usp3 .usp:nth-child(2) .usp-ic{background:linear-gradient(145deg,#FBE3C9 0%,#F6C99B 100%)}
+.usp3 .usp:nth-child(3) .usp-ic{background:linear-gradient(145deg,#DFF3D8 0%,#BCE4C0 100%)}
+.usp3 .usp:nth-child(1){background:rgba(183,217,232,.16)}
+.usp3 .usp:nth-child(2){background:rgba(246,201,155,.16)}
+.usp3 .usp:nth-child(3){background:rgba(188,228,192,.16)}

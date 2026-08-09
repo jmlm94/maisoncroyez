@@ -1301,3 +1301,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 
 /* PDP round 28c — chip labels on two lines (owner) */
 .usp3 .usp-tx{white-space:pre-line}
+
+/* PDP round 28d — badge vertically centered with price (owner) */
+.price-row{align-items:center}
+.price-row .price{display:flex;align-items:baseline;gap:6px}

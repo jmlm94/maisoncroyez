@@ -623,7 +623,7 @@ function BuyBox() {
           <div class="plansel" role="radiogroup" aria-label="Choose your option">
             <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
               <span class="plan-badge">#1 most ordered!</span>
-              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)}</span></span>
+              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle and claim your free diffuser plus:</span><span class="plan-price">${usd(OFFER.price)}/mo</span></span>
               <ul>
                 <li>Members get their diffuser free along with your 100ml scent. Lasts 30+ days.</li>
                 <li>Renews monthly. Swap scents anytime you want.</li>

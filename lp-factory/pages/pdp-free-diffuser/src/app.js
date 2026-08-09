@@ -93,7 +93,7 @@ const CONFIG = {
   ],
 
   buybox: {
-    microProof: "2,500+ houses smelling incredible.",
+    microProof: "2,500+ guests asked \u201cwhat\u2019s that smell?\u201d so far!",
     title: { pre: "Maison Croyez Organic Premium Scents +", em: "Waterless & Leakproof Award Winning Home Diffuser." },
     offer: {
       price: "$39.95",
@@ -606,7 +606,6 @@ function BuyBox() {
         <div class="buybox">
           <div class="rating"><${Stars}/> ${B.microProof}</div>
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
-          <div class="microreview">“Seven of my friends have asked the same question, WHO lives here?”</div>
           <div class="price-row">
             <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">per month</span></span>
             <span class="price-badge">Free Diffuser Included</span>

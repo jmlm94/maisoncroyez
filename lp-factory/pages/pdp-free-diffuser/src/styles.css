@@ -1305,3 +1305,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 /* PDP round 28d — badge vertically centered with price (owner) */
 .price-row{align-items:center}
 .price-row .price{display:flex;align-items:baseline;gap:6px}
+
+/* PDP round 28f — longer rating copy fits one line with breathing room (owner) */
+.buybox .rating{font-size:clamp(.5rem,2.05vw,.66rem);letter-spacing:.05em;padding-right:4px}
+.buybox .rating .stars{letter-spacing:1px;margin-right:6px}

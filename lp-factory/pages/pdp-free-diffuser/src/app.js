@@ -4,13 +4,13 @@ const html = htm.bind(h);
 
 /* ================================================================
    FREE-DIFFUSER LP — /pages/free-diffuser (Blueprint 004, offer v4)
-   THE MANIFESTATION RITUAL: $49.95 today = free diffuser ($89.95 value) +
-   first 100ml scent. Renews $49.95 every 45 days, no minimum,
+   THE MANIFESTATION RITUAL: $39.95 today = free diffuser ($89.95 value) +
+   first 100ml scent. Renews $39.95 per month, no minimum,
    cancel anytime. Diffuser becomes the customer's on the 3rd
    delivery (day 90) + free full-size gift scent. Leave earlier:
-   free return label, or keep it for $49.95. 30-day guarantee:
+   free return label, or keep it for $49.95 (keep-fee). 30-day guarantee:
    full refund, prepaid diffuser label, customer keeps the scent.
-   Anchor: One-Time Set (diffuser + one scent) $139.95.
+   Anchor: One-Time Set (diffuser + one scent) $119.95.
    Fictional reviews ship live per owner ruling 2026-07-04.
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
@@ -46,15 +46,15 @@ const SCENT_TAGS = {
    plan, so the diffuser stays at full price. --- */
 const CART = {
   diffuserVariant: 45450822778989,   /* duplicate diffuser (this funnel only) — reprice to $89.95 at deploy */
-  sellingPlan: 2661875821,           /* Subi Plan 4: Delivered every 45 days, $49.95 (wired 2026-08-01) */
+  sellingPlan: 2661875821,           /* Subi plan — owner to switch to $39.95 monthly before deploy */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 
 const OFFER = {
-  price: 49.95,        /* ritual: today + every 45 days */
-  oneTime: 139.95,     /* One-Time Set anchor */
+  price: 39.95,        /* ritual: today + monthly */
+  oneTime: 119.95,     /* One-Time Set anchor */
   diffuserValue: 89.95,
-  firstBoxValue: 139.90,
+  firstBoxValue: 129.90,
 };
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
@@ -111,13 +111,13 @@ const CONFIG = {
       ],
     },
         pickerTitle: "Pick your fragrance:",
-    pickerLabel: "Tap a scent to select it. A new scent arrives as the last one finishes, and you can swap intentions before each delivery.",
+    pickerLabel: "Tap a scent to select it. A new scent arrives every month, and you can swap intentions before each delivery.",
     cta: { label: "Claim My Free Diffuser", sub: "Only **19** free diffusers left!" },
     booklet: "",
     trustStrip: [
     ],
     accordions: [
-      { q: "How does the Manifestation Circle work?", a: "Today you pay $49.95 and your diffuser ships free with your first 100ml scent. Every 45 days a new scent arrives as the last one finishes, billed at $49.95. No minimum. Cancel anytime." },
+      { q: "How does the Manifestation Circle work?", a: "Today you pay $39.95 and your diffuser ships free with your first 100ml scent. Every month a new scent arrives before the last one runs out, billed at $39.95. No minimum. Cancel anytime." },
       { q: "Am I committed to a subscription?", a: "No. The Manifestation Circle membership only continues if you decide to keep going after your first 30 days: there is no minimum, and you can cancel anytime from any delivery email. And if you choose the One-Time Set, there is no subscription at all. One payment, and you're free." },
       { q: "Which scent should I choose?", a: "Choose by what you want to attract. Each of the 7 scents is composed around one intention: love, abundance, raised energy, relaxation and concentration, purification, love manifestation, or turning ideas into reality. Trust the one your home is asking for, and remember you can swap before any delivery." },
       { q: "Will it grow mold like water diffusers?", a: "Not at all. Our diffuser is completely waterless, meaning no mold risks and no cleaning is required." },
@@ -308,13 +308,13 @@ const CONFIG = {
       "Live with it for 30 days. If your space doesn't feel different, **we refund every dollar**, send a prepaid label for the diffuser, and **the scent stays with you**.",
       "And the diffuser itself? **Covered by a 1-Year Warranty.**",
     ],
-    cta: { label: "Begin your ritual", sub: "$49.95 today · diffuser included free" },
+    cta: { label: "Begin your ritual", sub: "$39.95 today · diffuser included free" },
   },
 
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged?", a: "Today you pay $49.95 for your first box: your first 100ml scent plus the diffuser, an $89.95 value, shipped free. Then $49.95 every 45 days as each new scent ships. You'll get an email reminder before every renewal, and you can cancel anytime." },
+      { q: "When am I charged?", a: "Today you pay $39.95 for your first box: your first 100ml scent plus the diffuser, an $89.95 value, shipped free. Then $39.95 per month as each new scent ships. You'll get an email reminder before every renewal, and you can cancel anytime." },
       { q: "Is the diffuser really free?", a: "Yes. It ships free with your first scent, and on your third delivery, around day 90, it becomes permanently yours, plus we ship a free full-size scent as a gift. If you leave before then, return the diffuser with the free label we provide, or keep it for $49.95." },
       { q: "Can I swap scents or cancel?", a: "Both, anytime, from the link in any delivery email. Pick a different intention before any shipment in a few taps, or pause and cancel whenever you like. There is no minimum." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
@@ -429,8 +429,8 @@ async function addToCart(setBusy, setToast) {
   }
   if (!onStore()) {
     setToast(ritual
-      ? `Preview mode. On the live store this adds ${scent.name} on The Manifestation Ritual ($49.95 today, then $49.95 every 45 days) plus your free diffuser ($89.95 value) and opens the cart drawer.`
-      : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $139.95, and opens the cart drawer.`);
+      ? `Preview mode. On the live store this adds ${scent.name} on The Manifestation Ritual ($39.95 today, then $39.95 per month) plus your free diffuser ($89.95 value) and opens the cart drawer.`
+      : `Preview mode. On the live store this adds the One-Time Set: ${scent.name} plus the Maison Croyez diffuser for $119.95, and opens the cart drawer.`);
     return;
   }
   /* ritual: scent on the 45-day plan + diffuser (zeroed at cart level by
@@ -608,7 +608,7 @@ function BuyBox() {
           <h1>${B.title.pre} <em>${B.title.em}</em></h1>
           <div class="microreview">“Seven of my friends have asked the same question, WHO lives here?”</div>
           <div class="price-row">
-            <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">every 45 days</span></span>
+            <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">per month</span></span>
             <span class="price-badge">1-Year Warranty</span>
           </div>
           <ul class="offer-bullets">
@@ -616,7 +616,7 @@ function BuyBox() {
           </ul>
           <div class="dayrate">
             <span class="dayrate-ic" role="img" aria-hidden="true">🛎️</span>
-            <span>Feel you're in a five-star hotel for only <strong>$1.11 a day</strong>.</span>
+            <span>Feel you're in a five-star hotel for only <strong>$1.33 a day</strong>.</span>
           </div>
 
           <div class="picker-title plansel-title">Choose how you'd like it:</div>
@@ -626,7 +626,7 @@ function BuyBox() {
               <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
               <ul>
                 <li>Members get their diffuser free along with your 100ml scent. Lasts 45+ days.</li>
-                <li>Renews every 45 days. Swap scents anytime you want.</li>
+                <li>Renews monthly. Swap scents anytime you want.</li>
                 <li>Access to new launches, special deals, and more.</li>
                 <li><strong>30-day guarantee: Full refund, return label, membership cancelled, you keep the scent for free.</strong></li>
               </ul>
@@ -671,7 +671,7 @@ function BuyBox() {
           <div class="hiw-title">Joining the Manifestation Circle? You need to know this:</div>
           <div class="hiw" aria-label="How the ritual works">
             <div class="hiw-row"><span class="hiw-k">Today</span><span>Only <strong>${usd(OFFER.price)}</strong>. Your scent and diffuser ship free. You’ll see a subscription notice at checkout. Cancel anytime stress-free.</span></div>
-            <div class="hiw-row"><span class="hiw-k">Every 45 days</span><span>A new scent arrives as the last one finishes so your home doesn’t lose power. Swap scents when needed.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Every month</span><span>A new scent arrives before the last one runs out so your home doesn’t lose power. Swap scents when needed.</span></div>
             <div class="hiw-row"><span class="hiw-k">30 Days</span><span><strong>Money-Back Guarantee</strong>: It’s a membership, but if your space doesn’t feel different, let us know, we’ll cancel it and send you a return label. You won’t pay a dime after.</span></div>
           </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}

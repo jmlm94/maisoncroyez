@@ -1,14 +1,141 @@
 goto 1: 200
-node:internal/modules/run_main:123
-    triggerUncaughtException(
-    ^
+=== BUTTONS ===
+ - Close
+ - Shop
+ - Open cart 0
+ - Open navigation menu
+ - Shop
+ - Open cart 0
+ - Open cart 0
+ - Open navigation menu
+ - Close search bar
+ - Submit your search request
+ - View All
+ - Learn more
+ - Learn more
+ - CHOOSE YOUR FRAGRANCE →
+ - ←
+ - Learn more
+ - Learn more
+ - Learn more
+ - Learn more
+ - Learn more
+ - Add To Cart →
+ - ←
+ - Ships every 30 days ▼
+ - Ships every 30 days ▼
+ - Ships every 30 days ▼
+ - Ships every 30 days ▼
+ - Checkout →
+ - Shop
+ - Info
+ - Subscribe
+ - Cream▾
+ - Cream
+ - Black
+ - Add +
+ - 30mL▾
+ - 30mL
+ - 400mL
+ - Add +
+ - 30mL▾
+ - 30mL
+ - 400mL
+ - Add +
+ - 30mL▾
+ - 30mL
+ - 400mL
+ - Add +
+ - Checkout
+=== STEP/PROGRESS ELEMENTS ===
+ - step-1-ugc :: 
+ - swiper ugc-swiper swiper-initialized swiper-horizontal swiper-watch-progress :: Watch in full screen Watch in full screen Watch in full screen Watch in full screen Watch in full screen Watch in full s
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+ - [object SVGAnimatedString] :: 
+=== IMAGES ===
+ - Aura-House_Wordmark_BrownBlack_1500px_small.svg
+ - Aura-House_Wordmark_BrownBlack_1500px.svg
+ - Aura_House_Premium_Fragrance.svg
+ - Aura_House_Non-toxic.svg
+ - Aura_House_Cruelty-free.svg
+ - Aura_House_Sephora_Clean.svg
+ - paw_1.svg
+ - 36eef86285eb7d30d97a09aed50a5abf.jpg
+ - logo-mobile.svg
+ - AuraDiffuser_Cream.png
+ - AuraDiffuser_Black.png
+ - aurahouse-30mlsquare-51.jpg
+ - logo-mobile.svg
+ - icon-info.svg
+ - aurahouse-30mlsquare-51.jpg
+ - icon-info.svg
+ - aurahouse-30mlsquare-33.jpg
+ - icon-info.svg
+ - verdure-hero.webp
+ - icon-info.svg
+ - soleil-shot_6.webp
+ - icon-info.svg
+ - aurahouse-30mlsquare-9.jpg
+ - logo-mobile.svg
+ - AuraDiffuser_Cream.png
+ - aurahouse-30mlsquare-51.jpg
+ - aurahouse-30mlsquare-51.jpg
+ - aurahouse-30mlsquare-51.jpg
+ - aurahouse-30mlsquare-51.jpg
+ - aurahouse-30mlsquare-51.jpg
+ - 8d5e5560-93b2-4399-b6e8-805b951f4192.png
+ - Aura-House_Brandmark_BrownBlack_300px.svg
+ - AuraDiffuser_Cream.png
+ - aurahouse-30mlsquare-55.jpg
+ - aurahouse-30mlsquare-33.jpg
+ - aurahouse-30mlsquare-51.jpg
+=== PAGE TEXT (202 chars) ===
+Skip to content
 
-page.evaluate: TypeError: Cannot read properties of undefined (reading 'trim')
-    at eval (eval at evaluate (:290:30), <anonymous>:5:151)
-    at Array.map (<anonymous>)
-    at eval (eval at evaluate (:290:30), <anonymous>:5:113)
-    at UtilityScript.evaluate (<anonymous>:292:16)
-    at UtilityScript.<anonymous> (<anonymous>:1:44)
-    at /home/runner/work/maisoncroyez/maisoncroyez/recon.mjs:12:25
+Summer Sale: Up to 40% Off + Free Sampler with Subscription
 
-Node.js v22.23.1
+Get Your
+
+Up to 40% Off
+
+Choose Your Diffuser
+
+1 of 3
+
+Cream
+From: $59 $100 →
+Black
+From: $59 $100 →
+CHOOSE YOUR FRAGRANCE →
+no click: button:has-text("Add")
+no click: button:has-text("Select")
+no click: button:has-text("Next")
+no click: button:has-text("Continue")
+=== TEXT AFTER CLICKS ===
+Skip to content
+
+Summer Sale: Up to 40% Off + Free Sampler with Subscription
+
+Get Your
+
+Up to 40% Off
+
+Choose Your Diffuser
+
+1 of 3
+
+Cream
+From: $59 $100 →
+Black
+From: $59 $100 →
+CHOOSE YOUR FRAGRANCE →

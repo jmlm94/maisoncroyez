@@ -1305,3 +1305,13 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{color:#A67
 /* PDP round 28d — badge vertically centered with price (owner) */
 .price-row{align-items:center}
 .price-row .price{display:flex;align-items:baseline;gap:6px}
+
+/* PDP round 28e — picker as 2-per-row grid, plain ingredient names (owner) */
+.picker{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pick{padding:10px 10px;gap:7px}
+.pick-row{gap:8px}
+.pick-name{font-size:.8rem;line-height:1.3}
+.pick-int{font-size:.54rem}
+.pick-ings{font-size:.7rem;line-height:1.4}
+.pick-tags .tagpill{padding:3px 8px;font-size:.58rem}
+.pick:has(.pick-dot) .pick-dot{width:15px;height:15px}

@@ -105,9 +105,9 @@ const CONFIG = {
         { label: "You pay today", value: "$39.95", total: true },
       ],
       bullets: [
-        { icon: "wind", text: "Surprise your guests effortlessly" },
-        { icon: "sparkle", text: "Manifest what you want in life" },
-        { icon: "leaf", text: "No mold, leaking or maintenance" },
+        { icon: "wind", text: "Surprise your guests\neffortlessly" },
+        { icon: "sparkle", text: "Manifest what you\nwant in life" },
+        { icon: "leaf", text: "No mold, leaking\nor maintenance" },
       ],
     },
         pickerTitle: "Pick your fragrance:",
@@ -616,7 +616,7 @@ function BuyBox() {
           </div>
           <div class="dayrate">
             <span class="dayrate-ic" role="img" aria-hidden="true">🛎️</span>
-            <span>Feel you're in a five-star hotel for only <strong>$1.33 a day</strong>.</span>
+            <span>Your living room, bedroom and restroom, smelling like a five-star resort for just <strong>$1.33 a day</strong>.</span>
           </div>
 
           <div class="picker-title plansel-title">Choose how you'd like it:</div>

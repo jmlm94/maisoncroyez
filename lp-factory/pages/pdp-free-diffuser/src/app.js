@@ -618,7 +618,7 @@ function BuyBox() {
             <span>Your spaces will smell like $1,000/night hotels for just <strong>$1.33 a day</strong>, guaranteed.</span>
           </div>
 
-          <div class="picker-title plansel-title">Choose how you'd like it:</div>
+          <div class="picker-title plansel-title">Two ways to bring it home — pick yours:</div>
           <div class="plansel" role="radiogroup" aria-label="Choose your option">
             <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
               <span class="plan-badge">#1 most ordered!</span>

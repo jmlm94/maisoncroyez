@@ -2,8 +2,8 @@ goto 1: 200
 wizard rendered: true
 === STEP1 === {"heroCentered":true,"heroGap":24,"bannerFits":true,"badgeOn2":true,"stickyGone":true,"stepperCentered":true,"noOverflow":true,"banner":true,"countdown":true,"rating":true,"plans":3,"defaultN":"3","headerHidden":true,"rootVisible":true}
 === STEP2 === {"hint":"Pick 3 scents — every scent you pick comes with a free diffuser.","sum":"3 of 3 scents picked · $119.85/mo · 3 free diffusers","nextLabel":"Review my kit ➔","nextEnabled":true,"addsLocked":true}
-=== STEP3 === {"due":"$119.85","rows":4,"val":"That’s $359.70 of value.","hiw3":"Today|Every month|30-day guarantee","zero":true,"zeroNoEmail":true,"dueSubGone":true,"diffWording":true,"faqs":4,"testi":true}
-=== URL AFTER JOIN === https://maisoncroyez.com/checkouts/cn/hWNFXp3oOB1sFH4FD8efmHg8/en-us?_r=AQABa5z0KxFRjCblb7gO6BRDiW1GHl7AVZNES41hPkbX&auto_redirect=false&edge_redirect=true&skip_shop_pay=true&_su_rec=RPp0re92bKf6SZYpL86sEh4yn6DzVQ4ri1FhyFsDDU8VHzFxDkJZTJtkRs5xy7OYMu18eo7bDPS5BpwqDpGFfbJXlGdtUlPxbsZJJ8XFnqecZe_WoKNVrsEBE30JrwprQPmZmhwMktTgSe53iD-ro1FISonj93HpKB9YCV_p9Wz9gnhveoWdsjUFd4PTo5AxgDaZpOVUXf_wU3ayrIKC3g
+=== STEP3 === {"due":"$119.85","rows":4,"val":"That’s $359.70 of value.","hiw3":"Today|Every month|30-day guarantee","zero":true,"zeroNoEmail":true,"dueSubGone":true,"diffWording":true,"joinLabel":"Claim My Free Diffusers ➔Only 19 free-diffuser kits left!","faqs":4,"testi":true}
+=== URL AFTER JOIN === https://maisoncroyez.com/checkouts/cn/hWNFXpwANxr89mpu1Skm88QM/en-us?_r=AQAB8QZR6ojCr4Iu8REcq3gQ0dAmSZDwJtcSA37v9blq&auto_redirect=false&edge_redirect=true&skip_shop_pay=true&_su_rec=QFG-6qxknvj8g3yqpfMiy7ci_j3eGh9v7z56dP5V7CPYFtEJN_zzZ6YarQuGPpBhSF1vy-uyqaaDsugMTmFAKJGtO076Ag-gnrdN93-a1-mFxMwVKv45itqHEk-_rjt_P9iLKFcOtRTs_y2a4cJjoP3vcu63eg8vNhB44GGl6II1IGp1g4D9Wu6Oyz-NqS2__xrvV5Ioj0WboF_gY3nMJEAK
 === CART === {"total":119.85,"lines":[{"t":"Maison Croyez — Home Scent D","q":3,"lp":0,"plan":false},{"t":"Midnight Sensation – Love Ma","q":1,"lp":39.95,"plan":true},{"t":"Crisp Citrus Scape – Abundan","q":1,"lp":39.95,"plan":true},{"t":"Golden Blossom Harmony – Lov","q":1,"lp":39.95,"plan":true}]}
 === VERDICT ===
 PASS fresh
@@ -32,6 +32,7 @@ PASS dueSubGone
 PASS diffWording
 PASS faqs4
 PASS testimonial
+PASS ctaRenamed
 PASS wentToCheckout
 PASS cartTotal
 PASS scentsOnPlan

@@ -22,11 +22,19 @@ os.chdir(cwd)
 html = mock_globals['html']
 IMG = mock_globals['IMG']
 
-# ---------- 1) assets bundle ----------
-keys = ['hero', 'product', 'room1', 'room3', 'room5', 'guests', 'logo'] + [f'frag{i}' for i in range(1, 8)]
-assets = 'window.MCKIT_ASSETS={' + ','.join(f'"{k}":"{IMG[k]}"' for k in keys) + '};'
-with open(os.path.join(HERE, 'mc-kit-assets.js'), 'w') as f:
-    f.write(assets)
+# ---------- 1) CDN image URLs (uploaded as Shopify files; no assets bundle) ----------
+B = 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/'
+CDN = {
+    'hero': B + 'mc-kb-side.jpg',
+    'product': B + 'mc-kb-hero.jpg',
+    'room1': B + 'mc-kb-kit1.jpg',
+    'room3': B + 'mc-kb-kit2.jpg',
+    'room5': B + 'mc-kb-kit3.jpg',
+    'guests': B + 'mc-kb-guests.jpg',
+    'logo': B + 'mc-kb-logo.png',
+    **{f'frag{i}': B + f'mc-kb-frag{i}.jpg' for i in range(1, 8)},
+}
+keys = list(CDN)
 
 # swap inline data URIs in html for asset placeholders (longest first to avoid prefix clashes)
 for k in sorted(keys, key=lambda k: -len(IMG[k])):
@@ -113,22 +121,17 @@ js = ('var VAR={love:41212020457581,abundance:41212018655341,focus:4121202150615
       'energy:41212020752493,purify:41212021669997,midnight:41212019933293};\n'
       'var PLAN=2627895405, DIFF=45450822778989;\n' + js)
 
-app = ('(function(){\n'
-       'var A=window.MCKIT_ASSETS||{};\n'
-       'var root=document.getElementById("root");\n'
-       'if(!root) return;\n'
-       'var html=' + repr_js(body) if False else '')
-
 def js_string(s):
     return '"' + s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('</script>', '<\\/script>') + '"'
 
+body = body.replace('<img src="@@ASSET:frag', '<img loading="lazy" decoding="async" src="@@ASSET:frag')
+body = body.replace('<img src="@@ASSET:guests', '<img loading="lazy" decoding="async" src="@@ASSET:guests')
 body_js = js_string(body)
 for k in keys:
-    body_js = body_js.replace(f'@@ASSET:{k}@@', f'"+ (A["{k}"]||"") +"')
+    body_js = body_js.replace(f'@@ASSET:{k}@@', CDN[k])
 js = js.replace("url('@@ASSET:hero@@')", "url('\"+(A[\"hero\"]||\"\")+\"')")  # no-op safety
 
 app = ('(function(){\n'
-       'var A=window.MCKIT_ASSETS||{};\n'
        'var root=document.getElementById("root");\n'
        'if(!root) return;\n'
        'root.innerHTML=' + body_js + ';\n'
@@ -140,9 +143,9 @@ with open(os.path.join(HERE, 'mc-kit-app.js'), 'w') as f:
     f.write(app)
 
 # css contains @@ASSET:hero@@ inside url() — replace with the actual data URI (kept in css: it is loaded once)
-css = css.replace('@@ASSET:hero@@', IMG['hero'])
+css = css.replace('@@ASSET:hero@@', CDN['hero'])
 with open(os.path.join(HERE, 'mc-kit.css'), 'w') as f:
     f.write(css)
 
-for fn in ['mc-kit-assets.js', 'mc-kit.css', 'mc-kit-app.js']:
+for fn in ['mc-kit.css', 'mc-kit-app.js']:
     print(fn, os.path.getsize(os.path.join(HERE, fn)) // 1024, 'KB')

@@ -4,7 +4,7 @@ const page = await b.newPage({ viewport:{width:390,height:844} });
 let payload=null;
 await page.route('**/cart/add.js', async r => { payload = r.request().postDataJSON(); await r.fulfill({ status:200, contentType:'application/json', body:'{}' }); });
 const errs=[]; page.on('pageerror', e=>errs.push(String(e).slice(0,150)));
-await page.goto('http://127.0.0.1:8792/smoke.html');
+await page.goto('http://127.0.0.1:8793/smoke.html');
 await page.waitForTimeout(1000);
 await page.click('#root #s1 .btn');            // in-flow CTA (the broken path)
 await page.waitForTimeout(400);

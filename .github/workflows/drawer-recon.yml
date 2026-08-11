@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 18 — kit-builder page speed: throttled 4G mobile, cold + warm, LCP/FCP/transfer
+# run 19 — kit-builder page speed AFTER optimization (kb3: CDN images, no assets bundle)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -82,6 +82,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kit builder perf: throttled 4G measurements" || true
+          git commit -m "kit builder perf AFTER: kb3 measurements" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

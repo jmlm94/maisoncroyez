@@ -1,6 +1,8 @@
 # Kit Builder — /pages/build-your-kit (LIVE)
 
-- Page: gid://shopify/Page/118616064109, handle `build-your-kit`, loader key `kb1-`+UTC-hour
+- Page: gid://shopify/Page/118616064109, handle `build-your-kit`, loader key `kb3-`+UTC-hour
+- Perf (kb3): images served as individual CDN files (mc-kb-*.jpg/png, pre-sized), frag/testimonial images lazy-loaded,
+  desktop side photo desktop-only; critical JS+CSS ~37KB (was 647KB). mc-kit-assets.js retired (file remains on CDN, unused).
 - Files (GenericFile GIDs, URLs stable, ?v bumps on fileUpdate):
   - mc-kit-app.js     gid://shopify/GenericFile/29641921167469
   - mc-kit-assets.js  gid://shopify/GenericFile/29641921200237

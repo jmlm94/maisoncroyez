@@ -78,4 +78,5 @@ function joinToast(){
     .catch(function(){BUSY=false;btns.forEach(function(b){b.disabled=false;var s=b.querySelector('span');if(s)s.textContent='Join the Circle \u2794';});
       var t=document.getElementById('toast');t.textContent='Something went wrong \u2014 please try again.';t.classList.add('on');setTimeout(function(){t.classList.remove('on')},4000);});
 }
+window.go=go;window.joinToast=joinToast;
 })();

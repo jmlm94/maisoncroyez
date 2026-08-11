@@ -133,6 +133,7 @@ app = ('(function(){\n'
        'if(!root) return;\n'
        'root.innerHTML=' + body_js + ';\n'
        + js + '\n'
+       'window.go=go;window.joinToast=joinToast;\n'
        '})();\n')
 # the desktop side image is set in CSS via placeholder — swap it there instead
 with open(os.path.join(HERE, 'mc-kit-app.js'), 'w') as f:

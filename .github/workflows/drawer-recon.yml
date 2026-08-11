@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 17 — capture 4 competitor funnels (fixed: move only recon files)
+# run 18 — kit-builder page speed: throttled 4G mobile, cold + warm, LCP/FCP/transfer
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,67 +13,75 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Capture competitor funnels
+      - name: Measure kit builder speed
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          cat > recon.mjs <<'EOS'
+          cat > perf.mjs <<'EOS'
           import { chromium } from 'playwright';
-          const SITES = [
-            {k:'aromatech', u:'https://aromatechscent.com/products/starter-kit?view=starter-kit-v2'},
-            {k:'aroma360', u:'https://aroma360.com/products/free-diffuser'},
-            {k:'hotelcollection', u:'https://www.hotelcollection.com/products/free-diffuser'},
-            {k:'pura', u:'https://pura.com/pages/get-started'},
-          ];
           const b = await chromium.launch();
-          for (const s of SITES) {
-            console.log('\n\n######## '+s.k+' ########');
-            const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-            try {
-              for(let a=0;a<3;a++){
-                const nav=await page.goto(s.u,{waitUntil:'load',timeout:60000});
-                console.log('goto '+(a+1)+': '+(nav?nav.status():'?'));
-                if(nav && nav.status()<400) break;
-                await page.waitForTimeout(15000);
-              }
-              await page.waitForTimeout(9000);
-              try{ await page.click('button:has-text("Accept")',{timeout:2500}); }catch(e){}
-              try{ await page.click('[aria-label*=lose i], [class*=close i] >> nth=0',{timeout:2000}); }catch(e){}
-              await page.evaluate(async()=>{ for(let y=0;y<Math.min(document.body.scrollHeight,14000);y+=500){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,110));} window.scrollTo(0,0); await new Promise(r=>setTimeout(r,1800)); });
-              const dump = await page.evaluate(()=>{
-                const t=document.body.innerText;
-                const btns=[...document.querySelectorAll('button, a[class*=btn], [role=button], input[type=submit]')].map(b=>String(b.innerText||b.value||b.textContent||'').trim().replace(/\s+/g,' ').slice(0,80)).filter(Boolean);
-                const uniq=[...new Set(btns)].slice(0,50);
-                return {textLen:t.length, btns:uniq, text:t.slice(0,15000)};
-              });
-              console.log('=== BUTTONS ==='); dump.btns.forEach(x=>console.log(' - '+x));
-              console.log('=== PAGE TEXT ('+dump.textLen+' chars) ===');
-              console.log(dump.text);
-              await page.screenshot({ path:s.k+'-m.png', fullPage:true });
-            } catch(e){ console.log('SITE FAILED: '+e.message.slice(0,200)); }
-            await page.close();
+          async function run(label, throttle){
+            const ctx = await b.newContext({ viewport:{width:390,height:844} });
+            const page = await ctx.newPage();
+            const cdp = await ctx.newCDPSession(page);
+            if(throttle){
+              await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+              await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            }
+            let bytes=0; const byType={};
+            page.on('response', async r=>{ try{ const h=r.headers(); const l=+(h['content-length']||0); bytes+=l;
+              const u=r.url().split('?')[0].split('/').pop().slice(0,30)||'doc'; byType[u]=(byType[u]||0)+l; }catch(e){} });
+            const t0=Date.now();
+            await page.goto('https://maisoncroyez.com/pages/build-your-kit?cb='+Date.now(),{waitUntil:'load',timeout:120000});
+            const loadMs=Date.now()-t0;
+            // wait until wizard is interactive
+            let wizardMs=-1;
+            for(let i=0;i<200;i++){
+              if(await page.evaluate(()=>document.querySelectorAll('#root .plan').length===3)){ wizardMs=Date.now()-t0; break; }
+              await page.waitForTimeout(100);
+            }
+            await page.waitForTimeout(3000);
+            const m=await page.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const paints={}; performance.getEntriesByType('paint').forEach(p=>paints[p.name]=Math.round(p.startTime));
+              let lcp=0; try{ new PerformanceObserver(()=>{}).observe({type:'largest-contentful-paint',buffered:true}); }catch(e){}
+              const lcpE=performance.getEntriesByType('largest-contentful-paint');
+              if(lcpE&&lcpE.length) lcp=Math.round(lcpE[lcpE.length-1].startTime);
+              return {ttfb:Math.round(nav.responseStart||0), domLoaded:Math.round(nav.domContentLoadedEventEnd||0),
+                      fcp:paints['first-contentful-paint']||0, lcp};
+            });
+            const top=Object.entries(byType).sort((a,b2)=>b2[1]-a[1]).slice(0,8).map(([k,v])=>k+': '+(v/1024).toFixed(0)+'KB');
+            console.log('=== '+label+' ===');
+            console.log(JSON.stringify({...m, loadEventMs:loadMs, wizardInteractiveMs:wizardMs, transferKB:Math.round(bytes/1024)}));
+            console.log('top resources: '+top.join(' | '));
+            await ctx.close();
           }
+          await run('COLD 4G (150ms RTT, 1.6Mbps, 4x CPU)', true);
+          await run('COLD 4G repeat', true);
+          await run('UNTHROTTLED', false);
+          // compare: main PDP on same throttle for context
+          const ctx = await b.newContext({ viewport:{width:390,height:844} });
+          const page = await ctx.newPage();
+          const cdp = await ctx.newCDPSession(page);
+          await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+          await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+          const t0=Date.now();
+          await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(),{waitUntil:'load',timeout:120000});
+          let ms=-1; for(let i=0;i<200;i++){ if(await page.evaluate(()=>!!document.querySelector('#root .pick'))){ ms=Date.now()-t0; break; } await page.waitForTimeout(100); }
+          console.log('=== MAIN PDP (same throttle) === interactiveMs: '+ms);
+          await ctx.close();
           await b.close();
           EOS
-          node recon.mjs 2>&1 | tee competitors-recon.txt
-      - name: Compress screenshots
-        if: always()
-        run: |
-          sudo apt-get install -y imagemagick > /dev/null 2>&1 || true
-          for f in aromatech aroma360 hotelcollection pura; do
-            [ -f "$f-m.png" ] && convert "$f-m.png" -resize 780x -quality 72 "$f-m.jpg" && rm "$f-m.png" || true
-          done
-          ls -la *.jpg 2>/dev/null || true
+          node perf.mjs 2>&1 | tee kb-perf.txt
       - name: Commit results
         if: always()
         run: |
-          mkdir -p lp-factory/recon-competitors
-          mv competitors-recon.txt lp-factory/recon-competitors/ 2>/dev/null || true
-          for f in aromatech aroma360 hotelcollection pura; do mv "$f-m.jpg" lp-factory/recon-competitors/ 2>/dev/null || true; done
           git checkout -- . 2>/dev/null || true
+          mkdir -p lp-factory/pages/kit-builder/verify
+          mv kb-perf.txt lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/recon-competitors
-          git commit -m "competitor recon: 4 funnels captured" || true
+          git add lp-factory/pages/kit-builder/verify
+          git commit -m "kit builder perf: throttled 4G measurements" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

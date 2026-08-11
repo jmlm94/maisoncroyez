@@ -1,0 +1,125 @@
+name: verify-kitbuilder
+# run: 1 — kb1: full wizard flow, real ATC, Subi multi-diffuser zeroing check
+on:
+  push:
+    branches: [claude/maison-offer-v2-deploy-dspkwe]
+    paths: ['.github/workflows/verify-kitbuilder.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify kit builder
+        run: |
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          cat > check.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const errs=[];
+          page.on('pageerror', e=>errs.push('PAGEERROR: '+String(e).slice(0,200)));
+          let fresh=false;
+          for(let a=0;a<8;a++){
+            const nav=await page.goto('https://maisoncroyez.com/pages/build-your-kit?cb='+Date.now(),{waitUntil:'load',timeout:60000});
+            console.log('goto '+(a+1)+': '+(nav?nav.status():'?'));
+            if(nav && nav.status()===200){
+              await page.waitForTimeout(8000);
+              fresh=await page.evaluate(()=>document.querySelectorAll('#root .plan').length===3);
+              console.log('wizard rendered: '+fresh);
+              if(fresh) break;
+            }
+            await page.waitForTimeout(45000);
+          }
+          const s1=await page.evaluate(()=>{
+            const t=document.getElementById('root').innerText;
+            return {
+              banner:/GET A FREE DIFFUSER FOR EVERY SCENT YOU PICK/.test(t),
+              countdown:/\d{2}:\d{2}:\d{2}/.test((document.getElementById('cd')||{}).textContent||''),
+              rating:/what.s that smell/i.test(t),
+              plans:document.querySelectorAll('#root .plan').length,
+              defaultN:(document.querySelector('#root .plan.on')||{}).dataset?.n,
+              headerHidden:(()=>{const h=document.querySelector('.shopify-section-group-header-group');return !h||getComputedStyle(h).display==='none';})(),
+              rootVisible:document.getElementById('root').getBoundingClientRect().height>1500
+            };
+          });
+          console.log('=== STEP1 === '+JSON.stringify(s1));
+          await page.screenshot({ path:'kb-step1.png' });
+          // step 2 with default 3 rooms
+          await page.click('#root #s1 .btn');
+          await page.waitForTimeout(600);
+          const adds=await page.$$('#root .pick .add');
+          await adds[0].click(); await adds[1].click(); await adds[6].click();
+          await page.waitForTimeout(400);
+          const s2=await page.evaluate(()=>({
+            hint:document.getElementById('hint2').innerText,
+            sb:document.getElementById('sb-count').textContent+' | '+document.getElementById('sb-price').textContent,
+            nextLabel:document.getElementById('sb-next').textContent,
+            nextEnabled:!document.getElementById('sb-next').disabled,
+            addsLocked:[...document.querySelectorAll('#root .pick .add')].every(b=>b.disabled)
+          }));
+          console.log('=== STEP2 === '+JSON.stringify(s2));
+          await page.screenshot({ path:'kb-step2.png' });
+          await page.click('#sb-next');
+          await page.waitForTimeout(700);
+          const s3=await page.evaluate(()=>({
+            due:(document.getElementById('duetoday')||{}).textContent,
+            rows:document.querySelectorAll('#kitcart .krow').length,
+            val:(document.getElementById('valline')||{}).innerText,
+            zero:/Zero commitment/.test(document.getElementById('root').innerText),
+            faqs:document.querySelectorAll('#root .faqs details').length,
+            testi:/Diane R\./.test(document.getElementById('root').innerText)
+          }));
+          console.log('=== STEP3 === '+JSON.stringify(s3));
+          await page.screenshot({ path:'kb-step3.png', fullPage:true });
+          // real ATC
+          await page.click('#sb-next');
+          await page.waitForTimeout(9000);
+          const url=page.url();
+          console.log('=== URL AFTER JOIN === '+url);
+          await page.screenshot({ path:'kb-checkout.png' });
+          const cart=await page.evaluate(async()=>{
+            for(let a=0;a<6;a++){
+              try{ const r=await fetch('https://maisoncroyez.com/cart.js'); const j=await r.json();
+                return {total:j.total_price/100, lines:j.items.map(i=>({t:(i.product_title||'').slice(0,28), q:i.quantity, lp:i.line_price/100, plan:!!i.selling_plan_allocation}))}; }
+              catch(e){ await new Promise(res=>setTimeout(res,3000)); }
+            }
+            return {total:-1};
+          });
+          console.log('=== CART === '+JSON.stringify(cart));
+          const checks={
+            fresh, rootVisible:s1.rootVisible, banner:s1.banner, countdown:s1.countdown, rating:s1.rating,
+            threePlans:s1.plans===3, defaultThreeRooms:s1.defaultN==='3', headerHidden:s1.headerHidden,
+            exactCountLock:s2.addsLocked && s2.nextEnabled,
+            dueToday:s3.due==='$119.85', fourKitRows:s3.rows===4,
+            zeroCommitment:s3.zero, faqs4:s3.faqs===4, testimonial:s3.testi,
+            wentToCheckout:/checkout|\/cn\//.test(url),
+            cartTotal:cart.total===119.85,
+            scentsOnPlan:(cart.lines||[]).filter(l=>l.plan).length===3,
+            diffusersFree:(cart.lines||[]).some(l=>!l.plan && l.q===3 && l.lp===0)
+          };
+          console.log('=== VERDICT ===');
+          Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
+          console.log('=== ERRORS ('+errs.length+') ==='); errs.slice(0,10).forEach(e=>console.log(' - '+e));
+          // cleanup
+          await page.goto('https://maisoncroyez.com/cart');
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          await b.close();
+          EOS
+          node check.mjs 2>&1 | tee kb-verify-log.txt
+      - name: Commit results
+        if: always()
+        run: |
+          mkdir -p lp-factory/pages/kit-builder/verify
+          mv kb-verify-log.txt kb-step1.png kb-step2.png kb-step3.png kb-checkout.png lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
+          git checkout -- . 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kit-builder/verify
+          git commit -m "verify-kitbuilder run 1: kb1 live flow" || true
+          git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
+          git push

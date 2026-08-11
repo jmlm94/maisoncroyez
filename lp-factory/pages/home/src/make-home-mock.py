@@ -13,6 +13,13 @@ def b64(fn, mime='image/jpeg', root=None):
     with open(os.path.join(root or LP, fn), 'rb') as fh:
         return f'data:{mime};base64,' + base64.b64encode(fh.read()).decode()
 
+import re as _re
+LOGOS = os.path.join(HERE, '..', '..', '..', 'recon-home', 'logos')
+def svgpath(fn):
+    return _re.search(r'd="([^"]+)"', open(os.path.join(LOGOS, fn)).read()).group(1)
+AMZ_PATH = svgpath('amazon.svg')
+TIK_PATH = svgpath('tiktok.svg')
+
 KB = os.path.join(HERE, '..', '..', 'kit-builder', 'assets')
 IMG = {
     'logo': b64('logo-black-trim.png', 'image/png'),
@@ -31,12 +38,12 @@ IMG = {
 
 FRAG_NAMES = [
     ('frag2', 'Golden Blossom Harmony', 'Love'),
-    ('frag1', 'Crisp Citrus Scape', 'Abundance'),
-    ('frag3', 'Havana Fresca', 'Focus'),
-    ('frag4', 'Petal Whisper', 'New Ideas'),
-    ('frag5', 'Citrus Fair', 'Energy'),
-    ('frag6', 'Cloud Nine', 'Purify'),
-    ('frag7', 'Midnight Sensation', 'Deep Rest'),
+    ('frag4', 'Crisp Citrus Scape', 'Abundance'),
+    ('frag6', 'Chilled Citrus', 'Relaxation & Concentration'),
+    ('frag1', 'Honey Nectar', 'Turn Ideas Into Reality'),
+    ('frag3', 'Euphoric Bloom', 'Raise Energy'),
+    ('frag5', 'Wildwood Mystique', 'Purification'),
+    ('frag7', 'Midnight Sensation', 'Love Manifestation'),
 ]
 
 WHY = [
@@ -56,12 +63,12 @@ TESTIS = [
 ]
 
 CARDS = [
-    ('cardkit', 'Diffuser + Fragrance Kit', 'The complete starter. One diffuser, one intention. The easiest upgrade your home will ever get.',
-     'https://maisoncroyez.com/pages/free-diffuser'),
-    ('carddiff', 'Diffuser Only', 'Already have a fragrance? Just the sleek, waterless diffuser — designed to disappear into any space.',
-     'https://maisoncroyez.com/products/diffuser-scents'),
-    ('cardfrag', 'Fragrances Only', 'All seven intentions. Subscribe and save 25%. Your scent, your rhythm, your space.',
-     'https://maisoncroyez.com/collections/power-fragrances'),
+    ('cardkit', 'Diffuser + Fragrance Kit', 'The complete starter ritual. One waterless diffuser, one intention — and your first "what’s that smell?" moment. The diffuser is on us.',
+     'https://maisoncroyez.com/pages/free-diffuser', 'Claim the kit'),
+    ('carddiff', 'Diffuser Only', 'Found your scent already? The sleek, waterless diffuser that disappears into your décor. No water, no flames, no maintenance — plug it in and let it work.',
+     'https://maisoncroyez.com/products/diffuser-scents', 'Shop diffusers'),
+    ('cardfrag', 'Fragrances Only', 'All seven intentions, on your rhythm. Subscribe, save 25%, and swap scents whenever your energy shifts. Your scent, your space.',
+     'https://maisoncroyez.com/collections/power-fragrances', 'Browse scents'),
 ]
 URL_KIT = 'https://maisoncroyez.com/pages/build-your-kit'
 
@@ -73,13 +80,13 @@ why_rows = '\n'.join(
     f'''<div class="wrow"><span class="wemo">{e}</span><div><b>{t}</b><p>{d}</p></div></div>'''
     for e, t, d in WHY)
 
-testi_cards = '\n'.join(
-    f'''<div class="tcard"><img src="{IMG[k]}" alt="{n}"><div class="tbody"><div class="stars">★★★★★</div><p>“{q}”</p><span class="tname">{n}</span></div></div>'''
-    for k, q, n in TESTIS)
+snap_cards = '\n'.join(
+    f'''<div class="snap"><img src="{IMG[k]}" alt="{n}"><div><div class="stars">★★★★★</div><p>“{q}”</p><span class="tname">{n}</span></div></div>'''
+    for k, q, n in [TESTIS[0], TESTIS[1], TESTIS[3]])
 
 start_cards = '\n'.join(
-    f'''<div class="pcard"><img src="{IMG[k]}" alt="{t}"><div class="pbody"><h3>{t}</h3><p>{d}</p><a class="btn dark" href="{u}">Shop now <span class="arr">➔</span></a></div></div>'''
-    for k, t, d, u in CARDS)
+    f'''<div class="pcard"><img src="{IMG[k]}" alt="{t}"><div class="pbody"><h3>{t}</h3><p>{d}</p><a class="btn dark" href="{u}">{cta} <span class="arr">➔</span></a></div></div>'''
+    for k, t, d, u, cta in CARDS)
 
 html = f'''<title>Maison Croyez Homepage</title>
 <style>
@@ -124,12 +131,13 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 
 /* hero */
 .hero{{background:var(--grad-hero)}}
-.hero .wrap{{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding-top:64px;padding-bottom:64px}}
-.hero h1{{font-size:clamp(2.6rem,5.2vw,4rem);margin-bottom:20px}}
-.hchecks{{display:flex;flex-direction:column;gap:9px;margin-bottom:28px}}
+.hero .wrap{{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;padding-top:56px;padding-bottom:64px}}
+.hero h1{{font-size:clamp(2.6rem,5.2vw,4rem);margin-bottom:20px;max-width:760px}}
+.hchecks{{display:flex;flex-direction:column;gap:9px;margin-bottom:26px;align-items:center}}
 .hchecks span{{display:flex;gap:10px;align-items:flex-start;font-size:1.02rem;color:var(--ink)}}
 .hchecks i{{font-style:normal;color:var(--rosewood-deep);font-weight:700}}
-.hero img{{border-radius:var(--radius);box-shadow:var(--shadow);width:100%;aspect-ratio:4/3;object-fit:cover}}
+.trust-strip{{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid rgba(138,91,82,.22);border-bottom:1px solid rgba(138,91,82,.22);padding:11px 18px;margin:20px 0 30px}}
+.hero img{{border-radius:var(--radius);box-shadow:var(--shadow);width:min(100%,860px);aspect-ratio:16/8.5;object-fit:cover}}
 
 /* statement */
 .statement{{text-align:center;background:var(--ivory)}}
@@ -143,7 +151,7 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 .start .sub{{color:var(--ink-soft)}}
 .pgrid{{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}}
 .pcard{{background:var(--ivory);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}}
-.pcard img{{aspect-ratio:1/1;object-fit:cover;width:100%}}
+.pcard img{{aspect-ratio:4/2.9;object-fit:cover;width:100%}}
 .pbody{{padding:24px 24px 28px;display:flex;flex-direction:column;gap:12px;flex:1}}
 .pbody h3{{font-size:1.75rem}}
 .pbody p{{color:var(--ink-soft);font-size:.95rem;flex:1}}
@@ -171,16 +179,27 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
   text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-soft)}}
 .trust i{{font-style:normal;color:var(--rosewood-deep)}}
 
-/* testimonials */
+/* testimonials — proof wall: one editorial feature + tilted snapshots */
 .testi{{background:var(--grad-values)}}
 .testi h2{{font-size:clamp(2.2rem,4vw,3.2rem);margin:10px 0 34px}}
-.tgrid{{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}}
-.tcard{{background:var(--ivory);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}}
-.tcard img{{aspect-ratio:4/4.6;object-fit:cover;width:100%}}
-.tbody{{padding:18px 18px 22px;display:flex;flex-direction:column;gap:8px;flex:1}}
+.tlayout{{display:grid;grid-template-columns:1.15fr 1fr;gap:30px;align-items:stretch}}
+.tfeat{{background:var(--ivory);border-radius:var(--radius);box-shadow:0 20px 54px rgba(60,38,30,.2);overflow:hidden;display:grid;grid-template-columns:1fr 1.05fr}}
+.tfeat img{{height:100%;width:100%;object-fit:cover}}
+.tfq{{padding:36px 30px;display:flex;flex-direction:column;gap:12px;justify-content:center}}
+.qmark{{font-family:'Unna',serif;font-size:4.6rem;line-height:.55;background:var(--grad-em);-webkit-background-clip:text;background-clip:text;color:transparent}}
+.tfq blockquote{{font-family:'Unna',serif;font-size:1.5rem;line-height:1.14;letter-spacing:-.02em}}
 .stars{{color:var(--star);letter-spacing:2px;font-size:.9rem}}
-.tbody p{{font-size:.9rem;line-height:1.5;flex:1}}
 .tname{{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.66rem;color:var(--ink-soft)}}
+.snapwall{{display:flex;flex-direction:column;gap:18px;justify-content:center}}
+.snap{{background:var(--ivory);border-radius:16px;box-shadow:var(--shadow);padding:13px 16px 13px 13px;display:flex;gap:14px;align-items:center}}
+.snap img{{width:84px;height:84px;border-radius:12px;object-fit:cover;flex:0 0 84px}}
+.snap p{{font-size:.88rem;line-height:1.45;margin:2px 0 4px}}
+.snap .stars{{font-size:.72rem}}
+.snap:nth-child(1){{transform:rotate(-1.4deg)}}
+.snap:nth-child(2){{transform:rotate(1.1deg) translateX(16px)}}
+.snap:nth-child(3){{transform:rotate(-.7deg)}}
+.tstat{{margin-top:34px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:.7rem;color:var(--ink-soft)}}
+.tstat b{{color:var(--rosewood-deep)}}
 
 /* manifesto */
 .mani{{background:var(--footer);color:#F4E9DC}}
@@ -201,6 +220,10 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
   color:#3A2721;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
   font-size:.62rem;padding:6px 14px;border-radius:999px}}
 .bcard h3{{font-size:1.6rem}}
+.bhead{{display:flex;align-items:center;gap:12px}}
+.blogo{{width:34px;height:34px;border-radius:10px;background:var(--cream);display:flex;align-items:center;justify-content:center;flex:0 0 34px}}
+.blogo svg{{width:20px;height:20px;fill:var(--ink)}}
+.bhead img{{height:22px;width:auto}}
 .bcard ul{{list-style:none;display:flex;flex-direction:column;gap:8px;flex:1}}
 .bcard li{{display:flex;gap:9px;font-size:.92rem;color:var(--ink-soft)}}
 .bcard li::before{{content:'✓';color:var(--cta);font-weight:700}}
@@ -223,7 +246,10 @@ footer img{{height:36px;margin-bottom:18px}}
 @media (max-width:880px){{
   .section{{padding:52px 0}}
   .hero .wrap{{grid-template-columns:1fr;gap:28px;padding-top:40px;padding-bottom:44px}}
-  .pgrid,.tgrid,.bgrid{{grid-template-columns:1fr}}
+  .pgrid,.tlayout,.bgrid{{grid-template-columns:1fr}}
+  .tfeat{{grid-template-columns:1fr}}
+  .tfeat>img{{aspect-ratio:4/3;height:auto}}
+  .snap{{transform:none!important}}
   .why .wrap{{grid-template-columns:1fr;gap:20px}}
   .why h2{{position:static}}
   .frow{{grid-template-columns:repeat(4,1fr);gap:12px}}
@@ -246,15 +272,14 @@ footer img{{height:36px;margin-bottom:18px}}
 </div></header>
 
 <section class="hero"><div class="wrap">
-  <div>
-    <h1>Attract what you want, <em>with what you sense</em></h1>
-    <div class="hchecks">
-      <span><i>✓</i> Luxury home fragrances designed with intention.</span>
-      <span><i>✓</i> Every scent carries a purpose.</span>
-      <span><i>✓</i> Everything you want gets manifested.</span>
-    </div>
-    <a class="btn green" href="{URL_KIT}">Shop the Collection <span class="arr">➔</span></a>
+  <h1>Attract what you want, <em>with what you sense</em></h1>
+  <div class="hchecks">
+    <span><i>✓</i> Luxury home fragrances designed with intention.</span>
+    <span><i>✓</i> Every scent carries a purpose.</span>
+    <span><i>✓</i> Everything you want gets manifested.</span>
   </div>
+  <a class="btn green" href="{URL_KIT}">Shop the Collection <span class="arr">➔</span></a>
+  <div class="trust-strip"><span>🚚 Free shipping</span><span>🛡️ 90-day risk-free trial</span><span>🔄 Cancel anytime</span></div>
   <img src="{IMG['hero']}" alt="Maison Croyez fragrances">
 </div></section>
 
@@ -266,9 +291,9 @@ footer img{{height:36px;margin-bottom:18px}}
 
 <section class="section start"><div class="wrap">
   <div class="shead">
-    <div class="eyebrow">Our most-loved kits and fragrances</div>
+    <div class="eyebrow">Pick your ritual</div>
     <h2>Start here…</h2>
-    <div class="sub">Chosen by thousands of women.</div>
+    <div class="sub">Three ways in — chosen by 2,500+ homes that smell like five-star hotels.</div>
   </div>
   <div class="pgrid">
 {start_cards}
@@ -300,9 +325,21 @@ footer img{{height:36px;margin-bottom:18px}}
 <section class="section testi"><div class="wrap">
   <div class="eyebrow">What They're Saying</div>
   <h2>Real women. <em>Real results.</em></h2>
-  <div class="tgrid">
-{testi_cards}
+  <div class="tlayout">
+    <div class="tfeat">
+      <img src="{IMG['testc']}" alt="Lauren M.">
+      <div class="tfq">
+        <span class="qmark">“</span>
+        <blockquote>My husband said ‘Did you hire someone? This smells like a hotel.’ Best $90 I’ve ever spent.</blockquote>
+        <div class="stars">★★★★★</div>
+        <span class="tname">Lauren M. — Verified Circle Member</span>
+      </div>
+    </div>
+    <div class="snapwall">
+{snap_cards}
+    </div>
   </div>
+  <div class="tstat">⭐ 4.9/5 · <b>2,500+ guests</b> have already asked “what’s that smell?”</div>
 </div></section>
 
 <section class="mani"><div class="wrap">
@@ -319,7 +356,7 @@ footer img{{height:36px;margin-bottom:18px}}
   <div class="bgrid">
     <div class="bcard best">
       <div class="bbadge">Best Value</div>
-      <h3>MaisonCroyez.com</h3>
+      <div class="bhead"><img src="{IMG['logo']}" alt="Maison Croyez"><h3 style="font-size:1.25rem">MaisonCroyez.com</h3></div>
       <ul>
         <li>Full collection. Subscribe &amp; save 25–30%.</li>
         <li>Exclusive bundles. Free shipping.</li>
@@ -330,7 +367,7 @@ footer img{{height:36px;margin-bottom:18px}}
       <a class="btn green" href="{URL_KIT}">Subscribe Now</a>
     </div>
     <div class="bcard">
-      <h3>Amazon</h3>
+      <div class="bhead"><span class="blogo"><svg viewBox="0 0 24 24"><path d="{AMZ_PATH}"/></svg></span><h3>Amazon</h3></div>
       <ul>
         <li>Individual fragrances and kits with Prime shipping.</li>
         <li>Perfect for one-time refills or gifting.</li>
@@ -338,7 +375,7 @@ footer img{{height:36px;margin-bottom:18px}}
       <a class="btn dark" href="#">Shop on Amazon</a>
     </div>
     <div class="bcard">
-      <h3>TikTok Shop</h3>
+      <div class="bhead"><span class="blogo"><svg viewBox="0 0 24 24"><path d="{TIK_PATH}"/></svg></span><h3>TikTok Shop</h3></div>
       <ul>
         <li>Grab your favorites while watching.</li>
         <li>Exclusive bundles and flash drops available on TikTok.</li>

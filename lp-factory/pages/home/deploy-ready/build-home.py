@@ -43,34 +43,14 @@ m = re.search(r'<style>\n(.*?)\n</style>\n(.*)<script>\n(.*?)\n</script>\n?$', h
 assert m, 'html structure changed'
 css, body, js = m.group(1), m.group(2), m.group(3)
 
-# theme provides ONLY the footer on this store (announcement bar + header live in the
-# homepage section itself on the current Instant build) — keep abar+header, strip footer.
+# the theme's Instant header-group provides the announcement bar + header globally
+# (they are NOT part of the index section) — strip ALL preview chrome from the bundle.
 n0 = len(body)
+body = re.sub(r'<div class="abar">.*?</div>\s*', '', body, flags=re.S)
+body = re.sub(r'<header>.*?</header>\s*', '', body, flags=re.S)
 body = re.sub(r'<footer>.*?</footer>\s*', '', body, flags=re.S)
-assert len(body) < n0, 'footer strip failed'
-assert '<footer' not in body and 'abar' in body and '<header>' in body
-
-# make the header functional: logo -> home, cart -> /cart, hamburger -> real menu
-HDR_OLD = '<header><div class="hin">'
-assert HDR_OLD in body
-body = body.replace(HDR_OLD, '<header><div class="hin">', 1)
-body = body.replace(
-    '<svg class="hic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
-    '<button class="hbtn" id="mcMenuBtn" aria-label="Menu" aria-expanded="false"><svg class="hic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>', 1)
-body = body.replace(
-    '<img src="@@ASSET:logo@@" alt="Maison Croyez">',
-    '<a href="/"><img src="@@ASSET:logo@@" alt="Maison Croyez"></a>', 1)
-body = body.replace(
-    '<svg class="hic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="margin-left:auto"><path d="M6 8h12l-1 12H7L6 8zm3 0V6a3 3 0 0 1 6 0v2"/></svg>',
-    '<a class="hbtn" href="/cart" aria-label="Cart" style="margin-left:auto"><svg class="hic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8zm3 0V6a3 3 0 0 1 6 0v2"/></svg></a>', 1)
-MENU = ('<nav id="mcMenu" class="mcmenu" hidden>'
-        '<a href="/pages/build-your-kit">Build Your Kit \u2014 Diffusers Free</a>'
-        '<a href="/pages/free-diffuser">Get a Free Diffuser</a>'
-        '<a href="/products/diffuser-scents">Diffuser Kits</a>'
-        '<a href="/collections/power-fragrances">Fragrances</a>'
-        '</nav>')
-body = body.replace('</div></header>', '</div>' + MENU + '</header>', 1)
-assert 'mcMenu' in body
+assert len(body) < n0, 'chrome strip failed'
+assert 'abar' not in body and '<header' not in body and '<footer' not in body
 
 # lazy-load everything below the fold (hero image stays eager)
 body = body.replace('<img src="', '<img loading="lazy" decoding="async" src="')
@@ -123,12 +103,6 @@ css = re.sub(r'(@media[^{]*\{)', r'\1\n', css)
 css = prefix_css(css)
 for k, u in CDN.items():
     css = css.replace(f'@@ASSET:{k}@@', u)
-css += ('\n#root .hbtn{background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;color:var(--ink)}\n'
-        '#root .mcmenu{display:flex;flex-direction:column;background:var(--ivory);border-top:1px solid #EFE6DD}\n'
-        '#root .mcmenu[hidden]{display:none}\n'
-        '#root .mcmenu a{padding:13px 22px;text-decoration:none;color:var(--ink);font-family:\'Outfit\',sans-serif;'
-        'font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;border-bottom:1px solid #F4EDE6}\n'
-        '#root .mcmenu a:hover{background:var(--cream)}\n')
 with open(os.path.join(HERE, 'mc-home.css'), 'w') as f:
     f.write(css)
 
@@ -145,8 +119,6 @@ app = ('(function(){\n'
        'if(!root) return;\n'
        'root.innerHTML=' + body_js + ';\n'
        + js + '\n'
-       'var mb=document.getElementById("mcMenuBtn"),mm=document.getElementById("mcMenu");\n'
-       'if(mb&&mm){mb.addEventListener("click",function(){mm.hidden=!mm.hidden;mb.setAttribute("aria-expanded",String(!mm.hidden));});}\n'
        '})();\n')
 with open(os.path.join(HERE, 'mc-home-app.js'), 'w') as f:
     f.write(app)

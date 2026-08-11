@@ -1,0 +1,28 @@
+goto 1: 200
+wizard rendered: true
+=== STEP1 === {"banner":true,"countdown":true,"rating":true,"plans":3,"defaultN":"3","headerHidden":true,"rootVisible":true}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+elementHandle.click: Timeout 30000ms exceeded.
+Call log:
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/runner/work/maisoncroyez/maisoncroyez/check.mjs:36:15 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.23.1

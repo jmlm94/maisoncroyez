@@ -89,23 +89,23 @@ html{scroll-behavior:smooth}
 /* hero */
 #root .hero{background:var(--grad-hero)}
 
-#root .hero .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;padding-top:46px;padding-bottom:52px}
+#root .hero .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;padding-top:22px;padding-bottom:26px}
 
-#root .hero h1{font-size:clamp(3.6rem,7.3vw,5.6rem);letter-spacing:-.06em;margin-bottom:20px;max-width:1000px}
+#root .hero h1{font-size:clamp(1.9rem,3.7vw,2.8rem);letter-spacing:-.055em;margin-bottom:10px;max-width:640px}
 
-#root .hsub{font-size:1.1rem;color:var(--ink-soft);max-width:540px;margin:0 auto 18px;line-height:1.5}
+#root .hsub{font-size:.95rem;color:var(--ink-soft);max-width:470px;margin:0 auto 10px;line-height:1.45}
 
 #root .hsub b{color:var(--ink);font-weight:600}
 
-#root .hchecks{display:flex;flex-direction:column;gap:7px;margin-bottom:22px;align-items:center}
+#root .hchecks{display:flex;flex-direction:column;gap:4px;margin-bottom:13px;align-items:center}
 
-#root .hchecks span{display:flex;gap:10px;align-items:flex-start;font-size:1.02rem;color:var(--ink)}
+#root .hchecks span{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--ink)}
 
 #root .hchecks i{font-style:normal;color:var(--rosewood-deep);font-weight:700}
 
-#root .trust-strip{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid rgba(138,91,82,.22);border-bottom:1px solid rgba(138,91,82,.22);padding:9px 16px;margin:16px 0 24px}
+#root .trust-strip{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid rgba(138,91,82,.22);border-bottom:1px solid rgba(138,91,82,.22);padding:7px 14px;margin:11px 0 14px}
 
-#root .hero img{border-radius:var(--radius);box-shadow:var(--shadow);width:min(100%,860px);aspect-ratio:16/8.5;object-fit:cover}
+#root .hero img{border-radius:var(--radius);box-shadow:var(--shadow);width:min(100%,600px);aspect-ratio:16/7.5;object-fit:cover}
 
 
 /* statement */
@@ -308,7 +308,7 @@ html{scroll-behavior:smooth}
 
   #root .section{padding:42px 0}
 
-  #root .hero .wrap{grid-template-columns:1fr;gap:22px;padding-top:32px;padding-bottom:36px}
+  #root .hero .wrap{grid-template-columns:1fr;gap:14px;padding-top:16px;padding-bottom:20px}
 
   #root .pgrid, #root .tlayout, #root .bgrid{grid-template-columns:1fr}
 

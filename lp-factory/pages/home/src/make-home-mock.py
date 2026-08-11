@@ -131,15 +131,15 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 
 /* hero */
 .hero{{background:var(--grad-hero)}}
-.hero .wrap{{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;padding-top:46px;padding-bottom:52px}}
-.hero h1{{font-size:clamp(3.6rem,7.3vw,5.6rem);letter-spacing:-.06em;margin-bottom:20px;max-width:1000px}}
-.hsub{{font-size:1.1rem;color:var(--ink-soft);max-width:540px;margin:0 auto 18px;line-height:1.5}}
+.hero .wrap{{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;padding-top:22px;padding-bottom:26px}}
+.hero h1{{font-size:clamp(1.9rem,3.7vw,2.8rem);letter-spacing:-.055em;margin-bottom:10px;max-width:640px}}
+.hsub{{font-size:.95rem;color:var(--ink-soft);max-width:470px;margin:0 auto 10px;line-height:1.45}}
 .hsub b{{color:var(--ink);font-weight:600}}
-.hchecks{{display:flex;flex-direction:column;gap:7px;margin-bottom:22px;align-items:center}}
-.hchecks span{{display:flex;gap:10px;align-items:flex-start;font-size:1.02rem;color:var(--ink)}}
+.hchecks{{display:flex;flex-direction:column;gap:4px;margin-bottom:13px;align-items:center}}
+.hchecks span{{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--ink)}}
 .hchecks i{{font-style:normal;color:var(--rosewood-deep);font-weight:700}}
-.trust-strip{{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid rgba(138,91,82,.22);border-bottom:1px solid rgba(138,91,82,.22);padding:9px 16px;margin:16px 0 24px}}
-.hero img{{border-radius:var(--radius);box-shadow:var(--shadow);width:min(100%,860px);aspect-ratio:16/8.5;object-fit:cover}}
+.trust-strip{{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid rgba(138,91,82,.22);border-bottom:1px solid rgba(138,91,82,.22);padding:7px 14px;margin:11px 0 14px}}
+.hero img{{border-radius:var(--radius);box-shadow:var(--shadow);width:min(100%,600px);aspect-ratio:16/7.5;object-fit:cover}}
 
 /* statement */
 .statement{{text-align:center;background:var(--ivory)}}
@@ -251,7 +251,7 @@ footer img{{height:36px;margin-bottom:18px}}
 
 @media (max-width:880px){{
   .section{{padding:42px 0}}
-  .hero .wrap{{grid-template-columns:1fr;gap:22px;padding-top:32px;padding-bottom:36px}}
+  .hero .wrap{{grid-template-columns:1fr;gap:14px;padding-top:16px;padding-bottom:20px}}
   .pgrid,.tlayout,.bgrid{{grid-template-columns:1fr}}
   .tfeat{{grid-template-columns:1fr}}
   .tfeat>img{{aspect-ratio:4/3;height:auto}}

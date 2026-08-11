@@ -1,5 +1,5 @@
 name: verify-kitbuilder
-# run: 6 — kb5: diffuser-row wording, no due-sub, no delivery-email in zero-commitment
+# run: 7 — kb6: step-3 CTA renamed to "Claim My Free Diffusers ➔"
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -83,6 +83,7 @@ jobs:
             zeroNoEmail:!/cancel from any delivery email/.test(document.querySelector('#root .nolock').innerText),
             dueSubGone:!document.querySelector('#root .due-sub'),
             diffWording:[...document.querySelectorAll('#kitcart .kint')].some(k=>k.textContent==='Waterless, Leakproof, No maintenance required.'),
+            joinLabel:(document.querySelector('#root #s3 .navrow .btn:not(.secondary)')||{}).textContent||'',
             faqs:document.querySelectorAll('#root .faqs details').length,
             testi:/Diane R\./.test(document.getElementById('root').innerText)
           }));
@@ -116,6 +117,7 @@ jobs:
             dueToday:s3.due==='$119.85', fourKitRows:s3.rows===4,
             zeroCommitment:s3.zero, zeroNoEmail:s3.zeroNoEmail, dueSubGone:s3.dueSubGone, diffWording:s3.diffWording,
             faqs4:s3.faqs===4, testimonial:s3.testi,
+            ctaRenamed:s3.joinLabel.indexOf('Claim My Free Diffusers')>-1 && s3.joinLabel.indexOf('Join the Circle')===-1,
             wentToCheckout:/checkout|\/cn\//.test(url),
             cartTotal:cart.total===119.85,
             scentsOnPlan:(cart.lines||[]).filter(l=>l.plan).length===3,
@@ -139,6 +141,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "verify-kitbuilder run 6: kb5 copy polish" || true
+          git commit -m "verify-kitbuilder run 7: kb6 CTA rename" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

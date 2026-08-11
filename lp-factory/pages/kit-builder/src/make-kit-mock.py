@@ -278,7 +278,7 @@ or maintenance</span></span>
       <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span></div>
 
       <div class="navrow"><button class="btn secondary" onclick="go(2)">←</button>
-        <button class="btn" onclick="joinToast()"><span>Join the Circle ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
+        <button class="btn" onclick="joinToast()"><span>Claim My Free Diffusers ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
 
       <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel anytime and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
 

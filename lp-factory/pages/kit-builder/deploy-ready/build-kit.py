@@ -107,14 +107,14 @@ js = js.replace('''function joinToast(){
 }''', '''var BUSY=false;
 function joinToast(){
   if(BUSY) return; BUSY=true;
-  var btns=[].slice.call(document.querySelectorAll('.btn')).filter(function(b){return b.textContent.indexOf('Join the Circle')>-1});
+  var btns=[].slice.call(document.querySelectorAll('.btn')).filter(function(b){return b.textContent.indexOf('Claim My Free Diffusers')>-1});
   btns.forEach(function(b){b.disabled=true;var s=b.querySelector('span');if(s)s.textContent='Adding your kit\\u2026';});
   var items=[];
   for(var k in picks) if(picks[k]) items.push({id:VAR[k],quantity:picks[k],selling_plan:PLAN});
   items.push({id:DIFF,quantity:N});
   fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:items})})
     .then(function(r){if(!r.ok)throw new Error('add failed');window.location.href='/checkout';})
-    .catch(function(){BUSY=false;btns.forEach(function(b){b.disabled=false;var s=b.querySelector('span');if(s)s.textContent='Join the Circle \\u2794';});
+    .catch(function(){BUSY=false;btns.forEach(function(b){b.disabled=false;var s=b.querySelector('span');if(s)s.textContent='Claim My Free Diffusers \\u2794';});
       var t=document.getElementById('toast');t.textContent='Something went wrong \\u2014 please try again.';t.classList.add('on');setTimeout(function(){t.classList.remove('on')},4000);});
 }''')
 js = ('var VAR={love:41212020457581,abundance:41212018655341,focus:41212021506157,ideas:41212021342317,'

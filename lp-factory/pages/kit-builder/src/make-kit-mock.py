@@ -165,7 +165,15 @@ h1 em{{color:var(--ink);font-style:italic}}
 .usp3 .usp:nth-child(2){{background:rgba(246,201,155,.16)}}
 .usp3 .usp:nth-child(3){{background:rgba(188,228,192,.16)}}
 /* testimonial — LP gold box */
-.exitfeat{{display:flex;gap:11px;align-items:center;background:#fff;border:1.5px solid #DECBA0;border-radius:14px;padding:13px 15px;font-size:.92rem;line-height:1.55;text-align:left;color:var(--ink);margin:12px 0}}
+.testi2{{position:relative;background:linear-gradient(160deg,#FFFFFF 0%,#FBF5EC 100%);border:1.5px solid #DECBA0;border-radius:16px;padding:26px 20px 18px;margin:16px 0;text-align:center;box-shadow:0 6px 22px rgba(60,38,30,.08)}}
+.tmark{{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;background:var(--ink);color:#F9F5F0;font-family:'Unna',Georgia,serif;font-size:1.7rem;line-height:1.5;display:flex;align-items:center;justify-content:center}}
+.tstars{{color:var(--star);font-size:.85rem;letter-spacing:3px;margin-bottom:6px}}
+.tq{{font-family:'Unna',Georgia,serif;font-style:italic;font-weight:700;font-size:1.18rem;line-height:1.35;margin:0 auto 12px;max-width:34ch;text-wrap:balance}}
+.twhor{{display:flex;align-items:center;justify-content:center;gap:10px}}
+.twhor img{{width:42px;height:42px;object-fit:cover;border-radius:50%;border:2px solid #DECBA0}}
+.twhor span{{text-align:left;font-size:.82rem;line-height:1.35}}
+.twhor b{{font-weight:700}}
+.tv{{display:block;font-size:.7rem;color:var(--ink-soft)}}
 /* step 3 — LP valstack */
 .valstack{{border:1.5px solid #E2D2AC;border-radius:14px;background:#F5EEDD;padding:14px 16px;display:flex;flex-direction:column;gap:9px}}
 .vrow{{display:flex;justify-content:space-between;gap:10px;font-size:.92rem}}
@@ -188,7 +196,8 @@ h1 em{{color:var(--ink);font-style:italic}}
 .hiw-row{{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;line-height:1.5;background:#fff;border:1.5px solid var(--blush);border-radius:12px;padding:10px 13px}}
 .hiw-k{{flex:0 0 88px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.62rem;color:var(--rosewood-deep);padding-top:3px}}
 .nolock{{margin:12px 0 2px;background:#EAF7E6;border:1.5px solid #BFE3B4;border-radius:12px;padding:11px 13px;font-size:.86rem;line-height:1.5}}
-.perkhead{{font-family:'Unna',Georgia,serif;font-weight:700;font-size:1.15rem;margin:16px 0 8px;text-align:center}}
+.perkhead{{font-family:'Unna',Georgia,serif;font-weight:700;font-size:1.2rem;line-height:1.3;margin:18px 0 10px;text-align:center;text-wrap:balance}}
+.perkhead em{{font-style:italic}}
 .faqs{{display:flex;flex-direction:column;gap:7px;margin:4px 0 8px}}
 .faqs details{{background:#fff;border:1.5px solid var(--blush);border-radius:12px;padding:11px 14px}}
 .faqs summary{{font-weight:700;font-size:.9rem;cursor:pointer;list-style:none;position:relative;padding-right:22px}}
@@ -251,7 +260,7 @@ or maintenance</span></span>
       <div class="steptitle">Your kit is <em>ready.</em></div>
       <div class="stepsub">Everything ships together, free.</div>
       <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
-        <span class="due-sub">then $39.95/mo per scent · swap or cancel anytime</span></div>
+        <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
       <div class="valstack" id="sum"></div>
       <div class="valline" id="valline"></div>
 
@@ -261,9 +270,9 @@ or maintenance</span></span>
         <div class="hiw-row"><span class="hiw-k">3rd delivery</span><span>Your diffusers become <strong>permanently yours</strong> — plus a free full-size scent as a gift.</span></div>
       </div>
 
-      <div class="nolock">✓ <strong>No lock-in. No cancellation fee.</strong> Cancel from any delivery email — unlike other “free diffuser” clubs, there’s no 6-month commitment here.</div>
+      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
 
-      <div class="perkhead">Circle Perks</div>
+      <div class="perkhead">This is what you’re about to get becoming a <em>Manifestation Ritual Circle Member:</em></div>
       <div class="offer-terms">
         <div class="term-row"><span class="term-ic">🎁</span><span><strong>Your diffusers ship free</strong> with your first scents — on your third delivery they’re permanently yours.</span></div>
         <div class="term-row"><span class="term-ic">🔄</span><span>Renews monthly at $39.95 per scent. <strong>Swap intentions anytime.</strong></span></div>
@@ -272,11 +281,12 @@ or maintenance</span></span>
         <div class="term-row"><span class="term-ic">🛡️</span><span><strong>30-day guarantee:</strong> full refund, prepaid return label, and the scent stays with you.</span></div>
       </div>
 
-      <div class="exitfeat testi">
-        <img src="{IMG['guests']}" alt="">
-        <div><div class="tstars">★★★★★</div>
-        <p class="tq">“Seven of my friends have asked the same question — WHO lives here?”</p>
-        <span class="twho">Diane R. · Verified Circle member · January 2026</span></div>
+      <div class="testi2">
+        <span class="tmark">“</span>
+        <div class="tstars">★★★★★</div>
+        <p class="tq">Seven of my friends have asked the same question — WHO lives here?</p>
+        <div class="twhor"><img src="{IMG['guests']}" alt="">
+          <span><b>Diane R.</b><span class="tv">✓ Verified Circle member · January 2026</span></span></div>
       </div>
 
       <div class="trust-strip"><span>🔒 Secure checkout</span><span>🚚 Free shipping</span><span>🛡️ 1-year warranty</span></div>

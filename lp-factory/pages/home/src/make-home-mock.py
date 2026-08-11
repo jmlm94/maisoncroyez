@@ -37,7 +37,7 @@ IMG = {
 }
 
 FRAG_NAMES = [
-    ('frag2', 'Golden Blossom Harmony', 'Love'),
+    ('frag2', 'Golden Blossom Harmony 🏆', 'Love'),
     ('frag4', 'Crisp Citrus Scape', 'Abundance'),
     ('frag6', 'Chilled Citrus', 'Relaxation & Concentration'),
     ('frag1', 'Honey Nectar', 'Turn Ideas Into Reality'),
@@ -64,11 +64,11 @@ TESTIS = [
 
 CARDS = [
     ('cardkit', 'Diffuser + Fragrance Kit', 'The complete starter ritual. One waterless diffuser, one intention — and your first "what’s that smell?" moment. The diffuser is on us.',
-     'https://maisoncroyez.com/pages/free-diffuser', 'Claim the kit'),
+     'https://maisoncroyez.com/pages/free-diffuser', 'Claim the kit', 'Free diffuser included'),
     ('carddiff', 'Diffuser Only', 'Found your scent already? The sleek, waterless diffuser that disappears into your décor. No water, no flames, no maintenance — plug it in and let it work.',
-     'https://maisoncroyez.com/products/diffuser-scents', 'Shop diffusers'),
+     'https://maisoncroyez.com/products/diffuser-scents', 'Shop diffusers', 'Waterless · zero upkeep'),
     ('cardfrag', 'Fragrances Only', 'All seven intentions, on your rhythm. Subscribe, save 25%, and swap scents whenever your energy shifts. Your scent, your space.',
-     'https://maisoncroyez.com/collections/power-fragrances', 'Browse scents'),
+     'https://maisoncroyez.com/collections/power-fragrances', 'Browse scents', 'Subscribe &amp; save 25%'),
 ]
 URL_KIT = 'https://maisoncroyez.com/pages/build-your-kit'
 
@@ -85,8 +85,8 @@ snap_cards = '\n'.join(
     for k, q, n in [TESTIS[0], TESTIS[1], TESTIS[3]])
 
 start_cards = '\n'.join(
-    f'''<div class="pcard"><img src="{IMG[k]}" alt="{t}"><div class="pbody"><h3>{t}</h3><p>{d}</p><a class="btn dark" href="{u}">{cta} <span class="arr">➔</span></a></div></div>'''
-    for k, t, d, u, cta in CARDS)
+    f'''<div class="pcard"><span class="chip">{chip}</span><img src="{IMG[k]}" alt="{t}"><div class="pbody"><h3>{t}</h3><p>{d}</p><a class="btn dark" href="{u}">{cta} <span class="arr">➔</span></a></div></div>'''
+    for k, t, d, u, cta, chip in CARDS)
 
 html = f'''<title>Maison Croyez Homepage</title>
 <style>
@@ -133,6 +133,8 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 .hero{{background:var(--grad-hero)}}
 .hero .wrap{{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;padding-top:46px;padding-bottom:52px}}
 .hero h1{{font-size:clamp(3.6rem,7.3vw,5.6rem);letter-spacing:-.06em;margin-bottom:20px;max-width:1000px}}
+.hsub{{font-size:1.1rem;color:var(--ink-soft);max-width:540px;margin:0 auto 18px;line-height:1.5}}
+.hsub b{{color:var(--ink);font-weight:600}}
 .hchecks{{display:flex;flex-direction:column;gap:7px;margin-bottom:22px;align-items:center}}
 .hchecks span{{display:flex;gap:10px;align-items:flex-start;font-size:1.02rem;color:var(--ink)}}
 .hchecks i{{font-style:normal;color:var(--rosewood-deep);font-weight:700}}
@@ -145,12 +147,13 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 .statement p{{max-width:560px;margin:0 auto;color:var(--ink-soft)}}
 
 /* start here */
-.start{{background:var(--cream)}}
+.start{{background:var(--cream);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.48 0 0 0 0 0.36 0 0 0 0 0.30 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}}
 .shead{{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}}
 .start h2{{font-size:clamp(2.2rem,4vw,3.2rem)}}
 .start .sub{{color:var(--ink-soft)}}
 .pgrid{{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}}
-.pcard{{background:var(--ivory);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}}
+.pcard{{background:var(--ivory);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;position:relative}}
+.chip{{position:absolute;top:13px;left:13px;z-index:2;background:linear-gradient(145deg,#D9A98F 0%,#C4A59F 55%,#E3C1A4 100%);color:#3A2721;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(60,38,30,.22)}}
 .pcard img{{aspect-ratio:4/2.9;object-fit:cover;width:100%}}
 .pbody{{padding:20px 20px 23px;display:flex;flex-direction:column;gap:10px;flex:1}}
 .pbody h3{{font-size:1.75rem}}
@@ -169,7 +172,9 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 
 /* seven */
 .seven{{background:var(--ivory);text-align:center}}
-.seven h2{{font-size:clamp(2.2rem,4.4vw,3.4rem);margin:10px 0 28px}}
+.seven h2{{font-size:clamp(2.2rem,4.4vw,3.4rem);margin:10px 0 12px}}
+.sevsub{{max-width:600px;margin:0 auto 26px;color:var(--ink-soft)}}
+.sevsub b{{color:var(--ink);font-weight:600}}
 .frow{{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;margin-bottom:32px}}
 .ftile img{{aspect-ratio:3/4;object-fit:cover;border-radius:14px;box-shadow:0 6px 18px rgba(60,38,30,.14);margin-bottom:10px}}
 .ftile b{{display:block;font-family:'Unna',serif;font-size:1.02rem;line-height:1.1;letter-spacing:-.02em}}
@@ -209,9 +214,10 @@ header{{background:var(--ivory);border-bottom:1px solid #EFE6DD;position:sticky;
 .mani h2{{font-size:clamp(2.2rem,4vw,3.2rem);color:#FBF4EA}}
 .mani h2 em{{background:linear-gradient(92deg,#E3B78F 0%,#D9B08C 60%,#F0D9BD 100%);-webkit-background-clip:text;background-clip:text;color:transparent}}
 .mani p{{color:#CBB9A9;font-size:.98rem}}
+.mclose{{font-family:'Unna',serif;font-style:italic;font-size:1.4rem;color:#F0D9BD;margin-top:4px}}
 
 /* where to buy */
-.buy{{background:var(--cream);text-align:center}}
+.buy{{background:var(--cream);text-align:center;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.48 0 0 0 0 0.36 0 0 0 0 0.30 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}}
 .buy h2{{font-size:clamp(2.2rem,4vw,3.2rem);margin:8px 0 29px}}
 .bgrid{{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}}
 .bcard{{background:var(--ivory);border-radius:var(--radius);box-shadow:var(--shadow);padding:23px 21px 25px;display:flex;flex-direction:column;gap:12px;position:relative}}
@@ -273,12 +279,13 @@ footer img{{height:36px;margin-bottom:18px}}
 
 <section class="hero"><div class="wrap">
   <h1>Attract what you want, <em>with what you sense</em></h1>
+  <p class="hsub">Your home smelling like a <b>$1,000/night hotel</b> — for about <b>$1.33 a day</b>. Luxury fragrance, designed with intention.</p>
   <div class="hchecks">
-    <span><i>✓</i> Luxury home fragrances designed with intention.</span>
-    <span><i>✓</i> Every scent carries a purpose.</span>
-    <span><i>✓</i> Everything you want gets manifested.</span>
+    <span><i>✓</i> Every scent carries a purpose — love, abundance, energy, rest.</span>
+    <span><i>✓</i> A free diffuser with every scent you pick.</span>
+    <span><i>✓</i> Waterless. No flames, no mold, no maintenance.</span>
   </div>
-  <a class="btn green" href="{URL_KIT}">Shop the Collection <span class="arr">➔</span></a>
+  <a class="btn green" href="{URL_KIT}">Claim Your Free Diffuser <span class="arr">➔</span></a>
   <div class="trust-strip"><span>🚚 Free shipping</span><span>🛡️ 90-day risk-free trial</span><span>🔄 Cancel anytime</span></div>
   <img src="{IMG['hero']}" alt="Maison Croyez fragrances">
 </div></section>
@@ -286,7 +293,7 @@ footer img{{height:36px;margin-bottom:18px}}
 <section class="section statement"><div class="wrap">
   <div class="eyebrow">Scent is not decoration — it's intention</div>
   <h2>Luxury scent. Zero effort.<br><em>A home that impresses without trying.</em></h2>
-  <p>Every Maison Croyez fragrance is designed to help you attract more of what you want in life.</p>
+  <p>Every Maison Croyez fragrance is designed with one job: helping you attract more of what you want — love, abundance, energy, rest.</p>
 </div></section>
 
 <section class="section start"><div class="wrap">
@@ -301,7 +308,7 @@ footer img{{height:36px;margin-bottom:18px}}
 </div></section>
 
 <section class="section why"><div class="wrap">
-  <h2>Why people choose <em>Maison Croyez:</em></h2>
+  <h2>Why 2,500+ homes choose <em>Maison Croyez:</em></h2>
   <div class="wrows">
 {why_rows}
   </div>
@@ -309,11 +316,12 @@ footer img{{height:36px;margin-bottom:18px}}
 
 <section class="section seven"><div class="wrap">
   <div class="eyebrow">Seven fragrances. Seven intentions.</div>
-  <h2>One for <em>wherever you are.</em></h2>
+  <h2>One for <em>whatever you’re manifesting.</em></h2>
+  <p class="sevsub">Pick a scent, and the diffuser to carry it is <b>free</b>. Fresh intention at your doorstep every 30 days — pause, swap or cancel anytime.</p>
   <div class="frow" id="frow">
 {frag_tiles}
   </div>
-  <a class="btn green" href="{URL_KIT}">Start My Subscription <span class="arr">➔</span></a>
+  <a class="btn green" href="{URL_KIT}">Build My Kit — Diffusers Free <span class="arr">➔</span></a>
   <div class="trust">
     <span><i>🛡️</i> 90-Day Risk-Free Trial</span>
     <span><i>🔒</i> Lifetime Warranty</span>
@@ -339,7 +347,7 @@ footer img{{height:36px;margin-bottom:18px}}
 {snap_cards}
     </div>
   </div>
-  <div class="tstat">⭐ 4.9/5 · <b>2,500+ guests</b> have already asked “what’s that smell?”</div>
+  <div class="tstat">⭐ 4.9/5 — <b>2,500+ guests</b> asked “what’s that smell?” so far!</div>
 </div></section>
 
 <section class="mani"><div class="wrap">
@@ -348,6 +356,7 @@ footer img{{height:36px;margin-bottom:18px}}
     <h2>Scent is not decoration. <em>It's intention.</em></h2>
     <p>The home fragrance industry sells aroma without meaning. Candles burn out. Cheap diffusers break, leak, grow mold, and smell synthetic.</p>
     <p>Nothing on the market connects scent to intention — to the idea that how your home smells can shape how you feel, what you attract, and who you become.</p>
+    <p class="mclose">Choose your intention. We bottle the rest.</p>
   </div>
 </div></section>
 
@@ -383,7 +392,7 @@ footer img{{height:36px;margin-bottom:18px}}
       <a class="btn dark" href="#">Shop on TikTok</a>
     </div>
   </div>
-  <div class="bnote">Subscription pricing only available at maisoncroyez.com.</div>
+  <div class="bnote">Free diffusers &amp; subscription pricing: only at maisoncroyez.com.</div>
 </div></section>
 
 <footer>

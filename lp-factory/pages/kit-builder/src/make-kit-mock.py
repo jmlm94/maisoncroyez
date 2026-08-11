@@ -276,13 +276,13 @@ or maintenance</span></span>
       <div class="kitcart" id="kitcart"></div>
       <div class="valline" id="valline"></div>
 
-      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
-
       <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
         <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
 
       <div class="navrow"><button class="btn secondary" onclick="go(2)">←</button>
         <button class="btn" onclick="joinToast()"><span>Join the Circle ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
+
+      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
 
       <div class="hiw">
         <div class="hiw-row"><span class="hiw-k">Today</span><span>Your diffusers and first scents ship together, <strong>free</strong>. You pay only for the scents.</span></div>
@@ -376,13 +376,12 @@ function buildSum(){{
     var card=document.querySelector('.pick[data-key="'+k+'"]');
     cart+='<div class="krow"><img src="'+card.querySelector('img').src+'" alt="">'
       +'<span class="ktx"><b>'+FR[k].name+'</b><span class="kint">'+card.querySelector('.pick-int').textContent+'</span>'
-      +'<span class="kmeta">100ml \u00b7 a fresh bottle every month</span></span>'
+      +'<span class="kmeta">100 ml. Delivered every 30 days at your doorstep.</span></span>'
       +'<span class="kpr"><span class="kqty">\u00d7'+picks[k]+'</span><b>$'+(picks[k]*P).toFixed(2)+'/mo</b></span></div>';
   }}
   var plan=document.querySelector('.plan.on');
   cart+='<div class="krow"><img src="'+plan.querySelector('img').src+'" alt="">'
-    +'<span class="ktx"><b>Maison Croyez Diffuser</b><span class="kint">Waterless \u00b7 Cold-air</span>'
-    +'<span class="kmeta">Yours to keep after your 3rd delivery</span></span>'
+    +'<span class="ktx"><b>Maison Croyez Diffuser</b><span class="kint">Waterless, Leakproof and No maintenance</span></span>'
     +'<span class="kpr"><span class="kqty">\u00d7'+N+'</span><b><s>$'+(N*DV).toFixed(2)+'</s><span class="kfree">FREE</span></b></span></div>';
   document.getElementById('kitcart').innerHTML=cart;
   document.getElementById('valline').innerHTML='That\\u2019s <b>$'+(m*P+N*DV).toFixed(2)+' of value</b> \\u2014 you pay $'+(m*P).toFixed(2)+' today.';

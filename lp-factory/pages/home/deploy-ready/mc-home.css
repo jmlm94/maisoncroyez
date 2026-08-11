@@ -339,3 +339,9 @@ html{scroll-behavior:smooth}
   #root .fbot{flex-direction:column;gap:8px}
 
 }
+
+#root .hbtn{background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;color:var(--ink)}
+#root .mcmenu{display:flex;flex-direction:column;background:var(--ivory);border-top:1px solid #EFE6DD}
+#root .mcmenu[hidden]{display:none}
+#root .mcmenu a{padding:13px 22px;text-decoration:none;color:var(--ink);font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;border-bottom:1px solid #F4EDE6}
+#root .mcmenu a:hover{background:var(--cream)}

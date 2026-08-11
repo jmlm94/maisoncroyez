@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 26 — final: chrome stripped from bundle (theme header-group provides it); no duplicates
+# run 27 — LIVE homepage: theme published; verify compact hero fits above the fold
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,7 +20,7 @@ jobs:
           cat > verify.mjs <<'EOS'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
-          const URL='https://maisoncroyez.com/?preview_theme_id=149057536109';
+          const URL='https://maisoncroyez.com/?x=1';
           async function run(label,w,h,dsf){
             const page = await b.newPage({ viewport:{width:w,height:h}, deviceScaleFactor:dsf });
             const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,200)));
@@ -53,6 +53,8 @@ jobs:
                 linkFrag: links.some(x=>x&&x.includes('/collections/power-fragrances')),
                 imgsBroken: [...document.querySelectorAll('#root img')].filter(i=>i.complete&&!i.naturalWidth).length,
                 noOverflow: document.documentElement.scrollWidth<=document.documentElement.clientWidth+2,
+                heroBottom: (()=>{const h=q('#root .hero');return h?Math.round(h.getBoundingClientRect().bottom):-1;})(),
+                vh: innerHeight,
                 noOwnHeader: !q('#root .hin') && !q('#root .abar'),
                 abarOnce: (document.body.innerText.match(/about to smell incredible/gi)||[]).length===1,
                 themeHeaderVisible: (()=>{const r=q('#root');if(!r)return false;const top=r.getBoundingClientRect().top+scrollY;return top>60;})(),
@@ -68,6 +70,7 @@ jobs:
               manifesting:p.manifesting, statLine:p.statLine, mclose:p.mclose, buyLogos2:p.buyLogos===2,
               testiFeat:p.testiFeat, snaps3:p.snaps===3, linkKit3:p.linkKit>=3, linkFD:p.linkFD,
               linkDiff:p.linkDiff, linkFrag:p.linkFrag, imgsOk:p.imgsBroken===0, noOverflow:p.noOverflow,
+              heroAboveFold:p.heroBottom>0 && p.heroBottom<=p.vh+4,
               noOwnHeader:p.noOwnHeader, abarOnce:p.abarOnce, themeHeaderVisible:p.themeHeaderVisible,
               themeFooter:p.themeFooter, noJsErrors:errs.length===0
             };
@@ -89,6 +92,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/home/verify
-          git commit -m "homepage preview verify r26 (bot)" || true
+          git commit -m "homepage live verify r27 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

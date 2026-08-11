@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 24 — verify homepage redesign on unpublished theme preview (theme 149057536109)
+# run 25 — re-verify homepage preview: abar+header restored, working menu, case-fixed checks
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -37,12 +37,12 @@ jobs:
                 sections: document.querySelectorAll('#root section').length,
                 heroTitle: /Attract what you want/.test(t),
                 dollarHook: /\$1,000\/night hotel/.test(t) && /\$1\.33 a day/.test(t),
-                heroCta: /Claim Your Free Diffuser/.test(t),
+                heroCta: /claim your free diffuser/i.test(t),
                 chips: document.querySelectorAll('#root .chip').length,
                 ftiles: document.querySelectorAll('#root .ftile').length,
                 trophy: /Golden Blossom Harmony 🏆/.test(t),
                 manifesting: /whatever you’re manifesting/.test(t),
-                statLine: /2,500\+ guests/.test(t) && /what’s that smell/.test(t),
+                statLine: /2,500\+ guests/i.test(t) && /what.s that smell/i.test(t),
                 mclose: /We bottle the rest/.test(t),
                 buyLogos: document.querySelectorAll('#root .blogo svg').length,
                 testiFeat: !!q('#root .tfeat'),
@@ -53,11 +53,17 @@ jobs:
                 linkFrag: links.some(x=>x&&x.includes('/collections/power-fragrances')),
                 imgsBroken: [...document.querySelectorAll('#root img')].filter(i=>i.complete&&!i.naturalWidth).length,
                 noOverflow: document.documentElement.scrollWidth<=document.documentElement.clientWidth+2,
-                themeHeader: !!document.querySelector('header, [id*="header"]'),
+                ourHeader: !!q('#root .hin'), abar: !!q('#root .abar'),
+                logoHome: !!q('#root .hin a[href="/"] img'), cartLink: !!q('#root .hin a[href="/cart"]'),
+                menuBtn: !!q('#mcMenuBtn'),
                 themeFooter: !!document.querySelector('footer, [id*="footer"]')
               };
             });
-            console.log('=== '+label+' === '+JSON.stringify(p));
+            let menuOpen=false;
+            try{ await page.click('#mcMenuBtn'); await page.waitForTimeout(400);
+              menuOpen=await page.evaluate(()=>{const m=document.getElementById('mcMenu');return !!m&&!m.hidden&&m.getBoundingClientRect().height>50;});
+              await page.click('#mcMenuBtn'); }catch(e){}
+            console.log('=== '+label+' === '+JSON.stringify(p)+' menuOpen:'+menuOpen);
             console.log('errors('+errs.length+'): '+errs.slice(0,3).join(' | '));
             await page.screenshot({ path:'preview-'+label+'.png', fullPage:true });
             const checks={
@@ -66,7 +72,8 @@ jobs:
               manifesting:p.manifesting, statLine:p.statLine, mclose:p.mclose, buyLogos2:p.buyLogos===2,
               testiFeat:p.testiFeat, snaps3:p.snaps===3, linkKit3:p.linkKit>=3, linkFD:p.linkFD,
               linkDiff:p.linkDiff, linkFrag:p.linkFrag, imgsOk:p.imgsBroken===0, noOverflow:p.noOverflow,
-              themeHeader:p.themeHeader, themeFooter:p.themeFooter, noJsErrors:errs.length===0
+              ourHeader:p.ourHeader, abar:p.abar, logoHome:p.logoHome, cartLink:p.cartLink,
+              menuWorks:p.menuBtn && menuOpen, themeFooter:p.themeFooter, noJsErrors:errs.length===0
             };
             console.log('=== VERDICT '+label+' ===');
             Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
@@ -86,6 +93,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/home/verify
-          git commit -m "homepage preview verify (bot)" || true
+          git commit -m "homepage preview verify r25 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

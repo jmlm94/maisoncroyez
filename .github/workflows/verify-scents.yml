@@ -1,5 +1,5 @@
 name: verify-scents
-# run: 3 — pf2: gallery uses the product's own variant images (14-20.png)
+# run: 4 — pf3: one-time price 49.95 -> 39.95 (display + variants)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -84,7 +84,7 @@ jobs:
             return {found:true, open:d.hasAttribute('open')||cs.visibility==='visible',
               standard:!d.querySelector('.mc-shipbar')&&!d.querySelector('.mc-testi')&&!d.querySelector('.mc-trust')};
           });
-          console.log('=== CART (expect 49.95 one-time Midnight, no plan) === '+JSON.stringify(cart));
+          console.log('=== CART (expect 39.95 one-time Midnight, no plan) === '+JSON.stringify(cart));
           console.log('=== DRAWER === '+JSON.stringify(drawer));
           await page.screenshot({ path:'scents-drawer.png' });
           await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
@@ -94,7 +94,7 @@ jobs:
             sevenPicks:audit.picks===7,
             usps3:audit.usps===3,
             subHiddenUntilPlan:!audit.subPlanVisible,
-            oneTimePrice:audit.price==='$49.95',
+            oneTimePrice:audit.price==='$39.95',
             sevenChapters:audit.chapters===7,
             flatLays:audit.flatImgs===7,
             allSections:audit.sections.oils&&audit.sections.sig&&audit.sections.revs===2&&audit.sections.faq===4&&audit.sections.ctabreak,
@@ -102,7 +102,7 @@ jobs:
             noOldGrid:audit.noOldGrid,
             noStaleAnnouncement:audit.noStaleAnnouncement,
             noOverflow:!audit.overflowX,
-            cartOneTime:cart.total===49.95&&!cart.plan&&/Midnight/.test(cart.title),
+            cartOneTime:cart.total===39.95&&!cart.plan&&/Midnight/.test(cart.title),
             drawerOpened:drawer.found&&drawer.open,
             drawerStandard:drawer.standard
           };

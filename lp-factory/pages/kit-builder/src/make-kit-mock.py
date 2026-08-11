@@ -24,25 +24,25 @@ IMG = {
 
 FRAGS = [
     {"key":"love","name":"Golden Blossom Harmony","int":"Love","img":"frag2","top":True,
-     "grad":"linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)","ings":"🌼 Buttercup  🌸 Honeysuckle  🌻 Sunflower",
+     "grad":"linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)","ings":"Buttercup, Honeysuckle & Sunflower",
      "tags":[["Cozy","#8A5A2B"],["Entertaining Guests","#6E4B8E"],["Warm & Sweet","#9C6414"]]},
     {"key":"abundance","name":"Crisp Citrus Scape","int":"Abundance","img":"frag4","top":True,
-     "grad":"linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)","ings":"🍃 Yuzu Leaf  🍊 Green Mandarin  🌲 Cypress",
+     "grad":"linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)","ings":"Yuzu Leaf, Green Mandarin & Cypress",
      "tags":[["Energizing","#8A5F00"],["Morning Routine","#2E6E8E"],["Fresh & Clean","#2F6F6A"]]},
     {"key":"focus","name":"Chilled Citrus","int":"Relaxation & Concentration","img":"frag6","top":False,
-     "grad":"linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)","ings":"🪻 Chilled Lavender  🌿 Eucalyptus  🍋 White Citrus",
+     "grad":"linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)","ings":"Chilled Lavender, Eucalyptus & White Citrus",
      "tags":[["Calming","#3D6B52"],["Morning Routine","#2E6E8E"],["Fresh & Clean","#2F6F6A"]]},
     {"key":"ideas","name":"Honey Nectar","int":"Turn Ideas Into Reality","img":"frag1","top":False,
-     "grad":"linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)","ings":"🥛 Ginger Milk  🌳 White Birch  🍯 Eucalyptus Honey",
+     "grad":"linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)","ings":"Ginger Milk, White Birch & Eucalyptus Honey",
      "tags":[["Cozy","#8A5A2B"],["Winding Down","#2D4059"],["Warm & Sweet","#9C6414"]]},
     {"key":"energy","name":"Euphoric Bloom","int":"Raise Energy","img":"frag3","top":False,
-     "grad":"linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)","ings":"🍵 Jasmine Tea  🍑 White Peach  🪵 Sandalwood Crème",
+     "grad":"linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)","ings":"Jasmine Tea, White Peach & Sandalwood Crème",
      "tags":[["Energizing","#8A5F00"],["Entertaining Guests","#6E4B8E"],["Floral & Soft","#A84A6E"]]},
     {"key":"purify","name":"Wildwood Mystique","int":"Purification","img":"frag5","top":False,
-     "grad":"linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)","ings":"🫐 Huckleberry  🌲 Wild Juniper  🌿 Mountain Fern",
+     "grad":"linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)","ings":"Huckleberry, Wild Juniper & Mountain Fern",
      "tags":[["Calming","#3D6B52"],["Winding Down","#2D4059"],["Earthy & Woody","#6B4F44"]]},
     {"key":"midnight","name":"Midnight Sensation","int":"Love Manifestation","img":"frag7","top":True,
-     "grad":"linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)","ings":"🌙 Moonflower  🌺 Night Lily  🤍 Skin Musk",
+     "grad":"linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)","ings":"Moonflower, Night Lily & Skin Musk",
      "tags":[["Romantic","#9C3D5F"],["Date Night","#8B1A3A"],["Floral & Soft","#A84A6E"]]},
 ]
 
@@ -202,7 +202,7 @@ h1 em{{color:var(--ink);font-style:italic}}
     <div class="top"><img src="{IMG['logo']}" alt="Maison Croyez"></div>
     <div class="rating"><span class="stars">★★★★★</span> 2,500+ guests asked “what’s that smell?” so far!</div>
     <h1>Build your <em>Manifestation Kit.</em></h1>
-    <div class="h1sub">Diffusers <b>free</b> · Scents <b>$39.95/mo</b> each · Cancel anytime</div>
+    <div class="h1sub">Claim a <b>free diffuser</b> for every scent you pick. Delivers every 30 days. Pause, swap or cancel anytime.</div>
     <div class="prog"><i id="bar" style="width:33%"></i></div>
     <div class="pstep"><span id="pnum">1</span> of 3</div>
 
@@ -225,7 +225,7 @@ or maintenance</span></span>
 
     <section class="step" id="s2">
       <div class="steptitle">Stack your <em>intentions:</em></div>
-      <div class="stepsub" id="hint2">Pick <b>3</b> scents — one for each of your free diffusers.</div>
+      <div class="stepsub" id="hint2">Pick <b>3</b> scents — every scent you pick comes with a free diffuser.</div>
       <div class="picker">{frag_cards}</div>
     </section>
 
@@ -266,7 +266,7 @@ function go(step){{
   document.getElementById('pnum').textContent=step;
   document.getElementById('sbar').classList.toggle('on', step===2);
   if(step===2){{N=+document.querySelector('.plan.on').dataset.n;
-    document.getElementById('hint2').innerHTML='Pick <b>'+N+'</b> scent'+(N>1?'s':'')+' — one for each of your free diffusers.';refresh();}}
+    document.getElementById('hint2').innerHTML='Pick <b>'+N+'</b> scent'+(N>1?'s':'')+' — every scent you pick comes with a free diffuser.';refresh();}}
   if(step===3) buildSum();
   window.scrollTo(0,0);
 }}

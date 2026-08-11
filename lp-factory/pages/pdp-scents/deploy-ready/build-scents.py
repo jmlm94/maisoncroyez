@@ -190,7 +190,7 @@ page_html = f"""
       <h1>Maison Croyez Manifestation &amp; Attraction <span class="em">Organic Scents (100ml).</span></h1>
       <p class="lede">Every scent is composed around an intention — love, abundance, energy, relaxation, purification. Choose what you want to attract into your home; the fragrance does the rest.</p>
       <div class="microproof"><span class="stars">★★★★★</span>Loved by 2,500+ women across the U.S.</div>
-      <div class="price-row"><div class="price" id="sx-price">$39.95</div><div class="compare" id="sx-compare">$49.95</div><div class="per" id="sx-per">per bottle · every 45 days</div></div>
+      <div class="price-row"><div class="price" id="sx-price">$39.95</div><div class="compare" id="sx-compare" style="display:none">$49.95</div><div class="per" id="sx-per">one-time</div></div>
       <div class="usp-row">
         <div class="usp"><span class="u1">🌿</span>Organic</div>
         <div class="usp"><span class="u2">🐾</span>Pet-Friendly</div>
@@ -211,11 +211,11 @@ page_html = f"""
         </ul>
       </button>
       <button class="plan" data-plan="one">
-        <div class="plan-head"><span class="plan-name">One-Time Purchase</span><span class="plan-price">$49.95</span></div>
+        <div class="plan-head"><span class="plan-name">One-Time Purchase</span><span class="plan-price">$39.95</span></div>
         <p>Buy once, no commitment. Ships free.</p>
       </button>
     </div>
-    <button class="btn" id="sx-atc"><span id="sx-atclabel">Add to Cart · $39.95 ➔</span><small id="sx-atcsub">Golden Blossom Harmony · every 45 days · Free shipping</small></button>
+    <button class="btn" id="sx-atc"><span id="sx-atclabel">Add to Cart · $39.95 ➔</span><small id="sx-atcsub">Golden Blossom Harmony · one-time · Free shipping</small></button>
     <div class="trust">
       <div><span>🛡️</span>90-Day<br>Risk-Free Trial</div>
       <div><span>🔁</span>Swap or Cancel<br>Anytime</div>
@@ -248,7 +248,7 @@ page_html = f"""
     <div class="sigcell"><b>Your home’s signature.</b><p>The fragrance that makes people say, “your house always smells incredible.”</p></div>
     <div class="sigcell"><b>100ml of intention.</b><p>100% organic, crafted in France. Lasts longer than anything else on your shelf.</p></div>
   </div>
-  <div class="perks"><span class="perk">Save $10 every bottle</span><span class="perk">Swap intentions anytime</span><span class="perk">Skip or cancel anytime</span><span class="perk">Free shipping</span></div>
+  <div class="perks"><span class="perk">$39.95 per bottle</span><span class="perk">Swap intentions anytime</span><span class="perk">Skip or cancel anytime</span><span class="perk">Free shipping</span></div>
 </div></div>
 
 <div class="revs"><div class="wrap">
@@ -260,7 +260,7 @@ page_html = f"""
 <div class="faq"><div class="wrap">
   <h2>Questions? <span class="em">We’ve got answers.</span></h2>
   <details class="qa"><summary>How long does one bottle last?</summary><p>Running a few hours a day, a single 100ml bottle lasts 4–6 weeks. Our fragrance-saving technology delivers up to 10x the longevity of traditional plug-ins, reed diffusers, or candles.</p></details>
-  <details class="qa"><summary>How does the subscription work?</summary><p>A fresh 100ml bottle ships every 45 days at $39.95 — $10 off every time. Swap your intention any cycle, skip a delivery, or cancel anytime in two taps. No minimums, no fees.</p></details>
+  <details class="qa"><summary>How does the subscription work?</summary><p>A fresh 100ml bottle ships every 45 days at $39.95. Swap your intention any cycle, skip a delivery, or cancel anytime in two taps. No minimums, no fees.</p></details>
   <details class="qa"><summary>Is it safe around kids and pets?</summary><p>Yes — every fragrance is 100% organic, hypoallergenic and non-toxic, crafted in France. No synthetic compounds, no flame, no soot.</p></details>
   <details class="qa"><summary>Do I need the Maison Croyez diffuser?</summary><p>These 100ml bottles are made for the Maison Croyez waterless diffuser. If you don’t have one yet, grab a diffuser kit first — then your scents click right in.</p></details>
 </div></div>
@@ -345,10 +345,10 @@ app = """/* mc-scents-app.js — /collections/power-fragrances takeover (build s
     var s = scent(), sub = plan === "sub";
     var main = root.querySelector("#sx-mainimg");
     if (main && main.src !== s.img) main.src = s.img;
-    root.querySelector("#sx-price").textContent = sub ? "$39.95" : "$49.95";
+    root.querySelector("#sx-price").textContent = "$39.95";
     root.querySelector("#sx-compare").style.display = sub ? "" : "none";
     root.querySelector("#sx-per").textContent = sub ? "per bottle \\u00B7 every 45 days" : "one-time";
-    root.querySelector("#sx-atclabel").textContent = "Add to Cart \\u00B7 " + (sub ? "$39.95" : "$49.95") + " \\u2794";
+    root.querySelector("#sx-atclabel").textContent = "Add to Cart \\u00B7 $39.95 \\u2794";
     root.querySelector("#sx-atcsub").textContent = s.name + (sub ? " \\u00B7 every 45 days" : " \\u00B7 one-time") + " \\u00B7 Free shipping";
   }
   root.querySelectorAll(".picker .pick").forEach(function (p) { p.addEventListener("click", function () { sel = p.getAttribute("data-key"); sync(); }); });

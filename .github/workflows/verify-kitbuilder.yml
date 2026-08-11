@@ -1,5 +1,5 @@
 name: verify-kitbuilder
-# run: 5 — kb4: complete flow incl. join via in-flow step-3 button
+# run: 6 — kb5: diffuser-row wording, no due-sub, no delivery-email in zero-commitment
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -80,6 +80,9 @@ jobs:
             val:(document.getElementById('valline')||{}).innerText,
             hiw3:[...document.querySelectorAll('#root .hiw3 b')].map(x=>x.textContent).join('|'),
             zero:/Zero commitment/.test(document.getElementById('root').innerText),
+            zeroNoEmail:!/cancel from any delivery email/.test(document.querySelector('#root .nolock').innerText),
+            dueSubGone:!document.querySelector('#root .due-sub'),
+            diffWording:[...document.querySelectorAll('#kitcart .kint')].some(k=>k.textContent==='Waterless, Leakproof, No maintenance required.'),
             faqs:document.querySelectorAll('#root .faqs details').length,
             testi:/Diane R\./.test(document.getElementById('root').innerText)
           }));
@@ -111,7 +114,8 @@ jobs:
             hiw3:s3.hiw3==='Today|Every month|30-day guarantee',
             exactCountLock:s2.addsLocked && s2.nextEnabled,
             dueToday:s3.due==='$119.85', fourKitRows:s3.rows===4,
-            zeroCommitment:s3.zero, faqs4:s3.faqs===4, testimonial:s3.testi,
+            zeroCommitment:s3.zero, zeroNoEmail:s3.zeroNoEmail, dueSubGone:s3.dueSubGone, diffWording:s3.diffWording,
+            faqs4:s3.faqs===4, testimonial:s3.testi,
             wentToCheckout:/checkout|\/cn\//.test(url),
             cartTotal:cart.total===119.85,
             scentsOnPlan:(cart.lines||[]).filter(l=>l.plan).length===3,
@@ -135,6 +139,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "verify-kitbuilder run 5: kb4 full flow" || true
+          git commit -m "verify-kitbuilder run 6: kb5 copy polish" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

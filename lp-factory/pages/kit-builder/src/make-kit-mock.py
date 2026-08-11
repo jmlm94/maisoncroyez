@@ -275,13 +275,12 @@ or maintenance</span></span>
       <div class="kitcart" id="kitcart"></div>
       <div class="valline" id="valline"></div>
 
-      <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
-        <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
+      <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span></div>
 
       <div class="navrow"><button class="btn secondary" onclick="go(2)">←</button>
         <button class="btn" onclick="joinToast()"><span>Join the Circle ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
 
-      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
+      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel anytime and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
 
       <div class="hiw3">
         <span class="hcell"><span class="hic">📦</span><b>Today</b><span>Everything ships free.</span></span>
@@ -362,7 +361,7 @@ function buildSum(){{
   }}
   var plan=document.querySelector('.plan.on');
   cart+='<div class="krow"><img src="'+plan.querySelector('img').src+'" alt="">'
-    +'<span class="ktx"><b>Maison Croyez Diffuser</b><span class="kint">Waterless, Leakproof and No maintenance</span></span>'
+    +'<span class="ktx"><b>Maison Croyez Diffuser</b><span class="kint">Waterless, Leakproof, No maintenance required.</span></span>'
     +'<span class="kpr"><span class="kqty">\u00d7'+N+'</span><b><s>$'+(N*DV).toFixed(2)+'</s><span class="kfree">FREE</span></b></span></div>';
   document.getElementById('kitcart').innerHTML=cart;
   document.getElementById('valline').innerHTML='That\\u2019s <b>$'+(m*P+N*DV).toFixed(2)+' of value</b>.';

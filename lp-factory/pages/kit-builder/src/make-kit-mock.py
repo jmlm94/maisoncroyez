@@ -273,18 +273,22 @@ or maintenance</span></span>
 
     <section class="step" id="s3">
       <div class="steptitle">Your kit is <em>ready.</em></div>
-      <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
-        <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
       <div class="kitcart" id="kitcart"></div>
       <div class="valline" id="valline"></div>
+
+      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
+
+      <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
+        <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
+
+      <div class="navrow"><button class="btn secondary" onclick="go(2)">←</button>
+        <button class="btn" onclick="joinToast()"><span>Join the Circle ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
 
       <div class="hiw">
         <div class="hiw-row"><span class="hiw-k">Today</span><span>Your diffusers and first scents ship together, <strong>free</strong>. You pay only for the scents.</span></div>
         <div class="hiw-row"><span class="hiw-k">Every month</span><span>Fresh 100ml scents arrive before the last ones run out. <strong>Swap intentions anytime.</strong></span></div>
         <div class="hiw-row"><span class="hiw-k">3rd delivery</span><span>Your diffusers become <strong>permanently yours</strong> — plus a free full-size scent as a gift.</span></div>
       </div>
-
-      <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
 
       <div class="perkhead">This is what you’re about to get becoming a <em>Manifestation Ritual Circle Member:</em></div>
       <div class="offer-terms">
@@ -311,8 +315,6 @@ or maintenance</span></span>
         <details><summary>What if I cancel?</summary><p>Cancel anytime from any delivery email. Within the first 30 days we refund every dollar and send a prepaid label for the diffusers — the scents stay with you.</p></details>
         <details><summary>Is it safe for pets and kids?</summary><p>Yes. 100% waterless, no heat, no mold, and organic scent compositions that are safe around your whole household.</p></details>
       </div>
-      <div class="navrow"><button class="btn secondary" onclick="go(2)">←</button>
-        <button class="btn" onclick="joinToast()"><span>Join the Circle ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
     </section>
   </div>
 </div>

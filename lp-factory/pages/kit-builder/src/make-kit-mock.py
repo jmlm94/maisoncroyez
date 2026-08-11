@@ -189,6 +189,19 @@ h1 em{{color:var(--ink);font-style:italic}}
 .term-ic{{flex:0 0 auto;font-size:1.05rem;line-height:1.4}}
 .term-row strong{{font-weight:700}}
 .trust-strip{{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid var(--blush);border-bottom:1px solid var(--blush);padding:11px 4px;margin:14px 0}}
+/* review-step cart items */
+.kitcart{{display:flex;flex-direction:column;gap:9px;margin:0 0 16px}}
+.krow{{display:flex;gap:11px;align-items:center;background:#fff;border:1.5px solid var(--blush);border-radius:14px;padding:10px 12px}}
+.krow img{{width:54px;height:54px;border-radius:10px;object-fit:cover;flex:0 0 54px}}
+.ktx{{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}}
+.ktx b{{font-size:.9rem;line-height:1.3}}
+.kint{{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.09em;font-size:.56rem;color:var(--rosewood-deep)}}
+.kmeta{{font-size:.72rem;color:var(--ink-soft)}}
+.kpr{{text-align:right;flex:0 0 auto}}
+.kqty{{display:block;font-size:.72rem;color:var(--ink-soft)}}
+.kpr b{{font-size:.88rem;white-space:nowrap}}
+.kpr .kfree{{color:var(--cta)}}
+.kpr s{{color:var(--ink-soft);font-weight:500;margin-right:4px;font-size:.78rem}}
 /* review-step blocks */
 .due{{display:flex;flex-direction:column;align-items:center;gap:1px;margin:2px 0 12px;text-align:center}}
 .due-k{{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rosewood-deep)}}
@@ -261,6 +274,7 @@ or maintenance</span></span>
     <section class="step" id="s3">
       <div class="steptitle">Your kit is <em>ready.</em></div>
       <div class="stepsub">Everything ships together, free.</div>
+      <div class="kitcart" id="kitcart"></div>
       <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
         <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
       <div class="valstack" id="sum"></div>
@@ -357,6 +371,20 @@ document.querySelectorAll('.pick').forEach(function(c){{
 }});
 function buildSum(){{
   var h='',m=count();
+  var cart='';
+  for(var k in picks) if(picks[k]){{
+    var card=document.querySelector('.pick[data-key="'+k+'"]');
+    cart+='<div class="krow"><img src="'+card.querySelector('img').src+'" alt="">'
+      +'<span class="ktx"><b>'+FR[k].name+'</b><span class="kint">'+card.querySelector('.pick-int').textContent+'</span>'
+      +'<span class="kmeta">100ml \u00b7 a fresh bottle every month</span></span>'
+      +'<span class="kpr"><span class="kqty">\u00d7'+picks[k]+'</span><b>$'+(picks[k]*P).toFixed(2)+'/mo</b></span></div>';
+  }}
+  var plan=document.querySelector('.plan.on');
+  cart+='<div class="krow"><img src="'+plan.querySelector('img').src+'" alt="">'
+    +'<span class="ktx"><b>Maison Croyez Diffuser</b><span class="kint">Waterless \u00b7 Cold-air</span>'
+    +'<span class="kmeta">Yours to keep after your 3rd delivery</span></span>'
+    +'<span class="kpr"><span class="kqty">\u00d7'+N+'</span><b><s>$'+(N*DV).toFixed(2)+'</s><span class="kfree">FREE</span></b></span></div>';
+  document.getElementById('kitcart').innerHTML=cart;
   for(var k in picks) if(picks[k]) h+='<div class="vrow"><span>'+picks[k]+' × '+FR[k].name+' <span style="color:var(--ink-soft)">(100ml/mo)</span></span><span>$'+(picks[k]*P).toFixed(2)+'/mo</span></div>';
   h+='<div class="vrow"><span>'+N+' × Maison Croyez Diffuser</span><span class="vfree"><s>$'+(N*DV).toFixed(2)+'</s> FREE</span></div>';
   h+='<div class="vrow total"><span>Today\\u2019s total:</span><span>$'+(m*P).toFixed(2)+'</span></div>';

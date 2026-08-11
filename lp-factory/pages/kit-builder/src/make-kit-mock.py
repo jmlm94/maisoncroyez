@@ -98,7 +98,7 @@ html = f'''<title>Build Your Manifestation Kit — Maison Croyez</title>
   --star:#F5B301;--gold:#A67C3D;
 }}
 *{{margin:0;padding:0;box-sizing:border-box}}
-body{{background:var(--cream);color:var(--ink);font-family:'Be Vietnam Pro',-apple-system,'Segoe UI',sans-serif;line-height:1.45}}
+body{{background-color:#F7F7F6;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--ink);font-family:'Be Vietnam Pro',-apple-system,'Segoe UI',sans-serif;line-height:1.45}}
 .wrap{{display:flex;min-height:100vh}}
 .side{{display:none}}
 @media(min-width:900px){{.side{{display:block;flex:1;background:url('{IMG['hero']}') center/cover;position:sticky;top:0;height:100vh}}}}

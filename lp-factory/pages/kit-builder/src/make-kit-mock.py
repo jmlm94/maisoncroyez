@@ -52,9 +52,9 @@ FRAGS = [
 SPACES = [
     {"key":"living","label":"Living Room","n":1,"img":"room1",
      "lis":["1 free diffuser — your signature space, covered.","Covers up to 600 sq ft · 2,500+ homes scented."]},
-    {"key":"bedroom","label":"Living Room & Bedroom","n":2,"img":"room3",
+    {"key":"bedroom","label":"Living Room & Bedroom","n":2,"img":"room3","pop":True,
      "lis":["2 free diffusers — where you host and where you rest.","Each covers up to 600 sq ft · 2,500+ homes scented."]},
-    {"key":"kitchen","label":"Living Room, Bedroom & Kitchen","n":3,"img":"room5","pop":True,
+    {"key":"kitchen","label":"Living Room, Bedroom & Kitchen","n":3,"img":"room5",
      "lis":["3 free diffusers — your whole home holds the scent.","Each covers up to 600 sq ft · 2,500+ homes scented."]},
 ]
 
@@ -102,8 +102,8 @@ body{{background-color:#F7F7F6;background-image:url("data:image/svg+xml,%3Csvg x
 .wrap{{display:flex;min-height:100vh}}
 .side{{display:none}}
 @media(min-width:900px){{.side{{display:block;flex:1;background:url('{IMG['hero']}') center/cover;position:sticky;top:0;height:100vh}}}}
-.panel{{flex:1;max-width:560px;margin:0 auto;padding:0 16px 130px}}
-.banner{{background:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;font-weight:700}}
+.panel{{flex:1;max-width:560px;margin:0 auto;padding:0 16px 56px}}
+.banner{{background:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-size:clamp(.56rem,2.5vw,.68rem);letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;font-weight:700;line-height:1.5;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:8px;row-gap:2px}}
 .top{{display:flex;justify-content:center;padding:14px 0 2px}}.top img{{height:29px}}
 .rating{{display:flex;justify-content:center;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(.5rem,2.05vw,.64rem);letter-spacing:.05em;text-transform:uppercase;margin:10px 0 2px;white-space:nowrap}}
 .rating .stars{{color:var(--star);letter-spacing:1px}}
@@ -119,7 +119,7 @@ h1 em{{color:var(--ink);font-style:italic}}
 .stepsub{{text-align:center;font-size:.88rem;color:var(--ink-soft);margin-bottom:14px;line-height:1.5}}
 .step{{display:none}}.step.on{{display:block;animation:fade .3s}}
 @keyframes fade{{from{{opacity:0;transform:translateY(8px)}}to{{opacity:1;transform:none}}}}
-.heroshot{{width:min(100%,340px);border-radius:14px;margin:0 auto 14px;display:block}}
+.heroshot{{width:min(100%,340px);border-radius:14px;margin:0 auto 24px;display:block}}
 @media(min-width:900px){{.heroshot{{display:none}}}}
 /* step 1 — LP plan cards */
 .plansel{{display:flex;flex-direction:column;gap:14px;margin-top:8px}}
@@ -150,7 +150,7 @@ h1 em{{color:var(--ink);font-style:italic}}
 .pick-tags{{display:flex;flex-wrap:wrap;gap:5px}}
 .tagpill{{display:inline-flex;align-items:center;padding:4px 11px;border-radius:999px;font-size:.68rem;font-weight:700;color:#fff;line-height:1.35;white-space:nowrap}}
 .stepper{{display:flex;align-items:center;gap:8px;flex:0 0 auto}}
-.stepper button{{width:32px;height:32px;border-radius:50%;border:2px solid var(--rosewood);background:#fff;color:var(--ink);font-size:1.1rem;font-weight:700;cursor:pointer;line-height:1}}
+.stepper button{{width:32px;height:32px;border-radius:50%;border:2px solid var(--rosewood);background:#fff;color:var(--ink);font-size:1.1rem;font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;font-family:'Outfit',sans-serif}}
 .pick.on .stepper button{{border-color:var(--ink)}}
 .pick.on .add{{background:var(--ink);color:#fff}}
 .stepper .qty{{min-width:16px;text-align:center;font-weight:700}}
@@ -207,9 +207,11 @@ h1 em{{color:var(--ink);font-style:italic}}
 .due-k{{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rosewood-deep)}}
 .due-v{{font-family:'Unna',Georgia,serif;font-weight:700;font-size:2.4rem;line-height:1.05}}
 .due-sub{{font-size:.8rem;color:var(--ink-soft)}}
-.hiw{{display:flex;flex-direction:column;gap:9px;margin:14px 0 4px}}
-.hiw-row{{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;line-height:1.5;background:#fff;border:1.5px solid var(--blush);border-radius:12px;padding:10px 13px}}
-.hiw-k{{flex:0 0 88px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.62rem;color:var(--rosewood-deep);padding-top:3px}}
+.hiw3{{display:flex;gap:8px;margin:14px 0 4px}}
+.hcell{{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:1.5px solid var(--blush);border-radius:12px;padding:12px 8px;text-align:center}}
+.hic{{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px;background:var(--blush-soft)}}
+.hcell b{{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.58rem;color:var(--ink)}}
+.hcell span:last-child{{font-size:.72rem;color:var(--ink-soft);line-height:1.4}}
 .nolock{{margin:12px 0 2px;background:#EAF7E6;border:1.5px solid #BFE3B4;border-radius:12px;padding:11px 13px;font-size:.86rem;line-height:1.5}}
 .perkhead{{font-family:'Unna',Georgia,serif;font-weight:700;font-size:1.2rem;line-height:1.3;margin:18px 0 10px;text-align:center;text-wrap:balance}}
 .perkhead em{{font-style:italic}}
@@ -227,14 +229,8 @@ h1 em{{color:var(--ink);font-style:italic}}
 .btn .btn-sub{{font-size:.62rem;letter-spacing:.18em;opacity:.85;font-weight:700}}
 .btn.secondary{{background:transparent;color:var(--ink);border:1.5px solid var(--ink);box-shadow:none;width:auto;padding:17px 20px}}
 .navrow{{display:flex;gap:10px;margin-top:16px}}
-.stickybar{{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1.5px solid var(--blush);padding:10px 16px;display:none;z-index:50;box-shadow:0 -4px 18px rgba(36,28,24,.08)}}
-.stickybar.on{{display:block}}
-.sb-in{{display:flex;gap:12px;align-items:center;justify-content:space-between;max-width:560px;margin:0 auto}}
-.sb-l{{font-size:.78rem;line-height:1.35;color:var(--ink-soft)}}
-.sb-l b{{font-size:.95rem;color:var(--ink)}}
-.sb-in .btn{{width:auto;flex:0 0 auto;padding:13px 22px;font-size:.72rem}}
-.sb-in .btn.secondary{{padding:13px 16px}}
-.toast{{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 18px;font-size:.85rem;max-width:90vw;opacity:0;transition:opacity .3s;z-index:99;text-align:center}}
+.s2sum{{text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.04em;color:var(--ink-soft);margin:14px 0 0}}
+.toast{{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 18px;font-size:.85rem;max-width:90vw;opacity:0;transition:opacity .3s;z-index:99;text-align:center}}
 .toast.on{{opacity:1}}
 </style>
 <div class="banner">GET A FREE DIFFUSER FOR EVERY SCENT YOU PICK — TODAY ONLY! <span class="cd" id="cd">23:59:59</span></div>
@@ -269,6 +265,9 @@ or maintenance</span></span>
       <div class="steptitle">Stack your <em>intentions:</em></div>
       <div class="stepsub" id="hint2">Pick <b>3</b> scents — every scent you pick comes with a free diffuser.</div>
       <div class="picker">{frag_cards}</div>
+      <div class="s2sum" id="s2sum">0 of 3 scents · $0.00/mo</div>
+      <div class="navrow"><button class="btn secondary" onclick="go(1)">←</button>
+        <button class="btn" id="sb-next" onclick="go(3)" disabled><span>Review my kit ➔</span></button></div>
     </section>
 
     <section class="step" id="s3">
@@ -284,10 +283,10 @@ or maintenance</span></span>
 
       <div class="nolock">✓ <strong>Zero commitment — ever.</strong> If you ever want out, cancel from any delivery email and we’ll send you <strong>prepaid return labels</strong> for the diffusers. Every scent you received is <strong>yours to keep</strong>. No questions asked, no fees, nothing to explain.</div>
 
-      <div class="hiw">
-        <div class="hiw-row"><span class="hiw-k">Today</span><span>Your diffusers and first scents ship together, <strong>free</strong>. You pay only for the scents.</span></div>
-        <div class="hiw-row"><span class="hiw-k">Every month</span><span>Fresh 100ml scents arrive before the last ones run out. <strong>Swap intentions anytime.</strong></span></div>
-        <div class="hiw-row"><span class="hiw-k">3rd delivery</span><span>Your diffusers become <strong>permanently yours</strong> — plus a free full-size scent as a gift.</span></div>
+      <div class="hiw3">
+        <span class="hcell"><span class="hic">📦</span><b>Today</b><span>Everything ships free.</span></span>
+        <span class="hcell"><span class="hic">🔄</span><b>Every month</b><span>Fresh scents. Swap anytime.</span></span>
+        <span class="hcell"><span class="hic">🛡️</span><b>30-day guarantee</b><span>Full money back.</span></span>
       </div>
 
       <div class="perkhead">This is what you’re about to get becoming a <em>Manifestation Ritual Circle Member:</em></div>
@@ -318,13 +317,6 @@ or maintenance</span></span>
     </section>
   </div>
 </div>
-<div class="stickybar on" id="sbar"><div class="sb-in">
-  <div class="sb-l" id="sb-l"><b id="sb-count">3 free diffusers</b><br><span id="sb-price">selected</span></div>
-  <div style="display:flex;gap:8px">
-    <button class="btn secondary" id="sb-back" onclick="go(1)" style="display:none">←</button>
-    <button class="btn" id="sb-next" onclick="go(2)">Choose your scents ➔</button>
-  </div>
-</div></div>
 <div class="toast" id="toast"></div>
 <script>
 var P=39.95, DV=79.95, N=3, picks={{}}, STEP=1;
@@ -347,22 +339,11 @@ function go(step){{
 }}
 function count(){{var m=0;for(var k in picks)m+=picks[k];return m}}
 function refresh(){{
-  var m=count(), next=document.getElementById('sb-next'), back=document.getElementById('sb-back');
-  var cEl=document.getElementById('sb-count'), pEl=document.getElementById('sb-price');
-  if(STEP===1){{
-    var n=+document.querySelector('.plan.on').dataset.n;
-    cEl.textContent=n+' free diffuser'+(n===1?'':'s');pEl.textContent='selected · $0 today';
-    back.style.display='none';next.disabled=false;next.textContent='Choose your scents ➔';next.onclick=function(){{go(2)}};
-  }} else if(STEP===2){{
-    cEl.textContent=m+' of '+N+' scents · '+N+' diffuser'+(N===1?'':'s');pEl.textContent='$'+(m*P).toFixed(2)+'/mo';
-    back.style.display='';back.onclick=function(){{go(1)}};
-    next.disabled=m!==N;next.textContent=m<N?('Pick '+(N-m)+' more ➔'):'Review my kit ➔';next.onclick=function(){{go(3)}};
-  }} else {{
-    cEl.textContent='Due today: $'+(m*P).toFixed(2);pEl.textContent=N+' free diffuser'+(N===1?'':'s')+' included';
-    back.style.display='';back.onclick=function(){{go(2)}};
-    next.disabled=false;next.textContent='Join the Circle ➔';next.onclick=joinToast;
-  }}
-  document.querySelectorAll('.pick .add').forEach(function(b){{b.disabled=m>=N&&STEP===2;b.style.opacity=(m>=N&&STEP===2)?'.25':'1'}});
+  var m=count(), next=document.getElementById('sb-next');
+  document.getElementById('s2sum').textContent=m+' of '+N+' scent'+(N===1?'':'s')+' picked · $'+(m*P).toFixed(2)+'/mo · '+N+' free diffuser'+(N===1?'':'s');
+  next.disabled=m!==N;
+  next.querySelector('span').textContent=m<N?('Pick '+(N-m)+' more \u2794'):'Review my kit \u2794';
+  document.querySelectorAll('.pick .add').forEach(function(b){{b.disabled=m>=N;b.style.opacity=m>=N?'.25':'1'}});
 }}
 document.querySelectorAll('.pick').forEach(function(c){{
   var k=c.dataset.key;
@@ -384,7 +365,7 @@ function buildSum(){{
     +'<span class="ktx"><b>Maison Croyez Diffuser</b><span class="kint">Waterless, Leakproof and No maintenance</span></span>'
     +'<span class="kpr"><span class="kqty">\u00d7'+N+'</span><b><s>$'+(N*DV).toFixed(2)+'</s><span class="kfree">FREE</span></b></span></div>';
   document.getElementById('kitcart').innerHTML=cart;
-  document.getElementById('valline').innerHTML='That\\u2019s <b>$'+(m*P+N*DV).toFixed(2)+' of value</b> \\u2014 you pay $'+(m*P).toFixed(2)+' today.';
+  document.getElementById('valline').innerHTML='That\\u2019s <b>$'+(m*P+N*DV).toFixed(2)+' of value</b>.';
   document.getElementById('duetoday').textContent='$'+(m*P).toFixed(2);
 }}
 function joinToast(){{

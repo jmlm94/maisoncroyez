@@ -1,5 +1,5 @@
 name: verify-kitbuilder
-# run: 3 — kb3: CDN images + lazy loading; full flow + image render check
+# run: 4 — kb4: mobile polish (no sticky, in-flow s2 CTA, badge on 2, centered hero, hiw3 icons)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -37,7 +37,15 @@ jobs:
           }
           const s1=await page.evaluate(()=>{
             const t=document.getElementById('root').innerText;
+            const hero=document.querySelector('#root .heroshot');const hr=hero?hero.getBoundingClientRect():null;
             return {
+              heroCentered:hr?Math.abs((hr.left+hr.right)/2-document.documentElement.clientWidth/2)<3:false,
+              heroGap:(()=>{const t2=document.querySelector('#root #s1 .steptitle');return hero&&t2?Math.round(t2.getBoundingClientRect().top-hero.getBoundingClientRect().bottom):-1;})(),
+              bannerFits:(()=>{const b2=document.querySelector('#root .banner');return b2&&b2.scrollWidth<=document.documentElement.clientWidth+2;})(),
+              badgeOn2:!!document.querySelector('#root .plan[data-n="2"] .plan-badge')&&!document.querySelector('#root .plan[data-n="3"] .plan-badge'),
+              stickyGone:!document.getElementById('sbar'),
+              stepperCentered:(()=>{const b3=document.querySelector('#root .stepper .add');return b3&&getComputedStyle(b3).display==='flex';})(),
+              noOverflow:document.documentElement.scrollWidth<=document.documentElement.clientWidth+2,
               banner:/GET A FREE DIFFUSER FOR EVERY SCENT YOU PICK/.test(t),
               countdown:/\d{2}:\d{2}:\d{2}/.test((document.getElementById('cd')||{}).textContent||''),
               rating:/what.s that smell/i.test(t),
@@ -57,7 +65,7 @@ jobs:
           await page.waitForTimeout(400);
           const s2=await page.evaluate(()=>({
             hint:document.getElementById('hint2').innerText,
-            sb:document.getElementById('sb-count').textContent+' | '+document.getElementById('sb-price').textContent,
+            sum:document.getElementById('s2sum').textContent,
             nextLabel:document.getElementById('sb-next').textContent,
             nextEnabled:!document.getElementById('sb-next').disabled,
             addsLocked:[...document.querySelectorAll('#root .pick .add')].every(b=>b.disabled)
@@ -70,6 +78,7 @@ jobs:
             due:(document.getElementById('duetoday')||{}).textContent,
             rows:document.querySelectorAll('#kitcart .krow').length,
             val:(document.getElementById('valline')||{}).innerText,
+            hiw3:[...document.querySelectorAll('#root .hiw3 b')].map(x=>x.textContent).join('|'),
             zero:/Zero commitment/.test(document.getElementById('root').innerText),
             faqs:document.querySelectorAll('#root .faqs details').length,
             testi:/Diane R\./.test(document.getElementById('root').innerText)
@@ -94,6 +103,10 @@ jobs:
           const checks={
             fresh, rootVisible:s1.rootVisible, banner:s1.banner, countdown:s1.countdown, rating:s1.rating,
             threePlans:s1.plans===3, defaultThreeRooms:s1.defaultN==='3', headerHidden:s1.headerHidden,
+            heroCentered:s1.heroCentered, heroGap:s1.heroGap>=18, bannerFits:s1.bannerFits,
+            badgeOn2:s1.badgeOn2, stickyGone:s1.stickyGone, stepperCentered:s1.stepperCentered, noOverflow:s1.noOverflow,
+            valueOnly:/of value\.$/.test(s3.val)&&!/you pay/.test(s3.val),
+            hiw3:s3.hiw3==='Today|Every month|30-day guarantee',
             exactCountLock:s2.addsLocked && s2.nextEnabled,
             dueToday:s3.due==='$119.85', fourKitRows:s3.rows===4,
             zeroCommitment:s3.zero, faqs4:s3.faqs===4, testimonial:s3.testi,
@@ -120,6 +133,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "verify-kitbuilder run 3: kb3 cdn images" || true
+          git commit -m "verify-kitbuilder run 4: kb4 mobile polish" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

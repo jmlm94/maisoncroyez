@@ -114,9 +114,9 @@ jobs:
       - name: Commit results
         if: always()
         run: |
+          git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/kit-builder/verify
           mv kb-verify-log.txt kb-step1.png kb-step2.png kb-step3.png kb-checkout.png lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
-          git checkout -- . 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify

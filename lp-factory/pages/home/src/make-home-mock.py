@@ -88,7 +88,7 @@ html = f'''<title>Maison Croyez Homepage</title>
   --blush:#ECDFDE; --blush-soft:#F3EAE8; --rosewood:#C4A59F; --rosewood-deep:#8A5B52;
   --cream:#F9F5F0; --ivory:#FFFFFF; --cta:#0A9400; --ink:#241C18; --ink-soft:#5C4F48;
   --footer:#1E1613; --gold:#D9B08C; --star:#F5B301;
-  --grad-em:linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%);
+  --grad-em:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);
   --grad-hero:linear-gradient(168deg,#F3E7E3 0%,#ECDFDE 34%,#E6CDBB 72%,#DCB99F 100%);
   --grad-values:linear-gradient(160deg,#F6ECE6 0%,#ECDFDE 45%,#E9D3BE 100%);
   --radius:22px; --shadow:0 10px 34px rgba(60,38,30,.12); --maxw:1120px;

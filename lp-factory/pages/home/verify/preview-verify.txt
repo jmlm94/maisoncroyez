@@ -1,4 +1,4 @@
-=== desktop === {"rootH":5152.234375,"sections":8,"heroTitle":true,"dollarHook":true,"heroCta":true,"chips":3,"ftiles":7,"trophy":true,"manifesting":true,"statLine":true,"mclose":true,"buyLogos":2,"testiFeat":true,"snaps":3,"linkKit":3,"linkFD":true,"linkDiff":true,"linkFrag":true,"imgsBroken":0,"noOverflow":true,"noOwnHeader":true,"abarOnce":true,"themeHeaderVisible":true,"themeFooter":true}
+=== desktop === {"rootH":5152.234375,"sections":8,"heroTitle":true,"dollarHook":true,"heroCta":true,"chips":3,"ftiles":7,"trophy":true,"manifesting":true,"statLine":true,"mclose":true,"buyLogos":2,"testiFeat":true,"snaps":3,"linkKit":3,"linkFD":true,"linkDiff":true,"linkFrag":true,"imgsBroken":0,"noOverflow":true,"heroBottom":1212,"vh":900,"noOwnHeader":true,"abarOnce":true,"themeHeaderVisible":true,"themeFooter":true}
 errors(0): 
 === VERDICT desktop ===
 PASS rendered
@@ -21,12 +21,13 @@ PASS linkDiff
 PASS linkFrag
 PASS imgsOk
 PASS noOverflow
+FAIL heroAboveFold
 PASS noOwnHeader
 PASS abarOnce
 PASS themeHeaderVisible
 PASS themeFooter
 PASS noJsErrors
-=== mobile === {"rootH":7565.515625,"sections":8,"heroTitle":true,"dollarHook":true,"heroCta":true,"chips":3,"ftiles":7,"trophy":true,"manifesting":true,"statLine":true,"mclose":true,"buyLogos":2,"testiFeat":true,"snaps":3,"linkKit":3,"linkFD":true,"linkDiff":true,"linkFrag":true,"imgsBroken":0,"noOverflow":true,"noOwnHeader":true,"abarOnce":true,"themeHeaderVisible":true,"themeFooter":true}
+=== mobile === {"rootH":7565.515625,"sections":8,"heroTitle":true,"dollarHook":true,"heroCta":true,"chips":3,"ftiles":7,"trophy":true,"manifesting":true,"statLine":true,"mclose":true,"buyLogos":2,"testiFeat":true,"snaps":3,"linkKit":3,"linkFD":true,"linkDiff":true,"linkFrag":true,"imgsBroken":0,"noOverflow":true,"heroBottom":1075,"vh":844,"noOwnHeader":true,"abarOnce":true,"themeHeaderVisible":true,"themeFooter":true}
 errors(0): 
 === VERDICT mobile ===
 PASS rendered
@@ -49,6 +50,7 @@ PASS linkDiff
 PASS linkFrag
 PASS imgsOk
 PASS noOverflow
+FAIL heroAboveFold
 PASS noOwnHeader
 PASS abarOnce
 PASS themeHeaderVisible

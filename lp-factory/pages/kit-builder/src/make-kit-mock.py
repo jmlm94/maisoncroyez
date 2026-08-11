@@ -8,16 +8,18 @@ HERE = os.path.dirname(__file__) or '.'
 A = os.path.join(HERE, '..', '..', 'pdp-free-diffuser', 'assets', 'processed')
 FONTS = open(os.path.join(HERE, 'fonts-inline.css')).read()
 
-def b64(fn, mime='image/jpeg'):
-    with open(os.path.join(A, fn), 'rb') as fh:
+K = os.path.join(HERE, '..', 'assets')
+
+def b64(fn, mime='image/jpeg', root=None):
+    with open(os.path.join(root or A, fn), 'rb') as fh:
         return f'data:{mime};base64,' + base64.b64encode(fh.read()).decode()
 
 IMG = {
     'hero': b64('hotel.jpg'),
-    'product': b64('diseno-87.jpg'),
-    'room1': b64('diseno-88.jpg'),
-    'room3': b64('golden-room.jpg'),
-    'room5': b64('hotel2.jpg'),
+    'product': b64('hero-colorful.jpg', root=K),
+    'room1': b64('kit1.jpg', root=K),
+    'room3': b64('kit2.jpg', root=K),
+    'room5': b64('kit3.jpg', root=K),
     'guests': b64('guests.jpg'),
     'logo': b64('logo-black-trim.png', 'image/png'),
     **{f'frag{i}': b64(f'frag{i}.jpg') for i in range(1, 8)},
@@ -117,7 +119,7 @@ h1 em{{color:var(--ink);font-style:italic}}
 .stepsub{{text-align:center;font-size:.88rem;color:var(--ink-soft);margin-bottom:14px;line-height:1.5}}
 .step{{display:none}}.step.on{{display:block;animation:fade .3s}}
 @keyframes fade{{from{{opacity:0;transform:translateY(8px)}}to{{opacity:1;transform:none}}}}
-.heroshot{{width:100%;border-radius:14px;margin:0 0 14px;display:block}}
+.heroshot{{width:min(100%,340px);border-radius:14px;margin:0 auto 14px;display:block}}
 @media(min-width:900px){{.heroshot{{display:none}}}}
 /* step 1 — LP plan cards */
 .plansel{{display:flex;flex-direction:column;gap:14px;margin-top:8px}}

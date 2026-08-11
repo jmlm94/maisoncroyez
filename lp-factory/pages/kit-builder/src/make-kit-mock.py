@@ -101,7 +101,7 @@ body{{background:var(--cream);color:var(--ink);font-family:'Be Vietnam Pro',-app
 @media(min-width:900px){{.side{{display:block;flex:1;background:url('{IMG['hero']}') center/cover;position:sticky;top:0;height:100vh}}}}
 .panel{{flex:1;max-width:560px;margin:0 auto;padding:0 16px 130px}}
 .banner{{background:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;font-weight:700}}
-.top{{display:flex;justify-content:center;padding:14px 0 2px}}.top img{{height:24px}}
+.top{{display:flex;justify-content:center;padding:14px 0 2px}}.top img{{height:29px}}
 .rating{{display:flex;justify-content:center;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(.5rem,2.05vw,.64rem);letter-spacing:.05em;text-transform:uppercase;margin:10px 0 2px;white-space:nowrap}}
 .rating .stars{{color:var(--star);letter-spacing:1px}}
 h1{{font-family:'Unna',Georgia,serif;font-weight:700;text-align:center;font-size:2rem;line-height:1.12;margin:6px 0 4px;text-wrap:balance}}
@@ -195,7 +195,7 @@ h1 em{{color:var(--ink);font-style:italic}}
 .toast{{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 18px;font-size:.85rem;max-width:90vw;opacity:0;transition:opacity .3s;z-index:99;text-align:center}}
 .toast.on{{opacity:1}}
 </style>
-<div class="banner">Every diffuser FREE with your Circle membership</div>
+<div class="banner">GET A FREE DIFFUSER FOR EVERY SCENT YOU PICK — TODAY ONLY!</div>
 <div class="wrap">
   <div class="side"></div>
   <div class="panel">

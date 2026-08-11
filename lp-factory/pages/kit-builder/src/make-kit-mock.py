@@ -18,6 +18,7 @@ IMG = {
     'room1': b64('diseno-88.jpg'),
     'room3': b64('golden-room.jpg'),
     'room5': b64('hotel2.jpg'),
+    'guests': b64('guests.jpg'),
     'logo': b64('logo-black-trim.png', 'image/png'),
     **{f'frag{i}': b64(f'frag{i}.jpg') for i in range(1, 8)},
 }
@@ -48,11 +49,11 @@ FRAGS = [
 
 SPACES = [
     {"key":"living","label":"Living Room","n":1,"img":"room1",
-     "lis":["1 free diffuser — your signature space, covered.","Up to 600 sq ft of continuous presence."]},
+     "lis":["1 free diffuser — your signature space, covered.","Covers up to 600 sq ft · 2,500+ homes scented."]},
     {"key":"bedroom","label":"Living Room & Bedroom","n":2,"img":"room3",
-     "lis":["2 free diffusers — where you host and where you rest.","One intention carries through your day and night."]},
+     "lis":["2 free diffusers — where you host and where you rest.","Each covers up to 600 sq ft · 2,500+ homes scented."]},
     {"key":"kitchen","label":"Living Room, Bedroom & Kitchen","n":3,"img":"room5","pop":True,
-     "lis":["3 free diffusers — your whole home holds the scent.","Nothing breaks the spell between rooms."]},
+     "lis":["3 free diffusers — your whole home holds the scent.","Each covers up to 600 sq ft · 2,500+ homes scented."]},
 ]
 
 frag_cards = ""
@@ -178,6 +179,23 @@ h1 em{{color:var(--ink);font-style:italic}}
 .term-ic{{flex:0 0 auto;font-size:1.05rem;line-height:1.4}}
 .term-row strong{{font-weight:700}}
 .trust-strip{{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-family:'Outfit',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-top:1px solid var(--blush);border-bottom:1px solid var(--blush);padding:11px 4px;margin:14px 0}}
+/* review-step blocks */
+.due{{display:flex;flex-direction:column;align-items:center;gap:1px;margin:2px 0 12px;text-align:center}}
+.due-k{{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rosewood-deep)}}
+.due-v{{font-family:'Unna',Georgia,serif;font-weight:700;font-size:2.4rem;line-height:1.05}}
+.due-sub{{font-size:.8rem;color:var(--ink-soft)}}
+.hiw{{display:flex;flex-direction:column;gap:9px;margin:14px 0 4px}}
+.hiw-row{{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;line-height:1.5;background:#fff;border:1.5px solid var(--blush);border-radius:12px;padding:10px 13px}}
+.hiw-k{{flex:0 0 88px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.62rem;color:var(--rosewood-deep);padding-top:3px}}
+.nolock{{margin:12px 0 2px;background:#EAF7E6;border:1.5px solid #BFE3B4;border-radius:12px;padding:11px 13px;font-size:.86rem;line-height:1.5}}
+.perkhead{{font-family:'Unna',Georgia,serif;font-weight:700;font-size:1.15rem;margin:16px 0 8px;text-align:center}}
+.faqs{{display:flex;flex-direction:column;gap:7px;margin:4px 0 8px}}
+.faqs details{{background:#fff;border:1.5px solid var(--blush);border-radius:12px;padding:11px 14px}}
+.faqs summary{{font-weight:700;font-size:.9rem;cursor:pointer;list-style:none;position:relative;padding-right:22px}}
+.faqs summary::after{{content:"+";position:absolute;right:0;top:0;font-weight:700;color:var(--rosewood-deep)}}
+.faqs details[open] summary::after{{content:"−"}}
+.faqs p{{font-size:.86rem;color:var(--ink-soft);line-height:1.55;margin-top:7px}}
+.cd{{display:inline-block;min-width:74px;font-variant-numeric:tabular-nums;background:rgba(0,0,0,.22);border-radius:6px;padding:1px 7px;margin-left:6px}}
 /* CTA — LP pill button */
 .btn{{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;padding:17px 26px;border-radius:999px;background:var(--cta);color:#fff;border:0;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.86rem;box-shadow:0 12px 28px rgba(0,0,0,.28);transition:transform .15s ease,box-shadow .15s ease;text-align:center;cursor:pointer}}
 .btn:hover{{transform:translateY(-1px);box-shadow:0 16px 34px rgba(0,0,0,.36)}}
@@ -195,7 +213,7 @@ h1 em{{color:var(--ink);font-style:italic}}
 .toast{{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 18px;font-size:.85rem;max-width:90vw;opacity:0;transition:opacity .3s;z-index:99;text-align:center}}
 .toast.on{{opacity:1}}
 </style>
-<div class="banner">GET A FREE DIFFUSER FOR EVERY SCENT YOU PICK — TODAY ONLY!</div>
+<div class="banner">GET A FREE DIFFUSER FOR EVERY SCENT YOU PICK — TODAY ONLY! <span class="cd" id="cd">23:59:59</span></div>
 <div class="wrap">
   <div class="side"></div>
   <div class="panel">
@@ -232,52 +250,93 @@ or maintenance</span></span>
     <section class="step" id="s3">
       <div class="steptitle">Your kit is <em>ready.</em></div>
       <div class="stepsub">Everything ships together, free.</div>
+      <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
+        <span class="due-sub">then $39.95/mo per scent · swap or cancel anytime</span></div>
       <div class="valstack" id="sum"></div>
       <div class="valline" id="valline"></div>
+
+      <div class="hiw">
+        <div class="hiw-row"><span class="hiw-k">Today</span><span>Your diffusers and first scents ship together, <strong>free</strong>. You pay only for the scents.</span></div>
+        <div class="hiw-row"><span class="hiw-k">Every month</span><span>Fresh 100ml scents arrive before the last ones run out. <strong>Swap intentions anytime.</strong></span></div>
+        <div class="hiw-row"><span class="hiw-k">3rd delivery</span><span>Your diffusers become <strong>permanently yours</strong> — plus a free full-size scent as a gift.</span></div>
+      </div>
+
+      <div class="nolock">✓ <strong>No lock-in. No cancellation fee.</strong> Cancel from any delivery email — unlike other “free diffuser” clubs, there’s no 6-month commitment here.</div>
+
+      <div class="perkhead">Circle Perks</div>
       <div class="offer-terms">
         <div class="term-row"><span class="term-ic">🎁</span><span><strong>Your diffusers ship free</strong> with your first scents — on your third delivery they’re permanently yours.</span></div>
         <div class="term-row"><span class="term-ic">🔄</span><span>Renews monthly at $39.95 per scent. <strong>Swap intentions anytime.</strong></span></div>
+        <div class="term-row"><span class="term-ic">🚚</span><span><strong>Free shipping, always</strong> — on every delivery and everything you add.</span></div>
+        <div class="term-row"><span class="term-ic">✨</span><span><strong>First access to new scents</strong> and member-only launches.</span></div>
         <div class="term-row"><span class="term-ic">🛡️</span><span><strong>30-day guarantee:</strong> full refund, prepaid return label, and the scent stays with you.</span></div>
       </div>
+
+      <div class="exitfeat testi">
+        <img src="{IMG['guests']}" alt="">
+        <div><div class="tstars">★★★★★</div>
+        <p class="tq">“Seven of my friends have asked the same question — WHO lives here?”</p>
+        <span class="twho">Diane R. · Verified Circle member · January 2026</span></div>
+      </div>
+
       <div class="trust-strip"><span>🔒 Secure checkout</span><span>🚚 Free shipping</span><span>🛡️ 1-year warranty</span></div>
+
+      <div class="faqs">
+        <details><summary>When am I charged?</summary><p>Today you pay only for your scents. Then the same amount renews monthly as each new box ships. You get an email reminder before every renewal.</p></details>
+        <details><summary>Can I swap scents?</summary><p>Yes — swap any of your intentions before any delivery, right from your delivery email. No calls, no forms.</p></details>
+        <details><summary>What if I cancel?</summary><p>Cancel anytime from any delivery email. Within the first 30 days we refund every dollar and send a prepaid label for the diffusers — the scents stay with you.</p></details>
+        <details><summary>Is it safe for pets and kids?</summary><p>Yes. 100% waterless, no heat, no mold, and organic scent compositions that are safe around your whole household.</p></details>
+      </div>
       <div class="navrow"><button class="btn secondary" onclick="go(2)">←</button>
         <button class="btn" onclick="joinToast()"><span>Join the Circle ➔</span><span class="btn-sub">Only 19 free-diffuser kits left!</span></button></div>
     </section>
   </div>
 </div>
-<div class="stickybar" id="sbar"><div class="sb-in">
-  <div class="sb-l"><b id="sb-count">0 scents</b><br><span id="sb-price">$0.00/mo</span> · diffusers free</div>
+<div class="stickybar on" id="sbar"><div class="sb-in">
+  <div class="sb-l" id="sb-l"><b id="sb-count">3 free diffusers</b><br><span id="sb-price">selected</span></div>
   <div style="display:flex;gap:8px">
-    <button class="btn secondary" onclick="go(1)">←</button>
-    <button class="btn" id="sb-next" onclick="go(3)" disabled>Review my kit ➔</button>
+    <button class="btn secondary" id="sb-back" onclick="go(1)" style="display:none">←</button>
+    <button class="btn" id="sb-next" onclick="go(2)">Choose your scents ➔</button>
   </div>
 </div></div>
 <div class="toast" id="toast"></div>
 <script>
-var P=39.95, DV=79.95, N=3, picks={{}};
+var P=39.95, DV=79.95, N=3, picks={{}}, STEP=1;
+(function(){{var el=document.getElementById('cd');function tick(){{var now=new Date();var end=new Date(now);end.setHours(23,59,59,999);var d=Math.max(0,end-now);var h=String(Math.floor(d/3600000)).padStart(2,'0'),m=String(Math.floor(d%3600000/60000)).padStart(2,'0'),x=String(Math.floor(d%60000/1000)).padStart(2,'0');el.textContent=h+':'+m+':'+x;}}tick();setInterval(tick,1000);}})();
 var FR={json.dumps({f["key"]:{"name":f["name"]} for f in FRAGS})};
 document.querySelectorAll('.plan').forEach(function(p){{
-  p.onclick=function(){{document.querySelectorAll('.plan').forEach(function(x){{x.classList.remove('on')}});p.classList.add('on');}};
+  p.onclick=function(){{document.querySelectorAll('.plan').forEach(function(x){{x.classList.remove('on')}});p.classList.add('on');refresh();}};
 }});
 function go(step){{
   document.querySelectorAll('.step').forEach(function(s){{s.classList.remove('on')}});
   document.getElementById('s'+step).classList.add('on');
   document.getElementById('bar').style.width=(step*33.34)+'%';
   document.getElementById('pnum').textContent=step;
-  document.getElementById('sbar').classList.toggle('on', step===2);
+  STEP=step;
   if(step===2){{N=+document.querySelector('.plan.on').dataset.n;
-    document.getElementById('hint2').innerHTML='Pick <b>'+N+'</b> scent'+(N>1?'s':'')+' — every scent you pick comes with a free diffuser.';refresh();}}
+    document.getElementById('hint2').innerHTML='Pick <b>'+N+'</b> scent'+(N>1?'s':'')+' — every scent you pick comes with a free diffuser.';}}
   if(step===3) buildSum();
+  refresh();
   window.scrollTo(0,0);
 }}
 function count(){{var m=0;for(var k in picks)m+=picks[k];return m}}
 function refresh(){{
-  var m=count();
-  document.getElementById('sb-count').textContent=m+' of '+N+' scents · '+N+' diffuser'+(N===1?'':'s');
-  document.getElementById('sb-price').textContent='$'+(m*P).toFixed(2)+'/mo';
-  document.getElementById('sb-next').disabled=m!==N;
-  document.getElementById('sb-next').textContent=m<N?('Pick '+(N-m)+' more ➔'):'Review my kit ➔';
-  document.querySelectorAll('.pick .add').forEach(function(b){{b.disabled=m>=N;b.style.opacity=m>=N?'.25':'1'}});
+  var m=count(), next=document.getElementById('sb-next'), back=document.getElementById('sb-back');
+  var cEl=document.getElementById('sb-count'), pEl=document.getElementById('sb-price');
+  if(STEP===1){{
+    var n=+document.querySelector('.plan.on').dataset.n;
+    cEl.textContent=n+' free diffuser'+(n===1?'':'s');pEl.textContent='selected · $0 today';
+    back.style.display='none';next.disabled=false;next.textContent='Choose your scents ➔';next.onclick=function(){{go(2)}};
+  }} else if(STEP===2){{
+    cEl.textContent=m+' of '+N+' scents · '+N+' diffuser'+(N===1?'':'s');pEl.textContent='$'+(m*P).toFixed(2)+'/mo';
+    back.style.display='';back.onclick=function(){{go(1)}};
+    next.disabled=m!==N;next.textContent=m<N?('Pick '+(N-m)+' more ➔'):'Review my kit ➔';next.onclick=function(){{go(3)}};
+  }} else {{
+    cEl.textContent='Due today: $'+(m*P).toFixed(2);pEl.textContent=N+' free diffuser'+(N===1?'':'s')+' included';
+    back.style.display='';back.onclick=function(){{go(2)}};
+    next.disabled=false;next.textContent='Join the Circle ➔';next.onclick=joinToast;
+  }}
+  document.querySelectorAll('.pick .add').forEach(function(b){{b.disabled=m>=N&&STEP===2;b.style.opacity=(m>=N&&STEP===2)?'.25':'1'}});
 }}
 document.querySelectorAll('.pick').forEach(function(c){{
   var k=c.dataset.key;
@@ -291,6 +350,7 @@ function buildSum(){{
   h+='<div class="vrow total"><span>Today\\u2019s total:</span><span>$'+(m*P).toFixed(2)+'</span></div>';
   document.getElementById('sum').innerHTML=h;
   document.getElementById('valline').innerHTML='That\\u2019s <b>$'+(m*P+N*DV).toFixed(2)+' of value</b> \\u2014 you pay $'+(m*P).toFixed(2)+' today.';
+  document.getElementById('duetoday').textContent='$'+(m*P).toFixed(2);
 }}
 function joinToast(){{
   var t=document.getElementById('toast'),m=count();

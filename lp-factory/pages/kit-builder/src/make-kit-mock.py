@@ -273,11 +273,9 @@ or maintenance</span></span>
 
     <section class="step" id="s3">
       <div class="steptitle">Your kit is <em>ready.</em></div>
-      <div class="stepsub">Everything ships together, free.</div>
-      <div class="kitcart" id="kitcart"></div>
       <div class="due"><span class="due-k">Due today:</span><span class="due-v" id="duetoday">$0.00</span>
         <span class="due-sub">then $39.95/mo per scent. Swap, pause &amp; cancel anytime.</span></div>
-      <div class="valstack" id="sum"></div>
+      <div class="kitcart" id="kitcart"></div>
       <div class="valline" id="valline"></div>
 
       <div class="hiw">
@@ -370,7 +368,7 @@ document.querySelectorAll('.pick').forEach(function(c){{
   c.querySelector('.sub').onclick=function(){{picks[k]=Math.max(0,(picks[k]||0)-1);c.querySelector('.qty').textContent=picks[k];if(!picks[k])c.classList.remove('on');refresh();}};
 }});
 function buildSum(){{
-  var h='',m=count();
+  var m=count();
   var cart='';
   for(var k in picks) if(picks[k]){{
     var card=document.querySelector('.pick[data-key="'+k+'"]');
@@ -385,10 +383,6 @@ function buildSum(){{
     +'<span class="kmeta">Yours to keep after your 3rd delivery</span></span>'
     +'<span class="kpr"><span class="kqty">\u00d7'+N+'</span><b><s>$'+(N*DV).toFixed(2)+'</s><span class="kfree">FREE</span></b></span></div>';
   document.getElementById('kitcart').innerHTML=cart;
-  for(var k in picks) if(picks[k]) h+='<div class="vrow"><span>'+picks[k]+' × '+FR[k].name+' <span style="color:var(--ink-soft)">(100ml/mo)</span></span><span>$'+(picks[k]*P).toFixed(2)+'/mo</span></div>';
-  h+='<div class="vrow"><span>'+N+' × Maison Croyez Diffuser</span><span class="vfree"><s>$'+(N*DV).toFixed(2)+'</s> FREE</span></div>';
-  h+='<div class="vrow total"><span>Today\\u2019s total:</span><span>$'+(m*P).toFixed(2)+'</span></div>';
-  document.getElementById('sum').innerHTML=h;
   document.getElementById('valline').innerHTML='That\\u2019s <b>$'+(m*P+N*DV).toFixed(2)+' of value</b> \\u2014 you pay $'+(m*P).toFixed(2)+' today.';
   document.getElementById('duetoday').textContent='$'+(m*P).toFixed(2);
 }}

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 20 — homepage capture for redesign: full-page desktop + mobile screenshots + section map
+# run 21 — homepage capture for redesign + download page images for mock
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -65,15 +65,40 @@ jobs:
           await b.close();
           EOS
           node cap.mjs 2>&1 | tee home-capture.txt
+      - name: Download page images
+        run: |
+          mkdir -p himg
+          dl(){ curl -sL "$1" -o "himg/$2" && echo "$2 $(stat -c%s himg/$2)"; }
+          B='https://cdn.instant.so/sites/YCOyjSHFG2AgR13d/assets'
+          dl "$B/5lCXHDn9L9LSMkYp/banner-3.webp?width=1600" hero-desktop.webp
+          dl "$B/XVR7IK2gfO7bVcpi/banner-3-mobile.webp?width=900" hero-mobile.webp
+          dl "$B/4aJaI4GMMjclEXCO/lp-banner-2.webp?width=1600" banner2-desktop.webp
+          dl "$B/15W2bMUN1Oqnf8Hl/lp-banner-2-mobile.webp?width=900" banner2-mobile.webp
+          dl "$B/1nZaKb9l81pj3fHo/frame-1984078962-1.png?width=800" card-kit.png
+          dl "$B/3GDljJKzyaMbNIjj/frame-1984077955-1.png?width=800" card-diffuser.png
+          dl "$B/Wk4JitmVfXnhz15q/frame-1984077962-1.png?width=800" card-fragrances.png
+          dl "$B/iTior9S4oM9lBK5o/rectangle-9650-1.png?width=800" frag-a.png
+          dl "$B/ppfpf2sjwaNTuK5T/rectangle-9651-1.png?width=800" frag-b.png
+          dl "$B/4TuPnxYTERPyKsJk/rectangle-9652-1.png?width=800" frag-c.png
+          dl "$B/WLnLHiKCmuzBIqMZ/frame-1984078965-1.jpg?width=800" testi-a.jpg
+          dl "$B/V8Qr3UzRA1aoHLQm/frame-1984078968-1.png?width=800" testi-b.png
+          dl "$B/AyOiIepy9CT9gbhI/frame-1984078972.png?width=800" testi-c.png
+          dl "$B/dKys7EJHdM1Mh4xp/frame-1984078973-1.png?width=800" testi-d.png
+          dl "$B/s99f6IPl6We0zQZH/frame-1984078959-3.png?width=800" misc-a.png
+          dl "$B/NMebsUWN8dTRnjOC/4-5.png?width=800" misc-45.png
+          dl "$B/fvxSNYfasFdBx8fn/91984a6ea8dc4691ba9a4a8a46fd80f760defe69.png?width=800" misc-b.png
+          dl "$B/ncxVxOz3Lv52GQOy/e18e96e5f597a24c487e5f0ef6f3f78aae450fb5.png?width=800" misc-c.png
+          dl "$B/tuvqCXVYzTwxqOgC/e492984595892d570ad2a9a6a64e9ead033162b1.png?width=800" misc-d.png
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/recon-home
+          mkdir -p lp-factory/recon-home/img
           mv home-capture.txt home-desktop.png home-mobile.png lp-factory/recon-home/ 2>/dev/null || true
+          mv himg/* lp-factory/recon-home/img/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/recon-home
-          git commit -m "recon run 20: homepage capture" || true
+          git commit -m "homepage recon results (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

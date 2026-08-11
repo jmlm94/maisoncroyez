@@ -56,10 +56,14 @@ TESTIS = [
 ]
 
 CARDS = [
-    ('cardkit', 'Diffuser + Fragrance Kit', 'The complete starter. One diffuser, one intention. The easiest upgrade your home will ever get.'),
-    ('carddiff', 'Diffuser Only', 'Already have a fragrance? Just the sleek, waterless diffuser — designed to disappear into any space.'),
-    ('cardfrag', 'Fragrances Only', 'All seven intentions. Subscribe and save 25%. Your scent, your rhythm, your space.'),
+    ('cardkit', 'Diffuser + Fragrance Kit', 'The complete starter. One diffuser, one intention. The easiest upgrade your home will ever get.',
+     'https://maisoncroyez.com/pages/free-diffuser'),
+    ('carddiff', 'Diffuser Only', 'Already have a fragrance? Just the sleek, waterless diffuser — designed to disappear into any space.',
+     'https://maisoncroyez.com/products/diffuser-scents'),
+    ('cardfrag', 'Fragrances Only', 'All seven intentions. Subscribe and save 25%. Your scent, your rhythm, your space.',
+     'https://maisoncroyez.com/collections/power-fragrances'),
 ]
+URL_KIT = 'https://maisoncroyez.com/pages/build-your-kit'
 
 frag_tiles = '\n'.join(
     f'''<div class="ftile"><img src="{IMG[k]}" alt="{n}"><b>{n}</b><span>{i}</span></div>'''
@@ -74,8 +78,8 @@ testi_cards = '\n'.join(
     for k, q, n in TESTIS)
 
 start_cards = '\n'.join(
-    f'''<div class="pcard"><img src="{IMG[k]}" alt="{t}"><div class="pbody"><h3>{t}</h3><p>{d}</p><a class="btn dark" href="#">Shop now <span class="arr">➔</span></a></div></div>'''
-    for k, t, d in CARDS)
+    f'''<div class="pcard"><img src="{IMG[k]}" alt="{t}"><div class="pbody"><h3>{t}</h3><p>{d}</p><a class="btn dark" href="{u}">Shop now <span class="arr">➔</span></a></div></div>'''
+    for k, t, d, u in CARDS)
 
 html = f'''<title>Maison Croyez Homepage</title>
 <style>
@@ -249,7 +253,7 @@ footer img{{height:36px;margin-bottom:18px}}
       <span><i>✓</i> Every scent carries a purpose.</span>
       <span><i>✓</i> Everything you want gets manifested.</span>
     </div>
-    <a class="btn green" href="#">Shop the Collection <span class="arr">➔</span></a>
+    <a class="btn green" href="{URL_KIT}">Shop the Collection <span class="arr">➔</span></a>
   </div>
   <img src="{IMG['hero']}" alt="Maison Croyez fragrances">
 </div></section>
@@ -284,7 +288,7 @@ footer img{{height:36px;margin-bottom:18px}}
   <div class="frow" id="frow">
 {frag_tiles}
   </div>
-  <a class="btn green" href="#">Start My Subscription <span class="arr">➔</span></a>
+  <a class="btn green" href="{URL_KIT}">Start My Subscription <span class="arr">➔</span></a>
   <div class="trust">
     <span><i>🛡️</i> 90-Day Risk-Free Trial</span>
     <span><i>🔒</i> Lifetime Warranty</span>
@@ -323,7 +327,7 @@ footer img{{height:36px;margin-bottom:18px}}
         <li>Always the best price.</li>
         <li>Exclusive access to new drops first.</li>
       </ul>
-      <a class="btn green" href="#">Subscribe Now</a>
+      <a class="btn green" href="{URL_KIT}">Subscribe Now</a>
     </div>
     <div class="bcard">
       <h3>Amazon</h3>

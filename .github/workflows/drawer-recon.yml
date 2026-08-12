@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 34 — plain LIVE after drawer-theme publish: chrome + drawer sanity
+# run 35 — FULL SITE HEALTH SWEEP after big day: all pages + drawer + kit flow + scents flow
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,69 +13,137 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Compare chrome
+      - name: Site health sweep
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          cat > cmp.mjs <<'EOS'
+          cat > sweep.mjs <<'EOS'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
-          async function probe(url,label,shot){
+          const WANT='Congrats, your order is reserved! ✓';
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const results={};
+          async function render(url,label,ready,extra){
             const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-            await page.goto(url+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
-            await page.waitForTimeout(8000);
-            const p = await page.evaluate(()=>{
-              const q=s=>document.querySelector(s);
-              const abar=q('announcement-bar, .announcement-bar, [class*="announcement"]');
-              const hdr=q('store-header, header, .header');
-              const logo=hdr?hdr.querySelector('img'):null;
-              const cs=abar?getComputedStyle(abar):null;
-              const body=getComputedStyle(document.body);
-              const h1=q('#root h1');
-              return {
-                abarText:abar?(abar.innerText||'').replace(/\s+/g,' ').trim().slice(0,80):'NONE',
-                abarBg:cs?(cs.backgroundImage!=='none'?cs.backgroundImage.slice(0,90):cs.backgroundColor):'NONE',
-                hdrPresent:!!hdr,
-                logoSrc:logo?(logo.currentSrc||logo.src).split('/').pop().split('?')[0]:'NONE',
-                logoW:logo?Math.round(logo.getBoundingClientRect().width):0,
-                bodyFont:body.fontFamily.slice(0,60),
-                bodyFontSize:body.fontSize,
-                h1Font:h1?getComputedStyle(h1).fontFamily.slice(0,60):'n/a',
-                navLinks:[...document.querySelectorAll('header a, store-header a')].map(a=>a.textContent.trim()).filter(Boolean).slice(0,8)
-              };
-            });
-            console.log('=== '+label+' === '+JSON.stringify(p,null,1));
-            await page.screenshot({ path:shot });
+            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+            try{
+              await page.goto(url+(url.includes('?')?'&':'?')+'cb='+Date.now(),{waitUntil:'load',timeout:90000});
+              await page.waitForTimeout(9000);
+              const r = await page.evaluate(new Function('return (async()=>{'+
+                'const q=s=>document.querySelector(s);'+
+                'const out={};'+
+                'out.ready = '+ready+';'+
+                'out.abar = /diffuser is free/i.test((q("announcement-bar, [class*=announcement]")||{innerText:""}).innerText);'+
+                'out.header = !!q("store-header, header");'+
+                'out.drawerLoader = !!document.querySelector("script[src*=mc-drawer]");'+
+                'out.noOverflow = document.documentElement.scrollWidth<=document.documentElement.clientWidth+2;'+
+                'out.footer = !!document.querySelector("footer, [id*=footer]");'+
+                (extra||'')+
+                'return out;})()'));
+              r.jsErrors=errs.length;
+              results[label]=r;
+              console.log('=== '+label+' === '+JSON.stringify(r));
+              await page.screenshot({ path:'hs-'+label+'.png' });
+            }catch(e){ results[label]={crashed:String(e).slice(0,120)}; console.log('=== '+label+' === CRASH '+String(e).slice(0,120)); }
             await page.close();
-            return p;
           }
-          const live = await probe('https://maisoncroyez.com/?x=1','LIVE','chrome-live.png');
-          const prev = await probe('https://maisoncroyez.com/?x=2','LIVE2','chrome-preview.png');
-          const checks={
-            abarTextSame:live.abarText===prev.abarText,
-            abarBgSame:live.abarBg===prev.abarBg,
-            hdrBoth:live.hdrPresent&&prev.hdrPresent,
-            logoSame:live.logoSrc===prev.logoSrc,
-            logoSizeSame:Math.abs(live.logoW-prev.logoW)<=2,
-            bodyFontSame:live.bodyFont===prev.bodyFont,
-            bodyFontSizeSame:live.bodyFontSize===prev.bodyFontSize,
-            h1FontSame:live.h1Font===prev.h1Font,
-            navSame:JSON.stringify(live.navLinks)===JSON.stringify(prev.navLinks)
+          await render('https://maisoncroyez.com/','home','document.querySelectorAll("#root section").length===8',
+            'out.heroCta=/claim your free diffuser/i.test(q("#root").innerText);out.imgsBroken=[...document.querySelectorAll("#root img")].filter(i=>i.complete&&!i.naturalWidth).length;');
+          await render('https://maisoncroyez.com/pages/free-diffuser','lp','!!q("#root .pick")',
+            'out.price=/\\$39\\.95/.test(q("#root").innerText);');
+          await render('https://maisoncroyez.com/products/diffuser-scents','kits','!!q("#root")&&q("#root").getBoundingClientRect().height>1200','');
+          await render('https://maisoncroyez.com/pages/the-scent-story','story','!!q("#advroot")&&q("#advroot").getBoundingClientRect().height>800','');
+          // --- scents flow: real ATC -> drawer ---
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await page.goto('https://maisoncroyez.com/collections/power-fragrances?cb='+Date.now(),{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(10000);
+          const scentsReady=await page.evaluate(()=>!!document.querySelector('#mc-scents-root #sx-atc'));
+          let sc={};
+          if(scentsReady){
+            const priceOk=await page.evaluate(()=>document.querySelector('#sx-price').textContent==='$39.95');
+            await page.evaluate(()=>document.querySelector('#sx-atc').scrollIntoView({block:'center'}));
+            await page.waitForTimeout(500);
+            await page.click('#sx-atc');
+            let d=null;
+            for(let a=0;a<15;a++){ await sleep(2000); d=await page.evaluate(()=>{
+              const dd=document.getElementById('cart-drawer');
+              const h=dd?dd.querySelector('.cart-drawer__top p.h5'):null;
+              return {hasTop:!!(dd&&dd.querySelector('.cart-drawer__top')), title:h?h.textContent:'none',
+                testi:!!(dd&&dd.querySelector('.mc-testi')), trust:!!(dd&&dd.querySelector('.mc-trust')),
+                checkout:(()=>{const f=dd&&dd.querySelector('form.buy-buttons button, form.buy-buttons .btn');return f?/Secure Checkout/i.test(f.textContent):false;})()};
+            }); if(d.hasTop) break; }
+            const cart=await page.evaluate(async()=>{ try{const r=await fetch('/cart.js');const j=await r.json();return {n:j.items.length,total:j.total_price/100};}catch(e){return {n:-1};} });
+            sc={scentsReady, priceOk, drawer:d, cart};
+            await page.screenshot({ path:'hs-scents.png' });
+            await page.evaluate(async()=>{ try{await fetch('/cart/clear.js',{method:'POST'});}catch(e){} });
+          } else { sc={scentsReady:false}; }
+          sc.jsErrors=errs.length;
+          results.scents=sc;
+          console.log('=== scents === '+JSON.stringify(sc));
+          await page.close();
+          // --- kit flow: wizard -> checkout ---
+          await sleep(8000);
+          const kb = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const kerrs=[]; kb.on('pageerror',e=>kerrs.push(String(e).slice(0,120)));
+          await kb.goto('https://maisoncroyez.com/pages/build-your-kit?cb='+Date.now(),{waitUntil:'load',timeout:90000});
+          await kb.waitForTimeout(9000);
+          const kbReady=await kb.evaluate(()=>document.querySelectorAll('#root .plan').length===3 && typeof window.go==='function');
+          let kbRes={kbReady};
+          if(kbReady){
+            await kb.click('#root #s1 .btn'); await kb.waitForTimeout(600);
+            const adds=await kb.$$('#root .pick .add');
+            await adds[0].click(); await adds[1].click(); await adds[6].click();
+            await kb.waitForTimeout(500);
+            await kb.click('#sb-next'); await kb.waitForTimeout(800);
+            await kb.evaluate(()=>document.querySelector('#root #s3 .navrow .btn:not(.secondary)').scrollIntoView({block:'center'}));
+            await kb.waitForTimeout(400);
+            await kb.click('#root #s3 .navrow .btn:not(.secondary)');
+            await kb.waitForTimeout(10000);
+            kbRes.url=kb.url().slice(0,60);
+            kbRes.checkout=/checkout|\/cn\//.test(kb.url());
+            const cart=await kb.evaluate(async()=>{ try{const r=await fetch('https://maisoncroyez.com/cart.js');const j=await r.json();
+              return {total:j.total_price/100, plans:j.items.filter(i=>i.selling_plan_allocation).length, freeDiff:j.items.some(i=>!i.selling_plan_allocation&&i.quantity===3&&i.line_price===0)};}catch(e){return {total:-1};} });
+            kbRes.cart=cart;
+            await kb.screenshot({ path:'hs-kit.png' });
+            await kb.goto('https://maisoncroyez.com/cart');
+            await kb.evaluate(async()=>{ try{await fetch('/cart/clear.js',{method:'POST'});}catch(e){} });
+          }
+          kbRes.jsErrors=kerrs.length;
+          results.kit=kbRes;
+          console.log('=== kit === '+JSON.stringify(kbRes));
+          await kb.close();
+          const c={
+            homeOk:!!(results.home&&results.home.ready&&results.home.heroCta&&results.home.imgsBroken===0&&results.home.noOverflow),
+            homeChrome:!!(results.home&&results.home.abar&&results.home.header&&results.home.footer),
+            homeDrawerLoader:!!(results.home&&results.home.drawerLoader),
+            lpOk:!!(results.lp&&results.lp.ready&&results.lp.price&&results.lp.noOverflow),
+            lpDrawerLoader:!!(results.lp&&results.lp.drawerLoader),
+            kitsPageOk:!!(results.kits&&results.kits.ready),
+            storyOk:!!(results.story&&results.story.ready),
+            scentsPrice3995:!!(results.scents&&results.scents.priceOk),
+            scentsDrawerTitle:!!(results.scents&&results.scents.drawer&&results.scents.drawer.title===WANT),
+            scentsDrawerBits:!!(results.scents&&results.scents.drawer&&results.scents.drawer.testi&&results.scents.drawer.trust&&results.scents.drawer.checkout),
+            scentsCart3995:!!(results.scents&&results.scents.cart&&results.scents.cart.total===39.95),
+            kitWizard:!!(results.kit&&results.kit.kbReady),
+            kitCheckout:!!(results.kit&&results.kit.checkout),
+            kitCart:!!(results.kit&&results.kit.cart&&results.kit.cart.total===119.85&&results.kit.cart.plans===3&&results.kit.cart.freeDiff),
+            noJsErrorsAnywhere:Object.values(results).every(r=>!r.jsErrors)
           };
-          console.log('=== VERDICT ===');
-          Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
+          console.log('=== HEALTH VERDICT ===');
+          Object.entries(c).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
           await b.close();
           EOS
-          node cmp.mjs 2>&1 | tee chrome-cmp.txt
+          node sweep.mjs 2>&1 | tee health-sweep.txt
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/sitewide-drawer/verify
-          mv chrome-cmp.txt chrome-live.png chrome-preview.png lp-factory/sitewide-drawer/verify/ 2>/dev/null || true
+          mkdir -p lp-factory/site-health
+          mv health-sweep.txt hs-*.png lp-factory/site-health/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/sitewide-drawer
-          git commit -m "chrome parity r34 (bot)" || true
+          git add lp-factory/site-health
+          git commit -m "site health sweep r35 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

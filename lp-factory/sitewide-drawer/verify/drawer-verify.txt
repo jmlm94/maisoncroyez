@@ -1,38 +1,24 @@
-=== SETUP === {"loader":true,"drawer":true,"flag":true}
-  429 — backing off 25s (attempt 1)
-  429 — backing off 25s (attempt 2)
-  429 — backing off 25s (attempt 3)
-  429 — backing off 25s (attempt 4)
-  429 — backing off 25s (attempt 5)
-  429 — backing off 25s (attempt 6)
-  429 — backing off 25s (attempt 7)
-add status: 429
-cart: {"status":200,"n":0}
-=== ONE-TIME DRAWER === {"hasTop":false,"title":"none","shipbar":false,"testi":false,"trust":false,"rm":0,"checkout":false,"noUrg":true}
-  429 — backing off 25s (attempt 1)
-  429 — backing off 25s (attempt 2)
-  429 — backing off 25s (attempt 3)
-  429 — backing off 25s (attempt 4)
-  429 — backing off 25s (attempt 5)
-  429 — backing off 25s (attempt 6)
-  429 — backing off 25s (attempt 7)
-circle add status: 429
-=== LP CIRCLE DRAWER === {"hasTop":false,"title":"none","free":false,"flag":true} later: {"title":"none"}
+scents ready + loader: true
+=== SCENTS DRAWER === {"open":true,"hasTop":true,"title":"Congrats, your order is reserved! ✓","shipbar":true,"testi":true,"trust":true,"rm":1,"checkout":true,"noUrg":false,"free":false,"flag":true} cartN:1
+lp atc found: true
+=== LP DRAWER === {"open":true,"hasTop":true,"title":"Congrats, your order is reserved! ✓","shipbar":true,"testi":true,"trust":true,"rm":2,"checkout":true,"noUrg":false,"free":true,"flag":true}
+=== LP DRAWER LATER === title:Congrats, your order is reserved! ✓
 === VERDICT ===
-PASS loader
-PASS drawerEl
-FAIL cartAdded
-FAIL titleOneTime
-FAIL shipbar
-FAIL testi
-FAIL trust
-FAIL rmBtns
-FAIL checkoutBtn
-PASS noDiffuserUrgency
-FAIL lpTitleNew
+PASS scentsReadyAndLoader
+PASS cartAdded
+PASS drawerOpened
+PASS hasTop
+PASS titleNew
+PASS shipbar
+PASS testi
+PASS trust
+PASS rmBtns
+PASS checkoutBtn
+FAIL noDiffuserUrgency
+PASS flag
+PASS lpTitleNew
 PASS lpTitleStable
-FAIL lpFreeDiffuser
-PASS lpFlag
-FAIL noJsErrors
-home errs: 
-lp errs: Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON | Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+PASS lpFreeDiffuser
+PASS noJsErrors
+scents errs: 
+lp errs: 

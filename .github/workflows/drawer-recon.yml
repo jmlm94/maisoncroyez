@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 27 — LIVE homepage: theme published; verify compact hero fits above the fold
+# run 28 — LIVE homepage after cache rollover: compact hero above the fold
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -92,6 +92,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/home/verify
-          git commit -m "homepage live verify r27 (bot)" || true
+          git commit -m "homepage live verify r28 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

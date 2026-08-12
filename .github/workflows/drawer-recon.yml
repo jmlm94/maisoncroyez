@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 33 — live vs drawer-preview: abar/header/fonts parity after syncing Jose's theme edits
+# run 34 — plain LIVE after drawer-theme publish: chrome + drawer sanity
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -50,7 +50,7 @@ jobs:
             return p;
           }
           const live = await probe('https://maisoncroyez.com/?x=1','LIVE','chrome-live.png');
-          const prev = await probe('https://maisoncroyez.com/?preview_theme_id=149076607085','PREVIEW','chrome-preview.png');
+          const prev = await probe('https://maisoncroyez.com/?x=2','LIVE2','chrome-preview.png');
           const checks={
             abarTextSame:live.abarText===prev.abarText,
             abarBgSame:live.abarBg===prev.abarBg,
@@ -76,6 +76,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/sitewide-drawer
-          git commit -m "chrome parity r33 (bot)" || true
+          git commit -m "chrome parity r34 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

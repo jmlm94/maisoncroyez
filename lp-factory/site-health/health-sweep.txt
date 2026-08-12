@@ -1,0 +1,22 @@
+=== home === {"ready":true,"abar":true,"header":true,"drawerLoader":true,"noOverflow":true,"footer":true,"heroCta":true,"imgsBroken":0,"jsErrors":0}
+=== lp === {"ready":true,"abar":true,"header":true,"drawerLoader":true,"noOverflow":true,"footer":true,"price":true,"jsErrors":0}
+=== kits === {"ready":false,"abar":false,"header":true,"drawerLoader":true,"noOverflow":true,"footer":true,"jsErrors":0}
+=== story === {"ready":true,"abar":true,"header":true,"drawerLoader":true,"noOverflow":true,"footer":true,"jsErrors":0}
+=== scents === {"scentsReady":true,"priceOk":true,"drawer":{"hasTop":true,"title":"Congrats, your order is reserved! ✓","testi":true,"trust":true,"checkout":true},"cart":{"n":1,"total":39.95},"jsErrors":0}
+=== kit === {"kbReady":true,"url":"https://maisoncroyez.com/checkouts/cn/hWNFZLVMGEjfA738y9s3V2","checkout":true,"cart":{"total":119.85,"plans":3,"freeDiff":true},"jsErrors":0}
+=== HEALTH VERDICT ===
+PASS homeOk
+PASS homeChrome
+PASS homeDrawerLoader
+PASS lpOk
+PASS lpDrawerLoader
+FAIL kitsPageOk
+PASS storyOk
+PASS scentsPrice3995
+PASS scentsDrawerTitle
+PASS scentsDrawerBits
+PASS scentsCart3995
+PASS kitWizard
+PASS kitCheckout
+PASS kitCart
+PASS noJsErrorsAnywhere

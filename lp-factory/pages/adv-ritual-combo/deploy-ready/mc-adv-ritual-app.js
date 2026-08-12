@@ -1596,6 +1596,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 (function () {
   var drawer = document.getElementById("cart-drawer");
   if (!drawer) return;
+  if (window.__mcDrawer) return; window.__mcDrawer = 1;
 
   var css = "" +
     /* --- hide old-drawer clutter --- */
@@ -1638,11 +1639,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     document.head.appendChild(st);
   }
 
-  var isCircle = null;
+  var isCircle = null, itemCount = 0;
   function refreshCircle(cb) {
     fetch("/cart.js", { headers: { "Accept": "application/json" } })
       .then(function (r) { return r.json(); })
       .then(function (c) {
+        itemCount = (c.items || []).length;
         isCircle = (c.items || []).some(function (i) { return i.selling_plan_allocation; });
         if (cb) cb();
       })
@@ -1655,7 +1657,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
     if (!top) return;
 
     var h = top.querySelector("p.h5");
-    var want = isCircle ? "Congrats! Your free diffuser is reserved ✓" : "Your cart";
+    var want = itemCount > 0 ? "Congrats, your order is reserved! ✓" : "Your cart";
     if (h && h.textContent !== want) h.textContent = want;
 
     if (!drawer.querySelector(".mc-shipbar")) {

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 28 — LIVE homepage after cache rollover: compact hero above the fold
+# run 29 — sitewide drawer on preview theme 149076607085: title, injected elements, no script fights
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,85 +13,106 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify homepage preview
+      - name: Verify sitewide drawer
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           cat > verify.mjs <<'EOS'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
-          const URL='https://maisoncroyez.com/?x=1';
-          async function run(label,w,h,dsf){
-            const page = await b.newPage({ viewport:{width:w,height:h}, deviceScaleFactor:dsf });
-            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,200)));
-            await page.goto(URL+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
-            await page.waitForTimeout(9000);
-            await page.evaluate(async()=>{ window.scrollTo(0,document.body.scrollHeight); await new Promise(r=>setTimeout(r,2000)); window.scrollTo(0,0); await new Promise(r=>setTimeout(r,800)); });
-            await page.waitForTimeout(1500);
-            const p = await page.evaluate(()=>{
-              const t=(document.getElementById('root')||{innerText:''}).innerText;
-              const q=s=>document.querySelector(s);
-              const links=[...document.querySelectorAll('#root a.btn')].map(a=>a.getAttribute('href'));
-              return {
-                rootH: q('#root')?q('#root').getBoundingClientRect().height:0,
-                sections: document.querySelectorAll('#root section').length,
-                heroTitle: /Attract what you want/.test(t),
-                dollarHook: /\$1,000\/night hotel/.test(t) && /\$1\.33 a day/.test(t),
-                heroCta: /claim your free diffuser/i.test(t),
-                chips: document.querySelectorAll('#root .chip').length,
-                ftiles: document.querySelectorAll('#root .ftile').length,
-                trophy: /Golden Blossom Harmony 🏆/.test(t),
-                manifesting: /whatever you’re manifesting/.test(t),
-                statLine: /2,500\+ guests/i.test(t) && /what.s that smell/i.test(t),
-                mclose: /We bottle the rest/.test(t),
-                buyLogos: document.querySelectorAll('#root .blogo svg').length,
-                testiFeat: !!q('#root .tfeat'),
-                snaps: document.querySelectorAll('#root .snap').length,
-                linkKit: links.filter(x=>x&&x.includes('/pages/build-your-kit')).length,
-                linkFD: links.some(x=>x&&x.includes('/pages/free-diffuser')),
-                linkDiff: links.some(x=>x&&x.includes('/products/diffuser-scents')),
-                linkFrag: links.some(x=>x&&x.includes('/collections/power-fragrances')),
-                imgsBroken: [...document.querySelectorAll('#root img')].filter(i=>i.complete&&!i.naturalWidth).length,
-                noOverflow: document.documentElement.scrollWidth<=document.documentElement.clientWidth+2,
-                heroBottom: (()=>{const h=q('#root .hero');return h?Math.round(h.getBoundingClientRect().bottom):-1;})(),
-                vh: innerHeight,
-                noOwnHeader: !q('#root .hin') && !q('#root .abar'),
-                abarOnce: (document.body.innerText.match(/about to smell incredible/gi)||[]).length===1,
-                themeHeaderVisible: (()=>{const r=q('#root');if(!r)return false;const top=r.getBoundingClientRect().top+scrollY;return top>60;})(),
-                themeFooter: !!document.querySelector('footer, [id*="footer"]')
-              };
-            });
-            console.log('=== '+label+' === '+JSON.stringify(p));
-            console.log('errors('+errs.length+'): '+errs.slice(0,3).join(' | '));
-            await page.screenshot({ path:'preview-'+label+'.png', fullPage:true });
-            const checks={
-              rendered:p.rootH>3000, sections8:p.sections===8, heroTitle:p.heroTitle, dollarHook:p.dollarHook,
-              heroCta:p.heroCta, chips3:p.chips===3, ftiles7:p.ftiles===7, trophy:p.trophy,
-              manifesting:p.manifesting, statLine:p.statLine, mclose:p.mclose, buyLogos2:p.buyLogos===2,
-              testiFeat:p.testiFeat, snaps3:p.snaps===3, linkKit3:p.linkKit>=3, linkFD:p.linkFD,
-              linkDiff:p.linkDiff, linkFrag:p.linkFrag, imgsOk:p.imgsBroken===0, noOverflow:p.noOverflow,
-              heroAboveFold:p.heroBottom>0 && p.heroBottom<=p.vh+4,
-              noOwnHeader:p.noOwnHeader, abarOnce:p.abarOnce, themeHeaderVisible:p.themeHeaderVisible,
-              themeFooter:p.themeFooter, noJsErrors:errs.length===0
+          const PV='preview_theme_id=149076607085';
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,200)));
+          // --- 1) homepage, empty cart ---
+          await page.goto('https://maisoncroyez.com/?'+PV+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(7000);
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          const s0=await page.evaluate(()=>({
+            loaderInstalled: !!document.querySelector('script[src*="mc-drawer.js"]'),
+            drawerEl: !!document.getElementById('cart-drawer')
+          }));
+          console.log('=== SETUP === '+JSON.stringify(s0));
+          // --- 2) add a one-time scent (no plan, no diffuser) and open drawer ---
+          await page.evaluate(async()=>{
+            await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({items:[{id:45511812284525,quantity:1}]})});
+            document.dispatchEvent(new CustomEvent('cart:refresh'));
+            const d=document.getElementById('cart-drawer'); if(d&&d.show) d.show();
+          });
+          await page.waitForTimeout(4000);
+          const s1=await page.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            const h=d?d.querySelector('.cart-drawer__top p.h5'):null;
+            return {
+              title: h?h.textContent:'NO HEADER',
+              shipbar: !!d.querySelector('.mc-shipbar'),
+              testi: !!d.querySelector('.mc-testi') && /Diane R\./.test(d.querySelector('.mc-testi').textContent),
+              trust: !!d.querySelector('.mc-trust'),
+              rmBtns: d.querySelectorAll('.mc-rm').length,
+              checkoutBtn: (()=>{const f=d.querySelector('form.buy-buttons button, form.buy-buttons .btn');return f?/Secure Checkout/i.test(f.textContent):false;})(),
+              noDiffuserUrgency: !/Only\s*19\s*free diffusers/i.test(d.textContent),
+              flag: window.__mcDrawer===1
             };
-            console.log('=== VERDICT '+label+' ===');
-            Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
-            await page.close();
-          }
-          await run('desktop',1440,900,1);
-          await run('mobile',390,844,2);
+          });
+          console.log('=== ONETIME CART DRAWER === '+JSON.stringify(s1));
+          await page.screenshot({ path:'drawer-home.png' });
+          await page.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          // --- 3) free-diffuser LP on preview theme: both scripts present, no fight ---
+          const lp = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          const lperrs=[]; lp.on('pageerror',e=>lperrs.push(String(e).slice(0,200)));
+          await lp.goto('https://maisoncroyez.com/pages/free-diffuser?'+PV+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
+          await lp.waitForTimeout(10000);
+          // add via the LP's own ATC path: use cart/add with plan (simulating circle cart)
+          await lp.evaluate(async()=>{
+            await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({items:[{id:41212019933293,quantity:1,selling_plan:2627895405},{id:45450822778989,quantity:1}]})});
+            document.dispatchEvent(new CustomEvent('cart:refresh'));
+            const d=document.getElementById('cart-drawer'); if(d&&d.show) d.show();
+          });
+          await lp.waitForTimeout(5000);
+          const t1=await lp.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            const h=d?d.querySelector('.cart-drawer__top p.h5'):null;
+            return {title:h?h.textContent:'NO HEADER'};
+          });
+          await lp.waitForTimeout(4000);
+          const t2=await lp.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            const h=d?d.querySelector('.cart-drawer__top p.h5'):null;
+            const free=[...d.querySelectorAll('sale-price')].some(sp=>/FREE/.test(sp.textContent));
+            return {title:h?h.textContent:'NO HEADER', freeLabel:free, flag:window.__mcDrawer===1};
+          });
+          console.log('=== LP CIRCLE DRAWER t1 === '+JSON.stringify(t1));
+          console.log('=== LP CIRCLE DRAWER t2 === '+JSON.stringify(t2));
+          await lp.screenshot({ path:'drawer-lp.png' });
+          await lp.evaluate(async()=>{ await fetch('/cart/clear.js',{method:'POST'}); });
+          const WANT='Congrats, your order is reserved! ✓';
+          const checks={
+            loaderInstalled:s0.loaderInstalled, drawerEl:s0.drawerEl,
+            titleOneTime:s1.title===WANT,
+            shipbar:s1.shipbar, testi:s1.testi, trust:s1.trust, rmBtns:s1.rmBtns>0,
+            checkoutBtn:s1.checkoutBtn, noDiffuserUrgency:s1.noDiffuserUrgency, flagSet:s1.flag,
+            lpTitleNew:t2.title===WANT,
+            lpTitleStable:t1.title===t2.title,
+            lpFreeDiffuser:t2.freeLabel,
+            noJsErrors:errs.length===0 && lperrs.length===0
+          };
+          console.log('=== VERDICT ===');
+          Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
+          console.log('home errs: '+errs.join(' | '));
+          console.log('lp errs: '+lperrs.join(' | '));
           await b.close();
           EOS
-          node verify.mjs 2>&1 | tee preview-verify.txt
+          node verify.mjs 2>&1 | tee drawer-verify.txt
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/pages/home/verify
-          mv preview-verify.txt preview-desktop.png preview-mobile.png lp-factory/pages/home/verify/ 2>/dev/null || true
+          mkdir -p lp-factory/sitewide-drawer/verify
+          mv drawer-verify.txt drawer-home.png drawer-lp.png lp-factory/sitewide-drawer/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/home/verify
-          git commit -m "homepage live verify r28 (bot)" || true
+          git add lp-factory/sitewide-drawer
+          git commit -m "sitewide drawer verify r29 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

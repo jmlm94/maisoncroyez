@@ -1,21 +1,32 @@
-=== SETUP === {"loaderInstalled":true,"drawerEl":true}
-=== ONETIME CART DRAWER === {"title":"NO HEADER","shipbar":false,"testi":false,"trust":false,"rmBtns":0,"checkoutBtn":false,"noDiffuserUrgency":true,"flag":true}
-=== LP CIRCLE DRAWER t1 === {"title":"NO HEADER"}
-=== LP CIRCLE DRAWER t2 === {"title":"NO HEADER","freeLabel":false,"flag":true}
-=== VERDICT ===
-PASS loaderInstalled
-PASS drawerEl
-FAIL titleOneTime
-FAIL shipbar
-FAIL testi
-FAIL trust
-FAIL rmBtns
-FAIL checkoutBtn
-PASS noDiffuserUrgency
-PASS flagSet
-FAIL lpTitleNew
-PASS lpTitleStable
-FAIL lpFreeDiffuser
-FAIL noJsErrors
-home errs: TypeError: Cannot read properties of null (reading 'children')
-lp errs: Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON | Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON | TypeError: Cannot read properties of null (reading 'children')
+CONSOLE: Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.co
+CONSOLE: Failed to load resource: the server responded with a status of 403 ()
+CONSOLE: Failed to load resource: the server responded with a status of 429 ()
+CONSOLE: Failed to load resource: the server responded with a status of 429 ()
+=== CART API UNDER PREVIEW === {
+ "cookies": [],
+ "clearStatus": 200,
+ "clearCT": "text/javascript; charset=utf-8",
+ "addStatus": 429,
+ "addCT": "text/html; charset=UTF-8",
+ "addBody": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-wid",
+ "cartCT": "text/html; charset=UTF-8",
+ "cartBody": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    ",
+ "itemCount": "PARSE FAIL"
+}
+CONSOLE: Failed to load resource: the server responded with a status of 429 ()
+CONSOLE: Failed to load resource: the server responded with a status of 429 ()
+=== DRAWER DOM === {
+ "open": true,
+ "htmlLen": 1303,
+ "hasTop": false,
+ "topHtml": "",
+ "firstKids": [
+  "BUTTON.",
+  "DIV.empty-state align-self-center"
+ ]
+}
+cart btn click failed: TimeoutError: page.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for loc
+=== AFTER HEADER CLICK === {"open":true,"hasTop":false,"title":"none"}
+CONSOLE: Failed to load resource: the server responded with a status of 429 ()

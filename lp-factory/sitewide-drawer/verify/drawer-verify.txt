@@ -1,0 +1,21 @@
+=== SETUP === {"loaderInstalled":true,"drawerEl":true}
+=== ONETIME CART DRAWER === {"title":"NO HEADER","shipbar":false,"testi":false,"trust":false,"rmBtns":0,"checkoutBtn":false,"noDiffuserUrgency":true,"flag":true}
+=== LP CIRCLE DRAWER t1 === {"title":"NO HEADER"}
+=== LP CIRCLE DRAWER t2 === {"title":"NO HEADER","freeLabel":false,"flag":true}
+=== VERDICT ===
+PASS loaderInstalled
+PASS drawerEl
+FAIL titleOneTime
+FAIL shipbar
+FAIL testi
+FAIL trust
+FAIL rmBtns
+FAIL checkoutBtn
+PASS noDiffuserUrgency
+PASS flagSet
+FAIL lpTitleNew
+PASS lpTitleStable
+FAIL lpFreeDiffuser
+FAIL noJsErrors
+home errs: TypeError: Cannot read properties of null (reading 'children')
+lp errs: Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON | Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON | TypeError: Cannot read properties of null (reading 'children')

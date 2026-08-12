@@ -1,0 +1,247 @@
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing this theme as much as we did for
+  developing it. We have put a lot of work to make this theme as developer friendly as possible by offering you
+  hooks to integrate into critical parts of the theme. You will find the complete technical documentation (including
+  all events, dependencies...) in the "documentation.txt" file, located in the Assets folder.
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<!doctype html>
+
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% render 'direction' %}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="{{ settings.header_background }}">
+<script>
+  const handleInstantCartEvents = () => {
+    const cartDrawer = document.querySelector("#cart-drawer");
+    if (!cartDrawer) return;
+    document.dispatchEvent(new CustomEvent("cart:refresh"));
+    cartDrawer.show();
+  };
+
+  ["instant:add-to-cart", "instant:open-cart"].forEach((eventName) => {
+    document.addEventListener(eventName, handleInstantCartEvents);
+  });
+</script>
+    
+    <title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 96 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180 }}">
+    {%- endif -%}
+
+    {%- comment -%}Few prefetch to increase performance on commonly used third-parties{%- endcomment -%}
+    <link rel="preconnect" href="https://cdn.shopify.com">
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link rel="dns-prefetch" href="https://productreviews.shopifycdn.com">
+
+    {%- unless settings.heading_font.system? -%}
+      <link rel="preload" href="{{ settings.heading_font | font_url }}" as="font" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- unless settings.text_font.system? -%}
+      <link rel="preload" href="{{ settings.text_font | font_url }}" as="font" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- render 'social-meta-tags' -%}
+    {%- render 'microdata-schema' -%}
+    {%- render 'css-variables' -%}
+    {%- render 'js-variables' -%}
+
+    <script type="module" src="{{ 'vendor.min.js' | asset_url }}"></script>
+    <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
+    <script type="module" src="{{ 'sections.js' | asset_url }}"></script>
+
+    {{ content_for_header }}
+
+    {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
+  </head>
+
+  <body class="{% if settings.show_page_transition %}page-transition{% endif %} {% if settings.zoom_image_on_hover %}zoom-image--enabled{% endif %}">
+    {%- render 'shadow-dom-templates' -%}
+
+    <a href="#main" class="skip-to-content sr-only">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+    {%- if request.page_type != 'password' -%}
+      {%- sections 'header-group' -%}
+      {%- sections 'overlay-group' -%}
+
+      {%- if settings.cart_type == 'popover' -%}
+        <cart-notification-drawer open-from="bottom" class="quick-buy-drawer drawer"></cart-notification-drawer>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if request.page_type == 'customers/account' or request.page_type == 'customers/order' or request.page_type == 'customers/addresses' -%}
+      {%- section 'account-banner' -%}
+    {%- endif -%}
+
+    <main role="main" id="main" class="anchor">
+      {{ content_for_layout }}
+
+      {%- comment -%}
+      IMPLEMENTATION NOTE: due to the very complex logic of margin/padding collapsing in Impact, the footer group is
+      added into the main element to ensure that dynamic sections added into the footer group are properly laid out.
+      {%- endcomment -%}
+      {%- if request.page_type != 'password' -%}
+        {%- sections 'footer-group' -%}
+      {%- endif -%}
+    </main>
+
+
+
+    <script>
+(function () {
+  // Evita instalar el interceptor más de una vez si el script se carga 2 veces.
+  if (window.__bundleCascadeInstalled) return;
+  window.__bundleCascadeInstalled = true;
+
+  const originalFetch = window.fetch;
+
+  /* ─── Helpers ──────────────────────────────────────────────── */
+
+  // Detecta si la request es una mutación del carrito (change/update).
+  function isCartMutationUrl(url) {
+    return typeof url === 'string' && /\/cart\/(change|update)(\.js)?(\?|$)/.test(url);
+  }
+
+  // Extrae los identificadores (line key o variant id) que se están
+  // poniendo en cantidad 0 en esta request, sin importar si viene como
+  // query string (?id=...&quantity=0) o como JSON body ({id, quantity})
+  // o como batch update ({updates: {key: 0, ...}}).
+  function getRemovalTargets(url, options) {
+    const targets = [];
+
+    try {
+      const parsed = new URL(url, window.location.origin);
+      if (parsed.pathname.indexOf('/cart/change') !== -1 &&
+          parsed.searchParams.get('quantity') === '0' &&
+          parsed.searchParams.has('id')) {
+        targets.push(parsed.searchParams.get('id'));
+      }
+    } catch (e) { /* url no parseable como URL absoluta/relativa, ignorar */ }
+
+    if (options && typeof options.body === 'string') {
+      try {
+        const body = JSON.parse(options.body);
+        if (body.quantity === 0 && body.id) {
+          targets.push(String(body.id));
+        }
+        if (body.updates && typeof body.updates === 'object') {
+          Object.entries(body.updates).forEach(([key, qty]) => {
+            if (qty === 0) targets.push(key);
+          });
+        }
+      } catch (e) { /* body no era JSON, ignorar */ }
+    }
+
+    return targets;
+  }
+
+  // Lee el carrito actual y devuelve el _bundle_id de cada target que
+  // sea efectivamente un producto padre de bundle (tiene _bundle_id
+  // pero NO _bundle_component).
+  async function findParentBundleIds(targetKeys) {
+    const bundleIds = [];
+    try {
+      const res = await originalFetch('/cart.js', { credentials: 'include' });
+      const cart = await res.json();
+
+      cart.items.forEach(item => {
+        const key = item.key;
+        const variantIdStr = String(item.variant_id || item.id);
+        const matches = targetKeys.includes(key) || targetKeys.includes(variantIdStr);
+        if (!matches) return;
+
+        const props = item.properties || {};
+        const isParent = props._bundle_id && !props._bundle_component;
+        if (isParent) bundleIds.push(props._bundle_id);
+      });
+    } catch (err) {
+      console.error('[Bundle cascade] No se pudo leer /cart.js:', err);
+    }
+    return bundleIds;
+  }
+
+  // Elimina del carrito todas las fragancias hijas asociadas a los
+  // bundleIds dados.
+  async function cascadeRemoveChildren(bundleIds) {
+    if (!bundleIds.length) return;
+
+    try {
+      const res = await originalFetch('/cart.js', { credentials: 'include' });
+      const cart = await res.json();
+
+      const updates = {};
+      cart.items.forEach(item => {
+        const props = item.properties || {};
+        if (props._bundle_component && bundleIds.includes(props._bundle_id)) {
+          updates[item.key] = 0;
+        }
+      });
+
+      if (Object.keys(updates).length === 0) return;
+
+      await originalFetch('/cart/update.js', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+      });
+
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+    } catch (err) {
+      console.error('[Bundle cascade] Error eliminando fragancias asociadas:', err);
+    }
+  }
+
+  /* ─── Interceptor de fetch ─────────────────────────────────── */
+  window.fetch = async function (...args) {
+    const [url, options] = args;
+
+    let parentBundleIds = [];
+
+    // Si la request va a poner en 0 algún line item, revisamos ANTES
+    // de que se ejecute si ese item es un bundle padre (una vez que
+    // se elimine, ya no podremos leer sus properties del carrito).
+    if (isCartMutationUrl(url)) {
+      const targets = getRemovalTargets(url, options);
+      if (targets.length) {
+        parentBundleIds = await findParentBundleIds(targets);
+      }
+    }
+
+    const response = await originalFetch.apply(this, args);
+
+    // Si efectivamente se removió un bundle padre y la request fue
+    // exitosa, eliminamos en cascada sus fragancias asociadas.
+    if (parentBundleIds.length && response.ok) {
+      await cascadeRemoveChildren(parentBundleIds);
+    }
+
+    return response;
+  };
+})();
+</script>
+
+    <script>
+(function(){var v='dr1-'+new Date().toISOString().slice(0,13).replace(/[^0-9]/g,'');
+var s=document.createElement('script');s.defer=true;
+s.src='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v='+v;
+document.body.appendChild(s);})();
+</script>
+
+  </body>
+
+
+  
+</html>

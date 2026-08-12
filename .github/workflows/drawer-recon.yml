@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 32 — sitewide drawer via REAL UI clicks under preview (scents ATC + LP ATC)
+# run 33 — live vs drawer-preview: abar/header/fonts parity after syncing Jose's theme edits
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,94 +13,69 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify sitewide drawer
+      - name: Compare chrome
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          cat > verify.mjs <<'EOS'
+          cat > cmp.mjs <<'EOS'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
-          const PV='preview_theme_id=149076607085';
-          const WANT='Congrats, your order is reserved! ✓';
-          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-          function drawerProbe(){
-            const d=document.getElementById('cart-drawer');
-            if(!d) return {none:true};
-            const h=d.querySelector('.cart-drawer__top p.h5');
-            return { open:d.hasAttribute('open'), hasTop:!!d.querySelector('.cart-drawer__top'),
-              title:h?h.textContent:'none',
-              shipbar:!!d.querySelector('.mc-shipbar'),
-              testi:!!d.querySelector('.mc-testi')&&/Diane R\./.test((d.querySelector('.mc-testi')||{}).textContent||''),
-              trust:!!d.querySelector('.mc-trust'),
-              rm:d.querySelectorAll('.mc-rm').length,
-              checkout:(()=>{const f=d.querySelector('form.buy-buttons button, form.buy-buttons .btn');return f?/Secure Checkout/i.test(f.textContent):false;})(),
-              noUrg:!/Only\s*19\s*free diffusers/i.test(d.textContent),
-              free:[...d.querySelectorAll('sale-price')].some(sp=>/FREE/.test(sp.textContent)),
-              flag:window.__mcDrawer===1 };
+          async function probe(url,label,shot){
+            const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+            await page.goto(url+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
+            await page.waitForTimeout(8000);
+            const p = await page.evaluate(()=>{
+              const q=s=>document.querySelector(s);
+              const abar=q('announcement-bar, .announcement-bar, [class*="announcement"]');
+              const hdr=q('store-header, header, .header');
+              const logo=hdr?hdr.querySelector('img'):null;
+              const cs=abar?getComputedStyle(abar):null;
+              const body=getComputedStyle(document.body);
+              const h1=q('#root h1');
+              return {
+                abarText:abar?(abar.innerText||'').replace(/\s+/g,' ').trim().slice(0,80):'NONE',
+                abarBg:cs?(cs.backgroundImage!=='none'?cs.backgroundImage.slice(0,90):cs.backgroundColor):'NONE',
+                hdrPresent:!!hdr,
+                logoSrc:logo?(logo.currentSrc||logo.src).split('/').pop().split('?')[0]:'NONE',
+                logoW:logo?Math.round(logo.getBoundingClientRect().width):0,
+                bodyFont:body.fontFamily.slice(0,60),
+                bodyFontSize:body.fontSize,
+                h1Font:h1?getComputedStyle(h1).fontFamily.slice(0,60):'n/a',
+                navLinks:[...document.querySelectorAll('header a, store-header a')].map(a=>a.textContent.trim()).filter(Boolean).slice(0,8)
+              };
+            });
+            console.log('=== '+label+' === '+JSON.stringify(p,null,1));
+            await page.screenshot({ path:shot });
+            await page.close();
+            return p;
           }
-          // --- 1) scents page: REAL ATC click -> standard-flow drawer with sitewide takeover ---
-          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-          const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,150)));
-          await page.goto('https://maisoncroyez.com/collections/power-fragrances?'+PV+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(10000);
-          const ready=await page.evaluate(()=>!!document.querySelector('#mc-scents-root #sx-atc') && !!document.querySelector('script[src*="mc-drawer.js"]'));
-          console.log('scents ready + loader: '+ready);
-          await page.evaluate(()=>document.querySelector('#sx-atc').scrollIntoView({block:'center'}));
-          await page.waitForTimeout(600);
-          await page.click('#sx-atc');
-          let s1=null;
-          for(let a=0;a<20;a++){ await sleep(2000); s1=await page.evaluate(drawerProbe); if(s1.hasTop) break; }
-          const cartN=await page.evaluate(async()=>{ try{const r=await fetch('/cart.js');const j=await r.json();return j.items.length;}catch(e){return -1;} });
-          console.log('=== SCENTS DRAWER === '+JSON.stringify(s1)+' cartN:'+cartN);
-          await page.screenshot({ path:'drawer-home.png' });
-          // --- 2) LP: REAL ATC (its own flow) — page-local + sitewide coexistence ---
-          const lp = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-          const lperrs=[]; lp.on('pageerror',e=>lperrs.push(String(e).slice(0,150)));
-          await lp.goto('https://maisoncroyez.com/pages/free-diffuser?'+PV+'&cb='+Date.now(),{waitUntil:'load',timeout:90000});
-          await lp.waitForTimeout(12000);
-          const lpBtn=await lp.evaluate(()=>{
-            const b1=[...document.querySelectorAll('#root button')].find(x=>/CLAIM MY FREE DIFFUSER/i.test(x.textContent));
-            if(b1){ b1.scrollIntoView({block:'center'}); return true; } return false;
-          });
-          console.log('lp atc found: '+lpBtn);
-          await lp.waitForTimeout(800);
-          if(lpBtn) await lp.evaluate(()=>{ [...document.querySelectorAll('#root button')].find(x=>/CLAIM MY FREE DIFFUSER/i.test(x.textContent)).click(); });
-          let t1=null;
-          for(let a=0;a<20;a++){ await sleep(2000); t1=await lp.evaluate(drawerProbe); if(t1.hasTop) break; }
-          await sleep(6000);
-          const t2=await lp.evaluate(drawerProbe);
-          console.log('=== LP DRAWER === '+JSON.stringify(t1));
-          console.log('=== LP DRAWER LATER === title:'+t2.title);
-          await lp.screenshot({ path:'drawer-lp.png' });
-          await lp.evaluate(async()=>{ try{ await fetch('/cart/clear.js',{method:'POST'}); }catch(e){} });
+          const live = await probe('https://maisoncroyez.com/?x=1','LIVE','chrome-live.png');
+          const prev = await probe('https://maisoncroyez.com/?preview_theme_id=149076607085','PREVIEW','chrome-preview.png');
           const checks={
-            scentsReadyAndLoader:ready,
-            cartAdded:cartN>=1,
-            drawerOpened:!!(s1&&s1.open), hasTop:!!(s1&&s1.hasTop),
-            titleNew:!!(s1&&s1.title===WANT),
-            shipbar:!!(s1&&s1.shipbar), testi:!!(s1&&s1.testi), trust:!!(s1&&s1.trust),
-            rmBtns:!!(s1&&s1.rm>0), checkoutBtn:!!(s1&&s1.checkout),
-            noDiffuserUrgency:!!(s1&&s1.noUrg), flag:!!(s1&&s1.flag),
-            lpTitleNew:!!(t1&&t1.title===WANT), lpTitleStable:!!(t1&&t2&&t1.title===t2.title),
-            lpFreeDiffuser:!!(t1&&t1.free),
-            noJsErrors:errs.length===0 && lperrs.length===0
+            abarTextSame:live.abarText===prev.abarText,
+            abarBgSame:live.abarBg===prev.abarBg,
+            hdrBoth:live.hdrPresent&&prev.hdrPresent,
+            logoSame:live.logoSrc===prev.logoSrc,
+            logoSizeSame:Math.abs(live.logoW-prev.logoW)<=2,
+            bodyFontSame:live.bodyFont===prev.bodyFont,
+            bodyFontSizeSame:live.bodyFontSize===prev.bodyFontSize,
+            h1FontSame:live.h1Font===prev.h1Font,
+            navSame:JSON.stringify(live.navLinks)===JSON.stringify(prev.navLinks)
           };
           console.log('=== VERDICT ===');
           Object.entries(checks).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
-          console.log('scents errs: '+errs.join(' | '));
-          console.log('lp errs: '+lperrs.join(' | '));
           await b.close();
           EOS
-          node verify.mjs 2>&1 | tee drawer-verify.txt
+          node cmp.mjs 2>&1 | tee chrome-cmp.txt
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/sitewide-drawer/verify
-          mv drawer-verify.txt drawer-home.png drawer-lp.png lp-factory/sitewide-drawer/verify/ 2>/dev/null || true
+          mv chrome-cmp.txt chrome-live.png chrome-preview.png lp-factory/sitewide-drawer/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/sitewide-drawer
-          git commit -m "sitewide drawer verify r32 (bot)" || true
+          git commit -m "chrome parity r33 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

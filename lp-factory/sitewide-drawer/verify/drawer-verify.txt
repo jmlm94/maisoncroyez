@@ -1,32 +1,38 @@
-CONSOLE: Refused to frame 'https://shop.app/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.co
-CONSOLE: Failed to load resource: the server responded with a status of 403 ()
-CONSOLE: Failed to load resource: the server responded with a status of 429 ()
-CONSOLE: Failed to load resource: the server responded with a status of 429 ()
-=== CART API UNDER PREVIEW === {
- "cookies": [],
- "clearStatus": 200,
- "clearCT": "text/javascript; charset=utf-8",
- "addStatus": 429,
- "addCT": "text/html; charset=UTF-8",
- "addBody": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-wid",
- "cartCT": "text/html; charset=UTF-8",
- "cartBody": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    ",
- "itemCount": "PARSE FAIL"
-}
-CONSOLE: Failed to load resource: the server responded with a status of 429 ()
-CONSOLE: Failed to load resource: the server responded with a status of 429 ()
-=== DRAWER DOM === {
- "open": true,
- "htmlLen": 1303,
- "hasTop": false,
- "topHtml": "",
- "firstKids": [
-  "BUTTON.",
-  "DIV.empty-state align-self-center"
- ]
-}
-cart btn click failed: TimeoutError: page.click: Timeout 3000ms exceeded.
-Call log:
-  - waiting for loc
-=== AFTER HEADER CLICK === {"open":true,"hasTop":false,"title":"none"}
-CONSOLE: Failed to load resource: the server responded with a status of 429 ()
+=== SETUP === {"loader":true,"drawer":true,"flag":true}
+  429 — backing off 25s (attempt 1)
+  429 — backing off 25s (attempt 2)
+  429 — backing off 25s (attempt 3)
+  429 — backing off 25s (attempt 4)
+  429 — backing off 25s (attempt 5)
+  429 — backing off 25s (attempt 6)
+  429 — backing off 25s (attempt 7)
+add status: 429
+cart: {"status":200,"n":0}
+=== ONE-TIME DRAWER === {"hasTop":false,"title":"none","shipbar":false,"testi":false,"trust":false,"rm":0,"checkout":false,"noUrg":true}
+  429 — backing off 25s (attempt 1)
+  429 — backing off 25s (attempt 2)
+  429 — backing off 25s (attempt 3)
+  429 — backing off 25s (attempt 4)
+  429 — backing off 25s (attempt 5)
+  429 — backing off 25s (attempt 6)
+  429 — backing off 25s (attempt 7)
+circle add status: 429
+=== LP CIRCLE DRAWER === {"hasTop":false,"title":"none","free":false,"flag":true} later: {"title":"none"}
+=== VERDICT ===
+PASS loader
+PASS drawerEl
+FAIL cartAdded
+FAIL titleOneTime
+FAIL shipbar
+FAIL testi
+FAIL trust
+FAIL rmBtns
+FAIL checkoutBtn
+PASS noDiffuserUrgency
+FAIL lpTitleNew
+PASS lpTitleStable
+FAIL lpFreeDiffuser
+PASS lpFlag
+FAIL noJsErrors
+home errs: 
+lp errs: Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON | Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON

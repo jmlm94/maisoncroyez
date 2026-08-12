@@ -1,0 +1,41 @@
+=== LIVE === {
+ "abarText": "NONE",
+ "abarBg": "NONE",
+ "hdrPresent": false,
+ "logoSrc": "NONE",
+ "logoW": 0,
+ "bodyFont": "Merriweather, serif",
+ "bodyFontSize": "14px",
+ "h1Font": "Unna, serif",
+ "navLinks": []
+}
+=== PREVIEW === {
+ "abarText": "The diffuser is free. Just pick the monthly scent.",
+ "abarBg": "rgba(0, 0, 0, 0)",
+ "hdrPresent": true,
+ "logoSrc": "mc-kb-logo.png",
+ "logoW": 80,
+ "bodyFont": "\"Nunito Sans\", sans-serif",
+ "bodyFontSize": "15px",
+ "h1Font": "Unna, serif",
+ "navLinks": [
+  "Open search",
+  "Build your Kit ➔",
+  "Get a Free Diffuser ➔",
+  "Diffusers ➔",
+  "Scents ➔",
+  "About us ➔",
+  "Your Subscription ➔",
+  "Maison Croyez"
+ ]
+}
+=== VERDICT ===
+FAIL abarTextSame
+FAIL abarBgSame
+FAIL hdrBoth
+FAIL logoSame
+FAIL logoSizeSame
+FAIL bodyFontSame
+FAIL bodyFontSizeSame
+PASS h1FontSame
+FAIL navSame

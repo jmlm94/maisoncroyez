@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 40c — fd47 probe + Lighthouse median-of-3. Gate fix: CDN keys cache on the v param only, so origin checks must use ?v=<random>; ?origincheck=... was normalized to the stale base object
+# run 41 — fd48: loader yields one painted frame before app scripts (static hero wins LCP attribution deterministically); probe + Lighthouse median-of-3
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -32,13 +32,13 @@ jobs:
           # 2) wait for the page to flip to fd47, then verify canonical hourly URLs
           OK=0
           for i in $(seq 1 20); do
-            V="fd47-$(date -u +%Y%m%d%H)"
-            if curl -fsSL "$URL&flip=$i" | grep -q "fd47-" \
+            V="fd48-$(date -u +%Y%m%d%H)"
+            if curl -fsSL "$URL&flip=$i" | grep -q "fd48-" \
                && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "mc-prehero" \
                && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto"; then OK=1; echo "fd47 live, canonical URLs fresh (attempt $i)"; break; fi
             echo "page not on fd47 yet / edge stale (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: fd47 not live within 20 min"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: fd48 not live within 20 min"; exit 1; }
           node - <<'EOS' > cls-probe.txt
           (async()=>{
           const { chromium } = require('playwright');
@@ -84,10 +84,10 @@ jobs:
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
           console.log(out);
-          fs.writeFileSync('lh-summary-r40.txt',out);
+          fs.writeFileSync('lh-summary-r41.txt',out);
           // keep the run whose score == median score for detail archaeology
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r40.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lh-r41.json',JSON.stringify(keep.r));
           const a=keep.r.audits;
           const lcpEl=a['largest-contentful-paint-element'];
           try{console.log('median-run LCP el: '+lcpEl.details.items[0].items[0].node.snippet.slice(0,160));
@@ -100,10 +100,10 @@ jobs:
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
-          cp lh-r40.json lh-summary-r40.txt cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true
+          cp lh-r41.json lh-summary-r41.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true; cp cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/cls-probe-r41.txt 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP perf r40 fd47 (bot)" || true
+          git commit -m "LP perf r41 fd48 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

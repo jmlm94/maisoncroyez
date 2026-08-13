@@ -902,8 +902,17 @@ function App() {
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,
     faq: () => html`<${Faq} key="faq"/>`,
   };
+  /* chunked render: first 3 sections paint in the initial commit; the rest
+     (all below the fold) mount on idle so the main thread stays free */
+  const [chunk, setChunk] = useState(3);
+  useEffect(() => {
+    if (chunk >= CONFIG.sectionOrder.length) return;
+    const rest = () => setChunk(CONFIG.sectionOrder.length);
+    if ("requestIdleCallback" in window) requestIdleCallback(rest, { timeout: 1500 });
+    else setTimeout(rest, 200);
+  }, [chunk]);
   return html`
-    ${CONFIG.sectionOrder.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
+    ${CONFIG.sectionOrder.slice(0, chunk).map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     <${StickyBar}/>`;
 }
 

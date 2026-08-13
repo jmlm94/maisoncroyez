@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 41 — fd48: loader yields one painted frame before app scripts (static hero wins LCP attribution deterministically); probe + Lighthouse median-of-3
+# run 42 — fd49: static hero strictly larger (412/424) so its LCP entry outranks React's; LCP-entry-instrumented probe + Lighthouse median-of-3
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -32,37 +32,36 @@ jobs:
           # 2) wait for the page to flip to fd47, then verify canonical hourly URLs
           OK=0
           for i in $(seq 1 20); do
-            V="fd48-$(date -u +%Y%m%d%H)"
-            if curl -fsSL "$URL&flip=$i" | grep -q "fd48-" \
+            V="fd49-$(date -u +%Y%m%d%H)"
+            if curl -fsSL "$URL&flip=$i" | grep -q "fd49-" \
                && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "mc-prehero" \
                && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto"; then OK=1; echo "fd47 live, canonical URLs fresh (attempt $i)"; break; fi
             echo "page not on fd47 yet / edge stale (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: fd48 not live within 20 min"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: fd49 not live within 20 min"; exit 1; }
           node - <<'EOS' > cls-probe.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          const t0=Date.now(); const marks=[];
-          page.on('load',()=>{});
-          await page.goto('https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test',{waitUntil:'commit',timeout:90000});
-          for(let i=0;i<40;i++){
-            const m = await page.evaluate(()=>{
-              const g=(s)=>{const e=document.querySelector(s);return e?Math.round(e.getBoundingClientRect().height):-1};
-              return {t:performance.now()|0, ann:g('.announcement-bar'), hdr:g('header .header__wrapper')||g('store-header'), pre:g('#mc-prehero'), root:g('#root'), hero:g('.gal-slide img')};
-            }).catch(()=>null);
-            if(m) marks.push(m);
-            await page.waitForTimeout(250);
-          }
-          console.log('t(ms) ann hdr prehero root heroImg');
-          marks.forEach(m=>console.log([m.t,m.ann,m.hdr,m.pre,m.root,m.hero].join(' ')));
-          const fin=await page.evaluate(()=>({
-            preDisplay:(document.getElementById('mc-prehero')||{}).style?getComputedStyle(document.getElementById('mc-prehero')).display:'?',
-            rootKids:(document.getElementById('root')||{children:[]}).children.length,
-            heroRect:(()=>{const i=document.querySelector('#root .gal-slide img');const r=i?i.getBoundingClientRect():null;return r?Math.round(r.width)+'x'+Math.round(r.height):'-'})(),
-            cls:undefined}));
-          console.log('FINAL '+JSON.stringify(fin));
+          const ctx = await b.newContext({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
+          await ctx.addInitScript(()=>{
+            window.__lcp=[];
+            new PerformanceObserver(l=>l.getEntries().forEach(e=>window.__lcp.push({t:Math.round(e.startTime),size:e.size,el:e.element?(e.element.tagName+' '+(e.element.getAttribute&&e.element.getAttribute('alt')||'').slice(0,30)):'?'})))
+              .observe({type:'largest-contentful-paint',buffered:true});
+            window.__pre=[]; const iv=setInterval(()=>{const p=document.getElementById('mc-prehero');const im=p&&p.querySelector('img');
+              window.__pre.push({t:Math.round(performance.now()),ex:!!p,disp:p?getComputedStyle(p).display:'-',imC:im?im.complete:'-',rk:(document.getElementById('root')||{children:[]}).children.length});
+              if(window.__pre.length>60)clearInterval(iv);},50);
+          });
+          const page = await ctx.newPage();
+          await page.goto('https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test',{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(4000);
+          const out=await page.evaluate(()=>({lcp:window.__lcp, pre:window.__pre.filter((x,i)=>i<40),
+            fin:{preDisplay:getComputedStyle(document.getElementById('mc-prehero')).display, rootKids:document.getElementById('root').children.length,
+                 heroRect:(()=>{const i=document.querySelector('#root .gal-slide img');const r=i?i.getBoundingClientRect():null;return r?Math.round(r.width)+'x'+Math.round(r.height):'-'})()}}));
+          console.log('LCP ENTRIES:'); out.lcp.forEach(e=>console.log('  '+e.t+'ms size='+e.size+' '+e.el));
+          console.log('PRE TIMELINE (t exists display imgComplete rootKids):');
+          out.pre.forEach(p=>console.log('  '+p.t+' '+p.ex+' '+p.disp+' '+p.imC+' '+p.rk));
+          console.log('FINAL '+JSON.stringify(out.fin));
           await b.close();
           })();
           EOS
@@ -84,10 +83,10 @@ jobs:
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
           console.log(out);
-          fs.writeFileSync('lh-summary-r41.txt',out);
+          fs.writeFileSync('lh-summary-r42.txt',out);
           // keep the run whose score == median score for detail archaeology
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r41.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lh-r42.json',JSON.stringify(keep.r));
           const a=keep.r.audits;
           const lcpEl=a['largest-contentful-paint-element'];
           try{console.log('median-run LCP el: '+lcpEl.details.items[0].items[0].node.snippet.slice(0,160));
@@ -100,10 +99,10 @@ jobs:
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
-          cp lh-r41.json lh-summary-r41.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true; cp cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/cls-probe-r41.txt 2>/dev/null || true
+          cp lh-r42.json lh-summary-r42.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true; cp cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/cls-probe-r42.txt 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP perf r41 fd48 (bot)" || true
+          git commit -m "LP perf r42 fd49 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

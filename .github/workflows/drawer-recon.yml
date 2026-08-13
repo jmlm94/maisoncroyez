@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 35 — FULL SITE HEALTH SWEEP after big day: all pages + drawer + kit flow + scents flow
+# run 36 — LP perf baseline: real Lighthouse (mobile) + script/image inventory on live free-diffuser
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,137 +13,70 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Site health sweep
+      - name: Lighthouse + inventory
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          cat > sweep.mjs <<'EOS'
-          import { chromium } from 'playwright';
-          const b = await chromium.launch();
-          const WANT='Congrats, your order is reserved! ✓';
-          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-          const results={};
-          async function render(url,label,ready,extra){
-            const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-            try{
-              await page.goto(url+(url.includes('?')?'&':'?')+'cb='+Date.now(),{waitUntil:'load',timeout:90000});
-              await page.waitForTimeout(9000);
-              const r = await page.evaluate(new Function('return (async()=>{'+
-                'const q=s=>document.querySelector(s);'+
-                'const out={};'+
-                'out.ready = '+ready+';'+
-                'out.abar = /diffuser is free/i.test((q("announcement-bar, [class*=announcement]")||{innerText:""}).innerText);'+
-                'out.header = !!q("store-header, header");'+
-                'out.drawerLoader = !!document.querySelector("script[src*=mc-drawer]");'+
-                'out.noOverflow = document.documentElement.scrollWidth<=document.documentElement.clientWidth+2;'+
-                'out.footer = !!document.querySelector("footer, [id*=footer]");'+
-                (extra||'')+
-                'return out;})()'));
-              r.jsErrors=errs.length;
-              results[label]=r;
-              console.log('=== '+label+' === '+JSON.stringify(r));
-              await page.screenshot({ path:'hs-'+label+'.png' });
-            }catch(e){ results[label]={crashed:String(e).slice(0,120)}; console.log('=== '+label+' === CRASH '+String(e).slice(0,120)); }
-            await page.close();
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
+          npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
+            --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
+            --output=json --output-path=lh.json || true
+          node - <<'EOS'
+          const r = require('./lh.json');
+          const a = r.audits;
+          console.log('=== LIGHTHOUSE (mobile) ===');
+          console.log('SCORE: ' + Math.round(r.categories.performance.score*100));
+          ['first-contentful-paint','largest-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index','interactive'].forEach(k=>console.log(k+': '+a[k].displayValue));
+          const lcpEl = a['largest-contentful-paint-element'];
+          if(lcpEl && lcpEl.details && lcpEl.details.items && lcpEl.details.items[0] && lcpEl.details.items[0].items)
+            console.log('LCP element: ' + JSON.stringify(lcpEl.details.items[0].items[0].node && lcpEl.details.items[0].items[0].node.snippet || '').slice(0,200));
+          const bt = a['bootup-time']; if(bt&&bt.details) { console.log('=== JS BOOTUP TOP 12 ==='); bt.details.items.slice(0,12).forEach(i=>console.log(Math.round(i.total)+'ms  '+i.url.replace(/^https?:\/\//,'').slice(0,90))); }
+          const nw = a['network-requests']; if(nw&&nw.details){
+            const items=nw.details.items;
+            console.log('=== TOTALS === requests:'+items.length+' bytes:'+Math.round(items.reduce((s,i)=>s+(i.transferSize||0),0)/1024)+'KB');
+            const by={};
+            items.forEach(i=>{ let h; try{h=new URL(i.url).host}catch(e){h='?'};
+              const grp = /klaviyo/.test(i.url)?'klaviyo':/postscript|sdk\.postscript/.test(i.url)?'postscript':/subi|subify/.test(i.url)?'subi':/instant/.test(i.url)?'instant':/tiktok/.test(i.url)?'tiktok':/facebook|fbcdn|connect\.facebook/.test(i.url)?'facebook':/shop\.app|shopifycloud\/shop-js/.test(i.url)?'shop.app':/upsell|ocu/.test(i.url)?'one-click-upsell':/klarna|afterpay/.test(i.url)?'bnpl':/mc-lp|mc-drawer|mc-kb|mc-home/.test(i.url)?'OUR-BUNDLES':/cdn\.shopify\.com.*(theme|vendor\.min|sections|hydrate)/.test(i.url)?'THEME-JS':/fonts|woff/.test(i.url)?'FONTS':/\.(jpg|jpeg|png|webp|avif|gif)/.test(i.url.split('?')[0])?'IMAGES':h;
+              by[grp]=by[grp]||{n:0,kb:0}; by[grp].n++; by[grp].kb+=Math.round((i.transferSize||0)/1024); });
+            console.log('=== BY GROUP (requests / KB transferred) ===');
+            Object.entries(by).sort((x,y)=>y[1].kb-x[1].kb).forEach(([k,v])=>console.log(String(v.kb).padStart(6)+'KB  '+String(v.n).padStart(3)+' req  '+k));
+            console.log('=== IMAGES > 60KB ===');
+            items.filter(i=>/\.(jpg|jpeg|png|webp|avif)/.test(i.url.split('?')[0])&&(i.transferSize||0)>60000).sort((x,y)=>y.transferSize-x.transferSize).forEach(i=>console.log(Math.round(i.transferSize/1024)+'KB  '+i.url.split('/').pop().slice(0,80)));
           }
-          await render('https://maisoncroyez.com/','home','document.querySelectorAll("#root section").length===8',
-            'out.heroCta=/claim your free diffuser/i.test(q("#root").innerText);out.imgsBroken=[...document.querySelectorAll("#root img")].filter(i=>i.complete&&!i.naturalWidth).length;');
-          await render('https://maisoncroyez.com/pages/free-diffuser','lp','!!q("#root .pick")',
-            'out.price=/\\$39\\.95/.test(q("#root").innerText);');
-          await render('https://maisoncroyez.com/products/diffuser-scents','kits','!!q("#root")&&q("#root").getBoundingClientRect().height>1200','');
-          await render('https://maisoncroyez.com/pages/the-scent-story','story','!!q("#advroot")&&q("#advroot").getBoundingClientRect().height>800','');
-          // --- scents flow: real ATC -> drawer ---
-          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-          const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await page.goto('https://maisoncroyez.com/collections/power-fragrances?cb='+Date.now(),{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(10000);
-          const scentsReady=await page.evaluate(()=>!!document.querySelector('#mc-scents-root #sx-atc'));
-          let sc={};
-          if(scentsReady){
-            const priceOk=await page.evaluate(()=>document.querySelector('#sx-price').textContent==='$39.95');
-            await page.evaluate(()=>document.querySelector('#sx-atc').scrollIntoView({block:'center'}));
-            await page.waitForTimeout(500);
-            await page.click('#sx-atc');
-            let d=null;
-            for(let a=0;a<15;a++){ await sleep(2000); d=await page.evaluate(()=>{
-              const dd=document.getElementById('cart-drawer');
-              const h=dd?dd.querySelector('.cart-drawer__top p.h5'):null;
-              return {hasTop:!!(dd&&dd.querySelector('.cart-drawer__top')), title:h?h.textContent:'none',
-                testi:!!(dd&&dd.querySelector('.mc-testi')), trust:!!(dd&&dd.querySelector('.mc-trust')),
-                checkout:(()=>{const f=dd&&dd.querySelector('form.buy-buttons button, form.buy-buttons .btn');return f?/Secure Checkout/i.test(f.textContent):false;})()};
-            }); if(d.hasTop) break; }
-            const cart=await page.evaluate(async()=>{ try{const r=await fetch('/cart.js');const j=await r.json();return {n:j.items.length,total:j.total_price/100};}catch(e){return {n:-1};} });
-            sc={scentsReady, priceOk, drawer:d, cart};
-            await page.screenshot({ path:'hs-scents.png' });
-            await page.evaluate(async()=>{ try{await fetch('/cart/clear.js',{method:'POST'});}catch(e){} });
-          } else { sc={scentsReady:false}; }
-          sc.jsErrors=errs.length;
-          results.scents=sc;
-          console.log('=== scents === '+JSON.stringify(sc));
-          await page.close();
-          // --- kit flow: wizard -> checkout ---
-          await sleep(8000);
-          const kb = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-          const kerrs=[]; kb.on('pageerror',e=>kerrs.push(String(e).slice(0,120)));
-          await kb.goto('https://maisoncroyez.com/pages/build-your-kit?cb='+Date.now(),{waitUntil:'load',timeout:90000});
-          await kb.waitForTimeout(9000);
-          const kbReady=await kb.evaluate(()=>document.querySelectorAll('#root .plan').length===3 && typeof window.go==='function');
-          let kbRes={kbReady};
-          if(kbReady){
-            await kb.click('#root #s1 .btn'); await kb.waitForTimeout(600);
-            const adds=await kb.$$('#root .pick .add');
-            await adds[0].click(); await adds[1].click(); await adds[6].click();
-            await kb.waitForTimeout(500);
-            await kb.click('#sb-next'); await kb.waitForTimeout(800);
-            await kb.evaluate(()=>document.querySelector('#root #s3 .navrow .btn:not(.secondary)').scrollIntoView({block:'center'}));
-            await kb.waitForTimeout(400);
-            await kb.click('#root #s3 .navrow .btn:not(.secondary)');
-            await kb.waitForTimeout(10000);
-            kbRes.url=kb.url().slice(0,60);
-            kbRes.checkout=/checkout|\/cn\//.test(kb.url());
-            const cart=await kb.evaluate(async()=>{ try{const r=await fetch('https://maisoncroyez.com/cart.js');const j=await r.json();
-              return {total:j.total_price/100, plans:j.items.filter(i=>i.selling_plan_allocation).length, freeDiff:j.items.some(i=>!i.selling_plan_allocation&&i.quantity===3&&i.line_price===0)};}catch(e){return {total:-1};} });
-            kbRes.cart=cart;
-            await kb.screenshot({ path:'hs-kit.png' });
-            await kb.goto('https://maisoncroyez.com/cart');
-            await kb.evaluate(async()=>{ try{await fetch('/cart/clear.js',{method:'POST'});}catch(e){} });
-          }
-          kbRes.jsErrors=kerrs.length;
-          results.kit=kbRes;
-          console.log('=== kit === '+JSON.stringify(kbRes));
-          await kb.close();
-          const c={
-            homeOk:!!(results.home&&results.home.ready&&results.home.heroCta&&results.home.imgsBroken===0&&results.home.noOverflow),
-            homeChrome:!!(results.home&&results.home.abar&&results.home.header&&results.home.footer),
-            homeDrawerLoader:!!(results.home&&results.home.drawerLoader),
-            lpOk:!!(results.lp&&results.lp.ready&&results.lp.price&&results.lp.noOverflow),
-            lpDrawerLoader:!!(results.lp&&results.lp.drawerLoader),
-            kitsPageOk:!!(results.kits&&results.kits.ready),
-            storyOk:!!(results.story&&results.story.ready),
-            scentsPrice3995:!!(results.scents&&results.scents.priceOk),
-            scentsDrawerTitle:!!(results.scents&&results.scents.drawer&&results.scents.drawer.title===WANT),
-            scentsDrawerBits:!!(results.scents&&results.scents.drawer&&results.scents.drawer.testi&&results.scents.drawer.trust&&results.scents.drawer.checkout),
-            scentsCart3995:!!(results.scents&&results.scents.cart&&results.scents.cart.total===39.95),
-            kitWizard:!!(results.kit&&results.kit.kbReady),
-            kitCheckout:!!(results.kit&&results.kit.checkout),
-            kitCart:!!(results.kit&&results.kit.cart&&results.kit.cart.total===119.85&&results.kit.cart.plans===3&&results.kit.cart.freeDiff),
-            noJsErrorsAnywhere:Object.values(results).every(r=>!r.jsErrors)
-          };
-          console.log('=== HEALTH VERDICT ===');
-          Object.entries(c).forEach(([k,v])=>console.log((v?'PASS':'FAIL')+' '+k));
-          await b.close();
+          const unused = a['unused-javascript']; if(unused&&unused.details){ console.log('=== UNUSED JS TOP 10 ==='); unused.details.items.slice(0,10).forEach(i=>console.log(Math.round(i.wastedBytes/1024)+'KB wasted  '+i.url.replace(/^https?:\/\//,'').slice(0,90))); }
           EOS
-          node sweep.mjs 2>&1 | tee health-sweep.txt
+          node - <<'EOS' > img-audit.txt
+          (async()=>{
+          const { chromium } = require('playwright');
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+          await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(),{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(12000);
+          const imgs = await page.evaluate(()=>[...document.querySelectorAll('img')].map(i=>({
+            src:(i.currentSrc||i.src).split('/').pop().slice(0,70),
+            lazy:i.loading==='lazy', fp:i.getAttribute('fetchpriority')||'',
+            disp:Math.round(i.getBoundingClientRect().width)+'x'+Math.round(i.getBoundingClientRect().height),
+            nat:i.naturalWidth+'x'+i.naturalHeight,
+            inView:i.getBoundingClientRect().top<844
+          })));
+          console.log('=== IMG AUDIT (viewport 390) === total '+imgs.length);
+          imgs.forEach(i=>console.log((i.lazy?'lazy ':'EAGER')+' '+(i.fp||'-')+' inView:'+(i.inView?'Y':'n')+' disp:'+i.disp+' nat:'+i.nat+' '+i.src));
+          await b.close();
+          })();
+          EOS
+          cat img-audit.txt
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/site-health
-          mv health-sweep.txt hs-*.png lp-factory/site-health/ 2>/dev/null || true
+          mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
+          cp lh.json lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true
+          mv img-audit.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true
+          node -e "const r=require('./lh.json');const a=r.audits;let out='SCORE: '+Math.round(r.categories.performance.score*100)+'\n';['first-contentful-paint','largest-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index'].forEach(k=>out+=k+': '+a[k].displayValue+'\n');require('fs').writeFileSync('lp-factory/pages/pdp-free-diffuser/perf2/lh-summary.txt',out)" 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/site-health
-          git commit -m "site health sweep r35 (bot)" || true
+          git add lp-factory/pages/pdp-free-diffuser/perf2
+          git commit -m "LP perf baseline r36 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

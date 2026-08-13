@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 37 — LP perf after static pre-hero (fd45 live)
+# run 37b — gallery geometry probe: why is the React hero 12px taller than square? (LCP candidate sizing)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,74 +13,73 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lighthouse + inventory
+      - name: Gallery probe
         run: |
-          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
-          for i in $(seq 1 12); do
-            if curl -fsSL "$URL&cb=$i" | grep -q "fd45-"; then echo "fd45 live (attempt $i)"; break; fi
-            echo "fd45 not served yet (attempt $i)"; sleep 15
-          done
-          npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
-            --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
-            --output=json --output-path=lh.json || true
-          node - <<'EOS'
-          const r = require('./lh.json');
-          const a = r.audits;
-          console.log('=== LIGHTHOUSE (mobile) ===');
-          console.log('SCORE: ' + Math.round(r.categories.performance.score*100));
-          ['first-contentful-paint','largest-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index','interactive'].forEach(k=>console.log(k+': '+a[k].displayValue));
-          const lcpEl = a['largest-contentful-paint-element'];
-          if(lcpEl && lcpEl.details && lcpEl.details.items && lcpEl.details.items[0] && lcpEl.details.items[0].items)
-            console.log('LCP element: ' + JSON.stringify(lcpEl.details.items[0].items[0].node && lcpEl.details.items[0].items[0].node.snippet || '').slice(0,200));
-          const bt = a['bootup-time']; if(bt&&bt.details) { console.log('=== JS BOOTUP TOP 12 ==='); bt.details.items.slice(0,12).forEach(i=>console.log(Math.round(i.total)+'ms  '+i.url.replace(/^https?:\/\//,'').slice(0,90))); }
-          const nw = a['network-requests']; if(nw&&nw.details){
-            const items=nw.details.items;
-            console.log('=== TOTALS === requests:'+items.length+' bytes:'+Math.round(items.reduce((s,i)=>s+(i.transferSize||0),0)/1024)+'KB');
-            const by={};
-            items.forEach(i=>{ let h; try{h=new URL(i.url).host}catch(e){h='?'};
-              const grp = /klaviyo/.test(i.url)?'klaviyo':/postscript|sdk\.postscript/.test(i.url)?'postscript':/subi|subify/.test(i.url)?'subi':/instant/.test(i.url)?'instant':/tiktok/.test(i.url)?'tiktok':/facebook|fbcdn|connect\.facebook/.test(i.url)?'facebook':/shop\.app|shopifycloud\/shop-js/.test(i.url)?'shop.app':/upsell|ocu/.test(i.url)?'one-click-upsell':/klarna|afterpay/.test(i.url)?'bnpl':/mc-lp|mc-drawer|mc-kb|mc-home/.test(i.url)?'OUR-BUNDLES':/cdn\.shopify\.com.*(theme|vendor\.min|sections|hydrate)/.test(i.url)?'THEME-JS':/fonts|woff/.test(i.url)?'FONTS':/\.(jpg|jpeg|png|webp|avif|gif)/.test(i.url.split('?')[0])?'IMAGES':h;
-              by[grp]=by[grp]||{n:0,kb:0}; by[grp].n++; by[grp].kb+=Math.round((i.transferSize||0)/1024); });
-            console.log('=== BY GROUP (requests / KB transferred) ===');
-            Object.entries(by).sort((x,y)=>y[1].kb-x[1].kb).forEach(([k,v])=>console.log(String(v.kb).padStart(6)+'KB  '+String(v.n).padStart(3)+' req  '+k));
-            console.log('=== IMAGES > 60KB ===');
-            items.filter(i=>/\.(jpg|jpeg|png|webp|avif)/.test(i.url.split('?')[0])&&(i.transferSize||0)>60000).sort((x,y)=>y.transferSize-x.transferSize).forEach(i=>console.log(Math.round(i.transferSize/1024)+'KB  '+i.url.split('/').pop().slice(0,80)));
-          }
-          const unused = a['unused-javascript']; if(unused&&unused.details){ console.log('=== UNUSED JS TOP 10 ==='); unused.details.items.slice(0,10).forEach(i=>console.log(Math.round(i.wastedBytes/1024)+'KB wasted  '+i.url.replace(/^https?:\/\//,'').slice(0,90))); }
-          EOS
-          node - <<'EOS' > img-audit.txt
+          node - <<'EOS' > gal-probe.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
-          await page.goto('https://maisoncroyez.com/pages/free-diffuser?cb='+Date.now(),{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(12000);
-          const imgs = await page.evaluate(()=>[...document.querySelectorAll('img')].map(i=>({
-            src:(i.currentSrc||i.src).split('/').pop().slice(0,70),
-            lazy:i.loading==='lazy', fp:i.getAttribute('fetchpriority')||'',
-            disp:Math.round(i.getBoundingClientRect().width)+'x'+Math.round(i.getBoundingClientRect().height),
-            nat:i.naturalWidth+'x'+i.naturalHeight,
-            inView:i.getBoundingClientRect().top<844
-          })));
-          console.log('=== IMG AUDIT (viewport 390) === total '+imgs.length);
-          imgs.forEach(i=>console.log((i.lazy?'lazy ':'EAGER')+' '+(i.fp||'-')+' inView:'+(i.inView?'Y':'n')+' disp:'+i.disp+' nat:'+i.nat+' '+i.src));
+          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
+          await page.goto('https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test',{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(10000);
+          const out = await page.evaluate(()=>{
+            const L=[];
+            const track=document.querySelector('.gal-track');
+            const cs=getComputedStyle(track);
+            L.push('track rect='+JSON.stringify(track.getBoundingClientRect()));
+            L.push('track offsetH='+track.offsetHeight+' clientH='+track.clientHeight+' scrollH='+track.scrollHeight+' (offset-client='+(track.offsetHeight-track.clientHeight)+')');
+            L.push('track alignItems='+cs.alignItems+' scrollbarWidth='+cs.scrollbarWidth+' overflowX='+cs.overflowX);
+            document.querySelectorAll('.gal-slide').forEach((s,i)=>{ if(i<3){
+              const r=s.getBoundingClientRect(); const img=s.querySelector('img');
+              const ir=img?img.getBoundingClientRect():null;
+              L.push('slide'+i+' '+Math.round(r.width)+'x'+Math.round(r.height)+' img='+(ir?Math.round(ir.width)+'x'+Math.round(ir.height):'-')+' imgPos='+(img?getComputedStyle(img).position:'-'));
+            }});
+            // LCP + CLS buffered
+            return new Promise(res=>{
+              let lcp=null, cls=0, srcs=[];
+              new PerformanceObserver(l=>{ const e=l.getEntries(); if(e.length) lcp=e[e.length-1]; }).observe({type:'largest-contentful-paint',buffered:true});
+              new PerformanceObserver(l=>{ l.getEntries().forEach(e=>{ if(!e.hadRecentInput){ cls+=e.value; if(e.value>0.01) srcs.push(Math.round(e.startTime)+'ms +'+e.value.toFixed(4)+' '+(e.sources||[]).map(s=>s.node&&s.node.className||s.node&&s.node.tagName||'?').join(',')); } }); }).observe({type:'layout-shift',buffered:true});
+              setTimeout(()=>{
+                if(lcp) L.push('LCP entry: '+Math.round(lcp.startTime)+'ms size='+lcp.size+' el='+(lcp.element?lcp.element.tagName+'.'+lcp.element.className:'?')+' url='+String(lcp.url).split('/').pop().slice(0,60));
+                L.push('CLS buffered total='+cls.toFixed(4)); srcs.forEach(s=>L.push('  shift: '+s));
+                res(L);
+              },1500);
+            });
+          });
+          out.forEach(l=>console.log(l));
+          // candidate A: align-items flex-start on track
+          const A = await page.evaluate(()=>{ const t=document.querySelector('.gal-track'); t.style.alignItems='flex-start';
+            const img=document.querySelector('.gal-slide img'); const r=img.getBoundingClientRect();
+            const out='A(flex-start): hero img '+Math.round(r.width)+'x'+Math.round(r.height); t.style.alignItems=''; return out; });
+          console.log(A);
+          // candidate B/C: inject static markup (1 slide vs 2 slides) with live CSS applied
+          const BC = await page.evaluate(()=>{
+            const mk=(n)=>{ const d=document.createElement('div');
+              d.innerHTML='<section class="section pdp-buy"><div class="wrap"><div class="gal"><div class="gal-track">'+
+                Array.from({length:n},()=>'<div class="gal-slide ph sq"><img class="simg" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/Diseno_sin_titulo_92.png?v=1783904283&width=900" alt="x" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover"></div>').join('')+
+                '</div></div></div></section>';
+              document.body.appendChild(d);
+              const r=d.querySelector('img').getBoundingClientRect();
+              const t=d.querySelector('.gal-track');
+              const res=Math.round(r.width)+'x'+Math.round(r.height)+' trackH='+Math.round(t.getBoundingClientRect().height);
+              d.remove(); return res; };
+            return ['B(static 1 slide): '+mk(1), 'C(static 2 slides): '+mk(2)];
+          });
+          BC.forEach(l=>console.log(l));
           await b.close();
           })();
           EOS
-          cat img-audit.txt
+          cat gal-probe.txt
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
-          cp lh.json lp-factory/pages/pdp-free-diffuser/perf2/lh-r37.json 2>/dev/null || true
-          mv img-audit.txt lp-factory/pages/pdp-free-diffuser/perf2/img-audit-r37.txt 2>/dev/null || true
-          node -e "const r=require('./lh.json');const a=r.audits;let out='SCORE: '+Math.round(r.categories.performance.score*100)+'\n';['first-contentful-paint','largest-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index'].forEach(k=>out+=k+': '+a[k].displayValue+'\n');require('fs').writeFileSync('lp-factory/pages/pdp-free-diffuser/perf2/lh-summary-r37.txt',out)" 2>/dev/null || true
+          mv gal-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/gal-probe.txt 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP perf r37 fd45 (bot)" || true
+          git commit -m "LP gallery geometry probe r37b (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

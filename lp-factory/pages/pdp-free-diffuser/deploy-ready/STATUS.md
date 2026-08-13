@@ -81,6 +81,42 @@ Replaces the 3-month commitment offer entirely.
   (components). Direction favors customer; owner aware.
 - Verify: run 49 (v4 walkthrough: both cart paths, cart cleared between)
 
+## Perf round 2 — RESULT (2026-08-13, LIVE at fd51 key)
+Baseline r36 (fd44): score 61, FCP 1.8, LCP 6.3, TBT 550, CLS 0.064.
+Final r44b/r45 (fd51, median-of-3): score ~75, FCP 1.8, LCP 3.3, TBT ~450-660
+(runner-dependent), CLS 0.029. Real-user (observed, fast net): LCP ~300ms.
+WHAT'S LIVE:
+- Page 117412692077 body (fd51): classless bare <img> pre-hero (100vw, aspect
+  412/424, decoding=sync, position:fixed under header on mobile <=768px,
+  background #fff), image preload + outfit-700/unna-700 font preloads, loader
+  yields one painted frame (double-rAF) before injecting app scripts,
+  MutationObserver collapses #mc-prehero when React mounts (pre-paint, in-page
+  so it works with any bundle version), FB pixel block unchanged.
+- mc-lp-free-diffuser-app.js (SHA 3aad05a): chunked render — 3 sections in the
+  first commit, rest 2-per-requestIdleCallback; useLayoutEffect prehero collapse.
+- mc-lp-free-diffuser.css (SHA 17e1955): .gal-track{align-items:flex-start} —
+  hero slide no longer stretches 12px past square.
+LCP MECHANICS (hard-won, do not regress):
+- The static pre-hero must (a) stay in the DOM after React mounts (display:none,
+  NOT removed — removed nodes make Lighthouse's simulation fall back to a
+  pessimistic model, +2-3s sim LCP), and (b) paint STRICTLY LARGER than the
+  React hero (174688 vs 169602 px^2) — Chrome only replaces the LCP entry with
+  a LARGER paint, equal never steals but the race is unwinnable otherwise.
+- The classless img matters: LP CSS (.wrap padding) shrank a classed static
+  hero to 372px wide -> smaller entry -> React stole LCP at ~6.5s sim.
+CACHE RAILS (verified today):
+- cdn.shopify.com keys its cache on the v param ONLY; unknown params are
+  normalized to the base object. ?v=<unique> forces an origin fetch;
+  fileUpdate purge takes ~20-30 min. NEVER trust ?foo=random as a cache-bust.
+- Storefront PAGE HTML has its own cache: after 4 pageUpdates in 15 min it
+  served a stale render for ~25 min. Space page flips out.
+REMAINING GAP vs targets (score>=85, TBT<200): bounded by third parties —
+theme inline JS ~1.5s bootup, Shopify perf-kit/trekkie/wpm ~0.8s, FB pixel
+~0.7s; our bundle is only ~0.3s. Next levers are OWNER decisions:
+lighter page template (theme fonts ~1MB Merriweather unused by LP,
+hydrate.js 204KB), or app removals. Instant embed: owner toggled OFF
+2026-08-13 (confirmed 0 requests since run 37).
+
 ## Perf round 2 — static pre-hero (2026-08-13, PREPARED, BLOCKED on Shopify re-auth)
 Baseline run 36 (real Lighthouse mobile, fd44): score 61, FCP 1.8s, LCP 6.3s,
 TBT 550ms, CLS 0.064. Targets: >=85 / LCP<3s / TBT<200ms / CLS<=0.05.

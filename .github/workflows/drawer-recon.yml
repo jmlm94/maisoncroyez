@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 40 — fd47: persistent prehero (LCP attribution) + staggered chunks; probe + Lighthouse median-of-3
+# run 40b — retry: fd47 probe + Lighthouse median-of-3 (run 40 gate timed out during CDN purge window; CDN normalizes query strings so ?v= never busts the edge)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -21,7 +21,7 @@ jobs:
           URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
           # 1) verify ORIGIN bytes on cache-busted URLs (never touches the canonical hourly URL)
-          for i in $(seq 1 30); do
+          for i in $(seq 1 40); do
             OK=1
             curl -fsSL "$B/mc-lp-free-diffuser-app.js?origincheck=$RANDOM$RANDOM" | grep -q "mc-prehero" || OK=0
             curl -fsSL "$B/mc-lp-free-diffuser.css?origincheck=$RANDOM$RANDOM" | grep -q "align-items:flex-start;overflow-x:auto" || OK=0

@@ -1064,7 +1064,7 @@ h1 em, h2 em, h3 em, .cline em, .art-h2.gradfull, .art-h2.gradfull em{
 .pdp-buy .rating{margin:0}
 /* PDP round 18 — full-bleed product carousel with arrows (owner) */
 .gal{position:relative}
-.gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gal-track{display:flex;align-items:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .gal-track::-webkit-scrollbar{display:none}
 .gal-slide{flex:0 0 100%;scroll-snap-align:center;border-radius:0}
 .gal-arw{

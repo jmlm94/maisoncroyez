@@ -29,12 +29,16 @@ jobs:
             echo "origin still stale (attempt $i)"; sleep 30
           done
           [ "$OK" = "1" ] || { echo "FATAL: origin never propagated"; exit 1; }
-          # 2) only now check the canonical hourly URLs the page will actually use
-          V="fd47-$(date -u +%Y%m%d%H)"
-          curl -fsSL "$URL" | grep -q "fd47-" || { echo "FATAL: page not on fd47"; exit 1; }
-          curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "mc-prehero" || { echo "FATAL: hourly app URL stale at edge"; exit 1; }
-          curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto" || { echo "FATAL: hourly css URL stale at edge"; exit 1; }
-          echo "canonical hourly URLs serve new bytes" 
+          # 2) wait for the page to flip to fd47, then verify canonical hourly URLs
+          OK=0
+          for i in $(seq 1 20); do
+            V="fd47-$(date -u +%Y%m%d%H)"
+            if curl -fsSL "$URL&flip=$i" | grep -q "fd47-" \
+               && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "mc-prehero" \
+               && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto"; then OK=1; echo "fd47 live, canonical URLs fresh (attempt $i)"; break; fi
+            echo "page not on fd47 yet / edge stale (attempt $i)"; sleep 60
+          done
+          [ "$OK" = "1" ] || { echo "FATAL: fd47 not live within 20 min"; exit 1; }
           node - <<'EOS' > cls-probe.txt
           (async()=>{
           const { chromium } = require('playwright');

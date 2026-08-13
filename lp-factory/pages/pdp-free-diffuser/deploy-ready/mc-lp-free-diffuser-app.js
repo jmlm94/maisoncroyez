@@ -1,5 +1,5 @@
 /* eslint-disable */
-const { useState, useEffect, useRef, useCallback, createElement: h } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useCallback, createElement: h } = React;
 const html = htm.bind(h);
 
 /* ================================================================
@@ -903,13 +903,17 @@ function App() {
     faq: () => html`<${Faq} key="faq"/>`,
   };
   /* chunked render: first 3 sections paint in the initial commit; the rest
-     (all below the fold) mount on idle so the main thread stays free */
+     (all below the fold) mount 2 per idle callback so no single commit blocks */
   const [chunk, setChunk] = useState(3);
+  useLayoutEffect(() => {
+    var p = document.getElementById("mc-prehero");
+    if (p) p.style.display = "none";
+  }, []);
   useEffect(() => {
     if (chunk >= CONFIG.sectionOrder.length) return;
-    const rest = () => setChunk(CONFIG.sectionOrder.length);
-    if ("requestIdleCallback" in window) requestIdleCallback(rest, { timeout: 1500 });
-    else setTimeout(rest, 200);
+    const more = () => setChunk((c) => c + 2);
+    if ("requestIdleCallback" in window) requestIdleCallback(more, { timeout: 1500 });
+    else setTimeout(more, 200);
   }, [chunk]);
   return html`
     ${CONFIG.sectionOrder.slice(0, chunk).map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}

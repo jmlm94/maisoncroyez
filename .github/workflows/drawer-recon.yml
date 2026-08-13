@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 45 — fd51 final confirmation median-of-3 (attribution locked: single LCP entry, static hero 174688)
+# run 45b — fd51 confirmation, patient: storefront HTML cache flapping between revisions post rapid flips; poll up to 55 min
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -31,14 +31,14 @@ jobs:
           [ "$OK" = "1" ] || { echo "FATAL: origin never propagated"; exit 1; }
           # 2) wait for the page to flip to fd47, then verify canonical hourly URLs
           OK=0
-          for i in $(seq 1 30); do
+          for i in $(seq 1 55); do
             V="fd51-$(date -u +%Y%m%d%H)"
             if curl -fsSL "$URL&flip=$i" | grep -q "fd51-" \
                && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "mc-prehero" \
                && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto"; then OK=1; echo "fd47 live, canonical URLs fresh (attempt $i)"; break; fi
             echo "page not on fd51 yet / edge stale (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: fd51 not live within 20 min"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: fd51 not live within 55 min"; exit 1; }
           node - <<'EOS' > cls-probe.txt
           (async()=>{
           const { chromium } = require('playwright');

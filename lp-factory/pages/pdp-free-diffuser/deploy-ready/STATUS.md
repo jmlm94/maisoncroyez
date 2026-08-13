@@ -81,6 +81,23 @@ Replaces the 3-month commitment offer entirely.
   (components). Direction favors customer; owner aware.
 - Verify: run 49 (v4 walkthrough: both cart paths, cart cleared between)
 
+## Perf round 2 — static pre-hero (2026-08-13, PREPARED, BLOCKED on Shopify re-auth)
+Baseline run 36 (real Lighthouse mobile, fd44): score 61, FCP 1.8s, LCP 6.3s,
+TBT 550ms, CLS 0.064. Targets: >=85 / LCP<3s / TBT<200ms / CLS<=0.05.
+Diagnosis: images fine (~75KB total, hero preloaded 58KB); LCP late because hero
+<img> only exists after React renders. Fix: static hero copy inside #root
+(paints immediately; React 18 createRoot().render clears it on mount — verified
+vendor.js is real React, which deletes existing root children on first render).
+- perf2/live-page-fd44.html: live HTML captured via Actions relay (run 36b)
+- perf2/new-body-fd45.html: full drafted page body (static pre-hero + fd44->fd45)
+- perf2/static-prehero.html: the inserted block alone
+- perf2/PLAN-r37.md: full deploy runbook (pageUpdate 117412692077 -> run 37
+  Lighthouse -> optional chunked-render TBT fix -> pixel/CLS verify)
+BLOCKED: Shopify MCP token expired mid-session (non-interactive; no OAuth possible).
+Owner: re-authorize Shopify connector, then execute PLAN-r37.md. STEP 0 identity
+check (Maison Croyez) still mandatory before any mutation.
+Owner still owes: toggle OFF "Instant" app embed (Themes -> Customize -> App embeds).
+
 ### Post-launch (2026-08-01)
 - BUG+FIX: One-Time Set add-to-cart 422 — all 7 fragrance products had
   requiresSellingPlan=true (old Subi setting). Set false via API; one-time

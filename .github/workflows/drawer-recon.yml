@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 44b — fd51 retry (storefront HTML cache lagged ~20min after 4 rapid pageUpdates); longer page poll
+# run 45 — fd51 final confirmation median-of-3 (attribution locked: single LCP entry, static hero 174688)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -83,10 +83,10 @@ jobs:
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
           console.log(out);
-          fs.writeFileSync('lh-summary-r44.txt',out);
+          fs.writeFileSync('lh-summary-r45.txt',out);
           // keep the run whose score == median score for detail archaeology
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r44.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lh-r45.json',JSON.stringify(keep.r));
           const a=keep.r.audits;
           const lcpEl=a['largest-contentful-paint-element'];
           try{console.log('median-run LCP el: '+lcpEl.details.items[0].items[0].node.snippet.slice(0,160));
@@ -99,10 +99,10 @@ jobs:
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
-          cp lh-r44.json lh-summary-r44.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true; cp cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/cls-probe-r44.txt 2>/dev/null || true
+          cp lh-r45.json lh-summary-r45.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true; cp cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/cls-probe-r45.txt 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP perf r44 fd51 (bot)" || true
+          git commit -m "LP perf r45 fd51 final (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

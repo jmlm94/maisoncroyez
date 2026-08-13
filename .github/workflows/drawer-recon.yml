@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 37b — gallery geometry probe: why is the React hero 12px taller than square? (LCP candidate sizing)
+# run 38 — LP perf after fd46 (square hero CSS + font preloads + chunked render), median of 3
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,73 +13,58 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Gallery probe
+      - name: Lighthouse x3
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS' > gal-probe.txt
-          (async()=>{
-          const { chromium } = require('playwright');
-          const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          await page.goto('https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test',{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(10000);
-          const out = await page.evaluate(()=>{
-            const L=[];
-            const track=document.querySelector('.gal-track');
-            const cs=getComputedStyle(track);
-            L.push('track rect='+JSON.stringify(track.getBoundingClientRect()));
-            L.push('track offsetH='+track.offsetHeight+' clientH='+track.clientHeight+' scrollH='+track.scrollHeight+' (offset-client='+(track.offsetHeight-track.clientHeight)+')');
-            L.push('track alignItems='+cs.alignItems+' scrollbarWidth='+cs.scrollbarWidth+' overflowX='+cs.overflowX);
-            document.querySelectorAll('.gal-slide').forEach((s,i)=>{ if(i<3){
-              const r=s.getBoundingClientRect(); const img=s.querySelector('img');
-              const ir=img?img.getBoundingClientRect():null;
-              L.push('slide'+i+' '+Math.round(r.width)+'x'+Math.round(r.height)+' img='+(ir?Math.round(ir.width)+'x'+Math.round(ir.height):'-')+' imgPos='+(img?getComputedStyle(img).position:'-'));
-            }});
-            // LCP + CLS buffered
-            return new Promise(res=>{
-              let lcp=null, cls=0, srcs=[];
-              new PerformanceObserver(l=>{ const e=l.getEntries(); if(e.length) lcp=e[e.length-1]; }).observe({type:'largest-contentful-paint',buffered:true});
-              new PerformanceObserver(l=>{ l.getEntries().forEach(e=>{ if(!e.hadRecentInput){ cls+=e.value; if(e.value>0.01) srcs.push(Math.round(e.startTime)+'ms +'+e.value.toFixed(4)+' '+(e.sources||[]).map(s=>s.node&&s.node.className||s.node&&s.node.tagName||'?').join(',')); } }); }).observe({type:'layout-shift',buffered:true});
-              setTimeout(()=>{
-                if(lcp) L.push('LCP entry: '+Math.round(lcp.startTime)+'ms size='+lcp.size+' el='+(lcp.element?lcp.element.tagName+'.'+lcp.element.className:'?')+' url='+String(lcp.url).split('/').pop().slice(0,60));
-                L.push('CLS buffered total='+cls.toFixed(4)); srcs.forEach(s=>L.push('  shift: '+s));
-                res(L);
-              },1500);
-            });
-          });
-          out.forEach(l=>console.log(l));
-          // candidate A: align-items flex-start on track
-          const A = await page.evaluate(()=>{ const t=document.querySelector('.gal-track'); t.style.alignItems='flex-start';
-            const img=document.querySelector('.gal-slide img'); const r=img.getBoundingClientRect();
-            const out='A(flex-start): hero img '+Math.round(r.width)+'x'+Math.round(r.height); t.style.alignItems=''; return out; });
-          console.log(A);
-          // candidate B/C: inject static markup (1 slide vs 2 slides) with live CSS applied
-          const BC = await page.evaluate(()=>{
-            const mk=(n)=>{ const d=document.createElement('div');
-              d.innerHTML='<section class="section pdp-buy"><div class="wrap"><div class="gal"><div class="gal-track">'+
-                Array.from({length:n},()=>'<div class="gal-slide ph sq"><img class="simg" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/Diseno_sin_titulo_92.png?v=1783904283&width=900" alt="x" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover"></div>').join('')+
-                '</div></div></div></section>';
-              document.body.appendChild(d);
-              const r=d.querySelector('img').getBoundingClientRect();
-              const t=d.querySelector('.gal-track');
-              const res=Math.round(r.width)+'x'+Math.round(r.height)+' trackH='+Math.round(t.getBoundingClientRect().height);
-              d.remove(); return res; };
-            return ['B(static 1 slide): '+mk(1), 'C(static 2 slides): '+mk(2)];
-          });
-          BC.forEach(l=>console.log(l));
-          await b.close();
-          })();
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
+          V="fd46-$(date -u +%Y%m%d%H)"
+          for i in $(seq 1 20); do
+            OK=1
+            curl -fsSL "$URL&cb=$i" | grep -q "fd46-" || OK=0
+            curl -fsSL "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-free-diffuser-app.js?v=$V" | grep -q "requestIdleCallback" || OK=0
+            curl -fsSL "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto" || OK=0
+            if [ "$OK" = "1" ]; then echo "fd46 + new bytes live (attempt $i)"; break; fi
+            echo "not fully propagated yet (attempt $i)"; sleep 30
+          done
+          for n in 1 2 3; do
+            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
+              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
+              --output=json --output-path=lh-$n.json || true
+          done
+          node - <<'EOS'
+          const fs=require('fs');
+          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
+          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
+            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
+            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
+            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
+          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
+          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
+          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
+          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
+          console.log(out);
+          fs.writeFileSync('lh-summary-r38.txt',out);
+          // keep the run whose score == median score for detail archaeology
+          const keep=rows.find(x=>x.score===m.score)||rows[0];
+          fs.writeFileSync('lh-r38.json',JSON.stringify(keep.r));
+          const a=keep.r.audits;
+          const lcpEl=a['largest-contentful-paint-element'];
+          try{console.log('median-run LCP el: '+lcpEl.details.items[0].items[0].node.snippet.slice(0,160));
+            console.log('median-run LCP phases: '+JSON.stringify(lcpEl.details.items[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
+          const fb=(a['network-requests'].details.items||[]).filter(i=>/connect\.facebook/.test(i.url));
+          console.log('FB pixel requests: '+fb.length); fb.slice(0,3).forEach(i=>console.log('  '+i.url.slice(0,100)));
           EOS
-          cat gal-probe.txt
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
-          mv gal-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/gal-probe.txt 2>/dev/null || true
+          mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
+          cp lh-r38.json lh-summary-r38.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP gallery geometry probe r37b (bot)" || true
+          git commit -m "LP perf r38 fd46 median-of-3 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

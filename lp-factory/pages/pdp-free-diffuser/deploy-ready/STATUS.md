@@ -83,8 +83,11 @@ Replaces the 3-month commitment offer entirely.
 
 ## Perf round 2 — RESULT (2026-08-13, LIVE at fd51 key)
 Baseline r36 (fd44): score 61, FCP 1.8, LCP 6.3, TBT 550, CLS 0.064.
-Final r44b/r45 (fd51, median-of-3): score ~75, FCP 1.8, LCP 3.3, TBT ~450-660
-(runner-dependent), CLS 0.029. Real-user (observed, fast net): LCP ~300ms.
+FINAL CONFIRMED r45b (fd51, median-of-3, fair runner bench 2692):
+score 82, FCP 2.1, LCP 3.3, TBT 411, CLS 0.029, SI 2.4. Probe: single LCP
+entry (static hero, full 174688 px^2, 320ms), page healthy, FB pixel firing
+(2 connect.facebook requests in trace). Real-user observed LCP ~300ms.
+(Interim r44b on slow runner bench 2465 read score 75 / TBT 660 — noise.)
 WHAT'S LIVE:
 - Page 117412692077 body (fd51): classless bare <img> pre-hero (100vw, aspect
   412/424, decoding=sync, position:fixed under header on mobile <=768px,

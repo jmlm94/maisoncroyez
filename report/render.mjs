@@ -88,6 +88,37 @@ function profitBars(series) {
     <text x="${PAD.l - 8}" y="${zero + 4}" class="axis" text-anchor="end">$0</text>${bars}</svg>`;
 }
 
+// projection chart: cumulative renewal margin (existing base) vs keep-spending
+// scenario, against the cumulative-loss-to-date reference line
+function projectionChart(P) {
+  const s = P.series || [];
+  if (!s.length) return '';
+  const PL = 76; // wider left gutter than the trend chart: negative $ labels are longer
+  const lo = Math.min(P.assumptions.holeToDate, ...s.map(d => d.scenarioB)) * 1.06;
+  const hi = Math.max(...s.map(d => d.cumRenewal)) * 1.15;
+  const x = t => PL + (W - PL - PAD.r) * (t - 1) / (s.length - 1);
+  const y = v => PAD.t + (H - PAD.t - PAD.b) * (1 - (v - lo) / (hi - lo));
+  const path = key => s.map((d, i) => `${i ? 'L' : 'M'}${x(d.t).toFixed(1)},${y(d[key]).toFixed(1)}`).join('');
+  const hole = P.assumptions.holeToDate;
+  const ticks = [30, 60, 90, 120, 150, 180].map(t =>
+    `<text x="${x(t)}" y="${H - 6}" class="axis" text-anchor="middle">day ${t}</text>`).join('');
+  const gridV = [hole, 0, hi / 1.15].map(v =>
+    `<line x1="${PL}" x2="${W - PAD.r}" y1="${y(v)}" y2="${y(v)}" class="grid ${v === 0 ? 'zero' : ''}"/>
+     <text x="${PL - 8}" y="${y(v) + 4}" class="axis" text-anchor="end">${usd(v)}</text>`).join('');
+  const last = s[s.length - 1];
+  const be = P.dailyBreakEvenDay;
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="Projected cumulative renewal profit over 180 days">
+    ${gridV}${ticks}
+    <line x1="${PL}" x2="${W - PAD.r}" y1="${y(hole)}" y2="${y(hole)}" class="cross"/>
+    <text x="${PL + 6}" y="${y(hole) - 6}" class="axis">invested to date ${usd(hole)}</text>
+    <path d="${path('cumRenewal')}" class="l1"/><path d="${path('scenarioB')}" class="l2"/>
+    ${be ? `<circle cx="${x(be)}" cy="${y(s[be - 1].scenarioB)}" r="4" class="p2"/>
+      <text x="${x(be)}" y="${y(s[be - 1].scenarioB) - 16}" class="lbl lbl2" text-anchor="middle">day ${be}: daily run-rate turns positive</text>` : ''}
+    <text x="${x(last.t) + 8}" y="${y(last.cumRenewal) + 4}" class="lbl lbl1">${usd(last.cumRenewal)}</text>
+    <text x="${x(last.t) + 8}" y="${y(last.scenarioB) + 4}" class="lbl lbl2">${usd(last.scenarioB)}</text>
+  </svg>`;
+}
+
 // ---- campaign leaderboard data (top 5 by spend, with blended context) ----
 const cleanCampaigns = raw => {
   if (!raw) return null;
@@ -293,6 +324,42 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
   </div>
   <p class="subnote" style="margin-top:10px">Derived from order history (Subi doesn’t expose contract statuses to the API): MRR counts every acquired subscription at its plan’s recurring list price, normalized to 30 days — cancellations aren’t visible yet, so treat MRR as a ceiling and watch renewal orders as the ground truth.</p>
 
+  ${S.projection ? (P => {
+    const A = P.assumptions;
+    const mix = Object.entries(S.cadenceMix || {}).sort((a, b) => b[1] - a[1])
+      .map(([cad, n]) => `${n} × every ${cad}d`).join(' · ');
+    const h180 = P.horizons['180'];
+    const rows = [30, 60, 90, 180].map(h => { const x = P.horizons[String(h)]; if (!x) return '';
+      return `<tr><td class="win-label">+${h} days</td>
+        <td>${numf(x.renewalOrders)}</td><td>${usd(x.renewalRevenue)}</td><td>${usd(x.renewalMargin)}</td>
+        <td class="${x.pnlAfterRenewals >= 0 ? '' : ''}">${usd(x.pnlAfterRenewals)}</td>
+        <td>${x.recoveredPct == null ? '—' : x.recoveredPct.toFixed(0) + '%'}</td>
+        <td>${usd(x.scenarioBCumulative)}</td></tr>`; }).join('');
+    return `
+  <h2>Renewal recovery model — 75% stay 180 days</h2>
+  <div class="card">
+    <div class="split" style="margin-bottom:14px">
+      <div class="pill">Avg renewal order <b>${usd(A.avgRenewalValue, 2)}</b></div>
+      <div class="pill">Margin per renewal <b>${usd(A.avgRenewalMargin, 2)}</b> (${(A.avgRenewalMargin / A.avgRenewalValue * 100).toFixed(0)}%)</div>
+      <div class="pill">Plan mix <b>${mix}</b></div>
+      <div class="pill">CAC (28d) <b>${usd(P.cac28, 0)}</b> / new subscriber</div>
+      <div class="pill">180-day renewal value <b>${usd(P.ltv180, 0)}</b> / subscriber</div>
+      <div class="pill">LTV : CAC <b>${P.ltvToCac ? P.ltvToCac.toFixed(2) + '×' : '—'}</b></div>
+    </div>
+    <div class="tablewrap">
+      <table class="data">
+        <thead><tr><th>Horizon</th><th>Renewals</th><th>Revenue</th><th>Renewal profit</th><th>P&amp;L, spend paused</th><th>Recovered</th><th>P&amp;L, spend continues</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div class="legend" style="margin-top:18px">
+      <span><span class="sw" style="background:var(--s1)"></span>Cumulative renewal profit, existing base</span>
+      <span><span class="sw" style="background:var(--s2)"></span>Cumulative P&amp;L if spend continues at current pace</span>
+    </div>
+    ${projectionChart(P)}
+    <p class="subnote" style="margin:12px 0 0">How to read this — “P&amp;L if spend stopped” takes today’s cumulative contribution P&amp;L (${usd(A.holeToDate)}) and adds only the renewal profit the already-acquired base would generate. “P&amp;L if spend continues” also keeps acquiring ${A.newSubsPerDay.toFixed(1)} subscribers/day at the current front-end economics (${usd(A.frontEndDailyProfit, 0)}/day) with their renewals stacking on top${P.dailyBreakEvenDay ? ` — the daily run-rate turns profitable around day ${P.dailyBreakEvenDay}` : ''}. Assumes ${(A.retention * 100).toFixed(0)}% of subscribers renew on schedule through day 180 (the other ${(100 - A.retention * 100).toFixed(0)}% never renew), renewals at plan list price, ~$15 all-in fulfillment on a single-scent renewal ($9 product + ${usd(A.shipCostPerOrder, 2)} shipping, scaling product cost for multi-scent plans) plus card fees, and no renewals counted beyond each subscriber’s 180th day. ${h180 && h180.recoveredPct != null ? `At these assumptions the existing base recovers ${h180.recoveredPct.toFixed(0)}% of the investment within 180 days.` : ''}</p>
+  </div>`; })(S.projection) : ''}
+
   <p class="foot">Methodology — Net sales are product revenue after discounts, before tax; taxes are excluded as pass-through. Refunds are booked on the day issued and do not credit COGS back. COGS uses Shopify line-item unit costs. Payment fees are the actual per-transaction fees from Shopify Payments.${est ? ' Shipping cost is a flat estimate per order — Shopify’s API does not expose purchased label costs; replace the estimate in report/config.json when the real average is known.' : ''} Blended ROAS = net sales ÷ Meta spend (all revenue, not just attributed). Meta-reported ROAS uses Meta pixel attribution. Subscription MRR normalizes every Subi contract to a 30-day month. Report generated ${new Date(C.generatedAt).toLocaleString('en-US', { timeZone: 'America/New_York' })} ET.</p>
 </div>
 <div class="tooltip" id="tt"></div>
@@ -349,6 +416,7 @@ ${dline('45 days', w45)}
 ${dline('90 days', w90)}
 
 :seedling: *Subscriptions:* ${numf(S.active)} acquired · est. MRR *${usd(S.mrr)}* (ceiling — cancels not visible via API) · ${numf(S.newSubsYesterday)} new yesterday · ${numf(S.renewals28)} renewal orders in 28d
+${S.projection?.horizons?.['180'] ? `:crystal_ball: *Renewal outlook (75% stay 180d):* existing base returns *${usd(S.projection.horizons['180'].renewalMargin)}* renewal profit over 180d — ${S.projection.horizons['180'].recoveredPct != null ? S.projection.horizons['180'].recoveredPct.toFixed(0) + '% of the investment to date' : ''} · LTV:CAC *${S.projection.ltvToCac ? S.projection.ltvToCac.toFixed(2) + '×' : '—'}* (${usd(S.projection.ltv180, 0)} vs ${usd(S.projection.cac28, 0)} CAC)` : ''}
 
 ${config.artifactUrl ? `:bar_chart: Full interactive report: ${config.artifactUrl}` : ''}`;
 writeFileSync(join(dataDir, 'slack.md'), slack.trim() + '\n');

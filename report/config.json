@@ -9,9 +9,9 @@
   "adsStartDate": "2026-07-15",
   "backfillDays": 90,
   "shippingCostPerOrder": {
-    "value": 5.75,
+    "value": 6.0,
     "estimated": true,
-    "note": "Shopify Admin API does not expose purchased label costs. This is a flat per-order estimate; replace 'value' with the store's real average label cost (Shopify admin > Settings > Shipping > Shipping labels billing) and set estimated=false."
+    "note": "Per Jose (Aug 2026): fulfilling a $39.95 single-scent order costs ~$15 all-in; $9 of that is product cost, leaving ~$6 shipping per order. Shopify's API does not expose real label costs — replace 'value' with the true average from Shopify Shipping billing when known and set estimated=false."
   },
   "artifactUrl": "https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039",
   "windows": [1, 7, 14, 28, 45, 90]

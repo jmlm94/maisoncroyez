@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 46 — copy round live verify: single-Circle offer, new title, black ATC (fd52) — DOM checks + Lighthouse median-of-3
+# run 46b — copy round live verify retry (storefront HTML cache lagged past the 40-min gate)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]

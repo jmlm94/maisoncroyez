@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 46c — black-ATC css fix confirm (waits for hourly rollover to serve the #root-prefixed override)
+# run 47 — css state diagnosis: is the hourly URL serving the 02:47 version (stale, fine) or garbage (broken)?
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,92 +13,53 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify + Lighthouse x3
+      - name: Diagnose CSS state
         run: |
-          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          # wait until the CURRENT hourly css URL serves the #root-prefixed black-ATC override
-          OK=0
-          for i in $(seq 1 110); do
-            V="fd52-$(date -u +%Y%m%d%H)"
-            if curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "#root .btn.atc{background:#111}"; then OK=1; echo "hourly css has the override (attempt $i)"; break; fi
-            echo "hourly css not updated yet (attempt $i)"; sleep 60
+          V="fd52-$(date -u +%Y%m%d%H)"
+          for tag in "v=$V" "v=1786682323" "v=diag$RANDOM$RANDOM"; do
+            echo "=== $tag ==="
+            curl -fsSL "$B/mc-lp-free-diffuser.css?$tag" -o f.css || { echo "FETCH FAILED"; continue; }
+            wc -c f.css
+            head -c 120 f.css; echo
+            echo "--- markers ---"
+            for m in "atc-guar" "#root .btn.atc{background:#111}" "align-items:flex-start" "picker-title"; do
+              printf "%-40s %s\n" "$m" "$(grep -c -- "$m" f.css || true)"
+            done
+            tail -c 150 f.css; echo
           done
-          [ "$OK" = "1" ] || { echo "FATAL: override never reached the hourly css URL"; exit 1; }
-          node - <<'EOS' > copy-verify.txt
+          echo "=== page styled sanity (does live LP css load & apply?) ==="
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
+          const page = await b.newPage({ viewport:{width:412,height:823} });
           await page.goto('https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test',{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(9000);
-          const t = await page.evaluate(()=>{
-            const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim():null};
+          await page.waitForTimeout(8000);
+          const t=await page.evaluate(()=>{
             const atc=document.querySelector('.btn.atc');
-            return {
-              h1: q('#root h1'),
-              badge: q('.price-badge'),
-              dayrate: q('.dayrate'),
-              planCount: document.querySelectorAll('.plansel .plan').length,
-              planName: q('.plan-name'),
-              planselTitle: q('.plansel-title'),
-              planBullet1: q('.plan ul li'),
-              pickerTitles: [...document.querySelectorAll('.picker-title')].map(e=>e.textContent.trim().slice(0,60)),
-              firstIngs: q('.pick-ings'),
-              atcText: atc?atc.textContent.trim():null,
-              atcBg: atc?getComputedStyle(atc).backgroundColor:null,
-              atcGuar: q('.atc-guar'),
-              hiwTitle: q('.hiw-title'),
-              hiwKeys: [...document.querySelectorAll('.hiw-k')].map(e=>e.textContent.trim()),
-              hiwLast: (()=>{const r=[...document.querySelectorAll('.hiw-row')];return r.length?r[r.length-1].textContent.trim().slice(0,120):null})(),
-              oneTimeVisible: /One-Time/.test(document.getElementById('root').innerText),
-              needToKnow: /need to know/i.test(document.getElementById('root').innerText),
-              preDisplay: getComputedStyle(document.getElementById('mc-prehero')).display,
-              rootKids: document.getElementById('root').children.length,
-              stickyText: (()=>{const s=document.querySelector('.sticky .btn');return s?s.textContent.trim().slice(0,60):null})(),
-            };
+            const cs=atc?getComputedStyle(atc):null;
+            return { cssLinks:[...document.querySelectorAll('link[rel=stylesheet]')].map(l=>l.href.split('?')[1]||'').filter(v=>/fd5/.test(v)),
+              atcBg:cs?cs.backgroundColor:null, atcRadius:cs?cs.borderRadius:null,
+              bodyFont:getComputedStyle(document.body).fontFamily.slice(0,40),
+              pickerTitleSize:(()=>{const e=document.querySelector('.picker-title');return e?getComputedStyle(e).fontSize:null})(),
+              rootKids:document.getElementById('root').children.length };
           });
-          console.log(JSON.stringify(t,null,1));
+          console.log(JSON.stringify(t));
           await b.close();
           })();
           EOS
-          cat copy-verify.txt
-          for n in 1 2 3; do
-            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
-              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
-              --output=json --output-path=lh-$n.json || true
-          done
-          node - <<'EOS'
-          const fs=require('fs');
-          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
-          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
-            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
-            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
-            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
-          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
-          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
-          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
-          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
-          console.log(out);
-          fs.writeFileSync('lh-summary-r46.txt',out);
-          const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r46.json',JSON.stringify(keep.r));
-          const a=keep.r.audits;
-          const fb=(a['network-requests'].details.items||[]).filter(i=>/connect\.facebook/.test(i.url));
-          console.log('FB pixel requests: '+fb.length);
-          EOS
-      - name: Commit results
+      - name: Commit marker
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
-          cp lh-r46.json lh-summary-r46.txt copy-verify.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true
+          date -u > lp-factory/pages/pdp-free-diffuser/perf2/r47-done.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP copy round verify r46 fd52 (bot)" || true
+          git commit -m "css diagnosis r47 done (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

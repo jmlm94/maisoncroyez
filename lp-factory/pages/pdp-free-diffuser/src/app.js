@@ -94,7 +94,7 @@ const CONFIG = {
 
   buybox: {
     microProof: "2,500+ guests asked \u201cwhat\u2019s that smell?\u201d so far!",
-    title: { pre: "Maison Croyez Organic Premium Scents +", em: "Waterless & Leakproof Award Winning Home Diffuser." },
+    title: { pre: "Maison Croyez —", em: "Home Diffuser & Manifestation Power Scents.", post: "Make your spaces feel great." },
     offer: {
       price: "$39.95",
       priceUnit: "",
@@ -110,15 +110,15 @@ const CONFIG = {
         { icon: "leaf", text: "No mold, leaking\nor maintenance" },
       ],
     },
-        pickerTitle: "Pick your fragrance:",
+        pickerTitle: "Select the scent that matches your intention:",
     pickerLabel: "Tap a scent to select it. A new scent arrives every month, and you can swap intentions before each delivery.",
-    cta: { label: "Claim My Free Diffuser", sub: "Only **19** free diffusers left!" },
+    cta: { label: "ADD TO CART", sub: "**Includes your free new diffuser!**" },
     booklet: "",
     trustStrip: [
     ],
     accordions: [
       { q: "How does the Manifestation Circle work?", a: "Today you pay $39.95 and your diffuser ships free with your first 100ml scent. Every month a new scent arrives before the last one runs out, billed at $39.95. No minimum. Cancel anytime." },
-      { q: "Am I committed to a subscription?", a: "No. The Manifestation Circle membership only continues if you decide to keep going after your first 30 days: there is no minimum, and you can cancel anytime from any delivery email. And if you choose the One-Time Set, there is no subscription at all. One payment, and you're free." },
+      { q: "Am I committed to a subscription?", a: "No. The Manifestation Circle membership only continues if you decide to keep going after your first 30 days: there is no minimum, and you can cancel anytime from any delivery email." },
       { q: "Which scent should I choose?", a: "Choose by what you want to attract. Each of the 7 scents is composed around one intention: love, abundance, raised energy, relaxation and concentration, purification, love manifestation, or turning ideas into reality. Trust the one your home is asking for, and remember you can swap before any delivery." },
       { q: "Will it grow mold like water diffusers?", a: "Not at all. Our diffuser is completely waterless, meaning no mold risks and no cleaning is required." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
@@ -132,43 +132,43 @@ const CONFIG = {
       key: "love", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
-      chips: ["🌼 Buttercup", "🌸 Honeysuckle", "🌻 Sunflower"],
+      chips: ["Buttercup, Honeysuckle & Sunflower."],
     },
     {
       key: "abundance", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
-      chips: ["🍃 Yuzu Leaf", "🍊 Green Mandarin", "🌲 Cypress"],
+      chips: ["Yuzu Leaf, Green Mandarin & Cypress."],
     },
     {
       key: "focus", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
-      chips: ["🪻 Chilled Lavender", "🌿 Eucalyptus", "🍋 White Citrus"],
+      chips: ["Chilled Lavender, Eucalyptus & White Citrus."],
     },
     {
       key: "ideas", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
-      chips: ["🥛 Ginger Milk", "🌳 White Birch", "🍯 Eucalyptus Honey"],
+      chips: ["Ginger Milk, White Birch & Eucalyptus Honey."],
     },
     {
       key: "energy", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
-      chips: ["🍵 Jasmine Tea", "🍑 White Peach", "🪵 Sandalwood Crème"],
+      chips: ["Jasmine Tea, White Peach & Sandalwood Crème."],
     },
     {
       key: "purify", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
-      chips: ["🫐 Huckleberry", "🌲 Wild Juniper", "🌿 Mountain Fern"],
+      chips: ["Huckleberry, Wild Juniper & Mountain Fern."],
     },
     {
       key: "midnight", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
-      chips: ["🌙 Moonflower", "🌺 Night Lily", "🤍 Skin Musk"],
+      chips: ["Moonflower, Night Lily & Skin Musk."],
     },
   ],
 
@@ -605,39 +605,31 @@ function BuyBox() {
         <${Gallery}/>
         <div class="buybox">
           <div class="rating"><${Stars}/> ${B.microProof}</div>
-          <h1>${B.title.pre} <em>${B.title.em}</em></h1>
+          <h1>${B.title.pre} <em>${B.title.em}</em>${B.title.post ? " " + B.title.post : ""}</h1>
           <div class="price-row">
             <span class="price"><span class="price-from">from</span> ${usd(OFFER.price)}<span class="price-unit">per month</span></span>
-            <span class="price-badge">Free Diffuser Included</span>
+            <span class="price-badge">30 days to try 📅</span>
           </div>
           <div class="usp3">
             ${B.offer.bullets.map((b) => html`<span class="usp" key=${b.text}><span class="usp-ic"><${Icon} name=${b.icon}/></span><span class="usp-tx">${b.text}</span></span>`)}
           </div>
           <div class="dayrate">
-            <span class="dayrate-ic" role="img" aria-hidden="true">🛎️</span>
-            <span>Your spaces will smell like $1,000/night hotels for just <strong>$1.33 a day</strong>, guaranteed.</span>
+            <span class="dayrate-ic" role="img" aria-hidden="true">🧞‍♂️</span>
+            <span>Meet your living room genie: pick the scent, set the intention, your diffuser does the rest.</span>
           </div>
 
-          <div class="picker-title plansel-title">Two ways to bring it home — pick yours:</div>
-          <div class="plansel" role="radiogroup" aria-label="Choose your option">
-            <button class=${"plan" + (ritual ? " on" : "")} role="radio" aria-checked=${ritual} onClick=${() => sel.setPlan("ritual")}>
+          <div class="picker-title plansel-title">It's simple: Select your scent, we'll send you a free new diffuser on us, and a sample booklet to smell the rest. Risk-free.</div>
+          <div class="plansel">
+            <div class="plan on">
               <span class="plan-badge">#1 most ordered!</span>
-              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle and claim your free diffuser plus:</span><span class="plan-price">${usd(OFFER.price)}/mo</span></span>
+              <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy:</span><span class="plan-price">${usd(OFFER.price)}/mo</span></span>
               <ul>
-                <li>Members get their diffuser free along with your 100ml scent. Lasts 30+ days.</li>
-                <li>Renews monthly. Swap scents anytime you want.</li>
+                <li>Members get their scent and free diffuser shipped immediately through our priority line.</li>
+                <li>Renews every 30 days. No action needed. Swap scents as many times as you wish.</li>
                 <li>Access to new launches, special deals, and more.</li>
-                <li><strong>30-day guarantee: Full refund, return label, membership cancelled, you keep the scent for free.</strong></li>
+                <li><strong>If your home doesn't feel different in 30 days, we'll take it all back and cancel your membership at no cost.</strong></li>
               </ul>
-            </button>
-            <button class=${"plan" + (!ritual ? " on" : "")} role="radio" aria-checked=${!ritual} onClick=${() => sel.setPlan("onetime")}>
-              <span class="plan-head"><span class="plan-name">One-Time Set</span><span class="plan-price">${usd(OFFER.oneTime)}</span></span>
-              <ul>
-                <li>Includes one diffuser plus one 100ml scent. No subscription needed.</li>
-                <li>No automatic refills or swapping options.</li>
-                <li><strong>Join our Circle within 30 days after purchase and we’ll give you a free 100ml fragrance.</strong></li>
-              </ul>
-            </button>
+            </div>
           </div>
 
           <div class="picker-title">${B.pickerTitle}</div>
@@ -663,15 +655,17 @@ function BuyBox() {
           </div>
 
           <button class="btn atc" disabled=${locked} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding…" : (ritual ? B.cta.label : "Add the One-Time Set") + " ➔"}</span>
-            <span class="btn-sub">${ritual ? html`<${Rich} s=${B.cta.sub}/>` : "One payment. Free shipping."}</span>
+            <span>${busy ? "Adding…" : B.cta.label + " ➔"}</span>
+            <span class="btn-sub"><${Rich} s=${B.cta.sub}/></span>
           </button>
 
-          <div class="hiw-title">Joining the Manifestation Circle? You need to know this:</div>
+          <div class="atc-guar">If your home doesn't feel different in 30 days, we'll take it all back. No membership. No extra-cost. No questions asked.</div>
+
+          <div class="hiw-title">Joining the Manifestation Circle?</div>
           <div class="hiw" aria-label="How the ritual works">
-            <div class="hiw-row"><span class="hiw-k">Today</span><span>Only <strong>${usd(OFFER.price)}</strong>. Your scent and diffuser ship free. You’ll see a subscription notice at checkout. Cancel anytime stress-free.</span></div>
+            <div class="hiw-row"><span class="hiw-k">Today</span><span>Only <strong>${usd(OFFER.price)}</strong>. Your scent and diffuser ship free. You’ll see a subscription notice at checkout. Cancel anytime and we’ll take it all back.</span></div>
             <div class="hiw-row"><span class="hiw-k">Every month</span><span>A new scent arrives before the last one runs out so your home doesn’t lose power. Swap scents when needed.</span></div>
-            <div class="hiw-row"><span class="hiw-k">30 Days</span><span><strong>Money-Back Guarantee</strong>: It’s a membership, but if your space doesn’t feel different, let us know, we’ll cancel it and send you a return label. You won’t pay a dime after.</span></div>
+            <div class="hiw-row"><span class="hiw-k">90 days</span><span>After 3 cycles, if you decide to cancel you keep the diffuser and all the scents received. No need to send them back.</span></div>
           </div>
           ${B.booklet && html`<div class="booklet-note"><${Rich} s=${B.booklet}/></div>`}
 
@@ -879,7 +873,7 @@ function StickyBar() {
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
-        <span>${busy ? "Adding…" : (sel.plan === "ritual" ? "Claim My Free Diffuser · " + usd(OFFER.price) : "One-Time Set · " + usd(OFFER.oneTime)) + " ➔"}</span>
+        <span>${busy ? "Adding…" : "ADD TO CART · " + usd(OFFER.price) + " ➔"}</span>
         <span class="btn-sub">${sel.label() + " + Maison Croyez diffuser"}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>

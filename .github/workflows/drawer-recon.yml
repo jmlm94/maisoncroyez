@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 45b — fd51 confirmation, patient: storefront HTML cache flapping between revisions post rapid flips; poll up to 55 min
+# run 46 — copy round live verify: single-Circle offer, new title, black ATC (fd52) — DOM checks + Lighthouse median-of-3
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,59 +13,70 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lighthouse x3
+      - name: Verify + Lighthouse x3
         run: |
           npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
           URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          # 1) verify ORIGIN bytes on cache-busted URLs (never touches the canonical hourly URL)
-          for i in $(seq 1 10); do
+          # 1) origin propagation of the new bundle bytes (cache-busted with unique ?v=)
+          for i in $(seq 1 50); do
             OK=1
-            curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=oc$RANDOM$RANDOM" | grep -q "mc-prehero" || OK=0
-            curl -fsSL "$B/mc-lp-free-diffuser.css?v=oc$RANDOM$RANDOM" | grep -q "align-items:flex-start;overflow-x:auto" || OK=0
+            curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=oc$RANDOM$RANDOM" | grep -q "Join the Manifestation Circle today and enjoy" || OK=0
+            curl -fsSL "$B/mc-lp-free-diffuser.css?v=oc$RANDOM$RANDOM" | grep -q "atc-guar" || OK=0
             if [ "$OK" = "1" ]; then echo "origin propagated (attempt $i)"; break; fi
             echo "origin still stale (attempt $i)"; sleep 30
           done
           [ "$OK" = "1" ] || { echo "FATAL: origin never propagated"; exit 1; }
-          # 2) wait for the page to flip to fd47, then verify canonical hourly URLs
+          # 2) wait for the page to flip to fd52, then verify canonical hourly URLs
           OK=0
-          for i in $(seq 1 55); do
-            V="fd51-$(date -u +%Y%m%d%H)"
-            if curl -fsSL "$URL&flip=$i" | grep -q "fd51-" \
-               && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "mc-prehero" \
-               && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "align-items:flex-start;overflow-x:auto"; then OK=1; echo "fd47 live, canonical URLs fresh (attempt $i)"; break; fi
-            echo "page not on fd51 yet / edge stale (attempt $i)"; sleep 60
+          for i in $(seq 1 40); do
+            V="fd52-$(date -u +%Y%m%d%H)"
+            if curl -fsSL "$URL&flip=$i" | grep -q "fd52-" \
+               && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "Join the Manifestation Circle today and enjoy" \
+               && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "atc-guar"; then OK=1; echo "fd52 live, canonical URLs fresh (attempt $i)"; break; fi
+            echo "page not on fd52 yet / edge stale (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: fd51 not live within 55 min"; exit 1; }
-          node - <<'EOS' > cls-probe.txt
+          [ "$OK" = "1" ] || { echo "FATAL: fd52 not live within 40 min"; exit 1; }
+          node - <<'EOS' > copy-verify.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          await ctx.addInitScript(()=>{
-            window.__lcp=[];
-            new PerformanceObserver(l=>l.getEntries().forEach(e=>window.__lcp.push({t:Math.round(e.startTime),size:e.size,el:e.element?(e.element.tagName+' '+(e.element.getAttribute&&e.element.getAttribute('alt')||'').slice(0,30)):'?'})))
-              .observe({type:'largest-contentful-paint',buffered:true});
-            window.__pre=[]; const iv=setInterval(()=>{const p=document.getElementById('mc-prehero');const im=p&&p.querySelector('img');
-              window.__pre.push({t:Math.round(performance.now()),ex:!!p,disp:p?getComputedStyle(p).display:'-',imC:im?im.complete:'-',rk:(document.getElementById('root')||{children:[]}).children.length});
-              if(window.__pre.length>60)clearInterval(iv);},50);
-          });
-          const page = await ctx.newPage();
+          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
           await page.goto('https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test',{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(4000);
-          const out=await page.evaluate(()=>({lcp:window.__lcp, pre:window.__pre.filter((x,i)=>i<40),
-            fin:{preDisplay:getComputedStyle(document.getElementById('mc-prehero')).display, rootKids:document.getElementById('root').children.length,
-                 heroRect:(()=>{const i=document.querySelector('#root .gal-slide img');const r=i?i.getBoundingClientRect():null;return r?Math.round(r.width)+'x'+Math.round(r.height):'-'})()}}));
-          console.log('LCP ENTRIES:'); out.lcp.forEach(e=>console.log('  '+e.t+'ms size='+e.size+' '+e.el));
-          console.log('PRE TIMELINE (t exists display imgComplete rootKids):');
-          out.pre.forEach(p=>console.log('  '+p.t+' '+p.ex+' '+p.disp+' '+p.imC+' '+p.rk));
-          console.log('FINAL '+JSON.stringify(out.fin));
+          await page.waitForTimeout(9000);
+          const t = await page.evaluate(()=>{
+            const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim():null};
+            const atc=document.querySelector('.btn.atc');
+            return {
+              h1: q('#root h1'),
+              badge: q('.price-badge'),
+              dayrate: q('.dayrate'),
+              planCount: document.querySelectorAll('.plansel .plan').length,
+              planName: q('.plan-name'),
+              planselTitle: q('.plansel-title'),
+              planBullet1: q('.plan ul li'),
+              pickerTitles: [...document.querySelectorAll('.picker-title')].map(e=>e.textContent.trim().slice(0,60)),
+              firstIngs: q('.pick-ings'),
+              atcText: atc?atc.textContent.trim():null,
+              atcBg: atc?getComputedStyle(atc).backgroundColor:null,
+              atcGuar: q('.atc-guar'),
+              hiwTitle: q('.hiw-title'),
+              hiwKeys: [...document.querySelectorAll('.hiw-k')].map(e=>e.textContent.trim()),
+              hiwLast: (()=>{const r=[...document.querySelectorAll('.hiw-row')];return r.length?r[r.length-1].textContent.trim().slice(0,120):null})(),
+              oneTimeVisible: /One-Time/.test(document.getElementById('root').innerText),
+              needToKnow: /need to know/i.test(document.getElementById('root').innerText),
+              preDisplay: getComputedStyle(document.getElementById('mc-prehero')).display,
+              rootKids: document.getElementById('root').children.length,
+              stickyText: (()=>{const s=document.querySelector('.sticky .btn');return s?s.textContent.trim().slice(0,60):null})(),
+            };
+          });
+          console.log(JSON.stringify(t,null,1));
           await b.close();
           })();
           EOS
-          cat cls-probe.txt
+          cat copy-verify.txt
           for n in 1 2 3; do
             npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
               --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
@@ -83,26 +94,22 @@ jobs:
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
           console.log(out);
-          fs.writeFileSync('lh-summary-r45.txt',out);
-          // keep the run whose score == median score for detail archaeology
+          fs.writeFileSync('lh-summary-r46.txt',out);
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r45.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lh-r46.json',JSON.stringify(keep.r));
           const a=keep.r.audits;
-          const lcpEl=a['largest-contentful-paint-element'];
-          try{console.log('median-run LCP el: '+lcpEl.details.items[0].items[0].node.snippet.slice(0,160));
-            console.log('median-run LCP phases: '+JSON.stringify(lcpEl.details.items[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
           const fb=(a['network-requests'].details.items||[]).filter(i=>/connect\.facebook/.test(i.url));
-          console.log('FB pixel requests: '+fb.length); fb.slice(0,3).forEach(i=>console.log('  '+i.url.slice(0,100)));
+          console.log('FB pixel requests: '+fb.length);
           EOS
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/pdp-free-diffuser/perf2
-          cp lh-r45.json lh-summary-r45.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true; cp cls-probe.txt lp-factory/pages/pdp-free-diffuser/perf2/cls-probe-r45.txt 2>/dev/null || true
+          cp lh-r46.json lh-summary-r46.txt copy-verify.txt lp-factory/pages/pdp-free-diffuser/perf2/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-free-diffuser/perf2
-          git commit -m "LP perf r45 fd51 final (bot)" || true
+          git commit -m "LP copy round verify r46 fd52 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

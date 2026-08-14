@@ -14,6 +14,7 @@ Hello Jose — yesterday we sold *$400* on Shopify across *5 orders* (*$280* sub
 | 90 days | $9,826 | $19,273 | −$17,170  | 0.51× |
 
 :seedling: *Subscriptions:* 145 acquired · est. MRR *$5,750* (ceiling — cancels not visible via API) · 4 new yesterday · 0 renewal orders in 28d
-:crystal_ball: *Renewal outlook (75% stay 180d):* existing base returns *$16,216* renewal profit over 180d — 94% of the investment to date · LTV:CAC *0.88×* ($113 vs $128 CAC)
+:vs: *Meta vs day before:* CPM −17.0% · CPC −16.1% · CTR −1.1% · spend −19.1%
+:scales: *Worth it yet?* Almost — each sub costs $128, returns ~$113 in 180d (0.88×). Break-even CAC: $113.
 
 :bar_chart: Full interactive report: https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039

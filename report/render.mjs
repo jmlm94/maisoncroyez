@@ -43,6 +43,14 @@ const deltaChip = (d, invert = false) => {
   const arrow = d.pct >= 0 ? '▲' : '▼';
   return `<span class="chip ${good ? 'chip-up' : 'chip-down'}">${arrow} ${Math.abs(d.pct).toFixed(1)}%</span>`;
 };
+// bare day-over-day % chip; invert = lower is better; neutral = no good/bad reading
+const dod = C.metaDoD || {};
+const dodChip = (p, invert = false, neutral = false) => {
+  if (p == null) return '';
+  const arrow = p >= 0 ? '▲' : '▼';
+  const cls = neutral ? 'chip-flat' : ((invert ? p < 0 : p >= 0) ? 'chip-up' : 'chip-down');
+  return ` <span class="chip ${cls}" title="vs prior day">${arrow} ${Math.abs(p).toFixed(1)}%</span>`;
+};
 
 // ---- SVG chart builders (light DOM, themed via CSS vars) ----
 const W = 920, H = 260, PAD = { l: 52, r: 116, t: 14, b: 26 };
@@ -86,6 +94,38 @@ function profitBars(series) {
   return `<svg viewBox="0 0 ${W} ${H - 60}" class="chart" role="img" aria-label="Daily contribution profit">
     <line x1="${PAD.l}" x2="${W - PAD.r}" y1="${zero}" y2="${zero}" class="grid zero"/>
     <text x="${PAD.l - 8}" y="${zero + 4}" class="axis" text-anchor="end">$0</text>${bars}</svg>`;
+}
+
+// blended ROAS since launch: 7-day rolling line + faint daily dots, with the
+// 1× line (sales = spend) and the front-end break-even level for context
+function roasChart(series, breakeven) {
+  const s = series.filter(d => d.roas7 != null);
+  if (!s.length) return '';
+  const maxY = Math.max(1.3, ...s.map(d => d.roas7)) * 1.2;
+  const x = i => PAD.l + (W - PAD.l - PAD.r) * (s.length < 2 ? 0.5 : i / (s.length - 1));
+  const y = v => H - PAD.b - (H - PAD.t - PAD.b) * (v / maxY);
+  const path = s.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(d.roas7).toFixed(1)}`).join('');
+  const steps = [];
+  for (let v = 0.5; v < maxY; v += 0.5) steps.push(v);
+  const grid = steps.map(v =>
+    `<line x1="${PAD.l}" x2="${W - PAD.r}" y1="${y(v)}" y2="${y(v)}" class="grid ${v === 1 ? 'zero' : ''}"/>
+     <text x="${PAD.l - 8}" y="${y(v) + 4}" class="axis" text-anchor="end">${v.toFixed(1)}×</text>`).join('');
+  const ticks = s.filter((_, i) => i % Math.max(1, Math.floor(s.length / 6)) === 0)
+    .map((d) => `<text x="${x(s.indexOf(d))}" y="${H - 6}" class="axis" text-anchor="middle">${shortDate(d.date)}</text>`).join('');
+  const dots = s.map((d, i) => d.roas == null ? '' :
+    `<circle cx="${x(i).toFixed(1)}" cy="${y(Math.min(d.roas, maxY * 0.98)).toFixed(1)}" r="2.3" class="p2" opacity=".4"><title>${d.date} · daily ${d.roas.toFixed(2)}×</title></circle>`).join('');
+  const li = s.length - 1;
+  const beNote = breakeven ? (breakeven <= maxY
+    ? `<line x1="${PAD.l}" x2="${W - PAD.r}" y1="${y(breakeven)}" y2="${y(breakeven)}" class="cross"/>
+       <text x="${W - PAD.r - 4}" y="${y(breakeven) - 6}" class="axis" text-anchor="end">front-end break-even ≈ ${breakeven.toFixed(1)}×</text>`
+    : `<text x="${W - PAD.r - 4}" y="${y(steps[steps.length - 1]) - 9}" class="axis" text-anchor="end">front-end break-even ≈ ${breakeven.toFixed(1)}× (above scale — renewals must close the gap)</text>`) : '';
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="Blended ROAS since launch">
+    ${grid}${ticks}${beNote}${dots}
+    <text x="${PAD.l + 6}" y="${y(1) - 6}" class="axis">1.0× — sales equal ad spend</text>
+    <path d="${path}" class="l1"/>
+    <circle cx="${x(li)}" cy="${y(s[li].roas7)}" r="4" class="p1"/>
+    <text x="${x(li) + 8}" y="${y(s[li].roas7) + 4}" class="lbl lbl1">7-day ${s[li].roas7.toFixed(2)}×</text>
+  </svg>`;
 }
 
 // projection chart: cumulative renewal margin (existing base) vs keep-spending
@@ -269,16 +309,18 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
       </table>
     </div>
     <div class="card">
-      <div class="eyebrow" style="margin-bottom:10px">Meta account · yesterday</div>
+      <div class="eyebrow" style="margin-bottom:10px">Meta account · yesterday vs day before</div>
       <div class="split">
-        <div class="pill">CPM <b>${usd(Y.cpm, 2)}</b></div>
-        <div class="pill">CPC <b>${usd(Y.cpc, 2)}</b></div>
-        <div class="pill">CTR <b>${Y.ctr == null ? '—' : Y.ctr.toFixed(2) + '%'}</b></div>
-        <div class="pill">Impressions <b>${numf(Y.impressions)}</b></div>
-        <div class="pill">Clicks <b>${numf(Y.clicks)}</b></div>
+        <div class="pill">Spend <b>${usd(Y.spend)}</b>${dodChip(dod.spendPct, false, true)}</div>
+        <div class="pill">CPM <b>${usd(Y.cpm, 2)}</b>${dodChip(dod.cpmPct, true)}</div>
+        <div class="pill">CPC <b>${usd(Y.cpc, 2)}</b>${dodChip(dod.cpcPct, true)}</div>
+        <div class="pill">CTR <b>${Y.ctr == null ? '—' : Y.ctr.toFixed(2) + '%'}</b>${dodChip(dod.ctrPct)}</div>
+        <div class="pill">Impressions <b>${numf(Y.impressions)}</b>${dodChip(dod.impressionsPct, false, true)}</div>
+        <div class="pill">Clicks <b>${numf(Y.clicks)}</b>${dodChip(dod.clicksPct)}</div>
         <div class="pill">Meta purchases <b>${numf(Y.metaPurchases)}</b></div>
         <div class="pill">Cost / order <b>${usd(Y.costPerOrder, 2)}</b></div>
       </div>
+      <p class="subnote" style="margin:10px 0 0">Chips compare with the day before — green means the metric moved in your favor (cheaper CPM/CPC, higher CTR); gray chips are informational.</p>
       <div class="split" style="margin-top:10px">
         <div class="pill">Subscription revenue <b>${usd(Y.subNetSales)}</b></div>
         <div class="pill">One-time revenue <b>${usd(Y.oneTimeNetSales)}</b></div>
@@ -295,6 +337,10 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
     <div class="legend" style="margin-top:14px"><span><span class="sw" style="background:var(--pos)"></span>Profit day</span>
       <span><span class="sw" style="background:var(--neg)"></span>Loss day</span></div>
     ${profitBars(C.series)}
+    <div class="legend" style="margin-top:14px"><span><span class="sw" style="background:var(--s1)"></span>Blended ROAS, 7-day rolling</span>
+      <span><span class="sw" style="background:var(--s2);height:6px;width:6px;border-radius:99px"></span>Single-day ROAS</span></div>
+    ${roasChart(C.series, C.breakevenRoas)}
+    <p class="subnote" style="margin:10px 0 0">Blended ROAS = all net sales ÷ Meta spend. The rising line means each ad dollar is buying more revenue than before. 1.0× only covers the ad bill — the front end also carries product, shipping and fees, so day-one break-even sits near ${C.breakevenRoas ? C.breakevenRoas.toFixed(1) : '—'}×; running below it is the deliberate cost of buying subscribers (see the renewal model below).</p>
   </div>
 
   <h2>Performance windows</h2>
@@ -322,21 +368,49 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
     <div class="tile"><div class="k">Projected MRR +30d</div><div class="v">${usd(S.projectedMrr30)}</div><div class="d">at current pace of +${S.netAddsPerDay.toFixed(1)} subs/day</div></div>
     <div class="tile"><div class="k">Projected MRR +90d</div><div class="v">${usd(S.projectedMrr90)}</div><div class="d">straight-line projection</div></div>
   </div>
+  ${S.windows ? `
+  <div class="card tablewrap" style="margin-top:14px">
+    <table class="data">
+      <thead><tr><th>Window</th><th>New subs</th><th>Δ</th><th>Attach rate</th><th>Sub sales</th><th>Δ</th><th>CAC / sub</th><th>Δ</th><th>Renewals</th></tr></thead>
+      <tbody>${config.windows.map(n => { const w = S.windows[String(n)]; if (!w) return '';
+        return `<tr><td class="win-label">${n === 1 ? 'Yesterday' : `Last ${n} days`}</td>
+          <td>${numf(w.newSubs)}</td><td>${deltaChip(w.delta.newSubs)}</td>
+          <td>${w.attachPct == null ? '—' : w.attachPct.toFixed(0) + '%'}</td>
+          <td>${usd(w.subNetSales)}</td><td>${deltaChip(w.delta.subNetSales)}</td>
+          <td>${usd(w.cacPerSub, 0)}</td><td>${deltaChip(w.delta.cacPerSub, true)}</td>
+          <td>${numf(w.renewals)}</td></tr>`; }).join('')}</tbody>
+    </table>
+    <p class="subnote" style="margin:10px 0 0">Attach rate = share of orders that start a subscription. CAC / sub = Meta spend ÷ new subscribers in the window. Δ compares with the equal-length window before it; green CAC means acquiring got cheaper.</p>
+  </div>` : ''}
   <p class="subnote" style="margin-top:10px">Derived from order history (Subi doesn’t expose contract statuses to the API): MRR counts every acquired subscription at its plan’s recurring list price, normalized to 30 days — cancellations aren’t visible yet, so treat MRR as a ceiling and watch renewal orders as the ground truth.</p>
 
   ${S.projection ? (P => {
     const A = P.assumptions;
+    const V = P.verdict || {};
     const mix = Object.entries(S.cadenceMix || {}).sort((a, b) => b[1] - a[1])
       .map(([cad, n]) => `${n} × every ${cad}d`).join(' · ');
     const h180 = P.horizons['180'];
     const rows = [30, 60, 90, 180].map(h => { const x = P.horizons[String(h)]; if (!x) return '';
       return `<tr><td class="win-label">+${h} days</td>
-        <td>${numf(x.renewalOrders)}</td><td>${usd(x.renewalRevenue)}</td><td>${usd(x.renewalMargin)}</td>
-        <td class="${x.pnlAfterRenewals >= 0 ? '' : ''}">${usd(x.pnlAfterRenewals)}</td>
+        <td>${numf(x.renewalOrders)}</td><td>${usd(x.renewalMargin)}</td>
         <td>${x.recoveredPct == null ? '—' : x.recoveredPct.toFixed(0) + '%'}</td>
+        <td>${usd(x.pnlAfterRenewals)}</td>
         <td>${usd(x.scenarioBCumulative)}</td></tr>`; }).join('');
     return `
-  <h2>Renewal recovery model — 75% stay 180 days</h2>
+  <h2>Renewal recovery model — is the front-end investment worth it?</h2>
+  <div class="card" style="border-left:4px solid var(--${V.worthIt ? 'pos' : 's3'});margin-bottom:16px">
+    <div class="eyebrow" style="margin-bottom:8px;color:var(--${V.worthIt ? 'pos' : 's3'})">The verdict, in plain terms</div>
+    <p style="font-size:17px;margin:0 0 10px"><strong>${V.worthIt
+      ? `Yes — every subscriber you buy for ${usd(P.cac28, 0)} returns about ${usd(P.ltv180, 0)} of renewal profit within 180 days (${P.ltvToCac.toFixed(2)}× your money back).`
+      : `Almost, but not yet — every subscriber costs ${usd(P.cac28, 0)} to acquire and returns about ${usd(P.ltv180, 0)} of renewal profit within 180 days. That's ${usd(Math.abs(V.gapPerSub), 0)} lost per subscriber (${P.ltvToCac ? P.ltvToCac.toFixed(2) : '—'}× your money back).`}</strong></p>
+    <p style="margin:0 0 6px">The machine starts printing money when any one of these happens:</p>
+    <ul style="margin:0;padding-left:20px;line-height:1.8">
+      <li>CAC drops below <strong>${usd(V.breakEvenCac, 0)}</strong> per subscriber (currently ${usd(P.cac28, 0)} — needs ${P.cac28 && V.breakEvenCac ? Math.abs((1 - V.breakEvenCac / P.cac28) * 100).toFixed(0) : '—'}% cheaper), or</li>
+      <li>retention beats <strong>${V.retentionNeeded != null ? (V.retentionNeeded * 100).toFixed(0) + '%' : '—'}</strong> staying 180 days (you assumed ${(A.retention * 100).toFixed(0)}%), or</li>
+      <li>subscribers keep renewing <strong>past 180 days</strong> — every extra month after that is ${usd(A.avgRenewalMargin, 0)}/subscriber of nearly pure profit.</li>
+    </ul>
+    <p class="subnote" style="margin:12px 0 0">The first real renewal wave bills next week — those numbers will tell us if the 75% assumption holds. Until then this is a model, not a promise.</p>
+  </div>
   <div class="card">
     <div class="split" style="margin-bottom:14px">
       <div class="pill">Avg renewal order <b>${usd(A.avgRenewalValue, 2)}</b></div>
@@ -348,7 +422,7 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
     </div>
     <div class="tablewrap">
       <table class="data">
-        <thead><tr><th>Horizon</th><th>Renewals</th><th>Revenue</th><th>Renewal profit</th><th>P&amp;L, spend paused</th><th>Recovered</th><th>P&amp;L, spend continues</th></tr></thead>
+        <thead><tr><th>Horizon</th><th>Renewal orders</th><th>Renewal profit</th><th>Investment paid back</th><th>Cash position if ads stop</th><th>Cash position if ads continue</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
@@ -357,7 +431,7 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
       <span><span class="sw" style="background:var(--s2)"></span>Cumulative P&amp;L if spend continues at current pace</span>
     </div>
     ${projectionChart(P)}
-    <p class="subnote" style="margin:12px 0 0">How to read this — “P&amp;L if spend stopped” takes today’s cumulative contribution P&amp;L (${usd(A.holeToDate)}) and adds only the renewal profit the already-acquired base would generate. “P&amp;L if spend continues” also keeps acquiring ${A.newSubsPerDay.toFixed(1)} subscribers/day at the current front-end economics (${usd(A.frontEndDailyProfit, 0)}/day) with their renewals stacking on top${P.dailyBreakEvenDay ? ` — the daily run-rate turns profitable around day ${P.dailyBreakEvenDay}` : ''}. Assumes ${(A.retention * 100).toFixed(0)}% of subscribers renew on schedule through day 180 (the other ${(100 - A.retention * 100).toFixed(0)}% never renew), renewals at plan list price, ~$15 all-in fulfillment on a single-scent renewal ($9 product + ${usd(A.shipCostPerOrder, 2)} shipping, scaling product cost for multi-scent plans) plus card fees, and no renewals counted beyond each subscriber’s 180th day. ${h180 && h180.recoveredPct != null ? `At these assumptions the existing base recovers ${h180.recoveredPct.toFixed(0)}% of the investment within 180 days.` : ''}</p>
+    <p class="subnote" style="margin:12px 0 0">How to read this — you have invested ${usd(Math.abs(A.holeToDate))} so far (everything spent minus everything earned). “If ads stop”, the ${numf(S.active)} subscribers you already own keep renewing and pay back ${h180 && h180.recoveredPct != null ? h180.recoveredPct.toFixed(0) + '%' : 'most'} of that within 180 days. “If ads continue” at today’s pace (${A.newSubsPerDay.toFixed(1)} new subscribers/day, ${usd(Math.abs(A.frontEndDailyProfit), 0)}/day front-end loss), the total hole grows for a while — but renewals stack until${P.dailyBreakEvenDay ? ` around day ${P.dailyBreakEvenDay}, when` : ''} a normal day becomes profitable. Assumptions: ${(A.retention * 100).toFixed(0)}% of subscribers renew on schedule through day 180 (the rest never renew), renewals at plan list price, ~$15 all-in fulfillment per single-scent renewal ($9 product + ${usd(A.shipCostPerOrder, 2)} shipping) plus card fees, nothing counted past each subscriber’s 180th day.</p>
   </div>`; })(S.projection) : ''}
 
   <p class="foot">Methodology — Net sales are product revenue after discounts, before tax; taxes are excluded as pass-through. Refunds are booked on the day issued and do not credit COGS back. COGS uses Shopify line-item unit costs. Payment fees are the actual per-transaction fees from Shopify Payments.${est ? ' Shipping cost is a flat estimate per order — Shopify’s API does not expose purchased label costs; replace the estimate in report/config.json when the real average is known.' : ''} Blended ROAS = net sales ÷ Meta spend (all revenue, not just attributed). Meta-reported ROAS uses Meta pixel attribution. Subscription MRR normalizes every Subi contract to a 30-day month. Report generated ${new Date(C.generatedAt).toLocaleString('en-US', { timeZone: 'America/New_York' })} ET.</p>
@@ -416,7 +490,10 @@ ${dline('45 days', w45)}
 ${dline('90 days', w90)}
 
 :seedling: *Subscriptions:* ${numf(S.active)} acquired · est. MRR *${usd(S.mrr)}* (ceiling — cancels not visible via API) · ${numf(S.newSubsYesterday)} new yesterday · ${numf(S.renewals28)} renewal orders in 28d
-${S.projection?.horizons?.['180'] ? `:crystal_ball: *Renewal outlook (75% stay 180d):* existing base returns *${usd(S.projection.horizons['180'].renewalMargin)}* renewal profit over 180d — ${S.projection.horizons['180'].recoveredPct != null ? S.projection.horizons['180'].recoveredPct.toFixed(0) + '% of the investment to date' : ''} · LTV:CAC *${S.projection.ltvToCac ? S.projection.ltvToCac.toFixed(2) + '×' : '—'}* (${usd(S.projection.ltv180, 0)} vs ${usd(S.projection.cac28, 0)} CAC)` : ''}
+${(dod.cpmPct != null || dod.ctrPct != null) ? `:vs: *Meta vs day before:* CPM ${pct(dod.cpmPct)} · CPC ${pct(dod.cpcPct)} · CTR ${pct(dod.ctrPct)} · spend ${pct(dod.spendPct)}` : ''}
+${S.projection?.verdict ? (V => `:scales: *Worth it yet?* ${V.worthIt
+  ? `Yes — ${usd(S.projection.cac28, 0)} CAC returns ${usd(S.projection.ltv180, 0)} in 180d renewals (${S.projection.ltvToCac.toFixed(2)}×).`
+  : `Almost — each sub costs ${usd(S.projection.cac28, 0)}, returns ~${usd(S.projection.ltv180, 0)} in 180d (${S.projection.ltvToCac ? S.projection.ltvToCac.toFixed(2) : '—'}×). Break-even CAC: ${usd(V.breakEvenCac, 0)}.`}`)(S.projection.verdict) : ''}
 
 ${config.artifactUrl ? `:bar_chart: Full interactive report: ${config.artifactUrl}` : ''}`;
 writeFileSync(join(dataDir, 'slack.md'), slack.trim() + '\n');

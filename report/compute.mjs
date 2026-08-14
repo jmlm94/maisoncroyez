@@ -140,6 +140,20 @@ for (const n of config.windows) {
   windows[n] = { ...cur, prev: { netSales: prev.netSales, spend: prev.spend, profit: prev.profit, orders: prev.orders }, delta };
 }
 
+// ---- Meta day-over-day (yesterday vs the day before) ----
+const dPrior = sumWindow(addDays(yesterday, -1), 1);
+const dCur = windows[1] || sumWindow(yesterday, 1);
+const pctChange = (a, b) => (a == null || b == null || b === 0) ? null : (a - b) / Math.abs(b) * 100;
+const metaDoD = {
+  prior: { date: addDays(yesterday, -1), spend: dPrior.spend, cpm: dPrior.cpm, cpc: dPrior.cpc, ctr: dPrior.ctr, impressions: dPrior.impressions, clicks: dPrior.clicks },
+  spendPct: pctChange(dCur.spend, dPrior.spend),
+  cpmPct: pctChange(dCur.cpm, dPrior.cpm),
+  cpcPct: pctChange(dCur.cpc, dPrior.cpc),
+  ctrPct: pctChange(dCur.ctr, dPrior.ctr),
+  impressionsPct: pctChange(dCur.impressions, dPrior.impressions),
+  clicksPct: pctChange(dCur.clicks, dPrior.clicks),
+};
+
 // ---- subscription health ----
 // Subi's contracts are not readable through the Admin API (contract data is
 // scoped to the Subi app), so health is DERIVED FROM ORDER HISTORY:
@@ -272,6 +286,36 @@ projection.ltv180 = ltvPerSub;   // renewal margin only (first order roughly was
 projection.cac28 = cac28;
 projection.ltvToCac = cac28 ? ltvPerSub / cac28 : null;
 
+// plain-language verdict on the acquisition model
+projection.verdict = {
+  worthIt: projection.ltvToCac != null && projection.ltvToCac >= 1,
+  breakEvenCac: ltvPerSub,                                   // max CAC that pays back in 180d
+  retentionNeeded: cac28 && ltvPerSub > 0 ? Math.min(1, RETENTION * cac28 / ltvPerSub) : null,
+  gapPerSub: cac28 != null ? ltvPerSub - cac28 : null,       // $ made(+)/lost(−) per subscriber at 180d
+};
+
+// subscription metrics per performance window (same layout as the P&L windows)
+const subWindows = {};
+for (const n of config.windows) {
+  const cur = sumWindow(yesterday, n);
+  const prev = sumWindow(addDays(yesterday, -n), n);
+  const comparable = prev.start >= config.adsStartDate;
+  const mk = t => ({
+    newSubs: t.firstSubOrders,
+    renewals: t.subOrders - t.firstSubOrders,
+    subNetSales: t.subNetSales, oneTimeNetSales: t.oneTimeNetSales,
+    attachPct: t.orders > 0 ? t.firstSubOrders / t.orders * 100 : null,
+    cacPerSub: t.firstSubOrders > 0 && t.spend > 0 ? t.spend / t.firstSubOrders : null,
+  });
+  const c = mk(cur), p = mk(prev);
+  subWindows[n] = { days: n, ...c, delta: !comparable ? {} : {
+    newSubs: { abs: c.newSubs - p.newSubs, pct: pctChange(c.newSubs, p.newSubs) },
+    subNetSales: { abs: c.subNetSales - p.subNetSales, pct: pctChange(c.subNetSales, p.subNetSales) },
+    attachPct: { abs: (c.attachPct ?? 0) - (p.attachPct ?? 0), pct: null },
+    cacPerSub: { abs: (c.cacPerSub ?? 0) - (p.cacPerSub ?? 0), pct: pctChange(c.cacPerSub, p.cacPerSub) },
+  } };
+}
+
 const subscriptions = {
   derivedFromOrders: true, // Subi contract statuses not accessible via API
   active: subscribers,     // acquired subscribers; cancellations not observable
@@ -281,6 +325,7 @@ const subscriptions = {
   netAddsPerDay,
   projectedMrr30: projMrr(30), projectedMrr60: projMrr(60), projectedMrr90: projMrr(90),
   cadenceMix: cadMix,
+  windows: subWindows,
   projection,
 };
 
@@ -294,6 +339,18 @@ for (let d = config.adsStartDate; d <= yesterday; d = addDays(d, 1)) {
     subNetSales: +v.subNetSales.toFixed(2), oneTimeNetSales: +v.oneTimeNetSales.toFixed(2),
   });
 }
+// blended ROAS per day + 7-day rolling (rolling smooths day-to-day noise)
+for (let i = 0; i < series.length; i++) {
+  const v = series[i];
+  v.roas = v.spend > 0 ? +(v.netSales / v.spend).toFixed(3) : null;
+  let s = 0, sp = 0;
+  for (let j = Math.max(0, i - 6); j <= i; j++) { s += series[j].netSales; sp += series[j].spend; }
+  v.roas7 = sp > 0 ? +(s / sp).toFixed(3) : null;
+}
+// ROAS needed for the front end alone to break even (margin before ad spend)
+const w90 = windows[Math.max(...config.windows)] || sumWindow(yesterday, 90);
+const marginBeforeSpend = w90.profit + w90.spend;
+const breakevenRoas = marginBeforeSpend > 0 ? w90.netSales / marginBeforeSpend : null;
 
 writeFileSync(join(dataDir, 'computed.json'), JSON.stringify({
   generatedAt: new Date().toISOString(),
@@ -301,6 +358,6 @@ writeFileSync(join(dataDir, 'computed.json'), JSON.stringify({
     shippingEstimated: config.shippingCostPerOrder.estimated,
     shippingCostPerOrder: shipCost, adsStartDate: config.adsStartDate,
   },
-  windows, subscriptions, series,
+  windows, metaDoD, subscriptions, series, breakevenRoas,
 }, null, 1));
 console.log(`computed.json written — yesterday=${yesterday}, netSales=${windows[1].netSales.toFixed(2)}, spend=${windows[1].spend.toFixed(2)}, profit=${windows[1].profit.toFixed(2)}, MRR=${mrr.toFixed(2)}, subscribers=${subscribers}`);

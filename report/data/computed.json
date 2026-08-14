@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-08-14T18:02:27.671Z",
+ "generatedAt": "2026-08-14T18:13:57.923Z",
  "yesterday": "2026-08-13",
  "config": {
   "shippingEstimated": true,
@@ -386,6 +386,23 @@
    }
   }
  },
+ "metaDoD": {
+  "prior": {
+   "date": "2026-08-12",
+   "spend": 850.61,
+   "cpm": 216.1651842439644,
+   "cpc": 3.3357254901960784,
+   "ctr": 6.480304955527319,
+   "impressions": 3935,
+   "clicks": 255
+  },
+  "spendPct": -19.10158592069221,
+  "cpmPct": -17.035376752130265,
+  "cpcPct": -16.14188784461997,
+  "ctrPct": -1.0654770117585695,
+  "impressionsPct": -2.490470139771283,
+  "clicksPct": -3.5294117647058822
+ },
  "subscriptions": {
   "derivedFromOrders": true,
   "active": 145,
@@ -402,6 +419,119 @@
    "30": 88,
    "45": 53,
    "90": 3
+  },
+  "windows": {
+   "1": {
+    "days": 1,
+    "newSubs": 4,
+    "renewals": 0,
+    "subNetSales": 279.65000000000003,
+    "oneTimeNetSales": 119.85,
+    "attachPct": 80,
+    "cacPerSub": 172.0325,
+    "delta": {
+     "newSubs": {
+      "abs": 1,
+      "pct": 33.33333333333333
+     },
+     "subNetSales": {
+      "abs": 159.8,
+      "pct": 133.33333333333331
+     },
+     "attachPct": {
+      "abs": -20,
+      "pct": null
+     },
+     "cacPerSub": {
+      "abs": -111.50416666666669,
+      "pct": -39.32618944051916
+     }
+    }
+   },
+   "7": {
+    "days": 7,
+    "newSubs": 43,
+    "renewals": 0,
+    "subNetSales": 2506.33,
+    "oneTimeNetSales": 449.6,
+    "attachPct": 91.48936170212765,
+    "cacPerSub": 130.7674418604651,
+    "delta": {
+     "newSubs": {
+      "abs": 7,
+      "pct": 19.444444444444446
+     },
+     "subNetSales": {
+      "abs": 304.2899999999995,
+      "pct": 13.818550071751623
+     },
+     "attachPct": {
+      "abs": 5.775075987841944,
+      "pct": null
+     },
+     "cacPerSub": {
+      "abs": -3.1539470284237723,
+      "pct": -2.355073416271482
+     }
+    }
+   },
+   "14": {
+    "days": 14,
+    "newSubs": 79,
+    "renewals": 0,
+    "subNetSales": 4708.370000000001,
+    "oneTimeNetSales": 1169.1000000000001,
+    "attachPct": 88.76404494382022,
+    "cacPerSub": 132.2046835443038,
+    "delta": {
+     "newSubs": {
+      "abs": 18,
+      "pct": 29.508196721311474
+     },
+     "subNetSales": {
+      "abs": 1868.7200000000012,
+      "pct": 65.80811015442049
+     },
+     "attachPct": {
+      "abs": -11.235955056179776,
+      "pct": null
+     },
+     "cacPerSub": {
+      "abs": 10.33320813446774,
+      "pct": 8.478774955106323
+     }
+    }
+   },
+   "28": {
+    "days": 28,
+    "newSubs": 140,
+    "renewals": 0,
+    "subNetSales": 7548.020000000001,
+    "oneTimeNetSales": 1169.1000000000001,
+    "attachPct": 93.33333333333333,
+    "cacPerSub": 127.70235714285715,
+    "delta": {}
+   },
+   "45": {
+    "days": 45,
+    "newSubs": 142,
+    "renewals": 0,
+    "subNetSales": 7787.720000000002,
+    "oneTimeNetSales": 1908.7000000000003,
+    "attachPct": 90.44585987261146,
+    "cacPerSub": 135.72471830985918,
+    "delta": {}
+   },
+   "90": {
+    "days": 90,
+    "newSubs": 142,
+    "renewals": 0,
+    "subNetSales": 7787.720000000002,
+    "oneTimeNetSales": 2038.6000000000004,
+    "attachPct": 89.30817610062893,
+    "cacPerSub": 135.72471830985918,
+    "delta": {}
+   }
   },
   "projection": {
    "assumptions": {
@@ -1355,7 +1485,13 @@
    "dailyBreakEvenDay": 123,
    "ltv180": 112.9821500625,
    "cac28": 127.70235714285715,
-   "ltvToCac": 0.8847303416342577
+   "ltvToCac": 0.8847303416342577,
+   "verdict": {
+    "worthIt": false,
+    "breakEvenCac": 112.9821500625,
+    "retentionNeeded": 0.8477159250745415,
+    "gapPerSub": -14.720207080357156
+   }
   }
  },
  "series": [
@@ -1366,7 +1502,9 @@
    "profit": -661.93,
    "orders": 1,
    "subNetSales": 119.85,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.167,
+   "roas7": 0.167
   },
   {
    "date": "2026-07-16",
@@ -1375,7 +1513,9 @@
    "profit": -618.75,
    "orders": 1,
    "subNetSales": 119.85,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.177,
+   "roas7": 0.172
   },
   {
    "date": "2026-07-17",
@@ -1384,7 +1524,9 @@
    "profit": -676.51,
    "orders": 1,
    "subNetSales": 39.95,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.059,
+   "roas7": 0.135
   },
   {
    "date": "2026-07-18",
@@ -1393,7 +1535,9 @@
    "profit": -660.85,
    "orders": 4,
    "subNetSales": 159.8,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.245,
+   "roas7": 0.162
   },
   {
    "date": "2026-07-19",
@@ -1402,7 +1546,9 @@
    "profit": -833.38,
    "orders": 5,
    "subNetSales": 199.75,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.243,
+   "roas7": 0.181
   },
   {
    "date": "2026-07-20",
@@ -1411,7 +1557,9 @@
    "profit": -708.67,
    "orders": 1,
    "subNetSales": 39.95,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.057,
+   "roas7": 0.16
   },
   {
    "date": "2026-07-21",
@@ -1420,7 +1568,9 @@
    "profit": -577.27,
    "orders": 1,
    "subNetSales": 39.95,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.069,
+   "roas7": 0.149
   },
   {
    "date": "2026-07-22",
@@ -1429,7 +1579,9 @@
    "profit": -133.11,
    "orders": 0,
    "subNetSales": 0,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0,
+   "roas7": 0.141
   },
   {
    "date": "2026-07-23",
@@ -1438,7 +1590,9 @@
    "profit": -473.55,
    "orders": 4,
    "subNetSales": 159.8,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.345,
+   "roas7": 0.159
   },
   {
    "date": "2026-07-24",
@@ -1447,7 +1601,9 @@
    "profit": -404.62,
    "orders": 3,
    "subNetSales": 119.85,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.302,
+   "roas7": 0.192
   },
   {
    "date": "2026-07-25",
@@ -1456,7 +1612,9 @@
    "profit": -293.7,
    "orders": 7,
    "subNetSales": 279.65,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 1.011,
+   "roas7": 0.249
   },
   {
    "date": "2026-07-26",
@@ -1465,7 +1623,9 @@
    "profit": -610.66,
    "orders": 5,
    "subNetSales": 199.75,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.334,
+   "roas7": 0.266
   },
   {
    "date": "2026-07-27",
@@ -1474,7 +1634,9 @@
    "profit": -359.35,
    "orders": 11,
    "subNetSales": 399.5,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 1.248,
+   "roas7": 0.434
   },
   {
    "date": "2026-07-28",
@@ -1483,7 +1645,9 @@
    "profit": -530.29,
    "orders": 8,
    "subNetSales": 364.58,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.69,
+   "roas7": 0.56
   },
   {
    "date": "2026-07-29",
@@ -1492,7 +1656,9 @@
    "profit": -523.84,
    "orders": 3,
    "subNetSales": 119.85,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.232,
+   "roas7": 0.53
   },
   {
    "date": "2026-07-30",
@@ -1501,7 +1667,9 @@
    "profit": -684.9,
    "orders": 8,
    "subNetSales": 717.27,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.929,
+   "roas7": 0.645
   },
   {
    "date": "2026-07-31",
@@ -1510,7 +1678,9 @@
    "profit": -776.78,
    "orders": 3,
    "subNetSales": 129.85,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.167,
+   "roas7": 0.583
   },
   {
    "date": "2026-08-01",
@@ -1519,7 +1689,9 @@
    "profit": -456.11,
    "orders": 11,
    "subNetSales": 747.45,
-   "oneTimeNetSales": 139.9
+   "oneTimeNetSales": 139.9,
+   "roas": 1.242,
+   "roas7": 0.666
   },
   {
    "date": "2026-08-02",
@@ -1528,7 +1700,9 @@
    "profit": -675.81,
    "orders": 10,
    "subNetSales": 562.47,
-   "oneTimeNetSales": 49.95
+   "oneTimeNetSales": 49.95,
+   "roas": 0.742,
+   "roas7": 0.725
   },
   {
    "date": "2026-08-03",
@@ -1537,7 +1711,9 @@
    "profit": -522.34,
    "orders": 3,
    "subNetSales": 99.9,
-   "oneTimeNetSales": 49.95
+   "oneTimeNetSales": 49.95,
+   "roas": 0.262,
+   "roas7": 0.633
   },
   {
    "date": "2026-08-04",
@@ -1546,7 +1722,9 @@
    "profit": -523.02,
    "orders": 4,
    "subNetSales": 262.77,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.446,
+   "roas7": 0.604
   },
   {
    "date": "2026-08-05",
@@ -1555,7 +1733,9 @@
    "profit": -317.93,
    "orders": 7,
    "subNetSales": 199.8,
-   "oneTimeNetSales": 479.7
+   "oneTimeNetSales": 479.7,
+   "roas": 1.066,
+   "roas7": 0.703
   },
   {
    "date": "2026-08-06",
@@ -1564,7 +1744,9 @@
    "profit": -675.21,
    "orders": 4,
    "subNetSales": 199.8,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.284,
+   "roas7": 0.606
   },
   {
    "date": "2026-08-07",
@@ -1573,7 +1755,9 @@
    "profit": -972.91,
    "orders": 13,
    "subNetSales": 762.25,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.678,
+   "roas7": 0.688
   },
   {
    "date": "2026-08-08",
@@ -1582,7 +1766,9 @@
    "profit": -478.35,
    "orders": 7,
    "subNetSales": 387.65,
-   "oneTimeNetSales": 189.85
+   "oneTimeNetSales": 189.85,
+   "roas": 0.87,
+   "roas7": 0.634
   },
   {
    "date": "2026-08-09",
@@ -1591,7 +1777,9 @@
    "profit": -964.91,
    "orders": 8,
    "subNetSales": 427.6,
-   "oneTimeNetSales": 139.9
+   "oneTimeNetSales": 139.9,
+   "roas": 0.487,
+   "roas7": 0.586
   },
   {
    "date": "2026-08-10",
@@ -1600,7 +1788,9 @@
    "profit": -791.73,
    "orders": 9,
    "subNetSales": 449.43,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.565,
+   "roas7": 0.616
   },
   {
    "date": "2026-08-11",
@@ -1609,7 +1799,9 @@
    "profit": -338.57,
    "orders": 2,
    "subNetSales": 79.9,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.239,
+   "roas7": 0.611
   },
   {
    "date": "2026-08-12",
@@ -1618,7 +1810,9 @@
    "profit": -857.9,
    "orders": 3,
    "subNetSales": 119.85,
-   "oneTimeNetSales": 0
+   "oneTimeNetSales": 0,
+   "roas": 0.141,
+   "roas7": 0.489
   },
   {
    "date": "2026-08-13",
@@ -1627,7 +1821,10 @@
    "profit": -602.93,
    "orders": 5,
    "subNetSales": 279.65,
-   "oneTimeNetSales": 119.85
+   "oneTimeNetSales": 119.85,
+   "roas": 0.581,
+   "roas7": 0.526
   }
- ]
+ ],
+ "breakevenRoas": 4.671925145131139
 }

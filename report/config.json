@@ -1,0 +1,18 @@
+{
+  "brand": "Maison Croyez",
+  "recipientName": "Jose",
+  "timezone": "America/New_York",
+  "currency": "USD",
+  "slackChannelId": "C08U0JDGEES",
+  "slackChannelName": "#maison-croyez-reports",
+  "metaAccountId": "act_522507185818783",
+  "adsStartDate": "2026-07-15",
+  "backfillDays": 90,
+  "shippingCostPerOrder": {
+    "value": 5.75,
+    "estimated": true,
+    "note": "Shopify Admin API does not expose purchased label costs. This is a flat per-order estimate; replace 'value' with the store's real average label cost (Shopify admin > Settings > Shipping > Shipping labels billing) and set estimated=false."
+  },
+  "artifactUrl": "",
+  "windows": [1, 7, 14, 28, 45, 90]
+}

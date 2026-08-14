@@ -38,7 +38,6 @@ const load = (name, fallback) => {
 };
 
 const orders = load('orders_raw.json');
-const subs = load('subs_raw.json', []);
 const metaDaily = load('meta_daily.json', []);
 
 // ---- date helpers (all bucketing in the shop's timezone) ----
@@ -130,43 +129,58 @@ const windows = {};
 for (const n of config.windows) {
   const cur = sumWindow(yesterday, n);
   const prev = sumWindow(addDays(yesterday, -n), n);
+  // a delta is only meaningful when the comparison window is fully post-launch
+  const comparable = prev.start >= config.adsStartDate;
   const delta = {};
   for (const k of ['netSales', 'spend', 'profit', 'orders', 'mer', 'aov', 'subNetSales', 'oneTimeNetSales']) {
     const a = cur[k], b = prev[k];
-    delta[k] = (a == null || b == null) ? null
+    delta[k] = (!comparable || a == null || b == null) ? null
       : { abs: a - b, pct: b !== 0 ? (a - b) / Math.abs(b) * 100 : null };
   }
   windows[n] = { ...cur, prev: { netSales: prev.netSales, spend: prev.spend, profit: prev.profit, orders: prev.orders }, delta };
 }
 
 // ---- subscription health ----
-const normMonthly = c => {
-  const lineTotal = (c.lines?.edges || []).reduce((s, e) =>
-    s + e.node.quantity * num(e.node.currentPrice?.amount), 0)
-    + num(c.deliveryPrice?.amount);
-  const { interval, intervalCount = 1 } = c.billingPolicy || {};
-  const perMonth = { WEEK: 4.345, MONTH: 1, YEAR: 1 / 12, DAY: 30.4 }[interval] ?? 1;
-  return lineTotal * perMonth / (intervalCount || 1);
+// Subi's contracts are not readable through the Admin API (contract data is
+// scoped to the Subi app), so health is DERIVED FROM ORDER HISTORY:
+// each order tagged "First Subscription Order" starts a subscription whose
+// recurring value is the sum of its selling-plan lines at list price,
+// normalized to a 30-day month by the cadence in the selling-plan name.
+// Cancellations are not visible; MRR here assumes acquired subs stay active.
+const cadenceFactor = name => {
+  if (!name) return 1;
+  if (/45/.test(name)) return 30 / 45;
+  if (/3\s*month|quarter/i.test(name)) return 1 / 3;
+  if (/week/i.test(name)) return 4.345;
+  return 1; // Monthly / every 30 days
 };
-const active = subs.filter(c => c.status === 'ACTIVE');
-const cancelled = subs.filter(c => c.status === 'CANCELLED');
 const inWindow = (iso, n) => iso && etDate(iso) >= addDays(yesterday, -(n - 1)) && etDate(iso) <= yesterday;
-const mrr = active.reduce((s, c) => s + normMonthly(c), 0);
-const newSubs28 = subs.filter(c => inWindow(c.createdAt, 28)).length;
-const cancels28 = cancelled.filter(c => inWindow(c.updatedAt, 28)).length;
-const churn28 = (active.length + cancels28) > 0 ? cancels28 / (active.length + cancels28) * 100 : 0;
-const netAddsPerDay = (subs.filter(c => inWindow(c.createdAt, 14)).length
-  - cancelled.filter(c => inWindow(c.updatedAt, 14)).length) / 14;
-const avgSubValue = active.length ? mrr / active.length : 0;
+let mrr = 0, subscribers = 0;
+const firstSubOrders = [];
+for (const o of orders) {
+  if (o.displayFinancialStatus === 'VOIDED') continue;
+  if (!(o.tags || []).includes('First Subscription Order')) continue;
+  const rec = (o.lineItems?.edges || []).reduce((s, e) => {
+    const l = e.node;
+    return l.sellingPlan
+      ? s + l.quantity * num(l.originalUnitPriceSet?.shopMoney?.amount) * cadenceFactor(l.sellingPlan.name)
+      : s;
+  }, 0);
+  subscribers += 1; mrr += rec; firstSubOrders.push(o);
+}
+const subCount = n => firstSubOrders.filter(o => inWindow(o.createdAt, n)).length;
+const renewals28 = sumWindow(yesterday, 28).subOrders - sumWindow(yesterday, 28).firstSubOrders;
+const netAddsPerDay = subCount(14) / 14;
+const avgSubValue = subscribers ? mrr / subscribers : 0;
 const projMrr = n => Math.max(0, mrr + netAddsPerDay * n * avgSubValue);
 
 const subscriptions = {
-  active: active.length,
-  paused: subs.filter(c => c.status === 'PAUSED').length,
-  cancelled: cancelled.length,
-  mrr, avgSubValue, newSubs28, cancels28, churn28, netAddsPerDay,
-  newSubsYesterday: subs.filter(c => inWindow(c.createdAt, 1)).length,
-  cancelsYesterday: cancelled.filter(c => inWindow(c.updatedAt, 1)).length,
+  derivedFromOrders: true, // Subi contract statuses not accessible via API
+  active: subscribers,     // acquired subscribers; cancellations not observable
+  mrr, avgSubValue,
+  newSubs28: subCount(28), renewals28,
+  newSubsYesterday: subCount(1),
+  netAddsPerDay,
   projectedMrr30: projMrr(30), projectedMrr60: projMrr(60), projectedMrr90: projMrr(90),
 };
 
@@ -189,4 +203,4 @@ writeFileSync(join(dataDir, 'computed.json'), JSON.stringify({
   },
   windows, subscriptions, series,
 }, null, 1));
-console.log(`computed.json written — yesterday=${yesterday}, netSales=${windows[1].netSales.toFixed(2)}, spend=${windows[1].spend.toFixed(2)}, profit=${windows[1].profit.toFixed(2)}, MRR=${mrr.toFixed(2)}, activeSubs=${active.length}`);
+console.log(`computed.json written — yesterday=${yesterday}, netSales=${windows[1].netSales.toFixed(2)}, spend=${windows[1].spend.toFixed(2)}, profit=${windows[1].profit.toFixed(2)}, MRR=${mrr.toFixed(2)}, subscribers=${subscribers}`);

@@ -285,12 +285,13 @@ table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:ri
 
   <h2>Subscription health</h2>
   <div class="tiles">
-    <div class="tile"><div class="k">Active subscriptions</div><div class="v">${numf(S.active)}</div><div class="d">${numf(S.newSubs28)} new · ${numf(S.cancels28)} cancelled (28d)</div></div>
-    <div class="tile"><div class="k">Monthly recurring revenue</div><div class="v">${usd(S.mrr)}</div><div class="d">${usd(S.avgSubValue, 2)} avg / subscriber</div></div>
-    <div class="tile"><div class="k">Churn (28d)</div><div class="v">${S.churn28.toFixed(1)}%</div><div class="d">${numf(S.cancelsYesterday)} cancels yesterday</div></div>
-    <div class="tile"><div class="k">Projected MRR +30d</div><div class="v">${usd(S.projectedMrr30)}</div><div class="d">at current pace of ${S.netAddsPerDay >= 0 ? '+' : ''}${S.netAddsPerDay.toFixed(1)} subs/day</div></div>
+    <div class="tile"><div class="k">Subscribers acquired</div><div class="v">${numf(S.active)}</div><div class="d">${numf(S.newSubs28)} new in last 28d</div></div>
+    <div class="tile"><div class="k">Recurring revenue (MRR)</div><div class="v">${usd(S.mrr)}</div><div class="d">${usd(S.avgSubValue, 2)} avg / subscriber / month</div></div>
+    <div class="tile"><div class="k">Renewal orders (28d)</div><div class="v">${numf(S.renewals28)}</div><div class="d">subscription re-bills received</div></div>
+    <div class="tile"><div class="k">Projected MRR +30d</div><div class="v">${usd(S.projectedMrr30)}</div><div class="d">at current pace of +${S.netAddsPerDay.toFixed(1)} subs/day</div></div>
     <div class="tile"><div class="k">Projected MRR +90d</div><div class="v">${usd(S.projectedMrr90)}</div><div class="d">straight-line projection</div></div>
   </div>
+  <p class="subnote" style="margin-top:10px">Derived from order history (Subi doesn’t expose contract statuses to the API): MRR counts every acquired subscription at its plan’s recurring list price, normalized to 30 days — cancellations aren’t visible yet, so treat MRR as a ceiling and watch renewal orders as the ground truth.</p>
 
   <p class="foot">Methodology — Net sales are product revenue after discounts, before tax; taxes are excluded as pass-through. Refunds are booked on the day issued and do not credit COGS back. COGS uses Shopify line-item unit costs. Payment fees are the actual per-transaction fees from Shopify Payments.${est ? ' Shipping cost is a flat estimate per order — Shopify’s API does not expose purchased label costs; replace the estimate in report/config.json when the real average is known.' : ''} Blended ROAS = net sales ÷ Meta spend (all revenue, not just attributed). Meta-reported ROAS uses Meta pixel attribution. Subscription MRR normalizes every Subi contract to a 30-day month. Report generated ${new Date(C.generatedAt).toLocaleString('en-US', { timeZone: 'America/New_York' })} ET.</p>
 </div>
@@ -347,7 +348,7 @@ ${dline('28 days', w28)}
 ${dline('45 days', w45)}
 ${dline('90 days', w90)}
 
-:seedling: *Subscriptions:* ${numf(S.active)} active · MRR *${usd(S.mrr)}* · ${numf(S.newSubsYesterday)} new / ${numf(S.cancelsYesterday)} cancelled yesterday · 28-day churn ${S.churn28.toFixed(1)}%
+:seedling: *Subscriptions:* ${numf(S.active)} acquired · est. MRR *${usd(S.mrr)}* (ceiling — cancels not visible via API) · ${numf(S.newSubsYesterday)} new yesterday · ${numf(S.renewals28)} renewal orders in 28d
 
 ${config.artifactUrl ? `:bar_chart: Full interactive report: ${config.artifactUrl}` : ''}`;
 writeFileSync(join(dataDir, 'slack.md'), slack.trim() + '\n');

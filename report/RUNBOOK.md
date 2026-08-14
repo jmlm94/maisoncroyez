@@ -31,16 +31,10 @@ query($after: String) { orders(first: 25, after: $after, query: "created_at:>=ST
       variant { inventoryItem { unitCost { amount } } } } } } } } } }
 ```
 
-**b. Subscription contracts → `subs_raw.json`** — JSON array of contract nodes
-(all statuses), paginate `first: 25`:
-
-```graphql
-query($after: String) { subscriptionContracts(first: 25, after: $after) {
-  pageInfo { hasNextPage endCursor }
-  edges { node { id status createdAt updatedAt nextBillingDate
-    billingPolicy { interval intervalCount } deliveryPrice { amount }
-    lines(first: 10) { edges { node { title quantity currentPrice { amount } } } } } } } }
-```
+**b. Subscription contracts — do NOT attempt.** `subscriptionContracts` returns
+"Access denied" (contract data is scoped to the Subi app, not this connection).
+Subscription health is derived from order history inside compute.mjs — no extra
+pull needed.
 
 **c. Meta daily → `meta_daily.json`** — `mcp__Meta_Ads__get_insights` with
 `object_id` = metaAccountId from `report/config.json`, `level` "account",

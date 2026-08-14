@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 46b — copy round live verify retry (storefront HTML cache lagged past the 40-min gate)
+# run 46c — black-ATC css fix confirm (waits for hourly rollover to serve the #root-prefixed override)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,25 +20,14 @@ jobs:
           CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
           URL='https://maisoncroyez.com/pages/free-diffuser?utm_source=instagram&utm_medium=bio&utm_campaign=perf_test'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          # 1) origin propagation of the new bundle bytes (cache-busted with unique ?v=)
-          for i in $(seq 1 50); do
-            OK=1
-            curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=oc$RANDOM$RANDOM" | grep -q "Join the Manifestation Circle today and enjoy" || OK=0
-            curl -fsSL "$B/mc-lp-free-diffuser.css?v=oc$RANDOM$RANDOM" | grep -q "atc-guar" || OK=0
-            if [ "$OK" = "1" ]; then echo "origin propagated (attempt $i)"; break; fi
-            echo "origin still stale (attempt $i)"; sleep 30
-          done
-          [ "$OK" = "1" ] || { echo "FATAL: origin never propagated"; exit 1; }
-          # 2) wait for the page to flip to fd52, then verify canonical hourly URLs
+          # wait until the CURRENT hourly css URL serves the #root-prefixed black-ATC override
           OK=0
-          for i in $(seq 1 40); do
+          for i in $(seq 1 110); do
             V="fd52-$(date -u +%Y%m%d%H)"
-            if curl -fsSL "$URL&flip=$i" | grep -q "fd52-" \
-               && curl -fsSL "$B/mc-lp-free-diffuser-app.js?v=$V" | grep -q "Join the Manifestation Circle today and enjoy" \
-               && curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "atc-guar"; then OK=1; echo "fd52 live, canonical URLs fresh (attempt $i)"; break; fi
-            echo "page not on fd52 yet / edge stale (attempt $i)"; sleep 60
+            if curl -fsSL "$B/mc-lp-free-diffuser.css?v=$V" | grep -q "#root .btn.atc{background:#111}"; then OK=1; echo "hourly css has the override (attempt $i)"; break; fi
+            echo "hourly css not updated yet (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: fd52 not live within 40 min"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: override never reached the hourly css URL"; exit 1; }
           node - <<'EOS' > copy-verify.txt
           (async()=>{
           const { chromium } = require('playwright');

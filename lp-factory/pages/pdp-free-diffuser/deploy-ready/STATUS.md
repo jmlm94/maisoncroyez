@@ -81,6 +81,28 @@ Replaces the 3-month commitment offer entirely.
   (components). Direction favors customer; owner aware.
 - Verify: run 49 (v4 walkthrough: both cart paths, cart cleared between)
 
+# Copy round — CIRCLE-ONLY OFFER (DEPLOYED 2026-08-14, fd52 key, VERIFIED)
+Owner spec (chat, applied via preview artifact 6609a7b6 then deployed):
+new H1 "Maison Croyez — Home Diffuser & Manifestation Power Scents. Make your
+spaces feel great." (page title updated to match), badge "30 days to try 📅",
+genie subline, ONE-TIME SET REMOVED (single Manifestation Circle card, new
+bullets), picker "Select the scent that matches your intention:" with clean
+ingredient lines (no emojis), BLACK ATC "ADD TO CART ➔ / Includes your free new
+diffuser!" (+ sticky matches), 30-day guarantee line under ATC, membership rows
+Today / Every month / 90 days (keep diffuser+scents after 3 cycles).
+CART WIRING UNCHANGED: plan 2627895405 + BXGY 1375641600109 (preview carried
+stale draft IDs 2661875821/119.95 — NOT copied).
+VERIFIED (runs 46b/47, real Chrome on live URL): every copy item present,
+planCount=1, no One-Time text, ATC bg rgb(17,17,17), picker title 27.36px,
+prehero collapses, 11 sections, sticky "ADD TO CART · $39.95 ➔".
+PERF UNCHANGED: LCP 3.3s, CLS 0.028, SI 2.4s (r46b median-of-3; score delta
+vs r45b is TBT runner noise only).
+NEW RAIL (2026-08-14): Shopify MINIFIES CSS GenericFiles on ingest — selectors
+get merged/rewritten + a sourceMappingURL comment is appended. Byte-exact greps
+against served CSS will false-negative (run 46c burned 110 min on this).
+Verify with minification-stable markers (class names, property:value pairs) or
+a real-browser computed-style check.
+
 ## Perf round 2 — RESULT (2026-08-13, LIVE at fd51 key)
 Baseline r36 (fd44): score 61, FCP 1.8, LCP 6.3, TBT 550, CLS 0.064.
 FINAL CONFIRMED r45b (fd51, median-of-3, fair runner bench 2692):

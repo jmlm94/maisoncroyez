@@ -627,7 +627,7 @@ function BuyBox() {
                 onClick=${() => sel.setKit(i)} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setKit(i); }}>
                 ${kk.tag ? html`<span class="plan-badge">${kk.tag}</span>` : null}
                 <span class="kit-row">
-                  <img class="kit-img" src=${kk.img} alt=${kk.name} loading="lazy"/>
+                  <img class="kit-img" src=${kk.img} alt=${kk.name} width="74" height="74" loading="lazy" decoding="async"/>
                   <span class="kit-txt">
                     <span class="plan-head"><span class="plan-name">${kk.name}</span><span class="plan-price"><s>${usd(kk.value)}</s> ${usd(kk.price)}</span></span>
                     <span class="kit-line">${kk.line}</span>
@@ -637,7 +637,6 @@ function BuyBox() {
               </div>`; })}
           </div>
           <div class="kit-note"><b>One-time purchase. No subscription required.</b> No hidden charges, no surprises, no headaches.</div>
-          <div class="kit-note compat">Every diffuser works with <b>every Maison Croyez scent</b> — swap freely.</div>
 
           <div class="picker-title">${B.pickerTitle}</div>
           <div class="pick-count">${sel.keys.length}/${sel.count} selected</div>
@@ -913,8 +912,6 @@ function App() {
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,
     faq: () => html`<${Faq} key="faq"/>`,
   };
-  /* chunked render: first 3 sections paint in the initial commit; the rest
-     (all below the fold) mount 2 per idle callback so no single commit blocks */
   const [chunk, setChunk] = useState(3);
   useLayoutEffect(() => {
     var p = document.getElementById("mc-prehero");

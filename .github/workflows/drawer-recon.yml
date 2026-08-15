@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 48 — KITS LP launch verify: /pages/manifestation-kits (mk1) — DOM + ATC drawer smoke + Lighthouse median-of-3
+# run 49 — kits LP v12-fix verify: compat line removed, counter bigger (mk2 after app fileUpdate)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,15 +20,24 @@ jobs:
           CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
           URL='https://maisoncroyez.com/pages/manifestation-kits?utm_source=instagram&utm_medium=bio&utm_campaign=kits_launch'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          V="mk1-$(date -u +%Y%m%d%H)"
+          # gate A: origin serves the fixed app (compat line gone) — unique ?v busts to origin
           OK=0
-          for i in $(seq 1 30); do
-            if curl -fsSL "$URL&w=$i" | grep -q "mk1-" \
-               && curl -fsSL "$B/mc-lp-kits-app.js?v=$V" | grep -q "Studio Kit" \
-               && curl -fsSL "$B/mc-lp-kits.css?v=$V" | grep -q "kit-days"; then OK=1; echo "kits page + bundles live (attempt $i)"; break; fi
-            echo "not live yet (attempt $i)"; sleep 30
+          for i in $(seq 1 60); do
+            BODY=$(curl -fsSL "$B/mc-lp-kits-app.js?v=oc$RANDOM$RANDOM")
+            if echo "$BODY" | grep -q 'width="74"' && ! echo "$BODY" | grep -q "Every diffuser works with"; then OK=1; echo "origin has fixed app (attempt $i)"; break; fi
+            echo "origin still old (attempt $i)"; sleep 30
           done
-          [ "$OK" = "1" ] || { echo "FATAL: kits page not live"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: origin never got the fix"; exit 1; }
+          # gate B: page flipped to mk2 and hourly URL serves fixed bytes
+          OK=0
+          for i in $(seq 1 60); do
+            V="mk2-$(date -u +%Y%m%d%H)"
+            if curl -fsSL "$URL&w=$i" | grep -q "mk2-" \
+               && curl -fsSL "$B/mc-lp-kits-app.js?v=$V" | grep -qv "Every diffuser works with" \
+               && curl -fsSL "$B/mc-lp-kits-app.js?v=$V" | grep -q 'width="74"'; then OK=1; echo "mk2 live with fixed bytes (attempt $i)"; break; fi
+            echo "mk2 not live yet (attempt $i)"; sleep 60
+          done
+          [ "$OK" = "1" ] || { echo "FATAL: mk2 not live"; exit 1; }
           node - <<'EOS' > kits-verify.txt
           (async()=>{
           const { chromium } = require('playwright');
@@ -99,9 +108,9 @@ jobs:
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
           console.log(out);
-          fs.writeFileSync('lh-summary-r48.txt',out);
+          fs.writeFileSync('lh-summary-r49.txt',out);
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r48.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lh-r49.json',JSON.stringify(keep.r));
           const a=keep.r.audits;
           const fb=(a['network-requests'].details.items||[]).filter(i=>/connect\.facebook/.test(i.url));
           console.log('FB pixel requests: '+fb.length);
@@ -111,10 +120,10 @@ jobs:
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/pdp-kits-lp/verify
-          cp lh-r48.json lh-summary-r48.txt kits-verify.txt lp-factory/pages/pdp-kits-lp/verify/ 2>/dev/null || true
+          cp lh-r49.json lh-summary-r49.txt kits-verify.txt lp-factory/pages/pdp-kits-lp/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-kits-lp
-          git commit -m "kits LP launch verify r48 (bot)" || true
+          git commit -m "kits LP v12-fix verify r49 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

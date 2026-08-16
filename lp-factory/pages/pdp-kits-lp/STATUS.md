@@ -27,6 +27,15 @@ LAUNCH VERIFY (run 48, real Chrome + Lighthouse):
   (bench 2408 = slow runner; TBT inflated. LCP/CLS match fd51 page.)
 - FB pixel: 2 requests in trace. Product title fixed to "Special" store-side.
 
+POST-LAUNCH FIXES (2026-08-16, verified live r49b): app rebuilt from FINAL
+artifact (compat line removed, img dims); kit-line/ship-line -10%; key mk2.
+r49b: DOM all green incl. compat ABSENT, cart smoke pass again, pixel x2.
+(r49b Lighthouse 53/LCP 5.1 = cold-cache hour boundary + bench 2083 runner —
+disregard; r48 warm read LCP 3.4/CLS 0.028 stands.)
+RAIL: verify gates must be KEY-AGNOSTIC (extract served mk key, assert bytes) —
+storefront HTML cache lags 30-60 min behind pageUpdate; version-label greps
+false-negative while content is already correct.
+
 PRE-TRAFFIC CHECKLIST: [ ] owner eyeballs page on real phone
 [ ] Shop Pay Installments enabled at checkout (pay4 line promises it)
 [ ] free-shipping reality matches "today only save $19.95" claim

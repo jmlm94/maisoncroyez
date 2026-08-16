@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Shopify__graphql_query",
+      "mcp__Meta_Ads__get_insights",
+      "mcp__Slack__slack_send_message",
+      "Artifact",
+      "WebFetch(domain:claude.ai)",
+      "Bash(node *)",
+      "Bash(git status*)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git fetch *)",
+      "Bash(git pull *)",
+      "Bash(git checkout *)"
+    ]
+  }
+}

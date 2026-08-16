@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 50 — asset relay: fetch the 5 CDN-only gallery images so the booklet render can be identified
+# run 51 — relay the Official Sample Booklet render into the repo
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,22 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch gallery candidates
+      - name: Fetch booklet
         run: |
-          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          mkdir -p lp-factory/pages/pdp-kits-lp/assets/candidates
-          cd lp-factory/pages/pdp-kits-lp/assets/candidates
-          curl -fsSL "$B/24_60499c64-0c0b-48a4-8b5b-0785ce8dfa67.png?v=1779491849&width=400" -o g24.png
-          curl -fsSL "$B/23_c869164d-5fdc-4499-b988-63a77e4acd84.png?v=1779491861&width=400" -o g23.png
-          curl -fsSL "$B/29_9898eecd-68da-4bd1-b33e-7a6cb2a0ab23.png?v=1779491862&width=400" -o g29.png
-          curl -fsSL "$B/26_ea76002e-317d-442d-afbc-5b85aa8011b8.png?v=1779491861&width=400" -o g26.png
-          curl -fsSL "$B/28_1b850a51-fe5a-4bec-82bc-24165d7e196c.png?v=1779491861&width=400" -o g28.png
-          ls -la
+          mkdir -p lp-factory/pages/pdp-kits-lp/assets
+          curl -fsSL "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/15_4c9e6b44-6d32-41cf-942f-1fb76fa84250.png?v=1786843812&width=220" -o lp-factory/pages/pdp-kits-lp/assets/booklet-220.png
+          ls -la lp-factory/pages/pdp-kits-lp/assets/
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/pdp-kits-lp/assets
-          git commit -m "gallery candidates for booklet id (bot)"
+          git commit -m "booklet render relay (bot)"
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

@@ -1,20 +1,20 @@
-*Maison Croyez — Daily Report · Friday, August 14, 2026*
+*Maison Croyez — Daily Report · Saturday, August 15, 2026*
 
-Hello Jose — yesterday we sold *$719* on Shopify across *9 orders* (*$489* subscription · *$230* one-time). COGS were *$498*, shipping ≈*$54*, processing fees *$22.73*, and Meta ad spend *$724* (CPM $186.30 · CPC $2.97 · CTR 6.28%).
+Hello Jose — yesterday we sold *$679* on Shopify across *9 orders* (*$519* subscription · *$160* one-time). COGS were *$429*, shipping ≈*$54*, processing fees *$17.52*, and Meta ad spend *$624* (CPM $169.25 · CPC $2.21 · CTR 7.65%).
 
-:red_circle: *Contribution profit yesterday: −$579* · Blended ROAS *0.99×*
+:red_circle: *Contribution profit yesterday: −$445* · Blended ROAS *1.09×*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $719 | $724 | −$579 (+4.3%) | 0.99× |
-| 7 days | $2,913 | $5,224 | −$4,616 (−11.4%) | 0.56× |
-| 14 days | $6,467 | $10,391 | −$8,759 (−15.7%) | 0.62× |
-| 28 days | $9,396 | $17,930 | −$16,330  | 0.52× |
-| 45 days | $10,416 | $19,999 | −$17,839  | 0.52× |
-| 90 days | $10,546 | $19,999 | −$17,751  | 0.53× |
+| Yesterday | $679 | $624 | −$445 (+23.2%) | 1.09× |
+| 7 days | $3,015 | $5,184 | −$4,582 (−10.0%) | 0.58× |
+| 14 days | $6,259 | $10,300 | −$8,748 (−18.8%) | 0.61× |
+| 28 days | $9,916 | $17,903 | −$16,114  | 0.55× |
+| 45 days | $11,095 | $20,622 | −$18,284  | 0.54× |
+| 90 days | $11,225 | $20,622 | −$18,196  | 0.54× |
 
-:seedling: *Subscriptions:* 149 acquired · est. MRR *$6,030* (ceiling — cancels not visible via API) · 6 new yesterday · 2 renewal orders in 28d
-:vs: *Meta vs day before:* CPM +3.7% · CPC +5.7% · CTR −1.9% · spend +4.9%
-:scales: *Worth it yet?* Almost — each sub costs $124, returns ~$116 in 180d (0.93×). Break-even CAC: $116.
+:seedling: *Subscriptions:* 154 acquired · est. MRR *$6,349* (ceiling — cancels not visible via API) · 6 new yesterday · 3 renewal orders in 28d
+:vs: *Meta vs day before:* CPM −9.1% · CPC −25.4% · CTR +21.9% · spend −13.8%
+:scales: *Worth it yet?* Almost — each sub costs $122, returns ~$118 in 180d (0.97×). Break-even CAC: $118.
 
 :bar_chart: Full interactive report: https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039

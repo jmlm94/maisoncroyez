@@ -36,6 +36,17 @@ RAIL: verify gates must be KEY-AGNOSTIC (extract served mk key, assert bytes) �
 storefront HTML cache lags 30-60 min behind pageUpdate; version-label greps
 false-negative while content is already correct.
 
+BOOKLET ROUND (2026-08-16, SHA 36a9e96, key mk3, verified live r52):
+booklet objection card under scent-picker title — img
+files/15_4c9e6b44-6d32-41cf-942f-1fb76fa84250.png ?width=220 (110px, lazy),
+head "Worried you can't smell them all? You will.", copy: every kit ships
+with a 7-scent sample booklet, swap anytime. CSS #root .booklet-* appended.
+r52: DOM green (booklet present, img loaded, bg blush; prices/imgs/default/
+black ATC/ship-line/compat-absent all hold), ATC smoke pass (Condo 20995 +
+Scents props, drawer opened, cart cleared), pixel intact.
+(r52 Lighthouse 63/LCP 4.6 = bench 2114 slow runner + cold mk3 key —
+disregard; r48 warm read LCP 3.4/CLS 0.028 stands. CLS still 0.028 in r52.)
+
 PRE-TRAFFIC CHECKLIST: [ ] owner eyeballs page on real phone
 [ ] Shop Pay Installments enabled at checkout (pay4 line promises it)
 [ ] free-shipping reality matches "today only save $19.95" claim

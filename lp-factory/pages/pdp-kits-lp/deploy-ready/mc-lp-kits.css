@@ -521,3 +521,11 @@ html,body{overflow-x:clip !important}
 #root .g-back b{color:#9C6414}
 #root .g-life{background:#EFE9FA;color:#2E2350}
 #root .g-life b{color:#6D3BD1}
+
+/* booklet objection card */
+#root .booklet-obj{display:flex;gap:12px;align-items:center;background:var(--blush-soft);border:1px solid var(--rosewood-tint);border-radius:16px;padding:12px 14px;margin:10px 0 12px;text-align:left}
+#root .booklet-img{width:110px;height:auto;flex:0 0 110px;border-radius:10px}
+#root .booklet-ph{width:110px;height:82px;flex:0 0 110px;border-radius:10px;background:linear-gradient(150deg,#F4EEE5,#E5D6C3);display:flex;align-items:center;justify-content:center;font-size:34px}
+#root .booklet-txt{display:flex;flex-direction:column;gap:3px}
+#root .booklet-txt b{font-family:'Unna',serif;font-size:1.08rem;line-height:1.12;letter-spacing:-.02em}
+#root .booklet-txt span{font-size:.85rem;color:var(--ink-soft);line-height:1.45}

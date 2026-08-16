@@ -5,12 +5,8 @@ const html = htm.bind(h);
 
 /* ================================================================
    KITS LP — /pages/manifestation-kits (offer: one-time kits)
-   Studio $139.95 (1 diffuser + 1 scent gift) / Condo $209.95 (2+3,
-   Most Popular & Best Value, DEFAULT) / House $339.95 (3+5).
-   Product 8215141417069; one line item = kit variant, scents ride as
-   line-item properties. NO subscription, NO discounts, NO selling plans.
-   30-day take-it-all-back + Lifetime Warranty + free 48hr priority ship.
-   Fictional reviews ship live per owner ruling 2026-07-04.
+   Product 8215141417069; one line item = kit variant, scents as
+   line-item properties. NO subscription/discounts/plans.
    ================================================================ */
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
@@ -64,6 +60,7 @@ const OFFER = { price: 139.95 }; /* min kit price (legacy refs) */
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
 const T96 = (u) => u ? u + (u.includes("?") ? "&" : "?") + "width=96" : "";
+const BOOKLET_IMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/15_4c9e6b44-6d32-41cf-942f-1fb76fa84250.png?v=1786843812&width=220";
 
 const CONFIG = {
   brand: { name: "Maison Croyez", logo: A.logoLight || "", logoDark: A.logoDark || "" },
@@ -639,6 +636,15 @@ function BuyBox() {
           <div class="kit-note"><b>One-time purchase. No subscription required.</b> No hidden charges, no surprises, no headaches.</div>
 
           <div class="picker-title">${B.pickerTitle}</div>
+          <div class="booklet-obj">
+            ${BOOKLET_IMG
+              ? html`<img class="booklet-img" src=${BOOKLET_IMG} alt="Maison Croyez Official Sample Booklet" width="110" height="83" loading="lazy" decoding="async"/>`
+              : html`<span class="booklet-ph" role="img" aria-label="Official Sample Booklet">📖</span>`}
+            <span class="booklet-txt">
+              <b>Worried you can’t smell them all? You will.</b>
+              <span>Every kit ships with a sample booklet with our 7 intention scents — swap anytime if needed.</span>
+            </span>
+          </div>
           <div class="pick-count">${sel.keys.length}/${sel.count} selected</div>
           <div class="picker" role="radiogroup" aria-label="Pick your fragrance">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; return html`

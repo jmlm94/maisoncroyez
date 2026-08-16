@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 49 — kits LP v12-fix verify: compat line removed, counter bigger (mk2 after app fileUpdate)
+# run 49b — kits LP verify, key-agnostic gate: extract the page's actual cache key, assert the bytes it serves are fixed
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -28,16 +28,16 @@ jobs:
             echo "origin still old (attempt $i)"; sleep 30
           done
           [ "$OK" = "1" ] || { echo "FATAL: origin never got the fix"; exit 1; }
-          # gate B: page flipped to mk2 and hourly URL serves fixed bytes
+          # gate B (key-agnostic): whatever key the page serves, the bytes at that key must be fixed
           OK=0
-          for i in $(seq 1 60); do
-            V="mk2-$(date -u +%Y%m%d%H)"
-            if curl -fsSL "$URL&w=$i" | grep -q "mk2-" \
-               && curl -fsSL "$B/mc-lp-kits-app.js?v=$V" | grep -qv "Every diffuser works with" \
-               && curl -fsSL "$B/mc-lp-kits-app.js?v=$V" | grep -q 'width="74"'; then OK=1; echo "mk2 live with fixed bytes (attempt $i)"; break; fi
-            echo "mk2 not live yet (attempt $i)"; sleep 60
+          for i in $(seq 1 40); do
+            KEY=$(curl -fsSL "$URL&w=$i" | grep -o "mk[0-9]*-" | head -1)
+            V="${KEY}$(date -u +%Y%m%d%H)"
+            BODY=$(curl -fsSL "$B/mc-lp-kits-app.js?v=$V")
+            if [ -n "$KEY" ] && echo "$BODY" | grep -q 'width="74"' && ! echo "$BODY" | grep -q "Every diffuser works with"; then OK=1; echo "page on $KEY serving fixed bytes (attempt $i)"; break; fi
+            echo "served bytes not fixed yet on key $KEY (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: mk2 not live"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: served bytes never fixed"; exit 1; }
           node - <<'EOS' > kits-verify.txt
           (async()=>{
           const { chromium } = require('playwright');

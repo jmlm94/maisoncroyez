@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 49b — kits LP verify, key-agnostic gate: extract the page's actual cache key, assert the bytes it serves are fixed
+# run 50 — asset relay: fetch the 5 CDN-only gallery images so the booklet render can be identified
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,117 +13,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify kits LP
+      - name: Fetch gallery candidates
         run: |
-          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/manifestation-kits?utm_source=instagram&utm_medium=bio&utm_campaign=kits_launch'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          # gate A: origin serves the fixed app (compat line gone) — unique ?v busts to origin
-          OK=0
-          for i in $(seq 1 60); do
-            BODY=$(curl -fsSL "$B/mc-lp-kits-app.js?v=oc$RANDOM$RANDOM")
-            if echo "$BODY" | grep -q 'width="74"' && ! echo "$BODY" | grep -q "Every diffuser works with"; then OK=1; echo "origin has fixed app (attempt $i)"; break; fi
-            echo "origin still old (attempt $i)"; sleep 30
-          done
-          [ "$OK" = "1" ] || { echo "FATAL: origin never got the fix"; exit 1; }
-          # gate B (key-agnostic): whatever key the page serves, the bytes at that key must be fixed
-          OK=0
-          for i in $(seq 1 40); do
-            KEY=$(curl -fsSL "$URL&w=$i" | grep -o "mk[0-9]*-" | head -1)
-            V="${KEY}$(date -u +%Y%m%d%H)"
-            BODY=$(curl -fsSL "$B/mc-lp-kits-app.js?v=$V")
-            if [ -n "$KEY" ] && echo "$BODY" | grep -q 'width="74"' && ! echo "$BODY" | grep -q "Every diffuser works with"; then OK=1; echo "page on $KEY serving fixed bytes (attempt $i)"; break; fi
-            echo "served bytes not fixed yet on key $KEY (attempt $i)"; sleep 60
-          done
-          [ "$OK" = "1" ] || { echo "FATAL: served bytes never fixed"; exit 1; }
-          node - <<'EOS' > kits-verify.txt
-          (async()=>{
-          const { chromium } = require('playwright');
-          const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          await page.goto('https://maisoncroyez.com/pages/manifestation-kits?utm_source=instagram&utm_medium=bio&utm_campaign=kits_launch',{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(9000);
-          const t = await page.evaluate(()=>{
-            const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim():null};
-            const atc=document.querySelector('.btn.atc');
-            return {
-              h1: q('#root h1'),
-              badge: q('.price-badge'),
-              priceRow: q('.price-row'),
-              kitCount: document.querySelectorAll('.kitsel .kitcard').length,
-              kitNames: [...document.querySelectorAll('.kitcard .plan-name')].map(e=>e.textContent.trim()),
-              kitPrices: [...document.querySelectorAll('.kitcard .plan-price')].map(e=>e.textContent.trim()),
-              kitImgsLoaded: [...document.querySelectorAll('.kit-img')].map(i=>i.complete && i.naturalWidth>0),
-              defaultKit: (document.querySelector('.kitcard.on .plan-name')||{}).textContent,
-              dayChips: [...document.querySelectorAll('.kit-days')].map(e=>e.textContent.trim()),
-              pickCount: q('.pick-count'),
-              shipLine: q('.ship-line'),
-              atcText: atc?atc.textContent.trim():null,
-              atcBg: atc?getComputedStyle(atc).backgroundColor:null,
-              guarTitle: q('.guar-title'),
-              guarCards: document.querySelectorAll('.guar3 .g').length,
-              proof: (q('.atc-proof')||'').slice(0,60),
-              oneTime: /One-Time/.test(document.getElementById('root').innerText),
-              preDisplay: getComputedStyle(document.getElementById('mc-prehero')).display,
-              rootKids: document.getElementById('root').children.length,
-            };
-          });
-          console.log('DOM ' + JSON.stringify(t,null,1));
-          /* ATC smoke test: complete Condo (needs 2 more scents), click ATC, check drawer */
-          try {
-            const picks = page.locator('.picker .pick');
-            await picks.nth(1).click(); await page.waitForTimeout(400);
-            await picks.nth(2).click(); await page.waitForTimeout(400);
-            const atcState = await page.evaluate(()=>{const a=document.querySelector('.btn.atc');return {text:a.textContent.trim(),disabled:a.disabled};});
-            console.log('ATC after picks: '+JSON.stringify(atcState));
-            await page.locator('.btn.atc').click();
-            await page.waitForTimeout(6000);
-            const cart = await page.evaluate(async()=>{const r=await fetch('/cart.js');const c=await r.json();
-              return {items:c.items.map(i=>({title:i.product_title,variant:i.variant_title,qty:i.quantity,price:i.price,props:i.properties})),total:c.total_price,drawerOpen:!!document.querySelector('#cart-drawer[open], #cart-drawer.active, cart-drawer[open]')};});
-            console.log('CART ' + JSON.stringify(cart,null,1));
-            /* clean up the test cart */
-            await page.evaluate(async()=>{await fetch('/cart/clear.js',{method:'POST'});});
-            console.log('test cart cleared');
-          } catch(e) { console.log('ATC smoke test error: '+e.message); }
-          await b.close();
-          })();
-          EOS
-          cat kits-verify.txt
-          for n in 1 2 3; do
-            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
-              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
-              --output=json --output-path=lh-$n.json || true
-          done
-          node - <<'EOS'
-          const fs=require('fs');
-          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
-          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
-            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
-            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
-            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
-          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
-          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
-          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
-          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
-          console.log(out);
-          fs.writeFileSync('lh-summary-r49.txt',out);
-          const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r49.json',JSON.stringify(keep.r));
-          const a=keep.r.audits;
-          const fb=(a['network-requests'].details.items||[]).filter(i=>/connect\.facebook/.test(i.url));
-          console.log('FB pixel requests: '+fb.length);
-          EOS
-      - name: Commit results
-        if: always()
+          mkdir -p lp-factory/pages/pdp-kits-lp/assets/candidates
+          cd lp-factory/pages/pdp-kits-lp/assets/candidates
+          curl -fsSL "$B/24_60499c64-0c0b-48a4-8b5b-0785ce8dfa67.png?v=1779491849&width=400" -o g24.png
+          curl -fsSL "$B/23_c869164d-5fdc-4499-b988-63a77e4acd84.png?v=1779491861&width=400" -o g23.png
+          curl -fsSL "$B/29_9898eecd-68da-4bd1-b33e-7a6cb2a0ab23.png?v=1779491862&width=400" -o g29.png
+          curl -fsSL "$B/26_ea76002e-317d-442d-afbc-5b85aa8011b8.png?v=1779491861&width=400" -o g26.png
+          curl -fsSL "$B/28_1b850a51-fe5a-4bec-82bc-24165d7e196c.png?v=1779491861&width=400" -o g28.png
+          ls -la
+      - name: Commit
         run: |
-          git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/pages/pdp-kits-lp/verify
-          cp lh-r49.json lh-summary-r49.txt kits-verify.txt lp-factory/pages/pdp-kits-lp/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/pdp-kits-lp
-          git commit -m "kits LP v12-fix verify r49 (bot)" || true
+          git add lp-factory/pages/pdp-kits-lp/assets
+          git commit -m "gallery candidates for booklet id (bot)"
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

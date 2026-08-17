@@ -35,3 +35,9 @@ Artifact-driven rebuild (artifact b5659944 = source of truth; kb-smoke-r8.mjs lo
   class names) — never quoted-string escape sequences. Served bytes also vary a few bytes per request
   (nondeterministic minifier) so md5 comparisons are useless.
 - Served minified bytes captured (verify/served-app.bin) and full-flow smoke-tested locally: PASS, 0 errors.
+- r55d verified (bench 2877 runner): parity probe all green (lazyFrags true, flow works on minified bytes).
+  Lighthouse median: 61 / FCP 1.8 / LCP 6.6 / TBT 589 / CLS 0.000. Fonts now start at 165ms (preloads work),
+  CLS perfect. OBSERVED (unthrottled) numbers: FCP 258ms, LCP 539ms, full load 1.0s — real-device speed is fine;
+  the 6.6s LCP is the slow-4G simulation where third-party JS (FB/wpm/trekkie/subi/klaviyo ~500KB) starves the
+  bandwidth ahead of the body font (bvp-400), whose swap repaint is counted as the text LCP. Candidate round 2
+  (not deployed): prehero-style static first-slide for lab LCP + thumbs width=100->64.

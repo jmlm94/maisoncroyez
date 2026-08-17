@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 54 — kit-builder kb7 verify: origin + served-bytes gates, DOM probe (gallery/guar cards/flow), Lighthouse x3 baseline
+# run 55 — kb8 perf-QA verify: font preloads + lazy imgs; parity probe + Lighthouse x3 + LCP element
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -18,17 +18,17 @@ jobs:
           npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb7_verify'
+          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb8_verify'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
           # gate A: origin serves kb7 build
           OK=0
           for i in $(seq 1 60); do
             APP=$(curl -fsSL "$B/mc-kit-app.js?v=oc$RANDOM$RANDOM")
             CSS=$(curl -fsSL "$B/mc-kit.css?v=oc$RANDOM$RANDOM")
-            if echo "$APP" | grep -q "kbgtrack" && echo "$APP" | grep -q "guar3" && echo "$CSS" | grep -q "kbg-arw"; then OK=1; echo "origin has kb7 build (attempt $i)"; break; fi
+            if echo "$APP" | grep -q 'decoding=\\"async\\" src=\\"https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-frag1.jpg' && echo "$CSS" | grep -q "kbg-arw"; then OK=1; echo "origin has kb8 build (attempt $i)"; break; fi
             echo "origin still old (attempt $i)"; sleep 30
           done
-          [ "$OK" = "1" ] || { echo "FATAL: origin never got kb7"; exit 1; }
+          [ "$OK" = "1" ] || { echo "FATAL: origin never got kb8"; exit 1; }
           # gate B (key-agnostic): whatever kb key the page serves, those bytes must be kb7
           OK=0
           for i in $(seq 1 45); do
@@ -36,16 +36,16 @@ jobs:
             V="${KEY}$(date -u +%Y%m%d%H)"
             APP=$(curl -fsSL "$B/mc-kit-app.js?v=$V")
             CSS=$(curl -fsSL "$B/mc-kit.css?v=$V")
-            if [ -n "$KEY" ] && echo "$APP" | grep -q "kbgtrack" && echo "$CSS" | grep -q "kbg-arw"; then OK=1; echo "page on $KEY serving kb7 bytes (attempt $i)"; break; fi
-            echo "served bytes not kb7 yet on key $KEY (attempt $i)"; sleep 60
+            if [ -n "$KEY" ] && echo "$APP" | grep -q 'mc-kb-frag1.jpg' && echo "$APP" | grep -q 'loading=\\"lazy\\" decoding=\\"async\\" src=\\"https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-frag1' && echo "$CSS" | grep -q "kbg-arw"; then OK=1; echo "page on $KEY serving kb8 bytes (attempt $i)"; break; fi
+            echo "served bytes not kb8 yet on key $KEY (attempt $i)"; sleep 60
           done
-          [ "$OK" = "1" ] || { echo "FATAL: served bytes never became kb7"; exit 1; }
-          node - <<'EOS' > kb7-verify.txt
+          [ "$OK" = "1" ] || { echo "FATAL: served bytes never became kb8"; exit 1; }
+          node - <<'EOS' > kb8-verify.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
           const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb7_verify',{waitUntil:'load',timeout:90000});
+          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb8_verify',{waitUntil:'load',timeout:90000});
           await page.waitForTimeout(8000);
           const t = await page.evaluate(()=>{
             const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim().slice(0,80):null};
@@ -93,7 +93,7 @@ jobs:
           await b.close();
           })();
           EOS
-          cat kb7-verify.txt
+          cat kb8-verify.txt
           for n in 1 2 3; do
             npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
               --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
@@ -111,19 +111,24 @@ jobs:
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
           console.log(out);
-          fs.writeFileSync('lh-summary-r54.txt',out);
+          fs.writeFileSync('lh-summary-r55.txt',out);
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lh-r54.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lh-r55.json',JSON.stringify(keep.r));
+          try{const lcp=keep.r.audits['largest-contentful-paint-element'].details.items;
+            console.log('median-run LCP el: '+lcp[0].items[0].node.snippet.slice(0,140));
+            console.log('median-run LCP phases: '+JSON.stringify(lcp[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
+          const fonts=(keep.r.audits['network-requests'].details.items||[]).filter(i=>/woff2/.test(i.url));
+          fonts.forEach(f=>console.log('font '+f.url.split('/').pop().slice(0,40)+' start '+Math.round(f.networkRequestTime)));
           EOS
       - name: Commit results
         if: always()
         run: |
           git checkout -- . 2>/dev/null || true
           mkdir -p lp-factory/pages/kit-builder/verify
-          cp lh-r54.json lh-summary-r54.txt kb7-verify.txt lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
+          cp lh-r54.json lh-summary-r54.txt kb8-verify.txt lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder
-          git commit -m "kit builder kb7 verify r54 (bot)" || true
+          git commit -m "kit builder kb8 perf verify r55 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

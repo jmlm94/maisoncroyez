@@ -23,3 +23,15 @@ Artifact-driven rebuild (artifact b5659944 = source of truth; kb-smoke-r8.mjs lo
 - Step 3: pay-in-4 line (m*P/4, Shop Pay), 3 minirevs + Mariana V. testimonial, hiw timeline + nolock replaced by guar cards, FAQ x6 (added really-free + bottle-life), 30+ days everywhere.
 - Cart logic UNCHANGED from kb6 (VAR/PLAN/DIFF, /cart/add.js, /checkout). r54 probe: full UI flow green (due $119.85, pay4 $29.96, valline $389.70); final POST not auto-tested.
 - Lighthouse baseline r54 (bench 2388): 61 / FCP 1.9 / LCP 7.4 / TBT 517 / CLS 0.022. LCP attributed to .stepsub TEXT w/ 6.8s render delay while hero img loads in 209ms — perf QA target for next round.
+
+## kb8 (2026-08-17, SHA b1960dd) — perf QA round 1
+- Page body: +4 font preloads (unna-700, outfit-700, bvp-400, bvp-600) to kill the late-font-swap LCP
+  (r54: LCP 7.4s attributed to .stepsub TEXT, renderDelay 6.8s; fonts discovered only after JS-injected css).
+  Hero preload kept at &width=820&format=pjpg. Key kb7→kb8.
+- App: restored loading=lazy on 8 hidden-step imgs (7 frags + guests avatar) — regression from artifact rebuild.
+- RAIL (NEW, cost 2 wasted verify runs): Shopify CDN MINIFIES .js GenericFiles on ingest, same as css —
+  strips newlines, rewrites JSON-escaped double-quote strings to single-quote (\" becomes "), re-escapes
+  unicode. Byte-gates MUST grep minification-stable markers (identifiers, attr text like loading="lazy",
+  class names) — never quoted-string escape sequences. Served bytes also vary a few bytes per request
+  (nondeterministic minifier) so md5 comparisons are useless.
+- Served minified bytes captured (verify/served-app.bin) and full-flow smoke-tested locally: PASS, 0 errors.

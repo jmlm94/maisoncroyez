@@ -14,3 +14,12 @@
 - Rebuild: edit src/make-kit-mock.py (single source of truth) → python3 deploy-ready/build-kit.py →
   upload changed files (stagedUploadsCreate→curl→fileUpdate on GIDs) → bump loader key kb1→kb2 via pageUpdate.
 - Rollback: unpublish page 118616064109 (pageUpdate isPublished:false).
+
+## kb7 (2026-08-17, SHA 1bbb671, verified live r54)
+Artifact-driven rebuild (artifact b5659944 = source of truth; kb-smoke-r8.mjs local browser smoke before deploy):
+- Step 1: 14-slide swipe gallery + arrows + thumb rail (hero + 13 kits-LP gallery imgs, CDN &width=820&format=pjpg, thumbs &width=100; page preload updated to match slide 1). Diffuser value $89.95 (DV=89.95): plans ~~$89.95/$179.90/$269.85~~ FREE + green claim lines. usp3 moved under stepsub. Ship-line above CTA.
+- Guarantee cards x3 (green zero-commitment w/ return-label+keep-scents copy, cream take-it-back, lavender Lifetime Warranty) on ALL 3 steps; trust-strip says Lifetime warranty.
+- Step 2: title "It's time to decide what you want to attract for your life.", reserved strip, big pick counter, booklet objection card (files/15_...&width=220), Review-my-kit end button. STICKY BAR REMOVED (all steps end-buttons only).
+- Step 3: pay-in-4 line (m*P/4, Shop Pay), 3 minirevs + Mariana V. testimonial, hiw timeline + nolock replaced by guar cards, FAQ x6 (added really-free + bottle-life), 30+ days everywhere.
+- Cart logic UNCHANGED from kb6 (VAR/PLAN/DIFF, /cart/add.js, /checkout). r54 probe: full UI flow green (due $119.85, pay4 $29.96, valline $389.70); final POST not auto-tested.
+- Lighthouse baseline r54 (bench 2388): 61 / FCP 1.9 / LCP 7.4 / TBT 517 / CLS 0.022. LCP attributed to .stepsub TEXT w/ 6.8s render delay while hero img loads in 209ms — perf QA target for next round.

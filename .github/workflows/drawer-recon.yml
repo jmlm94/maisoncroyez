@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 55c — capture the exact bytes the CDN serves for mc-kit-app.js (checksum varies per request — diagnose)
+# run 55d — kb8 perf measurement: minification-stable gate, parity probe, Lighthouse x3 + LCP element + font timings
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,28 +13,90 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Capture served bytes
+      - name: Measure kb8
         run: |
+          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb8_verify'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          mkdir -p lp-factory/pages/kit-builder/verify
-          D=lp-factory/pages/kit-builder/verify
-          curl -fsSL -D $D/served-app-headers.txt "$B/mc-kit-app.js?v=oc$RANDOM$RANDOM" -o $D/served-app.bin
-          curl -fsSL "$B/mc-kit-app.js?v=oc$RANDOM$RANDOM" -o /tmp/second.bin
-          ls -la $D/served-app.bin /tmp/second.bin
-          md5sum $D/served-app.bin /tmp/second.bin
-          cmp $D/served-app.bin /tmp/second.bin && echo IDENTICAL || echo "DIFFER at first byte offsets above"
-          echo "=== first 600 bytes ==="; head -c 600 $D/served-app.bin; echo
-          echo "=== last 400 bytes ==="; tail -c 400 $D/served-app.bin; echo
-          # also capture the hour-keyed URL the page actually uses
-          V="kb8-$(date -u +%Y%m%d%H)"
-          curl -fsSL "$B/mc-kit-app.js?v=$V" -o $D/served-app-hourkey.bin || true
-          md5sum $D/served-app-hourkey.bin || true
-      - name: Commit
+          # minification-stable gate: page serves a kb key whose bytes have >=30 lazy attrs
+          OK=0
+          for i in $(seq 1 30); do
+            KEY=$(curl -fsSL "$URL&w=$i" | grep -o "kb[0-9]*-" | head -1)
+            V="${KEY}$(date -u +%Y%m%d%H)"
+            N=$(curl -fsSL "$B/mc-kit-app.js?v=$V" | grep -o 'loading="lazy"' | wc -l)
+            if [ -n "$KEY" ] && [ "$N" -ge 30 ]; then OK=1; echo "page on $KEY with $N lazy attrs (attempt $i)"; break; fi
+            echo "key=$KEY lazy=$N — not ready (attempt $i)"; sleep 60
+          done
+          [ "$OK" = "1" ] || { echo "FATAL: served bytes not kb8"; exit 1; }
+          node - <<'EOS' > kb8-verify.txt
+          (async()=>{
+          const { chromium } = require('playwright');
+          const b = await chromium.launch();
+          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
+          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb8_verify',{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(8000);
+          const t = await page.evaluate(()=>{
+            const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim().slice(0,80):null};
+            const s1=[...document.querySelectorAll('.kbg-slide')];
+            const lazyFrags=[...document.querySelectorAll('.pick img')].every(i=>i.loading==='lazy');
+            return { slides:s1.length, firstSlideLoaded:s1[0]?(s1[0].complete&&s1[0].naturalWidth>0):null,
+              arrows:!!document.getElementById('kbgprev'), plans:document.querySelectorAll('.plan').length,
+              guarBlocks:document.querySelectorAll('.guar3').length, sticky:!!document.getElementById('sbar'),
+              lazyFrags, planSave:q('.plan-save'), ship:q('.ship-line') };
+          });
+          console.log('S1 ' + JSON.stringify(t,null,1));
+          const flow = await page.evaluate(async()=>{
+            document.querySelectorAll('.plan')[2].click(); window.go(2);
+            const r={reserved:!!document.getElementById('reserved'),booklet:!!document.querySelector('.booklet-obj')};
+            const adds=document.querySelectorAll('.pick .add'); adds[0].click();adds[1].click();adds[2].click();
+            r.pickcount=document.getElementById('pickcount').textContent.trim();
+            window.go(3);
+            r.due=document.getElementById('duetoday').textContent;
+            r.pay4=document.getElementById('pay4').textContent.slice(0,50);
+            return r;
+          });
+          console.log('FLOW ' + JSON.stringify(flow,null,1));
+          await b.close();
+          })();
+          EOS
+          cat kb8-verify.txt
+          for n in 1 2 3; do
+            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
+              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
+              --output=json --output-path=lh-$n.json || true
+          done
+          node - <<'EOS'
+          const fs=require('fs');
+          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
+          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
+            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
+            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
+            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
+          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
+          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
+          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
+          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nfirst-contentful-paint: '+(m.fcp/1000).toFixed(1)+' s\nlargest-contentful-paint: '+(m.lcp/1000).toFixed(1)+' s\ntotal-blocking-time: '+Math.round(m.tbt)+' ms\ncumulative-layout-shift: '+m.cls.toFixed(3)+'\nspeed-index: '+(m.si/1000).toFixed(1)+' s\n';
+          console.log(out);
+          fs.writeFileSync('lh-summary-r55.txt',out);
+          const keep=rows.find(x=>x.score===m.score)||rows[0];
+          fs.writeFileSync('lh-r55.json',JSON.stringify(keep.r));
+          try{const lcp=keep.r.audits['largest-contentful-paint-element'].details.items;
+            console.log('median-run LCP el: '+lcp[0].items[0].node.snippet.slice(0,140));
+            console.log('median-run LCP phases: '+JSON.stringify(lcp[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
+          const fonts=(keep.r.audits['network-requests'].details.items||[]).filter(i=>/woff2/.test(i.url));
+          fonts.forEach(f=>console.log('font '+f.url.split('/').pop().slice(0,40)+' start '+Math.round(f.networkRequestTime)));
+          EOS
+      - name: Commit results
         if: always()
         run: |
+          git checkout -- . 2>/dev/null || true
+          mkdir -p lp-factory/pages/kit-builder/verify
+          cp lh-r55.json lh-summary-r55.txt kb8-verify.txt lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kit-builder/verify
-          git commit -m "served-bytes capture r55c (bot)" || true
+          git add lp-factory/pages/kit-builder
+          git commit -m "kit builder kb8 perf verify r55d (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

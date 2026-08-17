@@ -77,10 +77,18 @@ message is self-sufficient; note the skip in the Slack thread.
 Send the exact contents of `report/data/slack.md` with `mcp__Slack__slack_send_message`
 to channel id `slackChannelId` from `report/config.json` (#maison-croyez-reports).
 
-## 5. Commit
+## 5. Archive & commit
+
+Snapshot the day's report before committing, so every report stays browsable
+as files (report/data/* is overwritten daily; report/archive/<date>/ is not):
 
 ```bash
-git add report/data report/config.json
+mkdir -p report/archive/<YESTERDAY>
+cp report/data/report.html report/data/slack.md report/data/computed.json report/archive/<YESTERDAY>/
+```
+
+```bash
+git add report/data report/archive report/config.json
 git commit -m "Daily report data for <YESTERDAY>"
 git push -u origin claude/maison-croyez-daily-dashboard-aawhcq   # retry w/ backoff on network errors
 ```

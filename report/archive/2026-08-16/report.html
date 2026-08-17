@@ -1,0 +1,394 @@
+<title>Maison Croyez Daily</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#F4F0E8; --card:#FCFAF5; --card2:#EFEAE0; --ink:#22201B; --ink2:#6E6857; --ink3:#98917E;
+  --line:#DDD6C8; --accent:#8A6D1F; --s1:#A07E15; --s2:#2F6AA3; --s3:#BA4020;
+  --pos:#3E7A4E; --neg:#B3402C; --pos-bg:#3E7A4E22; --neg-bg:#B3402C1F; --shadow:0 1px 2px #22201B14;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1B1914; --card:#232019; --card2:#2B2820; --ink:#EDE7DA; --ink2:#A79F8C; --ink3:#7A7362;
+  --line:#3A362B; --accent:#C2A44E; --s1:#A8821A; --s2:#4E8ECD; --s3:#CE4F2E;
+  --pos:#6FAF7F; --neg:#E06A4F; --pos-bg:#6FAF7F26; --neg-bg:#E06A4F22; --shadow:none;
+}}
+:root[data-theme="dark"]{
+  --bg:#1B1914; --card:#232019; --card2:#2B2820; --ink:#EDE7DA; --ink2:#A79F8C; --ink3:#7A7362;
+  --line:#3A362B; --accent:#C2A44E; --s1:#A8821A; --s2:#4E8ECD; --s3:#CE4F2E;
+  --pos:#6FAF7F; --neg:#E06A4F; --pos-bg:#6FAF7F26; --neg-bg:#E06A4F22; --shadow:none;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);margin:0;
+  font-family:'Avenir Next','Avenir','Segoe UI','Helvetica Neue',system-ui,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1020px;margin:0 auto;padding:40px 28px 72px}
+.masthead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  border-bottom:1px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+.wordmark{font-family:Futura,'Century Gothic','Avenir Next',sans-serif;font-weight:500;
+  font-size:26px;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap}
+.mast-right{text-align:right;color:var(--ink2)}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.report-date{font-size:14px}
+.greeting{font-size:19px;max-width:64ch;margin:30px 0 6px;text-wrap:pretty}
+.greeting strong{font-weight:600}
+.subnote{color:var(--ink2);font-size:13px;max-width:70ch;margin:0 0 26px}
+h2{font-family:Futura,'Century Gothic','Avenir Next',sans-serif;font-weight:500;font-size:13px;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--ink2);margin:44px 0 14px;
+  display:flex;align-items:center;gap:12px}
+h2::after{content:"";flex:1;height:1px;background:var(--line)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px;box-shadow:var(--shadow)}
+.tile .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.tile .v{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.tile .v.pos{color:var(--pos)} .tile .v.neg{color:var(--neg)}
+.tile .d{margin-top:4px;font-size:12px}
+.chip{display:inline-block;border-radius:99px;padding:1px 8px;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.chip-up{background:var(--pos-bg);color:var(--pos)} .chip-down{background:var(--neg-bg);color:var(--neg)}
+.chip-flat{color:var(--ink3)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px 22px;box-shadow:var(--shadow)}
+.pl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pl td{padding:7px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.pl tr:last-child td{border-bottom:none;border-top:2px solid var(--ink);font-weight:600;font-size:16px}
+.pl td:last-child{text-align:right;font-weight:500}
+.pl .neg-v{color:var(--neg)} .pl .muted{color:var(--ink2)}
+.split{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.split .pill{background:var(--card2);border-radius:6px;padding:8px 12px;font-size:13px}
+.pill b{font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+table.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.data th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);
+  text-align:right;padding:8px 10px;border-bottom:1px solid var(--ink);font-weight:600}
+table.data th:first-child,table.data td:first-child{text-align:left;padding-left:0}
+table.data td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;font-size:14px}
+.win-label{font-weight:600}
+.chart{width:100%;height:auto;display:block}
+.grid{stroke:var(--line);stroke-width:1}
+.grid.zero{stroke:var(--ink3)}
+.axis{fill:var(--ink3);font-size:11px;font-variant-numeric:tabular-nums}
+.l1{stroke:var(--s1);stroke-width:2;fill:none;stroke-linejoin:round}
+.l2{stroke:var(--s2);stroke-width:2;fill:none;stroke-linejoin:round}
+.p1{fill:var(--s1)} .p2{fill:var(--s2)}
+.lbl{font-size:12px;font-weight:600}.lbl1{fill:var(--s1)}.lbl2{fill:var(--s2)}
+.cross{stroke:var(--ink3);stroke-dasharray:3 3}
+.bar-pos{fill:var(--pos)} .bar-neg{fill:var(--neg)}
+.legend{display:flex;gap:18px;font-size:12.5px;color:var(--ink2);margin:6px 0 2px;flex-wrap:wrap}
+.legend .sw{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button{background:var(--card2);border:1px solid var(--line);color:var(--ink2);border-radius:99px;
+  padding:5px 14px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.roasbar{background:var(--card2);border-radius:4px;height:6px;min-width:60px;overflow:hidden}
+.roasbar i{display:block;height:100%;background:var(--s1)}
+.foot{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--ink3);font-size:12px;max-width:78ch}
+.tooltip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:6px;
+  padding:7px 10px;font-size:12px;display:none;z-index:9;font-variant-numeric:tabular-nums;line-height:1.5}
+@media (prefers-reduced-motion: no-preference){.tile,.card{transition:border-color .15s}}
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <div class="wordmark">Maison Croyez</div>
+    <div class="mast-right"><div class="eyebrow">Daily Performance</div>
+      <div class="report-date">Sunday, August 16, 2026</div></div>
+  </header>
+
+  <p class="greeting">Hello Jose — yesterday Maison Croyez sold
+  <strong>$681</strong> across <strong>9 orders</strong>
+  ($564 subscription · $117 one-time) on
+  <strong>$1,125</strong> of Meta spend, for a contribution profit of
+  <strong style="color:var(--neg)">−$1,018</strong>.</p>
+  <p class="subnote">Blended ROAS 0.61× · 13 diffusers and 12 scents shipped · 8 new subscriptions started.</p>
+
+  <div class="tiles">
+    <div class="tile"><div class="k">Net sales</div><div class="v">$681</div><div class="d"><span class="chip chip-up">▲ 0.3%</span> vs prior day</div></div>
+    <div class="tile"><div class="k">Ad spend</div><div class="v">$1,125</div><div class="d"><span class="chip chip-down">▲ 80.4%</span> vs prior day</div></div>
+    <div class="tile"><div class="k">Contribution profit</div><div class="v neg">−$1,018</div><div class="d"><span class="chip chip-down">▼ 128.7%</span> vs prior day</div></div>
+    <div class="tile"><div class="k">Blended ROAS</div><div class="v">0.61×</div><div class="d">Meta-reported 0.43×</div></div>
+    <div class="tile"><div class="k">Orders · AOV</div><div class="v">9 · $76</div><div class="d">8 sub / 1 one-time</div></div>
+  </div>
+
+  <h2>Yesterday’s P&amp;L</h2>
+  <div class="grid2">
+    <div class="card">
+      <table class="pl">
+        <tr><td>Net sales <span class="muted">(after $1,037 discounts)</span></td><td>$681.35</td></tr>
+        <tr><td>Shipping charged to customers</td><td>$0.00</td></tr>
+        <tr><td>Refunds issued</td><td class="neg-v">−$0.00</td></tr>
+        <tr><td>Cost of goods</td><td class="neg-v">−$498.00</td></tr>
+        <tr><td>Shipping cost <span class="muted">(est. $6.00/order)</span></td><td class="neg-v">−$54.00</td></tr>
+        <tr><td>Payment processing <span class="muted">(actual fees)</span></td><td class="neg-v">−$21.71</td></tr>
+        <tr><td>Meta ad spend</td><td class="neg-v">−$1,125.18</td></tr>
+        <tr><td>Contribution profit</td><td class="neg-v">−$1,017.54</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:10px">Meta account · yesterday vs day before</div>
+      <div class="split">
+        <div class="pill">Spend <b>$1,125</b> <span class="chip chip-flat" title="vs prior day">▲ 80.4%</span></div>
+        <div class="pill">CPM <b>$194.00</b> <span class="chip chip-down" title="vs prior day">▲ 14.6%</span></div>
+        <div class="pill">CPC <b>$2.81</b> <span class="chip chip-down" title="vs prior day">▲ 26.9%</span></div>
+        <div class="pill">CTR <b>6.91%</b> <span class="chip chip-down" title="vs prior day">▼ 9.6%</span></div>
+        <div class="pill">Impressions <b>5,800</b> <span class="chip chip-flat" title="vs prior day">▲ 57.4%</span></div>
+        <div class="pill">Clicks <b>401</b> <span class="chip chip-up" title="vs prior day">▲ 42.2%</span></div>
+        <div class="pill">Meta purchases <b>9</b></div>
+        <div class="pill">Cost / order <b>$125.02</b></div>
+      </div>
+      <p class="subnote" style="margin:10px 0 0">Chips compare with the day before — green means the metric moved in your favor (cheaper CPM/CPC, higher CTR); gray chips are informational.</p>
+      <div class="split" style="margin-top:10px">
+        <div class="pill">Subscription revenue <b>$564</b></div>
+        <div class="pill">One-time revenue <b>$117</b></div>
+        <div class="pill">New subscriptions <b>8</b></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Trend since launch — July 15</h2>
+  <div class="card">
+    <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>Net sales</span>
+      <span><span class="sw" style="background:var(--s2)"></span>Ad spend</span></div>
+    <svg viewBox="0 0 920 260" class="chart" id="trend" role="img" aria-label="Daily net sales and ad spend">
+    <line x1="52" x2="804" y1="179" y2="179" class="grid"/>
+            <text x="44" y="183" class="axis" text-anchor="end">$292</text><line x1="52" x2="804" y1="124" y2="124" class="grid"/>
+            <text x="44" y="128" class="axis" text-anchor="end">$583</text><line x1="52" x2="804" y1="69" y2="69" class="grid"/>
+            <text x="44" y="73" class="axis" text-anchor="end">$875</text><line x1="52" x2="804" y1="14" y2="14" class="grid"/>
+            <text x="44" y="18" class="axis" text-anchor="end">$1,166</text><text x="52" y="254" class="axis" text-anchor="middle">Jul 15</text><text x="169.5" y="254" class="axis" text-anchor="middle">Jul 20</text><text x="287" y="254" class="axis" text-anchor="middle">Jul 25</text><text x="404.5" y="254" class="axis" text-anchor="middle">Jul 30</text><text x="522" y="254" class="axis" text-anchor="middle">Aug 4</text><text x="639.5" y="254" class="axis" text-anchor="middle">Aug 9</text><text x="757" y="254" class="axis" text-anchor="middle">Aug 14</text>
+    <path d="M52.0,211.4L75.5,211.4L99.0,226.5L122.5,203.9L146.0,196.3L169.5,226.5L193.0,226.5L216.5,234.0L240.0,203.9L263.5,211.4L287.0,181.2L310.5,196.3L334.0,158.6L357.5,165.2L381.0,211.4L404.5,98.7L428.0,209.5L451.5,66.6L475.0,118.5L498.5,205.7L522.0,184.4L545.5,105.8L569.0,196.3L592.5,90.2L616.0,125.1L639.5,126.9L663.0,149.2L686.5,218.9L710.0,211.4L733.5,158.6L757.0,98.3L780.5,105.9L804.0,105.5" class="l1"/><path d="M52.0,98.4L75.5,106.5L99.0,106.8L122.5,111.2L146.0,79.1L169.5,100.8L193.0,125.6L216.5,208.9L240.0,146.5L263.5,159.0L287.0,181.8L310.5,121.1L334.0,173.6L357.5,134.3L381.0,136.6L404.5,88.3L428.0,87.0L451.5,99.2L475.0,78.4L498.5,126.1L522.0,122.9L545.5,113.7L569.0,101.1L592.5,21.8L616.0,108.7L639.5,14.0L663.0,83.9L686.5,171.0L710.0,73.5L733.5,103.8L757.0,97.5L780.5,116.3L804.0,21.7" class="l2"/>
+    <circle cx="804" cy="105.4610345064142" r="4" class="p1"/>
+    <circle cx="804" cy="21.731014612060108" r="4" class="p2"/>
+    <text x="812" y="109.4610345064142" class="lbl lbl1">Net sales $681</text>
+    <text x="812" y="25.731014612060108" class="lbl lbl2">Ad spend $1,125</text>
+    <rect id="trend-hit" x="52" y="14" width="752" height="220" fill="transparent"/>
+    <line id="trend-cross" y1="14" y2="234" class="cross" style="display:none"/>
+  </svg>
+    <div class="legend" style="margin-top:14px"><span><span class="sw" style="background:var(--pos)"></span>Profit day</span>
+      <span><span class="sw" style="background:var(--neg)"></span>Loss day</span></div>
+    <svg viewBox="0 0 920 200" class="chart" role="img" aria-label="Daily contribution profit">
+    <line x1="52" x2="804" y1="120" y2="120" class="grid zero"/>
+    <text x="44" y="124" class="axis" text-anchor="end">$0</text><rect x="45.0" y="120.0" width="14.0" height="65.1" rx="2"
+      class="bar-neg"><title>Jul 15 · −$662</title></rect><rect x="68.5" y="120.0" width="14.0" height="60.8" rx="2"
+      class="bar-neg"><title>Jul 16 · −$619</title></rect><rect x="92.0" y="120.0" width="14.0" height="66.5" rx="2"
+      class="bar-neg"><title>Jul 17 · −$677</title></rect><rect x="115.5" y="120.0" width="14.0" height="64.9" rx="2"
+      class="bar-neg"><title>Jul 18 · −$661</title></rect><rect x="139.0" y="120.0" width="14.0" height="81.9" rx="2"
+      class="bar-neg"><title>Jul 19 · −$833</title></rect><rect x="162.5" y="120.0" width="14.0" height="69.6" rx="2"
+      class="bar-neg"><title>Jul 20 · −$709</title></rect><rect x="186.0" y="120.0" width="14.0" height="56.7" rx="2"
+      class="bar-neg"><title>Jul 21 · −$577</title></rect><rect x="209.5" y="120.0" width="14.0" height="13.1" rx="2"
+      class="bar-neg"><title>Jul 22 · −$133</title></rect><rect x="233.0" y="120.0" width="14.0" height="46.5" rx="2"
+      class="bar-neg"><title>Jul 23 · −$474</title></rect><rect x="256.5" y="120.0" width="14.0" height="39.8" rx="2"
+      class="bar-neg"><title>Jul 24 · −$405</title></rect><rect x="280.0" y="120.0" width="14.0" height="28.9" rx="2"
+      class="bar-neg"><title>Jul 25 · −$294</title></rect><rect x="303.5" y="120.0" width="14.0" height="60.0" rx="2"
+      class="bar-neg"><title>Jul 26 · −$611</title></rect><rect x="327.0" y="120.0" width="14.0" height="35.3" rx="2"
+      class="bar-neg"><title>Jul 27 · −$359</title></rect><rect x="350.5" y="120.0" width="14.0" height="52.1" rx="2"
+      class="bar-neg"><title>Jul 28 · −$530</title></rect><rect x="374.0" y="120.0" width="14.0" height="51.5" rx="2"
+      class="bar-neg"><title>Jul 29 · −$524</title></rect><rect x="397.5" y="120.0" width="14.0" height="67.3" rx="2"
+      class="bar-neg"><title>Jul 30 · −$685</title></rect><rect x="421.0" y="120.0" width="14.0" height="76.3" rx="2"
+      class="bar-neg"><title>Jul 31 · −$777</title></rect><rect x="444.5" y="120.0" width="14.0" height="44.8" rx="2"
+      class="bar-neg"><title>Aug 1 · −$456</title></rect><rect x="468.0" y="120.0" width="14.0" height="66.4" rx="2"
+      class="bar-neg"><title>Aug 2 · −$676</title></rect><rect x="491.5" y="120.0" width="14.0" height="51.3" rx="2"
+      class="bar-neg"><title>Aug 3 · −$522</title></rect><rect x="515.0" y="120.0" width="14.0" height="51.4" rx="2"
+      class="bar-neg"><title>Aug 4 · −$523</title></rect><rect x="538.5" y="120.0" width="14.0" height="31.2" rx="2"
+      class="bar-neg"><title>Aug 5 · −$318</title></rect><rect x="562.0" y="120.0" width="14.0" height="66.4" rx="2"
+      class="bar-neg"><title>Aug 6 · −$675</title></rect><rect x="585.5" y="120.0" width="14.0" height="95.6" rx="2"
+      class="bar-neg"><title>Aug 7 · −$973</title></rect><rect x="609.0" y="120.0" width="14.0" height="47.0" rx="2"
+      class="bar-neg"><title>Aug 8 · −$478</title></rect><rect x="632.5" y="120.0" width="14.0" height="94.8" rx="2"
+      class="bar-neg"><title>Aug 9 · −$965</title></rect><rect x="656.0" y="120.0" width="14.0" height="77.8" rx="2"
+      class="bar-neg"><title>Aug 10 · −$792</title></rect><rect x="679.5" y="120.0" width="14.0" height="33.3" rx="2"
+      class="bar-neg"><title>Aug 11 · −$339</title></rect><rect x="703.0" y="120.0" width="14.0" height="84.3" rx="2"
+      class="bar-neg"><title>Aug 12 · −$858</title></rect><rect x="726.5" y="120.0" width="14.0" height="59.5" rx="2"
+      class="bar-neg"><title>Aug 13 · −$605</title></rect><rect x="750.0" y="120.0" width="14.0" height="56.9" rx="2"
+      class="bar-neg"><title>Aug 14 · −$579</title></rect><rect x="773.5" y="120.0" width="14.0" height="43.7" rx="2"
+      class="bar-neg"><title>Aug 15 · −$445</title></rect><rect x="797.0" y="120.0" width="14.0" height="100.0" rx="2"
+      class="bar-neg"><title>Aug 16 · −$1,018</title></rect></svg>
+    <div class="legend" style="margin-top:14px"><span><span class="sw" style="background:var(--s1)"></span>Blended ROAS, 7-day rolling</span>
+      <span><span class="sw" style="background:var(--s2);height:6px;width:6px;border-radius:99px"></span>Single-day ROAS</span></div>
+    <svg viewBox="0 0 920 260" class="chart" role="img" aria-label="Blended ROAS since launch">
+    <line x1="52" x2="804" y1="163.4871794871795" y2="163.4871794871795" class="grid "/>
+     <text x="44" y="167.4871794871795" class="axis" text-anchor="end">0.5×</text><line x1="52" x2="804" y1="92.97435897435898" y2="92.97435897435898" class="grid zero"/>
+     <text x="44" y="96.97435897435898" class="axis" text-anchor="end">1.0×</text><line x1="52" x2="804" y1="22.46153846153848" y2="22.46153846153848" class="grid "/>
+     <text x="44" y="26.46153846153848" class="axis" text-anchor="end">1.5×</text><text x="52" y="254" class="axis" text-anchor="middle">Jul 15</text><text x="169.5" y="254" class="axis" text-anchor="middle">Jul 20</text><text x="287" y="254" class="axis" text-anchor="middle">Jul 25</text><text x="404.5" y="254" class="axis" text-anchor="middle">Jul 30</text><text x="522" y="254" class="axis" text-anchor="middle">Aug 4</text><text x="639.5" y="254" class="axis" text-anchor="middle">Aug 9</text><text x="757" y="254" class="axis" text-anchor="middle">Aug 14</text><text x="800" y="13.461538461538481" class="axis" text-anchor="end">front-end break-even ≈ 4.7× (above scale — renewals must close the gap)</text><circle cx="52.0" cy="210.4" r="2.3" class="p2" opacity=".4"><title>2026-07-15 · daily 0.17×</title></circle><circle cx="75.5" cy="209.0" r="2.3" class="p2" opacity=".4"><title>2026-07-16 · daily 0.18×</title></circle><circle cx="99.0" cy="225.7" r="2.3" class="p2" opacity=".4"><title>2026-07-17 · daily 0.06×</title></circle><circle cx="122.5" cy="199.4" r="2.3" class="p2" opacity=".4"><title>2026-07-18 · daily 0.24×</title></circle><circle cx="146.0" cy="199.7" r="2.3" class="p2" opacity=".4"><title>2026-07-19 · daily 0.24×</title></circle><circle cx="169.5" cy="226.0" r="2.3" class="p2" opacity=".4"><title>2026-07-20 · daily 0.06×</title></circle><circle cx="193.0" cy="224.3" r="2.3" class="p2" opacity=".4"><title>2026-07-21 · daily 0.07×</title></circle><circle cx="216.5" cy="234.0" r="2.3" class="p2" opacity=".4"><title>2026-07-22 · daily 0.00×</title></circle><circle cx="240.0" cy="185.3" r="2.3" class="p2" opacity=".4"><title>2026-07-23 · daily 0.34×</title></circle><circle cx="263.5" cy="191.4" r="2.3" class="p2" opacity=".4"><title>2026-07-24 · daily 0.30×</title></circle><circle cx="287.0" cy="91.4" r="2.3" class="p2" opacity=".4"><title>2026-07-25 · daily 1.01×</title></circle><circle cx="310.5" cy="186.9" r="2.3" class="p2" opacity=".4"><title>2026-07-26 · daily 0.33×</title></circle><circle cx="334.0" cy="58.0" r="2.3" class="p2" opacity=".4"><title>2026-07-27 · daily 1.25×</title></circle><circle cx="357.5" cy="136.7" r="2.3" class="p2" opacity=".4"><title>2026-07-28 · daily 0.69×</title></circle><circle cx="381.0" cy="201.3" r="2.3" class="p2" opacity=".4"><title>2026-07-29 · daily 0.23×</title></circle><circle cx="404.5" cy="103.0" r="2.3" class="p2" opacity=".4"><title>2026-07-30 · daily 0.93×</title></circle><circle cx="428.0" cy="210.4" r="2.3" class="p2" opacity=".4"><title>2026-07-31 · daily 0.17×</title></circle><circle cx="451.5" cy="58.8" r="2.3" class="p2" opacity=".4"><title>2026-08-01 · daily 1.24×</title></circle><circle cx="475.0" cy="129.4" r="2.3" class="p2" opacity=".4"><title>2026-08-02 · daily 0.74×</title></circle><circle cx="498.5" cy="197.1" r="2.3" class="p2" opacity=".4"><title>2026-08-03 · daily 0.26×</title></circle><circle cx="522.0" cy="171.1" r="2.3" class="p2" opacity=".4"><title>2026-08-04 · daily 0.45×</title></circle><circle cx="545.5" cy="83.7" r="2.3" class="p2" opacity=".4"><title>2026-08-05 · daily 1.07×</title></circle><circle cx="569.0" cy="193.9" r="2.3" class="p2" opacity=".4"><title>2026-08-06 · daily 0.28×</title></circle><circle cx="592.5" cy="138.4" r="2.3" class="p2" opacity=".4"><title>2026-08-07 · daily 0.68×</title></circle><circle cx="616.0" cy="111.3" r="2.3" class="p2" opacity=".4"><title>2026-08-08 · daily 0.87×</title></circle><circle cx="639.5" cy="165.3" r="2.3" class="p2" opacity=".4"><title>2026-08-09 · daily 0.49×</title></circle><circle cx="663.0" cy="154.3" r="2.3" class="p2" opacity=".4"><title>2026-08-10 · daily 0.56×</title></circle><circle cx="686.5" cy="200.3" r="2.3" class="p2" opacity=".4"><title>2026-08-11 · daily 0.24×</title></circle><circle cx="710.0" cy="214.1" r="2.3" class="p2" opacity=".4"><title>2026-08-12 · daily 0.14×</title></circle><circle cx="733.5" cy="152.3" r="2.3" class="p2" opacity=".4"><title>2026-08-13 · daily 0.58×</title></circle><circle cx="757.0" cy="93.8" r="2.3" class="p2" opacity=".4"><title>2026-08-14 · daily 0.99×</title></circle><circle cx="780.5" cy="80.4" r="2.3" class="p2" opacity=".4"><title>2026-08-15 · daily 1.09×</title></circle><circle cx="804.0" cy="148.5" r="2.3" class="p2" opacity=".4"><title>2026-08-16 · daily 0.61×</title></circle>
+    <text x="58" y="86.97435897435898" class="axis">1.0× — sales equal ad spend</text>
+    <path d="M52.0,210.4L75.5,209.7L99.0,215.0L122.5,211.2L146.0,208.5L169.5,211.4L193.0,213.0L216.5,214.1L240.0,211.6L263.5,206.9L287.0,198.9L310.5,196.5L334.0,172.8L357.5,155.0L381.0,159.3L404.5,143.0L428.0,151.8L451.5,140.1L475.0,131.8L498.5,144.7L522.0,148.8L545.5,134.9L569.0,148.5L592.5,137.0L616.0,144.6L639.5,151.4L663.0,147.1L686.5,147.8L710.0,165.0L733.5,160.0L757.0,155.3L780.5,151.9L804.0,148.3" class="l1"/>
+    <circle cx="804" cy="148.25641025641028" r="4" class="p1"/>
+    <text x="812" y="152.25641025641028" class="lbl lbl1">7-day 0.61×</text>
+  </svg>
+    <p class="subnote" style="margin:10px 0 0">Blended ROAS = all net sales ÷ Meta spend. The rising line means each ad dollar is buying more revenue than before. 1.0× only covers the ad bill — the front end also carries product, shipping and fees, so day-one break-even sits near 4.7×; running below it is the deliberate cost of buying subscribers (see the renewal model below).</p>
+  </div>
+
+  <h2>Performance windows</h2>
+  <div class="card tablewrap">
+    <table class="data">
+      <thead><tr><th>Window</th><th>Net sales</th><th>Δ</th><th>Ad spend</th><th>Profit</th><th>Δ</th><th>ROAS</th><th>Orders</th><th>AOV</th></tr></thead>
+      <tbody><tr><td class="win-label">Yesterday</td>
+    <td>$681</td><td><span class="chip chip-up">▲ 0.3%</span></td>
+    <td>$1,125</td><td>−$1,018</td><td><span class="chip chip-down">▼ 128.7%</span></td>
+    <td>0.61×</td><td>9</td><td>$75.71</td></tr><tr><td class="win-label">Last 7 days</td>
+    <td>$3,129</td><td><span class="chip chip-down">▼ 2.2%</span></td>
+    <td>$5,143</td><td>−$4,635</td><td><span class="chip chip-down">▼ 4.0%</span></td>
+    <td>0.61×</td><td>46</td><td>$68.01</td></tr><tr><td class="win-label">Last 14 days</td>
+    <td>$6,328</td><td><span class="chip chip-up">▲ 55.5%</span></td>
+    <td>$10,600</td><td>−$9,090</td><td><span class="chip chip-down">▼ 26.1%</span></td>
+    <td>0.60×</td><td>92</td><td>$68.78</td></tr><tr><td class="win-label">Last 28 days</td>
+    <td>$10,398</td><td><span class="chip chip-flat">—</span></td>
+    <td>$18,207</td><td>−$16,298</td><td><span class="chip chip-flat">—</span></td>
+    <td>0.57×</td><td>167</td><td>$62.26</td></tr><tr><td class="win-label">Last 45 days</td>
+    <td>$11,686</td><td><span class="chip chip-flat">—</span></td>
+    <td>$21,748</td><td>−$19,358</td><td><span class="chip chip-flat">—</span></td>
+    <td>0.54×</td><td>183</td><td>$63.86</td></tr><tr><td class="win-label">Last 90 days</td>
+    <td>$11,906</td><td><span class="chip chip-flat">—</span></td>
+    <td>$21,748</td><td>−$19,213</td><td><span class="chip chip-flat">—</span></td>
+    <td>0.55×</td><td>186</td><td>$64.01</td></tr></tbody>
+    </table>
+    <p class="subnote" style="margin:10px 0 0">Δ compares each window to the equal-length window immediately before it. ROAS is blended (net sales ÷ ad spend).</p>
+  </div>
+
+  
+  <h2>Campaigns &amp; offers</h2>
+  <div class="card">
+    <div class="tabs" id="ctabs" role="tablist"><button role="tab" class="" data-w="Yesterday">Yesterday</button><button role="tab" class="on" data-w="Last 7 days">Last 7 days</button><button role="tab" class="" data-w="Last 14 days">Last 14 days</button><button role="tab" class="" data-w="Last 28 days">Last 28 days</button><button role="tab" class="" data-w="Since launch">Since launch</button></div>
+    <div class="tablewrap"><table class="data" id="ctable"></table></div>
+  </div>
+
+  <h2>Subscription health</h2>
+  <div class="tiles">
+    <div class="tile"><div class="k">Subscribers acquired</div><div class="v">162</div><div class="d">150 new in last 28d</div></div>
+    <div class="tile"><div class="k">Recurring revenue (MRR)</div><div class="v">$6,789</div><div class="d">$41.91 avg / subscriber / month</div></div>
+    <div class="tile"><div class="k">Renewal orders (28d)</div><div class="v">3</div><div class="d">subscription re-bills received</div></div>
+    <div class="tile"><div class="k">Projected MRR +30d</div><div class="v">$13,703</div><div class="d">at current pace of +5.5 subs/day</div></div>
+    <div class="tile"><div class="k">Projected MRR +90d</div><div class="v">$27,532</div><div class="d">straight-line projection</div></div>
+  </div>
+  
+  <div class="card tablewrap" style="margin-top:14px">
+    <table class="data">
+      <thead><tr><th>Window</th><th>New subs</th><th>Δ</th><th>Attach rate</th><th>Sub sales</th><th>Δ</th><th>CAC / sub</th><th>Δ</th><th>Renewals</th></tr></thead>
+      <tbody><tr><td class="win-label">Yesterday</td>
+          <td>8</td><td><span class="chip chip-up">▲ 33.3%</span></td>
+          <td>89%</td>
+          <td>$564</td><td><span class="chip chip-up">▲ 8.7%</span></td>
+          <td>$141</td><td><span class="chip chip-down">▲ 35.3%</span></td>
+          <td>0</td></tr><tr><td class="win-label">Last 7 days</td>
+          <td>38</td><td><span class="chip chip-down">▼ 2.6%</span></td>
+          <td>83%</td>
+          <td>$2,502</td><td><span class="chip chip-up">▲ 6.9%</span></td>
+          <td>$135</td><td><span class="chip chip-up">▼ 3.3%</span></td>
+          <td>3</td></tr><tr><td class="win-label">Last 14 days</td>
+          <td>77</td><td><span class="chip chip-up">▲ 5.5%</span></td>
+          <td>84%</td>
+          <td>$4,842</td><td><span class="chip chip-up">▲ 24.8%</span></td>
+          <td>$138</td><td><span class="chip chip-down">▲ 32.1%</span></td>
+          <td>3</td></tr><tr><td class="win-label">Last 28 days</td>
+          <td>150</td><td><span class="chip chip-flat">—</span></td>
+          <td>90%</td>
+          <td>$8,722</td><td><span class="chip chip-flat">—</span></td>
+          <td>$121</td><td><span class="chip chip-flat">—</span></td>
+          <td>3</td></tr><tr><td class="win-label">Last 45 days</td>
+          <td>162</td><td><span class="chip chip-flat">—</span></td>
+          <td>89%</td>
+          <td>$9,361</td><td><span class="chip chip-flat">—</span></td>
+          <td>$134</td><td><span class="chip chip-flat">—</span></td>
+          <td>3</td></tr><tr><td class="win-label">Last 90 days</td>
+          <td>162</td><td><span class="chip chip-flat">—</span></td>
+          <td>87%</td>
+          <td>$9,361</td><td><span class="chip chip-flat">—</span></td>
+          <td>$134</td><td><span class="chip chip-flat">—</span></td>
+          <td>3</td></tr></tbody>
+    </table>
+    <p class="subnote" style="margin:10px 0 0">Attach rate = share of orders that start a subscription. CAC / sub = Meta spend ÷ new subscribers in the window. Δ compares with the equal-length window before it; green CAC means acquiring got cheaper.</p>
+  </div>
+  <p class="subnote" style="margin-top:10px">Derived from order history (Subi doesn’t expose contract statuses to the API): MRR counts every acquired subscription at its plan’s recurring list price, normalized to 30 days — cancellations aren’t visible yet, so treat MRR as a ceiling and watch renewal orders as the ground truth.</p>
+
+  
+  <h2>Renewal recovery model — is the front-end investment worth it?</h2>
+  <div class="card" style="border-left:4px solid var(--s3);margin-bottom:16px">
+    <div class="eyebrow" style="margin-bottom:8px;color:var(--s3)">The verdict, in plain terms</div>
+    <p style="font-size:17px;margin:0 0 10px"><strong>Almost, but not yet — every subscriber costs $121 to acquire and returns about $120 of renewal profit within 180 days. That's $2 lost per subscriber (0.99× your money back).</strong></p>
+    <p style="margin:0 0 6px">The machine starts printing money when any one of these happens:</p>
+    <ul style="margin:0;padding-left:20px;line-height:1.8">
+      <li>CAC drops below <strong>$120</strong> per subscriber (currently $121 — needs 1% cheaper), or</li>
+      <li>retention beats <strong>76%</strong> staying 180 days (you assumed 75%), or</li>
+      <li>subscribers keep renewing <strong>past 180 days</strong> — every extra month after that is $31/subscriber of nearly pure profit.</li>
+    </ul>
+    <p class="subnote" style="margin:12px 0 0">The first real renewal wave bills next week — those numbers will tell us if the 75% assumption holds. Until then this is a model, not a promise.</p>
+  </div>
+  <div class="card">
+    <div class="split" style="margin-bottom:14px">
+      <div class="pill">Avg renewal order <b>$48.95</b></div>
+      <div class="pill">Margin per renewal <b>$31.10</b> (64%)</div>
+      <div class="pill">Plan mix <b>105 × every 30d · 53 × every 45d · 3 × every 90d</b></div>
+      <div class="pill">CAC (28d) <b>$121</b> / new subscriber</div>
+      <div class="pill">180-day renewal value <b>$120</b> / subscriber</div>
+      <div class="pill">LTV : CAC <b>0.99×</b></div>
+    </div>
+    <div class="tablewrap">
+      <table class="data">
+        <thead><tr><th>Horizon</th><th>Renewal orders</th><th>Renewal profit</th><th>Investment paid back</th><th>Cash position if ads stop</th><th>Cash position if ads continue</th></tr></thead>
+        <tbody><tr><td class="win-label">+30 days</td>
+        <td>87</td><td>$2,556</td>
+        <td>13%</td>
+        <td>−$16,657</td>
+        <td>−$16,922</td></tr><tr><td class="win-label">+60 days</td>
+        <td>199</td><td>$6,011</td>
+        <td>31%</td>
+        <td>−$13,202</td>
+        <td>−$29,801</td></tr><tr><td class="win-label">+90 days</td>
+        <td>318</td><td>$9,641</td>
+        <td>50%</td>
+        <td>−$9,572</td>
+        <td>−$39,363</td></tr><tr><td class="win-label">+180 days</td>
+        <td>635</td><td>$19,265</td>
+        <td>100%</td>
+        <td>$51</td>
+        <td>−$48,341</td></tr></tbody>
+      </table>
+    </div>
+    <div class="legend" style="margin-top:18px">
+      <span><span class="sw" style="background:var(--s1)"></span>Cumulative renewal profit, existing base</span>
+      <span><span class="sw" style="background:var(--s2)"></span>Cumulative P&amp;L if spend continues at current pace</span>
+    </div>
+    <svg viewBox="0 0 920 260" class="chart" role="img" aria-label="Projected cumulative renewal profit over 180 days">
+    <line x1="76" x2="804" y1="136.32016333703882" y2="136.32016333703882" class="grid "/>
+     <text x="68" y="140.32016333703882" class="axis" text-anchor="end">−$19,213</text><line x1="76" x2="804" y1="79.50853115073932" y2="79.50853115073932" class="grid zero"/>
+     <text x="68" y="83.50853115073932" class="axis" text-anchor="end">$0</text><line x1="76" x2="804" y1="22.544591019661656" y2="22.544591019661656" class="grid "/>
+     <text x="68" y="26.544591019661656" class="axis" text-anchor="end">$19,265</text><text x="193.9441340782123" y="254" class="axis" text-anchor="middle">day 30</text><text x="315.9553072625698" y="254" class="axis" text-anchor="middle">day 60</text><text x="437.9664804469274" y="254" class="axis" text-anchor="middle">day 90</text><text x="559.977653631285" y="254" class="axis" text-anchor="middle">day 120</text><text x="681.9888268156425" y="254" class="axis" text-anchor="middle">day 150</text><text x="804" y="254" class="axis" text-anchor="middle">day 180</text>
+    <line x1="76" x2="804" y1="136.32016333703882" y2="136.32016333703882" class="cross"/>
+    <text x="82" y="130.32016333703882" class="axis">invested to date −$19,213</text>
+    <path d="M76.0,79.3L80.1,79.0L84.1,79.0L88.2,78.9L92.3,78.9L96.3,78.7L100.4,78.6L104.5,78.2L108.5,77.9L112.6,77.4L116.7,77.0L120.7,76.8L124.8,76.2L128.9,76.1L132.9,76.1L137.0,75.8L141.1,75.8L145.1,75.8L149.2,75.8L153.3,75.8L157.3,75.8L161.4,75.8L165.5,75.7L169.5,75.1L173.6,75.0L177.7,74.9L181.7,74.5L185.8,73.9L189.9,73.4L193.9,72.0L198.0,71.3L202.1,70.9L206.1,70.5L210.2,70.2L214.3,69.9L218.3,68.7L222.4,68.2L226.5,67.5L230.5,67.3L234.6,66.8L238.7,66.3L242.7,66.2L246.8,65.5L250.9,65.4L254.9,65.4L259.0,65.2L263.1,65.2L267.2,65.2L271.2,65.2L275.3,65.2L279.4,65.2L283.4,65.2L287.5,65.0L291.6,64.5L295.6,64.4L299.7,64.2L303.8,63.8L307.8,63.1L311.9,62.4L316.0,61.7L320.0,61.5L324.1,61.3L328.2,61.2L332.2,61.2L336.3,61.2L340.4,61.0L344.4,60.8L348.5,60.4L352.6,60.2L356.6,59.6L360.7,59.2L364.8,59.1L368.8,58.4L372.9,58.2L377.0,57.5L381.0,56.7L385.1,56.6L389.2,56.3L393.2,56.0L397.3,55.7L401.4,54.7L405.4,54.4L409.5,53.9L413.6,53.4L417.6,53.3L421.7,53.1L425.8,52.7L429.8,52.2L433.9,51.7L438.0,51.0L442.0,50.8L446.1,50.5L450.2,50.5L454.2,50.4L458.3,50.4L462.4,50.2L466.4,50.1L470.5,49.7L474.6,49.4L478.6,48.9L482.7,48.5L486.8,48.3L490.8,47.7L494.9,47.5L499.0,47.5L503.0,47.3L507.1,47.3L511.2,47.3L515.2,47.3L519.3,47.3L523.4,47.3L527.4,47.3L531.5,47.2L535.6,46.6L539.6,46.5L543.7,46.4L547.8,45.9L551.8,45.4L555.9,44.9L560.0,43.4L564.0,42.8L568.1,42.4L572.2,42.0L576.2,41.7L580.3,41.4L584.4,40.2L588.4,39.7L592.5,39.0L596.6,38.8L600.6,38.3L604.7,37.8L608.8,37.7L612.8,37.0L616.9,36.9L621.0,36.9L625.1,36.7L629.1,36.7L633.2,36.7L637.3,36.7L641.3,36.7L645.4,36.7L649.5,36.7L653.5,36.5L657.6,36.0L661.7,35.9L665.7,35.7L669.8,35.3L673.9,34.6L677.9,33.9L682.0,33.2L686.1,33.0L690.1,32.8L694.2,32.7L698.3,32.7L702.3,32.7L706.4,32.4L710.5,32.3L714.5,31.9L718.6,31.7L722.7,31.1L726.7,30.7L730.8,30.6L734.9,29.9L738.9,29.7L743.0,29.0L747.1,28.2L751.1,28.1L755.2,27.8L759.3,27.5L763.3,27.2L767.4,26.2L771.5,25.8L775.5,25.4L779.6,24.9L783.7,24.8L787.7,24.6L791.8,24.2L795.9,23.7L799.9,23.2L804.0,22.5" class="l1"/><path d="M76.0,81.2L80.1,82.9L84.1,84.7L88.2,86.6L92.3,88.5L96.3,90.2L100.4,92.0L104.5,93.6L108.5,95.2L112.6,96.6L116.7,98.1L120.7,99.9L124.8,101.1L128.9,102.9L132.9,104.9L137.0,106.5L141.1,108.5L145.1,110.4L149.2,112.3L153.3,114.2L157.3,116.1L161.4,118.1L165.5,119.8L169.5,121.2L173.6,123.0L177.7,124.8L181.7,126.3L185.8,127.7L189.9,129.0L193.9,129.5L198.0,130.6L202.1,131.8L206.1,133.2L210.2,134.5L214.3,135.9L218.3,136.4L222.4,137.5L226.5,138.5L230.5,139.9L234.6,141.1L238.7,142.3L242.7,143.8L246.8,144.8L250.9,146.4L254.9,148.1L259.0,149.4L263.1,150.9L267.2,152.5L271.2,154.0L275.3,155.6L279.4,157.1L283.4,158.7L287.5,160.1L291.6,161.1L295.6,162.5L299.7,163.9L303.8,165.0L307.8,165.9L311.9,166.7L316.0,167.6L320.0,168.7L324.1,169.8L328.2,171.0L332.2,172.3L336.3,173.6L340.4,174.6L344.4,175.8L348.5,176.7L352.6,177.8L356.6,178.5L360.7,179.4L364.8,180.6L368.8,181.2L372.9,182.3L377.0,182.9L381.0,183.4L385.1,184.6L389.2,185.6L393.2,186.6L397.3,187.6L401.4,187.9L405.4,188.9L409.5,189.7L413.6,190.5L417.6,191.7L421.7,192.8L425.8,193.7L429.8,194.5L433.9,195.3L438.0,195.9L442.0,196.6L446.1,197.3L450.2,198.1L454.2,199.0L458.3,199.9L462.4,200.6L466.4,201.4L470.5,202.0L474.6,202.6L478.6,203.0L482.7,203.5L486.8,204.3L490.8,204.5L494.9,205.3L499.0,206.3L503.0,206.9L507.1,207.9L511.2,208.8L515.2,209.7L519.3,210.6L523.4,211.6L527.4,212.5L531.5,213.2L535.6,213.6L539.6,214.4L543.7,215.2L547.8,215.7L551.8,216.1L555.9,216.5L560.0,216.0L564.0,216.0L568.1,216.3L572.2,216.6L576.2,216.9L580.3,217.3L584.4,216.8L588.4,216.9L592.5,216.9L596.6,217.4L600.6,217.5L604.7,217.8L608.8,218.3L612.8,218.3L616.9,218.8L621.0,219.5L625.1,219.8L629.1,220.4L633.2,220.9L637.3,221.5L641.3,222.0L645.4,222.6L649.5,223.1L653.5,223.5L657.6,223.5L661.7,224.0L665.7,224.4L669.8,224.5L673.9,224.4L677.9,224.2L682.0,224.1L686.1,224.2L690.1,224.2L694.2,224.5L698.3,224.7L702.3,225.0L706.4,225.1L710.5,225.3L714.5,225.2L718.6,225.2L722.7,225.0L726.7,224.9L730.8,225.0L734.9,224.7L738.9,224.8L743.0,224.3L747.1,223.9L751.1,224.0L755.2,224.0L759.3,224.1L763.3,224.1L767.4,223.4L771.5,223.3L775.5,223.2L779.6,222.9L783.7,223.1L787.7,223.3L791.8,223.2L795.9,223.0L799.9,222.8L804.0,222.4" class="l2"/>
+    <circle cx="559.977653631285" cy="215.97065422311752" r="4" class="p2"/>
+      <text x="559.977653631285" y="199.97065422311752" class="lbl lbl2" text-anchor="middle">day 120: daily run-rate turns positive</text>
+    <text x="812" y="26.544591019661656" class="lbl lbl1">$19,265</text>
+    <text x="812" y="226.44618128707083" class="lbl lbl2">−$48,341</text>
+  </svg>
+    <p class="subnote" style="margin:12px 0 0">How to read this — you have invested $19,213 so far (everything spent minus everything earned). “If ads stop”, the 162 subscribers you already own keep renewing and pay back 100% of that within 180 days. “If ads continue” at today’s pace (5.5 new subscribers/day, $649/day front-end loss), the total hole grows for a while — but renewals stack until around day 120, when a normal day becomes profitable. Assumptions: 75% of subscribers renew on schedule through day 180 (the rest never renew), renewals at plan list price, ~$15 all-in fulfillment per single-scent renewal ($9 product + $6.00 shipping) plus card fees, nothing counted past each subscriber’s 180th day.</p>
+  </div>
+
+  <p class="foot">Methodology — Net sales are product revenue after discounts, before tax; taxes are excluded as pass-through. Refunds are booked on the day issued and do not credit COGS back. COGS uses Shopify line-item unit costs. Payment fees are the actual per-transaction fees from Shopify Payments. Shipping cost is a flat estimate per order — Shopify’s API does not expose purchased label costs; replace the estimate in report/config.json when the real average is known. Blended ROAS = net sales ÷ Meta spend (all revenue, not just attributed). Meta-reported ROAS uses Meta pixel attribution. Subscription MRR normalizes every Subi contract to a 30-day month. Report generated 8/17/2026, 12:09:08 PM ET.</p>
+</div>
+<div class="tooltip" id="tt"></div>
+<script>
+const SERIES=[{"date":"2026-07-15","netSales":119.85,"spend":718.52,"profit":-661.93,"orders":1,"subNetSales":119.85,"oneTimeNetSales":0,"roas":0.167,"roas7":0.167},{"date":"2026-07-16","netSales":119.85,"spend":676.06,"profit":-618.75,"orders":1,"subNetSales":119.85,"oneTimeNetSales":0,"roas":0.177,"roas7":0.172},{"date":"2026-07-17","netSales":39.95,"spend":674.08,"profit":-676.51,"orders":1,"subNetSales":39.95,"oneTimeNetSales":0,"roas":0.059,"roas7":0.135},{"date":"2026-07-18","netSales":159.8,"spend":651.13,"profit":-660.85,"orders":4,"subNetSales":159.8,"oneTimeNetSales":0,"roas":0.245,"roas7":0.162},{"date":"2026-07-19","netSales":199.75,"spend":820.99,"profit":-833.38,"orders":5,"subNetSales":199.75,"oneTimeNetSales":0,"roas":0.243,"roas7":0.181},{"date":"2026-07-20","netSales":39.95,"spend":706.24,"profit":-708.67,"orders":1,"subNetSales":39.95,"oneTimeNetSales":0,"roas":0.057,"roas7":0.16},{"date":"2026-07-21","netSales":39.95,"spend":574.84,"profit":-577.27,"orders":1,"subNetSales":39.95,"oneTimeNetSales":0,"roas":0.069,"roas7":0.149},{"date":"2026-07-22","netSales":0,"spend":133.11,"profit":-133.11,"orders":0,"subNetSales":0,"oneTimeNetSales":0,"roas":0,"roas7":0.141},{"date":"2026-07-23","netSales":159.8,"spend":463.83,"profit":-473.55,"orders":4,"subNetSales":159.8,"oneTimeNetSales":0,"roas":0.345,"roas7":0.159},{"date":"2026-07-24","netSales":119.85,"spend":397.33,"profit":-404.62,"orders":3,"subNetSales":119.85,"oneTimeNetSales":0,"roas":0.302,"roas7":0.192},{"date":"2026-07-25","netSales":279.65,"spend":276.69,"profit":-293.7,"orders":7,"subNetSales":279.65,"oneTimeNetSales":0,"roas":1.011,"roas7":0.249},{"date":"2026-07-26","netSales":199.75,"spend":598.51,"profit":-610.66,"orders":5,"subNetSales":199.75,"oneTimeNetSales":0,"roas":0.334,"roas7":0.266},{"date":"2026-07-27","netSales":399.5,"spend":320.05,"profit":-359.35,"orders":11,"subNetSales":399.5,"oneTimeNetSales":0,"roas":1.248,"roas7":0.434},{"date":"2026-07-28","netSales":364.58,"spend":528.32,"profit":-530.29,"orders":8,"subNetSales":364.58,"oneTimeNetSales":0,"roas":0.69,"roas7":0.56},{"date":"2026-07-29","netSales":119.85,"spend":516.55,"profit":-523.84,"orders":3,"subNetSales":119.85,"oneTimeNetSales":0,"roas":0.232,"roas7":0.53},{"date":"2026-07-30","netSales":717.27,"spend":772.49,"profit":-684.9,"orders":8,"subNetSales":717.27,"oneTimeNetSales":0,"roas":0.929,"roas7":0.645},{"date":"2026-07-31","netSales":129.85,"spend":779.22,"profit":-776.78,"orders":3,"subNetSales":129.85,"oneTimeNetSales":0,"roas":0.167,"roas7":0.583},{"date":"2026-08-01","netSales":887.35,"spend":714.37,"profit":-456.11,"orders":11,"subNetSales":747.45,"oneTimeNetSales":139.9,"roas":1.242,"roas7":0.666},{"date":"2026-08-02","netSales":612.42,"spend":824.94,"profit":-675.81,"orders":10,"subNetSales":562.47,"oneTimeNetSales":49.95,"roas":0.742,"roas7":0.725},{"date":"2026-08-03","netSales":149.85,"spend":571.89,"profit":-522.34,"orders":3,"subNetSales":99.9,"oneTimeNetSales":49.95,"roas":0.262,"roas7":0.633},{"date":"2026-08-04","netSales":262.77,"spend":588.89,"profit":-523.02,"orders":4,"subNetSales":262.77,"oneTimeNetSales":0,"roas":0.446,"roas7":0.604},{"date":"2026-08-05","netSales":679.5,"spend":637.45,"profit":-317.93,"orders":7,"subNetSales":199.8,"oneTimeNetSales":479.7,"roas":1.066,"roas7":0.703},{"date":"2026-08-06","netSales":199.8,"spend":704.41,"profit":-675.21,"orders":4,"subNetSales":199.8,"oneTimeNetSales":0,"roas":0.284,"roas7":0.606},{"date":"2026-08-07","netSales":762.25,"spend":1124.77,"profit":-972.91,"orders":13,"subNetSales":762.25,"oneTimeNetSales":0,"roas":0.678,"roas7":0.688},{"date":"2026-08-08","netSales":577.5,"spend":664.14,"profit":-478.35,"orders":7,"subNetSales":387.65,"oneTimeNetSales":189.85,"roas":0.87,"roas7":0.634},{"date":"2026-08-09","netSales":567.5,"spend":1166.16,"profit":-964.91,"orders":8,"subNetSales":427.6,"oneTimeNetSales":139.9,"roas":0.487,"roas7":0.586},{"date":"2026-08-10","netSales":449.43,"spend":795.48,"profit":-791.73,"orders":9,"subNetSales":449.43,"oneTimeNetSales":0,"roas":0.565,"roas7":0.616},{"date":"2026-08-11","netSales":79.9,"spend":333.71,"profit":-338.57,"orders":2,"subNetSales":79.9,"oneTimeNetSales":0,"roas":0.239,"roas7":0.611},{"date":"2026-08-12","netSales":119.85,"spend":850.61,"profit":-857.9,"orders":3,"subNetSales":119.85,"oneTimeNetSales":0,"roas":0.141,"roas7":0.489},{"date":"2026-08-13","netSales":399.5,"spend":690.22,"profit":-605.02,"orders":5,"subNetSales":279.65,"oneTimeNetSales":119.85,"roas":0.579,"roas7":0.525},{"date":"2026-08-14","netSales":719.28,"spend":723.79,"profit":-579.24,"orders":9,"subNetSales":489.38,"oneTimeNetSales":229.9,"roas":0.994,"roas7":0.558},{"date":"2026-08-15","netSales":679.25,"spend":623.71,"profit":-444.98,"orders":9,"subNetSales":519.4,"oneTimeNetSales":159.85,"roas":1.089,"roas7":0.582},{"date":"2026-08-16","netSales":681.35,"spend":1125.18,"profit":-1017.54,"orders":9,"subNetSales":564.43,"oneTimeNetSales":116.92,"roas":0.606,"roas7":0.608}];
+const CAMPS={"Yesterday":[{"name":"MC | TOF | Creative Test 01 | ABO","spend":772.45,"purchases":3,"value":159.8,"ctr":6.77111,"cpc":3.029216,"cpm":205.111524},{"name":"MC | Top Performers | CBO | 8.12","spend":352.73,"purchases":6,"value":319.6,"ctr":7.177974,"cpc":2.415959,"cpm":173.416912}],"Last 7 days":[{"name":"MC | TOF | Creative Test 01 | ABO","spend":3414.64,"purchases":29,"value":1628.25,"ctr":6.682068,"cpc":2.951288,"cpm":197.207046},{"name":"MC | Top Performers | CBO | 8.12","spend":1213.45,"purchases":13,"value":838.95,"ctr":6.61424,"cpc":2.576327,"cpm":170.404438},{"name":"Already tested, no results, ignore.","spend":273.66,"purchases":1,"value":39.95,"ctr":28.273092,"cpc":0.777443,"cpm":219.807229},{"name":"Already tested, no results, ignore.","spend":240.95,"purchases":2,"value":79.9,"ctr":6.25,"cpc":2.677222,"cpm":167.326389}],"Last 14 days":[{"name":"MC | TOF | Creative Test 01 | ABO","spend":7008.09,"purchases":53,"value":2917,"ctr":6.319675,"cpc":2.765624,"cpm":174.778412},{"name":"Already tested, no results, ignore.","spend":1320.69,"purchases":16,"value":709.25,"ctr":7.917189,"cpc":2.093011,"cpm":165.707654},{"name":"MC | Top Performers | CBO | 8.12","spend":1213.45,"purchases":13,"value":838.95,"ctr":6.61424,"cpc":2.576327,"cpm":170.404438},{"name":"Already tested, no results, ignore.","spend":1044.04,"purchases":6,"value":369.65,"ctr":24.555704,"cpc":0.812482,"cpm":199.510797},{"name":"Already tested, no results, ignore.","spend":14.14,"purchases":0,"value":0,"ctr":13.834951,"cpc":0.124035,"cpm":17.160194}],"Last 28 days":[{"name":"MC | TOF | Creative Test 01 | ABO","spend":12842.35,"purchases":116,"value":5823.7,"ctr":6.042792,"cpc":2.113967,"cpm":127.742632},{"name":"Already tested, no results, ignore.","spend":2418.78,"purchases":28,"value":1318.6,"ctr":7.207152,"cpc":2.041165,"cpm":147.109841},{"name":"MC | Top Performers | CBO | 8.12","spend":1213.45,"purchases":13,"value":838.95,"ctr":6.61424,"cpc":2.576327,"cpm":170.404438},{"name":"Already tested, no results, ignore.","spend":1044.04,"purchases":6,"value":369.65,"ctr":24.555704,"cpc":0.812482,"cpm":199.510797},{"name":"Already tested, no results, ignore.","spend":533.04,"purchases":0,"value":0,"ctr":7.833416,"cpc":3.373671,"cpm":264.273674}],"Since launch":[{"name":"MC | TOF | Creative Test 01 | ABO","spend":15787.21,"purchases":124,"value":6303.1,"ctr":5.698939,"cpc":1.519901,"cpm":86.61822},{"name":"Already tested, no results, ignore.","spend":2418.78,"purchases":28,"value":1318.6,"ctr":7.207152,"cpc":2.041165,"cpm":147.109841},{"name":"MC | Top Performers | CBO | 8.12","spend":1213.45,"purchases":13,"value":838.95,"ctr":6.61424,"cpc":2.576327,"cpm":170.404438},{"name":"Already tested, no results, ignore.","spend":1079.36,"purchases":3,"value":119.85,"ctr":6.717147,"cpc":3.924945,"cpm":263.644358},{"name":"Already tested, no results, ignore.","spend":1044.04,"purchases":6,"value":369.65,"ctr":24.555704,"cpc":0.812482,"cpm":199.510797}]};
+const usd=v=>(v<0?'−$':'$')+Math.abs(v).toLocaleString('en-US',{maximumFractionDigits:0});
+// crosshair tooltip on the trend chart
+const svg=document.getElementById('trend'),hit=document.getElementById('trend-hit'),
+      cross=document.getElementById('trend-cross'),tt=document.getElementById('tt');
+if(svg){const PL=52,PR=116,VW=920;
+hit.addEventListener('mousemove',e=>{
+  const r=svg.getBoundingClientRect(),sx=VW/r.width;
+  const px=(e.clientX-r.left)*sx;
+  const i=Math.max(0,Math.min(SERIES.length-1,Math.round((px-PL)/(VW-PL-PR)*(SERIES.length-1))));
+  const s=SERIES[i];const cx=PL+(VW-PL-PR)*(SERIES.length<2?.5:i/(SERIES.length-1));
+  cross.setAttribute('x1',cx);cross.setAttribute('x2',cx);cross.style.display='';
+  tt.style.display='block';tt.style.left=(e.clientX+14)+'px';tt.style.top=(e.clientY-10)+'px';
+  tt.innerHTML='<b>'+s.date+'</b><br>Net sales '+usd(s.netSales)+'<br>Ad spend '+usd(s.spend)+'<br>Profit '+usd(s.profit)+'<br>Orders '+s.orders;});
+hit.addEventListener('mouseleave',()=>{cross.style.display='none';tt.style.display='none';});}
+// campaign window tabs
+const tabs=document.getElementById('ctabs'),ctable=document.getElementById('ctable');
+function renderC(w){const rows=CAMPS[w]||[];const maxRoas=Math.max(1,...rows.map(c=>c.spend?c.value/c.spend:0));
+ ctable.innerHTML='<thead><tr><th>Campaign</th><th>Spend</th><th>Purch.</th><th>Meta ROAS</th><th></th><th>CTR</th><th>CPC</th></tr></thead><tbody>'+
+ rows.map(c=>{const roas=c.spend?c.value/c.spend:0;
+  return '<tr><td style="white-space:normal;min-width:200px">'+c.name.replace(/[<>&]/g,'')+'</td><td>'+usd(c.spend)+'</td><td>'+c.purchases+'</td><td>'+(roas?roas.toFixed(2)+'×':'—')+'</td>'+
+  '<td style="width:90px"><div class="roasbar"><i style="width:'+Math.min(100,roas/maxRoas*100)+'%"></i></div></td>'+
+  '<td>'+(c.ctr?(+c.ctr).toFixed(2)+'%':'—')+'</td><td>'+(c.cpc?'$'+(+c.cpc).toFixed(2):'—')+'</td></tr>';}).join('')+'</tbody>';}
+if(tabs){tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ tabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderC(b.dataset.w);});
+ renderC(tabs.querySelector('button.on').dataset.w);}
+</script>

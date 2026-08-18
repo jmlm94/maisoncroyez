@@ -41,3 +41,10 @@ Artifact-driven rebuild (artifact b5659944 = source of truth; kb-smoke-r8.mjs lo
   the 6.6s LCP is the slow-4G simulation where third-party JS (FB/wpm/trekkie/subi/klaviyo ~500KB) starves the
   bandwidth ahead of the body font (bvp-400), whose swap repaint is counted as the text LCP. Candidate round 2
   (not deployed): prehero-style static first-slide for lab LCP + thumbs width=100->64.
+
+## kb9 (2026-08-18, SHA 35c5696) — spacing pass
+CSS-only: appended margin overrides for consistent 24-28px air between logical sections on all 3 steps
+(gallery 24, usp3, ship-line 22, navrow 18, guar3 26, reserved/pickcount/booklet, kitcart/valline/due/pay4,
+perkhead 28, testi2 24, minirevs, trust-strip, faqs). App bundle + cart logic untouched. Key kb8->kb9.
+Artifact and live css share the identical block; before/after screenshots in scratchpad session.
+r56 verify: computed-style assertions (guar3 26px, kbgal 24px, navrow 18px, perkhead 28px) + flow sanity.

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 56b — kb9 spacing verify, patient: repeat browser computed-style probe until CDN replicas converge (up to ~75 min)
+# run 57 — ground truth: served css bytes + desktop screenshot + computed styles + HTML inline-block check
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,74 +13,57 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify kb9 spacing
+      - name: Diagnose
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb9_verify'
           B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          OK=0
-          for i in $(seq 1 40); do
-            KEY=$(curl -fsSL "$URL&w=$i" | grep -o "kb[0-9]*-" | head -1)
-            V="${KEY}$(date -u +%Y%m%d%H)"
-            if [ -n "$KEY" ] && curl -fsSL "$B/mc-kit.css?v=$V" | grep -q "26px 0 8px"; then OK=1; echo "page on $KEY serving spacing css (attempt $i)"; break; fi
-            echo "spacing css not served yet on key $KEY (attempt $i)"; sleep 45
+          D=lp-factory/pages/kit-builder/verify
+          mkdir -p $D
+          # 1. served css at current kb9/kb10 hour keys + random key
+          for K in "kb9-$(date -u +%Y%m%d%H)" "kb10-$(date -u +%Y%m%d%H)" "oc$RANDOM$RANDOM"; do
+            curl -fsSL "$B/mc-kit.css?v=$K" -o "$D/served-css-$K.css" || true
+            echo "$K: $(wc -c < $D/served-css-$K.css) bytes, guar3margin=$(grep -c '26px 0 8px' $D/served-css-$K.css || true), mwho=$(grep -c 'mwho' $D/served-css-$K.css || true)"
           done
-          [ "$OK" = "1" ] || { echo "FATAL: spacing css never served"; exit 1; }
-          node - <<'EOS' > kb9-verify.txt
+          # 2. page HTML: inline spacing block present? which key?
+          H=$(curl -fsSL 'https://maisoncroyez.com/pages/build-your-kit')
+          echo "$H" | grep -o "kb[0-9]*-" | head -1 > $D/html-key.txt
+          echo "$H" | grep -c "kb9 spacing (inline" >> $D/html-key.txt || true
+          cat $D/html-key.txt
+          # 3. desktop browser probe + screenshot
+          node - <<'EOS' > $D/desktop-probe.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          for (let round=1; round<=15; round++) {
-          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb9v'+round,{waitUntil:'load',timeout:90000});
+          const page = await b.newPage({ viewport:{width:1280,height:900} });
+          await page.goto('https://maisoncroyez.com/pages/build-your-kit',{waitUntil:'load',timeout:90000});
           await page.waitForTimeout(7000);
           const t = await page.evaluate(()=>{
             const gs=(s,p)=>{const e=document.querySelector(s);return e?getComputedStyle(e)[p]:null};
+            const sheets=[...document.styleSheets].map(s=>{try{return {href:(s.href||'inline').slice(-60), rules:s.cssRules.length}}catch(e){return {href:(s.href||'inline').slice(-60), rules:'blocked'}}});
             return {
-              kbgalMB: gs('.kbgal','marginBottom'),
-              usp3MT: gs('.usp3','marginTop'),
-              shipMT: gs('.ship-line','marginTop'),
-              navrowMT: gs('.navrow','marginTop'),
-              guar3MT: gs('.guar3','marginTop'),
-              bookletMB: gs('.booklet-obj','marginBottom'),
-              perkheadMT: gs('.perkhead','marginTop'),
-              testi2MT: gs('.testi2','marginTop'),
-              slides: document.querySelectorAll('.kbg-slide').length,
-              plans: document.querySelectorAll('.plan').length,
+              key:(document.querySelector('link[href*="mc-kit.css"]')||{}).href,
+              guar3MT: gs('.guar3','marginTop'), mwhoDisplay: gs('.mwho','display'),
+              reservedMB: gs('.reserved','marginBottom'), kbgalMB: gs('.kbgal','marginBottom'),
+              minirevBorder: gs('.minirev','borderTopWidth'),
+              sheets
             };
           });
-          console.log('SPACING ' + JSON.stringify(t,null,1));
-          const flow = await page.evaluate(()=>{
-            document.querySelectorAll('.plan')[2].click(); window.go(2);
-            const a=document.querySelectorAll('.pick .add'); a[0].click();a[1].click();a[2].click();
-            window.go(3);
-            return { due: document.getElementById('duetoday').textContent,
-              pay4: document.getElementById('pay4').textContent.slice(0,44),
-              guarOnS3: document.querySelectorAll('#s3 .guar3').length };
-          });
-          console.log('FLOW ' + JSON.stringify(flow,null,1));
-          const pass = t.guar3MT==='26px' && t.kbgalMB==='24px' && t.navrowMT==='18px' && t.perkheadMT==='28px' && flow.due==='$119.85';
-          await page.close();
-          if (pass) { console.log('KB9 SPACING VERIFIED (round '+round+')'); break; }
-          console.log('round '+round+': stale css replica, waiting 5 min');
-          if (round===15) console.log('KB9 MISMATCH after 15 rounds');
-          else await new Promise(r=>setTimeout(r,300000));
-          }
+          console.log(JSON.stringify(t,null,1));
+          window.sc = 1;
+          await page.evaluate(()=>{document.querySelectorAll('.plan')[2]?.click(); window.go&&window.go(3);});
+          await page.waitForTimeout(800);
+          await page.screenshot({path:'lp-factory/pages/kit-builder/verify/desktop-s3.png', fullPage:false});
           await b.close();
           })();
           EOS
-          cat kb9-verify.txt
-          grep -q "KB9 SPACING VERIFIED" kb9-verify.txt
-      - name: Commit results
+          cat $D/desktop-probe.txt
+      - name: Commit
         if: always()
         run: |
-          git checkout -- . 2>/dev/null || true
-          mkdir -p lp-factory/pages/kit-builder/verify
-          cp kb9-verify.txt lp-factory/pages/kit-builder/verify/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kit-builder
-          git commit -m "kit builder kb9 spacing verify r56 (bot)" || true
+          git add lp-factory/pages/kit-builder/verify
+          git commit -m "kb9 ground-truth diagnostics r57 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

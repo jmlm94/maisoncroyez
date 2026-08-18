@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 56 — kb9 spacing verify: css value gate + computed-style assertions + flow sanity
+# run 56b — kb9 spacing verify, patient: repeat browser computed-style probe until CDN replicas converge (up to ~75 min)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -31,8 +31,9 @@ jobs:
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
+          for (let round=1; round<=15; round++) {
           const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb9_verify',{waitUntil:'load',timeout:90000});
+          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb9v'+round,{waitUntil:'load',timeout:90000});
           await page.waitForTimeout(7000);
           const t = await page.evaluate(()=>{
             const gs=(s,p)=>{const e=document.querySelector(s);return e?getComputedStyle(e)[p]:null};
@@ -60,7 +61,12 @@ jobs:
           });
           console.log('FLOW ' + JSON.stringify(flow,null,1));
           const pass = t.guar3MT==='26px' && t.kbgalMB==='24px' && t.navrowMT==='18px' && t.perkheadMT==='28px' && flow.due==='$119.85';
-          console.log(pass ? 'KB9 SPACING VERIFIED' : 'KB9 MISMATCH');
+          await page.close();
+          if (pass) { console.log('KB9 SPACING VERIFIED (round '+round+')'); break; }
+          console.log('round '+round+': stale css replica, waiting 5 min');
+          if (round===15) console.log('KB9 MISMATCH after 15 rounds');
+          else await new Promise(r=>setTimeout(r,300000));
+          }
           await b.close();
           })();
           EOS

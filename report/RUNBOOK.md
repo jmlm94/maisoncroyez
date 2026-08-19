@@ -10,6 +10,15 @@ Connected MCP servers required: **Shopify**, **Meta_Ads**, **Slack** (load tools
 
 ## 1. Pull fresh data into `report/data/`
 
+**Store identity guard (do this FIRST):** call `mcp__Shopify__get-shop-info` and
+verify the store is **Maison Croyez** (domain maisoncroyez.com). The account's
+Shopify connector serves one store at a time and has been re-pointed to Carbinox
+before (Aug 19, 2026 incident: order names came back `#CLF…` instead of `#MC…`).
+If the wrong store is connected, do NOT pull or merge orders — post the partial
+report with a warning naming the cause, and tell Jose to re-authorize the
+connector to Maison Croyez. Additionally, when merging pulled orders, abort if
+any order name does not start with `#MC`.
+
 Stateless: re-pull the full 90-day window every run (volume is small). Compute the
 date `START` = 90 days before yesterday (YYYY-MM-DD).
 

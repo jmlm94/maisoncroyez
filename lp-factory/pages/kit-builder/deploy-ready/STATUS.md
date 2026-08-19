@@ -48,3 +48,14 @@ CSS-only: appended margin overrides for consistent 24-28px air between logical s
 perkhead 28, testi2 24, minirevs, trust-strip, faqs). App bundle + cart logic untouched. Key kb8->kb9.
 Artifact and live css share the identical block; before/after screenshots in scratchpad session.
 r56 verify: computed-style assertions (guar3 26px, kbgal 24px, navrow 18px, perkhead 28px) + flow sanity.
+
+## r58 CVR QA (2026-08-18) — FULL PASS
+- Data layer: 7 scent variants ACTIVE+sellable (love scent 616 units), Subi plan 2627895405 alive,
+  diffuser variant untracked (=always sellable; its -206 qty is a giveaway tally, not a block).
+- Real cart POST (exact app payload): 200 OK; cart = 3 diffusers + 3 scents-on-plan; total $119.85
+  (diffuser lines zeroed by Subi automation as designed).
+- Click-through: Claim button -> real /checkouts/cn/... URL reached, no toast, no JS errors.
+- Responsiveness 360/390/412/768/1280: overflow 0px at all widths, spacing rules live (guar3 26px,
+  mwho block), gallery+arrows on mobile, side-photo swap at >=900px, no JS errors. 15 screenshots in verify/qa58/.
+- CVR watch item: sticky bar removed 08-17 -> step-2 continue button sits below 7 scent cards.
+  If CVR stays soft, first A/B candidate. (CVR was already slow pre-change.)

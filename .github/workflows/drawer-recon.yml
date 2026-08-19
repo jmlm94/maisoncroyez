@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 57 — ground truth: served css bytes + desktop screenshot + computed styles + HTML inline-block check
+# run 58 — kit-builder CVR QA: real cart POST (exact app payload), checkout click test, 5-viewport responsiveness sweep + screenshots
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,57 +13,102 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Diagnose
+      - name: CVR QA
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          D=lp-factory/pages/kit-builder/verify
+          D=lp-factory/pages/kit-builder/verify/qa58
           mkdir -p $D
-          # 1. served css at current kb9/kb10 hour keys + random key
-          for K in "kb9-$(date -u +%Y%m%d%H)" "kb10-$(date -u +%Y%m%d%H)" "oc$RANDOM$RANDOM"; do
-            curl -fsSL "$B/mc-kit.css?v=$K" -o "$D/served-css-$K.css" || true
-            echo "$K: $(wc -c < $D/served-css-$K.css) bytes, guar3margin=$(grep -c '26px 0 8px' $D/served-css-$K.css || true), mwho=$(grep -c 'mwho' $D/served-css-$K.css || true)"
-          done
-          # 2. page HTML: inline spacing block present? which key?
-          H=$(curl -fsSL 'https://maisoncroyez.com/pages/build-your-kit')
-          echo "$H" | grep -o "kb[0-9]*-" | head -1 > $D/html-key.txt
-          echo "$H" | grep -c "kb9 spacing (inline" >> $D/html-key.txt || true
-          cat $D/html-key.txt
-          # 3. desktop browser probe + screenshot
-          node - <<'EOS' > $D/desktop-probe.txt
+          node - <<'EOS' > $D/qa58.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:1280,height:900} });
-          await page.goto('https://maisoncroyez.com/pages/build-your-kit',{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(7000);
-          const t = await page.evaluate(()=>{
-            const gs=(s,p)=>{const e=document.querySelector(s);return e?getComputedStyle(e)[p]:null};
-            const sheets=[...document.styleSheets].map(s=>{try{return {href:(s.href||'inline').slice(-60), rules:s.cssRules.length}}catch(e){return {href:(s.href||'inline').slice(-60), rules:'blocked'}}});
-            return {
-              key:(document.querySelector('link[href*="mc-kit.css"]')||{}).href,
-              guar3MT: gs('.guar3','marginTop'), mwhoDisplay: gs('.mwho','display'),
-              reservedMB: gs('.reserved','marginBottom'), kbgalMB: gs('.kbgal','marginBottom'),
-              minirevBorder: gs('.minirev','borderTopWidth'),
-              sheets
-            };
-          });
-          console.log(JSON.stringify(t,null,1));
-          window.sc = 1;
-          await page.evaluate(()=>{document.querySelectorAll('.plan')[2]?.click(); window.go&&window.go(3);});
-          await page.waitForTimeout(800);
-          await page.screenshot({path:'lp-factory/pages/kit-builder/verify/desktop-s3.png', fullPage:false});
+          const U='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=qa58';
+
+          /* ---- A. real cart POST with the exact app payload, then clear ---- */
+          {
+            const page = await b.newPage({viewport:{width:412,height:823}});
+            await page.goto(U+'&p=cart',{waitUntil:'load',timeout:90000});
+            await page.waitForTimeout(6000);
+            const cart = await page.evaluate(async()=>{
+              const payload={items:[
+                {id:41212020457581,quantity:3,selling_plan:2627895405},
+                {id:45450822778989,quantity:3}
+              ]};
+              const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+              const add=await r.json().catch(()=>({parse:'fail'}));
+              const c=await (await fetch('/cart.js')).json();
+              const summary={status:r.status,
+                items:c.items.map(i=>({t:i.product_title.slice(0,34),q:i.quantity,price:i.price,plan:i.selling_plan_allocation?i.selling_plan_allocation.selling_plan.id:null})),
+                total:c.total_price, addError: add.status===422?add.description||add.message:null};
+              await fetch('/cart/clear.js',{method:'POST'});
+              return summary;
+            });
+            console.log('CART_POST '+JSON.stringify(cart,null,1));
+            await page.close();
+          }
+
+          /* ---- B. full click-through to checkout redirect ---- */
+          {
+            const page = await b.newPage({viewport:{width:412,height:823}});
+            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+            await page.goto(U+'&p=click',{waitUntil:'load',timeout:90000});
+            await page.waitForTimeout(6000);
+            await page.evaluate(()=>{document.querySelectorAll('.plan')[2].click(); window.go(2);});
+            await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add'); a[0].click();a[1].click();a[2].click(); window.go(3);});
+            await page.waitForTimeout(500);
+            const nav = page.waitForURL('**/checkout**',{timeout:25000}).then(()=>true).catch(()=>false);
+            await page.locator('#s3 .navrow .btn:not(.secondary)').click();
+            const reached = await nav;
+            const toast = await page.evaluate(()=>{const t=document.getElementById('toast');return t?t.textContent.slice(0,80):null}).catch(()=>'-navigated-');
+            console.log('CLICK_TEST '+JSON.stringify({reachedCheckout:reached, finalUrl:page.url().slice(0,70), toast, jsErrors:errs}));
+            if (reached) {
+              await page.goto('https://maisoncroyez.com/cart/clear',{waitUntil:'load'}).catch(()=>{});
+            }
+            await page.close();
+          }
+
+          /* ---- C. responsiveness sweep ---- */
+          for (const vp of [[360,740],[390,844],[412,823],[768,1024],[1280,900]]) {
+            const page = await b.newPage({viewport:{width:vp[0],height:vp[1]}});
+            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,100)));
+            await page.goto(U+'&p=v'+vp[0],{waitUntil:'load',timeout:90000});
+            await page.waitForTimeout(6000);
+            const r = await page.evaluate(()=>{
+              const doc=document.documentElement;
+              const overflow=doc.scrollWidth-doc.clientWidth;
+              const gs=(s,p)=>{const e=document.querySelector(s);return e?getComputedStyle(e)[p]:null};
+              const vis=(s)=>{const e=document.querySelector(s);if(!e)return null;const b=e.getBoundingClientRect();return b.width>0&&b.height>0};
+              const slide=document.querySelector('.kbg-slide');
+              return {
+                overflowPx:overflow,
+                guar3MT:gs('.guar3','marginTop'), mwho:gs('.minirev .mwho','display'),
+                galleryVisible:vis('.kbgal'), sideVisible:vis('.side'),
+                slideLoaded:slide?slide.complete&&slide.naturalWidth>0:null,
+                arrows:vis('.kbg-arw.prev'), planW:Math.round((document.querySelector('.plan')||{getBoundingClientRect:()=>({width:0})}).getBoundingClientRect().width),
+                btnW:Math.round((document.querySelector('.navrow .btn:not(.secondary)')||{getBoundingClientRect:()=>({width:0})}).getBoundingClientRect().width),
+              };
+            });
+            await page.screenshot({path:'lp-factory/pages/kit-builder/verify/qa58/v'+vp[0]+'-s1.jpg', fullPage:true, quality:55, type:'jpeg'});
+            await page.evaluate(()=>{document.querySelectorAll('.plan')[2].click(); window.go(2);});
+            await page.waitForTimeout(400);
+            await page.screenshot({path:'lp-factory/pages/kit-builder/verify/qa58/v'+vp[0]+'-s2.jpg', fullPage:true, quality:55, type:'jpeg'});
+            await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add'); a[0].click();a[1].click();a[2].click(); window.go(3);});
+            await page.waitForTimeout(400);
+            await page.screenshot({path:'lp-factory/pages/kit-builder/verify/qa58/v'+vp[0]+'-s3.jpg', fullPage:true, quality:55, type:'jpeg'});
+            console.log('VP'+vp[0]+' '+JSON.stringify(r)+' errs:'+JSON.stringify(errs));
+            await page.close();
+          }
           await b.close();
           })();
           EOS
-          cat $D/desktop-probe.txt
+          cat $D/qa58.txt
       - name: Commit
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb9 ground-truth diagnostics r57 (bot)" || true
+          git commit -m "kit builder CVR QA r58 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

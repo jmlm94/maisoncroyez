@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 68 — prehero payoff: Lighthouse x3 + prehero collapse check
+# run 69 — prehero enlarged (100vw-8px,436px): size probe + Lighthouse x3
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -18,17 +18,24 @@ jobs:
           npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf68'
+          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf69'
           D=lp-factory/pages/kit-builder/verify
           mkdir -p $D
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf68pre',{waitUntil:'load',timeout:90000});
+          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf69pre',{waitUntil:'load',timeout:90000});
           await p.waitForTimeout(6000);
-          const r=await p.evaluate(()=>({preDisplay:getComputedStyle(document.getElementById('kb-pre')).display,
-            rootKids:document.getElementById('root').children.length,
-            heroLoaded:(()=>{const h=document.querySelector('.heroshot');return h?h.complete&&h.naturalWidth>0:null})()}));
+          const r=await p.evaluate(()=>{const pre=document.getElementById('kb-pre');
+            const collapsed=getComputedStyle(pre).display==='none';
+            pre.style.display='flex';
+            const pr=pre.querySelector('img').getBoundingClientRect();
+            pre.style.display='none';
+            const h=document.querySelector('.heroshot');const hr=h?h.getBoundingClientRect():null;
+            return {collapsed,rootKids:document.getElementById('root').children.length,
+              preW:Math.round(pr.width),preH:Math.round(pr.height),
+              heroW:hr?Math.round(hr.width):null,heroH:hr?Math.round(hr.height):null,
+              preArea:Math.round(pr.width*pr.height),heroArea:hr?Math.round(hr.width*hr.height):null};});
           console.log('PREHERO '+JSON.stringify(r));await b.close();})();
           EOS
           for n in 1 2 3; do
@@ -44,13 +51,15 @@ jobs:
             tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
             si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
           rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
+          rows.forEach((x,i)=>{try{const lcp=x.r.audits['largest-contentful-paint-element'].details.items;
+            console.log('run'+(i+1)+' LCP el: '+lcp[0].items[0].node.snippet.slice(0,90));}catch(e){}});
           const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
           const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
           let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nFCP: '+(m.fcp/1000).toFixed(1)+'s\nLCP: '+(m.lcp/1000).toFixed(1)+'s\nTBT: '+Math.round(m.tbt)+'ms\nCLS: '+m.cls.toFixed(3)+'\nSI: '+(m.si/1000).toFixed(1)+'s\n';
           console.log(out);
-          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-summary-r68.txt',out);
+          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-summary-r69.txt',out);
           const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-r68.json',JSON.stringify(keep.r));
+          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-r69.json',JSON.stringify(keep.r));
           const a=keep.r.audits;
           const met=a['metrics'].details.items[0];
           console.log('OBSERVED: FCP '+met.observedFirstContentfulPaint+'ms LCP '+met.observedLargestContentfulPaint+'ms load '+met.observedLoad+'ms');
@@ -66,6 +75,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb16 prehero perf r68 (bot)" || true
+          git commit -m "kb16 prehero-xl perf r69 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

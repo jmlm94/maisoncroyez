@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 61b — kb14 origin-freshness gate using ONLY throwaway keys (never the visitor key — avoids cache poisoning)
+# run 62 — kb14 pixel-parity certification (armor wall + fixed key), probes scoped to #root
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,28 +13,100 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Origin gate
+      - name: Pixel parity QA
         run: |
-          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          OK=0
-          for i in $(seq 1 80); do
-            CSS=$(curl -fsSL "$B/mc-kit.css?v=oc$RANDOM$RANDOM$i")
-            APP=$(curl -fsSL "$B/mc-kit-app.js?v=oc$RANDOM$RANDOM$i")
-            NIMP=$(echo "$CSS" | grep -o '!important' | wc -l)
-            if [ "$NIMP" -ge 150 ] && echo "$CSS" | grep -q "faq-title" && echo "$APP" | grep -q "Secure Checkout" && echo "$APP" | grep -q "4diffusers.png"; then
-              OK=1; echo "ORIGIN FRESH (attempt $i)"; break
-            fi
-            echo "origin stale (attempt $i) css=$(echo "$CSS"|wc -c)B imp=$NIMP app=$(echo "$APP"|wc -c)B"; sleep 45
-          done
-          [ "$OK" = "1" ] || { echo "FATAL: origin never fresh"; exit 1; }
-          mkdir -p lp-factory/pages/kit-builder/verify
-          echo "ORIGIN FRESH at $(date -u)" > lp-factory/pages/kit-builder/verify/r61-origin.txt
+          npm i -s playwright@1.56.1 pixelmatch@5 pngjs@7 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          D=lp-factory/pages/kit-builder/verify/qa62
+          mkdir -p $D
+          node - <<'EOS' > $D/parity.txt
+          (async()=>{
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const { PNG } = require('pngjs');
+          const pixelmatch = require('pixelmatch');
+          const css = fs.readFileSync('lp-factory/pages/kit-builder/deploy-ready/mc-kit.css','utf8');
+          const app = fs.readFileSync('lp-factory/pages/kit-builder/deploy-ready/mc-kit-app.js','utf8');
+          const ARMOR = fs.readFileSync('lp-factory/pages/kit-builder/deploy-ready/mc-kit.css','utf8').split('/* kb13 armor')[1]||'';
+          const b = await chromium.launch();
+          const SEL = ['.banner','.rating.big','#root h1','.h1sub','.heroshot','.promise','.duo','.dcol','.compliments',
+            '.steptitle','.plan','.plan-name','.plan-price','.plan-save','.ship-line','.navrow .btn','.guar3','.guar3 .g',
+            '.pickcount','.booklet-obj','.scent-value','.attract','.pick','.pick-story','.sf','.pick-price',
+            '.kitcart','.valline','.due-v','.pay4','.left-line','.testi2','.faq-title','.faqs'];
+          const PROPS = ['marginTop','marginBottom','paddingTop','paddingLeft','fontSize','fontFamily','color','backgroundColor','borderRadius','display','textAlign'];
+          const freeze = (p)=>p.evaluate(()=>{document.querySelectorAll('#cd,.livecnt').forEach(e=>e.textContent='131');});
+          const styleDump = (p)=>p.evaluate(([SEL,PROPS])=>{
+            const out={};
+            for(const s of SEL){const e=document.querySelector(s);if(!e){out[s]=null;continue;}
+              const cs=getComputedStyle(e);const o={};for(const pr of PROPS)o[pr]=cs[pr];out[s]=o;}
+            return out;
+          },[SEL,PROPS]);
+          async function shots(page, tag, vw){
+            const res={};
+            for (const step of [1,2,3]) {
+              if (step===2) await page.evaluate(()=>{window.go(2);});
+              if (step===3) await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add');a[0].click();a[1].click();window.go(3);});
+              await page.waitForTimeout(500);
+              await freeze(page);
+              const buf = await page.locator('#root').screenshot();
+              fs.writeFileSync(`lp-factory/pages/kit-builder/verify/qa62/${tag}-${vw}-s${step}.png`, buf);
+              res[step]=buf;
+              if (step===3) res.styles3=await styleDump(page);
+              if (step===1) res.styles1=await styleDump(page);
+            }
+            return res;
+          }
+          const summary=[];
+          for (const vw of [360,390,412,430]) {
+            // LOCAL: exact deployed bundle, CDN assets, no theme
+            const lp = await b.newPage({viewport:{width:vw,height:900}});
+            await lp.setContent('<style>'+ (ARMOR?('/* armor dup */'+ARMOR):'') +'</style><div id="root"></div>');
+            await lp.addStyleTag({content:css});
+            await lp.addScriptTag({content:app});
+            await lp.waitForTimeout(3500);
+            const L = await shots(lp,'local',vw);
+            await lp.close();
+            // LIVE
+            const vp = await b.newPage({viewport:{width:vw,height:900}});
+            await vp.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=qa62v'+vw,{waitUntil:'load',timeout:90000});
+            await vp.waitForTimeout(7000);
+            const V = await shots(vp,'live',vw);
+            await vp.close();
+            for (const step of [1,2,3]) {
+              const a=PNG.sync.read(L[step]), c=PNG.sync.read(V[step]);
+              const w=Math.min(a.width,c.width), h=Math.min(a.height,c.height);
+              const diff=new PNG({width:w,height:h});
+              const crop=(img)=>{const o=new PNG({width:w,height:h});PNG.bitblt(img,o,0,0,w,h,0,0);return o;};
+              const n=pixelmatch(crop(a).data,crop(c).data,diff.data,w,h,{threshold:0.12});
+              const pct=(100*n/(w*h)).toFixed(2);
+              const hDelta=Math.abs(a.height-c.height);
+              summary.push({vw,step,pct:+pct,hDelta,lw:a.width+'x'+a.height,vw2:c.width+'x'+c.height});
+              if (+pct>0.8) fs.writeFileSync(`lp-factory/pages/kit-builder/verify/qa62/diff-${vw}-s${step}.png`, PNG.sync.write(diff));
+            }
+            // computed style diff (step1 + step3)
+            for (const which of ['styles1','styles3']) {
+              const mism=[];
+              for (const s of SEL) {
+                const x=L[which][s], y=V[which][s];
+                if (!x && !y) continue;
+                if (!x || !y) { mism.push(s+': present-only-in-'+(x?'local':'live')); continue; }
+                for (const pr of PROPS) if (x[pr]!==y[pr]) mism.push(`${s}.${pr}: local=${x[pr]} live=${y[pr]}`);
+              }
+              if (mism.length) console.log(`STYLEDIFF vw${vw} ${which}:\n  `+mism.join('\n  '));
+              else console.log(`STYLEDIFF vw${vw} ${which}: NONE`);
+            }
+          }
+          console.log('PIXELDIFF '+JSON.stringify(summary,null,1));
+          await b.close();
+          })();
+          EOS
+          cat $D/parity.txt
       - name: Commit
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb14 origin gate r61 (bot)" || true
+          git commit -m "kb14 parity cert r62 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

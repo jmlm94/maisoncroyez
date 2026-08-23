@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 72 — prehero decode-gated hide: collapse check + Lighthouse x3
+# run 73 — pixel-fix origin gate: throwaway keys only, wait until CDN origin serves fb-event bundle
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,58 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lighthouse
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf72'
-          D=lp-factory/pages/kit-builder/verify
-          mkdir -p $D
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          await p.addInitScript(()=>{window.__lcp=[];new PerformanceObserver(l=>{for(const e of l.getEntries())window.__lcp.push({pid:e.element&&e.element.parentElement?e.element.parentElement.id:null,cls:e.element?String(e.element.className).slice(0,20):null,size:e.size,t:Math.round(e.startTime)})}).observe({type:'largest-contentful-paint',buffered:true});});
-          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf72pre',{waitUntil:'load',timeout:90000});
-          await p.waitForTimeout(6000);
-          const r=await p.evaluate(()=>({preDisplay:getComputedStyle(document.getElementById('kb-pre')).display,
-            rootKids:document.getElementById('root').children.length,lcp:window.__lcp}));
-          console.log('PREHERO '+JSON.stringify(r));await b.close();})();
-          EOS
-          for n in 1 2 3; do
-            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
-              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
-              --output=json --output-path=lh-$n.json || true
+          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kit-app.js'
+          for i in $(seq 1 24); do
+            K="oc$RANDOM$RANDOM"
+            BODY=$(curl -sS "$B?v=$K")
+            LEN=${#BODY}
+            ATC=$(printf %s "$BODY" | grep -c "AddToCart" || true)
+            IC=$(printf %s "$BODY" | grep -c "InitiateCheckout" || true)
+            SC=$(printf %s "$BODY" | grep -c "Secure Checkout" || true)
+            echo "try$i key=$K len=$LEN AddToCart=$ATC InitiateCheckout=$IC SecureCheckout=$SC"
+            if [ "$ATC" -ge 1 ] && [ "$IC" -ge 1 ] && [ "$SC" -ge 1 ]; then echo "ORIGIN_FRESH"; exit 0; fi
+            sleep 10
           done
-          node - <<'EOS'
-          const fs=require('fs');
-          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
-          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
-            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
-            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
-            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
-          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
-          rows.forEach((x,i)=>{try{const lcp=x.r.audits['largest-contentful-paint-element'].details.items;
-            console.log('run'+(i+1)+' LCP el: '+lcp[0].items[0].node.snippet.slice(0,80));}catch(e){}});
-          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
-          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
-          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nFCP: '+(m.fcp/1000).toFixed(1)+'s\nLCP: '+(m.lcp/1000).toFixed(1)+'s\nTBT: '+Math.round(m.tbt)+'ms\nCLS: '+m.cls.toFixed(3)+'\nSI: '+(m.si/1000).toFixed(1)+'s\n';
-          console.log(out);
-          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-summary-r72.txt',out);
-          const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-r72.json',JSON.stringify(keep.r));
-          const a=keep.r.audits;
-          const met=a['metrics'].details.items[0];
-          console.log('OBSERVED: FCP '+met.observedFirstContentfulPaint+'ms LCP '+met.observedLargestContentfulPaint+'ms load '+met.observedLoad+'ms');
-          try{const lcp=a['largest-contentful-paint-element'].details.items;
-            console.log('LCP phases: '+JSON.stringify(lcp[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
-          EOS
-      - name: Commit
-        if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb16 prehero decode-gated perf r72 (bot)" || true
-          git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
-          git push
+          echo "ORIGIN_STALE"; exit 1

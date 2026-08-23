@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 65 — kb14 origin-freshness gate using ONLY throwaway keys (never the visitor key — avoids cache poisoning)
+# run 66 — what does a visitor get RIGHT NOW: bare URL vs fresh URL, loader key + rendered screenshot at 390px
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,28 +13,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Origin gate
+      - name: Probe
         run: |
-          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          OK=0
-          for i in $(seq 1 80); do
-            CSS=$(curl -fsSL "$B/mc-kit.css?v=oc$RANDOM$RANDOM$i")
-            APP=$(curl -fsSL "$B/mc-kit-app.js?v=oc$RANDOM$RANDOM$i")
-            NIMP=$(echo "$CSS" | grep -o '!important' | wc -l)
-            if [ "$NIMP" -ge 150 ] && echo "$CSS" | grep -q "16px 0 6px" && echo "$APP" | grep -q "Secure Checkout" && echo "$APP" | grep -q "4diffusers.png"; then
-              OK=1; echo "ORIGIN FRESH (attempt $i)"; break
-            fi
-            echo "origin stale (attempt $i) css=$(echo "$CSS"|wc -c)B imp=$NIMP app=$(echo "$APP"|wc -c)B"; sleep 45
-          done
-          [ "$OK" = "1" ] || { echo "FATAL: origin never fresh"; exit 1; }
-          mkdir -p lp-factory/pages/kit-builder/verify
-          echo "ORIGIN FRESH at $(date -u)" > lp-factory/pages/kit-builder/verify/r65-origin.txt
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          D=lp-factory/pages/kit-builder/verify/qa66
+          mkdir -p $D
+          echo "bare URL key: $(curl -fsSL 'https://maisoncroyez.com/pages/build-your-kit' | grep -o "kb[0-9]*-[a-z0-9]*" | head -1)" | tee $D/keys.txt
+          echo "fresh URL key: $(curl -fsSL "https://maisoncroyez.com/pages/build-your-kit?v=r66$RANDOM" | grep -o "kb[0-9]*-[a-z0-9]*" | head -1)" | tee -a $D/keys.txt
+          node - <<'EOS'
+          (async()=>{
+          const { chromium } = require('playwright');
+          const b = await chromium.launch();
+          for (const [tag,url] of [['bare','https://maisoncroyez.com/pages/build-your-kit'],['fresh','https://maisoncroyez.com/pages/build-your-kit?v=r66shot'+Math.floor(Math.random()*9999)]]) {
+            const p = await b.newPage({viewport:{width:390,height:844}});
+            await p.goto(url,{waitUntil:'load',timeout:90000});
+            await p.waitForTimeout(6000);
+            await p.evaluate(()=>{document.querySelectorAll('#cd,.livecnt').forEach(e=>e.textContent='131');});
+            await p.screenshot({path:'lp-factory/pages/kit-builder/verify/qa66/'+tag+'-390.png', fullPage:false});
+            const k = await p.evaluate(()=>{const l=document.querySelector('link[href*="mc-kit.css"]');return l?l.href.split('v=')[1]:null});
+            console.log(tag+' css key: '+k);
+            await p.close();
+          }
+          await b.close();
+          })();
+          EOS
       - name: Commit
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb16 origin gate r65 (bot)" || true
+          git commit -m "visitor-state probe r66 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

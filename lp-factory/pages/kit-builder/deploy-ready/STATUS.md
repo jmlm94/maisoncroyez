@@ -85,3 +85,22 @@ undeclared props, font-size 15px inheritance, .banner grid, h1 refont). Fixes:
   height deltas 4-57px (was 165-367); residual 7-17% pixel diff = font-smoothing + lazy-image timing noise, floor
   ~7.5% cells have 4px height delta. Live == artifact structurally.
 - Jose's stale-phone symptoms (counter pill, duo gaps, FAQ gap) were pre-wall css; fixed-key rollout ends recurrence.
+
+## kb16 + prehero (2026-08-23, VERIFIED r72) — lab-LCP fix, score 63 -> 71 median / 78 best
+kb16 polish (stepper centering, top/rating/h1 margins) shipped with key kb16-bb42cf4. Then PREHERO added to the
+page body (HTML-only, key unchanged): #kb-pre fixed static hero (same Diseno_92 820-pjpg URL as app heroshot,
+preloaded fetchpriority=high) shown instantly, hidden once #root renders. Three rounds to make Lighthouse credit it:
+- r68/r69: LCP still attributed to app .heroshot (renderDelay ~6s). r69 probe: prehero 404x404 (163216 px^2, after
+  widening to min(100vw - 8px,436px)) vs heroshot 380x380 (144400) — strictly larger yet NEVER an LCP candidate.
+- r70 ground truth (app JS blocked + PerformanceObserver): prehero IS a valid candidate and wins normal loads.
+  ROOT CAUSE: the hide-on-root-render observer removed it before its image ever painted when JS won the race.
+- Fix 1 (r71): wait for img load + double-rAF before hiding — 2 of 3 runs flipped (79 best). Residual: `load`
+  fires at bytes-arrival, DECODE can outlast the 2-frame window. Fix 2 (r72): gate on img.decode() promise
+  (paint-ready), then double-rAF hide, 2.5s safety timeout, error->hide.
+- r72 certification: all 3 runs LCP el = prehero; probe lcp list = single candidate {kb-pre, 163216, t~508ms};
+  collapse still works (preDisplay none, rootKids 3). Median 71 / FCP 2.2 / LCP 3.6 / TBT 752 / CLS 0.000 / SI 3.0
+  (runs 53/71/78 — spread is TBT on shared runners). OBSERVED real-device: FCP 223ms, LCP 270ms (was ~800ms), load 1.1s.
+- Remaining lab limiters (untouchable per rails): TBT from FB pixel/Postscript/Klaviyo/Subi; theme render-blocking css (FCP 2.2 sim).
+- RAIL: a prehero must survive until its image has PAINTED (img.decode() then double-rAF), not merely until the app
+  renders — and must be strictly larger than the app hero. Verify with buffered largest-contentful-paint entries, not
+  only Lighthouse attribution.

@@ -449,3 +449,11 @@ h1 em{color:var(--ink);font-style:italic}
 #root .sf b{font-family:'Outfit',sans-serif !important;font-weight:700 !important;text-transform:uppercase !important;letter-spacing:.09em !important;font-size:.58rem !important;color:#A67C3D !important;margin-right:3px !important}
 #root .left-line{text-align:center !important;font-family:'Outfit',sans-serif !important;font-weight:700 !important;text-transform:uppercase !important;letter-spacing:.1em !important;font-size:.62rem !important;color:#8A5B52 !important;margin:10px 0 0 !important}
 #root .faq-title{font-family:'Unna',Georgia,serif !important;font-weight:700 !important;font-size:1.3rem !important;text-align:center !important;margin:6px 0 12px !important}
+
+/* kb16 polish (post-wall overrides) */
+#root .stepper button{display:flex !important;align-items:center !important;justify-content:center !important;line-height:1 !important;padding:0 !important}
+#root .stepper .qty{line-height:1 !important}
+#root .top{padding:16px 0 6px !important}
+#root .rating.big{margin:12px 0 12px !important}
+#root h1{margin:10px 0 8px !important}
+#root .h1sub{margin-top:2px !important;margin-bottom:14px !important}

@@ -1,0 +1,16 @@
+import { chromium } from 'playwright';
+const file = process.argv[2];
+const out = process.argv[3] || 'shot';
+const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium', args:['--no-sandbox']});
+const page = await b.newPage({viewport:{width:360,height:800}});
+await page.goto('file://'+file, {waitUntil:'load'});
+await page.waitForTimeout(1200);
+await page.screenshot({path:out+'-s1.png', fullPage:true});
+await page.evaluate(()=>{document.querySelectorAll('.plan')[2].click(); window.go(2);});
+await page.waitForTimeout(600);
+await page.screenshot({path:out+'-s2.png', fullPage:true});
+await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add'); a[0].click();a[1].click();a[2].click(); window.go(3);});
+await page.waitForTimeout(600);
+await page.screenshot({path:out+'-s3.png', fullPage:true});
+await b.close();
+console.log('shots done');

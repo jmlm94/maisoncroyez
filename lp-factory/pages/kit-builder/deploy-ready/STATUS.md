@@ -133,3 +133,7 @@ Jose: open the cart drawer after the button instead of jumping to /checkout, ren
   Screenshot verify/qa78/drawer-open.png. (Same known spy-artifact TypeError; real-fbq runs are clean.)
 - RAIL: origin-gate greps on minified (single-line) files must use grep -o|wc -l — grep -c counts LINES and
   maxes at 1, so occurrence thresholds >1 can never pass (cost: r77 false STALE; bytes were actually fresh).
+
+## kb19 (2026-08-23, SHA 1924e6f, VERIFIED LIVE r80) — copy fix
+Compliments line: "for all the excessive compliments" -> "for the excessive compliments" (artifact + bundle).
+r80 live: appKey kb19-1924e6f, line renders corrected, CTA "Add to cart" intact, 4 plans, 0 JS errors.

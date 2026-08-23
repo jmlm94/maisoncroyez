@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 61 — kb14 origin-freshness gate using ONLY throwaway keys (never the visitor key — avoids cache poisoning)
+# run 61b — kb14 origin-freshness gate using ONLY throwaway keys (never the visitor key — avoids cache poisoning)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,10 +20,11 @@ jobs:
           for i in $(seq 1 80); do
             CSS=$(curl -fsSL "$B/mc-kit.css?v=oc$RANDOM$RANDOM$i")
             APP=$(curl -fsSL "$B/mc-kit-app.js?v=oc$RANDOM$RANDOM$i")
-            if echo "$CSS" | grep -q "kb14 armor wall" && echo "$APP" | grep -q "Secure Checkout" && echo "$APP" | grep -q "4diffusers.png"; then
+            NIMP=$(echo "$CSS" | grep -o '!important' | wc -l)
+            if [ "$NIMP" -ge 150 ] && echo "$CSS" | grep -q "faq-title" && echo "$APP" | grep -q "Secure Checkout" && echo "$APP" | grep -q "4diffusers.png"; then
               OK=1; echo "ORIGIN FRESH (attempt $i)"; break
             fi
-            echo "origin stale (attempt $i) css=$(echo "$CSS"|wc -c)B app=$(echo "$APP"|wc -c)B"; sleep 45
+            echo "origin stale (attempt $i) css=$(echo "$CSS"|wc -c)B imp=$NIMP app=$(echo "$APP"|wc -c)B"; sleep 45
           done
           [ "$OK" = "1" ] || { echo "FATAL: origin never fresh"; exit 1; }
           mkdir -p lp-factory/pages/kit-builder/verify

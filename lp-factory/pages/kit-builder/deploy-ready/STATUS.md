@@ -71,3 +71,17 @@ All em-dashes -> commas. Armor: #root+!important in css AND inline page body. De
 r59 live probe: all sections/imgs/spacing green, counter ticks, 4-plan flow $159.80, cart POST 200 (2 lines, $79.90,
 diffusers zeroed by Subi), 0 JS errors, 0 overflow. App 25KB (was 33KB).
 RAIL reminder: Shopify connector silently flipped to Carbinox pre-deploy — step-0 get-shop-info caught it.
+
+## kb14/kb15 (2026-08-23) — pixel-parity hardening, VERIFIED r64
+r60 parity QA vs artifact-bundle found theme drift: 15-29% pixel diff, +165-367px height (theme .prose margins on
+undeclared props, font-size 15px inheritance, .banner grid, h1 refont). Fixes:
+- kb14: FULL ARMOR WALL — entire stylesheet re-emitted #root-prefixed + !important (195 rules; opacity excluded to
+  protect JS inline styles). kb15: BROAD BASELINE before the wall — #root :is(div,section,span,ul,li,h1,p,img,...)
+  {margin:0 !important} + ul/li padding 0; FAQ answer p re-declared. Inline page armor mirrors both.
+- NEW DEPLOY PROTOCOL (rail): hour-keyed loader RETIRED for this page. Sequence = fileUpdate -> origin gate using
+  ONLY throwaway ?v keys (hour/visitor keys were being CACHE-POISONED by our own gate polls hitting stale origin)
+  -> pageUpdate to a NEVER-REQUESTED FIXED key (kb15-7a79f04). No hourly refetch; next deploy flips the token.
+- r64 certification (4 widths x 3 steps): computed-style diff = ZERO mismatches (only img color prop, invisible);
+  height deltas 4-57px (was 165-367); residual 7-17% pixel diff = font-smoothing + lazy-image timing noise, floor
+  ~7.5% cells have 4px height delta. Live == artifact structurally.
+- Jose's stale-phone symptoms (counter pill, duo gaps, FAQ gap) were pre-wall css; fixed-key rollout ends recurrence.

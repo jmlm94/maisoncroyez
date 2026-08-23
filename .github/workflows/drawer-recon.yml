@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 69 — prehero enlarged (100vw-8px,436px): size probe + Lighthouse x3
+# run 70 — prehero LCP-candidate diagnosis: why does #kb-pre img never register as LCP?
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,61 +13,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Lighthouse
+      - name: Probe
         run: |
-          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
-          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf69'
-          D=lp-factory/pages/kit-builder/verify
+          D=lp-factory/pages/kit-builder/verify/qa70
           mkdir -p $D
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf69pre',{waitUntil:'load',timeout:90000});
-          await p.waitForTimeout(6000);
-          const r=await p.evaluate(()=>{const pre=document.getElementById('kb-pre');
-            const collapsed=getComputedStyle(pre).display==='none';
-            pre.style.display='flex';
-            const pr=pre.querySelector('img').getBoundingClientRect();
-            pre.style.display='none';
-            const h=document.querySelector('.heroshot');const hr=h?h.getBoundingClientRect():null;
-            return {collapsed,rootKids:document.getElementById('root').children.length,
-              preW:Math.round(pr.width),preH:Math.round(pr.height),
-              heroW:hr?Math.round(hr.width):null,heroH:hr?Math.round(hr.height):null,
-              preArea:Math.round(pr.width*pr.height),heroArea:hr?Math.round(hr.width*hr.height):null};});
-          console.log('PREHERO '+JSON.stringify(r));await b.close();})();
-          EOS
-          for n in 1 2 3; do
-            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
-              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
-              --output=json --output-path=lh-$n.json || true
-          done
-          node - <<'EOS'
-          const fs=require('fs');
-          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
-          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
-            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
-            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
-            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
-          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
-          rows.forEach((x,i)=>{try{const lcp=x.r.audits['largest-contentful-paint-element'].details.items;
-            console.log('run'+(i+1)+' LCP el: '+lcp[0].items[0].node.snippet.slice(0,90));}catch(e){}});
-          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
-          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
-          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nFCP: '+(m.fcp/1000).toFixed(1)+'s\nLCP: '+(m.lcp/1000).toFixed(1)+'s\nTBT: '+Math.round(m.tbt)+'ms\nCLS: '+m.cls.toFixed(3)+'\nSI: '+(m.si/1000).toFixed(1)+'s\n';
-          console.log(out);
-          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-summary-r69.txt',out);
-          const keep=rows.find(x=>x.score===m.score)||rows[0];
-          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-r69.json',JSON.stringify(keep.r));
-          const a=keep.r.audits;
-          const met=a['metrics'].details.items[0];
-          console.log('OBSERVED: FCP '+met.observedFirstContentfulPaint+'ms LCP '+met.observedLargestContentfulPaint+'ms load '+met.observedLoad+'ms');
-          try{const lcp=a['largest-contentful-paint-element'].details.items;
-            console.log('LCP el: '+lcp[0].items[0].node.snippet.slice(0,120));
-            console.log('LCP phases: '+JSON.stringify(lcp[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
-          const tp=(a['third-party-summary'].details.items||[]).slice(0,4).map(t=>t.entity+':'+Math.round(t.blockingTime)+'ms');
-          console.log('3P blocking: '+tp.join(' '));
+          const b=await chromium.launch();
+          // Context A: app JS blocked -> prehero stays; what does the browser say?
+          const p=await b.newPage({viewport:{width:412,height:823}});
+          await p.route('**/mc-kit-app.js*',r=>r.abort());
+          await p.addInitScript(()=>{window.__lcp=[];new PerformanceObserver(l=>{for(const e of l.getEntries())window.__lcp.push({tag:e.element?e.element.tagName:null,cls:e.element?String(e.element.className).slice(0,40):null,id:e.element?e.element.id:null,pid:e.element&&e.element.parentElement?e.element.parentElement.id:null,size:e.size,t:Math.round(e.startTime)})}).observe({type:'largest-contentful-paint',buffered:true});});
+          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf70a',{waitUntil:'load',timeout:90000});
+          await p.waitForTimeout(7000);
+          const A=await p.evaluate(()=>{const img=document.querySelector('#kb-pre img');const cs=getComputedStyle(img);const r=img.getBoundingClientRect();
+            let anc=[],el=img;while(el&&el!==document.documentElement){const s=getComputedStyle(el);
+              const bad=[];if(s.transform!=='none')bad.push('transform:'+s.transform.slice(0,30));if(s.filter&&s.filter!=='none')bad.push('filter');if(s.contain&&s.contain!=='none')bad.push('contain:'+s.contain);if(s.willChange&&s.willChange!=='auto')bad.push('willChange:'+s.willChange);if(parseFloat(s.opacity)<1)bad.push('opacity:'+s.opacity);if(s.contentVisibility&&s.contentVisibility!=='visible')bad.push('cv:'+s.contentVisibility);if(s.clipPath&&s.clipPath!=='none')bad.push('clip');if(s.overflow!=='visible'&&el!==document.body)bad.push('overflow:'+s.overflow);
+              if(bad.length)anc.push(el.tagName+'.'+String(el.className).slice(0,30)+'['+bad.join(',')+']');el=el.parentElement;}
+            return {rect:{x:Math.round(r.x),y:Math.round(r.y),w:Math.round(r.width),h:Math.round(r.height)},
+              opacity:cs.opacity,visibility:cs.visibility,display:cs.display,pos:cs.position,
+              complete:img.complete,natW:img.naturalWidth,ancestors:anc,lcp:window.__lcp};});
+          console.log('A-BLOCKED '+JSON.stringify(A));
+          await p.screenshot({path:'lp-factory/pages/kit-builder/verify/qa70/blocked.png'});
+          await p.close();
+          // Context B: normal load; buffered LCP entries show every candidate Chrome emitted
+          const q=await b.newPage({viewport:{width:412,height:823}});
+          await q.addInitScript(()=>{window.__lcp=[];new PerformanceObserver(l=>{for(const e of l.getEntries())window.__lcp.push({tag:e.element?e.element.tagName:null,cls:e.element?String(e.element.className).slice(0,40):null,pid:e.element&&e.element.parentElement?e.element.parentElement.id:null,size:e.size,t:Math.round(e.startTime)})}).observe({type:'largest-contentful-paint',buffered:true});});
+          await q.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf70b',{waitUntil:'load',timeout:90000});
+          await q.waitForTimeout(6000);
+          const B=await q.evaluate(()=>window.__lcp);
+          console.log('B-NORMAL '+JSON.stringify(B));
+          await b.close();})();
           EOS
       - name: Commit
         if: always()
@@ -75,6 +53,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb16 prehero-xl perf r69 (bot)" || true
+          git commit -m "kb16 prehero diagnosis r70 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

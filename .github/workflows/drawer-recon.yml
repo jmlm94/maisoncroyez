@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 58 — kit-builder CVR QA: real cart POST (exact app payload), checkout click test, 5-viewport responsiveness sweep + screenshots
+# run 59 — kb13 brand-sale deploy verify: minification-stable gates, DOM flow probe (4 plans, counter, stories), real cart POST + clear
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,102 +13,88 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: CVR QA
+      - name: Verify kb13
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          D=lp-factory/pages/kit-builder/verify/qa58
+          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb13_verify'
+          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
+          # gate: page serves a kb key whose app bytes are kb13 (markers survive minification)
+          OK=0
+          for i in $(seq 1 45); do
+            KEY=$(curl -fsSL "$URL&w=$i" | grep -o "kb[0-9]*-" | head -1)
+            V="${KEY}$(date -u +%Y%m%d%H)"
+            APP=$(curl -fsSL "$B/mc-kit-app.js?v=$V")
+            CSS=$(curl -fsSL "$B/mc-kit.css?v=$V")
+            if [ -n "$KEY" ] && echo "$APP" | grep -q "Secure Checkout" && echo "$APP" | grep -q "4diffusers.png" && echo "$CSS" | grep -q "faq-title"; then OK=1; echo "page on $KEY serving kb13 (attempt $i)"; break; fi
+            echo "key=$KEY not kb13 yet (attempt $i)"; sleep 60
+          done
+          [ "$OK" = "1" ] || { echo "FATAL: kb13 never served"; exit 1; }
+          D=lp-factory/pages/kit-builder/verify
           mkdir -p $D
-          node - <<'EOS' > $D/qa58.txt
+          node - <<'EOS' > $D/kb13-verify.txt
           (async()=>{
           const { chromium } = require('playwright');
           const b = await chromium.launch();
-          const U='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=qa58';
-
-          /* ---- A. real cart POST with the exact app payload, then clear ---- */
-          {
-            const page = await b.newPage({viewport:{width:412,height:823}});
-            await page.goto(U+'&p=cart',{waitUntil:'load',timeout:90000});
-            await page.waitForTimeout(6000);
-            const cart = await page.evaluate(async()=>{
-              const payload={items:[
-                {id:41212020457581,quantity:3,selling_plan:2627895405},
-                {id:45450822778989,quantity:3}
-              ]};
-              const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-              const add=await r.json().catch(()=>({parse:'fail'}));
-              const c=await (await fetch('/cart.js')).json();
-              const summary={status:r.status,
-                items:c.items.map(i=>({t:i.product_title.slice(0,34),q:i.quantity,price:i.price,plan:i.selling_plan_allocation?i.selling_plan_allocation.selling_plan.id:null})),
-                total:c.total_price, addError: add.status===422?add.description||add.message:null};
-              await fetch('/cart/clear.js',{method:'POST'});
-              return summary;
-            });
-            console.log('CART_POST '+JSON.stringify(cart,null,1));
-            await page.close();
-          }
-
-          /* ---- B. full click-through to checkout redirect ---- */
-          {
-            const page = await b.newPage({viewport:{width:412,height:823}});
-            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-            await page.goto(U+'&p=click',{waitUntil:'load',timeout:90000});
-            await page.waitForTimeout(6000);
-            await page.evaluate(()=>{document.querySelectorAll('.plan')[2].click(); window.go(2);});
-            await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add'); a[0].click();a[1].click();a[2].click(); window.go(3);});
-            await page.waitForTimeout(500);
-            const nav = page.waitForURL('**/checkout**',{timeout:25000}).then(()=>true).catch(()=>false);
-            await page.locator('#s3 .navrow .btn:not(.secondary)').click();
-            const reached = await nav;
-            const toast = await page.evaluate(()=>{const t=document.getElementById('toast');return t?t.textContent.slice(0,80):null}).catch(()=>'-navigated-');
-            console.log('CLICK_TEST '+JSON.stringify({reachedCheckout:reached, finalUrl:page.url().slice(0,70), toast, jsErrors:errs}));
-            if (reached) {
-              await page.goto('https://maisoncroyez.com/cart/clear',{waitUntil:'load'}).catch(()=>{});
-            }
-            await page.close();
-          }
-
-          /* ---- C. responsiveness sweep ---- */
-          for (const vp of [[360,740],[390,844],[412,823],[768,1024],[1280,900]]) {
-            const page = await b.newPage({viewport:{width:vp[0],height:vp[1]}});
-            const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-            await page.goto(U+'&p=v'+vp[0],{waitUntil:'load',timeout:90000});
-            await page.waitForTimeout(6000);
-            const r = await page.evaluate(()=>{
-              const doc=document.documentElement;
-              const overflow=doc.scrollWidth-doc.clientWidth;
-              const gs=(s,p)=>{const e=document.querySelector(s);return e?getComputedStyle(e)[p]:null};
-              const vis=(s)=>{const e=document.querySelector(s);if(!e)return null;const b=e.getBoundingClientRect();return b.width>0&&b.height>0};
-              const slide=document.querySelector('.kbg-slide');
-              return {
-                overflowPx:overflow,
-                guar3MT:gs('.guar3','marginTop'), mwho:gs('.minirev .mwho','display'),
-                galleryVisible:vis('.kbgal'), sideVisible:vis('.side'),
-                slideLoaded:slide?slide.complete&&slide.naturalWidth>0:null,
-                arrows:vis('.kbg-arw.prev'), planW:Math.round((document.querySelector('.plan')||{getBoundingClientRect:()=>({width:0})}).getBoundingClientRect().width),
-                btnW:Math.round((document.querySelector('.navrow .btn:not(.secondary)')||{getBoundingClientRect:()=>({width:0})}).getBoundingClientRect().width),
-              };
-            });
-            await page.screenshot({path:'lp-factory/pages/kit-builder/verify/qa58/v'+vp[0]+'-s1.jpg', fullPage:true, quality:55, type:'jpeg'});
-            await page.evaluate(()=>{document.querySelectorAll('.plan')[2].click(); window.go(2);});
-            await page.waitForTimeout(400);
-            await page.screenshot({path:'lp-factory/pages/kit-builder/verify/qa58/v'+vp[0]+'-s2.jpg', fullPage:true, quality:55, type:'jpeg'});
-            await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add'); a[0].click();a[1].click();a[2].click(); window.go(3);});
-            await page.waitForTimeout(400);
-            await page.screenshot({path:'lp-factory/pages/kit-builder/verify/qa58/v'+vp[0]+'-s3.jpg', fullPage:true, quality:55, type:'jpeg'});
-            console.log('VP'+vp[0]+' '+JSON.stringify(r)+' errs:'+JSON.stringify(errs));
-            await page.close();
-          }
+          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
+          const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,100)));
+          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb13_verify',{waitUntil:'load',timeout:90000});
+          await page.waitForTimeout(8000);
+          const s1 = await page.evaluate(()=>{
+            const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim().slice(0,70):null};
+            const hero=document.querySelector('.heroshot');
+            return { banner:q('.banner'), rating:q('.rating.big'),
+              heroLoaded:hero?(hero.complete&&hero.naturalWidth>0):null,
+              promise:!!document.querySelector('.promise'), duo:!!document.querySelector('.duo'),
+              compliments:!!document.querySelector('.compliments'),
+              plans:document.querySelectorAll('.plan').length,
+              plan4Img:(()=>{const p=document.querySelectorAll('.plan .plan-img')[3];return p?(p.complete&&p.naturalWidth>0):null})(),
+              defaultPlan:(document.querySelector('.plan.on .plan-name')||{}).textContent,
+              guar3MT:getComputedStyle(document.querySelector('.guar3')).marginTop,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth };
+          });
+          console.log('S1 '+JSON.stringify(s1,null,1));
+          const counterA = await page.evaluate(()=>document.getElementById('cd').textContent);
+          await page.waitForTimeout(4000);
+          const counterB = await page.evaluate(()=>document.getElementById('cd').textContent);
+          console.log('COUNTER '+counterA+' -> '+counterB);
+          const flow = await page.evaluate(()=>{
+            document.querySelectorAll('.plan')[3].click(); window.go(2);
+            const r={title:document.getElementById('s2title').textContent.slice(0,80),
+              stories:document.querySelectorAll('.pick-story').length,
+              sf:document.querySelectorAll('.sf').length,
+              priceLine:(document.querySelector('.pick-price')||{}).textContent};
+            const adds=document.querySelectorAll('.pick .add'); adds[0].click();adds[1].click();adds[2].click();adds[3].click();
+            r.pickcount=document.getElementById('pickcount').textContent.trim();
+            window.go(3);
+            r.due=document.getElementById('duetoday').textContent;
+            r.cta=(document.querySelector('#s3 .navrow .btn:not(.secondary)')||{}).textContent.trim();
+            r.leftline=(document.querySelector('.left-line')||{}).textContent.trim();
+            r.faq=(document.querySelector('.faq-title')||{}).textContent;
+            return r;
+          });
+          console.log('FLOW '+JSON.stringify(flow,null,1));
+          console.log('JS ERRORS: '+JSON.stringify(errs));
+          /* real cart POST with kb13 payload shape (2 scents + 2 diffusers), then clear */
+          const cart = await page.evaluate(async()=>{
+            const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({items:[{id:41212020457581,quantity:2,selling_plan:2627895405},{id:45450822778989,quantity:2}]})});
+            const c=await (await fetch('/cart.js')).json();
+            const out={status:r.status,lines:c.items.length,total:c.total_price};
+            await fetch('/cart/clear.js',{method:'POST'});
+            return out;
+          });
+          console.log('CART '+JSON.stringify(cart));
           await b.close();
           })();
           EOS
-          cat $D/qa58.txt
+          cat $D/kb13-verify.txt
       - name: Commit
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kit builder CVR QA r58 (bot)" || true
+          git commit -m "kit builder kb13 verify r59 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

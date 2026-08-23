@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 78 — kb18 live verify: Add-to-cart CTA, drawer opens, ATC pixel event, no redirect
+# run 79 — compliments-copy origin gate (grep -o|wc -l per minified-file rail)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,51 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          D=lp-factory/pages/kit-builder/verify/qa78
-          mkdir -p $D
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          const fb=[];
-          await p.exposeFunction('__rec',a=>fb.push(a));
-          await p.addInitScript(()=>{window.fbq=function(){window.__rec([].slice.call(arguments));};});
-          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=dr78',{waitUntil:'load',timeout:90000});
-          await p.waitForTimeout(4000);
-          const cta=await p.evaluate(()=>({appKey:(document.querySelector('script[src*=\"mc-kit-app\"]')||{}).src,
-            cta:(document.querySelector('#s3 .navrow .btn:not(.secondary)')||{}).textContent}));
-          await p.evaluate(()=>{
-            document.querySelectorAll('.plan')[1].click(); window.go(2);
-            const adds=document.querySelectorAll('.pick .add'); adds[0].click(); adds[4].click();
-            window.go(3); window.joinToast();});
-          await p.waitForTimeout(4000);
-          const res=await p.evaluate(()=>{
-            const d=document.getElementById('cart-drawer');
-            const cs=d?getComputedStyle(d):null;
-            const btn=document.querySelector('#s3 .navrow .btn:not(.secondary)');
-            return {stillOnPage:location.pathname==='/pages/build-your-kit',
-              drawerOpen:d&&d.hasAttribute('open'),display:cs&&cs.display,
-              title:d?((d.querySelector('.cart-drawer__top p.h5, .cart-drawer__top .h5')||{}).textContent||'').trim().slice(0,45):null,
-              lines:d?d.querySelectorAll('.line-item').length:0,
-              free:d?(d.textContent.match(/FREE/g)||[]).length:0,
-              btnLabel:btn?btn.textContent.trim():null,btnEnabled:btn?!btn.disabled:null};});
-          await p.screenshot({path:'lp-factory/pages/kit-builder/verify/qa78/drawer-open.png'});
-          const atc=fb.filter(c=>c[0]==='track'&&c[1]==='AddToCart').map(c=>c[2]);
-          const cart=await p.evaluate(()=>fetch('/cart.js').then(r=>r.json()).then(c=>({count:c.item_count,total:c.total_price})));
-          await p.evaluate(()=>fetch('/cart/clear.js',{method:'POST'}));
-          console.log('KB18 '+JSON.stringify({cta,res,atc,cart,errs}));
-          await b.close();})();
-          EOS
-      - name: Commit
-        if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kit-builder/verify
-          git commit -m "kb18 drawer-flow live verify r78 (bot)" || true
-          git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
-          git push
+          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kit-app.js'
+          for i in $(seq 1 24); do
+            K="oc$RANDOM$RANDOM"
+            BODY=$(curl -sS "$B?v=$K")
+            NEW=$(printf %s "$BODY" | grep -o "apologize in advance for the" | wc -l)
+            OLD=$(printf %s "$BODY" | grep -o "apologize in advance for all the" | wc -l)
+            ATC=$(printf %s "$BODY" | grep -o "Add to cart" | wc -l)
+            DRW=$(printf %s "$BODY" | grep -o "cart-drawer" | wc -l)
+            echo "try$i key=$K new=$NEW old=$OLD AddToCart=$ATC drawer=$DRW len=${#BODY}"
+            if [ "$NEW" -ge 1 ] && [ "$OLD" -eq 0 ] && [ "$ATC" -ge 3 ] && [ "$DRW" -ge 1 ]; then echo "ORIGIN_FRESH"; exit 0; fi
+            sleep 10
+          done
+          echo "ORIGIN_STALE"; exit 1

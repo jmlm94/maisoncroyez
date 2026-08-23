@@ -6,8 +6,8 @@ await page.route('**cdn.shopify.com**', r=>r.abort());
 await page.route('**{{PLAN4}}**', r=>r.abort()).catch(()=>{});
 const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
 await page.setContent('<div id="root"></div>');
-await page.addStyleTag({content:fs.readFileSync('mc-kit.css.new','utf8')});
-await page.addScriptTag({content:fs.readFileSync('mc-kit-app.js.new','utf8')});
+await page.addStyleTag({content:fs.readFileSync('mc-kit.css','utf8')});
+await page.addScriptTag({content:fs.readFileSync('mc-kit-app.js','utf8')});
 await page.waitForTimeout(2500);
 const r1 = await page.evaluate(()=>({
   banner:document.querySelector('.banner').textContent.slice(0,70),

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 59 — kb13 brand-sale deploy verify: minification-stable gates, DOM flow probe (4 plans, counter, stories), real cart POST + clear
+# run 60 — kb13 pixel-parity QA: live page vs deployed bundle at 360/390/412/430, per-step screenshot diff + computed-style diff
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,88 +13,100 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify kb13
+      - name: Pixel parity QA
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npm i -s playwright@1.56.1 pixelmatch@5 pngjs@7 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb13_verify'
-          B='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
-          # gate: page serves a kb key whose app bytes are kb13 (markers survive minification)
-          OK=0
-          for i in $(seq 1 45); do
-            KEY=$(curl -fsSL "$URL&w=$i" | grep -o "kb[0-9]*-" | head -1)
-            V="${KEY}$(date -u +%Y%m%d%H)"
-            APP=$(curl -fsSL "$B/mc-kit-app.js?v=$V")
-            CSS=$(curl -fsSL "$B/mc-kit.css?v=$V")
-            if [ -n "$KEY" ] && echo "$APP" | grep -q "Secure Checkout" && echo "$APP" | grep -q "4diffusers.png" && echo "$CSS" | grep -q "faq-title"; then OK=1; echo "page on $KEY serving kb13 (attempt $i)"; break; fi
-            echo "key=$KEY not kb13 yet (attempt $i)"; sleep 60
-          done
-          [ "$OK" = "1" ] || { echo "FATAL: kb13 never served"; exit 1; }
-          D=lp-factory/pages/kit-builder/verify
+          D=lp-factory/pages/kit-builder/verify/qa60
           mkdir -p $D
-          node - <<'EOS' > $D/kb13-verify.txt
+          node - <<'EOS' > $D/parity.txt
           (async()=>{
           const { chromium } = require('playwright');
+          const fs = require('fs');
+          const { PNG } = require('pngjs');
+          const pixelmatch = require('pixelmatch');
+          const css = fs.readFileSync('lp-factory/pages/kit-builder/deploy-ready/mc-kit.css','utf8');
+          const app = fs.readFileSync('lp-factory/pages/kit-builder/deploy-ready/mc-kit-app.js','utf8');
+          const ARMOR = fs.readFileSync('lp-factory/pages/kit-builder/deploy-ready/mc-kit.css','utf8').split('/* kb13 armor')[1]||'';
           const b = await chromium.launch();
-          const page = await b.newPage({ viewport:{width:412,height:823}, deviceScaleFactor:1.75 });
-          const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-          await page.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=kb13_verify',{waitUntil:'load',timeout:90000});
-          await page.waitForTimeout(8000);
-          const s1 = await page.evaluate(()=>{
-            const q=(s)=>{const e=document.querySelector(s);return e?e.textContent.trim().slice(0,70):null};
-            const hero=document.querySelector('.heroshot');
-            return { banner:q('.banner'), rating:q('.rating.big'),
-              heroLoaded:hero?(hero.complete&&hero.naturalWidth>0):null,
-              promise:!!document.querySelector('.promise'), duo:!!document.querySelector('.duo'),
-              compliments:!!document.querySelector('.compliments'),
-              plans:document.querySelectorAll('.plan').length,
-              plan4Img:(()=>{const p=document.querySelectorAll('.plan .plan-img')[3];return p?(p.complete&&p.naturalWidth>0):null})(),
-              defaultPlan:(document.querySelector('.plan.on .plan-name')||{}).textContent,
-              guar3MT:getComputedStyle(document.querySelector('.guar3')).marginTop,
-              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth };
-          });
-          console.log('S1 '+JSON.stringify(s1,null,1));
-          const counterA = await page.evaluate(()=>document.getElementById('cd').textContent);
-          await page.waitForTimeout(4000);
-          const counterB = await page.evaluate(()=>document.getElementById('cd').textContent);
-          console.log('COUNTER '+counterA+' -> '+counterB);
-          const flow = await page.evaluate(()=>{
-            document.querySelectorAll('.plan')[3].click(); window.go(2);
-            const r={title:document.getElementById('s2title').textContent.slice(0,80),
-              stories:document.querySelectorAll('.pick-story').length,
-              sf:document.querySelectorAll('.sf').length,
-              priceLine:(document.querySelector('.pick-price')||{}).textContent};
-            const adds=document.querySelectorAll('.pick .add'); adds[0].click();adds[1].click();adds[2].click();adds[3].click();
-            r.pickcount=document.getElementById('pickcount').textContent.trim();
-            window.go(3);
-            r.due=document.getElementById('duetoday').textContent;
-            r.cta=(document.querySelector('#s3 .navrow .btn:not(.secondary)')||{}).textContent.trim();
-            r.leftline=(document.querySelector('.left-line')||{}).textContent.trim();
-            r.faq=(document.querySelector('.faq-title')||{}).textContent;
-            return r;
-          });
-          console.log('FLOW '+JSON.stringify(flow,null,1));
-          console.log('JS ERRORS: '+JSON.stringify(errs));
-          /* real cart POST with kb13 payload shape (2 scents + 2 diffusers), then clear */
-          const cart = await page.evaluate(async()=>{
-            const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},
-              body:JSON.stringify({items:[{id:41212020457581,quantity:2,selling_plan:2627895405},{id:45450822778989,quantity:2}]})});
-            const c=await (await fetch('/cart.js')).json();
-            const out={status:r.status,lines:c.items.length,total:c.total_price};
-            await fetch('/cart/clear.js',{method:'POST'});
+          const SEL = ['.banner','.rating.big','h1','.h1sub','.heroshot','.promise','.duo','.dcol','.compliments',
+            '.steptitle','.plan','.plan-name','.plan-price','.plan-save','.ship-line','.navrow .btn','.guar3','.guar3 .g',
+            '.pickcount','.booklet-obj','.scent-value','.attract','.pick','.pick-story','.sf','.pick-price',
+            '.kitcart','.valline','.due-v','.pay4','.left-line','.testi2','.faq-title','.faqs'];
+          const PROPS = ['marginTop','marginBottom','paddingTop','paddingLeft','fontSize','fontFamily','color','backgroundColor','borderRadius','display','textAlign'];
+          const freeze = (p)=>p.evaluate(()=>{document.querySelectorAll('#cd,.livecnt').forEach(e=>e.textContent='131');});
+          const styleDump = (p)=>p.evaluate(([SEL,PROPS])=>{
+            const out={};
+            for(const s of SEL){const e=document.querySelector(s);if(!e){out[s]=null;continue;}
+              const cs=getComputedStyle(e);const o={};for(const pr of PROPS)o[pr]=cs[pr];out[s]=o;}
             return out;
-          });
-          console.log('CART '+JSON.stringify(cart));
+          },[SEL,PROPS]);
+          async function shots(page, tag, vw){
+            const res={};
+            for (const step of [1,2,3]) {
+              if (step===2) await page.evaluate(()=>{window.go(2);});
+              if (step===3) await page.evaluate(()=>{const a=document.querySelectorAll('.pick .add');a[0].click();a[1].click();window.go(3);});
+              await page.waitForTimeout(500);
+              await freeze(page);
+              const buf = await page.locator('#root').screenshot();
+              fs.writeFileSync(`lp-factory/pages/kit-builder/verify/qa60/${tag}-${vw}-s${step}.png`, buf);
+              res[step]=buf;
+              if (step===3) res.styles3=await styleDump(page);
+              if (step===1) res.styles1=await styleDump(page);
+            }
+            return res;
+          }
+          const summary=[];
+          for (const vw of [360,390,412,430]) {
+            // LOCAL: exact deployed bundle, CDN assets, no theme
+            const lp = await b.newPage({viewport:{width:vw,height:900}});
+            await lp.setContent('<style>'+ (ARMOR?('/* armor dup */'+ARMOR):'') +'</style><div id="root"></div>');
+            await lp.addStyleTag({content:css});
+            await lp.addScriptTag({content:app});
+            await lp.waitForTimeout(3500);
+            const L = await shots(lp,'local',vw);
+            await lp.close();
+            // LIVE
+            const vp = await b.newPage({viewport:{width:vw,height:900}});
+            await vp.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=qa60v'+vw,{waitUntil:'load',timeout:90000});
+            await vp.waitForTimeout(7000);
+            const V = await shots(vp,'live',vw);
+            await vp.close();
+            for (const step of [1,2,3]) {
+              const a=PNG.sync.read(L[step]), c=PNG.sync.read(V[step]);
+              const w=Math.min(a.width,c.width), h=Math.min(a.height,c.height);
+              const diff=new PNG({width:w,height:h});
+              const crop=(img)=>{const o=new PNG({width:w,height:h});PNG.bitblt(img,o,0,0,w,h,0,0);return o;};
+              const n=pixelmatch(crop(a).data,crop(c).data,diff.data,w,h,{threshold:0.12});
+              const pct=(100*n/(w*h)).toFixed(2);
+              const hDelta=Math.abs(a.height-c.height);
+              summary.push({vw,step,pct:+pct,hDelta,lw:a.width+'x'+a.height,vw2:c.width+'x'+c.height});
+              if (+pct>0.8) fs.writeFileSync(`lp-factory/pages/kit-builder/verify/qa60/diff-${vw}-s${step}.png`, PNG.sync.write(diff));
+            }
+            // computed style diff (step1 + step3)
+            for (const which of ['styles1','styles3']) {
+              const mism=[];
+              for (const s of SEL) {
+                const x=L[which][s], y=V[which][s];
+                if (!x && !y) continue;
+                if (!x || !y) { mism.push(s+': present-only-in-'+(x?'local':'live')); continue; }
+                for (const pr of PROPS) if (x[pr]!==y[pr]) mism.push(`${s}.${pr}: local=${x[pr]} live=${y[pr]}`);
+              }
+              if (mism.length) console.log(`STYLEDIFF vw${vw} ${which}:\n  `+mism.join('\n  '));
+              else console.log(`STYLEDIFF vw${vw} ${which}: NONE`);
+            }
+          }
+          console.log('PIXELDIFF '+JSON.stringify(summary,null,1));
           await b.close();
           })();
           EOS
-          cat $D/kb13-verify.txt
+          cat $D/parity.txt
       - name: Commit
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "kit builder kb13 verify r59 (bot)" || true
+          git commit -m "kb13 pixel-parity QA r60 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

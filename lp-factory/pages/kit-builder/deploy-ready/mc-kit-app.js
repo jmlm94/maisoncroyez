@@ -65,10 +65,16 @@ function joinToast(){
   var btns=[].slice.call(document.querySelectorAll('.btn')).filter(function(b){return b.textContent.indexOf('Secure Checkout')>-1});
   btns.forEach(function(b){b.disabled=true;var s=b.querySelector('span');if(s)s.textContent='Adding your kit\u2026';});
   var items=[];
-  for(var k in picks) if(picks[k]) items.push({id:VAR[k],quantity:picks[k],selling_plan:PLAN});
+  var fbIds=[],fbUnits=0,fbVal=0;
+  for(var k in picks) if(picks[k]){items.push({id:VAR[k],quantity:picks[k],selling_plan:PLAN});fbIds.push(String(VAR[k]));fbUnits+=picks[k];fbVal+=picks[k]*P;}
   items.push({id:DIFF,quantity:N});
+  fbIds.push(String(DIFF));fbUnits+=N;
+  var fbData={content_type:'product',content_ids:fbIds,value:Number(fbVal.toFixed(2)),currency:'USD',num_items:fbUnits};
+  try{if(window.fbq)fbq('track','AddToCart',fbData);}catch(e){}
   fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:items})})
-    .then(function(r){if(!r.ok)throw new Error('add failed');window.location.href='/checkout';})
+    .then(function(r){if(!r.ok)throw new Error('add failed');
+      try{if(window.fbq)fbq('track','InitiateCheckout',fbData);}catch(e){}
+      window.location.href='/checkout';})
     .catch(function(){BUSY=false;btns.forEach(function(b){b.disabled=false;var s=b.querySelector('span');if(s)s.textContent='Secure Checkout \u2794';});
       var t=document.getElementById('toast');t.textContent='Something went wrong, please try again.';t.classList.add('on');setTimeout(function(){t.classList.remove('on')},4000);});
 }

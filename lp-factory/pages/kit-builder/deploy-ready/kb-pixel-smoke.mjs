@@ -1,0 +1,22 @@
+import { chromium } from 'playwright';
+import fs from 'fs';
+const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium', args:['--no-sandbox']});
+const page = await b.newPage({viewport:{width:412,height:900}});
+await page.route('**cdn.shopify.com**', r=>r.abort());
+await page.route('**/cart/add.js', r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({items:[]})}));
+const errs=[]; page.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+await page.setContent('<div id="root"></div>');
+await page.evaluate(()=>{window.__fb=[];window.fbq=function(){window.__fb.push([].slice.call(arguments));};});
+await page.addScriptTag({content:fs.readFileSync('mc-kit-app.js','utf8')});
+await page.waitForTimeout(400);
+const flow = await page.evaluate(()=>{
+  document.querySelectorAll('.plan')[1].click(); window.go(2);
+  const adds=document.querySelectorAll('.pick .add'); adds[0].click(); adds[4].click();
+  window.go(3);
+  window.joinToast();
+  return {due:document.getElementById('duetoday').textContent};
+});
+await page.waitForTimeout(800);
+const out = await page.evaluate(()=>({fb:window.__fb, href:location.href.slice(0,40)}));
+console.log(JSON.stringify({flow,out,errs},null,1));
+await b.close();

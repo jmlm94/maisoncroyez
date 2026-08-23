@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 66 — what does a visitor get RIGHT NOW: bare URL vs fresh URL, loader key + rendered screenshot at 390px
+# run 67 — kb16 page speed analysis: Lighthouse x3 median + LCP element/phases + observed (unthrottled) metrics
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,30 +13,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Probe
+      - name: Lighthouse
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npm i -s playwright@1.56.1 lighthouse@12 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
-          D=lp-factory/pages/kit-builder/verify/qa66
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          URL='https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=perf67'
+          D=lp-factory/pages/kit-builder/verify
           mkdir -p $D
-          echo "bare URL key: $(curl -fsSL 'https://maisoncroyez.com/pages/build-your-kit' | grep -o "kb[0-9]*-[a-z0-9]*" | head -1)" | tee $D/keys.txt
-          echo "fresh URL key: $(curl -fsSL "https://maisoncroyez.com/pages/build-your-kit?v=r66$RANDOM" | grep -o "kb[0-9]*-[a-z0-9]*" | head -1)" | tee -a $D/keys.txt
+          for n in 1 2 3; do
+            npx lighthouse "$URL" --quiet --chrome-flags="--headless=new --no-sandbox" --chrome-path="$CHROME" \
+              --only-categories=performance --form-factor=mobile --screenEmulation.mobile \
+              --output=json --output-path=lh-$n.json || true
+          done
           node - <<'EOS'
-          (async()=>{
-          const { chromium } = require('playwright');
-          const b = await chromium.launch();
-          for (const [tag,url] of [['bare','https://maisoncroyez.com/pages/build-your-kit'],['fresh','https://maisoncroyez.com/pages/build-your-kit?v=r66shot'+Math.floor(Math.random()*9999)]]) {
-            const p = await b.newPage({viewport:{width:390,height:844}});
-            await p.goto(url,{waitUntil:'load',timeout:90000});
-            await p.waitForTimeout(6000);
-            await p.evaluate(()=>{document.querySelectorAll('#cd,.livecnt').forEach(e=>e.textContent='131');});
-            await p.screenshot({path:'lp-factory/pages/kit-builder/verify/qa66/'+tag+'-390.png', fullPage:false});
-            const k = await p.evaluate(()=>{const l=document.querySelector('link[href*="mc-kit.css"]');return l?l.href.split('v=')[1]:null});
-            console.log(tag+' css key: '+k);
-            await p.close();
-          }
-          await b.close();
-          })();
+          const fs=require('fs');
+          const runs=[1,2,3].map(n=>{try{return JSON.parse(fs.readFileSync('lh-'+n+'.json'))}catch(e){return null}}).filter(Boolean);
+          const rows=runs.map(r=>({score:Math.round(r.categories.performance.score*100),
+            fcp:r.audits['first-contentful-paint'].numericValue, lcp:r.audits['largest-contentful-paint'].numericValue,
+            tbt:r.audits['total-blocking-time'].numericValue, cls:r.audits['cumulative-layout-shift'].numericValue,
+            si:r.audits['speed-index'].numericValue, bench:r.environment.benchmarkIndex, r}));
+          rows.forEach((x,i)=>console.log('run'+(i+1)+': score '+x.score+' FCP '+Math.round(x.fcp)+' LCP '+Math.round(x.lcp)+' TBT '+Math.round(x.tbt)+' CLS '+x.cls.toFixed(3)+' SI '+Math.round(x.si)+' bench '+Math.round(x.bench)));
+          const med=a=>a.slice().sort((x,y)=>x-y)[Math.floor(a.length/2)];
+          const m={score:med(rows.map(x=>x.score)),fcp:med(rows.map(x=>x.fcp)),lcp:med(rows.map(x=>x.lcp)),tbt:med(rows.map(x=>x.tbt)),cls:med(rows.map(x=>x.cls)),si:med(rows.map(x=>x.si))};
+          let out='MEDIAN of '+rows.length+'\nSCORE: '+m.score+'\nFCP: '+(m.fcp/1000).toFixed(1)+'s\nLCP: '+(m.lcp/1000).toFixed(1)+'s\nTBT: '+Math.round(m.tbt)+'ms\nCLS: '+m.cls.toFixed(3)+'\nSI: '+(m.si/1000).toFixed(1)+'s\n';
+          console.log(out);
+          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-summary-r67.txt',out);
+          const keep=rows.find(x=>x.score===m.score)||rows[0];
+          fs.writeFileSync('lp-factory/pages/kit-builder/verify/lh-r67.json',JSON.stringify(keep.r));
+          const a=keep.r.audits;
+          const met=a['metrics'].details.items[0];
+          console.log('OBSERVED: FCP '+met.observedFirstContentfulPaint+'ms LCP '+met.observedLargestContentfulPaint+'ms load '+met.observedLoad+'ms');
+          try{const lcp=a['largest-contentful-paint-element'].details.items;
+            console.log('LCP el: '+lcp[0].items[0].node.snippet.slice(0,120));
+            console.log('LCP phases: '+JSON.stringify(lcp[1].items.map(i=>i.phase+':'+Math.round(i.timing))));}catch(e){}
+          const tp=(a['third-party-summary'].details.items||[]).slice(0,4).map(t=>t.entity+':'+Math.round(t.blockingTime)+'ms');
+          console.log('3P blocking: '+tp.join(' '));
           EOS
       - name: Commit
         if: always()
@@ -44,6 +56,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kit-builder/verify
-          git commit -m "visitor-state probe r66 (bot)" || true
+          git commit -m "kb16 perf analysis r67 (bot)" || true
           git pull --rebase -X theirs origin claude/maison-offer-v2-deploy-dspkwe
           git push

@@ -118,3 +118,18 @@ zeroed by Subi); redirect to /checkout reached; prehero collapse intact; test ca
 Shopify's own web pixel (agent shopify_web_pixel, trackShopify PageView) — FB channel active, so Purchase fires
 at checkout; funnel now PageView -> ATC -> IC -> Purchase. (One spy-artifact TypeError from Shopify's wrapper
 iterating the stub fbq — absent with real fbevents.js; r59-style no-spy runs show 0 errors.)
+
+## kb18 (2026-08-23, SHA baf77de, VERIFIED LIVE r78) — Add-to-cart CTA + drawer flow
+Jose: open the cart drawer after the button instead of jumping to /checkout, rename CTA. Changes:
+- CTA "Secure Checkout ➔" -> "Add to cart ➔" (markup + BUSY restore + joinToast finder). Artifact updated to match.
+- joinToast success: no redirect; re-enable buttons, dispatch cart:refresh + #cart-drawer.show() (Impact theme,
+  sitewide mc-drawer takeover shows "Congrats, your order is reserved! ✓" + FREE diffuser lines); fallback /cart
+  if drawer missing. Custom InitiateCheckout REMOVED — Shopify FB channel fires it when real checkout starts.
+  AddToCart still fires at click.
+- r76 feasibility: #cart-drawer exists on the page OUTSIDE the hidden header group, .show() works, opens 412x823
+  visible w/ 2 FREE labels. No CSS changes needed.
+- r78 live verify (key kb18-baf77de): CTA label correct, tap -> stays on page, drawer open (title correct, 3 lines,
+  FREE x2), button restored+enabled, ATC event {2 scents+diffuser, $79.90, 4 units}, cart 4 items $79.90, cleared.
+  Screenshot verify/qa78/drawer-open.png. (Same known spy-artifact TypeError; real-fbq runs are clean.)
+- RAIL: origin-gate greps on minified (single-line) files must use grep -o|wc -l — grep -c counts LINES and
+  maxes at 1, so occurrence thresholds >1 can never pass (cost: r77 false STALE; bytes were actually fresh).

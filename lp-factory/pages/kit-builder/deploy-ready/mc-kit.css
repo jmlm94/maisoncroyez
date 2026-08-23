@@ -231,7 +231,12 @@ h1 em{color:var(--ink);font-style:italic}
 .left-line{text-align:center;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.62rem;color:#8A5B52;margin:10px 0 0}
 .faq-title{font-family:'Unna',Georgia,serif;font-weight:700;font-size:1.3rem;text-align:center;margin:6px 0 12px}
 
-/* kb14 armor wall: full stylesheet re-emitted #root-prefixed with !important — theme cannot touch the funnel */
+/* kb15 broad baseline: zero out any theme-added default margins/paddings inside the funnel.
+   Placed BEFORE the wall; wall's class rules out-rank this on specificity for every declared value. */
+#root :is(div,section,span,ul,li,h1,h2,h3,p,img,button,b,i,em,strong,details,summary){margin:0 !important}
+#root :is(ul,li){padding:0 !important}
+#root .faqs details p{margin:8px 0 0 !important}
+/* kb15 armor wall: full stylesheet re-emitted #root-prefixed with !important — theme cannot touch the funnel */
 #root{font-size:16px !important;font-family:'Be Vietnam Pro',system-ui,sans-serif !important}
 #root h1{display:block !important}
 #root .banner{display:block !important}

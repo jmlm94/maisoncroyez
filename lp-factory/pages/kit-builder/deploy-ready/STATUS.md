@@ -104,3 +104,17 @@ preloaded fetchpriority=high) shown instantly, hidden once #root renders. Three 
 - RAIL: a prehero must survive until its image has PAINTED (img.decode() then double-rAF), not merely until the app
   renders — and must be strictly larger than the app hero. Verify with buffered largest-contentful-paint entries, not
   only Lighthouse attribution.
+
+## kb17 (2026-08-23, SHA f3c4fb4, VERIFIED LIVE r74) — FB pixel AddToCart + InitiateCheckout
+Problem: custom /cart/add.js flow bypasses Shopify's FB channel form-tracking, so pixel 980908600592309 only sent
+PageView. Fix in joinToast(): fbq('track','AddToCart',{content_type:'product',content_ids:[scent variants+diffuser],
+value:scent total,currency:'USD',num_items:units}) fired AT CLICK (survives redirect), and InitiateCheckout with the
+same payload fired on cart-add success right before location='/checkout'. Both wrapped in try/window.fbq guards;
+error path untouched. Key kb16-bb42cf4 -> kb17-f3c4fb4 (fixed-key protocol: fileUpdate -> r73 origin gate on
+throwaway keys grepping AddToCart/InitiateCheckout/Secure Checkout -> pageUpdate).
+r74 live verify (fbq spy pre-installed so mcPixel defers): served app v=kb17-f3c4fb4; full flow -> AddToCart
+{2 scents+diffuser ids, $79.90, 4 units} + InitiateCheckout fired; real cart POST = 4 items $79.90 (diffusers
+zeroed by Subi); redirect to /checkout reached; prehero collapse intact; test cart cleared. Spy also captured
+Shopify's own web pixel (agent shopify_web_pixel, trackShopify PageView) — FB channel active, so Purchase fires
+at checkout; funnel now PageView -> ATC -> IC -> Purchase. (One spy-artifact TypeError from Shopify's wrapper
+iterating the stub fbq — absent with real fbevents.js; r59-style no-spy runs show 0 errors.)

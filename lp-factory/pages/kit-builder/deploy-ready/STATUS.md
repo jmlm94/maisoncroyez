@@ -59,3 +59,15 @@ r56 verify: computed-style assertions (guar3 26px, kbgal 24px, navrow 18px, perk
   mwho block), gallery+arrows on mobile, side-photo swap at >=900px, no JS errors. 15 screenshots in verify/qa58/.
 - CVR watch item: sticky bar removed 08-17 -> step-2 continue button sits below 7 scent cards.
   If CVR stays soft, first A/B candidate. (CVR was already slow pre-change.)
+
+## kb13 (2026-08-23, SHA a136897, VERIFIED LIVE r59) — Brand-Sale funnel
+Artifact-driven full rebuild (b5659944 = source of truth). Step1: banner counter 131->floor 58 (syncs .livecnt),
+hero = Diseno_92 (single, preloaded, 820 pjpg), boxed ❤️92% line, promise headline, duo diffuser/scents cards,
+compliments gradient card, 4 plans ($89.95 anchoring, coverage 600-2400 sqft, 4diffusers.png?v=1787451104 new CDN file),
+neutral guar cards w/ emojis on all 3 steps. Step2: dynamic s2title (reserved+pick N), green pickcount, booklet,
+scent-value strip, per-card price line, 7 scent stories + Smells/Feels rows, default card gradients. Step3: Secure
+Checkout CTA (joinToast finder updated!), left-line counter, testi2 under CTA, FAQ w/ title; perks/minirevs/trust cut.
+All em-dashes -> commas. Armor: #root+!important in css AND inline page body. Default plan 2 (Most Popular).
+r59 live probe: all sections/imgs/spacing green, counter ticks, 4-plan flow $159.80, cart POST 200 (2 lines, $79.90,
+diffusers zeroed by Subi), 0 JS errors, 0 overflow. App 25KB (was 33KB).
+RAIL reminder: Shopify connector silently flipped to Carbinox pre-deploy — step-0 get-shop-info caught it.

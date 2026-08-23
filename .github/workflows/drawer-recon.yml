@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 74 — pixel-fix live verify: fbq spy + real cart POST + event payload check
+# run 75 — kb17 no-spy sanity: real fbevents, full flow, assert zero JS errors
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -21,25 +21,20 @@ jobs:
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const c=await b.newContext({viewport:{width:412,height:823}});
           const p=await c.newPage();
-          const fb=[];
-          await p.exposeFunction('__rec',a=>fb.push(a));
-          await p.addInitScript(()=>{window.fbq=function(){window.__rec([].slice.call(arguments));};});
-          await p.route('**/checkout',r=>r.request().isNavigationRequest()?r.fulfill({status:200,contentType:'text/html',body:'BLOCKED_CHECKOUT'}):r.continue());
-          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=px74',{waitUntil:'load',timeout:90000});
+          const fbreq=[];
+          p.on('request',r=>{const u=r.url();if(u.indexOf('facebook.com/tr')>-1)fbreq.push(u.slice(0,160));});
+          await p.route('**/checkout',r=>r.request().isNavigationRequest()?r.fulfill({status:200,contentType:'text/html',body:'BLOCKED'}):r.continue());
+          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=px75',{waitUntil:'load',timeout:90000});
           await p.waitForTimeout(4000);
-          const pre=await p.evaluate(()=>({preDisplay:getComputedStyle(document.getElementById('kb-pre')).display,
-            rootKids:document.getElementById('root').children.length,
-            appKey:(document.querySelector('script[src*="mc-kit-app"]')||{}).src}));
           await p.evaluate(()=>{
             document.querySelectorAll('.plan')[1].click(); window.go(2);
             const adds=document.querySelectorAll('.pick .add'); adds[0].click(); adds[4].click();
             window.go(3); window.joinToast();});
           await p.waitForTimeout(5000);
           const nav=p.url();
-          const cart=await p.evaluate(()=>fetch('/cart.js').then(r=>r.json()).then(c=>({count:c.item_count,total:c.total_price,lines:c.items.map(i=>i.variant_id+'x'+i.quantity)})));
-          await p.evaluate(()=>fetch('/cart/clear.js',{method:'POST'}));
-          const cleared=await p.evaluate(()=>fetch('/cart.js').then(r=>r.json()).then(c=>c.item_count));
-          console.log('PIXEL '+JSON.stringify({pre,events:fb,nav:nav.slice(0,60),cart,cleared,errs}));
+          const ev=fbreq.map(u=>{const m=u.match(/[?&]ev=([^&]+)/);return m?decodeURIComponent(m[1]):'?';});
+          await p.evaluate(()=>fetch('/cart/clear.js',{method:'POST'})).catch(()=>{});
+          console.log('NOSPY '+JSON.stringify({events:ev,nav:nav.slice(0,50),errs}));
           await b.close();})();
           EOS

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 80 — kb19 live verify: compliments copy + flow sanity
+# run 81 — V2 kit-builder origin gate: new files mc-kit2-app.js / mc-kit2.css
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,20 +13,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-          await p.goto('https://maisoncroyez.com/pages/build-your-kit?utm_source=instagram&utm_medium=bio&utm_campaign=cp80',{waitUntil:'load',timeout:90000});
-          await p.waitForTimeout(4000);
-          const r=await p.evaluate(()=>({appKey:((document.querySelector('script[src*=\"mc-kit-app\"]')||{}).src||'').split('v=')[1],
-            compliments:(document.querySelector('.compliments')||{}).textContent,
-            cta:((document.querySelector('#s3 .navrow .btn:not(.secondary)')||{}).textContent||'').trim(),
-            plans:document.querySelectorAll('.plan').length}));
-          console.log('KB19 '+JSON.stringify({r,errs}));
-          await b.close();})();
-          EOS
+          BASE='https://cdn.shopify.com/s/files/1/0020/3636/7469/files'
+          for i in $(seq 1 24); do
+            K="oc$RANDOM$RANDOM"
+            APP=$(curl -sS "$BASE/mc-kit2-app.js?v=$K")
+            CSS=$(curl -sS "$BASE/mc-kit2.css?v=$K")
+            A1=$(printf %s "$APP" | grep -o "Add to cart" | wc -l)
+            A2=$(printf %s "$APP" | grep -o "Free scents" | wc -l)
+            A3=$(printf %s "$APP" | grep -o "45644596969581" | wc -l)
+            C1=$(printf %s "$CSS" | grep -o "plan-gift" | wc -l)
+            C2=$(printf %s "$CSS" | grep -o "addon-row" | wc -l)
+            C3=$(printf %s "$CSS" | grep -o "important" | wc -l)
+            echo "try$i app[$A1/$A2/$A3 len${#APP}] css[$C1/$C2/$C3 len${#CSS}]"
+            if [ "$A1" -ge 3 ] && [ "$A2" -ge 1 ] && [ "$A3" -ge 1 ] && [ "$C1" -ge 2 ] && [ "$C2" -ge 2 ] && [ "$C3" -ge 200 ]; then echo "ORIGIN_FRESH"; exit 0; fi
+            sleep 10
+          done
+          echo "ORIGIN_STALE"; exit 1

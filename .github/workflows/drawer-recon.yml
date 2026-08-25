@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 84 — post-flip homepage verify: CTAs -> build-your-kit-2 + copy sweep live
+# run 85 — locate residual free-diffuser mention on homepage
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,22 +20,20 @@ jobs:
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-          await p.goto('https://maisoncroyez.com/?utm_campaign=hm84',{waitUntil:'load',timeout:90000});
+          await p.goto('https://maisoncroyez.com/?utm_campaign=hm85',{waitUntil:'load',timeout:90000});
           await p.waitForTimeout(6000);
           const r=await p.evaluate(()=>{
-            const btns=[];
-            document.querySelectorAll('a[href]').forEach(a=>{
-              const t=(a.textContent||'').trim().replace(/\s+/g,' ');
-              if(/claim|build my kit/i.test(t)) btns.push({label:t.slice(0,40),href:a.getAttribute('href')});
-            });
-            const body=document.body.textContent;
-            return {btns,
-              freeDiffuserMentions:(body.match(/free\s*diffuser/gi)||[]).length,
-              freeScentLine:body.indexOf('A FREE scent with every diffuser you pick')>-1,
-              chip:body.indexOf('Free scents included')>-1,
-              trust:body.indexOf('30-day money-back')>-1&&body.indexOf('Cancel anytime')===-1,
-              sevsub:body.indexOf('One payment, no subscription, everything in the box is yours forever')>-1};});
-          console.log('HOME84 '+JSON.stringify({r,errs}));
+            const hits=[];
+            const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+            while(w.nextNode()){const t=w.currentNode.textContent;
+              if(/free\s*diffuser/i.test(t)){const el=w.currentNode.parentElement;
+                const cs=getComputedStyle(el);
+                hits.push({tag:el.tagName,cls:String(el.className).slice(0,60),
+                  vis:cs.display!=='none'&&cs.visibility!=='hidden',
+                  inRoot:!!el.closest('#root'),inDrawer:!!el.closest('#cart-drawer'),
+                  section:(el.closest('.shopify-section')||{}).id||'',
+                  txt:t.trim().slice(0,110)});}}
+            return hits;});
+          console.log('LOCATE85 '+JSON.stringify(r));
           await b.close();})();
           EOS

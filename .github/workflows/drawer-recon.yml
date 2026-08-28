@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 91 — fetch existing kits app/css files for deploy port
+# run 92 — fetch vendor+assets for deploy
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -17,13 +17,10 @@ jobs:
         run: |
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
           mkdir -p lp-factory/pages/kits-lp/live
-          curl -sSL "$B/mc-lp-kits-app.js?v=1786844126" -o lp-factory/pages/kits-lp/live/mc-lp-kits-app.js
-          curl -sSL "$B/mc-lp-kits.css?v=1786844126"   -o lp-factory/pages/kits-lp/live/mc-lp-kits.css
-          curl -sSL "$B/mc-kits-app.js?v=1785969017"   -o lp-factory/pages/kits-lp/live/mc-kits-app.js
-          curl -sSL "$B/mc-kits.css?v=1785966770"      -o lp-factory/pages/kits-lp/live/mc-kits.css
+          curl -sSL "$B/mc-lp-diffuser-assets.js?v=1783553191" -o lp-factory/pages/kits-lp/live/mc-lp-diffuser-assets.js
           ls -la lp-factory/pages/kits-lp/live/
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r91: existing kits live files for deploy port"
+          git commit -m "recon r92: diffuser assets map"
           git push

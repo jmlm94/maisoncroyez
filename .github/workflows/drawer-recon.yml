@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 90 — fetch brand woff2 fonts for artifact embed
+# run 91 — fetch existing kits app/css files for deploy port
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -15,14 +15,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch and commit
         run: |
-          mkdir -p lp-factory/pages/kits-lp/fonts
-          for f in unna-400 unna-400i unna-700 unna-700i outfit-400 outfit-700 bvp-400 bvp-500 bvp-600; do
-            curl -sSL "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-$f.woff2?v=1784231284" -o /tmp/$f.woff2
-            file /tmp/$f.woff2
-            base64 -w0 /tmp/$f.woff2 > lp-factory/pages/kits-lp/fonts/$f.b64
-          done
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          mkdir -p lp-factory/pages/kits-lp/live
+          curl -sSL "$B/mc-lp-kits-app.js?v=1786844126" -o lp-factory/pages/kits-lp/live/mc-lp-kits-app.js
+          curl -sSL "$B/mc-lp-kits.css?v=1786844126"   -o lp-factory/pages/kits-lp/live/mc-lp-kits.css
+          curl -sSL "$B/mc-kits-app.js?v=1785969017"   -o lp-factory/pages/kits-lp/live/mc-kits-app.js
+          curl -sSL "$B/mc-kits.css?v=1785966770"      -o lp-factory/pages/kits-lp/live/mc-kits.css
+          ls -la lp-factory/pages/kits-lp/live/
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/fonts
-          git commit -m "recon r90: brand fonts base64 for artifact embed"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r91: existing kits live files for deploy port"
           git push

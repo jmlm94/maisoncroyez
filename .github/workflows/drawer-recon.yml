@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 87 — final homepage sweep verify after 16:00 flip
+# run 88 — fetch intentions image for artifact embed
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,30 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify
+      - name: Fetch and commit
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:412,height:823}});
-          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-          await p.goto('https://maisoncroyez.com/?utm_campaign=hm87',{waitUntil:'load',timeout:90000});
-          await p.waitForTimeout(6000);
-          const r=await p.evaluate(()=>{
-            const v1=[];
-            document.querySelectorAll('a[href]').forEach(a=>{
-              const h=a.getAttribute('href')||'';
-              if(h.indexOf('build-your-kit')>-1&&h.indexOf('build-your-kit-2')===-1)
-                v1.push({label:(a.textContent||'').trim().slice(0,40),href:h.slice(0,80)});
-            });
-            const body=document.body.textContent;
-            const foot=[...document.querySelectorAll('a[href]')].find(a=>/Get Your FREE Scents/i.test(a.textContent||''));
-            return {v1anchors:v1,
-              shopNow:body.indexOf('Shop Now')>-1,
-              onePayment:body.indexOf('One payment. No subscription, ever.')>-1,
-              subscribeNowGone:body.indexOf('Subscribe Now')===-1,
-              footerLink:foot?foot.getAttribute('href'):null};});
-          console.log('FINAL87 '+JSON.stringify({r,errs}));
-          await b.close();})();
-          EOS
+          curl -sSL "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-intentions-v2.jpg?v=1785962123&width=900" -o /tmp/intent.jpg
+          ls -la /tmp/intent.jpg
+          file /tmp/intent.jpg
+          mkdir -p lp-factory/pages/kits-lp
+          base64 -w0 /tmp/intent.jpg > lp-factory/pages/kits-lp/intentions-v2.b64
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/intentions-v2.b64
+          git commit -m "recon r88: intentions image base64 for artifact embed"
+          git push

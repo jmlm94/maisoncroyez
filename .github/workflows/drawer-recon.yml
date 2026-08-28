@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 92 — fetch vendor+assets for deploy
+# run 93 — origin gate: verify new mc-kits files on CDN
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,14 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch and commit
+      - name: Verify
         run: |
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          mkdir -p lp-factory/pages/kits-lp/live
-          curl -sSL "$B/mc-lp-diffuser-assets.js?v=1783553191" -o lp-factory/pages/kits-lp/live/mc-lp-diffuser-assets.js
-          ls -la lp-factory/pages/kits-lp/live/
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r92: diffuser assets map"
-          git push
+          R=$RANDOM$RANDOM
+          curl -sSL "$B/mc-kits-app.js?v=oc$R" -o /tmp/app.js
+          curl -sSL "$B/mc-kits.css?v=oc$R" -o /tmp/app.css
+          echo "APP bytes: $(wc -c < /tmp/app.js)"
+          echo "CSS bytes: $(wc -c < /tmp/app.css)"
+          echo "m_title: $(grep -o 'Six-Month Transformation Program' /tmp/app.js | wc -l)"
+          echo "m_ritualvar: $(grep -o '45728132202605' /tmp/app.js | wc -l)"
+          echo "m_fbq: $(grep -o 'AddToCart' /tmp/app.js | wc -l)"
+          echo "m_prelude: $(grep -o 'mc-kits-root' /tmp/app.js | wc -l)"
+          echo "m_plan: $(grep -o 'Renew & Save (15% off next refill)' /tmp/app.js | wc -l)"
+          echo "m_css1: $(grep -o 'gm-oneline' /tmp/app.css | wc -l)"
+          echo "m_css2: $(grep -o 'kit-gift' /tmp/app.css | wc -l)"
+          echo "m_cssfont: $(grep -o 'mc-lp-f-unna-700' /tmp/app.css | wc -l)"

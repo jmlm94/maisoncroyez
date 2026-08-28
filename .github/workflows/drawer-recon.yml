@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 93 — origin gate: verify new mc-kits files on CDN
+# run 94 — live verify: six-month program product page
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -15,17 +15,37 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          R=$RANDOM$RANDOM
-          curl -sSL "$B/mc-kits-app.js?v=oc$R" -o /tmp/app.js
-          curl -sSL "$B/mc-kits.css?v=oc$R" -o /tmp/app.css
-          echo "APP bytes: $(wc -c < /tmp/app.js)"
-          echo "CSS bytes: $(wc -c < /tmp/app.css)"
-          echo "m_title: $(grep -o 'Six-Month Transformation Program' /tmp/app.js | wc -l)"
-          echo "m_ritualvar: $(grep -o '45728132202605' /tmp/app.js | wc -l)"
-          echo "m_fbq: $(grep -o 'AddToCart' /tmp/app.js | wc -l)"
-          echo "m_prelude: $(grep -o 'mc-kits-root' /tmp/app.js | wc -l)"
-          echo "m_plan: $(grep -o 'Renew & Save (15% off next refill)' /tmp/app.js | wc -l)"
-          echo "m_css1: $(grep -o 'gm-oneline' /tmp/app.css | wc -l)"
-          echo "m_css2: $(grep -o 'kit-gift' /tmp/app.css | wc -l)"
-          echo "m_cssfont: $(grep -o 'mc-lp-f-unna-700' /tmp/app.css | wc -l)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          const beacons=[];p.on('request',r=>{const u=r.url();if(u.indexOf('facebook.com/tr')>-1)beacons.push(u.slice(0,160));});
+          let cartAdd=null;p.on('response',async r=>{if(r.url().indexOf('/cart/add.js')>-1)cartAdd=r.status();});
+          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx94',{waitUntil:'load',timeout:90000});
+          await p.waitForTimeout(9000);
+          const r1=await p.evaluate(()=>{
+            const q=s=>document.querySelector(s);const t=s=>(q(s)?q(s).textContent.trim().replace(/\s+/g,' '):null);
+            return {
+              rootMounted: !!q('#root') && q('#root').children.length>0,
+              h1: t('h1') ? t('h1').slice(0,70) : null,
+              announce: t('.announce') ? t('.announce').slice(0,60) : null,
+              tiers: document.querySelectorAll('.kitcard').length,
+              tier1: t('.kitcard') ? t('.kitcard').slice(0,120) : null,
+              atc: t('.btn.atc') ? t('.btn.atc').slice(0,70) : null,
+              pick: (document.body.textContent.match(/\d+\/\d+ selected/)||[null])[0],
+              overflow: document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              headerVisible: (()=>{const h=document.querySelector('header, .header, #shopify-section-header, [id*=header]'); return h?getComputedStyle(h).display!=='none':null;})(),
+              themePriceHidden: (()=>{const e=document.querySelector('.product-info, product-info, .product__info-wrapper'); return e?getComputedStyle(e).display==='none':'absent';})(),
+            };});
+          console.log('R94A '+JSON.stringify(r1));
+          await p.evaluate(()=>{const e=document.querySelector('.btn.atc'); if(e) e.click();});
+          await p.waitForTimeout(6000);
+          const r2=await p.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            return { drawer: d?(d.hasAttribute('open')||getComputedStyle(d).display!=='none'):null, url: location.pathname };});
+          const fbATC=beacons.filter(u=>u.indexOf('AddToCart')>-1).length;
+          console.log('R94B '+JSON.stringify({cartAdd, drawer:r2, fbPageView:beacons.length>0, fbATC, errs}));
+          await b.close();})();
+          EOS

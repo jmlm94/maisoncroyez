@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 130 — verify WOW announcement bar text + blush styling post 23:00Z dr1 flip
+# run 131 — page-speed QA baseline: 3 throttled loads of /pages/six-month-program with full metrics
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -19,27 +19,34 @@ jobs:
           npx playwright install --with-deps chromium > /dev/null 2>&1
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/?utm_campaign=diag130',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          const d=await p.evaluate(()=>{
-            const sec=document.querySelector('.shopify-section--announcement-bar');
-            if(!sec) return {found:false};
-            const par=sec.querySelector('p');
-            const cs=getComputedStyle(par||sec);
-            const scs=getComputedStyle(sec);
-            return {found:true, text:par?par.textContent.trim():null,
-              bg:scs.backgroundColor, bgImage:scs.backgroundImage, color:cs.color,
-              styleTag:!!document.getElementById('mc-banner-style')};});
-          console.log('R130A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-          await p.evaluate(()=>window.scrollTo(0,0));
-          await p.waitForTimeout(500);
-          await p.screenshot({path:'lp-factory/pages/home/live/home-top.png'});
+          const b=await chromium.launch();
+          for (let run=1; run<=3; run++){
+            const ctx=await b.newContext({viewport:{width:390,height:844}});
+            const p=await ctx.newPage();
+            const cdp=await ctx.newCDPSession(p);
+            await cdp.send('Network.enable');
+            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            await p.addInitScript(()=>{
+              window.__lcp=0; try{new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});}catch(e){}
+              window.__app=0; new MutationObserver((m,o)=>{if(!window.__app && document.querySelector('.kitgrid')){window.__app=performance.now();o.disconnect();}}).observe(document.documentElement,{childList:true,subtree:true});
+            });
+            const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
+            await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=speed131r'+run,{waitUntil:'load',timeout:120000}).catch(e=>errs.push('nav:'+String(e).slice(0,80)));
+            await p.waitForTimeout(15000);
+            const d=await p.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const fcp=(performance.getEntriesByType('paint').find(e=>e.name==='first-contentful-paint')||{}).startTime||0;
+              const res=performance.getEntriesByType('resource');
+              const tot=res.reduce((a,r)=>a+(r.transferSize||0),0);
+              const ours={}; ['mc-6mp.css','mc-lp-vendor.js','mc-lp-diffuser-assets.js','mc-6mp-app.js','mc-drawer.js'].forEach(n=>{
+                const r=res.find(x=>x.name.includes(n)); if(r) ours[n]={kb:Math.round((r.transferSize||0)/102.4)/10,start:Math.round(r.startTime),dur:Math.round(r.duration)};});
+              const top=res.map(r=>({n:r.name.replace(/\?.*$/,'').split('/').pop().slice(0,40)||r.initiatorType,kb:Math.round((r.transferSize||0)/102.4)/10,start:Math.round(r.startTime),dur:Math.round(r.duration)})).sort((a,b)=>b.kb-a.kb).slice(0,10);
+              return {ttfb:Math.round(nav.responseStart||0),dcl:Math.round(nav.domContentLoadedEventEnd||0),load:Math.round(nav.loadEventEnd||0),
+                fcp:Math.round(fcp),lcp:Math.round(window.__lcp||0),appRender:Math.round(window.__app||0),
+                nRes:res.length,totalKB:Math.round(tot/1024),docKB:Math.round((nav.transferSize||0)/102.4)/10,ours,top};});
+            console.log('R131_RUN'+run+' '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+            await ctx.close();
+          }
           await b.close();})();
           EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/home/live
-          git commit -m "recon r130: WOW banner live verify" || echo "no changes"
-          git push || echo "no push"

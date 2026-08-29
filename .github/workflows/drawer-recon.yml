@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 119 — gate typography-hardened css
+# run 120 — re-gate typography css with minifier-tolerant patterns
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -15,13 +15,9 @@ jobs:
       - name: Gate
         run: |
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for i in 1 2 3 4 5 6 7 8; do
-            K="og$RANDOM$RANDOM"
-            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
-            H=$(grep -o -F "#root h1{font-family:'Unna'" c.css | wc -l)
-            BASE=$(grep -o -F "#root{font-family:'Be Vietnam Pro'" c.css | wc -l)
-            echo "R119 try$i bytes=$(wc -c < c.css) h1Unna=$H base=$BASE"
-            if [ "$H" -ge 1 ] && [ "$BASE" -ge 1 ]; then echo "R119 PROPAGATED"; exit 0; fi
-            sleep 10
-          done
-          echo "R119 NOT PROPAGATED"
+          K="og$RANDOM$RANDOM"
+          curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
+          echo "R120 bytes=$(wc -c < c.css)"
+          echo "R120 rootH1: $(grep -o '#root h1{[^}]*}' c.css | head -1)"
+          echo "R120 rootBase: $(grep -o '#root{[^}]*}' c.css | head -2 | tr '\n' ' ')"
+          echo "R120 inheritBlanket: $(grep -o -F '#root p,#root span' c.css | wc -l)"

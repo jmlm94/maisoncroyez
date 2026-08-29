@@ -10,7 +10,15 @@ try {
       fbq("init", "980908600592309");
       fbq("track", "PageView");
     }
-    setTimeout(mcPixel, 1500);
+    /* defer pixel out of the LCP bandwidth window: first interaction, or load+500ms, or 8s cap */
+    var armed = 0;
+    function arm() { if (armed) return; armed = 1; mcPixel(); }
+    ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (ev) {
+      window.addEventListener(ev, arm, { once: true, passive: true });
+    });
+    if (document.readyState === "complete") setTimeout(arm, 500);
+    else window.addEventListener("load", function () { setTimeout(arm, 500); }, { once: true });
+    setTimeout(arm, 8000);
   })();
 } catch (e) {}
 /* product-page host: mount #root inside #mc-kits-root; hide the theme product
@@ -588,21 +596,34 @@ const Header = () => html`
 
 function Gallery() {
   const [idx, setIdx] = useState(0);
+  /* slides 2+ stay src-less until load+300ms / first gallery interaction / 8s cap,
+     so they don't fight the hero image for bandwidth in the LCP window */
+  const [late, setLate] = useState(false);
+  useEffect(() => {
+    let t1, t2;
+    const a = () => setLate(true);
+    if (document.readyState === "complete") t1 = setTimeout(a, 300);
+    else window.addEventListener("load", () => { t1 = setTimeout(a, 300); }, { once: true });
+    t2 = setTimeout(a, 8000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
   /* live page loads straight from the store CDN; preview embeds copies */
   const emb = (typeof MC_GALLERY_EMBED !== "undefined") ? MC_GALLERY_EMBED : {};
   const key = (f) => f.split("?")[0].replace(".png", "");
   const resolve = (f) => f.startsWith("slot:")
     ? (CONFIG.images[f.slice(5)] || {}).src || ""
-    : (emb[key(f)] || (CDNIMG + f + "&width=900"));
+    : (emb[key(f)] || (CDNIMG + f + "&width=780"));
   const urls = CONFIG.gallery.map(resolve);
   const trackRef = useRef(null);
   const go = (n) => {
+    setLate(true);
     const el = trackRef.current;
     const i = Math.max(0, Math.min(urls.length - 1, n));
     if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
     setIdx(i);
   };
   const onScroll = (e) => {
+    setLate(true);
     const el = e.target;
     const n = Math.round(el.scrollLeft / el.clientWidth);
     if (n !== idx) setIdx(n);
@@ -612,8 +633,8 @@ function Gallery() {
       <div class="gal-track" ref=${trackRef} onScroll=${onScroll}>
         ${urls.map((u, i) => html`
           <div class="gal-slide ph sq" key=${i}>
-            <img class="simg" src=${u} alt=${"Maison Croyez diffuser " + (i + 1)}
-              decoding="async" loading=${i ? "lazy" : "eager"} fetchpriority=${i ? "auto" : "high"}/>
+            ${(i === 0 || late) ? html`<img class="simg" src=${u} alt=${"Maison Croyez diffuser " + (i + 1)}
+              decoding="async" loading=${i ? "lazy" : "eager"} fetchpriority=${i ? "auto" : "high"}/>` : null}
           </div>`)}
       </div>
       <button class="gal-arw prev" onClick=${() => go(idx - 1)} aria-label="Previous image">

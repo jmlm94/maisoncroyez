@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 95 — final live verify after run-once guards + pixel fallback
+# run 96 — final live verify: pixel in app file (kx3)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -26,7 +26,7 @@ jobs:
           const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
           const beacons=[];p.on('request',r=>{const u=r.url();if(u.indexOf('facebook.com/tr')>-1)beacons.push(u);});
           let cartAdd=null;p.on('response',async r=>{if(r.url().indexOf('/cart/add.js')>-1)cartAdd=r.status();});
-          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx95',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx96',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(12000);
           const r1=await p.evaluate(()=>{
             const q=s=>document.querySelector(s);const t=s=>(q(s)?q(s).textContent.trim().replace(/\s+/g,' '):null);

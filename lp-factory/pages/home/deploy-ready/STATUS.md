@@ -55,3 +55,8 @@ Sitewide banner (theme announcement-bar section, via mc-drawer.js gid 2965136644
   anytime in your first 6 months." (was 30 days).
 - Style -> brand blush #ECDFDE, gradient removed, rosewood #5B4437 600-weight text.
 Both files hour-keyed (hm3-/dr1-): live at the 22:00 UTC flip. Verify r127 after flip.
+
+## Banner copy swap (2026-08-29, owner request)
+- Sitewide announcement bar text -> '8 out of 10 customers said "WOW" as soon as they
+  turned their diffuser on for the first time.' (style unchanged: blush #ECDFDE,
+  rosewood text). Via mc-drawer.js (gid 29651366445165); live at the 23:00 UTC dr1 flip.

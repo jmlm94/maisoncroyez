@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 110 — post hour-flip verify: homepage CTAs + sitewide drawer copy
+# run 111 — origin gate: announcement-move app + css propagation
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,49 +12,21 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          await p.goto('https://maisoncroyez.com/?utm_campaign=diag110',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          const home=await p.evaluate(()=>{
-            const links=[...document.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')||'');
-            return {
-              sixMonth: links.filter(h=>h.indexOf('six-month-program')>-1).length,
-              oldKit: links.filter(h=>h.indexOf('build-your-kit-2')>-1).length,
-              heroBtn: (()=>{const a=[...document.querySelectorAll('a,button')].find(e=>/Start Your Program/i.test(e.textContent));return a?a.textContent.trim().slice(0,40):null})(),
-              claimOld: [...document.querySelectorAll('a,button')].filter(e=>/Claim Your Free Scents/i.test(e.textContent)).length
-            };});
-          console.log('R110A home '+JSON.stringify(home));
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag110b',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          await p.evaluate(async ()=>{
-            await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45728132202605,quantity:1,properties:{'Scents':'QA drawer check'}}]})});
-            document.dispatchEvent(new CustomEvent('cart:refresh'));
-            const d=document.getElementById('cart-drawer'); if(d && d.showModal){try{d.showModal()}catch(e){}} if(d){d.removeAttribute('hidden');}
-          });
-          await p.waitForTimeout(3500);
-          const dr=await p.evaluate(()=>{
-            const d=document.getElementById('cart-drawer');
-            const t=d?d.querySelector('.mc-testi'):null;
-            const tr=d?d.querySelector('.mc-trust'):null;
-            const urg=d?[...d.querySelectorAll('p')].find(x=>/mystery scent/i.test(x.textContent)):null;
-            return {
-              drawer: !!d,
-              testi: t?t.textContent.replace(/\s+/g,' ').slice(0,180):null,
-              circle: t?/Circle member|subscription|30-day/i.test(t.textContent):null,
-              trust: tr?tr.textContent.replace(/\s+/g,' ').slice(0,120):null,
-              urgency: urg?urg.textContent.replace(/\s+/g,' ').slice(0,120):null
-            };});
-          console.log('R110B drawer '+JSON.stringify(dr));
-          await p.evaluate(async ()=>{
-            const c=await (await fetch('/cart.js')).json();
-            for (const it of c.items){ await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(it.key),quantity:0})}); }
-          });
-          console.log('R110C cart cleaned');
-          await b.close();})();
-          EOS
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            K="og$RANDOM$RANDOM"
+            curl -sSL "$B/mc-6mp-app.js?v=$K" -o a.js
+            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
+            GAL=$(grep -o -F 'gal-col' a.js | wc -l)
+            PROOF=$(grep -o -F '92% of our customers' a.js | wc -l)
+            CGAL=$(grep -o -F '.gal-col' c.css | wc -l)
+            echo "R111 try$i key=$K appBytes=$(wc -c < a.js) galCol=$GAL microProofStr=$PROOF cssBytes=$(wc -c < c.css) cssGalCol=$CGAL"
+            if [ "$GAL" -ge 1 ] && [ "$CGAL" -ge 1 ]; then
+              echo "R111 PROPAGATED"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "R111 NOT PROPAGATED"

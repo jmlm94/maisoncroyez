@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 97 — pixel diagnosis on product page
+# run 98 — live verify kx4 (no subscription toggle)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,20 +20,21 @@ jobs:
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const reqs=[];p.on('request',r=>{const u=r.url();if(/facebook|fbevents|connect\.facebook/.test(u))reqs.push(u.slice(0,110));});
-          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx97',{waitUntil:'domcontentloaded',timeout:90000});
+          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          let cartAdd=null;p.on('response',async r=>{if(r.url().indexOf('/cart/add.js')>-1)cartAdd=r.status();});
+          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx98',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(10000);
-          const d=await p.evaluate(()=>({
-            fbqType: typeof window.fbq,
-            fbqLoaded: window.fbq ? !!window.fbq.loaded : null,
-            fbqQueueLen: window.fbq && window.fbq.queue ? window.fbq.queue.length : null,
-            trekkie: typeof window.ShopifyAnalytics,
-            privacyApi: typeof window.Shopify !== 'undefined' && !!(window.Shopify.customerPrivacy),
-            marketingAllowed: (window.Shopify && window.Shopify.customerPrivacy && window.Shopify.customerPrivacy.marketingAllowed) ? window.Shopify.customerPrivacy.marketingAllowed() : 'n/a',
-            analyticsAllowed: (window.Shopify && window.Shopify.customerPrivacy && window.Shopify.customerPrivacy.analyticsProcessingAllowed) ? window.Shopify.customerPrivacy.analyticsProcessingAllowed() : 'n/a',
-            saleOfDataRegion: (window.Shopify && window.Shopify.customerPrivacy && window.Shopify.customerPrivacy.saleOfDataRegion !== undefined) ? window.Shopify.customerPrivacy.saleOfDataRegion : 'n/a',
-            mcGuard: !!window.__MC_KX_APP__,
+          const r1=await p.evaluate(()=>({
+            rootMounted: !!document.querySelector('#root') && document.querySelector('#root').children.length>0,
+            togGone: !document.querySelector('.modes') && document.body.textContent.indexOf('if you subscribe')===-1,
+            renewGone: document.body.textContent.indexOf('Renews automatically')===-1,
+            tiers: document.querySelectorAll('.kitcard').length,
+            atc: (document.querySelector('.btn.atc')||{textContent:''}).textContent.trim().replace(/\s+/g,' ').slice(0,55),
+            overflow: document.documentElement.scrollWidth-document.documentElement.clientWidth,
           }));
-          console.log('R97 '+JSON.stringify({d, fbRequests: reqs.slice(0,6), nReqs: reqs.length}));
+          await p.evaluate(()=>{const e=document.querySelector('.btn.atc'); if(e) e.click();});
+          await p.waitForTimeout(5000);
+          const drawer=await p.evaluate(()=>{const d=document.getElementById('cart-drawer');return d?(d.hasAttribute('open')||getComputedStyle(d).display!=='none'):null;});
+          console.log('R98 '+JSON.stringify({...r1, cartAdd, drawer, errs}));
           await b.close();})();
           EOS

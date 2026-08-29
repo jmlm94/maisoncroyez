@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 128 — gate tier-grid files
+# run 129 — live verify tier grid deploy (key p6m11): visuals + ATC smoke
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,19 +12,45 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for i in 1 2 3 4 5 6 7 8; do
-            K="og$RANDOM$RANDOM"
-            curl -sSL "$B/mc-6mp-app.js?v=$K" -o a.js
-            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
-            AG=$(grep -o -F 'kg-card' a.js | wc -l)
-            AB=$(grep -o -F 'SUPPLY PER DIFFUSER' a.js | wc -l)
-            OLDROW=$(grep -o -F 'kit-row' a.js | wc -l)
-            CG=$(grep -o -F '.kitgrid' c.css | wc -l)
-            echo "R128 try$i kgCard=$AG banner=$AB oldRow=$OLDROW cssGrid=$CG appBytes=$(wc -c < a.js) cssBytes=$(wc -c < c.css)"
-            if [ "$AG" -ge 1 ] && [ "$AB" -ge 1 ] && [ "$CG" -ge 1 ]; then echo "R128 PROPAGATED"; exit 0; fi
-            sleep 10
-          done
-          echo "R128 NOT PROPAGATED"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag129',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const d=await p.evaluate(()=>{
+            const cs=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).display:null;};
+            return {grid:cs('.kitgrid'), card:cs('.kg-card'), cards:document.querySelectorAll('.kg-card').length,
+              banner:(document.querySelector('.supply-banner')||{}).textContent,
+              extra:(document.querySelector('.supply-extra')||{}).textContent,
+              tags:[...document.querySelectorAll('.kg-tag')].map(e=>e.textContent),
+              days:[...document.querySelectorAll('.kg-day')].map(e=>e.textContent),
+              oldDetails:!!document.querySelector('.kg-details'), oldRows:document.querySelectorAll('.kit-row').length};});
+          console.log('R129A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.evaluate(()=>{const e=document.querySelector('.plansel-title'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(700);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
+          // select Home Kit, ATC smoke
+          await p.evaluate(()=>{const c=document.querySelectorAll('.kg-card')[1]; if(c) c.click();});
+          await p.waitForTimeout(600);
+          const atc=await p.evaluate(async ()=>{
+            const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45644596969581,quantity:1,properties:{'Scents':'QA grid check'}}]})});
+            const ok=r.status;
+            const c=await (await fetch('/cart.js')).json();
+            const price=c.items[0]?c.items[0].price:null;
+            for (const it of c.items){ await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(it.key),quantity:0})}); }
+            return {addStatus:ok,price};});
+          console.log('R129B atc '+JSON.stringify(atc));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png'});
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r129: tier grid live verify" || echo "no changes"
+          git push || echo "no push"

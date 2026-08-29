@@ -98,3 +98,15 @@ against theme CSS; the artifact has no theme cascade.
 - Verified live (recon r112 + screenshots): announcement below gallery at 390px,
   full-bleed, 0 rating elements, flex layout intact, 0 page errors.
 - Artifact 959573c9 (MC LP Variant Draft) republished with the same changes.
+
+## Announcement one-liner + kit-card spacing polish (2026-08-29, owner request)
+- Announcement text shortened: "Founder's Offer: +1 free mystery scent with your kit."
+  Forced to one line (nowrap + clamp(.72rem,3.5vw,.9rem)); bar bottom padding 11px -> 21px.
+- Kit tier cards decompressed: image 74 -> 88px, .kit-txt line gap 3 -> 5px, includes line
+  demoted to 500-weight muted (.84rem), coverage line .76rem muted, price row margin-top
+  5px / gap 10px, card padding 17px 16px 16px, gap between cards 14 -> 16px, plan-name
+  1.14rem / line-height 1.22.
+- mc-6mp-app.js + mc-6mp.css updated (origin-gated r113); page key p6m4 -> p6m5-b53588d.
+- Verified live (recon r114 screenshots @390px): one-line bar with extra bottom padding,
+  roomier cards, layout intact.
+- Artifact 959573c9 republished to match.

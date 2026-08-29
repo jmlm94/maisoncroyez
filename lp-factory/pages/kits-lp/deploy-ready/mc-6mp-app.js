@@ -114,7 +114,7 @@ const CONFIG = {
 
   announcement: {
     urgency: { confirmed: false, text: "" },
-    text: "Founder\u2019s Offer: Order today and we\u2019ll add one (1) mystery scent to your kit, free.",
+    text: "Founder\u2019s Offer: +1 free mystery scent with your kit.",
     cta: "",
   },
 

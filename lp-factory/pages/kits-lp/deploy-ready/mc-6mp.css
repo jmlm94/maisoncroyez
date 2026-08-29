@@ -1456,6 +1456,21 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .gal-col .adv-announce{margin-top:0}
 @media(max-width:899px){.pdp-buy .gal-col .gal{margin-bottom:0}.gal-col .adv-announce{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-bottom:4px}}
 @media(min-width:860px){.gal-col .adv-announce{margin-top:12px;border-radius:10px}}
+/* polish: announcement one-liner + roomier kit cards */
+.adv-announce{padding:11px 15px 21px}
+.adv-announce-in{flex-wrap:nowrap}
+.adv-announce .atext{white-space:nowrap;font-size:clamp(.72rem,3.5vw,.9rem);letter-spacing:.02em}
+.kit-row{gap:14px}
+.kit-img{width:88px;height:88px;flex:0 0 88px;border-radius:14px}
+.kit-txt{gap:5px}
+.kitcard .plan-name{font-size:1.14rem;line-height:1.22}
+.kit-line{font-weight:500;font-size:.84rem;color:var(--ink-soft)}
+.kit-cover{font-size:.76rem;color:var(--ink-soft);opacity:.85}
+.kit-price-row{margin-top:5px;gap:10px}
+.kit-shoppay{margin-top:2px}
+.plan{padding:17px 16px 16px}
+.plansel{gap:16px}
+.plansel-title{margin-bottom:12px}
 
 /* theme-cascade hardening: re-assert display under #root (beats theme .prose span rules) */
 #root img{display:block !important}

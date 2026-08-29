@@ -58,3 +58,30 @@ QA3 build-your-kit-2: **FAIL — page is broken/mischarging**: still advertises
   to /pages/six-month-program (redirect gid 356090544237).
 - Verified (recon r103): redirect 301 live; header/footer menus updated, zero build-your-kit-2
   links on rendered pages; repointed home app confirmed on CDN (4 new links, 0 old).
+
+## Mobile layout breakage fixed (2026-08-29, reported via owner screen recording)
+Symptom: on live /pages/six-month-program the tier/scent card layouts collapsed
+(prices glued "$199$239.75", stepper vertical, tier image stacked). Reproduced in CI
+chromium; local harness rendered fine.
+Root cause (recon r105-r107): the app renders its layout rows as <span>s (required:
+tier cards are <button>s, phrasing content only). The theme's page template wraps the
+page body in .prose, and a theme rule targeting spans there (specificity 0,1,1)
+out-competes our single-class rules like .kit-txt{display:flex} (0,1,0), killing every
+flex container that is a span. Only compound-selector rules (e.g. .picker .pick-row)
+survived. A secondary find: the fixed CDN key p6m1-472a4f6 had also cached a stale
+copy of mc-6mp.css (78,014 bytes vs current 78,009) — keys are cached forever at
+first request, so the key was bumped as part of the fix.
+Fix: appended a "theme-cascade hardening" block to mc-6mp.css — for every rule that
+sets display, re-assert it as `#root <selector>{display:<value> !important}` (209
+top-level rules + 3 media-query rules, generated from the source; id selector beats
+any theme class rule). Verified in an adversarial local harness (.prose span
+{display:inline-block} injected) before deploy.
+- mc-6mp.css (gid 29842134696045) updated: source 97,321 bytes, minified 83,595.
+- Page loader key bumped p6m1-472a4f6 -> p6m3-593d6c2 (p6m2-4a69f1f was an
+  intermediate bump before the cascade root cause was found).
+- Verified live (recon r109): kit-row/kit-txt/kit-price-row/pick-row/pick-txt/pick-qty
+  all compute flex at 390px, 0 page errors, screenshots match approved artifact;
+  ATC smoke: /cart/add.js 200, Ritual Kit $199.00, test line removed after check.
+- Repo deploy-ready/mc-6mp.css now carries the hardened source.
+Note: the artifact draft is unchanged on purpose — the hardening is live-only armor
+against theme CSS; the artifact has no theme cascade.

@@ -1451,3 +1451,217 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 .price-row .supply-badge{font-size:.69rem}
 .gm-head.gm-oneline{white-space:nowrap;font-size:clamp(.72rem,3.55vw,1.1rem);letter-spacing:.03em}
+
+/* theme-cascade hardening: re-assert display under #root (beats theme .prose span rules) */
+#root img{display:block !important}
+#root svg{display:block !important}
+#root .section-head{display:flex !important}
+#root .btn{display:flex !important}
+#root .ph{display:flex !important}
+#root .emoji{display:inline-block !important}
+#root .chip{display:inline-flex !important}
+#root .flag{display:inline-block !important}
+#root .dots{display:flex !important}
+#root .rail{display:flex !important}
+#root .rail::-webkit-scrollbar{display:none !important}
+#root .hdr{display:flex !important}
+#root .wordmark{display:flex !important}
+#root .seclabel{display:flex !important}
+#root .hero .wrap{display:flex !important}
+#root .hero .prooflines{display:flex !important}
+#root .hero .prooflines li{display:flex !important}
+#root .badge-strip{display:flex !important}
+#root .badge-strip .b{display:flex !important}
+#root .hero .freechip .big{display:block !important}
+#root .benefits .grid{display:grid !important}
+#root .benefits .cell{display:flex !important}
+#root .benefits .ic{display:flex !important}
+#root .tcard{display:flex !important}
+#root .tcard .tbody{display:flex !important}
+#root .tcard .trow{display:flex !important}
+#root .tcard .ttags{display:flex !important}
+#root .minicard{display:flex !important}
+#root .tl{display:flex !important}
+#root .tl .num{display:flex !important}
+#root .tl .ic{display:flex !important}
+#root .howsteps{display:flex !important}
+#root .hstep{display:flex !important}
+#root .hstep .hnum{display:flex !important}
+#root .imap .igrid{display:grid !important}
+#root .icard{display:flex !important}
+#root .icard .irow{display:flex !important}
+#root .icard .chips{display:flex !important}
+#root .icard .plus{display:flex !important}
+#root .stat .fill{display:flex !important}
+#root .offer .ogrid{display:flex !important}
+#root .gallery .gbadge .big{display:block !important}
+#root .gallery .gquote b{display:block !important}
+#root .gallery .thumbs{display:flex !important}
+#root .buybox{display:flex !important}
+#root .buybox .includes .caps{display:block !important}
+#root .buybox .includes li{display:flex !important}
+#root .buybox .tagrow{display:flex !important}
+#root .kits{display:flex !important}
+#root .kit{display:flex !important}
+#root .kit .krow{display:flex !important}
+#root .kit .kchecks{display:flex !important}
+#root .kit .kchecks li{display:flex !important}
+#root .fragsel .fs-head{display:flex !important}
+#root .frag{display:flex !important}
+#root .frag .frow{display:flex !important}
+#root .frag .stepper{display:flex !important}
+#root .frag .stepper button{display:flex !important}
+#root .frag .fchips{display:flex !important}
+#root .urgency b{display:flex !important}
+#root .trust3{display:grid !important}
+#root .trust3 .t{display:flex !important}
+#root .founder .fgrid{display:flex !important}
+#root .origin .reasons{display:flex !important}
+#root .values .vgrid{display:flex !important}
+#root .values .v{display:flex !important}
+#root .values .vic{display:flex !important}
+#root .nogrid .ngrid{display:grid !important}
+#root .nogrid .n{display:flex !important}
+#root .nogrid .nic{display:flex !important}
+#root .rev .rhead{display:flex !important}
+#root .rev .avatar{display:flex !important}
+#root .gbadge{display:flex !important}
+#root .ugcstack{display:flex !important}
+#root .utest{display:flex !important}
+#root .ucard .play{display:flex !important}
+#root .ucard .play span{display:flex !important}
+#root .ucard .ubody{display:flex !important}
+#root .ucard .urow{display:flex !important}
+#root .steps3{display:flex !important}
+#root .steps3 .s{display:flex !important}
+#root .modecards{display:flex !important}
+#root .mode{display:flex !important}
+#root .mode .mrow{display:flex !important}
+#root .mode .mchips{display:flex !important}
+#root .ladder .rungs{display:flex !important}
+#root .ladder .rung{display:flex !important}
+#root .ladder .x{display:flex !important}
+#root .rung-top{display:flex !important}
+#root .faq .qbtn{display:flex !important}
+#root .faq .qbtn .plus{display:flex !important}
+#root .email form{display:flex !important}
+#root .footer .fnav{display:flex !important}
+#root .footer .pays{display:flex !important}
+#root .sticky{display:flex !important}
+#root .floatchip{display:flex !important}
+#root .floatchip .x{display:flex !important}
+#root .adv-announce-in{display:flex !important}
+#root .art-logo{display:block !important}
+#root .art-eyebrow-row{display:flex !important}
+#root .byline{display:flex !important}
+#root .byline-txt{display:flex !important}
+#root .split-grid{display:grid !important}
+#root .split-badge{display:flex !important}
+#root .com-head{display:flex !important}
+#root .com-card .avatar{display:flex !important}
+#root .pbadge{display:inline-flex !important}
+#root .callouts{display:flex !important}
+#root .pull cite{display:block !important}
+#root .art-bullets{display:flex !important}
+#root .grave{display:flex !important}
+#root .grave-row{display:flex !important}
+#root .grave-price{display:inline-block !important}
+#root .tl{display:flex !important}
+#root .tl-row{display:flex !important}
+#root .art-checks{display:flex !important}
+#root .art-checks li{display:flex !important}
+#root .fcards{display:flex !important}
+#root .fcard h3{display:flex !important}
+#root .math-grid{display:grid !important}
+#root .grave-rest{display:block !important}
+#root .pdp-hdr{display:flex !important}
+#root .gal-thumbs{display:flex !important}
+#root .gal-th img{display:block !important}
+#root .pdp-buy .buybox{display:flex !important}
+#root .price-row{display:flex !important}
+#root .offer-bullets{display:flex !important}
+#root .offer-bullets li{display:flex !important}
+#root .picker{display:flex !important}
+#root .pick{display:flex !important}
+#root .pick-txt{display:flex !important}
+#root .pick-chips{display:flex !important}
+#root .trust4{display:grid !important}
+#root .badge-band{display:flex !important}
+#root .pick-row{display:flex !important}
+#root .pick-ing{display:flex !important}
+#root .stack ul{display:flex !important}
+#root .sgrid{display:grid !important}
+#root .scard{display:flex !important}
+#root .trust-strip{display:flex !important}
+#root .angle-bullets{display:flex !important}
+#root .pick-ing::-webkit-scrollbar{display:none !important}
+#root .gal-track{display:flex !important}
+#root .gal-track::-webkit-scrollbar{display:none !important}
+#root .gal-arw{display:flex !important}
+#root .gal-dots{display:flex !important}
+#root .valstack{display:flex !important}
+#root .valstack .vrow{display:flex !important}
+#root .sel-bar{display:flex !important}
+#root .sel-dots{display:flex !important}
+#root .pick-qty{display:flex !important}
+#root .pick-qty .pq-b{display:flex !important}
+#root .offer-terms{display:flex !important}
+#root .term-row{display:flex !important}
+#root .term-ic{display:flex !important}
+#root .term-ic svg{display:block !important}
+#root .kit-row{display:flex !important}
+#root .kit-txt{display:flex !important}
+#root .pick-qty{display:flex !important}
+#root .pick-qty button{display:flex !important}
+#root .pick-love{display:inline-block !important}
+#root .booklet-obj{display:flex !important}
+#root .booklet-ph{display:flex !important}
+#root .booklet-txt{display:flex !important}
+#root .atc-proof .stars{display:block !important}
+#root .plan-pricecol{display:flex !important}
+#root .guar3{display:flex !important}
+#root .guar3 .g{display:flex !important}
+#root .qtysel{display:grid !important}
+#root .qopt{display:flex !important}
+#root .qopt .qicons{display:flex !important}
+#root .pick-qtyc{display:flex !important}
+#root .pqb{display:flex !important}
+#root .hiw{display:flex !important}
+#root .hiw-row{display:flex !important}
+#root .preterms .pt2{display:block !important}
+#root .offer-anchor .oa2{display:block !important}
+#root .valstack .vsub{display:block !important}
+#root .dayrate{display:flex !important}
+#root .plansel{display:flex !important}
+#root .plan{display:flex !important}
+#root .plan-head{display:flex !important}
+#root .plan ul{display:flex !important}
+#root .exitfeat{display:flex !important}
+#root .consent{display:flex !important}
+#root .pick-tags{display:flex !important}
+#root .pick-tags .tagpill{display:inline-flex !important}
+#root .usp3{display:flex !important}
+#root .usp3 .usp{display:flex !important}
+#root .usp3 .usp-ic{display:flex !important}
+#root .price-row .price{display:flex !important}
+#root .kit-supply{display:inline-block !important}
+#root .kit-pay4{display:block !important}
+#root .kit-renew{display:block !important}
+#root .modes{display:flex !important}
+#root .mode{display:flex !important}
+#root .mode-tx b{display:block !important}
+#root .mode-tx span{display:block !important}
+#root .rrow{display:flex !important}
+#root .program .chapters{display:flex !important}
+#root .chapter{display:flex !important}
+#root .ch-n{display:flex !important}
+#root .ch-tx b{display:block !important}
+#root .ch-tx span{display:block !important}
+#root .sample-tag{display:inline-block !important}
+#root .kit-price-row{display:flex !important}
+#root .pick-smells{display:block !important}
+#root .price-row .price{display:inline !important}
+#root .gm-shield{display:block !important}
+@media(min-width:960px){#root .offer .ogrid{display:grid !important}}
+@media(min-width:720px){#root .fcards{display:grid !important}}
+@media(min-width:860px){#root .pdp-buy .wrap{display:grid !important}}

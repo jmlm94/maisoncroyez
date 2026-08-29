@@ -110,3 +110,12 @@ against theme CSS; the artifact has no theme cascade.
 - Verified live (recon r114 screenshots @390px): one-line bar with extra bottom padding,
   roomier cards, layout intact.
 - Artifact 959573c9 republished to match.
+
+## Announcement spacing correction: padding -> margin (2026-08-29, owner clarification)
+- The 10px extra bottom space on the announcement bar is now OUTSIDE the bar:
+  .gal-col .adv-announce{padding:11px 15px;margin-bottom:10px} (two-class selector to
+  out-rank the earlier mobile relocation rule, whose 4px margin was also raised to 10px).
+- css-only change (origin-gated r115/r117 — first upload's single-class rule lost the
+  cascade, second upload fixed specificity); page key p6m5 -> p6m6 -> p6m7-a4b967c.
+- Verified live (recon r118): padding-bottom 11px, margin-bottom 10px, one-line text,
+  0 errors. Artifact 959573c9 republished to match.

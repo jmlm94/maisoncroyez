@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 137 — fetch preact+hooks+htm UMD builds and commit for vendor slimming
+# run 138 — origin gate: confirm mc-lp-vendor.js now serves the slim preact bundle
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,21 +12,12 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Fetch
+      - name: Gate
         run: |
-          mkdir -p lp-factory/pages/kits-lp/vendor-slim
-          cd lp-factory/pages/kits-lp/vendor-slim
-          curl -sL -o preact.min.js https://unpkg.com/preact@10.19.3/dist/preact.min.js
-          curl -sL -o hooks.umd.js https://unpkg.com/preact@10.19.3/hooks/dist/hooks.umd.js
-          curl -sL -o htm.umd.js https://unpkg.com/htm@3.1.1/dist/htm.js
-          ls -la
-          head -c 100 preact.min.js; echo
-          head -c 100 hooks.umd.js; echo
-          head -c 100 htm.umd.js; echo
-          cd ../../../..
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/vendor-slim
-          git commit -m "recon r137: preact/htm umd builds for vendor slimming" || echo "no changes"
-          git push || echo "no push"
+          U="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-vendor.js?v=og$RANDOM$RANDOM"
+          curl -s "$U" -o /tmp/v.js
+          echo "bytes=$(wc -c < /tmp/v.js)"
+          echo "preact=$(grep -c 'preactHooks' /tmp/v.js || true)"
+          echo "shim=$(grep -c 'createRoot' /tmp/v.js || true)"
+          echo "react=$(grep -c 'react.production' /tmp/v.js || true)"
+          gzip -c /tmp/v.js | wc -c

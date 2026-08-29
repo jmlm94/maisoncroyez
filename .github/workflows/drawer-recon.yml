@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 106 — compare fixed-key CSS vs fresh-key CSS; find which sheet live page uses
+# run 107 — verify layout fix after key bump to p6m2; save stale css for forensics
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,37 +13,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Probe
+      - name: Verify
         run: |
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -sSL "$B/mc-6mp.css?v=p6m1-472a4f6" -o fixed.css
-          curl -sSL "$B/mc-6mp.css?v=og$RANDOM" -o fresh.css
-          echo "R106A fixed bytes=$(wc -c < fixed.css) sha=$(sha256sum fixed.css | cut -c1-12)"
-          echo "R106A fresh bytes=$(wc -c < fresh.css) sha=$(sha256sum fresh.css | cut -c1-12)"
-          echo "R106A fixed kit-row: $(grep -o '\.kit-row{[^}]*}' fixed.css | head -1)"
-          echo "R106A fixed pick-qty: $(grep -o '\.pick-qty{[^}]*}' fixed.css | head -1)"
-          echo "R106A fixed kit-txt: $(grep -o '\.kit-txt{[^}]*}' fixed.css | head -1)"
-          curl -sSL "https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag106" -o page.html
-          echo "R106B loader keys: $(grep -o 'v=[a-z0-9$-]*' page.html | sort | uniq -c | tr '\n' ' ')"
-          grep -o 'mc-6mp[^"'"'"']*' page.html | sort -u | head -10
+          curl -sSL "$B/mc-6mp.css?v=p6m1-472a4f6" -o lp-factory/pages/kits-lp/live/mc-6mp.stale-p6m1.css
+          echo "R107A stale bytes=$(wc -c < lp-factory/pages/kits-lp/live/mc-6mp.stale-p6m1.css)"
+          curl -sSL "https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag107" -o page.html
+          echo "R107B page key: $(grep -o "p6m[0-9]-[a-z0-9]*" page.html | sort -u | tr '\n' ' ')"
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const cssResponses=[];
-          p.on('response',async r=>{ if(/mc-6mp\.css/.test(r.url())){ let len=0; try{len=(await r.body()).length}catch(e){} cssResponses.push({url:r.url(),status:r.status(),fromCache:r.request().timing()===null,len}); }});
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag106b',{waitUntil:'domcontentloaded',timeout:90000});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag107b',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(9000);
-          console.log('R106C cssResponses '+JSON.stringify(cssResponses));
-          const d=await p.evaluate(async ()=>{
-            const links=[...document.querySelectorAll('link[rel="stylesheet"]')].map(l=>l.href).filter(h=>/mc-6mp/.test(h));
-            const out={links,fetched:[]};
-            for (const h of links){ try{ const t=await (await fetch(h)).text(); out.fetched.push({href:h,bytes:t.length,kitRow:(t.match(/\.kit-row\{[^}]*\}/)||[null])[0],pickQty:(t.match(/\.pick-qty\{[^}]*\}/)||[null])[0]}); }catch(e){ out.fetched.push({href:h,err:String(e)}); } }
-            const el=document.querySelector('.kit-txt');
-            out.kitTxtDisplay=el?getComputedStyle(el).display:null;
-            out.kitTxtHTML=el?el.outerHTML.slice(0,160):null;
-            return out;});
-          console.log('R106D '+JSON.stringify(d));
+          const d=await p.evaluate(()=>{
+            const cs=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).display:null;};
+            const css=[...document.querySelectorAll('link[rel="stylesheet"]')].map(l=>l.href).filter(h=>/mc-6mp/.test(h));
+            return {css,kitTxt:cs('.kit-txt'),kitRow:cs('.kit-row'),kitPriceRow:cs('.kit-price-row'),pickQty:cs('.pick-qty'),pickRow:cs('.pick-row'),scentName:cs('.pick-name')};});
+          console.log('R107C '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png', fullPage:false});
+          await p.evaluate(()=>{const e=document.querySelector('.plansel'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
+          await p.evaluate(()=>{const e=document.querySelector('.picker'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-scents.png'});
           await b.close();})();
           EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r107: post key-bump verify + stale css forensics"
+          git push

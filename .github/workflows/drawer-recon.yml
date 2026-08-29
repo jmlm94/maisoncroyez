@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 96 — final live verify: pixel in app file (kx3)
+# run 97 — pixel diagnosis on product page
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -15,34 +15,25 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -sSL "$B/mc-kits-app.js?v=og$RANDOM" -o /tmp/a.js
-          echo "gate_guard: $(grep -o '__MC_KX_APP__' /tmp/a.js | wc -l)"
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          const beacons=[];p.on('request',r=>{const u=r.url();if(u.indexOf('facebook.com/tr')>-1)beacons.push(u);});
-          let cartAdd=null;p.on('response',async r=>{if(r.url().indexOf('/cart/add.js')>-1)cartAdd=r.status();});
-          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx96',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(12000);
-          const r1=await p.evaluate(()=>{
-            const q=s=>document.querySelector(s);const t=s=>(q(s)?q(s).textContent.trim().replace(/\s+/g,' '):null);
-            const vis=[...document.querySelectorAll('button,input[type=submit]')].filter(e=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0&&/add to cart|buy it now|sold out/i.test(e.textContent||e.value||'');});
-            return {
-              rootMounted: !!q('#root') && q('#root').children.length>0,
-              tiers: document.querySelectorAll('.kitcard').length,
-              atc: t('.btn.atc') ? t('.btn.atc').slice(0,50) : null,
-              themeBuyButtons: vis.length,
-              overflow: document.documentElement.scrollWidth-document.documentElement.clientWidth,
-            };});
-          const pv=beacons.filter(u=>u.indexOf('PageView')>-1).length;
-          await p.evaluate(()=>{const e=document.querySelector('.btn.atc'); if(e) e.click();});
-          await p.waitForTimeout(6000);
-          const drawer=await p.evaluate(()=>{const d=document.getElementById('cart-drawer');return d?(d.hasAttribute('open')||getComputedStyle(d).display!=='none'):null;});
-          const atcB=beacons.filter(u=>u.indexOf('AddToCart')>-1).length;
-          console.log('R95 '+JSON.stringify({...r1, fbPageView:pv, fbAddToCart:atcB, cartAdd, drawer, errs}));
+          const reqs=[];p.on('request',r=>{const u=r.url();if(/facebook|fbevents|connect\.facebook/.test(u))reqs.push(u.slice(0,110));});
+          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx97',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(10000);
+          const d=await p.evaluate(()=>({
+            fbqType: typeof window.fbq,
+            fbqLoaded: window.fbq ? !!window.fbq.loaded : null,
+            fbqQueueLen: window.fbq && window.fbq.queue ? window.fbq.queue.length : null,
+            trekkie: typeof window.ShopifyAnalytics,
+            privacyApi: typeof window.Shopify !== 'undefined' && !!(window.Shopify.customerPrivacy),
+            marketingAllowed: (window.Shopify && window.Shopify.customerPrivacy && window.Shopify.customerPrivacy.marketingAllowed) ? window.Shopify.customerPrivacy.marketingAllowed() : 'n/a',
+            analyticsAllowed: (window.Shopify && window.Shopify.customerPrivacy && window.Shopify.customerPrivacy.analyticsProcessingAllowed) ? window.Shopify.customerPrivacy.analyticsProcessingAllowed() : 'n/a',
+            saleOfDataRegion: (window.Shopify && window.Shopify.customerPrivacy && window.Shopify.customerPrivacy.saleOfDataRegion !== undefined) ? window.Shopify.customerPrivacy.saleOfDataRegion : 'n/a',
+            mcGuard: !!window.__MC_KX_APP__,
+          }));
+          console.log('R97 '+JSON.stringify({d, fbRequests: reqs.slice(0,6), nReqs: reqs.length}));
           await b.close();})();
           EOS

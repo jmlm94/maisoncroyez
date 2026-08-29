@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 101 — fetch mc-drawer.js source
+# run 102 — 3 drawer QA tests + V2 kit-page integrity probe
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,13 +13,88 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch and commit
+      - name: Verify
         run: |
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -sSL "$B/mc-drawer.js?v=src$RANDOM" -o lp-factory/pages/kits-lp/live/mc-drawer.js
-          wc -c lp-factory/pages/kits-lp/live/mc-drawer.js
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/mc-drawer.js
-          git commit -m "recon r101: mc-drawer.js source"
-          git push
+          curl -sSL "$B/mc-drawer.js?v=og$RANDOM" -o /tmp/d.js
+          echo "gate_drawer_new: buyer=$(grep -o 'Verified Buyer' /tmp/d.js | wc -l) mystery=$(grep -o 'mystery scent' /tmp/d.js | wc -l) old30=$(grep -o '30-Day' /tmp/d.js | wc -l) oldcircle=$(grep -o 'Circle member' /tmp/d.js | wc -l)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();
+          const U='https://maisoncroyez.com/pages/six-month-program';
+
+          // ===== QA1: happy path — add HOME, drawer contents, checkout reachable =====
+          let ctx=await b.newContext({viewport:{width:390,height:844}});
+          let p=await ctx.newPage();
+          const errs1=[];p.on('pageerror',e=>errs1.push(String(e).slice(0,100)));
+          await p.goto(U+'?utm_campaign=qa1',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          await p.evaluate(()=>document.querySelector('.btn.atc').click());
+          await p.waitForTimeout(5000);
+          const q1=await p.evaluate(async()=>{
+            const c=await (await fetch('/cart.js',{headers:{Accept:'application/json'}})).json();
+            const d=document.getElementById('cart-drawer');
+            const it=c.items[0]||{};
+            return { drawerOpen: d?(d.hasAttribute('open')||getComputedStyle(d).display!=='none'):null,
+              nItems:c.items.length, variant:it.variant_id, price:it.price, qty:it.quantity,
+              title:(it.product_title||'').slice(0,50), vtitle:(it.variant_title||'').slice(0,40),
+              scents:(it.properties&&it.properties.Scents)?String(it.properties.Scents).slice(0,60):null,
+              total:c.total_price };});
+          // click checkout in the drawer
+          let checkoutUrl=null;
+          try{
+            await p.evaluate(()=>{const f=document.querySelector('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn, #cart-drawer [name=checkout]'); if(f) f.click();});
+            await p.waitForURL(/checkouts|checkout/,{timeout:20000});
+            checkoutUrl=p.url().slice(0,60);
+          }catch(e){checkoutUrl='NO-NAV: '+p.url().slice(0,60);}
+          console.log('QA1 '+JSON.stringify({...q1, checkoutUrl, errs:errs1}));
+          await ctx.close();
+
+          // ===== QA2: drawer operations — two tiers, remove line, integrity =====
+          ctx=await b.newContext({viewport:{width:390,height:844}});
+          p=await ctx.newPage();
+          const errs2=[];p.on('pageerror',e=>errs2.push(String(e).slice(0,100)));
+          await p.goto(U+'?utm_campaign=qa2',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          await p.evaluate(()=>document.querySelector('.btn.atc').click());   // HOME $279
+          await p.waitForTimeout(4000);
+          await p.evaluate(()=>{const esc=document.querySelector('#cart-drawer .cart-drawer__close, #cart-drawer [aria-label*=lose]'); if(esc) esc.click(); });
+          await p.waitForTimeout(800);
+          await p.evaluate(()=>{const cards=document.querySelectorAll('.kitcard'); cards[0].click();}); // RITUAL
+          await p.waitForTimeout(1200);
+          await p.evaluate(()=>document.querySelector('.btn.atc').click());   // RITUAL $199
+          await p.waitForTimeout(4000);
+          const q2a=await p.evaluate(async()=>{
+            const c=await (await fetch('/cart.js',{headers:{Accept:'application/json'}})).json();
+            return { nItems:c.items.length, total:c.total_price, variants:c.items.map(i=>i.variant_id), removeBtns:document.querySelectorAll('#cart-drawer .mc-rm').length };});
+          await p.evaluate(()=>{const rm=document.querySelector('#cart-drawer .mc-rm'); if(rm) rm.click();});
+          await p.waitForTimeout(4000);
+          const q2b=await p.evaluate(async()=>{
+            const c=await (await fetch('/cart.js',{headers:{Accept:'application/json'}})).json();
+            const d=document.getElementById('cart-drawer');
+            return { nItemsAfterRemove:c.items.length, totalAfter:c.total_price,
+              drawerStillOk: d?(getComputedStyle(d).display!=='none'):null };});
+          console.log('QA2 '+JSON.stringify({...q2a, ...q2b, errs:errs2}));
+          await ctx.close();
+
+          // ===== QA3: build-your-kit-2 integrity probe =====
+          ctx=await b.newContext({viewport:{width:390,height:844}});
+          p=await ctx.newPage();
+          await p.goto('https://maisoncroyez.com/pages/build-your-kit-2?utm_campaign=qa3',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const q3=await p.evaluate(async()=>{
+            const body=document.body.textContent;
+            const advertised={t1:body.indexOf('$79.95')>-1, t2:body.indexOf('$139.95')>-1, t3:body.indexOf('$209.95')>-1};
+            async function tryAdd(id){
+              const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({items:[{id:id,quantity:1}]})});
+              let j=null; try{j=await r.json();}catch(e){}
+              return { status:r.status, price:(j&&j.items&&j.items[0])?j.items[0].price:null, msg:(j&&j.message)?String(j.message).slice(0,40):null };}
+            const t1=await tryAdd(45644596936813);  // V2 tier 1 (1 diffuser, page says $79.95)
+            const t2=await tryAdd(45644596969581);  // V2 tier 2 (2 diffusers, page says $139.95)
+            return { advertised, tier1Add:t1, tier2Add:t2 };});
+          console.log('QA3 '+JSON.stringify(q3));
+          await ctx.close();
+          await b.close();})();
+          EOS

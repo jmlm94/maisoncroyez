@@ -699,7 +699,7 @@ function BuyBox() {
                   <span class="pick-txt">
                     <span class="pick-name">${f.name}${f.topSeller ? " 🏆" : ""}</span>
                     <span class="pick-int">${f.intention}</span>
-                    <span class="pick-free"><s>$39.95</s> Included FREE in your kit</span>
+                    <span class="pick-free"><s>$39.95</s> Included!</span>
                   </span>
                   ${sel.count > 1
                     ? html`<span class="pick-qty" onClick=${(e) => e.stopPropagation()}>

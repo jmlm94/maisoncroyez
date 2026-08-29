@@ -1473,6 +1473,9 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .plansel-title{margin-bottom:12px}
 /* brand base font for all inherited text */
 #root{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif}
+/* spacing + price size tweaks */
+.gal-col .adv-announce{margin-bottom:16px}
+.price-row .price{font-size:1.04rem}
 
 /* theme-cascade hardening: re-assert display under #root (beats theme .prose span rules) */
 #root img{display:block !important}

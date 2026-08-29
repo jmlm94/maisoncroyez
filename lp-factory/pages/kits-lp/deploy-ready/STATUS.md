@@ -140,3 +140,11 @@ Fix (css only, generated hardening extended):
   below-fold sections and FAQ all match the approved artifact; 0 page errors.
 Artifact draft unchanged except it already carried the body BVP base — the hardening is
 live-only armor against theme CSS.
+
+## Micro-tweaks (2026-08-29, owner request)
+- Announcement bar bottom margin 10px -> 16px (more air before the title).
+- Hero price line "From $199 or $49.75/mo with Shop Pay" reduced 10%: 1.15rem -> 1.04rem.
+- Scent cards: "$39.95 Included FREE in your kit" -> "$39.95 Included!" (app copy).
+- app + css updated, origin-gated (r124); page key p6m9 -> p6m10-c8caec2.
+- Verified live (r125): margin-bottom 16px, price 16.64px (exactly -10%), "$39.95 Included!",
+  0 errors; screenshots confirm. Artifact 959573c9 republished to match.

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 138 — origin gate: confirm mc-lp-vendor.js now serves the slim preact bundle
+# run 139 — speed QA after round-3 (slim preact vendor, key p6m13): 3 throttled runs + functional + ATC smoke
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,12 +12,66 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          U="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-vendor.js?v=og$RANDOM$RANDOM"
-          curl -s "$U" -o /tmp/v.js
-          echo "bytes=$(wc -c < /tmp/v.js)"
-          echo "preact=$(grep -c 'preactHooks' /tmp/v.js || true)"
-          echo "shim=$(grep -c 'createRoot' /tmp/v.js || true)"
-          echo "react=$(grep -c 'react.production' /tmp/v.js || true)"
-          gzip -c /tmp/v.js | wc -c
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();
+          for (let run=1; run<=3; run++){
+            const ctx=await b.newContext({viewport:{width:390,height:844}});
+            const p=await ctx.newPage();
+            const cdp=await ctx.newCDPSession(p);
+            await cdp.send('Network.enable');
+            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            await p.addInitScript(()=>{
+              window.__lcp=0; try{new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});}catch(e){}
+              window.__app=0; try{new MutationObserver((m,o)=>{if(!window.__app && document.querySelector('.kitgrid')){window.__app=performance.now();o.disconnect();}}).observe(document,{childList:true,subtree:true});}catch(e){}
+            });
+            const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
+            await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=speed139r'+run,{waitUntil:'load',timeout:120000}).catch(e=>errs.push('nav:'+String(e).slice(0,80)));
+            await p.waitForTimeout(15000);
+            const d=await p.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const fcp=(performance.getEntriesByType('paint').find(e=>e.name==='first-contentful-paint')||{}).startTime||0;
+              const res=performance.getEntriesByType('resource');
+              const v=res.find(r=>r.name.includes('mc-lp-vendor'));
+              const hero=res.find(r=>r.name.includes('Diseno_sin_titulo_92'));
+              return {ttfb:Math.round(nav.responseStart||0),dcl:Math.round(nav.domContentLoadedEventEnd||0),load:Math.round(nav.loadEventEnd||0),
+                fcp:Math.round(fcp),lcp:Math.round(window.__lcp||0),appRender:Math.round(window.__app||0),
+                vendorKB:v?Math.round((v.transferSize||0)/102.4)/10:null,vendorEnd:v?Math.round(v.responseEnd):null,
+                heroEnd:hero?Math.round(hero.responseEnd):null,
+                grid:!!document.querySelector('.kitgrid'),cards:document.querySelectorAll('.kg-card').length,
+                rows:document.querySelectorAll('.pick-row').length,
+                sticky:(document.querySelector('.sticky-cta,.buy-sticky,[class*=sticky]')||{}).textContent?true:false,
+                key13:!!document.querySelector('script[src*="p6m13"]')};});
+            console.log('R139_RUN'+run+' '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+            if(run===1){
+              // functional: select tier 3, pick scent, ATC smoke, then clean cart
+              await p.evaluate(()=>{document.querySelectorAll('.kg-card')[2].click();});
+              await p.waitForTimeout(500);
+              const f=await p.evaluate(async ()=>{
+                const on2=document.querySelectorAll('.kg-card')[2].classList.contains('on');
+                const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45644597002349,quantity:1,properties:{'Scents':'QA preact check'}}]})});
+                const st=r.status;
+                const c=await (await fetch('/cart.js')).json();
+                const price=c.items[0]?c.items[0].price:null;
+                for (const it of c.items){ await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(it.key),quantity:0})}); }
+                return {on2,atc:st,price};});
+              console.log('R139_FUNC '+JSON.stringify(f));
+              await p.evaluate(()=>{const e=document.querySelector('.plansel-title'); if(e) e.scrollIntoView();});
+              await p.waitForTimeout(600);
+              await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-preact.png'});
+            }
+            await ctx.close();
+          }
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r139: preact vendor live verify" || echo "no changes"
+          git push || echo "no push"

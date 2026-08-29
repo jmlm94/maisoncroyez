@@ -37,3 +37,21 @@ Re-publish the previous theme "MaisonCroyez-x-ConvertMate/main" (kept untouched)
 run 26: 25/25 PASS desktop + mobile, 0 JS errors, 0 broken images — log + screenshots in `../verify/`.
 Links wired: hero CTA + seven-section CTA + Subscribe Now → /pages/build-your-kit; cards →
 /pages/free-diffuser, /products/diffuser-scents, /collections/power-fragrances.
+
+## Homepage adapted to Six-Month Program + banner restyle (2026-08-29, owner request)
+mc-home-app.js (gid 29644413796461) copy sweep:
+- Hero check "A FREE scent with every diffuser" -> "Founder's Offer: +1 free mystery scent
+  with your kit."; "$1.33 a day" -> "$1.10 a day"; trust "30-day money-back" -> "6-month".
+- Card 1 is now The Six-Month Program (chip "+1 mystery scent free", program copy with
+  from $199 / $49.75-mo Shop Pay, CTA "Start Your Program").
+- Card 3 subscription references removed ("Subscribe & save 25%" -> "All 7 intentions").
+- Seven-scents section: program copy, CTA "Build My Kit" -> "Start Your Program",
+  "90-Day Risk-Free Trial" -> "6-Month Money-Back Guarantee".
+- Testimonial "Verified Circle Member" -> "Verified Buyer"; "$90" price anchor removed.
+- Buy section: "FREE scents worth $119.85" -> "The full Six-Month Program. +1 mystery
+  scent free."; note -> "Founder's Offer & program pricing".
+Sitewide banner (theme announcement-bar section, via mc-drawer.js gid 29651366445165):
+- Text -> "If your home doesn't feel different and powerful, we'll take it all back —
+  anytime in your first 6 months." (was 30 days).
+- Style -> brand blush #ECDFDE, gradient removed, rosewood #5B4437 600-weight text.
+Both files hour-keyed (hm3-/dr1-): live at the 22:00 UTC flip. Verify r127 after flip.

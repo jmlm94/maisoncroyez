@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 114 — live verify short one-line announcement + kit card polish (key p6m5)
+# run 115 — gate margin-fix css, then (post key flip in r116) verify
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,39 +12,16 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag114',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          const d=await p.evaluate(()=>{
-            const a=document.querySelector('#root .adv-announce .atext');
-            const ann=document.querySelector('#root .adv-announce');
-            const r=a?a.getBoundingClientRect():null;
-            const img=document.querySelector('.kit-img');
-            return {text:a?a.textContent:null, oneLine:r?r.height<30:null, atextW:r?Math.round(r.width):null,
-              padBottom:ann?getComputedStyle(ann).paddingBottom:null,
-              imgW:img?Math.round(img.getBoundingClientRect().width):null,
-              kitLineWeight:getComputedStyle(document.querySelector('.kit-line')).fontWeight,
-              kitTxtGap:getComputedStyle(document.querySelector('.kit-txt')).rowGap};});
-          console.log('R114 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png', fullPage:false});
-          await p.evaluate(()=>{const e=document.querySelector('.adv-announce'); if(e) e.scrollIntoView({block:'center'});});
-          await p.waitForTimeout(600);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-hero2.png'});
-          await p.evaluate(()=>{const e=document.querySelector('.plansel'); if(e) e.scrollIntoView();});
-          await p.waitForTimeout(600);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
-          await b.close();})();
-          EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r114: polish live verify screenshots"
-          git push
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          for i in 1 2 3 4 5 6 7 8; do
+            K="og$RANDOM$RANDOM"
+            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
+            M=$(grep -o -F 'padding:11px 15px;margin-bottom:10px' c.css | wc -l)
+            P=$(grep -o -F 'padding:11px 15px 21px' c.css | wc -l)
+            echo "R115 try$i bytes=$(wc -c < c.css) marginRule=$M oldPad=$P"
+            if [ "$M" -ge 1 ] && [ "$P" -eq 0 ]; then echo "R115 PROPAGATED"; exit 0; fi
+            sleep 10
+          done
+          echo "R115 NOT PROPAGATED"

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 113 — origin gate: short announcement + card spacing polish
+# run 114 — live verify short one-line announcement + kit card polish (key p6m5)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,21 +12,39 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
-            K="og$RANDOM$RANDOM"
-            curl -sSL "$B/mc-6mp-app.js?v=$K" -o a.js
-            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
-            SHORT=$(grep -o -F 'free mystery scent with your kit' a.js | wc -l)
-            LONG=$(grep -o -F 'Order today and' a.js | wc -l)
-            CIMG=$(grep -o -F '.kit-img{width:88px' c.css | wc -l)
-            echo "R113 try$i appBytes=$(wc -c < a.js) short=$SHORT long=$LONG cssBytes=$(wc -c < c.css) img88=$CIMG"
-            if [ "$SHORT" -ge 1 ] && [ "$CIMG" -ge 1 ]; then
-              echo "R113 PROPAGATED"
-              exit 0
-            fi
-            sleep 10
-          done
-          echo "R113 NOT PROPAGATED"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag114',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const d=await p.evaluate(()=>{
+            const a=document.querySelector('#root .adv-announce .atext');
+            const ann=document.querySelector('#root .adv-announce');
+            const r=a?a.getBoundingClientRect():null;
+            const img=document.querySelector('.kit-img');
+            return {text:a?a.textContent:null, oneLine:r?r.height<30:null, atextW:r?Math.round(r.width):null,
+              padBottom:ann?getComputedStyle(ann).paddingBottom:null,
+              imgW:img?Math.round(img.getBoundingClientRect().width):null,
+              kitLineWeight:getComputedStyle(document.querySelector('.kit-line')).fontWeight,
+              kitTxtGap:getComputedStyle(document.querySelector('.kit-txt')).rowGap};});
+          console.log('R114 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png', fullPage:false});
+          await p.evaluate(()=>{const e=document.querySelector('.adv-announce'); if(e) e.scrollIntoView({block:'center'});});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-hero2.png'});
+          await p.evaluate(()=>{const e=document.querySelector('.plansel'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r114: polish live verify screenshots"
+          git push

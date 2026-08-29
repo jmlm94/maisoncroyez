@@ -119,3 +119,24 @@ against theme CSS; the artifact has no theme cascade.
   cascade, second upload fixed specificity); page key p6m5 -> p6m6 -> p6m7-a4b967c.
 - Verified live (recon r118): padding-bottom 11px, margin-bottom 10px, one-line text,
   0 errors. Artifact 959573c9 republished to match.
+
+## Brand fonts + list markers fixed sitewide on the page (2026-08-29, owner report)
+Symptom: live h1/h2/body text rendered in the theme font (Nunito-style sans) instead of
+brand fonts; below-fold bullets showed doubled markers (gold dot + theme disc).
+Root cause: same theme-cascade issue as the flex breakage — theme .prose rules (0,1,1)
+out-rank our element-level typography rules like h1,h2,h3{font-family:'Unna'} (0,0,1)
+and every ul{list-style:none} (0,1,0 or less).
+Fix (css only, generated hardening extended):
+- New base rule #root{font-family:'Be Vietnam Pro',...} + inherit blanket
+  (#root p/span/div/li/button/... {font-family:inherit !important}).
+- Every rule setting font-family re-emitted as #root-prefixed !important, carrying its
+  font-weight/font-style/letter-spacing/line-height/text-transform (127 rules).
+- List hardening: #root ul,ol{list-style:none;padding-left:0;margin-left:0 !important},
+  #root li + li::marker neutralized (every list in the design is list-style:none with
+  custom ::before markers).
+- Keys p6m8-47256b3 (fonts) then p6m9-c6f219e (lists), each origin-gated (r119/r120/r122).
+- Verified live (r121/r123): h1 Unna 700 line-height .92, h2 Unna, prices/names Unna,
+  base+paragraphs Be Vietnam Pro, ul list-style none pad 0, screenshots of hero,
+  below-fold sections and FAQ all match the approved artifact; 0 page errors.
+Artifact draft unchanged except it already carried the body BVP base — the hardening is
+live-only armor against theme CSS.

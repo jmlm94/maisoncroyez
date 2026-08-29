@@ -1471,6 +1471,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .plan{padding:17px 16px 16px}
 .plansel{gap:16px}
 .plansel-title{margin-bottom:12px}
+/* brand base font for all inherited text */
+#root{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif}
 
 /* theme-cascade hardening: re-assert display under #root (beats theme .prose span rules) */
 #root img{display:block !important}
@@ -1685,3 +1687,137 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 @media(min-width:960px){#root .offer .ogrid{display:grid !important}}
 @media(min-width:720px){#root .fcards{display:grid !important}}
 @media(min-width:860px){#root .pdp-buy .wrap{display:grid !important}}
+/* list hardening: kill theme .prose list markers/indent (all our lists are list-style:none with custom markers) */
+#root ul,#root ol{list-style:none !important;padding-left:0 !important;margin-left:0 !important}
+#root li{list-style:none !important}
+#root li::marker{content:'' !important}
+/* typography hardening: brand fonts win over theme .prose rules */
+#root p,#root span,#root div,#root li,#root ul,#root ol,#root a,#root b,#root i,#root em,#root s,#root u,#root small,#root strong,#root cite,#root blockquote,#root button,#root input,#root section,#root h4,#root h5,#root h6{font-family:inherit !important}
+#root{font-family:'Be Vietnam Pro',system-ui,sans-serif !important;line-height:1.6 !important}
+#root h1{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.05em !important;line-height:.92 !important}
+#root h2{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.05em !important;line-height:.92 !important}
+#root h3{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.05em !important;line-height:.92 !important}
+#root .serif-i{font-family:'Unna',serif !important;font-style:italic !important}
+#root .eyebrow{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.2em !important;text-transform:uppercase !important}
+#root .caps{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .btn{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .ph .ph-cap{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.13em !important;line-height:1.6 !important;text-transform:uppercase !important}
+#root .ph-tag{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .flag{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .ctabreak .cline{font-family:'Unna',serif !important;letter-spacing:-.05em !important;line-height:1.1 !important}
+#root .announce{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.13em !important;line-height:1.5 !important;text-transform:uppercase !important}
+#root .wordmark{font-family:'Outfit',sans-serif !important;font-weight:400 !important;letter-spacing:.34em !important;line-height:1.3 !important;text-transform:uppercase !important}
+#root .seclabel{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.18em !important;text-transform:uppercase !important}
+#root .hero .microproof{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.16em !important;text-transform:uppercase !important}
+#root .hero .prooflines{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.15em !important;text-transform:uppercase !important}
+#root .badge-strip .b{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .hero .freechip{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;line-height:1.5 !important}
+#root .press .pq{font-family:'Unna',serif !important;line-height:1.1 !important}
+#root .press .plogo{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:.02em !important}
+#root .tcard .tname{font-family:'Unna',serif !important;font-weight:700 !important}
+#root .tcard .ttags .chip{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .tcard .tquote{font-family:'Unna',serif !important;line-height:1.1 !important}
+#root .minicard .mc-p{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.06em !important}
+#root .minicard .mc-btn{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .tl .num{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .tl h3{font-family:'Be Vietnam Pro',sans-serif !important;font-weight:600 !important;line-height:1.3 !important}
+#root .hstep .hnum{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .icard .intent{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.16em !important;text-transform:uppercase !important}
+#root .icard .ritual{font-family:'Unna',serif !important;font-style:italic !important;line-height:1.15 !important}
+#root .icard .tap{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.13em !important;text-transform:uppercase !important}
+#root .stat .fill{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.04em !important}
+#root .stat .slabel{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .gallery .gbadge{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;line-height:1.5 !important;text-transform:uppercase !important}
+#root .buybox .rating{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.13em !important;text-transform:uppercase !important}
+#root .buybox .tagrow .chip{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.09em !important;text-transform:uppercase !important}
+#root .kit .kprice{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .kit .kroom{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.11em !important;text-transform:uppercase !important}
+#root .kit .bestpill{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .fragsel .fs-count{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important}
+#root .frag .stepper .q{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .trust3 .t{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;line-height:1.6 !important;text-transform:uppercase !important}
+#root .founder .sig{font-family:'Unna',serif !important;font-style:italic !important}
+#root .origin .rnum{font-family:'Unna',serif !important;font-style:italic !important}
+#root .origin h3{font-family:'Outfit',sans-serif !important;letter-spacing:.1em !important;line-height:1.5 !important;text-transform:uppercase !important}
+#root .values h3{font-family:'Outfit',sans-serif !important;letter-spacing:.18em !important;line-height:1.7 !important;text-transform:uppercase !important}
+#root .nogrid .n p{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;line-height:1.7 !important;text-transform:uppercase !important}
+#root .rev .avatar{font-family:'Unna',serif !important;font-weight:700 !important}
+#root .gbadge .gb1{font-family:'Unna',serif !important;font-weight:700 !important;line-height:1 !important}
+#root .gbadge .gb2{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.22em !important;text-transform:uppercase !important}
+#root .gbadge .gb3{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .utest .uquote{font-family:'Unna',serif !important;line-height:1.2 !important}
+#root .utest .uwho{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .steps3 .s .n{font-family:'Unna',serif !important;font-style:italic !important}
+#root .mode .g{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .mode .mlabel{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.18em !important;text-transform:uppercase !important}
+#root .modes .onebtn{font-family:'Unna',serif !important}
+#root .ladder .rt{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;line-height:1.7 !important;text-transform:uppercase !important}
+#root .rung-top .rsub{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.16em !important;text-transform:uppercase !important}
+#root .footer .ftag{font-family:'Unna',serif !important;font-style:italic !important}
+#root .footer .pay{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important}
+#root .floatchip{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;line-height:1.4 !important;text-transform:uppercase !important}
+#root .com-card .avatar{font-family:'Unna',serif !important;font-weight:700 !important}
+#root .pbadge{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .callout{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .pull p{font-family:'Unna',serif !important;font-style:italic !important;letter-spacing:-.02em !important;line-height:1.3 !important}
+#root .pull cite{font-family:'Outfit',sans-serif !important;font-weight:700 !important;font-style:normal !important;letter-spacing:.16em !important;text-transform:uppercase !important}
+#root .grave-price{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .fcard h3{font-family:'Outfit',sans-serif !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+#root .math-vs{font-family:'Unna',serif !important;font-weight:700 !important;font-style:italic !important}
+#root .price-row .price{font-family:'Unna',serif !important;font-weight:700 !important;line-height:1 !important}
+#root .pick-int{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .picker-label{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.03em !important;line-height:1 !important}
+#root .picker-title{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.03em !important;line-height:1 !important}
+#root .pick-badge{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .pick-ritual{font-family:'Unna',serif !important;font-style:italic !important}
+#root .trust-strip{font-family:'Outfit',sans-serif !important;font-weight:600 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .picker-label.small{font-family:'Be Vietnam Pro',sans-serif !important;line-height:1.5 !important}
+#root .scard-name{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.02em !important;line-height:1.1 !important}
+#root .scard-int{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .scard-pick{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .price-row .compare{font-family:'Be Vietnam Pro',sans-serif !important;font-weight:600 !important}
+#root .kitcard .plan-name{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.02em !important}
+#root .kit-days{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+#root .pick-count{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .pick-qty b{font-family:'Outfit',sans-serif !important}
+#root .pick-love{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+#root .booklet-txt b{font-family:'Unna',serif !important;letter-spacing:-.02em !important;line-height:1.12 !important}
+#root .kit-save{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+#root .atc-proof{font-family:'Unna',serif !important;font-style:italic !important;line-height:1.3 !important}
+#root .atc-proof .stars{font-family:'Outfit',sans-serif !important;font-style:normal !important;letter-spacing:2px !important}
+#root .guar-title{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.03em !important;line-height:1.05 !important}
+#root .guar3 .g b{font-family:'Outfit',sans-serif !important;font-weight:800 !important;letter-spacing:.07em !important}
+#root .qopt .qnum{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .qopt .qsub{font-family:'Outfit',sans-serif !important;font-weight:500 !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+#root .pqb{font-family:'Outfit',sans-serif !important;font-weight:700 !important;line-height:1 !important}
+#root .pqn{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .qpop{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.11em !important;text-transform:uppercase !important}
+#root .offer-anchor{font-family:'Outfit',sans-serif !important;font-weight:600 !important;line-height:1.4 !important}
+#root .hiw-k{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+#root .preterms{font-family:'Outfit',sans-serif !important;font-weight:600 !important;letter-spacing:.01em !important;line-height:1.55 !important}
+#root .price-badge{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.09em !important;text-transform:uppercase !important}
+#root .subline{font-family:'Be Vietnam Pro',sans-serif !important;line-height:1.5 !important}
+#root .price-note{font-family:'Outfit',sans-serif !important;font-weight:600 !important}
+#root .dayrate{font-family:'Outfit',sans-serif !important;font-weight:500 !important}
+#root .plan-badge{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.09em !important;text-transform:uppercase !important}
+#root .plan-name{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .plan-price{font-family:'Outfit',sans-serif !important;font-weight:800 !important}
+#root .note45{font-family:'Outfit',sans-serif !important;font-weight:600 !important;letter-spacing:.01em !important}
+#root .price-from{font-family:'Outfit',sans-serif !important;font-weight:600 !important;letter-spacing:0 !important}
+#root .hiw-title{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .usp3 .usp{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.07em !important;line-height:1.35 !important;text-transform:uppercase !important}
+#root .supply-badge{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .kit-supply{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.11em !important}
+#root .ch-n{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .price-or{font-family:'Be Vietnam Pro',sans-serif !important;font-weight:600 !important}
+#root .kit-price{font-family:'Unna',serif !important;font-weight:700 !important;font-style:normal !important;line-height:1 !important}
+#root .kit-save{font-family:'Be Vietnam Pro',sans-serif !important;font-weight:700 !important;letter-spacing:.02em !important;text-transform:none !important}
+#root .pick-smells b{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important}
+#root .pdp-buy .rating{font-family:'Unna',serif !important;font-weight:400 !important;font-style:italic !important;letter-spacing:.01em !important;line-height:1.5 !important;text-transform:none !important}
+#root .price-row .price{font-family:'Be Vietnam Pro',sans-serif !important;font-weight:600 !important;letter-spacing:0 !important}
+#root .modes-title{font-family:'Outfit',sans-serif !important;font-weight:800 !important}
+#root .modes .mode-tx b{font-family:'Unna',serif !important;font-style:italic !important;letter-spacing:0 !important;text-transform:none !important}
+#root .kitcard .kit-gift{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.06em !important}
+#root .gm-head{font-family:'Outfit',sans-serif !important;font-weight:800 !important;letter-spacing:.05em !important;line-height:1.35 !important;text-transform:uppercase !important}
+#root{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif !important}
+

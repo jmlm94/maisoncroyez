@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 118 — live verify announcement 10px bottom margin (key p6m7)
+# run 119 — gate typography-hardened css
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,31 +12,16 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag118',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          const d=await p.evaluate(()=>{
-            const ann=document.querySelector('#root .adv-announce');
-            const cs=ann?getComputedStyle(ann):null;
-            const a=document.querySelector('#root .adv-announce .atext');
-            const r=a?a.getBoundingClientRect():null;
-            return {padBottom:cs?cs.paddingBottom:null, marginBottom:cs?cs.marginBottom:null, oneLine:r?r.height<30:null};});
-          console.log('R118 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-          await p.evaluate(()=>{const e=document.querySelector('.adv-announce'); if(e) e.scrollIntoView({block:'center'});});
-          await p.waitForTimeout(600);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-hero2.png'});
-          await b.close();})();
-          EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r118: margin 10px live verify" || echo "no changes"
-          git push || echo "no push"
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          for i in 1 2 3 4 5 6 7 8; do
+            K="og$RANDOM$RANDOM"
+            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
+            H=$(grep -o -F "#root h1{font-family:'Unna'" c.css | wc -l)
+            BASE=$(grep -o -F "#root{font-family:'Be Vietnam Pro'" c.css | wc -l)
+            echo "R119 try$i bytes=$(wc -c < c.css) h1Unna=$H base=$BASE"
+            if [ "$H" -ge 1 ] && [ "$BASE" -ge 1 ]; then echo "R119 PROPAGATED"; exit 0; fi
+            sleep 10
+          done
+          echo "R119 NOT PROPAGATED"

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 136 — waterfall probe: all resources starting <5s, sorted by size, to find early-bandwidth hogs
+# run 137 — fetch preact+hooks+htm UMD builds and commit for vendor slimming
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,28 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify
+      - name: Fetch
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();
-          const ctx=await b.newContext({viewport:{width:390,height:844}});
-          const p=await ctx.newPage();
-          const cdp=await ctx.newCDPSession(p);
-          await cdp.send('Network.enable');
-          await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
-          await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=speed136',{waitUntil:'load',timeout:120000});
-          await p.waitForTimeout(8000);
-          const d=await p.evaluate(()=>{
-            const res=performance.getEntriesByType('resource');
-            const early=res.filter(r=>r.startTime<5000&&(r.transferSize||0)>5000)
-              .map(r=>({n:(r.name.replace(/\?.*$/,'').split('/').pop()||r.initiatorType).slice(0,48),host:new URL(r.name).host.replace('cdn.shopify.com','cdn').slice(0,30),type:r.initiatorType,kb:Math.round((r.transferSize||0)/102.4)/10,start:Math.round(r.startTime),end:Math.round(r.responseEnd)}))
-              .sort((a,b)=>b.kb-a.kb);
-            const sum=early.reduce((a,r)=>a+r.kb,0);
-            return {earlyKB:Math.round(sum),count:early.length,early};});
-          console.log('R136 '+JSON.stringify(d,null,0));
-          await b.close();})();
-          EOS
+          mkdir -p lp-factory/pages/kits-lp/vendor-slim
+          cd lp-factory/pages/kits-lp/vendor-slim
+          curl -sL -o preact.min.js https://unpkg.com/preact@10.19.3/dist/preact.min.js
+          curl -sL -o hooks.umd.js https://unpkg.com/preact@10.19.3/hooks/dist/hooks.umd.js
+          curl -sL -o htm.umd.js https://unpkg.com/htm@3.1.1/dist/htm.js
+          ls -la
+          head -c 100 preact.min.js; echo
+          head -c 100 hooks.umd.js; echo
+          head -c 100 htm.umd.js; echo
+          cd ../../../..
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/vendor-slim
+          git commit -m "recon r137: preact/htm umd builds for vendor slimming" || echo "no changes"
+          git push || echo "no push"

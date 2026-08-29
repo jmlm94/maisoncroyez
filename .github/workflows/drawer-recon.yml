@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 126 — homepage visual survey at 390px
+# run 127 — post-flip verify: banner restyle + homepage program copy
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,35 +13,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Survey
+      - name: Verify
         run: |
-          mkdir -p lp-factory/pages/home/live
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
           const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/?utm_campaign=diag126',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.goto('https://maisoncroyez.com/?utm_campaign=diag127',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(9000);
           const d=await p.evaluate(()=>{
-            const ab=document.querySelector('.announcement-bar, [class*="announcement"]');
-            return {announce: ab?ab.textContent.replace(/\s+/g,' ').trim().slice(0,140):null,
-              announceHTML: ab?ab.outerHTML.slice(0,300):null};});
-          console.log('R126A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+            const sec=document.querySelector('.shopify-section--announcement-bar');
+            const pl=sec?sec.querySelector('p'):null;
+            const cs=pl?getComputedStyle(pl):null;
+            const body=document.body.innerText;
+            return {banner: pl?pl.textContent.trim().slice(0,120):null,
+              bannerBg: cs?cs.backgroundColor:null, bannerImg: cs?cs.backgroundImage:null, bannerColor: cs?cs.color:null,
+              mystery: body.indexOf('+1 free mystery scent')>-1,
+              day110: body.indexOf('$1.10 a day')>-1,
+              sixMB: body.indexOf('6-month money-back')>-1,
+              progCard: body.indexOf('The Six-Month Program')>-1,
+              startCTAs: (body.match(/Start Your Program/g)||[]).length,
+              old30: body.indexOf('in 30 days')>-1,
+              old90: body.indexOf('90-Day')>-1,
+              oldSub: body.indexOf('Subscribe & save')>-1 || body.indexOf('save 25%')>-1,
+              oldCircle: body.indexOf('Circle Member')>-1,
+              old11985: body.indexOf('$119.85')>-1};});
+          console.log('R127A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
           await p.screenshot({path:'lp-factory/pages/home/live/home-top.png'});
-          await p.evaluate(()=>window.scrollTo(0,700)); await p.waitForTimeout(700);
-          await p.screenshot({path:'lp-factory/pages/home/live/home-hero2.png'});
           await p.evaluate(()=>{const e=document.querySelector('.pgrid'); if(e) e.scrollIntoView();}); await p.waitForTimeout(700);
           await p.screenshot({path:'lp-factory/pages/home/live/home-cards.png'});
           await p.evaluate(()=>{const e=document.querySelector('.seven .trust'); if(e) e.scrollIntoView();}); await p.waitForTimeout(700);
           await p.screenshot({path:'lp-factory/pages/home/live/home-seven.png'});
-          await p.evaluate(()=>{const e=document.querySelector('.bgrid'); if(e) e.scrollIntoView();}); await p.waitForTimeout(700);
-          await p.screenshot({path:'lp-factory/pages/home/live/home-buy.png'});
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag127b',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(7000);
+          const d2=await p.evaluate(()=>{
+            const sec=document.querySelector('.shopify-section--announcement-bar');
+            const pl=sec?sec.querySelector('p'):null;
+            return {banner: pl?pl.textContent.trim().slice(0,120):null,
+              bg: pl?getComputedStyle(pl).backgroundColor:null};});
+          console.log('R127B program-page banner '+JSON.stringify(d2));
+          await p.screenshot({path:'lp-factory/pages/home/live/program-top.png'});
           await b.close();})();
           EOS
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add lp-factory/pages/home/live
-          git commit -m "recon r126: homepage survey screenshots" || echo "no changes"
+          git commit -m "recon r127: post-flip homepage + banner verify" || echo "no changes"
           git push || echo "no push"

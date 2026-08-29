@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 109 — live verify hardened css on p6m3 key: layout + screenshots + ATC smoke
+# run 110 — post hour-flip verify: homepage CTAs + sitewide drawer copy
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,7 +12,6 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Verify
         run: |
           npm i -s playwright@1.56.1 > /dev/null 2>&1
@@ -20,32 +19,42 @@ jobs:
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag109',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.goto('https://maisoncroyez.com/?utm_campaign=diag110',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(9000);
-          const d=await p.evaluate(()=>{
-            const cs=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).display:null;};
-            const css=[...document.querySelectorAll('link[rel="stylesheet"]')].map(l=>l.href).filter(h=>/mc-6mp/.test(h));
-            return {css,kitTxt:cs('.kit-txt'),kitRow:cs('.kit-row'),kitPriceRow:cs('.kit-price-row'),pickQty:cs('.pick-qty'),pickRow:cs('.pick-row'),pickTxt:cs('.pick-txt'),plan:cs('.plan')};});
-          console.log('R109A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png', fullPage:false});
-          await p.evaluate(()=>{const e=document.querySelector('.plansel'); if(e) e.scrollIntoView();});
-          await p.waitForTimeout(600);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
-          await p.evaluate(()=>{const e=document.querySelector('.picker'); if(e) e.scrollIntoView();});
-          await p.waitForTimeout(600);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-scents.png'});
-          const atc=await p.evaluate(async ()=>{
-            const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45728132202605,quantity:1,properties:{'Scents':'QA layout check'}}]})});
-            const ok=r.status;
+          const home=await p.evaluate(()=>{
+            const links=[...document.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')||'');
+            return {
+              sixMonth: links.filter(h=>h.indexOf('six-month-program')>-1).length,
+              oldKit: links.filter(h=>h.indexOf('build-your-kit-2')>-1).length,
+              heroBtn: (()=>{const a=[...document.querySelectorAll('a,button')].find(e=>/Start Your Program/i.test(e.textContent));return a?a.textContent.trim().slice(0,40):null})(),
+              claimOld: [...document.querySelectorAll('a,button')].filter(e=>/Claim Your Free Scents/i.test(e.textContent)).length
+            };});
+          console.log('R110A home '+JSON.stringify(home));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag110b',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          await p.evaluate(async ()=>{
+            await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45728132202605,quantity:1,properties:{'Scents':'QA drawer check'}}]})});
+            document.dispatchEvent(new CustomEvent('cart:refresh'));
+            const d=document.getElementById('cart-drawer'); if(d && d.showModal){try{d.showModal()}catch(e){}} if(d){d.removeAttribute('hidden');}
+          });
+          await p.waitForTimeout(3500);
+          const dr=await p.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            const t=d?d.querySelector('.mc-testi'):null;
+            const tr=d?d.querySelector('.mc-trust'):null;
+            const urg=d?[...d.querySelectorAll('p')].find(x=>/mystery scent/i.test(x.textContent)):null;
+            return {
+              drawer: !!d,
+              testi: t?t.textContent.replace(/\s+/g,' ').slice(0,180):null,
+              circle: t?/Circle member|subscription|30-day/i.test(t.textContent):null,
+              trust: tr?tr.textContent.replace(/\s+/g,' ').slice(0,120):null,
+              urgency: urg?urg.textContent.replace(/\s+/g,' ').slice(0,120):null
+            };});
+          console.log('R110B drawer '+JSON.stringify(dr));
+          await p.evaluate(async ()=>{
             const c=await (await fetch('/cart.js')).json();
             for (const it of c.items){ await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(it.key),quantity:0})}); }
-            return {addStatus:ok,count:c.items.length,price:c.items[0]?c.items[0].price:null};});
-          console.log('R109B atc '+JSON.stringify(atc));
+          });
+          console.log('R110C cart cleaned');
           await b.close();})();
           EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r109: hardened css live verify screenshots"
-          git push

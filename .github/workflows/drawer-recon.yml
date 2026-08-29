@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 98 — live verify kx4 (no subscription toggle)
+# run 99 — verify /pages/six-month-program live + product page reverted
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -15,26 +15,52 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify
         run: |
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          R=$RANDOM$RANDOM
+          curl -sSL "$B/mc-6mp-app.js?v=og$R" -o /tmp/a.js
+          curl -sSL "$B/mc-6mp.css?v=og$R" -o /tmp/a.css
+          curl -sSL "$B/mc-kits-app.js?v=og$R" -o /tmp/old.js
+          echo "gate_new_app: $(grep -o 'Six-Month Transformation Program' /tmp/a.js | wc -l) bytes $(wc -c < /tmp/a.js)"
+          echo "gate_new_css: $(grep -o 'gm-oneline' /tmp/a.css | wc -l) bytes $(wc -c < /tmp/a.css)"
+          echo "gate_drawerblock_gone: $(grep -o 'mc-testi' /tmp/a.js | wc -l)"
+          echo "gate_old_restored: $(grep -o 'kx-cta2' /tmp/old.js | wc -l) bytes $(wc -c < /tmp/old.js)"
           npm i -s playwright@1.56.1 > /dev/null 2>&1
           npx playwright install --with-deps chromium > /dev/null 2>&1
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const b=await chromium.launch();
+          let p=await b.newPage({viewport:{width:390,height:844}});
           const errs=[];p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          let cartAdd=null;p.on('response',async r=>{if(r.url().indexOf('/cart/add.js')>-1)cartAdd=r.status();});
-          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=kx98',{waitUntil:'domcontentloaded',timeout:90000});
+          let cartAdd=null;p.on('response',r=>{if(r.url().indexOf('/cart/add.js')>-1)cartAdd=r.status();});
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=p6m99',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(10000);
           const r1=await p.evaluate(()=>({
             rootMounted: !!document.querySelector('#root') && document.querySelector('#root').children.length>0,
-            togGone: !document.querySelector('.modes') && document.body.textContent.indexOf('if you subscribe')===-1,
-            renewGone: document.body.textContent.indexOf('Renews automatically')===-1,
+            announce: (document.querySelector('.announce')||{textContent:''}).textContent.indexOf('mystery scent')>-1,
             tiers: document.querySelectorAll('.kitcard').length,
-            atc: (document.querySelector('.btn.atc')||{textContent:''}).textContent.trim().replace(/\s+/g,' ').slice(0,55),
+            atc: (document.querySelector('.btn.atc')||{textContent:''}).textContent.trim().replace(/\s+/g,' ').slice(0,50),
+            togGone: !document.querySelector('.modes'),
+            refillsGone: document.body.textContent.indexOf('Manifestation Circle')===-1,
+            preheroHidden: (function(){var e=document.getElementById('mc-prehero');return e?getComputedStyle(e).display==='none':null;})(),
             overflow: document.documentElement.scrollWidth-document.documentElement.clientWidth,
           }));
           await p.evaluate(()=>{const e=document.querySelector('.btn.atc'); if(e) e.click();});
           await p.waitForTimeout(5000);
-          const drawer=await p.evaluate(()=>{const d=document.getElementById('cart-drawer');return d?(d.hasAttribute('open')||getComputedStyle(d).display!=='none'):null;});
-          console.log('R98 '+JSON.stringify({...r1, cartAdd, drawer, errs}));
+          const r1b=await p.evaluate(()=>{
+            const d=document.getElementById('cart-drawer');
+            return { drawer: d?(d.hasAttribute('open')||getComputedStyle(d).display!=='none'):null,
+              oldTestiGone: !document.querySelector('#cart-drawer .mc-testi') };});
+          console.log('R99-PAGE '+JSON.stringify({...r1, cartAdd, ...r1b, errs}));
+          await p.close();
+          p=await b.newPage({viewport:{width:390,height:844}});
+          const errs2=[];p.on('pageerror',e=>errs2.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles?utm_campaign=rv99',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const r2=await p.evaluate(()=>({
+            newAppGone: document.body.textContent.indexOf('Six-Month Transformation Program:')===-1 && !document.querySelector('.announce'),
+            oldRootHasContent: (function(){var e=document.getElementById('mc-kits-root');return e?e.children.length>0:null;})(),
+            kt5Loader: document.documentElement.outerHTML.indexOf("kt5-")>-1,
+          }));
+          console.log('R99-PROD '+JSON.stringify({...r2, errs2}));
           await b.close();})();
           EOS

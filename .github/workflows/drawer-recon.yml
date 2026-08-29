@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 135 — speed QA after round-2 opts (gallery 780 cache-match + head preloads, key p6m12): 3 throttled runs
+# run 136 — waterfall probe: all resources starting <5s, sorted by size, to find early-bandwidth hogs
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -20,42 +20,21 @@ jobs:
           node - <<'EOS'
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();
-          for (let run=1; run<=3; run++){
-            const ctx=await b.newContext({viewport:{width:390,height:844}});
-            const p=await ctx.newPage();
-            const cdp=await ctx.newCDPSession(p);
-            await cdp.send('Network.enable');
-            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
-            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
-            await p.addInitScript(()=>{
-              window.__lcp=0; try{new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});}catch(e){}
-              window.__app=0; try{new MutationObserver((m,o)=>{if(!window.__app && document.querySelector('.kitgrid')){window.__app=performance.now();o.disconnect();}}).observe(document,{childList:true,subtree:true});}catch(e){}
-            });
-            const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-            await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=speed135r'+run,{waitUntil:'load',timeout:120000}).catch(e=>errs.push('nav:'+String(e).slice(0,80)));
-            await p.waitForTimeout(15000);
-            const d=await p.evaluate(()=>{
-              const nav=performance.getEntriesByType('navigation')[0]||{};
-              const fcp=(performance.getEntriesByType('paint').find(e=>e.name==='first-contentful-paint')||{}).startTime||0;
-              const res=performance.getEntriesByType('resource');
-              const tot=res.reduce((a,r)=>a+(r.transferSize||0),0);
-              const heros=res.filter(r=>r.name.includes('Diseno_sin_titulo_92')).map(r=>({q:r.name.split('width=')[1],kb:Math.round((r.transferSize||0)/102.4)/10,start:Math.round(r.startTime),end:Math.round(r.responseEnd)}));
-              const ours={}; ['mc-6mp.css','mc-lp-vendor.js','mc-6mp-app.js'].forEach(n=>{
-                const r=res.find(x=>x.name.includes(n)); if(r) ours[n]={kb:Math.round((r.transferSize||0)/102.4)/10,start:Math.round(r.startTime),end:Math.round(r.responseEnd)};});
-              const gimg=document.querySelector('.gal-slide img');
-              return {ttfb:Math.round(nav.responseStart||0),dcl:Math.round(nav.domContentLoadedEventEnd||0),load:Math.round(nav.loadEventEnd||0),
-                fcp:Math.round(fcp),lcp:Math.round(window.__lcp||0),appRender:Math.round(window.__app||0),
-                nRes:res.length,totalKB:Math.round(tot/1024),heros,
-                gal780:!!(gimg&&gimg.src.includes('width=780')),
-                gridOK:!!document.querySelector('.kitgrid'),key12:!!document.querySelector('script[src*="p6m12"]'),ours};});
-            console.log('R135_RUN'+run+' '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-            if(run===1){await p.evaluate(()=>window.scrollTo(0,0));await p.waitForTimeout(400);await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-speed.png'});}
-            await ctx.close();
-          }
+          const ctx=await b.newContext({viewport:{width:390,height:844}});
+          const p=await ctx.newPage();
+          const cdp=await ctx.newCDPSession(p);
+          await cdp.send('Network.enable');
+          await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+          await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=speed136',{waitUntil:'load',timeout:120000});
+          await p.waitForTimeout(8000);
+          const d=await p.evaluate(()=>{
+            const res=performance.getEntriesByType('resource');
+            const early=res.filter(r=>r.startTime<5000&&(r.transferSize||0)>5000)
+              .map(r=>({n:(r.name.replace(/\?.*$/,'').split('/').pop()||r.initiatorType).slice(0,48),host:new URL(r.name).host.replace('cdn.shopify.com','cdn').slice(0,30),type:r.initiatorType,kb:Math.round((r.transferSize||0)/102.4)/10,start:Math.round(r.startTime),end:Math.round(r.responseEnd)}))
+              .sort((a,b)=>b.kb-a.kb);
+            const sum=early.reduce((a,r)=>a+r.kb,0);
+            return {earlyKB:Math.round(sum),count:early.length,early};});
+          console.log('R136 '+JSON.stringify(d,null,0));
           await b.close();})();
           EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r135: speed verify screenshot" || echo "no changes"
-          git push || echo "no push"

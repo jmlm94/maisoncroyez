@@ -32,3 +32,19 @@ Variant fixes (compareAt + CONTINUE) kept — the pages ATC sells those variants
 mc-drawer.js (theme-level, hour key dr1-<hour>) injects an OLD-offer cart-drawer testimonial
 ("Verified Circle member… subscription… free diffuser… 30-day") + trust badges on EVERY page,
 including this one and build-your-kit-2. Owner to decide whether to update/remove it.
+
+## Sitewide drawer refresh (2026-08-29, gid 29651366445165, live at next dr1 hour flip)
+mc-drawer.js updated for the current offer: testimonial now "Verified Buyer" (money-back
+guarantee / boutique hotel / 100ml lasts a month — no subscription/Circle/free-diffuser/30-day),
+urgency line now "Founder's Offer: +1 mystery scent added to your kit, free — reserved at
+checkout" (triggers on diffuser/program/kit lines), trust badges now Money-Back Guarantee /
+Lifetime Warranty / Safe For Kids & Pets, dead selling-plan FREE-repricing removed.
+
+## QA (recon r102) — drawer purchase flow
+QA1 six-month-program happy path: PASS (drawer opens, Home Kit $279 + Scents property,
+  checkout button reaches /checkouts/, 0 errors)
+QA2 drawer operations: PASS (2 tiers $478, ✕ remove works -> $279, drawer stays functional)
+QA3 build-your-kit-2: **FAIL — page is broken/mischarging**: still advertises
+  $79.95/$139.95/$209.95 but tier-1 variant 45644596936813 no longer exists (cart 422) and
+  tiers 2/3 add the repriced $279/$399 program variants. All homepage CTAs point at this page.
+  Owner decision pending: repoint funnel to /pages/six-month-program or restore V2 variants.

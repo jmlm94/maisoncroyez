@@ -48,3 +48,13 @@ QA3 build-your-kit-2: **FAIL — page is broken/mischarging**: still advertises
   $79.95/$139.95/$209.95 but tier-1 variant 45644596936813 no longer exists (cart 422) and
   tiers 2/3 add the repriced $279/$399 program variants. All homepage CTAs point at this page.
   Owner decision pending: repoint funnel to /pages/six-month-program or restore V2 variants.
+
+## Funnel repointed to /pages/six-month-program (2026-08-29, owner request after QA3 fail)
+- Homepage app (mc-home-app.js gid 29644413796461): all 4 CTAs -> /pages/six-month-program;
+  hero CTA text "Claim Your Free Scents" -> "Start Your Program" (live at hm3 hour flip).
+- Header menu item 568907530349: "Build your Kit ->" retitled "Six-Month Program ->" + repointed.
+- Footer menu item 566031679597: "Get Your FREE Scents" retitled "The Six-Month Program" + repointed.
+- /pages/build-your-kit-2: UNPUBLISHED (page gid 119186260077 kept as draft) and 301-redirected
+  to /pages/six-month-program (redirect gid 356090544237).
+- Verified (recon r103): redirect 301 live; header/footer menus updated, zero build-your-kit-2
+  links on rendered pages; repointed home app confirmed on CDN (4 new links, 0 old).

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 108 — origin gate: poll until hardened css propagates on throwaway keys
+# run 109 — live verify hardened css on p6m3 key: layout + screenshots + ATC smoke
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,20 +12,40 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
-            K="og$RANDOM$RANDOM"
-            curl -sSL "$B/mc-6mp.css?v=$K" -o t.css
-            HITS=$(grep -o -F '#root .kit-txt' t.css | wc -l)
-            echo "R108 try$i key=$K bytes=$(wc -c < t.css) rootKitTxt=$HITS"
-            if [ "$HITS" -ge 1 ]; then
-              echo "R108 PROPAGATED"
-              echo "R108 hardened kit-txt: $(grep -o '#root .kit-txt{[^}]*}' t.css | head -1)"
-              echo "R108 hardened pick-qty: $(grep -o '#root .pick-qty{[^}]*}' t.css | head -2 | tr '\n' ' ')"
-              exit 0
-            fi
-            sleep 10
-          done
-          echo "R108 NOT PROPAGATED"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag109',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const d=await p.evaluate(()=>{
+            const cs=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).display:null;};
+            const css=[...document.querySelectorAll('link[rel="stylesheet"]')].map(l=>l.href).filter(h=>/mc-6mp/.test(h));
+            return {css,kitTxt:cs('.kit-txt'),kitRow:cs('.kit-row'),kitPriceRow:cs('.kit-price-row'),pickQty:cs('.pick-qty'),pickRow:cs('.pick-row'),pickTxt:cs('.pick-txt'),plan:cs('.plan')};});
+          console.log('R109A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png', fullPage:false});
+          await p.evaluate(()=>{const e=document.querySelector('.plansel'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
+          await p.evaluate(()=>{const e=document.querySelector('.picker'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-scents.png'});
+          const atc=await p.evaluate(async ()=>{
+            const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45728132202605,quantity:1,properties:{'Scents':'QA layout check'}}]})});
+            const ok=r.status;
+            const c=await (await fetch('/cart.js')).json();
+            for (const it of c.items){ await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(it.key),quantity:0})}); }
+            return {addStatus:ok,count:c.items.length,price:c.items[0]?c.items[0].price:null};});
+          console.log('R109B atc '+JSON.stringify(atc));
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r109: hardened css live verify screenshots"
+          git push

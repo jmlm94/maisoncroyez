@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 103 — verify redirect + menus (instant surfaces)
+# run 105 — diagnose broken layout: fetch minified css + computed styles
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,14 +13,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify
+      - name: Fetch and probe
         run: |
-          echo "redirect: $(curl -s -o /dev/null -w '%{http_code} -> %{redirect_url}' 'https://maisoncroyez.com/pages/build-your-kit-2')"
-          curl -sL 'https://maisoncroyez.com/pages/six-month-program?utm_campaign=m103' -o /tmp/p.html
-          echo "header_menu_program: $(grep -o 'Six-Month Program' /tmp/p.html | wc -l)"
-          echo "header_menu_oldkit: $(grep -o 'Build your Kit' /tmp/p.html | wc -l)"
-          echo "footer_free_scents: $(grep -o 'Get Your FREE Scents' /tmp/p.html | wc -l)"
-          echo "any_bk2_links: $(grep -o 'pages/build-your-kit-2' /tmp/p.html | wc -l)"
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -sSL "$B/mc-home-app.js?v=og$RANDOM" -o /tmp/h.js
-          echo "gate_home_repointed: $(grep -o 'six-month-program' /tmp/h.js | wc -l) old: $(grep -o 'build-your-kit-2' /tmp/h.js | wc -l) newcta: $(grep -o 'Start Your Program' /tmp/h.js | wc -l)"
+          curl -sSL "$B/mc-6mp.css?v=og$RANDOM" -o lp-factory/pages/kits-lp/live/mc-6mp.min.css
+          for sel in ".pick-row{" ".pick-txt{" ".pick-qty{" ".kit-row{" ".kit-txt{" ".kit-price-row{" ".plan{" ".picker{"; do
+            echo "$sel -> $(grep -o -F "$sel" lp-factory/pages/kits-lp/live/mc-6mp.min.css | wc -l)"
+          done
+          echo "bytes: $(wc -c < lp-factory/pages/kits-lp/live/mc-6mp.min.css)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag105',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const d=await p.evaluate(()=>{
+            const cs=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).display:null;};
+            let inSheets={};
+            for (const sel of ['.pick-row','.pick-qty','.kit-row','.kit-price-row']){
+              inSheets[sel]=false;
+              for (const sh of document.styleSheets){ try{ for (const r of sh.cssRules){ if(r.selectorText && r.selectorText.indexOf(sel)>-1){inSheets[sel]=true;break;} } }catch(e){} if(inSheets[sel])break;
+              }
+            }
+            return { computed:{pickRow:cs('.pick-row'),pickTxt:cs('.pick-txt'),pickQty:cs('.pick-qty'),kitRow:cs('.kit-row'),kitTxt:cs('.kit-txt'),kitPriceRow:cs('.kit-price-row')}, inSheets };});
+          console.log('R105 '+JSON.stringify(d));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png', fullPage:false});
+          await p.evaluate(()=>{const e=document.querySelector('.plansel'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r105: minified css + live screenshots"
+          git push

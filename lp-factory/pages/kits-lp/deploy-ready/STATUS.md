@@ -85,3 +85,16 @@ any theme class rule). Verified in an adversarial local harness (.prose span
 - Repo deploy-ready/mc-6mp.css now carries the hardened source.
 Note: the artifact draft is unchanged on purpose — the hardening is live-only armor
 against theme CSS; the artifact has no theme cascade.
+
+## Announcement moved below hero + 92% line removed (2026-08-29, owner request)
+- Founder's Offer bar no longer renders at the very top of the app; it now renders
+  inside the buy section, directly below the hero gallery (wrapped with the gallery in
+  a new .gal-col div). Full-bleed black bar on mobile (<=899px); rounded card under the
+  gallery column on desktop (>=860px). Rating line ("★★★★★ 92% ...") deleted from the
+  buybox; the microProof string remains in CONFIG but is unused.
+- mc-6mp-app.js (gid 29842134663277) + mc-6mp.css (gid 29842134696045) updated;
+  css hardening block regenerated. Page loader key bumped p6m3-593d6c2 -> p6m4-e4326f9
+  after origin-gate (recon r111).
+- Verified live (recon r112 + screenshots): announcement below gallery at 390px,
+  full-bleed, 0 rating elements, flex layout intact, 0 page errors.
+- Artifact 959573c9 (MC LP Variant Draft) republished with the same changes.

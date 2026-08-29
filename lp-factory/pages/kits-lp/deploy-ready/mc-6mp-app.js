@@ -649,9 +649,8 @@ function BuyBox() {
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
-        <${Gallery}/>
+        <div class="gal-col"><${Gallery}/><${Announcement}/></div>
         <div class="buybox">
-          <div class="rating"><${Stars}/> ${B.microProof}</div>
           <h1>${B.title.pre}${B.title.em ? html` <em>${B.title.em}</em>` : ""}${B.title.post ? " " + B.title.post : ""}</h1>
           <div class="price-row">
             <span class="price">From <b>$199</b> or $49.75/mo with <b>Shop Pay</b></span>
@@ -1040,7 +1039,6 @@ function App() {
     faq: () => html`<${Faq} key="faq"/>`,
   };
   return html`
-    <${Announcement}/>
     ${CONFIG.sectionOrder.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     <${StickyBar}/>`;
 }

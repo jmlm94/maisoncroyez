@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 122 — gate list-hardened css, then verify handled by r123
+# run 123 — final live verify: fonts + lists (key p6m9)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,15 +12,37 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for i in 1 2 3 4 5 6; do
-            K="og$RANDOM$RANDOM"
-            curl -sSL "$B/mc-6mp.css?v=$K" -o c.css
-            L=$(grep -o -F '#root li' c.css | wc -l)
-            echo "R122 try$i bytes=$(wc -c < c.css) rootLi=$L"
-            if [ "$L" -ge 2 ]; then echo "R122 PROPAGATED"; exit 0; fi
-            sleep 10
-          done
-          echo "R122 NOT PROPAGATED"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag123',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          await p.evaluate(()=>document.fonts.ready);
+          const d=await p.evaluate(()=>{
+            const ff=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).fontFamily.slice(0,20):null;};
+            const ul=document.querySelector('.art-bullets')||document.querySelector('#root ul');
+            return {h1:ff('.pdp-buy h1'), ulStyle:ul?getComputedStyle(ul).listStyleType:null,
+              ulPad:ul?getComputedStyle(ul).paddingLeft:null};});
+          console.log('R123 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.evaluate(()=>{const e=document.querySelector('h1'); if(e) e.scrollIntoView({block:'center'});});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-hero2.png'});
+          await p.evaluate(()=>{const hs=[...document.querySelectorAll('h2')]; if(hs[1]) hs[1].scrollIntoView();});
+          await new Promise(r=>setTimeout(r,900));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-belowfold.png'});
+          await p.evaluate(()=>{const e=document.querySelector('.faq')||document.querySelectorAll('h2')[4]; if(e) e.scrollIntoView();});
+          await new Promise(r=>setTimeout(r,900));
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-belowfold2.png'});
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r123: fonts+lists final verify" || echo "no changes"
+          git push || echo "no push"

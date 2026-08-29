@@ -148,3 +148,18 @@ live-only armor against theme CSS.
 - app + css updated, origin-gated (r124); page key p6m9 -> p6m10-c8caec2.
 - Verified live (r125): margin-bottom 16px, price 16.64px (exactly -10%), "$39.95 Included!",
   0 errors; screenshots confirm. Artifact 959573c9 republished to match.
+
+## Tier selector redesigned: WEEM-style price grid (2026-08-29, owner-approved after 5 draft rounds)
+- Old horizontal row cards (image + text) replaced by a 3-across grid: kit name + emoji
+  on top, bold "1x Diffuser / 4x Scents" counts, compare-at above a 2.15rem Unna price,
+  white $/day pill ($1.10/$0.77/$0.73). Pastel gradients per card (gold/blush/lavender).
+- Home Kit card scaled 1.07 with drop shadow; chips: Most Popular (Home), Best Value
+  (Sanctuary — tag added to KITS data).
+- Below the section title: big green "6-MONTH SUPPLY PER DIFFUSER" pill + black
+  "+ Extra Mystery Scent if you buy today 🎁" line. Old per-card mystery badge, includes/
+  coverage/Shop Pay detail panel and kit thumbnails removed.
+- Selection logic unchanged (sel.setKit drives scent counts + ATC variant as before).
+- app+css uploaded (origin-gated r128); page key p6m10 -> p6m11-a1a9522. Hardening
+  regenerated (214 display + 133 typography rules) — new kg spans armored vs theme.
+- Verified live (r129): grid/cards flex, banner+extra, chips, $/day pills, 0 errors;
+  ATC smoke Home Kit $279.00 add+remove OK. Artifact 959573c9 already matched (v5).

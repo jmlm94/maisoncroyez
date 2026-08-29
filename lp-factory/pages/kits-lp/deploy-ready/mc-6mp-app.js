@@ -102,7 +102,7 @@ const KITS = [
     line: "Includes two (2) diffusers & eight (8) 100ml scents.", days: "", per: "", tag: "Most Popular" },
   { key: "sanctuary", name: "🧘 The Sanctuary Kit (Living Room, Bedroom and Kitchen)", price: 399, value: 719.25, variant: 45644597002349, diffusers: 3, scents: 12, pay4: "4 \u00d7 $99.75", renew: "$407.49", perMo: "$66.50/mo", rooms: "whole home", cover: "Covers up to 1,800 sqft (600 per diffuser)", mo: "$99.75/mo",
     img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg?width=160",
-    line: "Includes three (3) diffusers & twelve (12) 100ml scents.", days: "", per: "", tag: "" },
+    line: "Includes three (3) diffusers & twelve (12) 100ml scents.", days: "", per: "", tag: "Best Value" },
 ];
 const OFFER = { price: 199 }; /* min program price (legacy refs) */
 
@@ -659,22 +659,18 @@ function BuyBox() {
           <div class="ritual-incl">📚 <b>$99 Ritual Program included for free:</b> Get professional guidance on where to place your diffuser, activate your scents and make your spaces connected with what you\u2019re seeking.</div>
 
           <div class="picker-title plansel-title">How many spaces deserve to have the intention you\u2019re seeking?</div>
-          <div class="plansel kitsel" role="radiogroup" aria-label="Choose your kit">
-            ${KITS.map((kk, i) => { const on = sel.kitIdx === i; return html`
-              <div key=${kk.key} class=${"plan kitcard" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0"
+          <div class="supply-wrap"><span class="supply-banner">6-MONTH SUPPLY PER DIFFUSER</span><span class="supply-extra">+ Extra Mystery Scent if you buy today 🎁</span></div>
+          <div class="plansel kitgrid" role="radiogroup" aria-label="Choose your kit">
+            ${KITS.map((kk, i) => { const on = sel.kitIdx === i; const emo = kk.name.split(" ")[0]; const nm = kk.name.replace(/^\S+\s/, "").replace(/\s*\(.*$/, ""); const pd = ["$1.10/day", "$0.77/day", "$0.73/day"][i]; return html`
+              <div key=${kk.key} class=${"kg-card k" + i + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0"
                 onClick=${() => sel.setKit(i)} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setKit(i); }}>
-                ${kk.tag ? html`<span class="plan-badge">${kk.tag}</span>` : null}
-                <span class="kit-gift">🎁 +1 MYSTERY SCENT!</span>
-                <span class="kit-row">
-                  <img class="kit-img" src=${kk.img} alt=${kk.name} width="74" height="74" loading="lazy" decoding="async"/>
-                  <span class="kit-txt">
-                    <span class="plan-name">${kk.name}</span>
-                    <span class="kit-line">${kk.line}</span>
-                    <span class="kit-cover">${kk.cover}</span>
-                    <span class="kit-price-row"><b class="kit-price">${usd(kk.price)}</b><s class="kit-compare">${usd(kk.value)}</s><span class="kit-save">6-MONTH SUPPLY</span></span>
-                    <span class="kit-shoppay">${usd(kk.price)} or ${kk.mo} with Shop Pay (0% interest)</span>
-                  </span>
-                </span>
+                ${kk.tag ? html`<span class="kg-tag">${kk.tag}</span>` : null}
+                <span class="kg-title">${nm} ${emo}</span>
+                <span class="kg-cnt">${kk.diffusers}x ${kk.diffusers === 1 ? "Diffuser" : "Diffusers"}</span>
+                <span class="kg-cnt">${kk.scents}x Scents</span>
+                <s class="kg-compare">${usd(kk.value)}</s>
+                <b class="kg-price">${usd(kk.price)}</b>
+                <span class="kg-day">${pd}</span>
               </div>`; })}
           </div>
 

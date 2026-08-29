@@ -478,15 +478,14 @@ async function addToCart(setBusy, setToast) {
     return;
   }
   if (!onStore()) {
-    setToast("Preview mode. On the live store this adds the " + kit.name + " program (" + kit.diffusers + " diffuser" + (kit.diffusers > 1 ? "s" : "") + " + " + kit.scents + " scents, " + usd(kit.price) + (selStore.plan === "renew" ? ", Renew & Save: scents renew in 6 months at 15% off" : ", one-time") + ") and opens the cart drawer.");
+    setToast("Preview mode. On the live store this adds the " + kit.name + " program (" + kit.diffusers + " diffuser" + (kit.diffusers > 1 ? "s" : "") + " + " + kit.scents + " scents, " + usd(kit.price) + ") and opens the cart drawer.");
     return;
   }
   /* one line item: the kit variant (product 8215141417069) carries the full
      price; chosen scents ride along as line-item properties for fulfillment. */
   const items = [
     { id: kit.variant, quantity: 1,
-      properties: { "Scents": selStore.grouped().map(({ f, q }) => f.name + (q > 1 ? " ×" + q : "")).join(", "),
-        "Plan": selStore.plan === "renew" ? "Renew & Save (15% off next refill)" : "One-time" } },
+      properties: { "Scents": selStore.grouped().map(({ f, q }) => f.name + (q > 1 ? " ×" + q : "")).join(", ") } },
   ];
   try { if (window.fbq) fbq("track", "AddToCart", { content_type: "product", content_ids: [String(kit.variant)], value: kit.price, currency: "USD", num_items: 1 }); } catch (e) {}
   try {
@@ -718,8 +717,6 @@ function BuyBox() {
           </div>
 
           ${(() => { const kk = sel.kit(); const left = sel.count - sel.keys.length; return html`
-          <div class="modes-title">Get 15% OFF on your next shipment if you subscribe:</div>
-          <${ModeToggle}/>
           <button class="btn atc" disabled=${locked || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : left > 0 ? "Select " + left + " more scent" + (left > 1 ? "s" : "") : "ADD TO CART — " + usd(kk.price) + " ➔"}</span>
             <span class="btn-sub">${left > 0 ? "Complete your kit to continue" : html`<${Rich} s=${"**6-Month Supply. Risk-Free Trial. Free Returns.**"}/>`}</span>

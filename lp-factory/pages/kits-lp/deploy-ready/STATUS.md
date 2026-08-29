@@ -3,10 +3,10 @@
 Live URL: https://maisoncroyez.com/products/maison-croyez-manifestation-specia-bundles
 Product: gid://shopify/Product/8215141417069 (status UNLISTED — direct URL works, hidden from listings)
 
-## Deploy state (kx3, 2026-08-29)
-- Loader: product descriptionHtml, fixed key `kx3-95804f1`, loads
+## Deploy state (kx4, 2026-08-29)
+- Loader: product descriptionHtml, fixed key `kx4-ba20d16`, loads
   mc-lp-vendor.js (shared React) + mc-lp-diffuser-assets.js (CDN asset map) + mc-kits-app.js + mc-kits.css
-- Files: mc-kits-app.js gid://shopify/GenericFile/29577274294381 (sha 95804f1, ~66KB src),
+- Files: mc-kits-app.js gid://shopify/GenericFile/29577274294381 (sha ba20d16, ~64KB src),
   mc-kits.css gid://shopify/GenericFile/29577274327149 (~88KB, CDN fonts)
 - App source built from artifact 959573c9 ("MC LP Variant Draft") with:
   run-once IIFE guard (theme renders description twice), theme-template takeover
@@ -22,6 +22,6 @@ Product: gid://shopify/Product/8215141417069 (status UNLISTED — direct URL wor
 - Pixel: fbevents.js loads + signals/config fetched for 980908600592309, consent granted (r97)
 
 ## Notes
-- Renew & Save toggle is messaging only — no Subi 6-month selling plan wired yet;
-  plan choice rides along as the "Plan" line-item property.
+- Subscription/renewal toggle REMOVED (owner request 2026-08-29) — one-time purchase only;
+  cart line carries "Scents" property only.
 - Sanctuary variant is titled "The House Kit" in Shopify vs "The Sanctuary Kit" on page (checkout shows Shopify title).

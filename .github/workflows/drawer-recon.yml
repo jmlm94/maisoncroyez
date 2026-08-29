@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 100 — find who injects .mc-testi into the drawer on the pages URL
+# run 101 — fetch mc-drawer.js source
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -13,32 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify
+      - name: Fetch and commit
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const scripts=[];p.on('request',r=>{if(r.resourceType()==='script')scripts.push(r.url());});
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=p6m100',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          await p.evaluate(()=>{const e=document.querySelector('.btn.atc'); if(e) e.click();});
-          await p.waitForTimeout(5000);
-          const d=await p.evaluate(()=>{
-            const t=document.querySelector('#cart-drawer .mc-testi');
-            const st=document.getElementById('mc-drawer-style');
-            return { testi: t?t.textContent.trim().slice(0,120):null, styleTag: !!st,
-              inlineScriptsWithTesti: [...document.querySelectorAll('script:not([src])')].filter(s=>s.textContent.indexOf('mc-testi')>-1).length };});
-          console.log('R100A '+JSON.stringify(d));
-          const fs=require('fs');
-          const uniq=[...new Set(scripts)].filter(u=>u.indexOf('cdn.shopify.com')>-1);
-          for (const u of uniq){
-            try{
-              const res=await fetch(u);const txt=await res.text();
-              if(txt.indexOf('mc-testi')>-1) console.log('R100B INJECTOR: '+u.slice(0,140));
-            }catch(e){}
-          }
-          console.log('R100C done, scripts checked: '+uniq.length);
-          await b.close();})();
-          EOS
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          curl -sSL "$B/mc-drawer.js?v=src$RANDOM" -o lp-factory/pages/kits-lp/live/mc-drawer.js
+          wc -c lp-factory/pages/kits-lp/live/mc-drawer.js
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live/mc-drawer.js
+          git commit -m "recon r101: mc-drawer.js source"
+          git push

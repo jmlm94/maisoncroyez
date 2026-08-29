@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 129 — live verify tier grid deploy (key p6m11): visuals + ATC smoke
+# run 130 — verify WOW announcement bar text + blush styling post 23:00Z dr1 flip
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -21,36 +21,25 @@ jobs:
           (async()=>{const { chromium } = require('playwright');
           const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
           const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag129',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.goto('https://maisoncroyez.com/?utm_campaign=diag130',{waitUntil:'domcontentloaded',timeout:90000});
           await p.waitForTimeout(9000);
           const d=await p.evaluate(()=>{
-            const cs=s=>{const e=document.querySelector(s);return e?getComputedStyle(e).display:null;};
-            return {grid:cs('.kitgrid'), card:cs('.kg-card'), cards:document.querySelectorAll('.kg-card').length,
-              banner:(document.querySelector('.supply-banner')||{}).textContent,
-              extra:(document.querySelector('.supply-extra')||{}).textContent,
-              tags:[...document.querySelectorAll('.kg-tag')].map(e=>e.textContent),
-              days:[...document.querySelectorAll('.kg-day')].map(e=>e.textContent),
-              oldDetails:!!document.querySelector('.kg-details'), oldRows:document.querySelectorAll('.kit-row').length};});
-          console.log('R129A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-          await p.evaluate(()=>{const e=document.querySelector('.plansel-title'); if(e) e.scrollIntoView();});
-          await p.waitForTimeout(700);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
-          // select Home Kit, ATC smoke
-          await p.evaluate(()=>{const c=document.querySelectorAll('.kg-card')[1]; if(c) c.click();});
-          await p.waitForTimeout(600);
-          const atc=await p.evaluate(async ()=>{
-            const r=await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:45644596969581,quantity:1,properties:{'Scents':'QA grid check'}}]})});
-            const ok=r.status;
-            const c=await (await fetch('/cart.js')).json();
-            const price=c.items[0]?c.items[0].price:null;
-            for (const it of c.items){ await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(it.key),quantity:0})}); }
-            return {addStatus:ok,price};});
-          console.log('R129B atc '+JSON.stringify(atc));
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-390.png'});
+            const sec=document.querySelector('.shopify-section--announcement-bar');
+            if(!sec) return {found:false};
+            const par=sec.querySelector('p');
+            const cs=getComputedStyle(par||sec);
+            const scs=getComputedStyle(sec);
+            return {found:true, text:par?par.textContent.trim():null,
+              bg:scs.backgroundColor, bgImage:scs.backgroundImage, color:cs.color,
+              styleTag:!!document.getElementById('mc-banner-style')};});
+          console.log('R130A '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.evaluate(()=>window.scrollTo(0,0));
+          await p.waitForTimeout(500);
+          await p.screenshot({path:'lp-factory/pages/home/live/home-top.png'});
           await b.close();})();
           EOS
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r129: tier grid live verify" || echo "no changes"
+          git add lp-factory/pages/home/live
+          git commit -m "recon r130: WOW banner live verify" || echo "no changes"
           git push || echo "no push"

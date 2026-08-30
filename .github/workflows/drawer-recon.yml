@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 152 — final verify: pill gone, cards equal at desktop + mobile (key p6m18)
+# run 153 — origin gate: price line removed entirely, green banner restored, pill gone
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,36 +12,15 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();
-          for (const w of [1280, 390]){
-            const p=await b.newPage({viewport:{width:w,height:900}});
-            const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
-            await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag152w'+w,{waitUntil:'domcontentloaded',timeout:90000});
-            await p.waitForTimeout(9000);
-            const d=await p.evaluate(()=>{
-              const cards=[...document.querySelectorAll('.kg-card')].map(c=>{
-                const r=c.getBoundingClientRect();
-                return {top:Math.round(r.top),h:Math.round(r.height),mt:getComputedStyle(c).marginTop};});
-              return {cards, pill:!!document.querySelector('.supply-badge'),
-                price:(document.querySelector('.price-row .price')||{}).textContent,
-                key18:!!document.querySelector('script[src*="p6m18"]')};});
-            console.log('R152_W'+w+' '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-            await p.evaluate(()=>{const e=document.querySelector('.price-row')||document.querySelector('.plansel-title'); if(e) e.scrollIntoView({block:'start'});});
-            await p.waitForTimeout(600);
-            await p.screenshot({path:'lp-factory/pages/kits-lp/live/final-'+w+'.png'});
-            await p.close();
-          }
-          await b.close();})();
-          EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r152: final card equal verify" || echo "no changes"
-          git push || echo "no push"
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          curl -s "$B/mc-6mp-app.js?v=og$RANDOM$RANDOM" -o /tmp/app.js
+          curl -s "$B/mc-6mp.css?v=og$RANDOM$RANDOM" -o /tmp/k.css
+          echo "appBytes=$(wc -c < /tmp/app.js)"
+          echo "priceLine=$(grep -c '49.75/mo with' /tmp/app.js || true)"
+          echo "greenBanner=$(grep -c 'SUPPLY PER DIFFUSER' /tmp/app.js || true)"
+          echo "blackPill=$(grep -c 'supply-badge' /tmp/app.js || true)"
+          echo "guard=$(grep -c '__MC_KX_APP__' /tmp/app.js)"
+          echo "cssGap9=$(grep -c 'margin-top:9px' /tmp/k.css || true)"
+          echo "marginRule=$(grep -c 'kitgrid>.kg-card' /tmp/k.css || true)"

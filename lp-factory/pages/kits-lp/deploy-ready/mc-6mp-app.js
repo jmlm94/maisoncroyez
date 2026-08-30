@@ -734,7 +734,7 @@ function BuyBox() {
                 <span class="pick-row">
                   <${Img} slot=${f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${f.name}/>
                   <span class="pick-txt">
-                    <span class="pick-name">${f.name}${f.topSeller ? " 🏆" : ""}</span>
+                    <span class="pick-name">${f.name}${f.topSeller ? " 🏆" : ""}<span class="pick-ml">100ml</span></span>
                     <span class="pick-int">${f.intention}</span>
                     <span class="pick-free"><s>$39.95</s> Included!</span>
                   </span>

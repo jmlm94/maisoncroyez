@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 144 — origin gate: no-From price, supply badge removed, kg-compare bottom-anchor
+# run 145 — live verify: no-From price, badge removed, tier cards equalized (key p6m16)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,16 +12,33 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -s "$B/mc-6mp-app.js?v=og$RANDOM$RANDOM" -o /tmp/app.js
-          curl -s "$B/mc-6mp.css?v=og$RANDOM$RANDOM" -o /tmp/kits.css
-          echo "appBytes=$(wc -c < /tmp/app.js)"
-          echo "noFrom=$(grep -c 'From..b..199' /tmp/app.js || true)"
-          echo "badge=$(grep -c 'SUPPLY PER DIFFUSER' /tmp/app.js || true)"
-          echo "extra=$(grep -c 'Extra Mystery Scent' /tmp/app.js)"
-          echo "guard=$(grep -c '__MC_KX_APP__' /tmp/app.js)"
-          echo "cssBytes=$(wc -c < /tmp/kits.css)"
-          echo "anchor=$(grep -c 'margin-top:auto;padding-top:6px' /tmp/kits.css || true)"
-          echo "hardening=$(grep -c 'font-family:inherit' /tmp/kits.css || true)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag145',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const d=await p.evaluate(()=>{
+            const q=s=>document.querySelector(s);
+            const cards=[...document.querySelectorAll('.kg-card')].map(c=>Math.round(c.getBoundingClientRect().height));
+            const pills=[...document.querySelectorAll('.kg-day')].map(e=>Math.round(e.getBoundingClientRect().bottom));
+            return {price:(q('.price-row .price')||q('.price')||{}).textContent,
+              badge:!!q('.supply-banner'), extra:(q('.supply-extra')||{}).textContent,
+              cardHeights:cards, pillBottoms:pills, key16:!!q('script[src*="p6m16"]'),
+              grid:!!q('.kitgrid'), rows:document.querySelectorAll('.pick-row').length};});
+          console.log('R145 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.evaluate(()=>{const e=document.querySelector('.plansel-title'); if(e) e.scrollIntoView();});
+          await p.waitForTimeout(700);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-tiers.png'});
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r145: verify card tweaks live" || echo "no changes"
+          git push || echo "no push"

@@ -1854,8 +1854,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 
 /* 2026-08-30 polish: spacing + pick tweaks */
-.buybox h1 + .ritual-incl{margin-top:-4px}
+.buybox h1 + .ritual-incl{margin-top:-2px}
 .kitgrid + .picker-title{margin-top:38px}
 .pick-count{font-size:1.02rem;margin:6px 0 10px}
-.pick-ml{display:inline-block;margin-left:7px;font-size:.66rem;font-weight:700;letter-spacing:.04em;color:#8A6F5C;border:1px solid rgba(36,28,24,.18);border-radius:999px;padding:1px 7px;vertical-align:middle;background:#fff}
+.pick-ml{display:inline-block;position:absolute;right:12px;bottom:11px;font-size:.66rem;font-weight:700;letter-spacing:.04em;color:#8A6F5C;border:1px solid rgba(36,28,24,.18);border-radius:999px;padding:1px 7px;vertical-align:middle;background:#fff}
 #root .pick-ml{display:inline-block !important}

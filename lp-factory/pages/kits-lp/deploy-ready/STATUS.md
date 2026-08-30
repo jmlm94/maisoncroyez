@@ -238,3 +238,14 @@ top), Home 256 elevated, pill gone, price "$199 or $49.75/mo with Shop Pay",
 0 errors. Artifact republished.
 LESSON: theme sibling-margin rules hit grid items — add margin hardening for
 any future grid/flex rows inside .prose.
+
+## 2026-08-30 — Price line fully removed + green banner restored (key p6m19-6099d6e)
+Jose's original "remove the from 199 or 49.75" meant the ENTIRE price line
+("$199 or $49.75/mo with Shop Pay"), not just the word "From" — the whole
+.price-row div is now deleted from the buybox (prices live in the tier cards).
+Green "6-MONTH SUPPLY PER DIFFUSER" banner restored above the grid (was removed
+by my earlier misread; .supply-extra margin-top back to 9px). Black pill stays
+removed. Verified live r154: priceLine:false, banner text present, pill:false,
+grid+7 rows, 0 errors. Artifact republished in sync.
+Final buybox order: h1 → $99 Ritual Program box → picker title → green banner
+→ extra-scent line → tier grid.

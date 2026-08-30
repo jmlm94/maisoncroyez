@@ -259,3 +259,15 @@ with #root display hardening line). Verified live r156: ml:7, cntSize 16.32px,
 h1ToRitual 6, gridToTitle 48, key20, 0 errors.
 Also r156 confirmed: mc-banner-style injector fully gone post-01:00Z flip
 (annStyleTag:false); WOW text now shown is Jose's own theme-customizer setting.
+
+## 2026-08-30 — Pill to bottom-right + gap 8px (keys p6m21-b668aab → p6m22-21b8371)
+Jose: "put the 100ml bottom right same small size and everything" + h1→ritual
+gap "Do 8px". App: .pick-ml span moved from pick-name to after .pick-smells
+inside each .pick. CSS: .pick-ml now absolute right:12px bottom:11px (needs
+.pick{position:relative}, already present line 967); .buybox h1 + .ritual-incl
+margin-top:-2px (= 8px effective with 10px flex gap). Deployed b668aab, gated
+r157, flipped p6m21, verified r158 (mlCount 7, insets ~13/12, h1ToRitual 8) —
+but screenshot showed pill overlapping tail of long SMELLS LIKE line on card 1.
+Fix: .pick-smells padding-right:58px (source+hardened, commit 21b8371), gated
+r159 (pad=1 abs=1), flipped p6m22-21b8371. r160 verifies clearance via
+Range.getClientRects vs pill rect + commits final-pill-clear.png.

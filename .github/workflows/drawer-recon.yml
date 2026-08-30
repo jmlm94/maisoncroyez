@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 142 — origin gate late-arm Img edit
+# run 143 — final speed QA after round-5 (late-arm below-fold media, key p6m15): 3 throttled runs
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,10 +12,52 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          U="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-6mp-app.js?v=og$RANDOM$RANDOM"
-          curl -s "$U" -o /tmp/app.js
-          echo "bytes=$(wc -c < /tmp/app.js)"
-          echo "arm=$(grep -c '__mcLateOn' /tmp/app.js || true)"
-          echo "guard=$(grep -c '__MC_KX_APP__' /tmp/app.js)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();
+          for (let run=1; run<=3; run++){
+            const ctx=await b.newContext({viewport:{width:390,height:844}});
+            const p=await ctx.newPage();
+            const cdp=await ctx.newCDPSession(p);
+            await cdp.send('Network.enable');
+            await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1.6*1024*1024/8,uploadThroughput:750*1024/8});
+            await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+            await p.addInitScript(()=>{
+              window.__lcp=0; try{new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__lcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});}catch(e){}
+              window.__app=0; try{new MutationObserver((m,o)=>{if(!window.__app && document.querySelector('.kitgrid')){window.__app=performance.now();o.disconnect();}}).observe(document,{childList:true,subtree:true});}catch(e){}
+            });
+            const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
+            await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=speed143r'+run,{waitUntil:'load',timeout:120000}).catch(e=>errs.push('nav:'+String(e).slice(0,80)));
+            await p.waitForTimeout(15000);
+            const d=await p.evaluate(()=>{
+              const nav=performance.getEntriesByType('navigation')[0]||{};
+              const fcp=(performance.getEntriesByType('paint').find(e=>e.name==='first-contentful-paint')||{}).startTime||0;
+              const res=performance.getEntriesByType('resource');
+              const hero=res.find(r=>r.name.includes('Diseno_sin_titulo_92'));
+              return {ttfb:Math.round(nav.responseStart||0),dcl:Math.round(nav.domContentLoadedEventEnd||0),load:Math.round(nav.loadEventEnd||0),
+                fcp:Math.round(fcp),lcp:Math.round(window.__lcp||0),appRender:Math.round(window.__app||0),
+                heroEnd:hero?Math.round(hero.responseEnd):null,
+                grid:!!document.querySelector('.kitgrid'),cards:document.querySelectorAll('.kg-card').length,
+                rows:document.querySelectorAll('.pick-row').length,
+                thumbs:document.querySelectorAll('.pick-row .ph img').length,
+                key15:!!document.querySelector('script[src*="p6m15"]')};});
+            console.log('R143_RUN'+run+' '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+            if(run===1){
+              await p.evaluate(()=>{const e=document.querySelector('.plansel-title'); if(e) e.scrollIntoView();});
+              await p.waitForTimeout(800);
+              await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-speed-final.png'});
+            }
+            await ctx.close();
+          }
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r143: round-5 speed verify" || echo "no changes"
+          git push || echo "no push"

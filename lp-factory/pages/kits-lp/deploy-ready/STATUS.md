@@ -214,3 +214,12 @@ CSS edits applied identically to source and hardened file (no display/font
 rules touched, hardening blocks unchanged). Verified live r145: price text,
 badge gone, pill bottoms aligned, 0 errors. Artifact 959573c9 republished from
 the live copy + these edits (local draft had drifted ~14KB; merged onto live).
+
+## 2026-08-30 — Banner override removed from mc-drawer.js
+Per Jose (he'll set the announcement bar manually in the theme customizer):
+deleted the banner IIFE (WOW text + blush #mc-banner-style) from mc-drawer.js;
+cart-drawer takeover unchanged. Origin-gated r146 (banner=0, drawer intact,
+6807 bytes). File uses the theme's HOURLY dr1- key — goes live at the 01:00 UTC
+flip; check-in trig_01NNHnoXeqpdRqA4erHVsigM verifies at 01:05Z.
+Also r147: confirmed storefront HTML serves p6m16 (Jose's "don't see changes"
+was device cache — advised hard refresh).

@@ -249,3 +249,13 @@ removed. Verified live r154: priceLine:false, banner text present, pill:false,
 grid+7 rows, 0 errors. Artifact republished in sync.
 Final buybox order: h1 → $99 Ritual Program box → picker title → green banner
 → extra-scent line → tier grid.
+
+## 2026-08-30 — Final polish round (key p6m20-f50505c)
+Per Jose: (1) h1→ritual-box gap 10→6px (.buybox h1 + .ritual-incl margin-top:-4px);
+(2) kitgrid→"Your scents" title gap ~28→48px (.kitgrid + .picker-title
+margin-top:38px); (3) .pick-count .79rem→1.02rem; (4) 100ml pill added next to
+every scent name (.pick-ml span in pick-name; css appended to source+hardened
+with #root display hardening line). Verified live r156: ml:7, cntSize 16.32px,
+h1ToRitual 6, gridToTitle 48, key20, 0 errors.
+Also r156 confirmed: mc-banner-style injector fully gone post-01:00Z flip
+(annStyleTag:false); WOW text now shown is Jose's own theme-customizer setting.

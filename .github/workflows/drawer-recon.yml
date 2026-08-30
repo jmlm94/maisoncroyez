@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 151 — origin gate margin-zero rule in css
+# run 152 — final verify: pill gone, cards equal at desktop + mobile (key p6m18)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,10 +12,36 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          U="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-6mp.css?v=og$RANDOM$RANDOM"
-          curl -s "$U" -o /tmp/k.css
-          echo "bytes=$(wc -c < /tmp/k.css)"
-          echo "rule=$(grep -c 'kitgrid>.kg-card' /tmp/k.css || true)"
-          echo "hardening=$(grep -c 'font-family:inherit' /tmp/k.css || true)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();
+          for (const w of [1280, 390]){
+            const p=await b.newPage({viewport:{width:w,height:900}});
+            const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,100)));
+            await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag152w'+w,{waitUntil:'domcontentloaded',timeout:90000});
+            await p.waitForTimeout(9000);
+            const d=await p.evaluate(()=>{
+              const cards=[...document.querySelectorAll('.kg-card')].map(c=>{
+                const r=c.getBoundingClientRect();
+                return {top:Math.round(r.top),h:Math.round(r.height),mt:getComputedStyle(c).marginTop};});
+              return {cards, pill:!!document.querySelector('.supply-badge'),
+                price:(document.querySelector('.price-row .price')||{}).textContent,
+                key18:!!document.querySelector('script[src*="p6m18"]')};});
+            console.log('R152_W'+w+' '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+            await p.evaluate(()=>{const e=document.querySelector('.price-row')||document.querySelector('.plansel-title'); if(e) e.scrollIntoView({block:'start'});});
+            await p.waitForTimeout(600);
+            await p.screenshot({path:'lp-factory/pages/kits-lp/live/final-'+w+'.png'});
+            await p.close();
+          }
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r152: final card equal verify" || echo "no changes"
+          git push || echo "no push"

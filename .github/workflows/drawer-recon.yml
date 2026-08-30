@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 146 — origin gate: banner override removed from mc-drawer.js, drawer code intact
+# run 147 — confirm storefront HTML serves key p6m16 (fresh + no query param)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -14,10 +14,9 @@ jobs:
     steps:
       - name: Gate
         run: |
-          U="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=og$RANDOM$RANDOM"
-          curl -s "$U" -o /tmp/d.js
-          echo "bytes=$(wc -c < /tmp/d.js)"
-          echo "banner=$(grep -c 'mcBanner' /tmp/d.js || true)"
-          echo "wow=$(grep -c 'WOW' /tmp/d.js || true)"
-          echo "drawer=$(grep -c '__mcDrawer' /tmp/d.js)"
-          echo "checkout=$(grep -c 'Secure Checkout' /tmp/d.js)"
+          curl -s "https://maisoncroyez.com/pages/six-month-program" -o /tmp/p.html
+          echo "bytes=$(wc -c < /tmp/p.html)"
+          echo "key16=$(grep -c 'p6m16-991ea6e' /tmp/p.html || true)"
+          echo "key15=$(grep -c 'p6m15' /tmp/p.html || true)"
+          curl -s "https://maisoncroyez.com/pages/six-month-program?nc=$RANDOM" -o /tmp/p2.html
+          echo "key16_fresh=$(grep -c 'p6m16-991ea6e' /tmp/p2.html || true)"

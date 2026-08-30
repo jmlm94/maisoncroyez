@@ -1481,6 +1481,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .supply-banner{display:inline-block;background:#0A7A00;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.05em;border-radius:999px;padding:9px 18px}
 .supply-extra{display:block;margin-top:2px;color:var(--ink);font-family:'Outfit',sans-serif;font-weight:700;font-size:.88rem}
 .kitgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-items:stretch;margin-top:16px}
+.kitgrid>.kg-card{margin:0 !important}
 .kg-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;border:1.5px solid rgba(36,28,24,.14);border-radius:14px;padding:22px 5px 15px;cursor:pointer;text-align:center}
 .kg-card.k0{background:linear-gradient(165deg,#FFF7E4,#FFE7C9)}
 .kg-card.k1{background:linear-gradient(165deg,#FFEFEA,#FFD9D2);transform:scale(1.07);z-index:1;box-shadow:0 8px 20px rgba(36,28,24,.12)}

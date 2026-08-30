@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 157 — origin gate: pill absolute bottom-right, gap -2px
+# run 158 — live verify: 100ml pill bottom-right, gap 8px (key p6m21)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,13 +12,35 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate
+      - uses: actions/checkout@v4
+      - name: Verify
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -s "$B/mc-6mp-app.js?v=og$RANDOM$RANDOM" -o /tmp/app.js
-          curl -s "$B/mc-6mp.css?v=og$RANDOM$RANDOM" -o /tmp/k.css
-          echo "appBytes=$(wc -c < /tmp/app.js)"
-          echo "ml=$(grep -c 'pick-ml' /tmp/app.js || true)"
-          echo "guard=$(grep -c '__MC_KX_APP__' /tmp/app.js)"
-          echo "abs=$(grep -c 'right:12px;bottom:11px' /tmp/k.css || true)"
-          echo "neg2=$(grep -c 'margin-top:-2px' /tmp/k.css || true)"
+          npm i -s playwright@1.56.1 > /dev/null 2>&1
+          npx playwright install --with-deps chromium > /dev/null 2>&1
+          node - <<'EOS'
+          (async()=>{const { chromium } = require('playwright');
+          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
+          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+          await p.goto('https://maisoncroyez.com/pages/six-month-program?utm_campaign=diag158',{waitUntil:'domcontentloaded',timeout:90000});
+          await p.waitForTimeout(9000);
+          const d=await p.evaluate(()=>{
+            const q=s=>document.querySelector(s);
+            const card=q('.pick'); const ml=card?card.querySelector('.pick-ml'):null;
+            const cr=card?card.getBoundingClientRect():null, mr=ml?ml.getBoundingClientRect():null;
+            const h1=q('.buybox h1'), rit=q('.ritual-incl');
+            return {mlCount:document.querySelectorAll('.pick-ml').length,
+              rightInset:cr&&mr?Math.round(cr.right-mr.right):null,
+              bottomInset:cr&&mr?Math.round(cr.bottom-mr.bottom):null,
+              h1ToRitual:h1&&rit?Math.round(rit.getBoundingClientRect().top-h1.getBoundingClientRect().bottom):null,
+              key21:!!q('script[src*="p6m21"]')};});
+          console.log('R158 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+          await p.evaluate(()=>{const e=document.querySelector('.pick'); if(e) e.scrollIntoView({block:'center'});});
+          await p.waitForTimeout(600);
+          await p.screenshot({path:'lp-factory/pages/kits-lp/live/final-pill.png'});
+          await b.close();})();
+          EOS
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live
+          git commit -m "recon r158: pill bottom-right live verify" || echo "no changes"
+          git push || echo "no push"

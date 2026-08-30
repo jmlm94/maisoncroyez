@@ -204,3 +204,13 @@ NOTE: deploys in this window used fileUpdate originalSource pointed at
 raw.githubusercontent.com (repo is public) — staged-upload curl was blocked by
 the sandbox permission layer. Pattern: commit file → fileUpdate with the raw URL
 pinned to the commit sha.
+
+## 2026-08-30 — Card polish round (key p6m16-991ea6e)
+Per Jose: removed "From" in hero price line; removed the 6-MONTH SUPPLY PER
+DIFFUSER badge (kept "+ Extra Mystery Scent..." line, margin-top 9px→2px);
+bottom-anchored tier-card price block (.kg-compare margin-top:auto +
+padding-top:6px) so Ritual and Sanctuary read equal, Home Kit stays scale(1.07).
+CSS edits applied identically to source and hardened file (no display/font
+rules touched, hardening blocks unchanged). Verified live r145: price text,
+badge gone, pill bottoms aligned, 0 errors. Artifact 959573c9 republished from
+the live copy + these edits (local draft had drifted ~14KB; merged onto live).

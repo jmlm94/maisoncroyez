@@ -1,0 +1,22 @@
+import { chromium } from 'playwright';
+const SC='/tmp/claude-0/-home-user-maisoncroyez/8b8ad2bf-0f8a-50af-9483-1a6dcfb1da59/scratchpad';
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const p=await b.newPage({viewport:{width:390,height:844}});
+const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
+await p.goto('file://'+SC+'/deploy-test-polish2.html');
+await p.waitForTimeout(2000);
+const d=await p.evaluate(()=>{
+  const q=s=>document.querySelector(s);
+  const ml=document.querySelectorAll('.pick-ml').length;
+  const cnt=q('.pick-count'); const cs=cnt?getComputedStyle(cnt).fontSize:null;
+  const grid=q('.kitgrid').getBoundingClientRect().bottom;
+  const t2=[...document.querySelectorAll('.picker-title')].find(e=>/Your scents/.test(e.textContent));
+  const gap=t2?Math.round(t2.getBoundingClientRect().top-grid):null;
+  const h1=q('.buybox h1'); const rit=q('.ritual-incl');
+  const gap1=h1&&rit?Math.round(rit.getBoundingClientRect().top-h1.getBoundingClientRect().bottom):null;
+  return {ml,countSize:cs,gridToTitle:gap,h1ToRitual:gap1,firstName:(q('.pick-name')||{}).textContent};});
+console.log('POLISH '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
+await p.evaluate(()=>{const e=document.querySelector('.pick-count'); if(e) e.scrollIntoView({block:'start'});});
+await p.waitForTimeout(400);
+await p.screenshot({path:SC+'/local-polish.png'});
+await b.close();

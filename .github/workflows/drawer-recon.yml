@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 148 — live shots: program-page price area + tier grid, right now
+# run 149 — origin gate: supply-badge pill removed from buy box
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,29 +12,11 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Verify
+      - name: Gate
         run: |
-          npm i -s playwright@1.56.1 > /dev/null 2>&1
-          npx playwright install --with-deps chromium > /dev/null 2>&1
-          node - <<'EOS'
-          (async()=>{const { chromium } = require('playwright');
-          const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});
-          const errs=[]; p.on('pageerror',e=>errs.push(String(e).slice(0,120)));
-          await p.goto('https://maisoncroyez.com/pages/six-month-program',{waitUntil:'domcontentloaded',timeout:90000});
-          await p.waitForTimeout(9000);
-          const d=await p.evaluate(()=>{
-            const q=s=>document.querySelector(s);
-            return {price:(q('.price-row .price')||q('.price')||{}).textContent,
-              badge:!!q('.supply-banner'), key16:!!q('script[src*="p6m16"]')};});
-          console.log('R148 '+JSON.stringify(d)+' errs='+JSON.stringify(errs));
-          await p.evaluate(()=>{const e=document.querySelector('.price-row')||document.querySelector('.price'); if(e) e.scrollIntoView({block:'center'});});
-          await p.waitForTimeout(600);
-          await p.screenshot({path:'lp-factory/pages/kits-lp/live/live-pricearea.png'});
-          await b.close();})();
-          EOS
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live
-          git commit -m "recon r148: price area live shot" || echo "no changes"
-          git push || echo "no push"
+          U="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-6mp-app.js?v=og$RANDOM$RANDOM"
+          curl -s "$U" -o /tmp/app.js
+          echo "bytes=$(wc -c < /tmp/app.js)"
+          echo "pill=$(grep -c 'supply-badge' /tmp/app.js || true)"
+          echo "guard=$(grep -c '__MC_KX_APP__' /tmp/app.js)"
+          echo "price=$(grep -c '49.75/mo' /tmp/app.js)"

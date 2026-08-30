@@ -443,14 +443,38 @@ const LazyVid = ({ im }) => {
       ${im.srcWebm && html`<source src=${im.srcWebm} type="video/webm"/>`}
     </video>`;
 };
+/* global late-arm: below-fold media waits for load+300ms (8s cap) so it never
+   competes with the hero image in the LCP bandwidth window */
+window.__mcLateQ = window.__mcLateQ || [];
+(function () {
+  function mcArm() {
+    if (window.__mcLateOn) return; window.__mcLateOn = true;
+    (window.__mcLateQ || []).forEach(function (f) { try { f(); } catch (e) {} });
+  }
+  if (document.readyState === "complete") setTimeout(mcArm, 300);
+  else window.addEventListener("load", function () { setTimeout(mcArm, 300); }, { once: true });
+  setTimeout(mcArm, 8000);
+})();
+const useLateArm = () => {
+  const [ok, setOk] = useState(!!window.__mcLateOn);
+  useEffect(() => {
+    if (ok) return;
+    const f = () => setOk(true);
+    window.__mcLateQ.push(f);
+  }, []);
+  return ok;
+};
 const Img = ({ slot, tone = "warm", style, alt = "", eager = false }) => {
   const im = CONFIG.images[slot];
+  const armed = useLateArm();
   if (im && im.src) {
     const isVid = im.src.startsWith("data:video") || /\.(mp4|webm)($|\?)/.test(im.src);
     const media = isVid
       ? html`<${LazyVid} im=${im}/>`
-      : html`<img class="simg" src=${im.src} alt=${alt} decoding="async"
-          loading=${eager ? "eager" : "lazy"} fetchpriority=${eager ? "high" : "auto"}/>`;
+      : (eager || armed)
+        ? html`<img class="simg" src=${im.src} alt=${alt} decoding="async"
+            loading=${eager ? "eager" : "lazy"} fetchpriority=${eager ? "high" : "auto"}/>`
+        : null;
     return html`<div class="ph sq" style=${style}>${media}</div>`;
   }
   return html`<${Placeholder} sq=${true} tone=${tone} style=${style} cap=${"AWAITING MEDIA — " + (im ? im.file : slot)}/>`;

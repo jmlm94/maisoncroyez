@@ -698,13 +698,13 @@ function BuyBox() {
         <div class="buybox">
           <h1>${B.title.pre}${B.title.em ? html` <em>${B.title.em}</em>` : ""}${B.title.post ? " " + B.title.post : ""}</h1>
           <div class="price-row">
-            <span class="price">From <b>$199</b> or $49.75/mo with <b>Shop Pay</b></span>
+            <span class="price"><b>$199</b> or $49.75/mo with <b>Shop Pay</b></span>
             <span class="price-badge supply-badge">6-MONTH SUPPLY</span>
           </div>
           <div class="ritual-incl">📚 <b>$99 Ritual Program included for free:</b> Get professional guidance on where to place your diffuser, activate your scents and make your spaces connected with what you\u2019re seeking.</div>
 
           <div class="picker-title plansel-title">How many spaces deserve to have the intention you\u2019re seeking?</div>
-          <div class="supply-wrap"><span class="supply-banner">6-MONTH SUPPLY PER DIFFUSER</span><span class="supply-extra">+ Extra Mystery Scent if you buy today 🎁</span></div>
+          <div class="supply-wrap"><span class="supply-extra">+ Extra Mystery Scent if you buy today 🎁</span></div>
           <div class="plansel kitgrid" role="radiogroup" aria-label="Choose your kit">
             ${KITS.map((kk, i) => { const on = sel.kitIdx === i; const emo = kk.name.split(" ")[0]; const nm = kk.name.replace(/^\S+\s/, "").replace(/\s*\(.*$/, ""); const pd = ["$1.10/day", "$0.77/day", "$0.73/day"][i]; return html`
               <div key=${kk.key} class=${"kg-card k" + i + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0"

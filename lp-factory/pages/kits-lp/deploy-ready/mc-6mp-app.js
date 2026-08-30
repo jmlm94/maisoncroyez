@@ -697,9 +697,6 @@ function BuyBox() {
         <div class="gal-col"><${Gallery}/><${Announcement}/></div>
         <div class="buybox">
           <h1>${B.title.pre}${B.title.em ? html` <em>${B.title.em}</em>` : ""}${B.title.post ? " " + B.title.post : ""}</h1>
-          <div class="price-row">
-            <span class="price"><b>$199</b> or $49.75/mo with <b>Shop Pay</b></span>
-          </div>
           <div class="ritual-incl">📚 <b>$99 Ritual Program included for free:</b> Get professional guidance on where to place your diffuser, activate your scents and make your spaces connected with what you\u2019re seeking.</div>
 
           <div class="picker-title plansel-title">How many spaces deserve to have the intention you\u2019re seeking?</div>

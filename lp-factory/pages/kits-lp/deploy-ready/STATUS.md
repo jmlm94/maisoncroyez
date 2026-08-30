@@ -223,3 +223,18 @@ cart-drawer takeover unchanged. Origin-gated r146 (banner=0, drawer intact,
 flip; check-in trig_01NNHnoXeqpdRqA4erHVsigM verifies at 01:05Z.
 Also r147: confirmed storefront HTML serves p6m16 (Jose's "don't see changes"
 was device cache — advised hard refresh).
+
+## 2026-08-30 — Badge correction + card equalization (keys p6m17 → p6m18)
+Jose clarified: the badge to remove was the BLACK "6-MONTH SUPPLY" pill next to
+the price line (.price-badge.supply-badge), not the green one above the grid
+(both now gone). Removed in app (p6m17).
+Card side-difference root cause found via r150 computed-style diag: the THEME
+applies margin-top:16px to every .kg-card except the first (adjacent-sibling
+spacing rule); in a stretch grid, item margins subtract from stretched height,
+so Sanctuary rendered 16px shorter/lower than Ritual. Fix: added
+`.kitgrid>.kg-card{margin:0 !important}` to css source+hardened (p6m18).
+Verified r152 at 1280 AND 390: Ritual/Sanctuary pixel-identical (h239, same
+top), Home 256 elevated, pill gone, price "$199 or $49.75/mo with Shop Pay",
+0 errors. Artifact republished.
+LESSON: theme sibling-margin rules hit grid items — add margin hardening for
+any future grid/flex rows inside .prose.

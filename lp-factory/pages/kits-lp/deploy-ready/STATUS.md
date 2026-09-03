@@ -271,3 +271,20 @@ but screenshot showed pill overlapping tail of long SMELLS LIKE line on card 1.
 Fix: .pick-smells padding-right:58px (source+hardened, commit 21b8371), gated
 r159 (pad=1 abs=1), flipped p6m22-21b8371. r160 verifies clearance via
 Range.getClientRects vs pill rect + commits final-pill-clear.png.
+
+## 2026-09-03 — Inner Circle offer prep (LIVE STORE CHANGES, page not yet deployed)
+New offer designed in artifact mock (free diffuser + 2 scents / $89.95 per 45
+days, "Inner Circle Membership"). Shopify changes applied at Jose's direction:
+- Diffuser variant 45450822778989 price 79.95 -> 89.95.
+- All 7 scent variants 39.95 -> 49.95; junk 0.00 compareAtPrice cleared.
+- NEW automatic discount "Inner Circle — 2 scents for $89.95"
+  (DiscountAutomaticNode/1385978429549): $9.95 off, min qty 2, the 7 scent
+  products, SUBSCRIPTION ONLY, all recurring cycles, combinesWith
+  productDiscounts+shippingDiscounts.
+- Existing BXGY "Manifestation Ritual" (1375641600109) intentionally untouched
+  — old funnel still depends on it; re-aim at deploy.
+Deploy TODO: rewrite page ATC to add 2 scents on Subi 45-day plan
+(SellingPlan/2661875821, group Plan 4) + diffuser; verify all 7 scents attached
+to that plan group in Subi; member 20% extra-scent discount; Subi portal
+settings must match page promises (2-click cancel, skip/pause/swap, 90-day
+return policy).

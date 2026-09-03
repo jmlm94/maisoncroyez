@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 162 — re-gate mc-ic file sizes vs repo + BXGY subscription-vs-onetime isolation
+# run 163 — minify-tolerant gate + final cart validation (membership $89.95 total, one-time no freebies)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,31 +12,31 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate sizes
+      - name: Gate (minify-tolerant)
         run: |
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          G="https://raw.githubusercontent.com/jmlm94/maisoncroyez/577531ab2603fbbc793ac473d34f7371a52e6c27/lp-factory/pages/kits-lp/deploy-ready"
-          curl -s "$G/mc-ic-app.js" -o /tmp/gapp.js; curl -s "$G/mc-ic.css" -o /tmp/gcss.css
           curl -s "$B/mc-ic-app.js?v=og$RANDOM$RANDOM" -o /tmp/app.js
           curl -s "$B/mc-ic.css?v=og$RANDOM$RANDOM" -o /tmp/ic.css
-          echo "github app=$(wc -c < /tmp/gapp.js) css=$(wc -c < /tmp/gcss.css)"
-          echo "cdn    app=$(wc -c < /tmp/app.js) css=$(wc -c < /tmp/ic.css)"
-          cmp -s /tmp/gapp.js /tmp/app.js && echo "APP-IDENTICAL" || echo "APP-DIFFERS"
-          cmp -s /tmp/gcss.css /tmp/ic.css && echo "CSS-IDENTICAL" || echo "CSS-DIFFERS"
-          echo "plan=$(grep -c 'selling_plan: CART.sellingPlan' /tmp/app.js || true)"
-          echo "hardening=$(grep -c '#root \.offhero{display:flex !important}' /tmp/ic.css || true)"
-      - name: BXGY isolation
+          echo "appBytes=$(wc -c < /tmp/app.js) cssBytes=$(wc -c < /tmp/ic.css)"
+          echo "plan=$(grep -c 'selling_plan:CART.sellingPlan\|selling_plan: CART.sellingPlan' /tmp/app.js || true)"
+          echo "icvar=$(grep -c '45771775639661' /tmp/app.js || true)"
+          echo "claim=$(grep -c 'CLAIM MY FREE DIFFUSER' /tmp/app.js || true)"
+          echo "vid=$(grep -c 'mc-hero-loop-780.mp4' /tmp/app.js || true)"
+          echo "hardening=$(grep -c '#root .offhero{display:flex' /tmp/ic.css || true)"
+          echo "portalcss=$(grep -c '.portal-btns{' /tmp/ic.css || true)"
+      - name: Final cart validation
         run: |
-          echo "--- A: 2 ONE-TIME scents + diffuser ---"
+          echo "--- MEMBERSHIP: 2 sub scents + \$0 diffuser (expect total 8995) ---"
           J=/tmp/j1; curl -s -c $J -o /dev/null "https://maisoncroyez.com/"
           curl -s -b $J -c $J -X POST "https://maisoncroyez.com/cart/add.js" -H "Content-Type: application/json" \
-            -d '{"items":[{"id":41212020457581,"quantity":1},{"id":41212018655341,"quantity":1},{"id":45450822778989,"quantity":1}]}' -o /dev/null
+            -d '{"items":[{"id":41212020457581,"quantity":1,"selling_plan":2661875821},{"id":41212018655341,"quantity":1,"selling_plan":2661875821},{"id":45771775639661,"quantity":1}]}' -o /tmp/addresp.json -w "add=%{http_code}\n"
+          head -c 200 /tmp/addresp.json; echo
           curl -s -b $J "https://maisoncroyez.com/cart.js" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("total", d["total_price"]); [print(i["id"], i["final_line_price"], "plan" if i.get("selling_plan_allocation") else "one-time") for i in d["items"]]'
           curl -s -b $J -X POST "https://maisoncroyez.com/cart/clear.js" -o /dev/null
-          echo "--- B: 2 SUB scents + diffuser (repeat) ---"
+          echo "--- ONE-TIME: diffuser + 1 scent (expect 8995 + 4995, no freebies) ---"
           K=/tmp/j2; curl -s -c $K -o /dev/null "https://maisoncroyez.com/"
           curl -s -b $K -c $K -X POST "https://maisoncroyez.com/cart/add.js" -H "Content-Type: application/json" \
-            -d '{"items":[{"id":41212020457581,"quantity":1,"selling_plan":2661875821},{"id":41212018655341,"quantity":1,"selling_plan":2661875821},{"id":45450822778989,"quantity":1}]}' -o /dev/null
-          curl -s -b $K "https://maisoncroyez.com/cart.js" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("total", d["total_price"]); [print(i["id"], i["final_line_price"], "plan" if i.get("selling_plan_allocation") else "one-time") for i in d["items"]]'
+            -d '{"items":[{"id":45450822778989,"quantity":1},{"id":41212020457581,"quantity":1}]}' -o /dev/null
+          curl -s -b $K "https://maisoncroyez.com/cart.js" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("total", d["total_price"]); [print(i["id"], i["final_line_price"]) for i in d["items"]]'
           curl -s -b $K -X POST "https://maisoncroyez.com/cart/clear.js" -o /dev/null
           echo done

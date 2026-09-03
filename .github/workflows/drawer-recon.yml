@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 163 — minify-tolerant gate + final cart validation (membership $89.95 total, one-time no freebies)
+# run 164 — LIVE end-to-end verify of Inner Circle page (render + real ATC + cart + screenshot)
 on:
   push:
     branches: [claude/maison-offer-v2-deploy-dspkwe]
@@ -12,31 +12,63 @@ jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate (minify-tolerant)
+      - uses: actions/checkout@v4
+      - name: Install playwright
         run: |
-          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          curl -s "$B/mc-ic-app.js?v=og$RANDOM$RANDOM" -o /tmp/app.js
-          curl -s "$B/mc-ic.css?v=og$RANDOM$RANDOM" -o /tmp/ic.css
-          echo "appBytes=$(wc -c < /tmp/app.js) cssBytes=$(wc -c < /tmp/ic.css)"
-          echo "plan=$(grep -c 'selling_plan:CART.sellingPlan\|selling_plan: CART.sellingPlan' /tmp/app.js || true)"
-          echo "icvar=$(grep -c '45771775639661' /tmp/app.js || true)"
-          echo "claim=$(grep -c 'CLAIM MY FREE DIFFUSER' /tmp/app.js || true)"
-          echo "vid=$(grep -c 'mc-hero-loop-780.mp4' /tmp/app.js || true)"
-          echo "hardening=$(grep -c '#root .offhero{display:flex' /tmp/ic.css || true)"
-          echo "portalcss=$(grep -c '.portal-btns{' /tmp/ic.css || true)"
-      - name: Final cart validation
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Live verify
         run: |
-          echo "--- MEMBERSHIP: 2 sub scents + \$0 diffuser (expect total 8995) ---"
-          J=/tmp/j1; curl -s -c $J -o /dev/null "https://maisoncroyez.com/"
-          curl -s -b $J -c $J -X POST "https://maisoncroyez.com/cart/add.js" -H "Content-Type: application/json" \
-            -d '{"items":[{"id":41212020457581,"quantity":1,"selling_plan":2661875821},{"id":41212018655341,"quantity":1,"selling_plan":2661875821},{"id":45771775639661,"quantity":1}]}' -o /tmp/addresp.json -w "add=%{http_code}\n"
-          head -c 200 /tmp/addresp.json; echo
-          curl -s -b $J "https://maisoncroyez.com/cart.js" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("total", d["total_price"]); [print(i["id"], i["final_line_price"], "plan" if i.get("selling_plan_allocation") else "one-time") for i in d["items"]]'
-          curl -s -b $J -X POST "https://maisoncroyez.com/cart/clear.js" -o /dev/null
-          echo "--- ONE-TIME: diffuser + 1 scent (expect 8995 + 4995, no freebies) ---"
-          K=/tmp/j2; curl -s -c $K -o /dev/null "https://maisoncroyez.com/"
-          curl -s -b $K -c $K -X POST "https://maisoncroyez.com/cart/add.js" -H "Content-Type: application/json" \
-            -d '{"items":[{"id":45450822778989,"quantity":1},{"id":41212020457581,"quantity":1}]}' -o /dev/null
-          curl -s -b $K "https://maisoncroyez.com/cart.js" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("total", d["total_price"]); [print(i["id"], i["final_line_price"]) for i in d["items"]]'
-          curl -s -b $K -X POST "https://maisoncroyez.com/cart/clear.js" -o /dev/null
-          echo done
+          cat > r164.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+          const pg = await ctx.newPage();
+          const errs = [];
+          pg.on('pageerror', e => errs.push(e.message));
+          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await pg.waitForSelector('.offhero', { timeout: 60000 });
+          await pg.waitForTimeout(3500);
+          const chk = await pg.evaluate(() => ({
+            key: document.documentElement.innerHTML.includes('ic1-324cb59'),
+            h1: document.querySelector('.buybox h1')?.textContent.slice(0, 40),
+            hero: !!document.querySelector('.offhero'),
+            ledger: [...document.querySelectorAll('.off-lrow')].map(e => e.textContent.trim().replace(/\s+/g, ' ').slice(0, 42)),
+            counter: document.querySelector('.off-scarce')?.textContent,
+            video: (() => { const v = document.querySelector('.gal video'); return v ? { playing: !v.paused && v.videoWidth > 0, fits: v.getBoundingClientRect().width <= 391 } : null; })(),
+            portal: !!document.querySelector('.portal'), tl: document.querySelectorAll('.tl-step').length,
+            picks: document.querySelectorAll('.pick').length,
+            count: document.querySelector('.pick-count')?.textContent,
+            btn: document.querySelector('.btn.atc span')?.textContent,
+            hscroll: document.documentElement.scrollWidth - window.innerWidth,
+          }));
+          console.log('R164-RENDER ' + JSON.stringify(chk));
+          // real ATC click -> real cart
+          await pg.locator('.btn.atc').click();
+          await pg.waitForTimeout(3500);
+          const cart = await pg.evaluate(async () => {
+            const c = await (await fetch('/cart.js')).json();
+            return { total: c.total_price, items: c.items.map(i => [i.id, i.final_line_price, i.selling_plan_allocation ? 'plan' : 'one-time']) };
+          });
+          console.log('R164-CART ' + JSON.stringify(cart));
+          await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
+          console.log('cart cleared');
+          // screenshots
+          await pg.keyboard.press('Escape');
+          await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (d && d.hide) d.hide(); window.scrollTo(0, 0); });
+          await pg.waitForTimeout(800);
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic-live-top.png' });
+          const hero = pg.locator('.offhero');
+          await hero.scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic-live-card.png' });
+          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 5)));
+          await b.close();
+          EOF
+          node r164.mjs
+      - name: Commit screenshots
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/live/ic-live-top.png lp-factory/pages/kits-lp/live/ic-live-card.png
+          git commit -m "r164: Inner Circle live screenshots"
+          git push

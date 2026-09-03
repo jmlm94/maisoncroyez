@@ -288,3 +288,22 @@ Deploy TODO: rewrite page ATC to add 2 scents on Subi 45-day plan
 to that plan group in Subi; member 20% extra-scent discount; Subi portal
 settings must match page promises (2-click cancel, skip/pause/swap, 90-day
 return policy).
+
+## 2026-09-03 — INNER CIRCLE DEPLOYED LIVE (key ic1-324cb59)
+Six-month page now runs the Inner Circle offer: mc-ic-app.js + mc-ic.css
+(GenericFiles 29898459742317 / 29898459775085), hero video mc-hero-loop-780
+(mp4 29898457055341 / webm 29898457088109). NOTE: Shopify CDN auto-MINIFIES
+served js/css — origin gates must use minify-tolerant greps (r161 "truncation"
+scare was this).
+Key findings/decisions:
+- Shopify automatic BXGY does NOT count subscription lines as qualifying buys
+  (r162 isolation proof). Free diffuser therefore ships as $0 variant
+  45771775639661 ("FREE Diffuser — Inner Circle Membership") on the unlisted
+  program product; "Manifestation Ritual" BXGY DEACTIVATED.
+- Pair discount 1385978429549 ($9.95 off 2+ sub scents) lands 2×$49.95 at
+  exactly $89.95/cycle; verified in cart (4498+4497).
+- INNERCIRCLE20 code (1385979117677): 20% off scents, segment-gated to active
+  subscribers (Segment 484030316653).
+- r164 LIVE e2e: render ✓ video ✓ zero errors ✓ real ATC click → cart total
+  8995 ($0 diffuser + 2 plan scents) ✓. Screenshots ic-live-top/card.png.
+Rollback: pageUpdate body back to p6m22-21b8371 file set (mc-6mp.* untouched).

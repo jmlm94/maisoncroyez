@@ -1,8 +1,8 @@
 (function(){
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
-var MC_HERO_VIDEO = "__MC_VID_MP4__";
-var MC_HERO_VIDEO_WEBM = "__MC_VID_WEBM__";
+var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993";
+var MC_HERO_VIDEO_WEBM = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993";
 /* FB pixel: init here (product-description scripts can be stripped); no-op if the theme already loaded fbq */
 try {
   (function () {

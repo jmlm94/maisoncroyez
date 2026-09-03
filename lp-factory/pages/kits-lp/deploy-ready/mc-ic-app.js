@@ -98,7 +98,8 @@ const SCENT_TAGS = {
    ritual subscription is in the cart. One-Time Set adds both with no
    plan, so the diffuser stays at full price. --- */
 const CART = {
-  diffuserVariant: 45450822778989,   /* $89.95 — free via "Manifestation Ritual" BXGY when 2 sub scents in cart */
+  diffuserVariant: 45450822778989,   /* $89.95 — one-time purchase */
+  icDiffuserVariant: 45771775639661, /* $0.00 — membership free diffuser (program product, unlisted) */
   sellingPlan: 2661875821,           /* Subi "Delivered every 45 days ❤️" — pair discount makes 2 scents $89.95 */
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
@@ -519,12 +520,12 @@ async function addToCart(setBusy, setToast) {
       : "Preview mode. On the live store this adds the diffuser ($89.95)" + (selStore.keys.length ? " and " + selStore.keys.length + " scent(s)" : "") + ", and opens the cart drawer.");
     return;
   }
-  /* membership: each chosen scent rides the 45-day Subi plan; the diffuser is a
-     one-time line the "Manifestation Ritual" BXGY zeroes out. One-time: plain lines. */
+  /* membership: each chosen scent rides the 45-day Subi plan ($9.95 pair discount
+     lands the two at $89.95); the diffuser is the $0 membership variant. */
   let items;
   if (mode === "sub") {
     items = selStore.grouped().map(({ f, q }) => ({ id: f.variant, quantity: q, selling_plan: CART.sellingPlan }));
-    items.push({ id: CART.diffuserVariant, quantity: 1 });
+    items.push({ id: CART.icDiffuserVariant, quantity: 1 });
   } else {
     items = [{ id: CART.diffuserVariant, quantity: 1 }];
     selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q }));

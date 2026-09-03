@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+const pg = await b.newPage({ viewport: { width: 390, height: 900 } });
+await pg.goto('file:///tmp/claude-0/-home-user-maisoncroyez/8b8ad2bf-0f8a-50af-9483-1a6dcfb1da59/scratchpad/mc-kits-lp-draft.html', { waitUntil: 'load', timeout: 60000 });
+await pg.waitForTimeout(2500);
+const box = pg.locator('.howworks');
+await box.scrollIntoViewIfNeeded(); await pg.waitForTimeout(300);
+const r = await box.boundingBox();
+await pg.screenshot({ path: '/tmp/claude-0/-home-user-maisoncroyez/8b8ad2bf-0f8a-50af-9483-1a6dcfb1da59/scratchpad/box-final.png', clip: { x: 0, y: Math.max(0, r.y - 5), width: 390, height: Math.min(900, r.height + 10) } });
+const hero = pg.locator('.offhero');
+await hero.scrollIntoViewIfNeeded(); await pg.waitForTimeout(300);
+const h = await hero.boundingBox();
+await pg.screenshot({ path: '/tmp/claude-0/-home-user-maisoncroyez/8b8ad2bf-0f8a-50af-9483-1a6dcfb1da59/scratchpad/card-final.png', clip: h });
+await b.close();

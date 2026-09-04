@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 167 — DEBUG the h1->badges 30px gap: computed styles
+# run 168 — final verify: gap ~4px with h1+.featbs override (v=ic4)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,7 +19,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Live verify
         run: |
-          cat > r167.mjs <<'EOF'
+          cat > r168.mjs <<'EOF'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
@@ -51,7 +51,7 @@ jobs:
             const oa = document.querySelector('.optout a');
             const oaCS = oa ? getComputedStyle(oa) : null;
             return {
-              key: document.documentElement.innerHTML.includes('ic3-7228921'),
+              key: document.documentElement.innerHTML.includes('ic4-48ec907'),
               preheroCount: pres.length,
               preheroHidden: pres.map(p => getComputedStyle(p).display === 'none'),
               video: v ? { playing: !v.paused && v.videoWidth > 0, poster: v.getAttribute('poster'), w: Math.round(v.getBoundingClientRect().width), galImgs: document.querySelectorAll('.gal img').length } : null,
@@ -63,18 +63,18 @@ jobs:
           console.log('R165 ' + JSON.stringify(chk));
           await pg.evaluate(() => window.scrollTo(0, 0));
           await pg.waitForTimeout(800);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic3-live-top.png' });
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic4-live-top.png' });
           const oa = pg.locator('.optout');
           await oa.scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic3-live-optout.png' });
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic4-live-optout.png' });
           console.log('ERRORS ' + JSON.stringify(errs.slice(0, 5)));
           await b.close();
           EOF
-          node r167.mjs
+          node r168.mjs
       - name: Commit screenshots
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/ic3-live-top.png lp-factory/pages/kits-lp/live/ic3-live-optout.png
-          git commit -m "r167: IC polish live screenshots"
+          git add lp-factory/pages/kits-lp/live/ic4-live-top.png lp-factory/pages/kits-lp/live/ic4-live-optout.png
+          git commit -m "r168: IC polish live screenshots" || exit 0
           git push

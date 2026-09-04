@@ -2,6 +2,7 @@
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
 var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993";
+var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350";
 var MC_HERO_VIDEO_WEBM = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993";
 /* FB pixel: init here (product-description scripts can be stripped); no-op if the theme already loaded fbq */
 try {
@@ -674,7 +675,7 @@ function Gallery() {
       <div class="gal-track">
         <div class="gal-slide ph sq">
           ${(typeof MC_HERO_VIDEO !== "undefined")
-            ? html`<video class="simg" autoplay muted loop playsinline aria-label="Maison Croyez diffuser video" ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}><source src=${MC_HERO_VIDEO} type="video/mp4"/><source src=${MC_HERO_VIDEO_WEBM} type="video/webm"/></video>`
+            ? html`<video class="simg" poster=${MC_HERO_POSTER} autoplay muted loop playsinline aria-label="Maison Croyez diffuser video" ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}><source src=${MC_HERO_VIDEO} type="video/mp4"/><source src=${MC_HERO_VIDEO_WEBM} type="video/webm"/></video>`
             : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
         </div>
       </div>
@@ -770,7 +771,7 @@ function BuyBox() {
           ${(() => { const kk = sel.kit(); const left = sel.mode === "sub" ? sel.count - sel.keys.length : 0; return html`
           <button class="btn atc" disabled=${locked || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding…" : left > 0 ? "Select " + left + " more scent" + (left > 1 ? "s" : "") : (sel.mode === "sub" ? "CLAIM MY FREE DIFFUSER ➔" : "ADD TO CART — $89.95 ➔")}</span>
-            <span class="btn-sub">${left > 0 ? "Complete your kit to continue" : html`<${Rich} s=${"**$89.95 today · 90-day money-back · cancel in 2 clicks**"}/>`}</span>
+            <span class="btn-sub">${left > 0 ? "Complete your kit to continue" : html`<${Rich} s=${"**You're saving $100 today, don't miss it out!**"}/>`}</span>
           </button>`; })()}
 
           <div class="atc-proof"><span class="stars">★★★★★</span>“We travel half the summer, so I paused two deliveries in one tap and picked back up in September. Nobody emailed me twice, nobody made it weird.” — Dana R.</div>

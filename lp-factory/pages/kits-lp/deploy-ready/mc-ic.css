@@ -1881,11 +1881,11 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .off-lrow{display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(255,255,255,.65);border-radius:10px;padding:6px 13px}
 .off-llabel{font-family:'Outfit',sans-serif;font-weight:800;font-size:.64rem;letter-spacing:.08em;color:#6E5B4F;white-space:nowrap}
 .off-lval{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;text-align:right}
-.off-lrow .off-price{font-size:1.5rem;vertical-align:middle}
+.off-lrow .off-price{font-size:1.3rem;vertical-align:middle}
 .off-lcol{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
 .off-lv2{font-size:.68rem;color:#6E5B4F;font-weight:600}
 .hw-dash-t{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;margin-top:14px;text-align:center}
-.off-scent-price{font-family:'Unna',serif;font-size:1.5rem;font-weight:700;font-style:normal;line-height:1}
+.off-scent-price{font-family:'Unna',serif;font-size:1.15rem;font-weight:700;font-style:normal;line-height:1}
 .off-val{background:#fff;border:1px solid rgba(36,28,24,.2);border-radius:999px;padding:3px 11px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.03em;margin-top:3px}
 .off-scarce{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;color:#B0402F;margin-top:5px}
 .off-scarce b{color:#B0402F}
@@ -1899,7 +1899,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .off-hook{font-size:.85rem;font-weight:600;color:var(--ink)}
 .off-pricerow{display:flex;align-items:baseline;gap:9px;justify-content:center}
 .off-was{color:#B0402F;font-family:'Unna',serif;font-weight:700;font-size:1.05rem;line-height:1}
-.off-price{font-family:'Unna',serif;font-size:2.1rem;font-weight:700;line-height:1;font-style:normal}
+.off-price{font-family:'Unna',serif;font-size:1.8rem;font-weight:700;line-height:1;font-style:normal}
 .off-line{font-size:.82rem;color:#6E5B4F}
 .off-one .off-line{color:inherit}
 .off-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:5px}
@@ -1950,4 +1950,4 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 #root .buybox h1{margin:0 !important;padding:0 !important}
 
-#root .buybox h1 + .featbs{margin-top:-6px !important}
+#root .buybox h1 + .featbs{margin-top:0 !important}

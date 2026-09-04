@@ -315,3 +315,9 @@ Jose's three fixes, all live-verified (r165–r168):
 3. Optout single underline: `#root .optout a{text-decoration:underline!important;...;border-bottom:none!important;box-shadow:none!important;background-image:none!important}` kills the theme's second underline.
 Deploy: mc-ic-app.js 62,634B + mc-ic.css 126,445B via fileUpdate (raw@48ec907); page body v bumped ic1→ic4-48ec907 (same file set, new observer script). r168 live: gap 4px, video playing/no poster/0 gal imgs, prehero hidden, optout clean, 0 errors, 0 hscroll. Screenshots: live/ic4-live-top.png, live/ic4-live-optout.png.
 Branch note: work now lives on claude/maison-diffuser-perf-fixes-f45ggl (fast-forwarded from claude/maison-offer-v2-deploy-dspkwe history).
+
+## 2026-09-04 — IC polish round 2, v=ic5-395d4d2 (LIVE, r169)
+Jose's screen recording showed the REAL video complaint: on slow/cellular loads the OLD product photo (prehero placeholder) greets every page load before the ~1MB video arrives. Fix: extracted frame 1 of the hero loop as mc-hero-poster.jpg (780x780, 37KB; Shopify MediaImage 29905600643181, cdn .../mc-hero-poster.jpg?v=1788533350) and use it BOTH as the prehero placeholder (page body img + preload, aspect 1/1) AND as the video poster (MC_HERO_POSTER in app). Load is now seamless: still of frame 1 -> video starts from that exact frame. Old Diseno_sin_titulo_92.png no longer referenced by this page.
+Same deploy, per Jose mid-turn: title->badges gap 4px->10px (h1+.featbs margin-top 0); ledger prices smaller: FREE (.off-lrow .off-price) 1.5->1.3rem, $89.95-today (.off-scent-price) 1.3->1.15rem; main ATC sub-line -> "You're saving $100 today, don't miss it out!" (sticky-bar sub unchanged). Note: .off-pricerow / bare .off-price rules are dead CSS (element not rendered).
+r169 live: prehero src+poster = mc-hero-poster.jpg, video playing, gap 10px, sizes 20.8/18.4px, btnSub correct, 0 errors. Screenshots live/ic5-live-top.png, live/ic5-live-hero.png.
+

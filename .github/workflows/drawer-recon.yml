@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 165 — LIVE verify of IC polish: video-only gallery, prehero hidden, badge gap, single-underline optout
+# run 166 — re-verify badge gap after theme-margin hard reset (v=ic3)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,7 +19,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Live verify
         run: |
-          cat > r165.mjs <<'EOF'
+          cat > r166.mjs <<'EOF'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
@@ -37,7 +37,7 @@ jobs:
             const oa = document.querySelector('.optout a');
             const oaCS = oa ? getComputedStyle(oa) : null;
             return {
-              key: document.documentElement.innerHTML.includes('ic2-d862fe1'),
+              key: document.documentElement.innerHTML.includes('ic3-7228921'),
               preheroCount: pres.length,
               preheroHidden: pres.map(p => getComputedStyle(p).display === 'none'),
               video: v ? { playing: !v.paused && v.videoWidth > 0, poster: v.getAttribute('poster'), w: Math.round(v.getBoundingClientRect().width), galImgs: document.querySelectorAll('.gal img').length } : null,
@@ -49,18 +49,18 @@ jobs:
           console.log('R165 ' + JSON.stringify(chk));
           await pg.evaluate(() => window.scrollTo(0, 0));
           await pg.waitForTimeout(800);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic2-live-top.png' });
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic3-live-top.png' });
           const oa = pg.locator('.optout');
           await oa.scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic2-live-optout.png' });
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic3-live-optout.png' });
           console.log('ERRORS ' + JSON.stringify(errs.slice(0, 5)));
           await b.close();
           EOF
-          node r165.mjs
+          node r166.mjs
       - name: Commit screenshots
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/ic2-live-top.png lp-factory/pages/kits-lp/live/ic2-live-optout.png
-          git commit -m "r165: IC polish live screenshots"
+          git add lp-factory/pages/kits-lp/live/ic3-live-top.png lp-factory/pages/kits-lp/live/ic3-live-optout.png
+          git commit -m "r166: IC polish live screenshots"
           git push

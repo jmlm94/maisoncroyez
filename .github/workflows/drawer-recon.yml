@@ -1,8 +1,8 @@
 name: drawer-recon
-# run 164 — LIVE end-to-end verify of Inner Circle page (render + real ATC + cart + screenshot)
+# run 165 — LIVE verify of IC polish: video-only gallery, prehero hidden, badge gap, single-underline optout
 on:
   push:
-    branches: [claude/maison-offer-v2-deploy-dspkwe]
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
     paths: ['.github/workflows/drawer-recon.yml']
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Live verify
         run: |
-          cat > r164.mjs <<'EOF'
+          cat > r165.mjs <<'EOF'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
@@ -28,47 +28,39 @@ jobs:
           pg.on('pageerror', e => errs.push(e.message));
           await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
           await pg.waitForSelector('.offhero', { timeout: 60000 });
-          await pg.waitForTimeout(3500);
-          const chk = await pg.evaluate(() => ({
-            key: document.documentElement.innerHTML.includes('ic1-324cb59'),
-            h1: document.querySelector('.buybox h1')?.textContent.slice(0, 40),
-            hero: !!document.querySelector('.offhero'),
-            ledger: [...document.querySelectorAll('.off-lrow')].map(e => e.textContent.trim().replace(/\s+/g, ' ').slice(0, 42)),
-            counter: document.querySelector('.off-scarce')?.textContent,
-            video: (() => { const v = document.querySelector('.gal video'); return v ? { playing: !v.paused && v.videoWidth > 0, fits: v.getBoundingClientRect().width <= 391 } : null; })(),
-            portal: !!document.querySelector('.portal'), tl: document.querySelectorAll('.tl-step').length,
-            picks: document.querySelectorAll('.pick').length,
-            count: document.querySelector('.pick-count')?.textContent,
-            btn: document.querySelector('.btn.atc span')?.textContent,
-            hscroll: document.documentElement.scrollWidth - window.innerWidth,
-          }));
-          console.log('R164-RENDER ' + JSON.stringify(chk));
-          // real ATC click -> real cart
-          await pg.locator('.btn.atc').click();
-          await pg.waitForTimeout(3500);
-          const cart = await pg.evaluate(async () => {
-            const c = await (await fetch('/cart.js')).json();
-            return { total: c.total_price, items: c.items.map(i => [i.id, i.final_line_price, i.selling_plan_allocation ? 'plan' : 'one-time']) };
+          await pg.waitForTimeout(4000);
+          const chk = await pg.evaluate(() => {
+            const pres = [...document.querySelectorAll('#mc-prehero')];
+            const v = document.querySelector('.gal video');
+            const h1 = document.querySelector('.buybox h1');
+            const fb = document.querySelector('.featbs');
+            const oa = document.querySelector('.optout a');
+            const oaCS = oa ? getComputedStyle(oa) : null;
+            return {
+              key: document.documentElement.innerHTML.includes('ic2-d862fe1'),
+              preheroCount: pres.length,
+              preheroHidden: pres.map(p => getComputedStyle(p).display === 'none'),
+              video: v ? { playing: !v.paused && v.videoWidth > 0, poster: v.getAttribute('poster'), w: Math.round(v.getBoundingClientRect().width), galImgs: document.querySelectorAll('.gal img').length } : null,
+              h1ToBadgesGap: fb && h1 ? Math.round(fb.getBoundingClientRect().top - h1.getBoundingClientRect().bottom) : null,
+              optout: oaCS ? { deco: oaCS.textDecorationLine, borderBottom: oaCS.borderBottomStyle + ' ' + oaCS.borderBottomWidth, boxShadow: oaCS.boxShadow, bgImage: oaCS.backgroundImage } : null,
+              hscroll: document.documentElement.scrollWidth - window.innerWidth,
+            };
           });
-          console.log('R164-CART ' + JSON.stringify(cart));
-          await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
-          console.log('cart cleared');
-          // screenshots
-          await pg.keyboard.press('Escape');
-          await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (d && d.hide) d.hide(); window.scrollTo(0, 0); });
+          console.log('R165 ' + JSON.stringify(chk));
+          await pg.evaluate(() => window.scrollTo(0, 0));
           await pg.waitForTimeout(800);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic-live-top.png' });
-          const hero = pg.locator('.offhero');
-          await hero.scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic-live-card.png' });
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic2-live-top.png' });
+          const oa = pg.locator('.optout');
+          await oa.scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic2-live-optout.png' });
           console.log('ERRORS ' + JSON.stringify(errs.slice(0, 5)));
           await b.close();
           EOF
-          node r164.mjs
+          node r165.mjs
       - name: Commit screenshots
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/ic-live-top.png lp-factory/pages/kits-lp/live/ic-live-card.png
-          git commit -m "r164: Inner Circle live screenshots"
+          git add lp-factory/pages/kits-lp/live/ic2-live-top.png lp-factory/pages/kits-lp/live/ic2-live-optout.png
+          git commit -m "r165: IC polish live screenshots"
           git push

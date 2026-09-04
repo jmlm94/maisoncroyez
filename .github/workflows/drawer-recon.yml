@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 166 — re-verify badge gap after theme-margin hard reset (v=ic3)
+# run 167 — DEBUG the h1->badges 30px gap: computed styles
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,7 +19,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Live verify
         run: |
-          cat > r166.mjs <<'EOF'
+          cat > r167.mjs <<'EOF'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
@@ -29,6 +29,20 @@ jobs:
           await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
           await pg.waitForSelector('.offhero', { timeout: 60000 });
           await pg.waitForTimeout(4000);
+          const dbg = await pg.evaluate(() => {
+            const h1 = document.querySelector('.buybox h1');
+            const fb = document.querySelector('.featbs');
+            const bb = document.querySelector('.buybox');
+            const cs = (el) => { const c = getComputedStyle(el); return { mb: c.marginBottom, mt: c.marginTop, pb: c.paddingBottom, pt: c.paddingTop, disp: c.display, gap: c.rowGap, lh: c.lineHeight, fs: c.fontSize }; };
+            return {
+              h1: cs(h1), fb: cs(fb), bb: cs(bb),
+              h1Next: h1.nextElementSibling ? h1.nextElementSibling.className : null,
+              between: (() => { const out = []; let n = h1.nextElementSibling; while (n && n !== fb) { out.push([n.className, Math.round(n.getBoundingClientRect().height)]); n = n.nextElementSibling; } return out; })(),
+              h1Rect: h1.getBoundingClientRect().toJSON(), fbRect: fb.getBoundingClientRect().toJSON(),
+              cssHasReset: [...document.styleSheets].some(s => { try { return [...s.cssRules].some(r => r.cssText && r.cssText.includes('.buybox h1') && r.cssText.includes('important')); } catch(e) { return false; } }),
+            };
+          });
+          console.log('R167-DBG ' + JSON.stringify(dbg));
           const chk = await pg.evaluate(() => {
             const pres = [...document.querySelectorAll('#mc-prehero')];
             const v = document.querySelector('.gal video');
@@ -56,11 +70,11 @@ jobs:
           console.log('ERRORS ' + JSON.stringify(errs.slice(0, 5)));
           await b.close();
           EOF
-          node r166.mjs
+          node r167.mjs
       - name: Commit screenshots
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/ic3-live-top.png lp-factory/pages/kits-lp/live/ic3-live-optout.png
-          git commit -m "r166: IC polish live screenshots"
+          git commit -m "r167: IC polish live screenshots"
           git push

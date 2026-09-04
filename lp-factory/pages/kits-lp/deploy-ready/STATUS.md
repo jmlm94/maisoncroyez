@@ -307,3 +307,11 @@ Key findings/decisions:
 - r164 LIVE e2e: render ✓ video ✓ zero errors ✓ real ATC click → cart total
   8995 ($0 diffuser + 2 plan scents) ✓. Screenshots ic-live-top/card.png.
 Rollback: pageUpdate body back to p6m22-21b8371 file set (mc-6mp.* untouched).
+
+## 2026-09-04 — IC polish v=ic4-48ec907 (LIVE)
+Jose's three fixes, all live-verified (r165–r168):
+1. Video is the only gallery media: removed `poster` from the gal video (old product image no longer layers under/behind it); page-body prehero hide hardened — hides ALL `#mc-prehero` nodes (theme can double-render the body), injects a permanent `#mc-prehero{display:none!important}` style, MutationObserver + 300ms interval + immediate check (`__MC_PREHIDE__` guard).
+2. Title→badges gap 30px→4px. Root cause found via r167 computed-style debug: theme prose rule gives the element after an h1 `margin-top:20px`. Fix: `#root .buybox h1 + .featbs{margin-top:-6px !important}` (+ `#root .buybox h1{margin:0!important;padding:0!important}`); `.featbs` base margin-top 2px→-6px.
+3. Optout single underline: `#root .optout a{text-decoration:underline!important;...;border-bottom:none!important;box-shadow:none!important;background-image:none!important}` kills the theme's second underline.
+Deploy: mc-ic-app.js 62,634B + mc-ic.css 126,445B via fileUpdate (raw@48ec907); page body v bumped ic1→ic4-48ec907 (same file set, new observer script). r168 live: gap 4px, video playing/no poster/0 gal imgs, prehero hidden, optout clean, 0 errors, 0 hscroll. Screenshots: live/ic4-live-top.png, live/ic4-live-optout.png.
+Branch note: work now lives on claude/maison-diffuser-perf-fixes-f45ggl (fast-forwarded from claude/maison-offer-v2-deploy-dspkwe history).

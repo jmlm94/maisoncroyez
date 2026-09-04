@@ -674,7 +674,7 @@ function Gallery() {
       <div class="gal-track">
         <div class="gal-slide ph sq">
           ${(typeof MC_HERO_VIDEO !== "undefined")
-            ? html`<video class="simg" poster=${urls[0]} autoplay muted loop playsinline aria-label="Maison Croyez diffuser video" ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}><source src=${MC_HERO_VIDEO} type="video/mp4"/><source src=${MC_HERO_VIDEO_WEBM} type="video/webm"/></video>`
+            ? html`<video class="simg" autoplay muted loop playsinline aria-label="Maison Croyez diffuser video" ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}><source src=${MC_HERO_VIDEO} type="video/mp4"/><source src=${MC_HERO_VIDEO_WEBM} type="video/webm"/></video>`
             : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
         </div>
       </div>

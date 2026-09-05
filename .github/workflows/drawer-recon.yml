@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 183 — verify v3s3 live: hero video with autoplay BLOCKED (chromium --autoplay-policy=user-gesture-required) shows the play button and a tap starts it; normal chromium + iPhone WebKit autoplay; key v3s3
+# run 184 — verify v3s4 live: step 3 on all tiers; real ATC prices: 2D auto-refill (Plan 5 -> 8995, scent lines $0), 3D auto-refill (12995), 2D one-time (8995), 1D + 1 scent refill (10990); video: firefox autoplay-blocked -> play button -> tap plays; iPhone WebKit autoplay
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -16,51 +16,83 @@ jobs:
       - name: Install
         run: |
           npm i playwright@1.49.0
-          npx playwright install --with-deps chromium
-      - name: Install webkit
-        run: npx playwright install --with-deps webkit
-      - name: Verify
+          npx playwright install --with-deps chromium firefox webkit
+      - name: Cart verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r183.mjs <<'EOF2'
-          import { chromium, webkit, devices } from 'playwright';
+          cat > r184.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          const KEY = process.env.KEY;
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+          const pg = await ctx.newPage();
+          const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
+          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(4000);
+          const readCart = () => pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, disc: c.total_discount, lines: c.items.map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, d: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) })) }; } catch (e) { return { status: r.status, body: t.slice(0, 100) }; } });
+          const state = () => pg.evaluate(() => ({ titles: [...document.querySelectorAll('.buybox .picker-title')].map(e => e.textContent.trim()), modes: document.querySelectorAll('.mode').length, subOn: !!document.querySelector('.mode.sub.on'), oneOn: !!document.querySelector('.mode.one.on'), btn: (document.querySelector('.btn.atc') || {}).innerText, sub: (document.querySelector('.picker-sub') || {}).innerText }));
+          const clear = async () => { await pg.keyboard.press('Escape'); await pg.waitForTimeout(1200); await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {}); await pg.waitForTimeout(6000); };
+          const atc = async (label, shot) => { await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2000); await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000); console.log('CART ' + label + ' ' + JSON.stringify(await readCart())); if (shot) await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/' + shot }); await clear(); };
+          console.log('KEY ' + JSON.stringify({ has: await pg.evaluate((k) => document.documentElement.innerHTML.includes(k), KEY) }));
+          // A) default = 2D, auto-refill preselected
+          console.log('STATE 2D default ' + JSON.stringify(await state()));
+          await pg.locator('.modes').scrollIntoViewIfNeeded(); await pg.waitForTimeout(800);
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s4-step3-2d.png' });
+          await atc('2D auto-refill', 'v3s4-cart-2d-refill.png');
+          // B) 2D one-time
+          await pg.locator('.mode.one').click(); await pg.waitForTimeout(800);
+          console.log('STATE 2D one ' + JSON.stringify(await state()));
+          await atc('2D one-time', null);
+          // C) 3D auto-refill
+          await pg.locator('.tier').nth(2).click(); await pg.waitForTimeout(800);
+          console.log('STATE 3D ' + JSON.stringify(await state()));
+          await atc('3D auto-refill', 'v3s4-cart-3d-refill.png');
+          // D) 1D + 1 scent on refill plan
+          await pg.locator('.tier').nth(0).click(); await pg.waitForTimeout(800);
+          await pg.locator('.pick.compact').nth(0).click(); await pg.waitForTimeout(800);
+          console.log('STATE 1D ' + JSON.stringify(await state()));
+          await pg.locator('.mode.sub').click(); await pg.waitForTimeout(800);
+          console.log('STATE 1D sub ' + JSON.stringify(await state()));
+          await atc('1D refill', 'v3s4-cart-1d-refill.png');
+          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
+          await b.close();
+          EOF2
+          node r184.mjs
+        env:
+          KEY: v3s4-367718b
+      - name: Video verify
+        run: |
+          cat > r184v.mjs <<'EOF2'
+          import { firefox, webkit, devices } from 'playwright';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const out = {};
-          const probe = async (pg) => pg.evaluate(() => {
-            const v = document.querySelector('#root video'); const b = document.querySelector('#root .hv-play');
-            return v ? { src: (v.currentSrc || v.src).slice(-40), paused: v.paused, t: +v.currentTime.toFixed(2), rs: v.readyState, muted: v.muted, attrs: ['muted','playsinline','autoplay'].map(a => v.hasAttribute(a)), btn: !!b, btnBox: b ? b.getBoundingClientRect().width : 0, key: [...document.scripts].map(s => s.src).filter(s => /mc-v3-app/.test(s)).map(s => s.split('v=')[1])[0] } : { novideo: true };
-          });
-          const settle = async (pg) => { await pg.waitForSelector('#root video', { timeout: 60000 }); await pg.waitForTimeout(4500); };
-          // 1) chromium with autoplay refused (simulates iOS Low Power / Low Data mode)
-          { const b = await chromium.launch({ args: ['--autoplay-policy=user-gesture-required'] });
-            const pg = await (await b.newContext({ ...devices['iPhone 13'], defaultBrowserType: undefined })).newPage();
+          const probe = (pg) => pg.evaluate(() => { const v = document.querySelector('#root video'); const b = document.querySelector('#root .hv-play'); return v ? { paused: v.paused, t: +v.currentTime.toFixed(2), rs: v.readyState, btn: !!b, btnBox: b ? Math.round(b.getBoundingClientRect().width) : 0 } : { novideo: true }; });
+          const settle = async (pg) => { await pg.waitForSelector('#root video', { timeout: 60000 }); await pg.waitForTimeout(5000); };
+          // firefox with autoplay blocked for all media (simulates iOS Low Power / Low Data mode); firefox decodes H.264 on the runner
+          { const b = await firefox.launch({ firefoxUserPrefs: { 'media.autoplay.default': 5, 'media.autoplay.blocking_policy': 2, 'media.autoplay.block-webaudio': true } });
+            const pg = await (await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: false })).newPage();
             const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 120)));
             await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 }); await settle(pg);
             const before = await probe(pg);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s3-blocked-before.png' });
-            // tap somewhere neutral (the page background near the h1), not the button
-            const h1 = await pg.$('#root h1'); const bb = await h1.boundingBox(); await pg.mouse.click(bb.x + 5, bb.y + 5);
-            await pg.waitForTimeout(1500);
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s4-blocked-before.png' });
+            const h1 = await pg.$('#root h1'); const bb = await h1.boundingBox(); await pg.mouse.click(bb.x + 5, bb.y + 5); await pg.waitForTimeout(2500);
             const afterTap = await probe(pg);
-            out.blocked = { before, afterTap, errs };
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s3-blocked-after.png' });
-            await b.close(); }
-          // 2) chromium normal + 3) webkit iPhone
-          for (const [name, bt, dev] of [['chromium', chromium, devices['Pixel 7']], ['webkit-iphone', webkit, devices['iPhone 13']]]) {
-            const b = await bt.launch(); const pg = await (await b.newContext({ ...dev, defaultBrowserType: undefined })).newPage();
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s4-blocked-after.png' });
+            out.firefoxBlocked = { before, afterTap, errs }; await b.close(); }
+          { const b = await webkit.launch(); const pg = await (await b.newContext({ ...devices['iPhone 13'], defaultBrowserType: undefined })).newPage();
             const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 120)));
             await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 }); await settle(pg);
             const a = await probe(pg); await pg.waitForTimeout(1500); const c = await probe(pg);
-            out[name] = { a, c, advanced: c.t > a.t, errs };
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s3-' + name + '.png' });
-            await b.close(); }
-          console.log('V3S3 ' + JSON.stringify(out, null, 1));
+            out.webkitIphone = { a, c, advanced: c.t > a.t, errs };
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s4-webkit-iphone.png' }); await b.close(); }
+          console.log('VIDEO ' + JSON.stringify(out, null, 1));
           EOF2
-          node r183.mjs
+          node r184v.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r183: v3s3 video fallback screenshots" || exit 0
+          git commit -m "r184: v3s4 live cart + video screenshots" || exit 0
+          git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

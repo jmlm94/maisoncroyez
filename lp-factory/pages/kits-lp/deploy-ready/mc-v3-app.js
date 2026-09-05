@@ -732,14 +732,11 @@ function BuyBox() {
               </span>
               <span class="off-badge mode-badge">🚚 FREE SHIPPING</span>
             </div>
-            <div class=${"mode one" + (sel.plan === "one" ? " on" : "")} role="radio" aria-checked=${sel.plan === "one"} tabindex="0" style=${{ background: sel.plan === "one" ? MODE_GRAD.one : "" }}
+            <div class=${"decline" + (sel.plan === "one" ? " on" : "")} role="radio" aria-checked=${sel.plan === "one"} tabindex="0"
               onClick=${() => sel.setPlan("one")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("one"); }}>
-              <span class="mode-dot" aria-hidden="true"></span>
-              <span class="mode-tx">
-                <b>${inc ? "I\u2019ll re-order myself" : "One-time purchase"}</b>
-                <span class="mode-price"><b>$49.95</b> / scent${inc ? html` <em class="mode-from">whenever you like</em>` : null}</span>
-                <span class="mode-note">${inc ? "No auto-refill. Nothing extra today either." : "No refills, no renewals. Re-order whenever you like."}</span>
-              </span>
+              ${sel.plan === "one"
+                ? html`<span class="decline-ic" aria-hidden="true">\u2713</span><span><b>Got it \u2014 one-time purchase.</b> Nothing renews, nothing else is charged. Re-order scents whenever you like at $49.95.</span>`
+                : html`<span>No thanks, I\u2019ll re-order myself another time <u>(make it a one-time purchase)</u></span>`}
             </div>
           </div>`; })()}
 

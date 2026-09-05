@@ -479,3 +479,13 @@ should create a tier-1 plan ("$10 off every payment") so D3 can be retired, or a
 Verify: r184 (real ATC: 2D auto-refill 8995 w/ Plan 5 lines at 0, 2D one-time 8995, 3D
 auto-refill 12995, 1D + 1 scent refill 10990; video: firefox autoplay-blocked -> play
 button -> tap plays; iPhone WebKit autoplay). Mock artifact republished at parity.
+
+### 2026-09-05 — v3s5 (key v3s5-c66a535): 1-diffuser pack one-time only
+Owner fixed Plan 5 (recurring policy now $10.00 off after cycle 1 => $39.95 renewals) and
+decided: no refill plan on the 1-diffuser tier; 2/3 packs offer both options.
+App (mc-v3-app.js 79,512B, GenericFile 29920808403053, raw@c66a535): step 3 only where
+scents are included (`if (!inc) return null`); 1D optional scents $49.95 one-time (picker
+copy no longer mentions Subscribe & Save); addToCart uses Plan 5 only, gated on T.scents>0.
+Discounts: D3 "Refill plan — $10 off each scent (every delivery)" (1386357850221)
+DEACTIVATED right after the page flip. Active set is now D1/D2 (one-time included scents)
+only; all subscription pricing lives in Subi Plan 5. Verify: r185.

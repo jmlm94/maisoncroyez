@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 170 — Founder's Offer v3, stage 1: cart pricing e2e on the live store (page NOT flipped yet)
+# run 171 — Founder's Offer v3, stage 1: cart pricing e2e on the live store inside a browser session (page NOT flipped yet)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -13,33 +13,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install playwright
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
       - name: Cart pricing e2e
         run: |
-          cat > cart170.mjs <<'EOF2'
-          const BASE = 'https://maisoncroyez.com';
+          cat > cart171.mjs <<'EOF2'
+          import { chromium } from 'playwright';
           const V = { one: 45784228429933, two: 45784228462701, three: 45784228495469 };
           const S = { love: 41212020457581, abundance: 41212018655341, midnight: 41212019933293 };
           const PLAN = 2661875821;
-          const pick = (sc) => (sc || '').split(/,(?=\s*[A-Za-z_]+=)/).map(s => s.split(';')[0].trim()).filter(s => /^(cart|_shopify_s|_shopify_y|keep_alive)=/.test(s));
-          async function run(name, items) {
-            let jar = [];
-            const clr = await fetch(BASE + '/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } });
-            jar = pick(clr.headers.get('set-cookie'));
-            const add = await fetch(BASE + '/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Cookie': jar.join('; ') }, body: JSON.stringify({ items }) });
-            jar = [...new Set([...jar, ...pick(add.headers.get('set-cookie'))])];
-            const addText = await add.text();
-            const cart = await (await fetch(BASE + '/cart.js', { headers: { 'Accept': 'application/json', 'Cookie': jar.join('; ') } })).json();
-            const lines = (cart.items || []).map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, disc: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) }));
-            console.log('CASE ' + name + ' ' + JSON.stringify({ addStatus: add.status, total: cart.total_price, items_subtotal: cart.items_subtotal_price, total_discount: cart.total_discount, lines }));
-            if (add.status !== 200) console.log('ADDBODY ' + addText.slice(0, 300));
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+          const pg = await ctx.newPage();
+          await pg.goto('https://maisoncroyez.com/cart', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await pg.waitForTimeout(1500);
+          const cases = [
+            ['2D+2one', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }]],
+            ['3D+3one', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }, { id: S.midnight, quantity: 1 }]],
+            ['1D+1one', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1 }]],
+            ['1D+0', [{ id: V.one, quantity: 1 }]],
+            ['2D+2sub', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]],
+            ['3D+3sub', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }, { id: S.midnight, quantity: 1, selling_plan: PLAN }]],
+            ['1D+2sub', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]],
+            ['2D+2one+sameScentx2', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 2 }]],
+          ];
+          for (const [name, items] of cases) {
+            const r = await pg.evaluate(async (items) => {
+              await fetch('/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } });
+              const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items }) });
+              const addText = await add.text();
+              const cart = await (await fetch('/cart.js', { headers: { 'Accept': 'application/json' } })).json();
+              const lines = (cart.items || []).map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, disc: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) }));
+              return { addStatus: add.status, addBody: add.status === 200 ? '' : addText.slice(0, 200), total: cart.total_price, items_subtotal: cart.items_subtotal_price, total_discount: cart.total_discount, lines };
+            }, items);
+            console.log('CASE ' + name + ' ' + JSON.stringify(r));
           }
-          await run('2D+2one', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }]);
-          await run('3D+3one', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }, { id: S.midnight, quantity: 1 }]);
-          await run('1D+1one', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1 }]);
-          await run('1D+0', [{ id: V.one, quantity: 1 }]);
-          await run('2D+2sub', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]);
-          await run('3D+3sub', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }, { id: S.midnight, quantity: 1, selling_plan: PLAN }]);
-          await run('1D+2sub', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]);
-          await run('2D+2one+sameScentx2', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 2 }]);
+          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }));
+          await b.close();
           EOF2
-          node cart170.mjs
+          node cart171.mjs

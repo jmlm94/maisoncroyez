@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 178 — performance audit: Lighthouse 3x mobile + 1x desktop, PSI API (lab + CrUX), reports committed to lp-factory/pages/kits-lp/perf/
+# run 179 — Sprint 1 live verify (key v3s1-6ab061c): render, deferred hero video, 120px thumbs, idle-mounted sections, FB pixel via channel; then Lighthouse 3x mobile + 1x desktop
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -13,67 +13,57 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install lighthouse + chromium
+      - name: Install
         run: |
           npm i playwright@1.49.0 lighthouse@12.2.1
           npx playwright install --with-deps chromium
           echo "CHROME_PATH=$(node -e "console.log(require('playwright').chromium.executablePath())")" >> $GITHUB_ENV
-      - name: PSI API (mobile + desktop)
+      - name: Live verify
         run: |
-          mkdir -p lp-factory/pages/kits-lp/perf
-          URL='https://maisoncroyez.com/pages/six-month-program'
-          for s in mobile desktop; do
-            curl -sS "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$URL&strategy=$s&category=performance" -o lp-factory/pages/kits-lp/perf/psi-$s.json || true
-            node -e "const j=require('./lp-factory/pages/kits-lp/perf/psi-$s.json'); if(j.error){console.log('PSI $s ERROR', JSON.stringify(j.error).slice(0,200));process.exit(0)} const a=j.lighthouseResult.audits; const m=k=>a[k]&&a[k].displayValue; console.log('PSI $s score', Math.round(j.lighthouseResult.categories.performance.score*100), 'FCP', m('first-contentful-paint'), 'LCP', m('largest-contentful-paint'), 'TBT', m('total-blocking-time'), 'CLS', m('cumulative-layout-shift'), 'SI', m('speed-index')); const le=j.loadingExperience; console.log('CrUX $s', le&&le.metrics?JSON.stringify(Object.fromEntries(Object.entries(le.metrics).map(([k,v])=>[k,v.percentile+'/'+v.category]))):'none', 'origin', j.originLoadingExperience&&j.originLoadingExperience.overall_category);"
-          done
-      - name: Lighthouse runs
+          mkdir -p lp-factory/pages/kits-lp/live lp-factory/pages/kits-lp/perf
+          cat > r179.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+          const pg = await ctx.newPage();
+          const errs = []; const fb = []; const reqs = [];
+          pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
+          pg.on('request', r => { const u = r.url(); if (/facebook\.com\/tr/.test(u)) fb.push(u.slice(0, 160)); if (/mc-hero-loop|mc-lp-d-frag|mc-v3|fbevents/.test(u)) reqs.push([Math.round(performance.now()), u.replace(/^https?:\/\/[^/]+/, '').slice(-70)]); });
+          const t0 = Date.now();
+          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await pg.waitForSelector('.tiers', { timeout: 60000 });
+          const early = await pg.evaluate(() => ({ secs: document.querySelectorAll('#root > div[id^=sec-]').length, videoSrc: !!document.querySelector('.gal video source'), t: Math.round(performance.now()) }));
+          await pg.waitForTimeout(6000);
+          const st = await pg.evaluate(() => { const v = document.querySelector('.gal video'); const im = document.querySelector('.pick.compact img'); return { key: document.documentElement.innerHTML.includes('v3s1-6ab061c'), secs: document.querySelectorAll('#root > div[id^=sec-]').length, video: v ? { hasSource: !!v.querySelector('source'), src: (v.querySelector('source') || {}).src, playing: !v.paused && v.readyState >= 2, poster: !!v.getAttribute('poster') } : null, thumb: im ? { src: im.src.slice(-40), natural: im.naturalWidth } : null, ourFbq: typeof window.fbq, hscroll: document.documentElement.scrollWidth - innerWidth, fonts: [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family + ' ' + f.weight), tierImg: (document.querySelector('.tier-img') || {}).naturalWidth }; });
+          console.log('EARLY ' + JSON.stringify(early));
+          console.log('STATE ' + JSON.stringify(st));
+          console.log('REQS ' + JSON.stringify(reqs.slice(0, 20)));
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s1-live-top.png' });
+          await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2000);
+          await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000);
+          const cart = await pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, n: c.item_count }; } catch (e) { return { status: r.status }; } });
+          console.log('CART ' + JSON.stringify(cart));
+          console.log('FBTR ' + JSON.stringify(fb.map(u => (u.match(/ev=([A-Za-z]+)/) || [])[1] || u)));
+          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
+          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
+          await b.close();
+          EOF2
+          node r179.mjs
+      - name: Lighthouse
         run: |
           URL='https://maisoncroyez.com/pages/six-month-program'
           for i in 1 2 3; do
-            npx lighthouse "$URL" --only-categories=performance --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --output=json --output=html --output-path=lp-factory/pages/kits-lp/perf/lh-mobile-$i --chrome-flags="--headless=new --no-sandbox --disable-gpu" --quiet || true
+            npx lighthouse "$URL" --only-categories=performance --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --output=json --output-path=lp-factory/pages/kits-lp/perf/s1-mobile-$i.json --chrome-flags="--headless=new --no-sandbox --disable-gpu" --quiet || true
           done
-          npx lighthouse "$URL" --only-categories=performance --preset=desktop --throttling-method=simulate --output=json --output=html --output-path=lp-factory/pages/kits-lp/perf/lh-desktop-1 --chrome-flags="--headless=new --no-sandbox --disable-gpu" --quiet || true
-          ls -la lp-factory/pages/kits-lp/perf/
-      - name: Summarize
-        run: |
-          cat > sum.mjs <<'EOF2'
-          import fs from 'fs';
-          const dir = 'lp-factory/pages/kits-lp/perf/';
-          const files = fs.readdirSync(dir).filter(f => /^lh-.*\.report\.json$/.test(f));
-          const out = {};
-          for (const f of files) {
-            const j = JSON.parse(fs.readFileSync(dir + f, 'utf8'));
-            const a = j.audits; const v = k => a[k] ? a[k].numericValue : null; const dv = k => a[k] ? a[k].displayValue : null;
-            const opps = Object.values(a).filter(x => x.details && x.details.type === 'opportunity' && x.details.overallSavingsMs > 50).map(x => ({ id: x.id, savingsMs: Math.round(x.details.overallSavingsMs), savingsKB: Math.round((x.details.overallSavingsBytes || 0) / 1024), items: (x.details.items || []).slice(0, 6).map(i => ({ url: (i.url || i.source || '').toString().slice(-70), wastedKB: Math.round((i.wastedBytes || 0) / 1024), totalKB: Math.round((i.totalBytes || 0) / 1024), wastedMs: Math.round(i.wastedMs || 0) })) })).sort((x, y) => y.savingsMs - x.savingsMs);
-            const lcpEl = a['largest-contentful-paint-element'] && a['largest-contentful-paint-element'].details && a['largest-contentful-paint-element'].details.items && a['largest-contentful-paint-element'].details.items[0];
-            const lcpNode = lcpEl && lcpEl.items && lcpEl.items[0] && lcpEl.items[0].node ? lcpEl.items[0].node.snippet : (lcpEl && lcpEl.node ? lcpEl.node.snippet : null);
-            const phases = a['largest-contentful-paint-element'] && a['largest-contentful-paint-element'].details && a['largest-contentful-paint-element'].details.items && a['largest-contentful-paint-element'].details.items[1] ? a['largest-contentful-paint-element'].details.items[1].items : null;
-            const tp = a['third-party-summary'] && a['third-party-summary'].details ? a['third-party-summary'].details.items.slice(0, 12).map(i => ({ entity: i.entity && i.entity.text ? i.entity.text : i.entity, transferKB: Math.round(i.transferSize / 1024), blockingMs: Math.round(i.blockingTime), mainMs: Math.round(i.mainThreadTime) })) : null;
-            const mt = a['mainthread-work-breakdown'] && a['mainthread-work-breakdown'].details ? a['mainthread-work-breakdown'].details.items.map(i => [i.groupLabel, Math.round(i.duration)]) : null;
-            const boot = a['bootup-time'] && a['bootup-time'].details ? a['bootup-time'].details.items.slice(0, 10).map(i => ({ url: (i.url || '').slice(-60), totalMs: Math.round(i.total), scriptingMs: Math.round(i.scripting) })) : null;
-            const net = a['network-requests'] && a['network-requests'].details ? a['network-requests'].details.items : [];
-            const byType = {}; for (const r of net) { const t = r.resourceType || 'Other'; byType[t] = byType[t] || { n: 0, kb: 0 }; byType[t].n++; byType[t].kb += (r.transferSize || 0) / 1024; }
-            for (const k in byType) byType[k].kb = Math.round(byType[k].kb);
-            const heavy = net.slice().sort((x, y) => (y.transferSize || 0) - (x.transferSize || 0)).slice(0, 20).map(r => ({ url: (r.url || '').replace(/^https?:\/\//, '').slice(0, 90), kb: Math.round((r.transferSize || 0) / 1024), type: r.resourceType, startMs: Math.round(r.networkRequestTime || r.startTime || 0), endMs: Math.round(r.networkEndTime || r.endTime || 0) }));
-            const rb = a['render-blocking-resources'] && a['render-blocking-resources'].details ? a['render-blocking-resources'].details.items.map(i => ({ url: (i.url || '').slice(-70), kb: Math.round(i.totalBytes / 1024), wastedMs: Math.round(i.wastedMs) })) : null;
-            const lt = a['long-tasks'] && a['long-tasks'].details ? a['long-tasks'].details.items.slice(0, 8).map(i => ({ url: (i.url || '').slice(-60), startMs: Math.round(i.startTime), durMs: Math.round(i.duration) })) : null;
-            const lcpLazy = a['lcp-lazy-loaded'] ? a['lcp-lazy-loaded'].score : null;
-            const critChains = a['critical-request-chains'] ? a['critical-request-chains'].displayValue : null;
-            const fonts = a['font-display'] && a['font-display'].details ? a['font-display'].details.items.map(i => (i.url || '').slice(-50)) : null;
-            const dom = dv('dom-size');
-            out[f.replace('.report.json', '')] = { score: Math.round(j.categories.performance.score * 100), FCP: Math.round(v('first-contentful-paint')), LCP: Math.round(v('largest-contentful-paint')), TBT: Math.round(v('total-blocking-time')), CLS: +(v('cumulative-layout-shift') || 0).toFixed(3), SI: Math.round(v('speed-index')), TTI: Math.round(v('interactive')), TTFB: Math.round(v('server-response-time')), totalKB: Math.round(v('total-byte-weight') / 1024), dom, lcpNode, lcpPhases: phases, opps, rb, tp, mt, boot, byType, heavy, lt, lcpLazy, critChains, fonts };
-          }
-          fs.writeFileSync(dir + 'summary-r178.json', JSON.stringify(out, null, 1));
-          for (const [k, r] of Object.entries(out)) console.log('LH ' + k + ' ' + JSON.stringify({ score: r.score, FCP: r.FCP, LCP: r.LCP, TBT: r.TBT, CLS: r.CLS, SI: r.SI, TTI: r.TTI, TTFB: r.TTFB, totalKB: r.totalKB, dom: r.dom }));
-          const m1 = out['lh-mobile-1'] || Object.values(out)[0];
-          console.log('DETAIL ' + JSON.stringify({ lcpNode: m1.lcpNode, lcpPhases: m1.lcpPhases, opps: m1.opps, rb: m1.rb, tp: m1.tp, mt: m1.mt, boot: m1.boot, byType: m1.byType, heavy: m1.heavy, lt: m1.lt, lcpLazy: m1.lcpLazy, critChains: m1.critChains, fonts: m1.fonts }));
-          EOF2
-          node sum.mjs
-      - name: Commit reports
+          npx lighthouse "$URL" --only-categories=performance --preset=desktop --throttling-method=simulate --output=json --output-path=lp-factory/pages/kits-lp/perf/s1-desktop-1.json --chrome-flags="--headless=new --no-sandbox --disable-gpu" --quiet || true
+          node -e "
+          const fs=require('fs');const dir='lp-factory/pages/kits-lp/perf/';
+          for(const f of fs.readdirSync(dir).filter(f=>/^s1-.*\.json$/.test(f))){const j=JSON.parse(fs.readFileSync(dir+f));const a=j.audits;const v=k=>Math.round(a[k].numericValue);const ph=a['largest-contentful-paint-element'].details.items[1]?a['largest-contentful-paint-element'].details.items[1].items.map(x=>x.phase+':'+Math.round(x.timing)):null;const net=a['network-requests'].details.items;const byT={};for(const r of net){const t=r.resourceType||'Other';byT[t]=(byT[t]||0)+Math.round((r.transferSize||0)/1024)}const hero=net.filter(r=>/mc-hero-loop/.test(r.url)).map(r=>[r.url.slice(-30),Math.round(r.transferSize/1024),Math.round(r.networkRequestTime)]);const tp=a['third-party-summary'].details.items.slice(0,5).map(i=>[i.entity&&i.entity.text?i.entity.text:i.entity,Math.round(i.transferSize/1024),Math.round(i.blockingTime)]);console.log('LH '+f+' '+JSON.stringify({score:Math.round(j.categories.performance.score*100),FCP:v('first-contentful-paint'),LCP:v('largest-contentful-paint'),TBT:v('total-blocking-time'),CLS:+a['cumulative-layout-shift'].numericValue.toFixed(3),SI:v('speed-index'),TTI:v('interactive'),totalKB:Math.round(v('total-byte-weight')/1024),lcpPhases:ph,byT,hero,tp}));}
+          "
+      - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          rm -f lp-factory/pages/kits-lp/perf/*.report.html
-          git add lp-factory/pages/kits-lp/perf/
-          git commit -m "r178: Lighthouse + PSI reports for the Founder's Offer page" || exit 0
+          git add lp-factory/pages/kits-lp/live/v3s1-live-top.png lp-factory/pages/kits-lp/perf/s1-*.json
+          git commit -m "r179: Sprint 1 live screenshot + Lighthouse reports" || exit 0
           git push

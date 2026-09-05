@@ -33,7 +33,7 @@ var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-
 })();
 
 /* eslint-disable */
-const { useState, useEffect, useRef, useCallback, createElement: h } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useCallback, createElement: h } = React;
 const html = htm.bind(h);
 
 /* ================================================================
@@ -526,43 +526,37 @@ const Announcement = () => {
    element; the video source is attached only after load + idle so the ~600KB
    download never competes with first paint. */
 function HeroVideo({ poster }) {
+  /* The page HTML ships a real <video id="mc-hero-v"> inside #mc-prehero so the
+     loop starts downloading with the document, long before this app runs. On
+     mount we ADOPT that element (move it into the gallery slide) instead of
+     creating a second one: no second download, no restart. Fallback creates
+     the element when the page has no pre-hero (product-page host, preview). */
+  const host = useRef(null);
   const ref = useRef(null);
-  const [on, setOn] = useState(false);
   const [blocked, setBlocked] = useState(false);
-  useEffect(() => {
-    /* start fetching the loop as soon as the hero is on screen (owner: the
-       poster showed ~3 s before the video when this waited for load + idle) */
-    let raf = 0; const go = () => setOn(true);
-    if (window.requestAnimationFrame) raf = requestAnimationFrame(go); else go();
-    return () => { if (raf && window.cancelAnimationFrame) cancelAnimationFrame(raf); };
+  useLayoutEffect(() => {
+    const hst = host.current; if (!hst) return;
+    let el = document.getElementById("mc-hero-v");
+    if (el) { el.removeAttribute("id"); el.removeAttribute("style"); }
+    else { el = document.createElement("video"); el.autoplay = true; el.loop = true; el.poster = poster; }
+    el.className = "simg"; el.setAttribute("aria-label", "Maison Croyez diffuser video");
+    el.muted = true; el.defaultMuted = true;
+    el.setAttribute("muted", ""); el.setAttribute("playsinline", ""); el.setAttribute("webkit-playsinline", ""); el.setAttribute("loop", "");
+    hst.appendChild(el);
+    ref.current = el;
   }, []);
   useEffect(() => {
-    if (!on) return;
     const el = ref.current;
     if (!el) return;
-    /* iOS: the muted/playsinline ATTRIBUTES must be present (not just the
-       properties) for inline autoplay; the src goes straight on the element so
-       resource selection starts at once. When autoplay is refused (Low Power
-       Mode, Low Data Mode, "Auto-Play Video Previews" off) a play button is
-       shown and the next real tap anywhere (touchend/click, the events WebKit
-       counts as activation) starts the loop. */
-    el.muted = true; el.defaultMuted = true;
-    el.setAttribute("muted", ""); el.setAttribute("playsinline", ""); el.setAttribute("webkit-playsinline", "");
     const EVS = ["touchend", "click", "pointerup", "keydown"];
     let playing = false, armed = false;
-    const swallow = (p) => { if (p && p.catch) p.catch(() => {}); };
-    const onGesture = () => { if (!playing) swallow(el.play()); };
-    const disarm = () => EVS.forEach((ev) => document.removeEventListener(ev, onGesture, true));
-    const armGesture = () => { if (armed) return; armed = true; setBlocked(true); EVS.forEach((ev) => document.addEventListener(ev, onGesture, { capture: true, passive: true })); };
-    const onPlaying = () => { playing = true; setBlocked(false); disarm(); };
+    const onGesture = () => { if (playing) return; const p = el.play(); if (p && p.catch) p.catch(() => {}); };
+    const onPlaying = () => { playing = true; setBlocked(false); EVS.forEach((ev) => document.removeEventListener(ev, onGesture, true)); };
+    const armGesture = () => { setBlocked(true); EVS.forEach((ev) => document.addEventListener(ev, onGesture, { capture: true, passive: true })); };
     const tryPlay = () => {
-      if (playing) return;
+      if (playing || !el.paused) { if (!el.paused) onPlaying(); return; }
       const p = el.play();
-      if (p && p.catch) p.catch((e) => {
-        /* AbortError = interrupted by load()/src change, not a policy refusal */
-        if (e && e.name === "AbortError") return;
-        armGesture();
-      });
+      if (p && p.catch) p.catch((e) => { if (e && e.name === "AbortError") return; if (!armed) { armed = true; armGesture(); } });
     };
     const onVis = () => { if (!document.hidden) tryPlay(); };
     el.addEventListener("playing", onPlaying);
@@ -570,16 +564,16 @@ function HeroVideo({ poster }) {
     el.addEventListener("loadeddata", tryPlay);
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("pageshow", tryPlay);
-    el.src = MC_HERO_VIDEO;
-    el.load();
+    if (!el.getAttribute("src")) { el.preload = "auto"; el.src = MC_HERO_VIDEO; el.load(); }
     tryPlay();
     return () => {
       el.removeEventListener("playing", onPlaying); el.removeEventListener("canplay", tryPlay); el.removeEventListener("loadeddata", tryPlay);
-      document.removeEventListener("visibilitychange", onVis); window.removeEventListener("pageshow", tryPlay); disarm();
+      document.removeEventListener("visibilitychange", onVis); window.removeEventListener("pageshow", tryPlay);
+      EVS.forEach((ev) => document.removeEventListener(ev, onGesture, true));
     };
-  }, [on]);
-  const manual = () => { const el = ref.current; if (el) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } };
-  return html`<video key="hv" ref=${ref} class="simg" poster=${poster} autoplay loop muted playsinline preload=${on ? "auto" : "none"} aria-label="Maison Croyez diffuser video"></video>${blocked ? html`<button key="hvp" type="button" class="hv-play" aria-label="Play video" onClick=${manual}><span></span></button>` : null}`;
+  }, []);
+  const tap = () => { const el = ref.current; if (el) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } };
+  return html`<div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}`;
 }
 
 function Gallery() {

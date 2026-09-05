@@ -380,3 +380,20 @@ mystery scent added..." and "SAFE FOR KIDS & PETS" — separate deploy, flagged.
 r176 live: 3D one-time = 12995 (3 scents zeroed by D2) ✓, no "France" text on the page ✓.
 Sitewide drawer cleaned the same day (see sitewide-drawer/STATUS.md). Mock artifact
 6886f6ee republished at v3b parity (refill step on tier 1 only). H1 left as is (owner).
+
+## 2026-09-05 — Performance baseline r178 (Lighthouse 12.2.1, CI)
+Mobile (Slow 4G sim, 4x CPU, 3 runs): score 69/74/73, LCP 3.1-3.4s (hero poster;
+load delay 57-68% = bandwidth contention with theme fonts, our 5 preloaded fonts,
+theme.js, wpm, Subi), TBT 598-864ms (wpm 324ms, Clarity 237, FB 344, Shopify
+storefront 294, our app 73ms), CLS 0.027 (font swaps), TTI ~14.4s (late 3P long
+tasks), weight 3.5-4.0MB (hero webm 964KB + abandoned mp4 119KB, Shopify checkout
+prefetch ~730KB, 3P tags ~720KB: MS Ads agent 271, FB 231, Klaviyo 65, Trybe 63,
+Subi 56, Clarity 25). Desktop: 98, LCP 1.0s, TBT 7ms. PSI/CrUX: quota exhausted.
+Reports: lp-factory/pages/kits-lp/perf/ (lh-*.report.json, summary-r178.json).
+Plan of action (artifact, 3 sprints): https://claude.ai/code/artifact/9c7b795c-1763-41ca-aaa2-1d0d8886e6bf
+Sprint 1 (ours): defer hero video post-LCP + single mp4 ~550KB; preload only Unna/
+Outfit 700, drop BVP 500, size-adjust fallback; mount buybox first, sections on
+idle; frag thumbs ?width=120; purge legacy CSS/JS; remove our fbq loader once the
+channel pixel's product_added_to_cart is confirmed. Sprint 2 (Jose): MS Ads agent,
+Trybe, Subi sitewide embed, Clarity sampling, pixel list. Sprint 3 (theme): Nunito
+fonts, dedicated page template with head preloads.

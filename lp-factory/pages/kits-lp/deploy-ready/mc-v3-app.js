@@ -568,7 +568,7 @@ const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ide
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
 const selStore = {
   tierIdx: 1,
-  plan: "sub",            /* scents: "sub" = Subscribe & Save 20% | "one" = one-time */
+  plan: "one",            /* scents: "sub" = Subscribe & Save 20% | "one" = one-time */
   freq: 45,
   keys: ["love", "abundance"],
   listeners: new Set(),
@@ -576,7 +576,7 @@ const selStore = {
   kit() { return KITS[1]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
-  setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = TIERS[i].scents === 0 ? "one" : "sub"; this.emit(); },
+  setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = "one"; /* refill plan offered on the 1-diffuser tier only (Shopify won't stack the 20% on BXGY prerequisite lines) */ this.emit(); },
   setPlan(p) { this.plan = p; this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return this.plan === "sub" ? SCENT_SUB : SCENT_ONE; },
@@ -767,7 +767,7 @@ function BuyBox() {
               </div>`; })}
           </div>
 
-          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; return html`
+          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; if (inc) return null; return html`
           <div class="picker-title">${inc ? "3. How would you like your refills?" : "3. How would you like your scents?"}</div>
           <div class="picker-sub">${inc
             ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 45 days.`

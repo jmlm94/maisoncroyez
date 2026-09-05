@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 182 — wait for the 21:00 UTC hm3 flip, then verify the new home hero live (rating line, no bullets/strip, CTA) + fold screenshots
+# run 183 — verify v3s3 live: hero video with autoplay BLOCKED (chromium --autoplay-policy=user-gesture-required) shows the play button and a tap starts it; normal chromium + iPhone WebKit autoplay; key v3s3
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,55 +17,50 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Wait for hour flip
-        run: |
-          now=$(date -u +%s); target=$(date -u -d "$(date -u +%Y-%m-%dT21:00:45Z)" +%s)
-          if [ "$now" -lt "$target" ]; then echo "sleeping $((target-now))s"; sleep $((target-now)); fi
-          date -u
+      - name: Install webkit
+        run: npx playwright install --with-deps webkit
       - name: Verify
         run: |
-          mkdir -p lp-factory/pages/home/verify
-          cat > r182.mjs <<'EOF2'
-          import { chromium } from 'playwright';
-          import fs from 'fs';
-          const b = await chromium.launch();
+          mkdir -p lp-factory/pages/kits-lp/live
+          cat > r183.mjs <<'EOF2'
+          import { chromium, webkit, devices } from 'playwright';
+          const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const out = {};
-          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
-            const ctx = await b.newContext({ viewport: vp });
-            const pg = await ctx.newPage();
-            const errs = []; const scripts = [];
-            pg.on('pageerror', e => errs.push(e.message.slice(0, 160)));
-            pg.on('response', r => { if (/mc-home/.test(r.url())) scripts.push([r.status(), r.url().slice(-40)]); });
-            await pg.goto('https://maisoncroyez.com/', { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForTimeout(3500);
-            const info = await pg.evaluate(() => {
-              const hero = document.querySelector('#root .hero');
-              const q = s => hero && hero.querySelector(s);
-              return {
-                heroText: hero ? hero.innerText.slice(0, 400) : null,
-                rating: q('.hrating') ? q('.hrating').innerText : null,
-                bullets: hero ? hero.querySelectorAll('.hchecks, .hchecks li, .trust-strip').length : null,
-                cta: q('a.btn') ? [q('a.btn').innerText.trim(), q('a.btn').getAttribute('href')] : null,
-                heroH: hero ? Math.round(hero.getBoundingClientRect().height) : null,
-                heroImgOk: q('img') ? q('img').naturalWidth > 0 : null,
-                card1: (document.querySelector('#root .ritual, #root .cards, #root .paths') || document.body).innerText.match(/Founder.s Offer[^\n]*/g),
-                stale: (document.getElementById('root') || document.body).innerText.match(/Six-Month Program|mystery|6-Month Money|\$199|2,500\+|4\.9\/5/gi)
-              };
-            });
-            out[name] = { ...info, errs, scripts };
-            await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-fold-' + name + '.png' });
-            await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-live-' + name + '.png', fullPage: true });
-            fs.writeFileSync('lp-factory/pages/home/verify/home-text-' + name + '.txt', await pg.evaluate(() => (document.querySelector('main') || document.body).innerText));
-            await ctx.close();
-          }
-          console.log('HOME ' + JSON.stringify(out, null, 1));
-          await b.close();
+          const probe = async (pg) => pg.evaluate(() => {
+            const v = document.querySelector('#root video'); const b = document.querySelector('#root .hv-play');
+            return v ? { src: (v.currentSrc || v.src).slice(-40), paused: v.paused, t: +v.currentTime.toFixed(2), rs: v.readyState, muted: v.muted, attrs: ['muted','playsinline','autoplay'].map(a => v.hasAttribute(a)), btn: !!b, btnBox: b ? b.getBoundingClientRect().width : 0, key: [...document.scripts].map(s => s.src).filter(s => /mc-v3-app/.test(s)).map(s => s.split('v=')[1])[0] } : { novideo: true };
+          });
+          const settle = async (pg) => { await pg.waitForSelector('#root video', { timeout: 60000 }); await pg.waitForTimeout(4500); };
+          // 1) chromium with autoplay refused (simulates iOS Low Power / Low Data mode)
+          { const b = await chromium.launch({ args: ['--autoplay-policy=user-gesture-required'] });
+            const pg = await (await b.newContext({ ...devices['iPhone 13'], defaultBrowserType: undefined })).newPage();
+            const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 120)));
+            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 }); await settle(pg);
+            const before = await probe(pg);
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s3-blocked-before.png' });
+            // tap somewhere neutral (the page background near the h1), not the button
+            const h1 = await pg.$('#root h1'); const bb = await h1.boundingBox(); await pg.mouse.click(bb.x + 5, bb.y + 5);
+            await pg.waitForTimeout(1500);
+            const afterTap = await probe(pg);
+            out.blocked = { before, afterTap, errs };
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s3-blocked-after.png' });
+            await b.close(); }
+          // 2) chromium normal + 3) webkit iPhone
+          for (const [name, bt, dev] of [['chromium', chromium, devices['Pixel 7']], ['webkit-iphone', webkit, devices['iPhone 13']]]) {
+            const b = await bt.launch(); const pg = await (await b.newContext({ ...dev, defaultBrowserType: undefined })).newPage();
+            const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 120)));
+            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 }); await settle(pg);
+            const a = await probe(pg); await pg.waitForTimeout(1500); const c = await probe(pg);
+            out[name] = { a, c, advanced: c.t > a.t, errs };
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s3-' + name + '.png' });
+            await b.close(); }
+          console.log('V3S3 ' + JSON.stringify(out, null, 1));
           EOF2
-          node r182.mjs
+          node r183.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/home/verify/
-          git commit -m "r182: home hero live verify artifacts" || exit 0
+          git add lp-factory/pages/kits-lp/live/
+          git commit -m "r183: v3s3 video fallback screenshots" || exit 0
           git push

@@ -506,3 +506,14 @@ animation frame after mount. Autoplay attributes and tap-to-play fallback unchan
 mc-v3-app.js 79,244B raw@3f5abc1. Perf note: the 600 KB mp4 now competes with the
 first paint; re-run Lighthouse before any further perf claims. Verify: r187 (time to
 playing, iPhone WebKit x3).
+
+### 2026-09-05 — v3s8 (key v3s8-4b7258b): video tag ships in the page HTML, app adopts it
+Owner wanted the still poster moment gone without shrinking the mp4. The page body
+(saved here as page-body.html) now carries `<video id="mc-hero-v" autoplay muted playsinline
+loop preload=auto poster=… src=mc-hero-loop-720.mp4>` inside #mc-prehero, so the loop starts
+downloading with the document instead of after vendor+app JS. HeroVideo (mc-v3-app.js
+79,124B) adopts that element in useLayoutEffect (moves it into the gallery slide before
+paint): one mp4 download, playback never restarts; falls back to creating the element when
+no pre-hero exists. mc-v3.css 49,620B adds `#root .hv-host{display:contents}`.
+Poster jpg left as is. Verify: r188 (one mp4 request, adopted into #root, prehero hidden,
+time-to-playing x3, firefox autoplay-blocked -> play button).

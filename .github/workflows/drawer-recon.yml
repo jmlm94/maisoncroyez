@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 181 — home page audit: full-page mobile+desktop screenshots, JS errors, broken images, CTA/link HTTP status, visible text dump
+# run 182 — wait for the 21:00 UTC hm3 flip, then verify the new home hero live (rating line, no bullets/strip, CTA) + fold screenshots
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,10 +17,15 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Audit
+      - name: Wait for hour flip
+        run: |
+          now=$(date -u +%s); target=$(date -u -d "$(date -u +%Y-%m-%dT21:00:45Z)" +%s)
+          if [ "$now" -lt "$target" ]; then echo "sleeping $((target-now))s"; sleep $((target-now)); fi
+          date -u
+      - name: Verify
         run: |
           mkdir -p lp-factory/pages/home/verify
-          cat > r181.mjs <<'EOF2'
+          cat > r182.mjs <<'EOF2'
           import { chromium } from 'playwright';
           import fs from 'fs';
           const b = await chromium.launch();
@@ -28,45 +33,39 @@ jobs:
           for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
             const ctx = await b.newContext({ viewport: vp });
             const pg = await ctx.newPage();
-            const errs = []; const failed = [];
+            const errs = []; const scripts = [];
             pg.on('pageerror', e => errs.push(e.message.slice(0, 160)));
-            pg.on('response', r => { if (r.status() >= 400 && !/facebook|clarity|klaviyo|bing|9gtb|azurefd|postscript|gorgias/.test(r.url())) failed.push([r.status(), r.url().slice(0, 120)]); });
+            pg.on('response', r => { if (/mc-home/.test(r.url())) scripts.push([r.status(), r.url().slice(-40)]); });
             await pg.goto('https://maisoncroyez.com/', { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForTimeout(3000);
-            await pg.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } window.scrollTo(0, 0); });
-            await pg.waitForTimeout(1500);
+            await pg.waitForTimeout(3500);
             const info = await pg.evaluate(() => {
-              const imgs = [...document.images].filter(i => i.complete && i.naturalWidth === 0 && i.getBoundingClientRect().width > 0).map(i => (i.currentSrc || i.src).slice(0, 100));
-              const links = [...document.querySelectorAll('main a[href], .hero a[href], #mc-home a[href]')].map(a => [a.textContent.trim().slice(0, 40), a.getAttribute('href')]).filter(x => x[1] && !x[1].startsWith('#'));
-              const hero = document.querySelector('.hero') || document.querySelector('[class*=hero]');
-              const text = (document.querySelector('main') || document.body).innerText;
-              return { title: document.title, hscroll: document.documentElement.scrollWidth - innerWidth, brokenImgs: imgs, links: [...new Map(links.map(l => [l[1] + l[0], l])).values()].slice(0, 40), heroText: hero ? hero.innerText.slice(0, 800) : null, heroBox: hero ? Math.round(hero.getBoundingClientRect().height) : null, text };
+              const hero = document.querySelector('#root .hero');
+              const q = s => hero && hero.querySelector(s);
+              return {
+                heroText: hero ? hero.innerText.slice(0, 400) : null,
+                rating: q('.hrating') ? q('.hrating').innerText : null,
+                bullets: hero ? hero.querySelectorAll('.hchecks, .hchecks li, .trust-strip').length : null,
+                cta: q('a.btn') ? [q('a.btn').innerText.trim(), q('a.btn').getAttribute('href')] : null,
+                heroH: hero ? Math.round(hero.getBoundingClientRect().height) : null,
+                heroImgOk: q('img') ? q('img').naturalWidth > 0 : null,
+                card1: (document.querySelector('#root .ritual, #root .cards, #root .paths') || document.body).innerText.match(/Founder.s Offer[^\n]*/g),
+                stale: (document.getElementById('root') || document.body).innerText.match(/Six-Month Program|mystery|6-Month Money|\$199|2,500\+|4\.9\/5/gi)
+              };
             });
-            fs.writeFileSync('lp-factory/pages/home/verify/home-text-' + name + '.txt', info.text);
-            delete info.text;
-            out[name] = { ...info, errs, failed: failed.slice(0, 10) };
-            await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-live-' + name + '.png', fullPage: true });
+            out[name] = { ...info, errs, scripts };
             await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-fold-' + name + '.png' });
+            await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-live-' + name + '.png', fullPage: true });
+            fs.writeFileSync('lp-factory/pages/home/verify/home-text-' + name + '.txt', await pg.evaluate(() => (document.querySelector('main') || document.body).innerText));
             await ctx.close();
           }
-          // link status check (same-origin only, HEAD/GET)
-          const pg2 = await (await b.newContext()).newPage();
-          const seen = new Set(); const status = [];
-          for (const [, href] of [...out.mobile.links, ...out.desktop.links]) {
-            if (!href || seen.has(href) || /^(mailto|tel|javascript)/.test(href)) continue; seen.add(href);
-            const url = href.startsWith('http') ? href : 'https://maisoncroyez.com' + href;
-            if (!url.includes('maisoncroyez.com')) { status.push([href, 'external']); continue; }
-            try { const r = await pg2.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 }); status.push([href, r.status(), pg2.url().replace('https://maisoncroyez.com', '')]); } catch (e) { status.push([href, 'ERR']); }
-          }
-          out.linkStatus = status;
           console.log('HOME ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          node r181.mjs
+          node r182.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/home/verify/
-          git commit -m "r181: home page audit artifacts" || exit 0
+          git commit -m "r182: home hero live verify artifacts" || exit 0
           git push

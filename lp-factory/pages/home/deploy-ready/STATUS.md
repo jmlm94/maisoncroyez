@@ -60,3 +60,22 @@ Both files hour-keyed (hm3-/dr1-): live at the 22:00 UTC flip. Verify r127 after
 - Sitewide announcement bar text -> '8 out of 10 customers said "WOW" as soon as they
   turned their diffuser on for the first time.' (style unchanged: blush #ECDFDE,
   rosewood text). Via mc-drawer.js (gid 29651366445165); live at the 23:00 UTC dr1 flip.
+
+## Home hero redesign + stale-offer sweep (2026-09-05, owner request)
+Audit (r181, commit db92f4f^): no JS errors, no broken images, every same-origin CTA/footer
+link 200. Only "off" items were copy: hero bullets still sold "+1 free mystery scent",
+card 1 was "The Six-Month Program from $199", guarantee said "6-Month Money-Back",
+seven-scents section said "six months of fragrance, one payment", buy section repeated it.
+Changes (mc-home-app.js gid 29644413796461, mc-home.css gid 29644413763693, commit db92f4f):
+- Hero = rating line (4.7 ★ / 124 reviews, same figures as the Founder's Offer page) +
+  H1 (unchanged) + one-line sub + single CTA "Shop the Founder's Offer" + image.
+  Removed the three ✓ bullets and the shipping/guarantee/warranty strip from the fold.
+- Card 1 -> "The Founder's Offer" ($69.95 / $89.95 with 2 scents / $129.95 with 3;
+  chip "2 FREE scents with 2 diffusers"); CTA -> six-month-program page.
+- 6-Month Money-Back -> 90-Day Money-Back Guarantee; social-proof line -> "4.7/5 from
+  124 verified reviews"; seven-scents + buy-section copy no longer mention the program.
+CDN: fileUpdate from raw@db92f4f, both READY, sizes 16140 / 14117 match local.
+Hour-keyed (hm3-): live at the 21:00 UTC flip. Verify: r182.
+Not changed (flag to owner): "100% Organic from France", "hypoallergenic … family and
+pets", "Made in France", "2,500+ homes" claims; Amazon / TikTok Shop cards link to "#";
+footer "Fragrance Subscription" link is the theme footer; diffuser product still $89.95.

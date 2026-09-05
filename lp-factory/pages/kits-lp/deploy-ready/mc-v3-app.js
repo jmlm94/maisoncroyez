@@ -391,13 +391,15 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
    Scents = the 7 real scent products, added as separate lines.
    Included scents on 2D/3D:
      one-time  -> automatic BXGY zeroes 2 (or 3) one-time scent lines.
-     refill    -> scents ride the Subi 45-day plan (auto 20% => $39.95 each,
-                  every cycle) and an automatic BXGY takes the same amount off
-                  the kit line, so today's total is exactly the kit price.
-   1D: scents at $49.95 one-time, or $39.95 on the plan. */
+     refill    -> scents ride Subi Plan 5 "Every 45 days" (first delivery
+                  $0, then $39.95 each every 45 days), so today's total is
+                  exactly the kit price and no kit-side discount is needed.
+   1D: scents at $49.95 one-time, or on Subi Plan 4 (0%) + the automatic
+       "$10 off each scent, every delivery" discount => $39.95 each. */
 const CART3 = {
   kitVariants: { one: 45784228429933, two: 45784228462701, three: 45784228495469 },
-  sellingPlan: 2661875821,  /* Subi "Delivered every 45 days" */
+  sellingPlan: 2661875821,      /* Subi Plan 4 "Delivered every 45 days ❤️" — 1D optional scents */
+  sellingPlanFree: 2747695213,  /* Subi Plan 5 "Every 45 days" — included scents on 2D/3D ($0 today) */
   cartUrl: "/cart",
 };
 async function addToCart(setBusy, setToast) {
@@ -409,7 +411,8 @@ async function addToCart(setBusy, setToast) {
   const T = selStore.tier();
   const sub = selStore.plan === "sub" && selStore.keys.length > 0;
   const items = [{ id: CART3.kitVariants[T.key], quantity: 1 }];
-  selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: CART3.sellingPlan } : { id: f.variant, quantity: q }));
+  const planId = T.scents > 0 ? CART3.sellingPlanFree : CART3.sellingPlan;
+  selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
   if (!onStore()) {
     setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 45-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
     return;
@@ -456,14 +459,14 @@ const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ide
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
 const selStore = {
   tierIdx: 1,
-  plan: "one",            /* scents: "sub" = Subscribe & Save 20% | "one" = one-time */
+  plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 45,
   keys: ["love", "abundance"],
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
-  setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = "one"; /* refill plan offered on the 1-diffuser tier only (Shopify won't stack the 20% on BXGY prerequisite lines) */ this.emit(); },
+  setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = TIERS[i].scents > 0 ? "sub" : "one"; /* included scents default to auto-refill (nothing extra today); 1D optional scents default to one-time */ this.emit(); },
   setPlan(p) { this.plan = p; this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return this.plan === "sub" ? SCENT_SUB : SCENT_ONE; },
@@ -706,7 +709,7 @@ function BuyBox() {
               </div>`; })}
           </div>
 
-          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; if (inc) return null; return html`
+          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; return html`
           <div class="picker-title">${inc ? "3. How would you like your refills?" : "3. How would you like your scents?"}</div>
           <div class="picker-sub">${inc
             ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 45 days.`

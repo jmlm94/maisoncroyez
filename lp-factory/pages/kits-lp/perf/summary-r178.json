@@ -1,0 +1,1871 @@
+{
+ "lh-desktop-1": {
+  "score": 98,
+  "FCP": 614,
+  "LCP": 991,
+  "TBT": 7,
+  "CLS": 0.001,
+  "SI": 1338,
+  "TTI": 3110,
+  "TTFB": 19,
+  "totalKB": 4604,
+  "dom": "871 elements",
+  "lcpNode": "<img src=\"https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?…\" alt=\"Maison Croyez diffuser\" fetchpriority=\"high\" decoding=\"sync\" style=\"display:block;width:100vw;aspect-ratio:1/1;object-fit:cover\">",
+  "lcpPhases": [
+   {
+    "phase": "TTFB",
+    "timing": 190.731,
+    "percent": "19%"
+   },
+   {
+    "phase": "Load Delay",
+    "timing": 496.5257811024345,
+    "percent": "50%"
+   },
+   {
+    "phase": "Load Time",
+    "timing": 95.23309831708559,
+    "percent": "10%"
+   },
+   {
+    "phase": "Render Delay",
+    "timing": 208.56762058048025,
+    "percent": "21%"
+   }
+  ],
+  "opps": [],
+  "rb": [],
+  "tp": [
+   {
+    "entity": "Facebook",
+    "transferKB": 231,
+    "blockingMs": 13,
+    "mainMs": 113
+   },
+   {
+    "entity": "Shopify",
+    "transferKB": 2595,
+    "blockingMs": 0,
+    "mainMs": 70
+   },
+   {
+    "entity": "azurefd.net",
+    "transferKB": 271,
+    "blockingMs": 0,
+    "mainMs": 21
+   },
+   {
+    "entity": "Klaviyo",
+    "transferKB": 67,
+    "blockingMs": 0,
+    "mainMs": 49
+   },
+   {
+    "entity": "9gtb.com",
+    "transferKB": 63,
+    "blockingMs": 0,
+    "mainMs": 20
+   },
+   {
+    "entity": "subi.co",
+    "transferKB": 57,
+    "blockingMs": 0,
+    "mainMs": 18
+   },
+   {
+    "entity": "Clarity",
+    "transferKB": 29,
+    "blockingMs": 0,
+    "mainMs": 71
+   },
+   {
+    "entity": "shop.app",
+    "transferKB": 6,
+    "blockingMs": 0,
+    "mainMs": 2
+   },
+   {
+    "entity": "postscript.io",
+    "transferKB": 2,
+    "blockingMs": 0,
+    "mainMs": 0
+   },
+   {
+    "entity": "Bing Ads",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 0
+   },
+   {
+    "entity": "gorgias.chat",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 1
+   },
+   {
+    "entity": "jointrybe.com",
+    "transferKB": 0,
+    "blockingMs": 0,
+    "mainMs": 0
+   }
+  ],
+  "mt": [
+   [
+    "Script Evaluation",
+    617
+   ],
+   [
+    "Other",
+    315
+   ],
+   [
+    "Style & Layout",
+    186
+   ],
+   [
+    "Script Parsing & Compilation",
+    38
+   ],
+   [
+    "Rendering",
+    18
+   ],
+   [
+    "Garbage Collection",
+    12
+   ],
+   [
+    "Parse HTML & CSS",
+    12
+   ]
+  ],
+  "boot": [
+   {
+    "url": "https://maisoncroyez.com/pages/six-month-program",
+    "totalMs": 237,
+    "scriptingMs": 25
+   },
+   {
+    "url": "Unattributable",
+    "totalMs": 236,
+    "scriptingMs": 11
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "totalMs": 159,
+    "scriptingMs": 126
+   },
+   {
+    "url": "pifycloud/storefront/assets/storefront/autosizes-84416378.js",
+    "totalMs": 66,
+    "scriptingMs": 35
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "totalMs": 66,
+    "scriptingMs": 62
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "totalMs": 57,
+    "scriptingMs": 50
+   },
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "totalMs": 56,
+    "scriptingMs": 47
+   }
+  ],
+  "byType": {
+   "Document": {
+    "n": 3,
+    "kb": 39
+   },
+   "Stylesheet": {
+    "n": 4,
+    "kb": 35
+   },
+   "Font": {
+    "n": 8,
+    "kb": 193
+   },
+   "Script": {
+    "n": 76,
+    "kb": 1050
+   },
+   "Image": {
+    "n": 16,
+    "kb": 251
+   },
+   "Ping": {
+    "n": 13,
+    "kb": 11
+   },
+   "Preflight": {
+    "n": 4,
+    "kb": 0
+   },
+   "Fetch": {
+    "n": 13,
+    "kb": 24
+   },
+   "Media": {
+    "n": 8,
+    "kb": 2128
+   },
+   "Other": {
+    "n": 89,
+    "kb": 871
+   },
+   "XHR": {
+    "n": 4,
+    "kb": 1
+   }
+  },
+  "heavy": [
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993",
+    "kb": 964,
+    "type": "Media",
+    "startMs": 877,
+    "endMs": 960
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993",
+    "kb": 589,
+    "type": "Media",
+    "startMs": 795,
+    "endMs": 879
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/hydrate.DIADhEPP.js",
+    "kb": 204,
+    "type": "Other",
+    "startMs": 2181,
+    "endMs": 2222
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.webm?v=1783552928",
+    "kb": 130,
+    "type": "Media",
+    "startMs": 4068,
+    "endMs": 4095
+   },
+   {
+    "url": "connect.facebook.net/signals/config/980908600592309?v=2.9.393&r=stable&domain=maisoncroyez",
+    "kb": 125,
+    "type": "Script",
+    "startMs": 1247,
+    "endMs": 1413
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+    "kb": 116,
+    "type": "Script",
+    "startMs": 1007,
+    "endMs": 1041
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.webm?v=1783552928",
+    "kb": 113,
+    "type": "Media",
+    "startMs": 4091,
+    "endMs": 4132
+   },
+   {
+    "url": "connect.facebook.net/en_US/fbevents.js",
+    "kb": 106,
+    "type": "Script",
+    "startMs": 874,
+    "endMs": 1039
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928",
+    "kb": 105,
+    "type": "Media",
+    "startMs": 4029,
+    "endMs": 4064
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928",
+    "kb": 93,
+    "type": "Media",
+    "startMs": 4029,
+    "endMs": 4087
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/checkout-policy.DH6_Axi-.js",
+    "kb": 89,
+    "type": "Other",
+    "startMs": 1775,
+    "endMs": 1805
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.webm?v=1783552928",
+    "kb": 76,
+    "type": "Media",
+    "startMs": 4053,
+    "endMs": 4087
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+    "kb": 73,
+    "type": "Script",
+    "startMs": 1183,
+    "endMs": 1202
+   },
+   {
+    "url": "maisoncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "kb": 72,
+    "type": "Script",
+    "startMs": 431,
+    "endMs": 482
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/RememberMeSection.Dd06HXGI.js",
+    "kb": 62,
+    "type": "Other",
+    "startMs": 3453,
+    "endMs": 3478
+   },
+   {
+    "url": "content.9gtb.com/script.js?rev=35dc000",
+    "kb": 61,
+    "type": "Script",
+    "startMs": 828,
+    "endMs": 914
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928",
+    "kb": 59,
+    "type": "Media",
+    "startMs": 4028,
+    "endMs": 4051
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/context-browser.CXP_dDmb.js",
+    "kb": 59,
+    "type": "Other",
+    "startMs": 1748,
+    "endMs": 1774
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/Diseno_sin_titulo_92.png?v=1783904283&width",
+    "kb": 58,
+    "type": "Image",
+    "startMs": 689,
+    "endMs": 741
+   },
+   {
+    "url": "cdn.subi.co/subify/v5/subify-sdk.js",
+    "kb": 57,
+    "type": "Script",
+    "startMs": 427,
+    "endMs": 544
+   }
+  ],
+  "lt": [
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "startMs": 3318,
+    "durMs": 57
+   },
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "startMs": 2782,
+    "durMs": 56
+   }
+  ],
+  "lcpLazy": 1,
+  "critChains": "23 chains found",
+  "fonts": []
+ },
+ "lh-mobile-1": {
+  "score": 69,
+  "FCP": 2272,
+  "LCP": 3117,
+  "TBT": 864,
+  "CLS": 0.027,
+  "SI": 4113,
+  "TTI": 14701,
+  "TTFB": 58,
+  "totalKB": 3473,
+  "dom": "871 elements",
+  "lcpNode": "<img src=\"https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?…\" alt=\"Maison Croyez diffuser\" fetchpriority=\"high\" decoding=\"sync\" style=\"display:block;width:100vw;aspect-ratio:1/1;object-fit:cover\">",
+  "lcpPhases": [
+   {
+    "phase": "TTFB",
+    "timing": 622.722,
+    "percent": "20%"
+   },
+   {
+    "phase": "Load Delay",
+    "timing": 1867.306069849911,
+    "percent": "60%"
+   },
+   {
+    "phase": "Load Time",
+    "timing": 336.5733969545681,
+    "percent": "11%"
+   },
+   {
+    "phase": "Render Delay",
+    "timing": 290.700733195521,
+    "percent": "9%"
+   }
+  ],
+  "opps": [
+   {
+    "id": "unused-javascript",
+    "savingsMs": 200,
+    "savingsKB": 345,
+    "items": [
+     {
+      "url": "tafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+      "wastedKB": 60,
+      "totalKB": 72,
+      "wastedMs": 0
+     },
+     {
+      "url": "ientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+      "wastedKB": 57,
+      "totalKB": 116,
+      "wastedMs": 0
+     },
+     {
+      "url": "entafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-index-DbNB7Vr0.js",
+      "wastedKB": 41,
+      "totalKB": 46,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://cdn.subi.co/subify/v5/subify-sdk.js",
+      "wastedKB": 38,
+      "totalKB": 56,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "wastedKB": 35,
+      "totalKB": 106,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://content.9gtb.com/script.js?rev=35dc000",
+      "wastedKB": 35,
+      "totalKB": 60,
+      "wastedMs": 0
+     }
+    ]
+   },
+   {
+    "id": "offscreen-images",
+    "savingsMs": 160,
+    "savingsKB": 26,
+    "items": [
+     {
+      "url": "ify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350",
+      "wastedKB": 26,
+      "totalKB": 26,
+      "wastedMs": 0
+     }
+    ]
+   },
+   {
+    "id": "unused-css-rules",
+    "savingsMs": 160,
+    "savingsKB": 16,
+    "items": [
+     {
+      "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-v3.css?v=v3b-fbc1fdb",
+      "wastedKB": 16,
+      "totalKB": 20,
+      "wastedMs": 0
+     }
+    ]
+   }
+  ],
+  "rb": [],
+  "tp": [
+   {
+    "entity": "Facebook",
+    "transferKB": 231,
+    "blockingMs": 296,
+    "mainMs": 397
+   },
+   {
+    "entity": "Clarity",
+    "transferKB": 29,
+    "blockingMs": 127,
+    "mainMs": 259
+   },
+   {
+    "entity": "subi.co",
+    "transferKB": 57,
+    "blockingMs": 61,
+    "mainMs": 83
+   },
+   {
+    "entity": "Shopify",
+    "transferKB": 1491,
+    "blockingMs": 40,
+    "mainMs": 291
+   },
+   {
+    "entity": "gorgias.help",
+    "transferKB": 0,
+    "blockingMs": 11,
+    "mainMs": 14
+   },
+   {
+    "entity": "9gtb.com",
+    "transferKB": 63,
+    "blockingMs": 9,
+    "mainMs": 62
+   },
+   {
+    "entity": "azurefd.net",
+    "transferKB": 271,
+    "blockingMs": 0,
+    "mainMs": 108
+   },
+   {
+    "entity": "Klaviyo",
+    "transferKB": 67,
+    "blockingMs": 0,
+    "mainMs": 145
+   },
+   {
+    "entity": "shop.app",
+    "transferKB": 6,
+    "blockingMs": 0,
+    "mainMs": 1
+   },
+   {
+    "entity": "postscript.io",
+    "transferKB": 2,
+    "blockingMs": 0,
+    "mainMs": 2
+   },
+   {
+    "entity": "Bing Ads",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 0
+   },
+   {
+    "entity": "gorgias.chat",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 1
+   }
+  ],
+  "mt": [
+   [
+    "Script Evaluation",
+    2249
+   ],
+   [
+    "Other",
+    1072
+   ],
+   [
+    "Style & Layout",
+    1062
+   ],
+   [
+    "Script Parsing & Compilation",
+    178
+   ],
+   [
+    "Rendering",
+    61
+   ],
+   [
+    "Garbage Collection",
+    54
+   ],
+   [
+    "Parse HTML & CSS",
+    44
+   ]
+  ],
+  "boot": [
+   {
+    "url": "Unattributable",
+    "totalMs": 835,
+    "scriptingMs": 70
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "totalMs": 643,
+    "scriptingMs": 324
+   },
+   {
+    "url": "dn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+    "totalMs": 544,
+    "scriptingMs": 46
+   },
+   {
+    "url": "https://maisoncroyez.com/pages/six-month-program",
+    "totalMs": 542,
+    "scriptingMs": 119
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "totalMs": 255,
+    "scriptingMs": 237
+   },
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "totalMs": 209,
+    "scriptingMs": 174
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "totalMs": 188,
+    "scriptingMs": 170
+   },
+   {
+    "url": "pifycloud/storefront/assets/storefront/autosizes-84416378.js",
+    "totalMs": 166,
+    "scriptingMs": 66
+   },
+   {
+    "url": "ycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+    "totalMs": 149,
+    "scriptingMs": 146
+   },
+   {
+    "url": ".com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.8.9.min.js",
+    "totalMs": 102,
+    "scriptingMs": 82
+   }
+  ],
+  "byType": {
+   "Document": {
+    "n": 3,
+    "kb": 39
+   },
+   "Stylesheet": {
+    "n": 4,
+    "kb": 35
+   },
+   "Font": {
+    "n": 8,
+    "kb": 193
+   },
+   "Script": {
+    "n": 76,
+    "kb": 1050
+   },
+   "Image": {
+    "n": 14,
+    "kb": 202
+   },
+   "Ping": {
+    "n": 13,
+    "kb": 12
+   },
+   "Fetch": {
+    "n": 13,
+    "kb": 24
+   },
+   "Preflight": {
+    "n": 4,
+    "kb": 0
+   },
+   "Media": {
+    "n": 2,
+    "kb": 1083
+   },
+   "Other": {
+    "n": 74,
+    "kb": 833
+   },
+   "XHR": {
+    "n": 4,
+    "kb": 1
+   }
+  },
+  "heavy": [
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993",
+    "kb": 964,
+    "type": "Media",
+    "startMs": 896,
+    "endMs": 1003
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/hydrate.DIADhEPP.js",
+    "kb": 204,
+    "type": "Other",
+    "startMs": 2228,
+    "endMs": 2271
+   },
+   {
+    "url": "connect.facebook.net/signals/config/980908600592309?v=2.9.393&r=stable&domain=maisoncroyez",
+    "kb": 125,
+    "type": "Script",
+    "startMs": 1310,
+    "endMs": 1522
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993",
+    "kb": 119,
+    "type": "Media",
+    "startMs": 850,
+    "endMs": 894
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+    "kb": 116,
+    "type": "Script",
+    "startMs": 913,
+    "endMs": 986
+   },
+   {
+    "url": "connect.facebook.net/en_US/fbevents.js",
+    "kb": 106,
+    "type": "Script",
+    "startMs": 1026,
+    "endMs": 1112
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/checkout-policy.DH6_Axi-.js",
+    "kb": 89,
+    "type": "Other",
+    "startMs": 1809,
+    "endMs": 1845
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+    "kb": 73,
+    "type": "Script",
+    "startMs": 1169,
+    "endMs": 1193
+   },
+   {
+    "url": "maisoncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "kb": 72,
+    "type": "Script",
+    "startMs": 416,
+    "endMs": 467
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/RememberMeSection.Dd06HXGI.js",
+    "kb": 62,
+    "type": "Other",
+    "startMs": 3479,
+    "endMs": 3505
+   },
+   {
+    "url": "content.9gtb.com/script.js?rev=35dc000",
+    "kb": 61,
+    "type": "Script",
+    "startMs": 856,
+    "endMs": 919
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/context-browser.CXP_dDmb.js",
+    "kb": 59,
+    "type": "Other",
+    "startMs": 1779,
+    "endMs": 1807
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/Diseno_sin_titulo_92.png?v=1783904283&width",
+    "kb": 58,
+    "type": "Image",
+    "startMs": 636,
+    "endMs": 669
+   },
+   {
+    "url": "cdn.subi.co/subify/v5/subify-sdk.js",
+    "kb": 57,
+    "type": "Script",
+    "startMs": 414,
+    "endMs": 535
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/OnePage.jkBhwRvF.js",
+    "kb": 52,
+    "type": "Other",
+    "startMs": 2333,
+    "endMs": 2359
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-index-DbNB7Vr0.js",
+    "kb": 46,
+    "type": "Script",
+    "startMs": 1169,
+    "endMs": 1183
+   },
+   {
+    "url": "maisoncroyez.com/cdn/fonts/nunito_sans/nunitosans_n7.25d963ed46da26098ebeab731e90d8802d989",
+    "kb": 45,
+    "type": "Font",
+    "startMs": 398,
+    "endMs": 431
+   },
+   {
+    "url": "maisoncroyez.com/cdn/fonts/nunito_sans/nunitosans_n4.0276fe080df0ca4e6a22d9cb55aed3ed5ba6b",
+    "kb": 45,
+    "type": "Font",
+    "startMs": 364,
+    "endMs": 392
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/esnext-vendor.BgMbUV1p.js",
+    "kb": 42,
+    "type": "Other",
+    "startMs": 1745,
+    "endMs": 1775
+   },
+   {
+    "url": "maisoncroyez.com/pages/six-month-program",
+    "kb": 35,
+    "type": "Document",
+    "startMs": 1,
+    "endMs": 354
+   }
+  ],
+  "lt": [
+   {
+    "url": "dn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+    "startMs": 4914,
+    "durMs": 230
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "startMs": 7143,
+    "durMs": 211
+   },
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "startMs": 13697,
+    "durMs": 208
+   },
+   {
+    "url": "api/contact-forms/replace-mailto-script.js?shopName=patshion",
+    "startMs": 7398,
+    "durMs": 197
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "startMs": 16537,
+    "durMs": 188
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "startMs": 8702,
+    "durMs": 177
+   },
+   {
+    "url": "ycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+    "startMs": 11167,
+    "durMs": 103
+   },
+   {
+    "url": "om/s/files/1/0020/3636/7469/files/mc-v3-app.js?v=v3b-fbc1fdb",
+    "startMs": 6169,
+    "durMs": 73
+   }
+  ],
+  "lcpLazy": 1,
+  "critChains": "23 chains found",
+  "fonts": []
+ },
+ "lh-mobile-2": {
+  "score": 74,
+  "FCP": 1043,
+  "LCP": 3144,
+  "TBT": 676,
+  "CLS": 0.027,
+  "SI": 4447,
+  "TTI": 14182,
+  "TTFB": 18,
+  "totalKB": 3936,
+  "dom": "871 elements",
+  "lcpNode": "<img src=\"https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?…\" alt=\"Maison Croyez diffuser\" fetchpriority=\"high\" decoding=\"sync\" style=\"display:block;width:100vw;aspect-ratio:1/1;object-fit:cover\">",
+  "lcpPhases": [
+   {
+    "phase": "TTFB",
+    "timing": 625.9695,
+    "percent": "20%"
+   },
+   {
+    "phase": "Load Delay",
+    "timing": 2148.5625230495825,
+    "percent": "68%"
+   },
+   {
+    "phase": "Load Time",
+    "timing": 193.32829282812463,
+    "percent": "6%"
+   },
+   {
+    "phase": "Render Delay",
+    "timing": 176.34038412229302,
+    "percent": "6%"
+   }
+  ],
+  "opps": [
+   {
+    "id": "unused-javascript",
+    "savingsMs": 310,
+    "savingsKB": 345,
+    "items": [
+     {
+      "url": "tafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+      "wastedKB": 60,
+      "totalKB": 72,
+      "wastedMs": 0
+     },
+     {
+      "url": "ientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+      "wastedKB": 57,
+      "totalKB": 116,
+      "wastedMs": 0
+     },
+     {
+      "url": "entafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-index-DbNB7Vr0.js",
+      "wastedKB": 41,
+      "totalKB": 46,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://cdn.subi.co/subify/v5/subify-sdk.js",
+      "wastedKB": 38,
+      "totalKB": 56,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "wastedKB": 35,
+      "totalKB": 106,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://content.9gtb.com/script.js?rev=35dc000",
+      "wastedKB": 35,
+      "totalKB": 60,
+      "wastedMs": 0
+     }
+    ]
+   },
+   {
+    "id": "offscreen-images",
+    "savingsMs": 260,
+    "savingsKB": 26,
+    "items": [
+     {
+      "url": "ify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350",
+      "wastedKB": 26,
+      "totalKB": 26,
+      "wastedMs": 0
+     }
+    ]
+   },
+   {
+    "id": "unused-css-rules",
+    "savingsMs": 100,
+    "savingsKB": 16,
+    "items": [
+     {
+      "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-v3.css?v=v3b-fbc1fdb",
+      "wastedKB": 16,
+      "totalKB": 20,
+      "wastedMs": 0
+     }
+    ]
+   }
+  ],
+  "rb": [],
+  "tp": [
+   {
+    "entity": "Facebook",
+    "transferKB": 231,
+    "blockingMs": 323,
+    "mainMs": 426
+   },
+   {
+    "entity": "Shopify",
+    "transferKB": 1945,
+    "blockingMs": 127,
+    "mainMs": 351
+   },
+   {
+    "entity": "Clarity",
+    "transferKB": 29,
+    "blockingMs": 123,
+    "mainMs": 261
+   },
+   {
+    "entity": "subi.co",
+    "transferKB": 57,
+    "blockingMs": 28,
+    "mainMs": 86
+   },
+   {
+    "entity": "9gtb.com",
+    "transferKB": 63,
+    "blockingMs": 7,
+    "mainMs": 66
+   },
+   {
+    "entity": "gorgias.chat",
+    "transferKB": 1,
+    "blockingMs": 2,
+    "mainMs": 7
+   },
+   {
+    "entity": "gorgias.help",
+    "transferKB": 0,
+    "blockingMs": 0,
+    "mainMs": 1
+   },
+   {
+    "entity": "azurefd.net",
+    "transferKB": 271,
+    "blockingMs": 0,
+    "mainMs": 90
+   },
+   {
+    "entity": "Klaviyo",
+    "transferKB": 67,
+    "blockingMs": 0,
+    "mainMs": 133
+   },
+   {
+    "entity": "shop.app",
+    "transferKB": 6,
+    "blockingMs": 0,
+    "mainMs": 1
+   },
+   {
+    "entity": "postscript.io",
+    "transferKB": 2,
+    "blockingMs": 0,
+    "mainMs": 2
+   },
+   {
+    "entity": "Bing Ads",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 0
+   }
+  ],
+  "mt": [
+   [
+    "Script Evaluation",
+    2314
+   ],
+   [
+    "Other",
+    1084
+   ],
+   [
+    "Style & Layout",
+    691
+   ],
+   [
+    "Script Parsing & Compilation",
+    146
+   ],
+   [
+    "Rendering",
+    57
+   ],
+   [
+    "Garbage Collection",
+    49
+   ],
+   [
+    "Parse HTML & CSS",
+    45
+   ]
+  ],
+  "boot": [
+   {
+    "url": "Unattributable",
+    "totalMs": 885,
+    "scriptingMs": 96
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "totalMs": 646,
+    "scriptingMs": 328
+   },
+   {
+    "url": "https://maisoncroyez.com/pages/six-month-program",
+    "totalMs": 483,
+    "scriptingMs": 118
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "totalMs": 257,
+    "scriptingMs": 240
+   },
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "totalMs": 252,
+    "scriptingMs": 210
+   },
+   {
+    "url": "dn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+    "totalMs": 198,
+    "scriptingMs": 23
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "totalMs": 175,
+    "scriptingMs": 157
+   },
+   {
+    "url": "pifycloud/storefront/assets/storefront/autosizes-84416378.js",
+    "totalMs": 159,
+    "scriptingMs": 59
+   },
+   {
+    "url": "/shopifycloud/shop-js/modules/v2/chunk.index_Jmvh7d10.esm.js",
+    "totalMs": 146,
+    "scriptingMs": 110
+   },
+   {
+    "url": ".com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.8.9.min.js",
+    "totalMs": 120,
+    "scriptingMs": 107
+   }
+  ],
+  "byType": {
+   "Document": {
+    "n": 3,
+    "kb": 39
+   },
+   "Stylesheet": {
+    "n": 4,
+    "kb": 35
+   },
+   "Font": {
+    "n": 8,
+    "kb": 193
+   },
+   "Script": {
+    "n": 77,
+    "kb": 1052
+   },
+   "Image": {
+    "n": 16,
+    "kb": 202
+   },
+   "Ping": {
+    "n": 13,
+    "kb": 12
+   },
+   "Fetch": {
+    "n": 14,
+    "kb": 24
+   },
+   "Preflight": {
+    "n": 4,
+    "kb": 0
+   },
+   "Media": {
+    "n": 8,
+    "kb": 1535
+   },
+   "Other": {
+    "n": 79,
+    "kb": 842
+   },
+   "XHR": {
+    "n": 4,
+    "kb": 1
+   }
+  },
+  "heavy": [
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993",
+    "kb": 964,
+    "type": "Media",
+    "startMs": 1148,
+    "endMs": 1282
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/hydrate.DIADhEPP.js",
+    "kb": 204,
+    "type": "Other",
+    "startMs": 2167,
+    "endMs": 2201
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.webm?v=1783552928",
+    "kb": 130,
+    "type": "Media",
+    "startMs": 4246,
+    "endMs": 4285
+   },
+   {
+    "url": "connect.facebook.net/signals/config/980908600592309?v=2.9.393&r=stable&domain=maisoncroyez",
+    "kb": 125,
+    "type": "Script",
+    "startMs": 1525,
+    "endMs": 1553
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+    "kb": 116,
+    "type": "Script",
+    "startMs": 1331,
+    "endMs": 1358
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.webm?v=1783552928",
+    "kb": 113,
+    "type": "Media",
+    "startMs": 4245,
+    "endMs": 4273
+   },
+   {
+    "url": "connect.facebook.net/en_US/fbevents.js",
+    "kb": 106,
+    "type": "Script",
+    "startMs": 1169,
+    "endMs": 1260
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993",
+    "kb": 100,
+    "type": "Media",
+    "startMs": 1101,
+    "endMs": 1146
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928",
+    "kb": 93,
+    "type": "Media",
+    "startMs": 4203,
+    "endMs": 4240
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/checkout-policy.DH6_Axi-.js",
+    "kb": 89,
+    "type": "Other",
+    "startMs": 1831,
+    "endMs": 1860
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.webm?v=1783552928",
+    "kb": 76,
+    "type": "Media",
+    "startMs": 4239,
+    "endMs": 4275
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+    "kb": 73,
+    "type": "Script",
+    "startMs": 1449,
+    "endMs": 1468
+   },
+   {
+    "url": "maisoncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "kb": 72,
+    "type": "Script",
+    "startMs": 761,
+    "endMs": 821
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/RememberMeSection.Dd06HXGI.js",
+    "kb": 62,
+    "type": "Other",
+    "startMs": 3423,
+    "endMs": 3473
+   },
+   {
+    "url": "content.9gtb.com/script.js?rev=35dc000",
+    "kb": 61,
+    "type": "Script",
+    "startMs": 1116,
+    "endMs": 1244
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928",
+    "kb": 59,
+    "type": "Media",
+    "startMs": 4201,
+    "endMs": 4236
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/context-browser.CXP_dDmb.js",
+    "kb": 59,
+    "type": "Other",
+    "startMs": 1805,
+    "endMs": 1830
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/Diseno_sin_titulo_92.png?v=1783904283&width",
+    "kb": 58,
+    "type": "Image",
+    "startMs": 885,
+    "endMs": 917
+   },
+   {
+    "url": "cdn.subi.co/subify/v5/subify-sdk.js",
+    "kb": 57,
+    "type": "Script",
+    "startMs": 759,
+    "endMs": 856
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/OnePage.jkBhwRvF.js",
+    "kb": 52,
+    "type": "Other",
+    "startMs": 2272,
+    "endMs": 2300
+   }
+  ],
+  "lt": [
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "startMs": 12730,
+    "durMs": 249
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "startMs": 6714,
+    "durMs": 207
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "startMs": 15903,
+    "durMs": 174
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "startMs": 8111,
+    "durMs": 173
+   },
+   {
+    "url": "/shopifycloud/shop-js/modules/v2/chunk.index_Jmvh7d10.esm.js",
+    "startMs": 8284,
+    "durMs": 155
+   },
+   {
+    "url": "ig.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com",
+    "startMs": 7025,
+    "durMs": 108
+   },
+   {
+    "url": "om/s/files/1/0020/3636/7469/files/mc-v3-app.js?v=v3b-fbc1fdb",
+    "startMs": 6249,
+    "durMs": 82
+   },
+   {
+    "url": "dn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+    "startMs": 5000,
+    "durMs": 68
+   }
+  ],
+  "lcpLazy": 1,
+  "critChains": "23 chains found",
+  "fonts": []
+ },
+ "lh-mobile-3": {
+  "score": 73,
+  "FCP": 1975,
+  "LCP": 3381,
+  "TBT": 598,
+  "CLS": 0.027,
+  "SI": 4096,
+  "TTI": 14411,
+  "TTFB": 14,
+  "totalKB": 4034,
+  "dom": "871 elements",
+  "lcpNode": "<img src=\"https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?…\" alt=\"Maison Croyez diffuser\" fetchpriority=\"high\" decoding=\"sync\" style=\"display:block;width:100vw;aspect-ratio:1/1;object-fit:cover\">",
+  "lcpPhases": [
+   {
+    "phase": "TTFB",
+    "timing": 622.0595000000001,
+    "percent": "18%"
+   },
+   {
+    "phase": "Load Delay",
+    "timing": 1927.5524924898452,
+    "percent": "57%"
+   },
+   {
+    "phase": "Load Time",
+    "timing": 463.4815253394331,
+    "percent": "14%"
+   },
+   {
+    "phase": "Render Delay",
+    "timing": 368.1008821707205,
+    "percent": "11%"
+   }
+  ],
+  "opps": [
+   {
+    "id": "offscreen-images",
+    "savingsMs": 130,
+    "savingsKB": 26,
+    "items": [
+     {
+      "url": "ify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350",
+      "wastedKB": 26,
+      "totalKB": 26,
+      "wastedMs": 0
+     }
+    ]
+   },
+   {
+    "id": "unused-css-rules",
+    "savingsMs": 90,
+    "savingsKB": 16,
+    "items": [
+     {
+      "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-v3.css?v=v3b-fbc1fdb",
+      "wastedKB": 16,
+      "totalKB": 20,
+      "wastedMs": 0
+     }
+    ]
+   },
+   {
+    "id": "unused-javascript",
+    "savingsMs": 90,
+    "savingsKB": 345,
+    "items": [
+     {
+      "url": "tafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+      "wastedKB": 60,
+      "totalKB": 72,
+      "wastedMs": 0
+     },
+     {
+      "url": "ientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+      "wastedKB": 57,
+      "totalKB": 116,
+      "wastedMs": 0
+     },
+     {
+      "url": "entafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-index-DbNB7Vr0.js",
+      "wastedKB": 41,
+      "totalKB": 46,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://cdn.subi.co/subify/v5/subify-sdk.js",
+      "wastedKB": 38,
+      "totalKB": 56,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "wastedKB": 35,
+      "totalKB": 106,
+      "wastedMs": 0
+     },
+     {
+      "url": "https://content.9gtb.com/script.js?rev=35dc000",
+      "wastedKB": 35,
+      "totalKB": 60,
+      "wastedMs": 0
+     }
+    ]
+   }
+  ],
+  "rb": [],
+  "tp": [
+   {
+    "entity": "Facebook",
+    "transferKB": 231,
+    "blockingMs": 303,
+    "mainMs": 406
+   },
+   {
+    "entity": "Clarity",
+    "transferKB": 29,
+    "blockingMs": 129,
+    "mainMs": 259
+   },
+   {
+    "entity": "Shopify",
+    "transferKB": 2057,
+    "blockingMs": 70,
+    "mainMs": 348
+   },
+   {
+    "entity": "Klaviyo",
+    "transferKB": 67,
+    "blockingMs": 1,
+    "mainMs": 148
+   },
+   {
+    "entity": "subi.co",
+    "transferKB": 57,
+    "blockingMs": 1,
+    "mainMs": 82
+   },
+   {
+    "entity": "9gtb.com",
+    "transferKB": 63,
+    "blockingMs": 0,
+    "mainMs": 55
+   },
+   {
+    "entity": "gorgias.chat",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 3
+   },
+   {
+    "entity": "azurefd.net",
+    "transferKB": 271,
+    "blockingMs": 0,
+    "mainMs": 90
+   },
+   {
+    "entity": "gorgias.help",
+    "transferKB": 0,
+    "blockingMs": 0,
+    "mainMs": 0
+   },
+   {
+    "entity": "shop.app",
+    "transferKB": 6,
+    "blockingMs": 0,
+    "mainMs": 1
+   },
+   {
+    "entity": "postscript.io",
+    "transferKB": 2,
+    "blockingMs": 0,
+    "mainMs": 1
+   },
+   {
+    "entity": "Bing Ads",
+    "transferKB": 1,
+    "blockingMs": 0,
+    "mainMs": 0
+   }
+  ],
+  "mt": [
+   [
+    "Script Evaluation",
+    2295
+   ],
+   [
+    "Other",
+    1132
+   ],
+   [
+    "Style & Layout",
+    643
+   ],
+   [
+    "Script Parsing & Compilation",
+    157
+   ],
+   [
+    "Garbage Collection",
+    82
+   ],
+   [
+    "Rendering",
+    58
+   ],
+   [
+    "Parse HTML & CSS",
+    46
+   ]
+  ],
+  "boot": [
+   {
+    "url": "Unattributable",
+    "totalMs": 995,
+    "scriptingMs": 95
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "totalMs": 607,
+    "scriptingMs": 302
+   },
+   {
+    "url": "https://maisoncroyez.com/pages/six-month-program",
+    "totalMs": 538,
+    "scriptingMs": 120
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "totalMs": 256,
+    "scriptingMs": 236
+   },
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "totalMs": 222,
+    "scriptingMs": 186
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "totalMs": 184,
+    "scriptingMs": 164
+   },
+   {
+    "url": "pifycloud/storefront/assets/storefront/autosizes-84416378.js",
+    "totalMs": 148,
+    "scriptingMs": 55
+   },
+   {
+    "url": "om/s/files/1/0020/3636/7469/files/mc-v3-app.js?v=v3b-fbc1fdb",
+    "totalMs": 132,
+    "scriptingMs": 119
+   },
+   {
+    "url": "ycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+    "totalMs": 123,
+    "scriptingMs": 121
+   },
+   {
+    "url": "dn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+    "totalMs": 121,
+    "scriptingMs": 33
+   }
+  ],
+  "byType": {
+   "Document": {
+    "n": 3,
+    "kb": 39
+   },
+   "Stylesheet": {
+    "n": 4,
+    "kb": 35
+   },
+   "Font": {
+    "n": 8,
+    "kb": 193
+   },
+   "Script": {
+    "n": 76,
+    "kb": 1051
+   },
+   "Image": {
+    "n": 14,
+    "kb": 201
+   },
+   "Ping": {
+    "n": 12,
+    "kb": 11
+   },
+   "Fetch": {
+    "n": 13,
+    "kb": 24
+   },
+   "Preflight": {
+    "n": 4,
+    "kb": 0
+   },
+   "Media": {
+    "n": 8,
+    "kb": 1649
+   },
+   "Other": {
+    "n": 72,
+    "kb": 830
+   },
+   "XHR": {
+    "n": 4,
+    "kb": 1
+   }
+  },
+  "heavy": [
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993",
+    "kb": 964,
+    "type": "Media",
+    "startMs": 756,
+    "endMs": 893
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/hydrate.DIADhEPP.js",
+    "kb": 204,
+    "type": "Other",
+    "startMs": 1957,
+    "endMs": 1988
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.webm?v=1783552928",
+    "kb": 130,
+    "type": "Media",
+    "startMs": 3880,
+    "endMs": 3917
+   },
+   {
+    "url": "connect.facebook.net/signals/config/980908600592309?v=2.9.393&r=stable&domain=maisoncroyez",
+    "kb": 125,
+    "type": "Script",
+    "startMs": 1171,
+    "endMs": 1198
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-i18n-yxcTF6AH.js",
+    "kb": 116,
+    "type": "Script",
+    "startMs": 818,
+    "endMs": 892
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.webm?v=1783552928",
+    "kb": 113,
+    "type": "Media",
+    "startMs": 3882,
+    "endMs": 3918
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993",
+    "kb": 110,
+    "type": "Media",
+    "startMs": 722,
+    "endMs": 756
+   },
+   {
+    "url": "connect.facebook.net/en_US/fbevents.js",
+    "kb": 106,
+    "type": "Script",
+    "startMs": 795,
+    "endMs": 890
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif2.mp4?v=1783552928",
+    "kb": 105,
+    "type": "Media",
+    "startMs": 3842,
+    "endMs": 3878
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif3.mp4?v=1783552928",
+    "kb": 93,
+    "type": "Media",
+    "startMs": 3842,
+    "endMs": 3880
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/checkout-policy.DH6_Axi-.js",
+    "kb": 89,
+    "type": "Other",
+    "startMs": 1459,
+    "endMs": 1498
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.webm?v=1783552928",
+    "kb": 76,
+    "type": "Media",
+    "startMs": 3867,
+    "endMs": 3892
+   },
+   {
+    "url": "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/chunk-use-api-ZQy4y5o1.js",
+    "kb": 73,
+    "type": "Script",
+    "startMs": 1037,
+    "endMs": 1060
+   },
+   {
+    "url": "maisoncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "kb": 72,
+    "type": "Script",
+    "startMs": 379,
+    "endMs": 437
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/RememberMeSection.Dd06HXGI.js",
+    "kb": 62,
+    "type": "Other",
+    "startMs": 3171,
+    "endMs": 3223
+   },
+   {
+    "url": "content.9gtb.com/script.js?rev=35dc000",
+    "kb": 61,
+    "type": "Script",
+    "startMs": 735,
+    "endMs": 846
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-d-gif1.mp4?v=1783552928",
+    "kb": 59,
+    "type": "Media",
+    "startMs": 3840,
+    "endMs": 3866
+   },
+   {
+    "url": "maisoncroyez.com/cdn/shopifycloud/checkout-web/assets/c1/context-browser.CXP_dDmb.js",
+    "kb": 59,
+    "type": "Other",
+    "startMs": 1423,
+    "endMs": 1457
+   },
+   {
+    "url": "cdn.shopify.com/s/files/1/0020/3636/7469/files/Diseno_sin_titulo_92.png?v=1783904283&width",
+    "kb": 58,
+    "type": "Image",
+    "startMs": 503,
+    "endMs": 550
+   },
+   {
+    "url": "cdn.subi.co/subify/v5/subify-sdk.js",
+    "kb": 57,
+    "type": "Script",
+    "startMs": 378,
+    "endMs": 483
+   }
+  ],
+  "lt": [
+   {
+    "url": "https://connect.facebook.net/en_US/fbevents.js",
+    "startMs": 13411,
+    "durMs": 219
+   },
+   {
+    "url": "ncroyez.com/cdn/wpm/b80079e4cw22952a98p55856082md4f1b6b4m.js",
+    "startMs": 6923,
+    "durMs": 213
+   },
+   {
+    "url": "%2C49%2C156%2C0%2C92%2C149%2C153%2C165%2C44%2C119%2C13%2C183",
+    "startMs": 16260,
+    "durMs": 184
+   },
+   {
+    "url": "https://scripts.clarity.ms/0.8.69/clarity.js",
+    "startMs": 8498,
+    "durMs": 179
+   },
+   {
+    "url": "ycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+    "startMs": 11483,
+    "durMs": 99
+   },
+   {
+    "url": "/shopifycloud/shop-js/modules/v2/chunk.index_Jmvh7d10.esm.js",
+    "startMs": 8677,
+    "durMs": 91
+   },
+   {
+    "url": "om/s/files/1/0020/3636/7469/files/mc-v3-app.js?v=v3b-fbc1fdb",
+    "startMs": 6213,
+    "durMs": 80
+   },
+   {
+    "url": "dn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+    "startMs": 5635,
+    "durMs": 70
+   }
+  ],
+  "lcpLazy": 1,
+  "critChains": "23 chains found",
+  "fonts": []
+ }
+}

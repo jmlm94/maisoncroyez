@@ -394,11 +394,12 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
      refill    -> scents ride Subi Plan 5 "Every 45 days" (first delivery
                   $0, then $39.95 each every 45 days), so today's total is
                   exactly the kit price and no kit-side discount is needed.
-   1D: scents at $49.95 one-time, or on Subi Plan 4 (0%) + the automatic
-       "$10 off each scent, every delivery" discount => $39.95 each. */
+   1D: optional scents at $49.95 one-time only (no refill plan on this tier,
+       owner decision 2026-09-05, so no Shopify discount has to touch
+       subscription lines). */
 const CART3 = {
   kitVariants: { one: 45784228429933, two: 45784228462701, three: 45784228495469 },
-  sellingPlan: 2661875821,      /* Subi Plan 4 "Delivered every 45 days ❤️" — 1D optional scents */
+  sellingPlan: 2661875821,      /* Subi Plan 4 — unused since v3s5 (1D is one-time only); kept for reference */
   sellingPlanFree: 2747695213,  /* Subi Plan 5 "Every 45 days" — included scents on 2D/3D ($0 today) */
   cartUrl: "/cart",
 };
@@ -409,9 +410,9 @@ async function addToCart(setBusy, setToast) {
     return;
   }
   const T = selStore.tier();
-  const sub = selStore.plan === "sub" && selStore.keys.length > 0;
+  const sub = T.scents > 0 && selStore.plan === "sub" && selStore.keys.length > 0;
   const items = [{ id: CART3.kitVariants[T.key], quantity: 1 }];
-  const planId = T.scents > 0 ? CART3.sellingPlanFree : CART3.sellingPlan;
+  const planId = CART3.sellingPlanFree;
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
   if (!onStore()) {
     setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 45-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
@@ -469,14 +470,14 @@ const selStore = {
   setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = TIERS[i].scents > 0 ? "sub" : "one"; /* included scents default to auto-refill (nothing extra today); 1D optional scents default to one-time */ this.emit(); },
   setPlan(p) { this.plan = p; this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
-  scentPrice() { return this.plan === "sub" ? SCENT_SUB : SCENT_ONE; },
+  scentPrice() { return SCENT_ONE; }, /* extras only exist on 1D, which is one-time only */
   included() { return Math.min(this.keys.length, this.tier().scents); },
   extras() { return Math.max(0, this.keys.length - this.tier().scents); },
   left() { return Math.max(0, this.tier().scents - this.keys.length); },
   today() { return this.tier().price + this.extras() * this.scentPrice(); },
   value() { return this.tier().n * DIFFUSER_PRICE + this.keys.length * SCENT_ONE; },
   savings() { return Math.max(0, this.value() - this.today()); },
-  renew() { return this.plan === "sub" ? this.keys.length * SCENT_SUB : 0; },
+  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * SCENT_SUB : 0; },
   scents() { return this.keys.map((k) => CONFIG.fragrances.find((f) => f.key === k)); },
   qty(k) { return this.keys.filter((x) => x === k).length; },
   grouped() {
@@ -671,7 +672,7 @@ function BuyBox() {
           <div class="picker-title">${T.scents > 0
             ? `2. Pick your ${T.scents} included scent${T.scents > 1 ? "s" : ""}:`
             : `2. Want scents with your diffuser? (optional)`}</div>
-          ${T.scents === 0 ? html`<div class="picker-sub">${usd(SCENT_ONE)} each \u2014 or ${usd(SCENT_SUB)} with Subscribe & Save (step 3). Add as many as you like, or skip and just get the diffuser.</div>` : null}
+          ${T.scents === 0 ? html`<div class="picker-sub">${usd(SCENT_ONE)} each, one-time. Add as many as you like, or skip and just get the diffuser.</div>` : null}
           <div class="booklet-obj">
             ${BOOKLET_IMG
               ? html`<img class="booklet-img" src=${BOOKLET_IMG} alt="Maison Croyez Official Sample Booklet" width="110" height="83" loading="lazy" decoding="async"/>`
@@ -699,7 +700,7 @@ function BuyBox() {
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
                 <span class="pick-smells"><b>SMELLS LIKE:</b> ${f.smells2 || f.smells}</span>
                 <span class="pick-foot" onClick=${(e) => e.stopPropagation()}>
-                  <span class="pick-free">${T.scents > 0 ? html`<s>$49.95</s> Included!` : (sel.plan === "sub" ? html`<s>${usd(SCENT_ONE)}</s> ${usd(SCENT_SUB)} each` : html`${usd(SCENT_ONE)} each`)}</span>
+                  <span class="pick-free">${T.scents > 0 ? html`<s>$49.95</s> Included!` : html`${usd(SCENT_ONE)} each`}</span>
                   <span class="pick-qty">
                     <button aria-label="Remove one" disabled=${q === 0} onClick=${() => sel.remove(f.key)}>−</button>
                     <b>${q}</b>
@@ -709,7 +710,7 @@ function BuyBox() {
               </div>`; })}
           </div>
 
-          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; return html`
+          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; if (!inc) return null; /* refill plan only where scents are included (2D/3D) */ return html`
           <div class="picker-title">${inc ? "3. How would you like your refills?" : "3. How would you like your scents?"}</div>
           <div class="picker-sub">${inc
             ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 45 days.`
@@ -777,7 +778,7 @@ function BuyBox() {
           </div>` : html`
           <div class="howworks one">
             <h3><span class="hw-emoji">🛍️</span>One-time purchase \u2014 simple:</h3>
-            <div class="hw-step"><span class="hw-ico">✅</span><span><b>No subscription, no renewals.</b> Your kit ships free today. Re-order scents anytime at $49.95, or switch to Subscribe & Save later for 20% off.</span></div>
+            <div class="hw-step"><span class="hw-ico">✅</span><span><b>No subscription, no renewals.</b> Your kit ships free today. Re-order scents anytime at $49.95${T.scents > 0 ? ", or switch to Auto-refill later for 20% off" : ""}.</span></div>
             <div class="hw-step"><span class="hw-ico">🛡️</span><span><b>90-day money-back on your kit</b> \u2014 prepaid return label on us \u2014 plus a lifetime warranty on every diffuser.</span></div>
           </div>`}
 

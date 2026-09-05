@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 190 — verify v3s10 live: every tier name renders on ONE line at 390px (height <= 1.5 x font-size), tiers screenshot mobile + desktop
+# run 191 — verify v3s11 live: tier grid reverted (cards back to the v3s9 flex layout), tiers screenshot mobile + desktop
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,7 +20,7 @@ jobs:
       - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r190.mjs <<'EOF2'
+          cat > r191.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
@@ -31,20 +31,20 @@ jobs:
             await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(3500);
             out[name] = await pg.evaluate((k) => ({ key: document.documentElement.innerHTML.includes(k), names: [...document.querySelectorAll('.tier-name')].map(e => { const r = e.getBoundingClientRect(); const fs = parseFloat(getComputedStyle(e).fontSize); return { text: e.textContent, h: Math.round(r.height), w: Math.round(r.width), fs, oneLine: r.height <= fs * 1.5, clipped: e.scrollWidth > e.clientWidth + 1 }; }), cardH: [...document.querySelectorAll('.tier')].map(e => Math.round(e.getBoundingClientRect().height)) }), KEY);
             await pg.locator('.tiers').scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s10-tiers-' + name + '.png' });
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s11-tiers-' + name + '.png' });
             await pg.context().close();
           }
           console.log('TIERS ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r190.mjs
+          KEY="${KEY}" node r191.mjs
         env:
-          KEY: v3s10-d8fc1ee
+          KEY: v3s11-3677bdd
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r190: v3s10 tier screenshots" || exit 0
+          git commit -m "r191: v3s11 tier screenshots" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

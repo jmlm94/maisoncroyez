@@ -530,3 +530,8 @@ Tier card is now a 3-column grid (areas: name / pics tags price / pics save pric
 `.tier-main{display:contents}`, so `.tier-name` spans the card width and never wraps
 (nowrap + ellipsis as a guard). mc-v3.css 50,249B raw@d8fc1ee. page-body.html snapshot
 updated. Mock republished at parity. Verify: r190 (one-line check at 360/390/1366).
+
+### 2026-09-05 — v3s11 (key v3s11-3677bdd): v3s10 tier grid REVERTED (owner: looks bad)
+mc-v3.css back to the v3s9 file (49,620B, raw@3677bdd); tier cards use the original flex
+layout again (name wraps beside the image on phones). App JS unchanged (79,164B). Mock
+republished at parity. Verify: r191.

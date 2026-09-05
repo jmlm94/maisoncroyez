@@ -517,3 +517,10 @@ paint): one mp4 download, playback never restarts; falls back to creating the el
 no pre-hero exists. mc-v3.css 49,620B adds `#root .hv-host{display:contents}`.
 Poster jpg left as is. Verify: r188 (one mp4 request, adopted into #root, prehero hidden,
 time-to-playing x3, firefox autoplay-blocked -> play button).
+
+### 2026-09-05 — v3s9 (key v3s9-266eb4d): 3 FREE Scents label, prices -15%, no preselection
+- TIERS[2].name -> "3 Diffusers + 3 FREE Scents".
+- Buybox tier prices: b 1.35rem -> 1.15rem, s .67rem -> .57rem (mc-v3.css 49,620B).
+- selStore.keys starts empty and setTier() no longer auto-fills; ATC stays disabled with
+  "Pick N more scents" until the customer chooses (mc-v3-app.js 79,164B).
+Mock artifact republished at parity. Verify: r189.

@@ -397,3 +397,29 @@ idle; frag thumbs ?width=120; purge legacy CSS/JS; remove our fbq loader once th
 channel pixel's product_added_to_cart is confirmed. Sprint 2 (Jose): MS Ads agent,
 Trybe, Subi sitewide embed, Clarity sampling, pixel list. Sprint 3 (theme): Nunito
 fonts, dedicated page template with head preloads.
+
+## 2026-09-05 — Sprint 1 perf pass LIVE (key v3s1-6ab061c, r179)
+Files: mc-v3-app.js 76,843B (was 89,214; 21KB gz on the wire, was 24) + mc-v3.css
+48,176B (was 152,677; 9KB gz, was 20) via fileUpdate raw@6ab061c; NEW GenericFile
+29921152893037 mc-hero-loop-720.mp4 (614,672B, 720px CRF28, single mp4 source).
+Changes: HeroVideo component attaches the source on load+idle (poster = LCP, unchanged);
+App mounts buybox first, the 9 other sections on requestIdleCallback; scent thumbs
+?width=120 (natural 120 live); CSS purged against 178 used classes (+ state classes);
+BVP 500 face dropped, 'BVP Fallback' local(Arial) size-adjust:106% added; legacy
+components/config removed (ProgramSec, RenewalSec, ReviewWall, AngleSplit, ModeToggle,
+ReceiptBox, Header, Icon/TermIcon/TERM_PATHS, DiffuserIcon, KITS/OFFER, TAG_COLORS,
+SCENT_TAGS, angleCandles/angleLasts/reviewWall config); page-level FB pixel loader
+removed — Lighthouse network shows facebook.com/tr PageView still fired by the
+channel pixel (wpm sandbox) in all s1 runs.
+r179 live: key ✓, 1 section at first paint -> 10 after idle, video source attached
+post-idle, thumbs 120px, cart 2D one-time = 8995 ✓, 0 errors.
+Lighthouse (same harness as r178):        r178 median -> s1 (runs 83/65/84; run 2 = network outlier, LCP 5.6s)
+  mobile score 73 -> 83/84 · LCP 3.1s -> 2.3-2.8s · TBT 676 -> ~500ms · SI 4.1 -> 2.7s
+  weight 3.9MB -> 2.8-3.2MB · CLS 0.027 (unchanged, theme+our fonts) · TTI ~14s (3P)
+  desktop 98 -> 96 (LCP 1.0 -> 1.3s, within run variance; 2.8MB vs 4.6MB)
+Still on the LCP critical path: theme Nunito 400/700 (90KB, VeryHigh), BVP 400/600 +
+Unna 700i (VeryHigh). TTI/TBT remainder = FB (211ms task), FB config (178), Clarity
+(156), theme.js (128), wpm (109+100), Postscript SDK appeared in run 3 (211KB/141ms).
+Next: Sprint 2 (store scripts, Jose) then Sprint 3 (theme fonts + page template).
+Rollback: files were updated in place — restore mc-v3-app.js/mc-v3.css from git
+fbc1fdb via fileUpdate and bump the page key.

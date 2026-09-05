@@ -339,3 +339,12 @@ html{scroll-behavior:smooth}
   #root .fbot{flex-direction:column;gap:8px}
 
 }
+/* 2026-09-05 hero redesign: rating line, headline, subheadline, CTA */
+#root .hrating{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--ink)}
+#root .hrating b{font-weight:800}
+#root .hrev{color:var(--ink-soft);font-weight:600}
+#root .hstars{position:relative;display:inline-block;font-size:1.15rem;line-height:1;color:#D9CFC2;letter-spacing:1px}
+#root .hstars-fill{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;width:94%;color:#E0A11B}
+#root .hero h1{margin-bottom:12px}
+#root .hsub{font-size:1.04rem;max-width:520px;margin:0 auto 18px;line-height:1.5}
+#root .hero .btn.green{margin-bottom:18px}

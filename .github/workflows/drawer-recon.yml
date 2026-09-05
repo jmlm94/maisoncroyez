@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 180 — verify v3s2: hero video (src set post-idle, muted/playsinline attrs, playing in Chromium w/ codecs), tier price 21.6px, note 15.5px; also WebKit (iPhone 14) emulation for the video
+# run 181 — home page audit: full-page mobile+desktop screenshots, JS errors, broken images, CTA/link HTTP status, visible text dump
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -16,34 +16,57 @@ jobs:
       - name: Install
         run: |
           npm i playwright@1.49.0
-          npx playwright install --with-deps chromium webkit
-      - name: Live verify
+          npx playwright install --with-deps chromium
+      - name: Audit
         run: |
-          mkdir -p lp-factory/pages/kits-lp/live
-          cat > r180.mjs <<'EOF2'
-          import { chromium, webkit, devices } from 'playwright';
-          const check = async (name, browser, ctxOpts) => {
-            const b = await browser.launch();
-            const ctx = await b.newContext(ctxOpts);
+          mkdir -p lp-factory/pages/home/verify
+          cat > r181.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const b = await chromium.launch();
+          const out = {};
+          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
+            const ctx = await b.newContext({ viewport: vp });
             const pg = await ctx.newPage();
-            const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 160)));
-            await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForSelector('.tiers', { timeout: 60000 });
-            const t1 = await pg.evaluate(() => { const v = document.querySelector('.gal video'); return { srcEarly: v ? v.getAttribute('src') : 'novideo' }; });
-            await pg.waitForTimeout(7000);
-            const st = await pg.evaluate(() => { const v = document.querySelector('.gal video'); return { key: document.documentElement.innerHTML.includes('v3s2-7f512c5'), src: v ? (v.getAttribute('src') || '').slice(-32) : null, muted: v && v.hasAttribute('muted'), pi: v && v.hasAttribute('playsinline'), paused: v && v.paused, rs: v && v.readyState, t: v && Math.round(v.currentTime * 10) / 10, price: getComputedStyle(document.querySelector('.tier-price b')).fontSize, note: getComputedStyle(document.querySelector('.tier-note p')).fontSize, secs: document.querySelectorAll('#root > div[id^=sec-]').length }; });
-            console.log(name + ' ' + JSON.stringify({ ...t1, ...st, errs }));
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s2-' + name + '.png' });
-            await b.close();
-          };
-          await check('chromium', chromium, { viewport: { width: 390, height: 844 } });
-          await check('webkit-iphone', webkit, { ...devices['iPhone 14'] });
+            const errs = []; const failed = [];
+            pg.on('pageerror', e => errs.push(e.message.slice(0, 160)));
+            pg.on('response', r => { if (r.status() >= 400 && !/facebook|clarity|klaviyo|bing|9gtb|azurefd|postscript|gorgias/.test(r.url())) failed.push([r.status(), r.url().slice(0, 120)]); });
+            await pg.goto('https://maisoncroyez.com/', { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForTimeout(3000);
+            await pg.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } window.scrollTo(0, 0); });
+            await pg.waitForTimeout(1500);
+            const info = await pg.evaluate(() => {
+              const imgs = [...document.images].filter(i => i.complete && i.naturalWidth === 0 && i.getBoundingClientRect().width > 0).map(i => (i.currentSrc || i.src).slice(0, 100));
+              const links = [...document.querySelectorAll('main a[href], .hero a[href], #mc-home a[href]')].map(a => [a.textContent.trim().slice(0, 40), a.getAttribute('href')]).filter(x => x[1] && !x[1].startsWith('#'));
+              const hero = document.querySelector('.hero') || document.querySelector('[class*=hero]');
+              const text = (document.querySelector('main') || document.body).innerText;
+              return { title: document.title, hscroll: document.documentElement.scrollWidth - innerWidth, brokenImgs: imgs, links: [...new Map(links.map(l => [l[1] + l[0], l])).values()].slice(0, 40), heroText: hero ? hero.innerText.slice(0, 800) : null, heroBox: hero ? Math.round(hero.getBoundingClientRect().height) : null, text };
+            });
+            fs.writeFileSync('lp-factory/pages/home/verify/home-text-' + name + '.txt', info.text);
+            delete info.text;
+            out[name] = { ...info, errs, failed: failed.slice(0, 10) };
+            await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-live-' + name + '.png', fullPage: true });
+            await pg.screenshot({ path: 'lp-factory/pages/home/verify/home-fold-' + name + '.png' });
+            await ctx.close();
+          }
+          // link status check (same-origin only, HEAD/GET)
+          const pg2 = await (await b.newContext()).newPage();
+          const seen = new Set(); const status = [];
+          for (const [, href] of [...out.mobile.links, ...out.desktop.links]) {
+            if (!href || seen.has(href) || /^(mailto|tel|javascript)/.test(href)) continue; seen.add(href);
+            const url = href.startsWith('http') ? href : 'https://maisoncroyez.com' + href;
+            if (!url.includes('maisoncroyez.com')) { status.push([href, 'external']); continue; }
+            try { const r = await pg2.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 }); status.push([href, r.status(), pg2.url().replace('https://maisoncroyez.com', '')]); } catch (e) { status.push([href, 'ERR']); }
+          }
+          out.linkStatus = status;
+          console.log('HOME ' + JSON.stringify(out, null, 1));
+          await b.close();
           EOF2
-          node r180.mjs
+          node r181.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/v3s2-*.png
-          git commit -m "r180: v3s2 live screenshots" || exit 0
+          git add lp-factory/pages/home/verify/
+          git commit -m "r181: home page audit artifacts" || exit 0
           git push

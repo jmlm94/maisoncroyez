@@ -524,3 +524,9 @@ time-to-playing x3, firefox autoplay-blocked -> play button).
 - selStore.keys starts empty and setTier() no longer auto-fills; ATC stays disabled with
   "Pick N more scents" until the customer chooses (mc-v3-app.js 79,164B).
 Mock artifact republished at parity. Verify: r189.
+
+### 2026-09-05 — v3s10 (key v3s10-d8fc1ee): tier name on one full-width line
+Tier card is now a 3-column grid (areas: name / pics tags price / pics save price) with
+`.tier-main{display:contents}`, so `.tier-name` spans the card width and never wraps
+(nowrap + ellipsis as a guard). mc-v3.css 50,249B raw@d8fc1ee. page-body.html snapshot
+updated. Mock republished at parity. Verify: r190 (one-line check at 360/390/1366).

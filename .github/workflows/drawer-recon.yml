@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 189 — verify v3s9 live: tier names (3 FREE Scents), no scents preselected (ATC says pick 2), pick 2 -> auto-refill cart 8995; screenshots of tiers + picker
+# run 190 — verify v3s10 live: every tier name renders on ONE line at 390px (height <= 1.5 x font-size), tiers screenshot mobile + desktop
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,46 +17,34 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Cart verify
+      - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r189.mjs <<'EOF2'
+          cat > r190.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
-          const pg = await ctx.newPage();
-          const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
-          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(4000);
-          const readCart = () => pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, disc: c.total_discount, lines: c.items.map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price })) }; } catch (e) { return { status: r.status, body: t.slice(0, 100) }; } });
-          const clear = async () => { await pg.keyboard.press('Escape'); await pg.waitForTimeout(1200); await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {}); await pg.waitForTimeout(6000); };
-          const atc = async (label, shot) => { await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2000); await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000); console.log('CART ' + label + ' ' + JSON.stringify(await readCart())); if (shot) await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/' + shot }); await clear(); };
-          console.log('KEY ' + JSON.stringify({ has: await pg.evaluate((k) => document.documentElement.innerHTML.includes(k), KEY) }));
-          const st = () => pg.evaluate(() => ({ tiers: [...document.querySelectorAll('.tier')].map(e => e.innerText.split('\n').slice(0, 2).join(' | ')), priceFont: getComputedStyle(document.querySelector('.buybox .tier-price b')).fontSize, picked: [...document.querySelectorAll('.pick.compact .pick-qty b')].map(e => +e.textContent).reduce((a, c) => a + c, 0), btn: (document.querySelector('.btn.atc') || {}).innerText, btnDisabled: !!(document.querySelector('.btn.atc') || {}).disabled }));
-          console.log('STATE default ' + JSON.stringify(await st()));
-          await pg.locator('.tiers').scrollIntoViewIfNeeded(); await pg.waitForTimeout(600);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s9-tiers.png' });
-          await pg.locator('.tier').nth(2).click(); await pg.waitForTimeout(600);
-          console.log('STATE 3D ' + JSON.stringify(await st()));
-          await pg.locator('.tier').nth(1).click(); await pg.waitForTimeout(600);
-          await pg.locator('.buybox .picker-title').nth(1).scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s9-picker-empty.png' });
-          await pg.locator('.pick.compact').nth(0).click(); await pg.waitForTimeout(400);
-          await pg.locator('.pick.compact').nth(3).click(); await pg.waitForTimeout(600);
-          console.log('STATE 2D picked ' + JSON.stringify(await st()));
-          await atc('2D auto-refill after picking', 'v3s9-cart-2d.png');
-          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
+          const out = {};
+          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['small', { width: 360, height: 780 }], ['desktop', { width: 1366, height: 900 }]]) {
+            const pg = await (await b.newContext({ viewport: vp })).newPage();
+            await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(3500);
+            out[name] = await pg.evaluate((k) => ({ key: document.documentElement.innerHTML.includes(k), names: [...document.querySelectorAll('.tier-name')].map(e => { const r = e.getBoundingClientRect(); const fs = parseFloat(getComputedStyle(e).fontSize); return { text: e.textContent, h: Math.round(r.height), w: Math.round(r.width), fs, oneLine: r.height <= fs * 1.5, clipped: e.scrollWidth > e.clientWidth + 1 }; }), cardH: [...document.querySelectorAll('.tier')].map(e => Math.round(e.getBoundingClientRect().height)) }), KEY);
+            await pg.locator('.tiers').scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s10-tiers-' + name + '.png' });
+            await pg.context().close();
+          }
+          console.log('TIERS ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r189.mjs
+          KEY="${KEY}" node r190.mjs
         env:
-          KEY: v3s9-266eb4d
+          KEY: v3s10-d8fc1ee
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r189: v3s9 live screenshots" || exit 0
+          git commit -m "r190: v3s10 tier screenshots" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

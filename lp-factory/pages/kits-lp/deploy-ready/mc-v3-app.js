@@ -522,6 +522,7 @@ const Announcement = () => {
    element; the video source is attached only after load + idle so the ~600KB
    download never competes with first paint. */
 function HeroVideo({ poster }) {
+  const ref = useRef(null);
   const [on, setOn] = useState(false);
   useEffect(() => {
     let t = 0, idle = 0;
@@ -530,11 +531,32 @@ function HeroVideo({ poster }) {
     if (document.readyState === "complete") arm(); else window.addEventListener("load", arm, { once: true });
     return () => { clearTimeout(t); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); window.removeEventListener("load", arm); };
   }, []);
-  if (!on) return html`<video class="simg" poster=${poster} muted playsinline preload="none" aria-label="Maison Croyez diffuser video"></video>`;
-  return html`<video key="live" class="simg" poster=${poster} autoplay loop muted playsinline preload="auto" aria-label="Maison Croyez diffuser video"
-      ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}>
-      <source src=${MC_HERO_VIDEO} type="video/mp4"/>
-    </video>`;
+  useEffect(() => {
+    if (!on) return;
+    const el = ref.current;
+    if (!el) return;
+    /* iOS: the muted/playsinline ATTRIBUTES must be present (not just the
+       properties) for inline autoplay; the src goes straight on the element so
+       resource selection starts at once. If autoplay is refused (Low Power Mode,
+       data saver), the first touch anywhere on the page starts the loop. */
+    el.muted = true; el.defaultMuted = true;
+    el.setAttribute("muted", ""); el.setAttribute("playsinline", ""); el.setAttribute("webkit-playsinline", "");
+    let armedGesture = false;
+    const onGesture = () => { const p = el.play(); if (p && p.catch) p.catch(() => {}); };
+    const tryPlay = () => {
+      const p = el.play();
+      if (p && p.catch) p.catch(() => {
+        if (armedGesture) return; armedGesture = true;
+        ["pointerdown", "touchstart", "scroll"].forEach((ev) => document.addEventListener(ev, onGesture, { once: true, passive: true }));
+      });
+    };
+    el.src = MC_HERO_VIDEO;
+    el.load();
+    el.addEventListener("canplay", tryPlay, { once: true });
+    tryPlay();
+    return () => { el.removeEventListener("canplay", tryPlay); ["pointerdown", "touchstart", "scroll"].forEach((ev) => document.removeEventListener(ev, onGesture)); };
+  }, [on]);
+  return html`<video ref=${ref} class="simg" poster=${poster} autoplay loop muted playsinline preload=${on ? "auto" : "none"} aria-label="Maison Croyez diffuser video"></video>`;
 }
 
 function Gallery() {

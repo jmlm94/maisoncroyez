@@ -31,3 +31,12 @@ or Shopify admin code editor).
 
 ## Rollback
 Remove the loader from layout/theme.liquid (admin code editor), or republish a prior theme.
+
+## 2026-09-05 — drawer copy cleanup (GenericFile 29651366445165 <- raw@1ec9b23, 6,680B)
+Live source is lp-factory/pages/kits-lp/deploy-ready/mc-drawer.js (this folder's copy
+now synced). Removed: the "Founder's Offer: +1 mystery scent added..." rewrite (the theme's
+"Attention: Only 19 free diffusers" line is now hidden instead), the "Safe For Kids & Pets"
+badge (-> "Free Shipping"), and the "safe around my cat" clause in the Diane R. review.
+r177 live (key dr1-2026090519): mystery=false, kids=false, cat=false, badges = Money-Back /
+Lifetime Warranty / Free Shipping, total $89.95 on the v3 default kit, 0 errors.
+Screenshot verify/drawer-clean-v3.png.

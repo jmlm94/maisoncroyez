@@ -377,3 +377,6 @@ today's total = kit price; then deactivate D3 and re-enable the step in the app
 (setTier plan rule + `if (inc) return null`).
 Known: sitewide cart drawer (mc-drawer.js) still says "Founder's Offer: +1
 mystery scent added..." and "SAFE FOR KIDS & PETS" — separate deploy, flagged.
+r176 live: 3D one-time = 12995 (3 scents zeroed by D2) ✓, no "France" text on the page ✓.
+Sitewide drawer cleaned the same day (see sitewide-drawer/STATUS.md). Mock artifact
+6886f6ee republished at v3b parity (refill step on tier 1 only). H1 left as is (owner).

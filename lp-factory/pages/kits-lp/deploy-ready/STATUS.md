@@ -423,3 +423,14 @@ Unna 700i (VeryHigh). TTI/TBT remainder = FB (211ms task), FB config (178), Clar
 Next: Sprint 2 (store scripts, Jose) then Sprint 3 (theme fonts + page template).
 Rollback: files were updated in place — restore mc-v3-app.js/mc-v3.css from git
 fbc1fdb via fileUpdate and bump the page key.
+
+## 2026-09-05 — v3s2: hero autoplay hardening + sizes (key v3s2-7f512c5, r180)
+Jose's recording: loop played on first load, poster stayed after a reload (phone at 5%,
+Low Power Mode likely). HeroVideo rewritten: single <video> kept from first render,
+muted/playsinline set as ATTRIBUTES, src put on the element itself after load+idle,
+play() retried on canplay, and a one-time pointerdown/touchstart/scroll fallback when
+autoplay is refused. Tier price 1.5 -> 1.35rem (21.6px), tier note 1.14 -> .97rem
+(15.5px). Files: app 77,858B / css 48,368B via fileUpdate raw@7f512c5.
+r180 live: Chromium (no H.264) src set, attrs ✓, sizes ✓; WebKit iPhone 14 emulation:
+video playing (paused=false, readyState 4, t=3.7s) with the correct sizes; 0 page errors
+(one Shopify sandbox-frame console error, not ours). Screenshots live/v3s2-*.png.

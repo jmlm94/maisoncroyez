@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 179 — Sprint 1 live verify (key v3s1-6ab061c): render, deferred hero video, 120px thumbs, idle-mounted sections, FB pixel via channel; then Lighthouse 3x mobile + 1x desktop
+# run 180 — verify v3s2: hero video (src set post-idle, muted/playsinline attrs, playing in Chromium w/ codecs), tier price 21.6px, note 15.5px; also WebKit (iPhone 14) emulation for the video
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -15,55 +15,35 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install
         run: |
-          npm i playwright@1.49.0 lighthouse@12.2.1
-          npx playwright install --with-deps chromium
-          echo "CHROME_PATH=$(node -e "console.log(require('playwright').chromium.executablePath())")" >> $GITHUB_ENV
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium webkit
       - name: Live verify
         run: |
-          mkdir -p lp-factory/pages/kits-lp/live lp-factory/pages/kits-lp/perf
-          cat > r179.mjs <<'EOF2'
-          import { chromium } from 'playwright';
-          const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
-          const pg = await ctx.newPage();
-          const errs = []; const fb = []; const reqs = [];
-          pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
-          pg.on('request', r => { const u = r.url(); if (/facebook\.com\/tr/.test(u)) fb.push(u.slice(0, 160)); if (/mc-hero-loop|mc-lp-d-frag|mc-v3|fbevents/.test(u)) reqs.push([Math.round(performance.now()), u.replace(/^https?:\/\/[^/]+/, '').slice(-70)]); });
-          const t0 = Date.now();
-          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          await pg.waitForSelector('.tiers', { timeout: 60000 });
-          const early = await pg.evaluate(() => ({ secs: document.querySelectorAll('#root > div[id^=sec-]').length, videoSrc: !!document.querySelector('.gal video source'), t: Math.round(performance.now()) }));
-          await pg.waitForTimeout(6000);
-          const st = await pg.evaluate(() => { const v = document.querySelector('.gal video'); const im = document.querySelector('.pick.compact img'); return { key: document.documentElement.innerHTML.includes('v3s1-6ab061c'), secs: document.querySelectorAll('#root > div[id^=sec-]').length, video: v ? { hasSource: !!v.querySelector('source'), src: (v.querySelector('source') || {}).src, playing: !v.paused && v.readyState >= 2, poster: !!v.getAttribute('poster') } : null, thumb: im ? { src: im.src.slice(-40), natural: im.naturalWidth } : null, ourFbq: typeof window.fbq, hscroll: document.documentElement.scrollWidth - innerWidth, fonts: [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family + ' ' + f.weight), tierImg: (document.querySelector('.tier-img') || {}).naturalWidth }; });
-          console.log('EARLY ' + JSON.stringify(early));
-          console.log('STATE ' + JSON.stringify(st));
-          console.log('REQS ' + JSON.stringify(reqs.slice(0, 20)));
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s1-live-top.png' });
-          await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2000);
-          await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000);
-          const cart = await pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, n: c.item_count }; } catch (e) { return { status: r.status }; } });
-          console.log('CART ' + JSON.stringify(cart));
-          console.log('FBTR ' + JSON.stringify(fb.map(u => (u.match(/ev=([A-Za-z]+)/) || [])[1] || u)));
-          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
-          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
-          await b.close();
+          mkdir -p lp-factory/pages/kits-lp/live
+          cat > r180.mjs <<'EOF2'
+          import { chromium, webkit, devices } from 'playwright';
+          const check = async (name, browser, ctxOpts) => {
+            const b = await browser.launch();
+            const ctx = await b.newContext(ctxOpts);
+            const pg = await ctx.newPage();
+            const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 160)));
+            await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('.tiers', { timeout: 60000 });
+            const t1 = await pg.evaluate(() => { const v = document.querySelector('.gal video'); return { srcEarly: v ? v.getAttribute('src') : 'novideo' }; });
+            await pg.waitForTimeout(7000);
+            const st = await pg.evaluate(() => { const v = document.querySelector('.gal video'); return { key: document.documentElement.innerHTML.includes('v3s2-7f512c5'), src: v ? (v.getAttribute('src') || '').slice(-32) : null, muted: v && v.hasAttribute('muted'), pi: v && v.hasAttribute('playsinline'), paused: v && v.paused, rs: v && v.readyState, t: v && Math.round(v.currentTime * 10) / 10, price: getComputedStyle(document.querySelector('.tier-price b')).fontSize, note: getComputedStyle(document.querySelector('.tier-note p')).fontSize, secs: document.querySelectorAll('#root > div[id^=sec-]').length }; });
+            console.log(name + ' ' + JSON.stringify({ ...t1, ...st, errs }));
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s2-' + name + '.png' });
+            await b.close();
+          };
+          await check('chromium', chromium, { viewport: { width: 390, height: 844 } });
+          await check('webkit-iphone', webkit, { ...devices['iPhone 14'] });
           EOF2
-          node r179.mjs
-      - name: Lighthouse
-        run: |
-          URL='https://maisoncroyez.com/pages/six-month-program'
-          for i in 1 2 3; do
-            npx lighthouse "$URL" --only-categories=performance --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --output=json --output-path=lp-factory/pages/kits-lp/perf/s1-mobile-$i.json --chrome-flags="--headless=new --no-sandbox --disable-gpu" --quiet || true
-          done
-          npx lighthouse "$URL" --only-categories=performance --preset=desktop --throttling-method=simulate --output=json --output-path=lp-factory/pages/kits-lp/perf/s1-desktop-1.json --chrome-flags="--headless=new --no-sandbox --disable-gpu" --quiet || true
-          node -e "
-          const fs=require('fs');const dir='lp-factory/pages/kits-lp/perf/';
-          for(const f of fs.readdirSync(dir).filter(f=>/^s1-.*\.json$/.test(f))){const j=JSON.parse(fs.readFileSync(dir+f));const a=j.audits;const v=k=>Math.round(a[k].numericValue);const ph=a['largest-contentful-paint-element'].details.items[1]?a['largest-contentful-paint-element'].details.items[1].items.map(x=>x.phase+':'+Math.round(x.timing)):null;const net=a['network-requests'].details.items;const byT={};for(const r of net){const t=r.resourceType||'Other';byT[t]=(byT[t]||0)+Math.round((r.transferSize||0)/1024)}const hero=net.filter(r=>/mc-hero-loop/.test(r.url)).map(r=>[r.url.slice(-30),Math.round(r.transferSize/1024),Math.round(r.networkRequestTime)]);const tp=a['third-party-summary'].details.items.slice(0,5).map(i=>[i.entity&&i.entity.text?i.entity.text:i.entity,Math.round(i.transferSize/1024),Math.round(i.blockingTime)]);console.log('LH '+f+' '+JSON.stringify({score:Math.round(j.categories.performance.score*100),FCP:v('first-contentful-paint'),LCP:v('largest-contentful-paint'),TBT:v('total-blocking-time'),CLS:+a['cumulative-layout-shift'].numericValue.toFixed(3),SI:v('speed-index'),TTI:v('interactive'),totalKB:Math.round(v('total-byte-weight')/1024),lcpPhases:ph,byT,hero,tp}));}
-          "
+          node r180.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/v3s1-live-top.png lp-factory/pages/kits-lp/perf/s1-*.json
-          git commit -m "r179: Sprint 1 live screenshot + Lighthouse reports" || exit 0
+          git add lp-factory/pages/kits-lp/live/v3s2-*.png
+          git commit -m "r180: v3s2 live screenshots" || exit 0
           git push

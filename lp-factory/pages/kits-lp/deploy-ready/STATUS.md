@@ -358,3 +358,22 @@ automatic discounts and storefront-token creation is policy-blocked, so cart
 math must be confirmed from a real browser / first abandoned checkouts.
 Rollback: pageUpdate body back to the ic5-395d4d2 file set (mc-ic.css /
 mc-ic-app.js), reactivate 1385978429549, deactivate D1-D5.
+
+### 2026-09-05 — v3b hot-fix (key v3b-fbc1fdb, mc-v3-app.js 89,214B via fileUpdate raw@fbc1fdb)
+r174 live: page renders (key, tiers, badges, grid picker, steps timeline, 6 pay
+logos, 5+5 FAQs, video playing, prehero hidden, h1 gap 10px, 0 errors). Real
+ATC click on the default (2D + refill plan) priced 109.95, not 89.95: D4 fired
+(kit -79.90) but Shopify does NOT stack D3 (20% sub) on scent lines that are
+the BXGY's prerequisite (allocation shows D4 at $0 on them, no D3).
+Fix shipped: refill plan offered on the 1-diffuser tier only; tiers 2/3 are
+one-time (plan forced "one"), step 3 hidden for them.
+r175 live: 2D one-time = 8995 (2 scents zeroed by D1) ✓; 1D + 1 scent on plan
+= 10991 (D3 20% -> 39.96, 1c rounding vs page 39.95 — D3 switched to flat
+$10.00/item right after) ✓; 0 errors.
+TO RESTORE refill on 2/3 packs: put the 20% on the Subi plan itself (Plan 4 /
+SellingPlan 2661875821, or a new 45-day plan) — plan-priced lines still count
+as BXGY prerequisites (proven by D4 firing) so kit absorbs 79.90/119.85 and
+today's total = kit price; then deactivate D3 and re-enable the step in the app
+(setTier plan rule + `if (inc) return null`).
+Known: sitewide cart drawer (mc-drawer.js) still says "Founder's Offer: +1
+mystery scent added..." and "SAFE FOR KIDS & PETS" — separate deploy, flagged.

@@ -535,3 +535,7 @@ updated. Mock republished at parity. Verify: r190 (one-line check at 360/390/136
 mc-v3.css back to the v3s9 file (49,620B, raw@3677bdd); tier cards use the original flex
 layout again (name wraps beside the image on phones). App JS unchanged (79,164B). Mock
 republished at parity. Verify: r191.
+
+### 2026-09-05 — v3s12 (key v3s12-640c6a4): tier name -10%, prices +5%
+`#root .buybox .tier-name{font-size:.83rem}` (was .92rem), `.tier-price b` 1.15 -> 1.21rem,
+`.tier-price s` .57 -> .6rem. mc-v3.css 49,753B raw@640c6a4. Mock at parity. Verify: r192.

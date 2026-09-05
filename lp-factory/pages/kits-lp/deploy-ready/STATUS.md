@@ -489,3 +489,12 @@ copy no longer mentions Subscribe & Save); addToCart uses Plan 5 only, gated on 
 Discounts: D3 "Refill plan — $10 off each scent (every delivery)" (1386357850221)
 DEACTIVATED right after the page flip. Active set is now D1/D2 (one-time included scents)
 only; all subscription pricing lives in Subi Plan 5. Verify: r185.
+
+### 2026-09-05 — v3s6 (key v3s6-9949402): decline line instead of a second refill card
+Owner: "I'll re-order myself" should not look like an option. On 2D/3D the second step-3
+card is now a quiet text row `.decline`: "No thanks, I'll re-order myself another time
+(make it a one-time purchase)"; when chosen it reads "Got it — one-time purchase. Nothing
+renews, nothing else is charged. Re-order scents whenever you like at $49.95."
+Files: mc-v3-app.js 79,325B + mc-v3.css 49,587B (new #root .decline rules), raw@9949402.
+Mock artifact republished at parity. Verify: r186 (default + declined screens, one-time
+cart 8995 via decline, auto-refill 8995).

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 172 — cart endpoint diagnostics (why /cart.js answers HTML)
+# run 173 — Founder's Offer v3 stage 1: cart pricing e2e, paced (bot protection answered 429 to rapid bursts in r171/r172)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,32 +17,47 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Diagnostics
+      - name: Cart pricing e2e
         run: |
-          cat > diag.mjs <<'EOF2'
+          cat > cart173.mjs <<'EOF2'
           import { chromium } from 'playwright';
+          const V = { one: 45784228429933, two: 45784228462701, three: 45784228495469 };
+          const S = { love: 41212020457581, abundance: 41212018655341, midnight: 41212019933293 };
+          const PLAN = 2661875821;
           const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' });
           const pg = await ctx.newPage();
-          const resp = await pg.goto('https://maisoncroyez.com/cart', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          console.log('CARTPAGE status', resp.status(), 'url', pg.url(), 'title', await pg.title());
-          await pg.waitForTimeout(1500);
-          const r = await pg.evaluate(async () => {
+          await pg.goto('https://maisoncroyez.com/products/maisoncroyez-diffuser-founders-offer', { waitUntil: 'load', timeout: 90000 });
+          await pg.waitForTimeout(4000);
+          await pg.mouse.wheel(0, 600); await pg.waitForTimeout(2000);
+          const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+          const cases = [
+            ['2D+2one', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }]],
+            ['2D+2sub', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]],
+            ['3D+3one', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }, { id: S.midnight, quantity: 1 }]],
+            ['1D+2sub', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]],
+            ['1D+1one', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1 }]],
+            ['3D+3sub', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }, { id: S.midnight, quantity: 1, selling_plan: PLAN }]],
+          ];
+          const step = async (items) => pg.evaluate(async (items) => {
             const out = {};
-            const c1 = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } });
-            out.cartjs = { status: c1.status, ct: c1.headers.get('content-type'), body: (await c1.text()).slice(0, 300) };
-            const c2 = await fetch('/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } });
-            out.clear = { status: c2.status, ct: c2.headers.get('content-type'), body: (await c2.text()).slice(0, 300) };
-            const c3 = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: [{ id: 45784228429933, quantity: 1 }] }) });
-            out.add = { status: c3.status, ct: c3.headers.get('content-type'), body: (await c3.text()).slice(0, 300) };
-            const c4 = await fetch('/cart.js?x=1', { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } });
-            out.cartjs2 = { status: c4.status, ct: c4.headers.get('content-type'), body: (await c4.text()).slice(0, 300) };
+            const clr = await fetch('/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } }); out.clear = clr.status;
+            await new Promise(r => setTimeout(r, 3500));
+            const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items }) });
+            out.addStatus = add.status; const t = await add.text(); if (add.status !== 200) out.addBody = t.slice(0, 120);
+            await new Promise(r => setTimeout(r, 3500));
+            const cr = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); out.cartStatus = cr.status;
+            const ct = await cr.text();
+            try { const cart = JSON.parse(ct); out.total = cart.total_price; out.items_subtotal = cart.items_subtotal_price; out.total_discount = cart.total_discount; out.lines = (cart.items || []).map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, disc: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) })); } catch (e) { out.cartBody = ct.slice(0, 120); }
             return out;
-          });
-          console.log('DIAG ' + JSON.stringify(r, null, 1));
-          const r2 = await pg.goto('https://maisoncroyez.com/cart.js', { waitUntil: 'domcontentloaded', timeout: 60000 });
-          console.log('GOTO cart.js status', r2.status(), 'ct', r2.headers()['content-type'], 'body', (await pg.evaluate(() => document.body.innerText)).slice(0, 400));
+          }, items);
+          for (const [name, items] of cases) {
+            let r = await step(items);
+            if (r.addStatus === 429 || r.cartStatus === 429) { console.log('RETRY ' + name); await sleep(20000); r = await step(items); }
+            console.log('CASE ' + name + ' ' + JSON.stringify(r));
+            await sleep(6000);
+          }
           await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
           await b.close();
           EOF2
-          node diag.mjs
+          node cart173.mjs

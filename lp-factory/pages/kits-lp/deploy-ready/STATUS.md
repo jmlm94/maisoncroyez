@@ -321,3 +321,40 @@ Jose's screen recording showed the REAL video complaint: on slow/cellular loads 
 Same deploy, per Jose mid-turn: title->badges gap 4px->10px (h1+.featbs margin-top 0); ledger prices smaller: FREE (.off-lrow .off-price) 1.5->1.3rem, $89.95-today (.off-scent-price) 1.3->1.15rem; main ATC sub-line -> "You're saving $100 today, don't miss it out!" (sticky-bar sub unchanged). Note: .off-pricerow / bare .off-price rules are dead CSS (element not rendered).
 r169 live: prehero src+poster = mc-hero-poster.jpg, video playing, gap 10px, sizes 20.8/18.4px, btnSub correct, 0 errors. Screenshots live/ic5-live-top.png, live/ic5-live-hero.png.
 
+
+## 2026-09-05 — FOUNDER'S OFFER v3 DEPLOYED LIVE (key v3-e408ba3)
+Six-month page (119394369645, /pages/six-month-program) now runs the v3 offer:
+1 Diffuser $69.95 · 2 Diffusers + 2 scents $89.95 · 3 Diffusers + 3 scents $129.95;
+scents $49.95 one-time or $39.95 on the Subi 45-day plan (20% off every delivery).
+Files: mc-v3-app.js 89,113B (GenericFile 29920808403053) + mc-v3.css 152,677B
+(GenericFile 29920808435821), both from raw@e408ba3. Old mc-ic.* files untouched.
+Page title -> "Maison Croyez Diffuser — Founder's Offer".
+
+Shopify commerce setup (all new, additive):
+- Product 8245945434221 "Maison Croyez Diffuser — Founder's Offer" (UNLISTED,
+  published to Online Store). Variants: 1D 45784228429933 $69.95 · 2D
+  45784228462701 $89.95 (cmp 139.90) · 3D 45784228495469 $129.95 (cmp 209.85).
+  Untracked inventory, CONTINUE, 0.4/0.8/1.2 lb, kit images mc-kb-kit1/2/3.
+- Auto discounts (all product-class, combinable with product+shipping):
+  D1 1386354278509 BXGY buy 2D variant (one-time) -> 2 scents 100% off
+  D2 1386354311277 BXGY buy 3D variant (one-time) -> 3 scents 100% off
+  D3 1386357850221 Basic 20% off the 7 scents, SUBSCRIPTION ONLY, all cycles
+  D4 1386354344045 BXGY buy 2 SUBSCRIPTION scents -> 2D variant $79.90 off
+  D5 1386354376813 BXGY buy 3 SUBSCRIPTION scents -> 3D variant $119.85 off
+  Why D4/D5: Shopify BXGY only supports subscriptions when X is the
+  subscription and Y is one-time (changelog 2025-01), so the "included scents
+  today, first refill in 45 days" promise is built as: scents ride the plan at
+  $39.95 (D3) and the kit line absorbs the same amount (D4/D5) => today's total
+  equals the kit price; renewals = scents only at $39.95 via D3.
+- DEACTIVATED: 1385978429549 "Inner Circle — 2 scents for $89.95" ($9.95 pair).
+  INNERCIRCLE20 code (1385979117677) left as is.
+Cart wiring (mc-v3-app.js CART3): kit variant + scent lines (+ selling_plan
+2661875821 when the refill plan is chosen); Shop Pay installments line hidden
+for subscription carts.
+Verification: local render harness (vendor+assets+v3 files) clean; live r174.
+Cart e2e from GitHub runners is currently answered 429 "Verifying your
+connection" by Shopify bot protection (r171-r173) — draft orders don't apply
+automatic discounts and storefront-token creation is policy-blocked, so cart
+math must be confirmed from a real browser / first abandoned checkouts.
+Rollback: pageUpdate body back to the ic5-395d4d2 file set (mc-ic.css /
+mc-ic-app.js), reactivate 1385978429549, deactivate D1-D5.

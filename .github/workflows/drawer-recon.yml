@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 176 — live cart probe: 3 diffusers + 3 included scents via the page ATC (expect 12995, 3 scent lines at 0)
+# run 177 — verify the cleaned sitewide cart drawer (no mystery-scent line, no kids & pets badge, no cat clause) after an ATC on the v3 page
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,34 +19,34 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Live verify
         run: |
-          mkdir -p lp-factory/pages/kits-lp/live
-          cat > r176.mjs <<'EOF2'
+          mkdir -p lp-factory/sitewide-drawer/verify
+          cat > r177.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
           const pg = await ctx.newPage();
           const errs = [];
           pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
+          const drawerReq = [];
+          pg.on('response', r => { if (r.url().includes('mc-drawer.js')) drawerReq.push([r.url().slice(-40), r.status(), r.headers()['content-length'] || '']); });
           await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
           await pg.waitForSelector('.tiers', { timeout: 60000 });
           await pg.waitForTimeout(4000);
-          const readCart = () => pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, disc: c.total_discount, lines: c.items.map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, d: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) })) }; } catch (e) { return { status: r.status, body: t.slice(0, 100) }; } });
-          await pg.locator('.tier').nth(2).click(); await pg.waitForTimeout(1000);
-          const t3 = await pg.evaluate(() => ({ titles: [...document.querySelectorAll('.buybox .picker-title')].map(e => e.textContent.trim()), picked: document.querySelectorAll('.pick.compact.on').length, btn: (document.querySelector('.btn.atc') || {}).innerText, france: document.body.innerText.includes('France') }));
-          console.log('T3 ' + JSON.stringify(t3));
           await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2500);
           await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000);
-          console.log('CART 3D one-time ' + JSON.stringify(await readCart()));
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3b-live-cart-3d.png' });
+          const d = await pg.evaluate(() => { const dr = document.getElementById('cart-drawer'); const t = dr ? dr.innerText : ''; return { hasDrawer: !!dr, mystery: /mystery/i.test(t), kids: /kids/i.test(t), cat: /my cat/i.test(t), freeShipBadge: /Free\s*Shipping/i.test(t), attention: /Attention:/i.test(t), total: (t.match(/Today's total:\s*\$?[0-9.,]+/) || [''])[0], text: t.replace(/\s+/g, ' ').slice(0, 700) }; });
+          console.log('DRAWER ' + JSON.stringify(d));
+          console.log('DRAWERJS ' + JSON.stringify(drawerReq));
+          await pg.screenshot({ path: 'lp-factory/sitewide-drawer/verify/drawer-clean-v3.png' });
           await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
           console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
           await b.close();
           EOF2
-          node r176.mjs
+          node r177.mjs
       - name: Commit screenshots
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/v3b-live-*.png
-          git commit -m "r176: 3-diffuser live cart screenshot" || exit 0
+          git add lp-factory/sitewide-drawer/verify/drawer-clean-v3.png
+          git commit -m "r177: cleaned drawer live screenshot" || exit 0
           git push

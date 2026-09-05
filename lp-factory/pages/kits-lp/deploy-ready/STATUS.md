@@ -456,3 +456,26 @@ above): Shopify will not stack D3 on scent lines that are the prerequisite of th
 plan "Delivered every 45 days ❤️" (SellingPlan 2661875821) to 20% off; then deactivate
 D3 and remove `if (inc) return null` + the setTier plan rule in mc-v3-app.js.
 Verify: r183 (chromium with autoplay refused -> button + tap plays; chromium; iPhone WebKit).
+
+### 2026-09-05 — v3s4 (key v3s4-367718b): refill step back on ALL tiers via Subi Plan 5
+Owner created Subi "Plan 5" (SellingPlanGroup 1750466669 / SellingPlan 2747695213 "Every 45
+days", attached to all 7 scent products): fixed policy FIXED_AMOUNT 49.95 off (first
+delivery $0) + recurring policy afterCycle 1 FIXED_AMOUNT 39.95 off. !! The recurring policy
+is $39.95 OFF, i.e. renewals would bill $10.00, not $39.95 — owner must change it in Subi to
+$10 off (or fixed price $39.95). Nothing renews for 45 days.
+App (mc-v3-app.js 79,472B, GenericFile 29920808403053, raw@367718b; page key v3s4-367718b):
+- `if (inc) return null` removed: step 3 ("3. How would you like your refills?") shows on
+  2D/3D again with the existing copy (included today, only about the next ones in 45 days;
+  Auto-refill & Save 20% $39.95/scent from day 45 vs I'll re-order myself).
+- CART3.sellingPlanFree = 2747695213: included scents on 2D/3D go on Plan 5 when
+  auto-refill is chosen; 1D optional scents keep Plan 4 (2661875821) + D3 $10/each.
+- Default plan = "sub" on tiers with included scents (nothing extra today), "one" on 1D.
+Discounts: D4 "2 Diffusers with refill plan" (1386354344045) and D5 "3 Diffusers with refill
+plan" (1386354376813) DEACTIVATED (with Plan 5 the scent lines are already $0; the kit-side
+BXGY would have taken a further 79.90/119.85 off). D1/D2 (one-time included scents) and D3
+unchanged. D3 ($10 off subscription scents, now every cycle) also touches Plan 5 lines:
+today 0 (line is $0); renewals would be 39.95-10 = 29.95 once the plan is fixed -> owner
+should create a tier-1 plan ("$10 off every payment") so D3 can be retired, or accept.
+Verify: r184 (real ATC: 2D auto-refill 8995 w/ Plan 5 lines at 0, 2D one-time 8995, 3D
+auto-refill 12995, 1D + 1 scent refill 10990; video: firefox autoplay-blocked -> play
+button -> tap plays; iPhone WebKit autoplay). Mock artifact republished at parity.

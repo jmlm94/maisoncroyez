@@ -524,6 +524,7 @@ const Announcement = () => {
 function HeroVideo({ poster }) {
   const ref = useRef(null);
   const [on, setOn] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   useEffect(() => {
     let t = 0, idle = 0;
     const go = () => setOn(true);
@@ -537,26 +538,44 @@ function HeroVideo({ poster }) {
     if (!el) return;
     /* iOS: the muted/playsinline ATTRIBUTES must be present (not just the
        properties) for inline autoplay; the src goes straight on the element so
-       resource selection starts at once. If autoplay is refused (Low Power Mode,
-       data saver), the first touch anywhere on the page starts the loop. */
+       resource selection starts at once. When autoplay is refused (Low Power
+       Mode, Low Data Mode, "Auto-Play Video Previews" off) a play button is
+       shown and the next real tap anywhere (touchend/click, the events WebKit
+       counts as activation) starts the loop. */
     el.muted = true; el.defaultMuted = true;
     el.setAttribute("muted", ""); el.setAttribute("playsinline", ""); el.setAttribute("webkit-playsinline", "");
-    let armedGesture = false;
-    const onGesture = () => { const p = el.play(); if (p && p.catch) p.catch(() => {}); };
+    const EVS = ["touchend", "click", "pointerup", "keydown"];
+    let playing = false, armed = false;
+    const swallow = (p) => { if (p && p.catch) p.catch(() => {}); };
+    const onGesture = () => { if (!playing) swallow(el.play()); };
+    const disarm = () => EVS.forEach((ev) => document.removeEventListener(ev, onGesture, true));
+    const armGesture = () => { if (armed) return; armed = true; setBlocked(true); EVS.forEach((ev) => document.addEventListener(ev, onGesture, { capture: true, passive: true })); };
+    const onPlaying = () => { playing = true; setBlocked(false); disarm(); };
     const tryPlay = () => {
+      if (playing) return;
       const p = el.play();
-      if (p && p.catch) p.catch(() => {
-        if (armedGesture) return; armedGesture = true;
-        ["pointerdown", "touchstart", "scroll"].forEach((ev) => document.addEventListener(ev, onGesture, { once: true, passive: true }));
+      if (p && p.catch) p.catch((e) => {
+        /* AbortError = interrupted by load()/src change, not a policy refusal */
+        if (e && e.name === "AbortError") return;
+        armGesture();
       });
     };
+    const onVis = () => { if (!document.hidden) tryPlay(); };
+    el.addEventListener("playing", onPlaying);
+    el.addEventListener("canplay", tryPlay);
+    el.addEventListener("loadeddata", tryPlay);
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("pageshow", tryPlay);
     el.src = MC_HERO_VIDEO;
     el.load();
-    el.addEventListener("canplay", tryPlay, { once: true });
     tryPlay();
-    return () => { el.removeEventListener("canplay", tryPlay); ["pointerdown", "touchstart", "scroll"].forEach((ev) => document.removeEventListener(ev, onGesture)); };
+    return () => {
+      el.removeEventListener("playing", onPlaying); el.removeEventListener("canplay", tryPlay); el.removeEventListener("loadeddata", tryPlay);
+      document.removeEventListener("visibilitychange", onVis); window.removeEventListener("pageshow", tryPlay); disarm();
+    };
   }, [on]);
-  return html`<video ref=${ref} class="simg" poster=${poster} autoplay loop muted playsinline preload=${on ? "auto" : "none"} aria-label="Maison Croyez diffuser video"></video>`;
+  const manual = () => { const el = ref.current; if (el) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } };
+  return html`<video key="hv" ref=${ref} class="simg" poster=${poster} autoplay loop muted playsinline preload=${on ? "auto" : "none"} aria-label="Maison Croyez diffuser video"></video>${blocked ? html`<button key="hvp" type="button" class="hv-play" aria-label="Play video" onClick=${manual}><span></span></button>` : null}`;
 }
 
 function Gallery() {

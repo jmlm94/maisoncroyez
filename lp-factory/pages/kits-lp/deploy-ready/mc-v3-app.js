@@ -1,29 +1,9 @@
 (function(){
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
-var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.mp4?v=1788470993";
+var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-720.mp4?v=s1";
 var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350";
-var MC_HERO_VIDEO_WEBM = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-780.webm?v=1788470993";
-/* FB pixel: init here (product-description scripts can be stripped); no-op if the theme already loaded fbq */
-try {
-  (function () {
-    function mcPixel() {
-      if (window.fbq) return;
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
-      fbq("init", "980908600592309");
-      fbq("track", "PageView");
-    }
-    /* defer pixel out of the LCP bandwidth window: first interaction, or load+500ms, or 8s cap */
-    var armed = 0;
-    function arm() { if (armed) return; armed = 1; mcPixel(); }
-    ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (ev) {
-      window.addEventListener(ev, arm, { once: true, passive: true });
-    });
-    if (document.readyState === "complete") setTimeout(arm, 500);
-    else window.addEventListener("load", function () { setTimeout(arm, 500); }, { once: true });
-    setTimeout(arm, 8000);
-  })();
-} catch (e) {}
+/* FB pixel: loaded by Shopify's Facebook channel through the Web Pixels Manager (no page-level loader). */
 /* product-page host: mount #root inside #mc-kits-root; hide the theme product
    template around it (header/footer stay; cart drawer and modals untouched). */
 (function () {
@@ -70,29 +50,6 @@ const html = htm.bind(h);
 const A = (typeof MC_ASSETS !== "undefined") ? MC_ASSETS : {};
 
 /* round 27b — per-scent tag pills (owner spec 2026-08-06) */
-const TAG_COLORS = {
-  "Calming":            { bg: "#3D6B52" },
-  "Energizing":         { bg: "#8A5F00" },
-  "Romantic":           { bg: "#9C3D5F" },
-  "Cozy":               { bg: "#8A5A2B" },
-  "Morning Routine":    { bg: "#2E6E8E" },
-  "Entertaining Guests":{ bg: "#6E4B8E" },
-  "Winding Down":       { bg: "#2D4059" },
-  "Date Night":         { bg: "#8B1A3A" },
-  "Fresh & Clean":      { bg: "#2F6F6A" },
-  "Warm & Sweet":       { bg: "#9C6414" },
-  "Floral & Soft":      { bg: "#A84A6E" },
-  "Earthy & Woody":     { bg: "#6B4F44" },
-};
-const SCENT_TAGS = {
-  focus:     { mood: "Calming",    best: "Morning Routine",     profile: "Fresh & Clean" },
-  abundance: { mood: "Energizing", best: "Morning Routine",     profile: "Fresh & Clean" },
-  energy:    { mood: "Energizing", best: "Entertaining Guests", profile: "Floral & Soft" },
-  love:      { mood: "Cozy",       best: "Entertaining Guests", profile: "Warm & Sweet" },
-  ideas:     { mood: "Cozy",       best: "Winding Down",        profile: "Warm & Sweet" },
-  midnight:  { mood: "Romantic",   best: "Date Night",          profile: "Floral & Soft" },
-  purify:    { mood: "Calming",    best: "Winding Down",        profile: "Earthy & Woody" },
-};
 
 /* --- checkout wiring: ritual scent on the Subi "The Manifestation Ritual"
    plan + diffuser duplicate zeroed by auto BXGY 1375641600109 when a
@@ -104,18 +61,6 @@ const CART = {
   cartUrl: "/cart",     /* fallback only — primary UX opens the theme cart drawer */
 };
 
-const KITS = [
-  { key: "ritual", name: "🕯️ The Ritual Kit (Living Room)", price: 199, value: 239.75, variant: 45644596936813, diffusers: 1, scents: 4, pay4: "4 \u00d7 $49.75", renew: "$135.83", perMo: "$33/mo", rooms: "one room", cover: "Covers up to 600 sqft", mo: "$49.75/mo", subMo: "$49/mo",
-    img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg?width=160", cdn: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg",
-    line: "Includes one (1) diffuser & four (4) 100ml scents.", days: "", per: "", tag: "" },
-  { key: "home", name: "🏡 The Home Kit (Living Room & Bedroom)", price: 279, value: 479.50, variant: 45644596969581, diffusers: 2, scents: 8, pay4: "4 \u00d7 $69.75", renew: "$271.66", perMo: "$46.50/mo", rooms: "two rooms", cover: "Covers up to 1,200 sqft (600 per diffuser)", mo: "$69.75/mo", subMo: "$59/mo",
-    img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg?width=160", cdn: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg",
-    line: "Includes two (2) diffusers & eight (8) 100ml scents.", days: "", per: "", tag: "Most Popular" },
-  { key: "sanctuary", name: "🧘 The Sanctuary Kit (Living Room, Bedroom and Kitchen)", price: 399, value: 719.25, variant: 45644597002349, diffusers: 3, scents: 12, pay4: "4 \u00d7 $99.75", renew: "$407.49", perMo: "$66.50/mo", rooms: "whole home", cover: "Covers up to 1,800 sqft (600 per diffuser)", mo: "$99.75/mo", subMo: "$89/mo",
-    img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg?width=160", cdn: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg",
-    line: "Includes three (3) diffusers & twelve (12) 100ml scents.", days: "", per: "", tag: "Best Value" },
-];
-const OFFER = { price: 199 }; /* min program price (legacy refs) */
 
 const CDNIMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/";
 const BOOKLET_IMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/15_4c9e6b44-6d32-41cf-942f-1fb76fa84250.png?v=1786843812&width=220"; /* deploy: files/15_4c9e6b44-6d32-41cf-942f-1fb76fa84250.png?v=1786843812&width=220 */
@@ -250,10 +195,10 @@ const CONFIG = {
     dog:     { file: "hf gen — dog asleep by diffuser", src: A.dog || "" },
     product: { file: "diseno-87", src: A.product || "" },
     nightstand: { file: "diseno-88", src: A.nightstand || "" },
-    frag1: { file: "frag1", src: A.frag1 || "" }, frag2: { file: "frag2", src: A.frag2 || "" },
-    frag3: { file: "frag3", src: A.frag3 || "" }, frag4: { file: "frag4", src: A.frag4 || "" },
-    frag5: { file: "frag5", src: A.frag5 || "" }, frag6: { file: "frag6", src: A.frag6 || "" },
-    frag7: { file: "frag7", src: A.frag7 || "" },
+    frag1: { file: "frag1", src: A.frag1 ? A.frag1 + "&width=120" : "" }, frag2: { file: "frag2", src: A.frag2 ? A.frag2 + "&width=120" : "" },
+    frag3: { file: "frag3", src: A.frag3 ? A.frag3 + "&width=120" : "" }, frag4: { file: "frag4", src: A.frag4 ? A.frag4 + "&width=120" : "" },
+    frag5: { file: "frag5", src: A.frag5 ? A.frag5 + "&width=120" : "" }, frag6: { file: "frag6", src: A.frag6 ? A.frag6 + "&width=120" : "" },
+    frag7: { file: "frag7", src: A.frag7 ? A.frag7 + "&width=120" : "" },
     kit1: { file: "mc-kb-kit1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg?v=1786479536&width=240" }, kit2: { file: "mc-kb-kit2", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg?v=1786479536&width=240" }, kit3: { file: "mc-kb-kit3", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg?v=1786479536&width=240" },
     gif1: { file: "www1", src: A.gif1 || "", srcWebm: A.gif1w || "" },
     gif2: { file: "www2", src: A.gif2 || "", srcWebm: A.gif2w || "" },
@@ -338,51 +283,13 @@ const CONFIG = {
   },
 
 
-  angleCandles: { /* for the candle girls */
-    eyebrow: "For the candle girls",
-    heading: ["For my candle girls.", "Don't come for me, but you're not doing it right."],
-    split: {
-      before: { slot: "soot", badge: "✕", cap: "Open flame, soot, a few hours" },
-      after: { slot: "nightstand", badge: "✓", cap: "Nothing burning, weeks of presence" },
-    },
-    bullets: [
-      "A candle gives you **one warm hour**, then leaves soot on the jar and smoke in the air. And you can't leave the house with it going.",
-      "This gives you the same cozy warmth **through the whole room, with nothing burning**. No soot, no smoke, nothing to babysit.",
-      "And it runs **for weeks on one bottle**, not a few evenings.",
-    ],
-  },
 
-  angleLasts: { /* built to outlast them all */
-    eyebrow: "Built to outlast them all",
-    heading: ["Their diffusers grow mold and die.", "Ours is covered for life."],
-    split: {
-      before: { slot: "mold", badge: "✕", cap: "Their water tank, month two" },
-      after: { slot: "product", badge: "✓", cap: "Waterless. Nothing to clean, ever" },
-    },
-    bullets: [
-      "Water diffusers grow mold in the tank, then clog, leak and quietly die within months. **You've probably thrown one out already.**",
-      "This one has no water in it. Pure oil, diffused dry. **Zero cleaning, nothing to break down.**",
-      "**Plug it in once, forget it for weeks.** And if it ever stops working, we replace it. For life.",
-    ],
-  },
 
 
 
   /* Spec 05 (Aug 28): verified reviews ONLY. Section launch-gates at 20+
      verified reviews; until then the guarantee holds this spot. The three
      cards below are watermarked layout SAMPLES and must never ship. */
-  reviewWall: {
-    heading: ["2,500+ women came home to a different house.", "Here's what they're saying:"],
-    items: [
-      { name: "Kate D.", text: "I did the math on my candle habit and switched. One bottle lasted five weeks — my old candle budget didn’t survive the comparison." },
-      { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven't touched in a month except to switch modes. The scent is actually everywhere." },
-      { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. First home fragrance we've agreed on in eleven years of marriage." },
-      { name: "Tiana M.", text: "Bought Crisp Citrus for “abundance” half as a joke. The joke's over: my office finally feels like a place where things get finished." },
-      { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
-      { name: "Sophie M.", text: "Got the Condo Kit for our place — one diffuser upstairs, one down. Three bottles felt like a lot until I realized months later I still had scent left." },
-      { name: "Camille B.", text: "Guests walk in and go quiet for a second. That pause is why I bought it." },
-    ],
-  },
 
   guarantee: {
     badge: { big: "90", mid: "Day · Money-Back", small: "Lifetime Diffuser Warranty" },
@@ -417,20 +324,8 @@ const EMOJI = {
   infinity: "♾️", truck: "🚚", gift: "🎁", france: "🇫🇷", wind: "🌬️",
   repeat: "🔄", hand: "🤍",
 };
-const Icon = ({ name }) => html`<span class="emoji" role="img" aria-hidden="true">${EMOJI[name] || EMOJI.sparkle}</span>`;
 
 /* Sober monochrome line icons for the offer terms (owner: no emoji there) */
-const TERM_PATHS = {
-  box: "M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5m0 0l9-5m-9 5v9",
-  swap: "M4 7h13m0 0l-3-3m3 3l-3 3M20 17H7m0 0l3 3m-3-3l3-3",
-  gift: "M20 12v9H4v-9m-1-5h18v5H3V7zm9-3s-1.5-3-4-3-2.5 3 0 3h4zm0 0s1.5-3 4-3 2.5 3 0 3h-4zm0 0v17",
-  alert: "M12 4L2 20h20L12 4zm0 7v4m0 3v.5",
-};
-const TermIcon = ({ name }) => html`
-  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"
-    stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d=${TERM_PATHS[name] || TERM_PATHS.box}/>
-  </svg>`;
 
 /* ================================================================
    Shared bits
@@ -478,13 +373,6 @@ const Img = ({ slot, tone = "warm", style, alt = "", eager = false }) => {
 };
 const SerifHead = ({ pre, em }) => html`<h2>${pre}${em && html` <em>${em}</em>`}</h2>`;
 /* minimalist diffuser glyph for the quantity selector — thin line body + mist */
-const DiffuserIcon = () => html`
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
-    stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-    <path d="M7.6 12.2c0-2 2-3.2 4.4-3.2s4.4 1.2 4.4 3.2v5.6a3.2 3.2 0 0 1-3.2 3.2h-2.4a3.2 3.2 0 0 1-3.2-3.2v-5.6z"/>
-    <path d="M9.9 12.5h4.2"/>
-    <path d="M12 6.6c-.6-.9.6-1.5 0-2.6"/>
-  </svg>`;
 const AngleBullets = ({ items }) => html`
   <ul class="angle-bullets">
     ${items.map((b) => html`<li key=${b}><${Rich} s=${b}/></li>`)}
@@ -573,7 +461,6 @@ const selStore = {
   keys: ["love", "abundance"],
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },
-  kit() { return KITS[1]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
   setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = "one"; /* refill plan offered on the 1-diffuser tier only (Shopify won't stack the 20% on BXGY prerequisite lines) */ this.emit(); },
@@ -630,12 +517,25 @@ const Announcement = () => {
     </div>`;
 };
 
-const Header = () => html`
-  <header class="pdp-hdr">
-    ${CONFIG.brand.logo
-      ? html`<img src=${CONFIG.brand.logo} alt=${CONFIG.brand.name}/>`
-      : html`<span class="caps">${CONFIG.brand.name}</span>`}
-  </header>`;
+
+/* Hero loop: the poster (= frame 1, same file as the page's prehero) is the LCP
+   element; the video source is attached only after load + idle so the ~600KB
+   download never competes with first paint. */
+function HeroVideo({ poster }) {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    let t = 0, idle = 0;
+    const go = () => setOn(true);
+    const arm = () => { if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 2500 }); else t = setTimeout(go, 1200); };
+    if (document.readyState === "complete") arm(); else window.addEventListener("load", arm, { once: true });
+    return () => { clearTimeout(t); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); window.removeEventListener("load", arm); };
+  }, []);
+  if (!on) return html`<video class="simg" poster=${poster} muted playsinline preload="none" aria-label="Maison Croyez diffuser video"></video>`;
+  return html`<video key="live" class="simg" poster=${poster} autoplay loop muted playsinline preload="auto" aria-label="Maison Croyez diffuser video"
+      ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}>
+      <source src=${MC_HERO_VIDEO} type="video/mp4"/>
+    </video>`;
+}
 
 function Gallery() {
   const [idx, setIdx] = useState(0);
@@ -662,9 +562,7 @@ function Gallery() {
     <div class="gal">
       <div class="gal-track">
         <div class="gal-slide ph sq">
-          ${(typeof MC_HERO_VIDEO !== "undefined")
-            ? html`<video class="simg" poster=${urls[0]} autoplay muted loop playsinline aria-label="Maison Croyez diffuser video" ref=${(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }}><source src=${MC_HERO_VIDEO} type="video/mp4"/><source src=${MC_HERO_VIDEO_WEBM} type="video/webm"/></video>`
-            : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
+          ${(typeof MC_HERO_VIDEO !== "undefined") ? html`<${HeroVideo} poster=${urls[0]}/>` : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
         </div>
       </div>
     </div>`;
@@ -856,78 +754,12 @@ function BuyBox() {
 
 
 /* ---------- Six-Month Program: purchase-mode toggle (spec 04.3) ---------- */
-function ModeToggle() {
-  const sel = useSelection();
-  const Opt = ({ id, title, sub }) => html`
-    <div class=${"mode" + (sel.plan === id ? " on" : "")} role="radio" aria-checked=${sel.plan === id} tabindex="0"
-      onClick=${() => sel.setPlan(id)} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan(id); }}>
-      <span class="mode-dot" aria-hidden="true"></span>
-      <span class="mode-tx"><b>${title}</b><span>${sub}</span></span>
-    </div>`;
-  return html`
-    <div class="modes" role="radiogroup" aria-label="Purchase mode">
-      <${Opt} id="renew" title="Yes, I\u2019d like 15% OFF for my next scents." sub="Renews automatically, you\u2019ll get charged in 6 months. Swap scents or cancel anytime."/>
-      <${Opt} id="onetime" title="One-Time Order" sub="No renewal or automatic shipping. Re-order scents at full price whenever you like."/>
-    </div>`;
-}
 
 /* ---------- Six-Month Program: the receipt (spec 03.1) ---------- */
-function ReceiptBox() {
-  const sel = useSelection();
-  const kk = sel.kit();
-  const dif = kk.diffusers * 79.95, sc = kk.scents * 39.95;
-  return html`
-    <div class="receipt" aria-label="Itemized value">
-      <div class="rrow"><span>${kk.diffusers} \u00d7 Home Scent Diffuser</span><span>${usd(dif)}</span></div>
-      <div class="rrow"><span>${kk.scents} \u00d7 Manifestation Scent (100ml)</span><span>${usd(sc)}</span></div>
-      <div class="rrow"><span>6-Month Guided Ritual Program</span><span>Included</span></div>
-      <div class="rrow rtotal"><span>Itemized value</span><span>${usd(dif + sc)}</span></div>
-      <div class="rrow rpay"><span>You only pay:</span><span>${usd(kk.price)}</span></div>
-    </div>`;
-}
 
 /* ---------- Six-Month Program: guided program chapters (spec 03.5) ---------- */
-function ProgramSec() {
-  const CH = [
-    { n: 1, name: "Love \u2014 Golden Blossom Harmony", note: "Unlocked the moment you order" },
-    { n: 2, name: "Abundance \u2014 Crisp Citrus Scape", note: "Month 2, by email" },
-    { n: 3, name: "Relaxation & Concentration \u2014 Chilled Citrus", note: "Month 3, by email" },
-    { n: 4, name: "Raised Energy \u2014 Euphoric Bloom", note: "Month 4, by email" },
-    { n: 5, name: "Purification \u2014 Wildwood Mystique", note: "Month 5, by email" },
-    { n: 6, name: "Love Manifestation \u2014 Midnight Sensation", note: "Month 6, by email" },
-  ];
-  return html`
-    <section class="section program">
-      <div class="wrap narrow">
-        <div class="section-head">
-          <h2>The 6-Month Guided Ritual Program <em>is included in every tier.</em></h2>
-        </div>
-        <p class="angle-desc">One chapter per intention: what the scent is composed for, the ritual to run with it, and when to run it. Chapter 1 arrives the moment you order \u2014 then one chapter a month, for six months.</p>
-        <div class="chapters">
-          ${CH.map((c) => html`
-            <div class="chapter" key=${c.n}>
-              <span class="ch-n">${c.n}</span>
-              <span class="ch-tx"><b>${c.name}</b><span>${c.note}</span></span>
-              ${c.n === 1 ? html`<span class="ch-badge">UNLOCKED AT PURCHASE</span>` : null}
-            </div>`)}
-        </div>
-      </div>
-    </section>`;
-}
 
 /* ---------- Six-Month Program: renewal transparency (spec 04.8) ---------- */
-function RenewalSec() {
-  return html`
-    <section class="section renewal">
-      <div class="wrap narrow">
-        <div class="renew-box">
-          <h3>What happens after checkout? Exactly what we say here.</h3>
-          <p>Every 45 days we ship your next <b>2 scents for $89.95</b>, free shipping. You get a heads-up before every delivery — skip, swap scents, or pause in one tap, and if you skip, <b>you’re not charged</b>.</p>
-          <p class="renew-sub">Cancel in your first 90 days and we send a prepaid label — full refund. After 90 days, everything is yours to keep.</p>
-        </div>
-      </div>
-    </section>`;
-}
 
 /* ---------- A1: intention hero (single image, owner to supply) ---------- */
 function AngleIntention() {
@@ -1020,48 +852,8 @@ const AngleBand = ({ cfg, tinted }) => html`
   </section>`;
 
 /* ---------- split-comparison angle band (✕ vs ✓) ---------- */
-const AngleSplit = ({ cfg }) => {
-  const Half = ({ side, good }) => html`
-    <div class="split-half">
-      <${Img} slot=${side.slot} alt=${side.cap}/>
-      <span class=${"split-badge" + (good ? " good" : "")} aria-hidden="true">${side.badge}</span>
-      <div class="split-cap caps">${side.cap}</div>
-    </div>`;
-  return html`
-    <section class="section angle">
-      <div class="wrap narrow">
-        <div class="section-head">
-          <${SerifHead} pre=${cfg.heading[0]} em=${cfg.heading[1]}/>
-        </div>
-        <div class="split-grid">
-          <${Half} side=${cfg.split.before} good=${false}/>
-          <${Half} side=${cfg.split.after} good=${true}/>
-        </div>
-        ${cfg.desc && html`<p class="angle-desc"><${Rich} s=${cfg.desc}/></p>`}
-        ${cfg.bullets && html`<${AngleBullets} items=${cfg.bullets}/>`}
-      </div>
-    </section>`;
-};
 
 
-const ReviewWall = () => html`
-  <section class="section ugc">
-    <div class="wrap narrow">
-      <div class="section-head">
-        <${SerifHead} pre=${CONFIG.reviewWall.heading[0]} em=${CONFIG.reviewWall.heading[1]}/>
-      </div>
-      <div class="gate-note">${CONFIG.reviewWall.gateNote}</div>
-      <div class="ugcstack">
-        ${CONFIG.reviewWall.items.map((t, i) => html`
-          <div class=${"utest" + (t.sample ? " sample" : "")} key=${i}>
-            ${t.sample && html`<span class="sample-tag">SAMPLE \u2014 DO NOT PUBLISH</span>`}
-            <span class="stars" aria-hidden="true">${"\u2605".repeat(t.stars || 5)}${"\u2606".repeat(5 - (t.stars || 5))}</span>
-            <p class="uquote">${t.text}</p>
-            <div class="uwho">${t.name}</div>
-          </div>`)}
-      </div>
-    </div>
-  </section>`;
 
 function GuaranteeSec() {
   const [busy, setBusy] = useState(false);
@@ -1205,6 +997,15 @@ function PatriciaSec() {
 }
 
 function App() {
+  /* The buy box mounts on the first pass; the sections below the fold mount on
+     the next idle slot so first paint and first tap are not waiting on them. */
+  const [rest, setRest] = useState(false);
+  useEffect(() => {
+    let t = 0, idle = 0;
+    const go = () => setRest(true);
+    if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 1500 }); else t = setTimeout(go, 250);
+    return () => { clearTimeout(t); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); };
+  }, []);
   const sections = {
     buybox: () => html`<${BuyBox} key="bb"/>`,
     angleIntention: () => html`<${AngleIntention} key="a1"/>`,
@@ -1214,16 +1015,12 @@ function App() {
     mechanism: () => html`<${MechanismSec} key="me"/>`,
     patricia: () => html`<${PatriciaSec} key="pa"/>`,
     angleLux: () => html`<${AngleBand} key="a4" cfg=${CONFIG.angleLux}/>`,
-    angleCandles: () => html`<${AngleSplit} key="a6" cfg=${CONFIG.angleCandles}/>`,
-    angleLasts: () => html`<${AngleSplit} key="a5" cfg=${CONFIG.angleLasts}/>`,
-    program: () => html`<${ProgramSec} key="pr"/>`,
-    renewal: () => html`<${RenewalSec} key="rn"/>`,
-    reviewWall: () => html`<${ReviewWall} key="rw"/>`,
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,
     faq: () => html`<${Faq} key="faq"/>`,
   };
+  const order = rest ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
   return html`
-    ${CONFIG.sectionOrder.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
+    ${order.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     <${StickyBar}/>`;
 }
 

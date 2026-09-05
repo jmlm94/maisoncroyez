@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 171 — Founder's Offer v3, stage 1: cart pricing e2e on the live store inside a browser session (page NOT flipped yet)
+# run 172 — cart endpoint diagnostics (why /cart.js answers HTML)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,40 +17,32 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Cart pricing e2e
+      - name: Diagnostics
         run: |
-          cat > cart171.mjs <<'EOF2'
+          cat > diag.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const V = { one: 45784228429933, two: 45784228462701, three: 45784228495469 };
-          const S = { love: 41212020457581, abundance: 41212018655341, midnight: 41212019933293 };
-          const PLAN = 2661875821;
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
           const pg = await ctx.newPage();
-          await pg.goto('https://maisoncroyez.com/cart', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          const resp = await pg.goto('https://maisoncroyez.com/cart', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          console.log('CARTPAGE status', resp.status(), 'url', pg.url(), 'title', await pg.title());
           await pg.waitForTimeout(1500);
-          const cases = [
-            ['2D+2one', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }]],
-            ['3D+3one', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }, { id: S.midnight, quantity: 1 }]],
-            ['1D+1one', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1 }]],
-            ['1D+0', [{ id: V.one, quantity: 1 }]],
-            ['2D+2sub', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]],
-            ['3D+3sub', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }, { id: S.midnight, quantity: 1, selling_plan: PLAN }]],
-            ['1D+2sub', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]],
-            ['2D+2one+sameScentx2', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 2 }]],
-          ];
-          for (const [name, items] of cases) {
-            const r = await pg.evaluate(async (items) => {
-              await fetch('/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } });
-              const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items }) });
-              const addText = await add.text();
-              const cart = await (await fetch('/cart.js', { headers: { 'Accept': 'application/json' } })).json();
-              const lines = (cart.items || []).map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, disc: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) }));
-              return { addStatus: add.status, addBody: add.status === 200 ? '' : addText.slice(0, 200), total: cart.total_price, items_subtotal: cart.items_subtotal_price, total_discount: cart.total_discount, lines };
-            }, items);
-            console.log('CASE ' + name + ' ' + JSON.stringify(r));
-          }
-          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }));
+          const r = await pg.evaluate(async () => {
+            const out = {};
+            const c1 = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } });
+            out.cartjs = { status: c1.status, ct: c1.headers.get('content-type'), body: (await c1.text()).slice(0, 300) };
+            const c2 = await fetch('/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } });
+            out.clear = { status: c2.status, ct: c2.headers.get('content-type'), body: (await c2.text()).slice(0, 300) };
+            const c3 = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: [{ id: 45784228429933, quantity: 1 }] }) });
+            out.add = { status: c3.status, ct: c3.headers.get('content-type'), body: (await c3.text()).slice(0, 300) };
+            const c4 = await fetch('/cart.js?x=1', { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } });
+            out.cartjs2 = { status: c4.status, ct: c4.headers.get('content-type'), body: (await c4.text()).slice(0, 300) };
+            return out;
+          });
+          console.log('DIAG ' + JSON.stringify(r, null, 1));
+          const r2 = await pg.goto('https://maisoncroyez.com/cart.js', { waitUntil: 'domcontentloaded', timeout: 60000 });
+          console.log('GOTO cart.js status', r2.status(), 'ct', r2.headers()['content-type'], 'body', (await pg.evaluate(() => document.body.innerText)).slice(0, 400));
+          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
           await b.close();
           EOF2
-          node cart171.mjs
+          node diag.mjs

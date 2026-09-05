@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 169 — verify ic5: frame-1 poster everywhere, gap 10px, smaller ledger prices, new ATC sub
+# run 170 — Founder's Offer v3, stage 1: cart pricing e2e on the live store (page NOT flipped yet)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -13,72 +13,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install playwright
+      - name: Cart pricing e2e
         run: |
-          npm i playwright@1.49.0
-          npx playwright install --with-deps chromium
-      - name: Live verify
-        run: |
-          cat > r169.mjs <<'EOF'
-          import { chromium } from 'playwright';
-          const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
-          const pg = await ctx.newPage();
-          const errs = [];
-          pg.on('pageerror', e => errs.push(e.message));
-          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          await pg.waitForSelector('.offhero', { timeout: 60000 });
-          await pg.waitForTimeout(4000);
-          const dbg = await pg.evaluate(() => {
-            const h1 = document.querySelector('.buybox h1');
-            const fb = document.querySelector('.featbs');
-            const bb = document.querySelector('.buybox');
-            const cs = (el) => { const c = getComputedStyle(el); return { mb: c.marginBottom, mt: c.marginTop, pb: c.paddingBottom, pt: c.paddingTop, disp: c.display, gap: c.rowGap, lh: c.lineHeight, fs: c.fontSize }; };
-            return {
-              h1: cs(h1), fb: cs(fb), bb: cs(bb),
-              h1Next: h1.nextElementSibling ? h1.nextElementSibling.className : null,
-              between: (() => { const out = []; let n = h1.nextElementSibling; while (n && n !== fb) { out.push([n.className, Math.round(n.getBoundingClientRect().height)]); n = n.nextElementSibling; } return out; })(),
-              h1Rect: h1.getBoundingClientRect().toJSON(), fbRect: fb.getBoundingClientRect().toJSON(),
-              cssHasReset: [...document.styleSheets].some(s => { try { return [...s.cssRules].some(r => r.cssText && r.cssText.includes('.buybox h1') && r.cssText.includes('important')); } catch(e) { return false; } }),
-            };
-          });
-          console.log('R167-DBG ' + JSON.stringify(dbg));
-          const chk = await pg.evaluate(() => {
-            const pres = [...document.querySelectorAll('#mc-prehero')];
-            const v = document.querySelector('.gal video');
-            const h1 = document.querySelector('.buybox h1');
-            const fb = document.querySelector('.featbs');
-            const oa = document.querySelector('.optout a');
-            const oaCS = oa ? getComputedStyle(oa) : null;
-            return {
-              key: document.documentElement.innerHTML.includes('ic5-395d4d2'),
-              preheroCount: pres.length,
-              preheroHidden: pres.map(p => getComputedStyle(p).display === 'none'),
-              video: v ? { playing: !v.paused && v.videoWidth > 0, poster: v.getAttribute('poster'), w: Math.round(v.getBoundingClientRect().width), galImgs: document.querySelectorAll('.gal img').length } : null,
-              h1ToBadgesGap: fb && h1 ? Math.round(fb.getBoundingClientRect().top - h1.getBoundingClientRect().bottom) : null,
-              optout: oaCS ? { deco: oaCS.textDecorationLine, borderBottom: oaCS.borderBottomStyle } : null,
-              preheroSrc: (document.querySelector('#mc-prehero img') || {}).src,
-              freeSize: (() => { const e = document.querySelector('.off-lrow .off-price'); return e ? getComputedStyle(e).fontSize : null; })(),
-              scentSize: (() => { const e = document.querySelector('.off-scent-price'); return e ? getComputedStyle(e).fontSize : null; })(),
-              btnSub: document.querySelector('.btn.atc .btn-sub') ? document.querySelector('.btn.atc .btn-sub').textContent : null,
-              hscroll: document.documentElement.scrollWidth - window.innerWidth,
-            };
-          });
-          console.log('R165 ' + JSON.stringify(chk));
-          await pg.evaluate(() => window.scrollTo(0, 0));
-          await pg.waitForTimeout(800);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic5-live-top.png' });
-          const oa = pg.locator('.offhero');
-          await oa.scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/ic5-live-hero.png' });
-          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 5)));
-          await b.close();
-          EOF
-          node r169.mjs
-      - name: Commit screenshots
-        run: |
-          git config user.name "mc-recon"
-          git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/ic5-live-top.png lp-factory/pages/kits-lp/live/ic5-live-hero.png
-          git commit -m "r169: IC polish live screenshots" || exit 0
-          git push
+          cat > cart170.mjs <<'EOF2'
+          const BASE = 'https://maisoncroyez.com';
+          const V = { one: 45784228429933, two: 45784228462701, three: 45784228495469 };
+          const S = { love: 41212020457581, abundance: 41212018655341, midnight: 41212019933293 };
+          const PLAN = 2661875821;
+          const pick = (sc) => (sc || '').split(/,(?=\s*[A-Za-z_]+=)/).map(s => s.split(';')[0].trim()).filter(s => /^(cart|_shopify_s|_shopify_y|keep_alive)=/.test(s));
+          async function run(name, items) {
+            let jar = [];
+            const clr = await fetch(BASE + '/cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } });
+            jar = pick(clr.headers.get('set-cookie'));
+            const add = await fetch(BASE + '/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Cookie': jar.join('; ') }, body: JSON.stringify({ items }) });
+            jar = [...new Set([...jar, ...pick(add.headers.get('set-cookie'))])];
+            const addText = await add.text();
+            const cart = await (await fetch(BASE + '/cart.js', { headers: { 'Accept': 'application/json', 'Cookie': jar.join('; ') } })).json();
+            const lines = (cart.items || []).map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, disc: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) }));
+            console.log('CASE ' + name + ' ' + JSON.stringify({ addStatus: add.status, total: cart.total_price, items_subtotal: cart.items_subtotal_price, total_discount: cart.total_discount, lines }));
+            if (add.status !== 200) console.log('ADDBODY ' + addText.slice(0, 300));
+          }
+          await run('2D+2one', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }]);
+          await run('3D+3one', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1 }, { id: S.abundance, quantity: 1 }, { id: S.midnight, quantity: 1 }]);
+          await run('1D+1one', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1 }]);
+          await run('1D+0', [{ id: V.one, quantity: 1 }]);
+          await run('2D+2sub', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]);
+          await run('3D+3sub', [{ id: V.three, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }, { id: S.midnight, quantity: 1, selling_plan: PLAN }]);
+          await run('1D+2sub', [{ id: V.one, quantity: 1 }, { id: S.love, quantity: 1, selling_plan: PLAN }, { id: S.abundance, quantity: 1, selling_plan: PLAN }]);
+          await run('2D+2one+sameScentx2', [{ id: V.two, quantity: 1 }, { id: S.love, quantity: 2 }]);
+          EOF2
+          node cart170.mjs

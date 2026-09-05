@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 174 — verify v3 (Founder's Offer) live: key, render, layout, zero errors, screenshots; then one gentle cart probe through the page's own ATC
+# run 175 — verify v3b live: key, no refill step on tiers 2/3, cart probe via page ATC (2D one-time -> 8995) then 1D + 1 scent on refill plan (-> 10990)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,72 +20,46 @@ jobs:
       - name: Live verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r174.mjs <<'EOF2'
+          cat > r175.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
           const pg = await ctx.newPage();
           const errs = [];
           pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
-          pg.on('console', m => { if (m.type() === 'error') errs.push('C:' + m.text().slice(0, 160)); });
-          const resp = await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          console.log('PAGE status', resp.status(), 'title', await pg.title());
+          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
           await pg.waitForSelector('.tiers', { timeout: 60000 });
           await pg.waitForTimeout(4000);
-          const chk = await pg.evaluate(() => {
-            const cs = (s, p) => { const e = document.querySelector(s); return e ? getComputedStyle(e)[p] : null; };
-            return {
-              key: document.documentElement.innerHTML.includes('v3-e408ba3'),
-              tiers: document.querySelectorAll('.tier').length,
-              tierImgs: [...document.querySelectorAll('.tier-img')].map(i => [i.naturalWidth, Math.round(i.getBoundingClientRect().width)]),
-              tierTags: document.querySelectorAll('.tier-tag').length,
-              picTags: [...document.querySelectorAll('.kg-tag.pic-tag')].map(e => e.textContent),
-              titles: [...document.querySelectorAll('.buybox .picker-title')].map(e => e.textContent.trim()),
-              picker: cs('.picker.compact', 'display'),
-              pickCards: document.querySelectorAll('.pick.compact').length,
-              modes: document.querySelectorAll('.mode').length,
-              btn: (document.querySelector('.btn.atc') || {}).innerText,
-              pay: !!document.querySelector('.atc-pay'),
-              logos: document.querySelectorAll('.paylogo-svg').length,
-              chips: document.querySelectorAll('.atc-chip').length,
-              faq: [...document.querySelectorAll('.buybox .qbtn')].map(e => e.textContent.replace('+', '').trim()),
-              steps: cs('.howto .hstep', 'display'),
-              stepCols: cs('.howto .hstep', 'grid-template-columns'),
-              mechImg: !!document.querySelector('.mech img.simg'),
-              patMeta: !!document.querySelector('.pat-meta'),
-              bottomFaq: document.querySelectorAll('section.faq .qbtn').length,
-              video: (() => { const v = document.querySelector('.gal video'); return v ? { playing: !v.paused && v.videoWidth > 0, w: Math.round(v.getBoundingClientRect().width) } : null; })(),
-              prehero: [...document.querySelectorAll('#mc-prehero')].map(p => getComputedStyle(p).display),
-              h1Gap: (() => { const h = document.querySelector('.buybox h1'), f = document.querySelector('.featbs'); return h && f ? Math.round(f.getBoundingClientRect().top - h.getBoundingClientRect().bottom) : null; })(),
-              hscroll: document.documentElement.scrollWidth - window.innerWidth,
-              oneYear: document.body.innerText.includes('1-year'),
-            };
-          });
-          console.log('R174 ' + JSON.stringify(chk));
-          await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(600);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3-live-top.png' });
-          const shot = async (sel, name) => { const el = pg.locator(sel).first(); await el.scrollIntoViewIfNeeded(); await pg.waitForTimeout(900); await el.screenshot({ path: 'lp-factory/pages/kits-lp/live/' + name }); };
-          await shot('.tiers', 'v3-live-tiers.png');
-          await shot('.modes', 'v3-live-modes.png');
-          await shot('.btn.atc', 'v3-live-atc.png');
-          await shot('.howto', 'v3-live-steps.png');
-          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 8)));
-          // gentle cart probe through the page's own button (default: 2 diffusers + 2 scents, refill plan)
-          try {
-            await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(3000);
-            await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000);
-            const cart = await pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, sub: c.items_subtotal_price, disc: c.total_discount, lines: c.items.map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, d: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) })) }; } catch (e) { return { status: r.status, body: t.slice(0, 100) }; } });
-            console.log('CARTPROBE ' + JSON.stringify(cart));
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3-live-cart.png' });
-            await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
-          } catch (e) { console.log('CARTPROBE failed ' + e.message.slice(0, 200)); }
+          const readCart = () => pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, disc: c.total_discount, lines: c.items.map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, d: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) })) }; } catch (e) { return { status: r.status, body: t.slice(0, 100) }; } });
+          const chk = await pg.evaluate(() => ({ key: document.documentElement.innerHTML.includes('v3b-fbc1fdb'), titles: [...document.querySelectorAll('.buybox .picker-title')].map(e => e.textContent.trim()), modes: document.querySelectorAll('.mode').length, btn: (document.querySelector('.btn.atc') || {}).innerText, pay: !!document.querySelector('.atc-pay'), hscroll: document.documentElement.scrollWidth - window.innerWidth }));
+          console.log('R175 ' + JSON.stringify(chk));
+          await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2500);
+          await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000);
+          console.log('CART 2D one-time ' + JSON.stringify(await readCart()));
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3b-live-cart-2d.png' });
+          await pg.keyboard.press('Escape'); await pg.waitForTimeout(1500);
+          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
+          await pg.waitForTimeout(6000);
+          // tier 1 + one scent on the refill plan
+          await pg.locator('.tier').nth(0).click(); await pg.waitForTimeout(800);
+          await pg.locator('.pick.compact').nth(0).click(); await pg.waitForTimeout(800);
+          const t1 = await pg.evaluate(() => ({ titles: [...document.querySelectorAll('.buybox .picker-title')].map(e => e.textContent.trim()), modes: document.querySelectorAll('.mode').length, dim: !!document.querySelector('.modes.dim'), btn: (document.querySelector('.btn.atc') || {}).innerText }));
+          console.log('T1 ' + JSON.stringify(t1));
+          await pg.locator('.mode.sub').click(); await pg.waitForTimeout(800);
+          console.log('T1 sub btn ' + await pg.evaluate(() => (document.querySelector('.btn.atc') || {}).innerText));
+          await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2500);
+          await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000);
+          console.log('CART 1D refill ' + JSON.stringify(await readCart()));
+          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3b-live-cart-1d.png' });
+          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {});
+          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
           await b.close();
           EOF2
-          node r174.mjs
+          node r175.mjs
       - name: Commit screenshots
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/v3-live-*.png
-          git commit -m "r174: Founder's Offer v3 live screenshots" || exit 0
+          git add lp-factory/pages/kits-lp/live/v3b-live-*.png
+          git commit -m "r175: v3b live cart screenshots" || exit 0
           git push

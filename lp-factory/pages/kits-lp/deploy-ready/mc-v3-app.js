@@ -454,7 +454,7 @@ const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one:
 const TIERS = [
   { key: "one",   n: 1, name: "1 Diffuser",                  price: 69.95,  scents: 0, tag: "",             line: "For restroom, studio, storages.", tags: ["Restroom","Studio","Storage"],          grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
   { key: "two",   n: 2, name: "2 Diffusers + 2 FREE Scents", price: 89.95,  scents: 2, tag: "MOST POPULAR", line: "For living room, bedroom, kitchen.", tags: ["Living room","Bedroom","Kitchen"],        grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 Diffusers + 3 Scents",      price: 129.95, scents: 3, tag: "BEST VALUE",   line: "For large spaces, more than one room.", tags: ["Large spaces","1+ room","+ Intensity"],    grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "three", n: 3, name: "3 Diffusers + 3 FREE Scents", price: 129.95, scents: 3, tag: "BEST VALUE",   line: "For large spaces, more than one room.", tags: ["Large spaces","1+ room","+ Intensity"],    grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -462,12 +462,12 @@ const selStore = {
   tierIdx: 1,
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 45,
-  keys: ["love", "abundance"],
+  keys: [],               /* nothing preselected — the customer picks (owner 2026-09-05) */
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
-  setTier(i) { this.tierIdx = i; this.keys = fillKeys(TIERS[i].scents); this.plan = TIERS[i].scents > 0 ? "sub" : "one"; /* included scents default to auto-refill (nothing extra today); 1D optional scents default to one-time */ this.emit(); },
+  setTier(i) { this.tierIdx = i; this.keys = []; this.plan = TIERS[i].scents > 0 ? "sub" : "one"; /* included scents default to auto-refill (nothing extra today); 1D optional scents default to one-time */ this.emit(); },
   setPlan(p) { this.plan = p; this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return SCENT_ONE; }, /* extras only exist on 1D, which is one-time only */

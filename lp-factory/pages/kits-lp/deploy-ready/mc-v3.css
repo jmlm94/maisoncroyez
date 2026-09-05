@@ -617,5 +617,6 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .decline{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:.86rem;line-height:1.35;color:#5C4F48;cursor:pointer;text-align:center;background:transparent;border:1px dashed transparent}#root .decline u{text-decoration:underline;text-underline-offset:2px}#root .decline:hover{color:#241C18}#root .decline.on{background:#F4EEE8;border-color:#D9CCC0;color:#241C18;text-align:left;justify-content:flex-start}#root .decline b{font-weight:700}#root .decline-ic{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:#241C18;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
 #root .hv-host{display:contents}
 #root .buybox .tier-name{font-size:.83rem}#root .buybox .tier-price b{font-size:1.21rem}#root .buybox .tier-price s{font-size:.6rem}
-#root .tier .kg-tag{left:auto;right:12px;transform:none}
+#root .tier .tier-pics.tp-kit{position:static}
+#root .tier .tier-pics.tp-kit .kg-tag.pic-tag{top:-10px;left:auto;right:12px;transform:none;font-size:.56rem;padding:3px 9px}
 #root .buybox .tier-name{font-size:.9rem}

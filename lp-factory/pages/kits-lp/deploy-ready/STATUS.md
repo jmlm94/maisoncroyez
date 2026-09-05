@@ -539,3 +539,25 @@ republished at parity. Verify: r191.
 ### 2026-09-05 — v3s12 (key v3s12-640c6a4): tier name -10%, prices +5%
 `#root .buybox .tier-name{font-size:.83rem}` (was .92rem), `.tier-price b` 1.15 -> 1.21rem,
 `.tier-price s` .57 -> .6rem. mc-v3.css 49,753B raw@640c6a4. Mock at parity. Verify: r192.
+
+### 2026-09-05 — v3s13 (CSS only, never flipped): MOST POPULAR / BEST VALUE badges top-right
+`#root .tier .kg-tag{left:auto;right:12px;transform:none}` appended (mc-v3.css 49,810B
+raw@dd0aaee, uploaded to the CDN). Page key stayed at v3s12; the flip was folded into v3s14
+so the page changed once.
+
+### 2026-09-05 — v3s14 (key v3s14-aa5540c): badges top-right live + tier name +8%
+`#root .buybox .tier-name{font-size:.9rem}` (was .83rem). mc-v3.css 49,852B raw@aa5540c.
+Page 119394369645 flipped to v3s14-aa5540c (pre-hero video tag retained). Mock at parity.
+Verify: r193 (badge rightGap/topOffset vs card, computed name/price font-size, tier
+screenshots at 360/390/1366).
+r193 result: sizes correct (name 14.4px, price 19.36px) but the badge rule was wrong — the
+badge is `.kg-tag.pic-tag` inside `.tier-pics.tp-kit` (position:relative), and the more
+specific base rule kept left:50% + translateX(-50%) while the new rule added right:12px,
+so the badge got squeezed and clipped behind the tier image. Fixed in v3s15.
+
+### 2026-09-05 — v3s15: badges really at the card's top-right
+`#root .tier .tier-pics.tp-kit{position:static}` so the badge's containing block is the
+card, plus `#root .tier .tier-pics.tp-kit .kg-tag.pic-tag{top:-10px;left:auto;right:12px;
+transform:none;font-size:.56rem;padding:3px 9px}` (specificity beats the base pic-tag
+rule). Verified on a local render of the mock (rightGap 13, topOffset -9, not clipped) and
+live in r194. mc-v3.css 49,968B.

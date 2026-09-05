@@ -530,11 +530,11 @@ function HeroVideo({ poster }) {
   const [on, setOn] = useState(false);
   const [blocked, setBlocked] = useState(false);
   useEffect(() => {
-    let t = 0, idle = 0;
-    const go = () => setOn(true);
-    const arm = () => { if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 2500 }); else t = setTimeout(go, 1200); };
-    if (document.readyState === "complete") arm(); else window.addEventListener("load", arm, { once: true });
-    return () => { clearTimeout(t); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); window.removeEventListener("load", arm); };
+    /* start fetching the loop as soon as the hero is on screen (owner: the
+       poster showed ~3 s before the video when this waited for load + idle) */
+    let raf = 0; const go = () => setOn(true);
+    if (window.requestAnimationFrame) raf = requestAnimationFrame(go); else go();
+    return () => { if (raf && window.cancelAnimationFrame) cancelAnimationFrame(raf); };
   }, []);
   useEffect(() => {
     if (!on) return;

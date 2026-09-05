@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 186 — verify v3s6 live: decline row on 2D (screens: default auto-refill, then after tapping 'No thanks'); 2D one-time via decline -> 8995 (2 scents zeroed by D1); 2D auto-refill -> 8995; key v3s6
+# run 187 — verify v3s7 live: time from navigation to hero video playing (iPhone WebKit, 3 runs) + key check
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -16,45 +16,32 @@ jobs:
       - name: Install
         run: |
           npm i playwright@1.49.0
-          npx playwright install --with-deps chromium
-      - name: Cart verify
+          npx playwright install --with-deps webkit
+      - name: Video timing
         run: |
-          mkdir -p lp-factory/pages/kits-lp/live
-          cat > r186.mjs <<'EOF2'
-          import { chromium } from 'playwright';
-          const KEY = process.env.KEY;
-          const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
-          const pg = await ctx.newPage();
-          const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 200)));
-          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(4000);
-          const readCart = () => pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } }); const t = await r.text(); try { const c = JSON.parse(t); return { status: r.status, total: c.total_price, disc: c.total_discount, lines: c.items.map(i => ({ v: i.variant_id, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.id : null, price: i.price, final_line: i.final_line_price, d: (i.line_level_discount_allocations || []).map(d => [d.discount_application.title, d.amount]) })) }; } catch (e) { return { status: r.status, body: t.slice(0, 100) }; } });
-          const clear = async () => { await pg.keyboard.press('Escape'); await pg.waitForTimeout(1200); await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' })).catch(() => {}); await pg.waitForTimeout(6000); };
-          const atc = async (label, shot) => { await pg.locator('.btn.atc').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2000); await pg.locator('.btn.atc').click(); await pg.waitForTimeout(8000); console.log('CART ' + label + ' ' + JSON.stringify(await readCart())); if (shot) await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/' + shot }); await clear(); };
-          console.log('KEY ' + JSON.stringify({ has: await pg.evaluate((k) => document.documentElement.innerHTML.includes(k), KEY) }));
-          const st2 = () => pg.evaluate(() => ({ modes: document.querySelectorAll('.mode').length, decline: (document.querySelector('.decline') || {}).innerText, declineOn: !!document.querySelector('.decline.on'), subOn: !!document.querySelector('.mode.sub.on'), btn: (document.querySelector('.btn.atc') || {}).innerText }));
-          console.log('STATE 2D default ' + JSON.stringify(await st2()));
-          await pg.locator('.modes').scrollIntoViewIfNeeded(); await pg.waitForTimeout(800);
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s6-step3-default.png' });
-          await pg.locator('.decline').click(); await pg.waitForTimeout(800);
-          console.log('STATE 2D declined ' + JSON.stringify(await st2()));
-          await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s6-step3-declined.png' });
-          await atc('2D one-time (declined)', 'v3s6-cart-2d-onetime.png');
-          await pg.locator('.mode.sub').click(); await pg.waitForTimeout(800);
-          console.log('STATE 2D sub again ' + JSON.stringify(await st2()));
-          await atc('2D auto-refill', null);
-          console.log('ERRORS ' + JSON.stringify(errs.slice(0, 6)));
-          await b.close();
+          cat > r187.mjs <<'EOF2'
+          import { webkit, devices } from 'playwright';
+          const URL = 'https://maisoncroyez.com/pages/six-month-program';
+          const out = [];
+          for (let i = 0; i < 3; i++) {
+            const b = await webkit.launch();
+            const pg = await (await b.newContext({ ...devices['iPhone 13'], defaultBrowserType: undefined })).newPage();
+            const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0, 120)));
+            const t0 = Date.now();
+            await pg.goto(URL, { waitUntil: 'commit', timeout: 90000 });
+            let playingAt = null, srcAt = null, mountAt = null;
+            for (let k = 0; k < 100; k++) {
+              const s = await pg.evaluate(() => { const v = document.querySelector('#root video'); return v ? { src: !!(v.currentSrc || v.src), paused: v.paused, t: v.currentTime, rs: v.readyState } : null; }).catch(() => null);
+              const now = Date.now() - t0;
+              if (s && mountAt === null) mountAt = now;
+              if (s && s.src && srcAt === null) srcAt = now;
+              if (s && !s.paused && s.t > 0) { playingAt = now; break; }
+              await pg.waitForTimeout(150);
+            }
+            const key = await pg.evaluate(() => [...document.scripts].map(s => s.src).filter(s => /mc-v3-app/.test(s)).map(s => s.split('v=')[1])[0]);
+            out.push({ run: i + 1, mountMs: mountAt, srcMs: srcAt, playingMs: playingAt, key, errs });
+            await b.close();
+          }
+          console.log('TIMING ' + JSON.stringify(out));
           EOF2
-          KEY="${KEY}" node r186.mjs
-        env:
-          KEY: v3s6-9949402
-      - name: Commit
-        run: |
-          git config user.name "mc-recon"
-          git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/
-          git commit -m "r186: v3s6 live screenshots" || exit 0
-          git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
-          git push
+          node r187.mjs

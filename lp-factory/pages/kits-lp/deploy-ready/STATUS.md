@@ -498,3 +498,11 @@ renews, nothing else is charged. Re-order scents whenever you like at $49.95."
 Files: mc-v3-app.js 79,325B + mc-v3.css 49,587B (new #root .decline rules), raw@9949402.
 Mock artifact republished at parity. Verify: r186 (default + declined screens, one-time
 cart 8995 via decline, auto-refill 8995).
+
+### 2026-09-05 — v3s7 (key v3s7-3f5abc1): hero video starts on mount
+Owner saw the poster for ~3 s before the loop. HeroVideo no longer waits for
+window.load + requestIdleCallback (Sprint 1 deferral); src is attached on the first
+animation frame after mount. Autoplay attributes and tap-to-play fallback unchanged.
+mc-v3-app.js 79,244B raw@3f5abc1. Perf note: the 600 KB mp4 now competes with the
+first paint; re-run Lighthouse before any further perf claims. Verify: r187 (time to
+playing, iPhone WebKit x3).

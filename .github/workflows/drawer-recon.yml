@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 192 — verify v3s12 live: tier name .83rem, price 1.21rem (computed font sizes), tiers screenshot mobile + desktop
+# run 193 — verify v3s14 live: badges top-right of the tier cards + tier name .9rem (+8%), tiers screenshot mobile + desktop
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,7 +20,7 @@ jobs:
       - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r192.mjs <<'EOF2'
+          cat > r193.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
@@ -29,22 +29,22 @@ jobs:
             const pg = await (await b.newContext({ viewport: vp })).newPage();
             await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
             await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(3500);
-            out[name] = await pg.evaluate((k) => ({ key: document.documentElement.innerHTML.includes(k), names: [...document.querySelectorAll('.tier-name')].map(e => { const r = e.getBoundingClientRect(); const fs = parseFloat(getComputedStyle(e).fontSize); return { text: e.textContent, h: Math.round(r.height), w: Math.round(r.width), fs, oneLine: r.height <= fs * 1.5, clipped: e.scrollWidth > e.clientWidth + 1 }; }), cardH: [...document.querySelectorAll('.tier')].map(e => Math.round(e.getBoundingClientRect().height)), priceFs: getComputedStyle(document.querySelector('.buybox .tier-price b')).fontSize, nameFs: getComputedStyle(document.querySelector('.buybox .tier-name')).fontSize }), KEY);
+            out[name] = await pg.evaluate((k) => ({ key: document.documentElement.innerHTML.includes(k), names: [...document.querySelectorAll('.tier-name')].map(e => { const r = e.getBoundingClientRect(); const fs = parseFloat(getComputedStyle(e).fontSize); return { text: e.textContent, h: Math.round(r.height), w: Math.round(r.width), fs, oneLine: r.height <= fs * 1.5, clipped: e.scrollWidth > e.clientWidth + 1 }; }), cardH: [...document.querySelectorAll('.tier')].map(e => Math.round(e.getBoundingClientRect().height)), priceFs: getComputedStyle(document.querySelector('.buybox .tier-price b')).fontSize, nameFs: getComputedStyle(document.querySelector('.buybox .tier-name')).fontSize, badges: [...document.querySelectorAll('.tier .kg-tag')].map(b => { const r = b.getBoundingClientRect(); const c = b.closest('.tier').getBoundingClientRect(); return { text: b.textContent, rightGap: Math.round(c.right - r.right), topOffset: Math.round(r.top - c.top), leftGap: Math.round(r.left - c.left) }; }) }), KEY);
             await pg.locator('.tiers').scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s12-tiers-' + name + '.png' });
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s14-tiers-' + name + '.png' });
             await pg.context().close();
           }
           console.log('TIERS ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r192.mjs
+          KEY="${KEY}" node r193.mjs
         env:
-          KEY: v3s12-640c6a4
+          KEY: v3s14-aa5540c
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r192: v3s12 tier screenshots" || exit 0
+          git commit -m "r193: v3s14 tier screenshots" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

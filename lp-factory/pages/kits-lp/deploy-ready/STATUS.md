@@ -434,3 +434,25 @@ autoplay is refused. Tier price 1.5 -> 1.35rem (21.6px), tier note 1.14 -> .97re
 r180 live: Chromium (no H.264) src set, attrs ✓, sizes ✓; WebKit iPhone 14 emulation:
 video playing (paused=false, readyState 4, t=3.7s) with the correct sizes; 0 page errors
 (one Shopify sandbox-frame console error, not ours). Screenshots live/v3s2-*.png.
+
+### 2026-09-05 — v3s3 (key v3s3-c386ae1): hero video tap-to-play fallback + refill discount every cycle
+Owner's iPhone still showed the poster after v3s2. Root causes in the v3s2 fallback:
+gesture listeners were touchstart/scroll (WebKit only counts touchend/click/pointerup as
+activation), registered once, and a play() rejected by the load() interruption
+(AbortError) consumed the single arm. New HeroVideo: AbortError ignored; a real refusal
+(Low Power Mode, Low Data Mode, Auto-Play Video Previews off) arms persistent
+touchend/click/pointerup/keydown listeners AND renders a 64px play button (.hv-play) over
+the poster; play retried on canplay/loadeddata/visibilitychange/pageshow; button and
+listeners removed on `playing`.
+Files: mc-v3-app.js 79,136B (GenericFile 29920808403053), mc-v3.css 48,870B (GenericFile
+29920808435821), fileUpdate raw@c386ae1, both READY; pageUpdate body key v3s3-c386ae1.
+Discount D3 "Refill plan — $10 off each scent (every delivery)"
+(DiscountAutomaticNode 1386357850221): recurringCycleLimit was 1 (first payment only, so
+45-day renewals would have billed $49.95) -> 0 (indefinite). Deactivate D3 when the Subi
+plan carries the 20% itself.
+Step 3 (refill plan) is still hidden on the 2/3-diffuser tiers by design (see r174/r175
+above): Shopify will not stack D3 on scent lines that are the prerequisite of the
+"with refill plan" BXGY, so the 2-pack came to 109.95. Unblock = owner sets the Subi
+plan "Delivered every 45 days ❤️" (SellingPlan 2661875821) to 20% off; then deactivate
+D3 and remove `if (inc) return null` + the setTier plan rule in mc-v3-app.js.
+Verify: r183 (chromium with autoplay refused -> button + tap plays; chromium; iPhone WebKit).

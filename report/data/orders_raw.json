@@ -32211,5 +32211,135 @@
     }
    ]
   }
+ },
+ {
+  "name": "#MC26827",
+  "createdAt": "2026-09-06T16:06:17Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "First Subscription Order",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "89.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "89.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.73"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.73"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 45 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 45 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez — Home Scent Diffuser",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "89.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "26.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
  }
 ]

@@ -10,10 +10,10 @@ Hello Jose — yesterday we sold *$1,469* on Shopify across *12 orders* (*$1,024
 | 7 days | $2,194 | $1,403 | −$580 (+69.1%) | 1.56× |
 | 14 days | $6,312 | $5,122 | −$2,453 (+65.9%) | 1.23× |
 | 28 days | $13,156 | $13,488 | −$9,640  | 0.98× |
-| 45 days | $20,515 | $25,073 | −$19,798  | 0.82× |
-| 90 days | $22,383 | $30,889 | −$25,011  | 0.72× |
+| 45 days | $20,515 | $25,073 | −$19,783  | 0.82× |
+| 90 days | $22,383 | $30,889 | −$24,996  | 0.72× |
 
-:seedling: *Subscriptions:* 229 acquired · est. MRR *$10,844* (ceiling — cancels not visible via API) · 7 new yesterday · 44 renewal orders in 28d
+:seedling: *Subscriptions:* 228 acquired · est. MRR *$10,844* (ceiling — cancels not visible via API) · 7 new yesterday · 44 renewal orders in 28d
 
 :scales: *Worth it yet?* Almost — each sub costs $143, returns ~$143 in 180d (0.99×). Break-even CAC: $143.
 

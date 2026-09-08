@@ -37,7 +37,10 @@ const load = (name, fallback) => {
   catch { if (fallback !== undefined) return fallback; throw new Error(`missing ${name}`); }
 };
 
-const orders = load('orders_raw.json');
+const ordersAll = load('orders_raw.json');
+// Rule (Jose, Sep 8 2026): $0 orders are creator samples / replacements / internal — exclude them
+// entirely (orders, sales, COGS, subscribers) so they never distort Meta-vs-Shopify economics.
+const orders = ordersAll.filter(o => parseFloat(o.totalPriceSet?.shopMoney?.amount ?? 0) > 0);
 const metaDaily = load('meta_daily.json', []);
 
 // ---- date helpers (all bucketing in the shop's timezone) ----

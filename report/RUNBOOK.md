@@ -19,6 +19,8 @@ report with a warning naming the cause, and tell Jose to re-authorize the
 connector to Maison Croyez. Additionally, when merging pulled orders, abort if
 any order name does not start with `#MC`.
 
+**$0-order rule:** orders whose total price is $0 (creator samples tagged `sample-request`/`trybe`, free replacements tagged `Replacement`, 100%-discounted internal orders) are excluded from everything — order counts, sales, COGS, subscriber counts. `compute.mjs` enforces this on load; the merge step may also drop them before they reach `orders_raw.json`.
+
 Stateless: re-pull the full 90-day window every run (volume is small). Compute the
 date `START` = 90 days before yesterday (YYYY-MM-DD).
 

@@ -19,6 +19,8 @@ report with a warning naming the cause, and tell Jose to re-authorize the
 connector to Maison Croyez. Additionally, when merging pulled orders, abort if
 any order name does not start with `#MC`.
 
+**Kit costing rule (Sep 8 2026):** a `Special Kits` line's unit cost is all-inclusive (1+1 $34 · 2+2 $70 · 3+3 $105 per Jose). On kit orders, $0 or fully-discounted scent lines are the included scents → no extra COGS; paid add-on scents still count. $0 subscription lines on a kit order renew at the kit price (every 45 days) — `compute.mjs` uses that for MRR and renewal economics. Renewals carry the $6 shipping like every shipment.
+
 **$0-order rule:** orders whose total price is $0 (creator samples tagged `sample-request`/`trybe`, free replacements tagged `Replacement`, 100%-discounted internal orders) are excluded from everything — order counts, sales, COGS, subscriber counts. `compute.mjs` enforces this on load; the merge step may also drop them before they reach `orders_raw.json`.
 
 Stateless: re-pull the full 90-day window every run (volume is small). Compute the

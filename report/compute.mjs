@@ -40,6 +40,36 @@ const load = (name, fallback) => {
 const ordersAll = load('orders_raw.json');
 // Rule (Jose, Sep 8 2026): $0 orders are creator samples / replacements / internal — exclude them
 // entirely (orders, sales, COGS, subscribers) so they never distort Meta-vs-Shopify economics.
+
+// ---- Kit costing rule (Jose, Sep 8 2026): a "Special Kits" line's unit cost already includes the
+// scents that ship in the box (1+1 = $34 · 2+2 = $70 · 3+3 = $105). On an order that contains a kit,
+// scent lines that are $0 (subscription scents) or fully discounted are the kit's included scents and
+// carry no extra cost. Paid add-on scents on the same order still count. ----
+const KIT_RE = /Special Kits/i;
+const SCENT_RE = /100ml|Scents/i;
+const hasKit = o => (o.lineItems?.edges || []).some(e => KIT_RE.test(e.node.title || ''));
+const includedScentsFullyDiscounted = o => {
+  const scents = (o.lineItems?.edges || []).map(e => e.node).filter(l => SCENT_RE.test(l.title || '') && !l.sellingPlan);
+  const scentValue = scents.reduce((s, l) => s + l.quantity * num(l.originalUnitPriceSet?.shopMoney?.amount), 0);
+  return scentValue > 0 && num(o.totalDiscountsSet?.shopMoney?.amount) >= scentValue - 0.01;
+};
+const lineCost = (o, l) => {
+  const unit = num(l.variant?.inventoryItem?.unitCost?.amount);
+  if (!hasKit(o) || !SCENT_RE.test(l.title || '')) return unit;
+  const price = num(l.originalUnitPriceSet?.shopMoney?.amount);
+  if (price === 0) return 0;                                  // subscription scents inside the kit
+  if (!l.sellingPlan && includedScentsFullyDiscounted(o)) return 0; // one-time kit, scents discounted to $0
+  return unit;
+};
+// Recurring value of a subscription line: $0 plan lines on a kit order renew at the kit's price
+// (every 45 days: $89.95 for the 2-scent kit, $129.95 for the 3-scent kit), spread across the plan lines.
+const planRecurringValue = (o, l) => {
+  const own = num(l.originalUnitPriceSet?.shopMoney?.amount);
+  if (own > 0 || !hasKit(o)) return own;
+  const kit = (o.lineItems?.edges || []).map(e => e.node).find(x => KIT_RE.test(x.title || ''));
+  const planQty = (o.lineItems?.edges || []).map(e => e.node).filter(x => x.sellingPlan && num(x.originalUnitPriceSet?.shopMoney?.amount) === 0).reduce((s, x) => s + x.quantity, 0) || 1;
+  return num(kit?.originalUnitPriceSet?.shopMoney?.amount) / planQty;
+};
 const orders = ordersAll.filter(o => parseFloat(o.totalPriceSet?.shopMoney?.amount ?? 0) > 0);
 const metaDaily = load('meta_daily.json', []);
 
@@ -83,7 +113,7 @@ for (const o of orders) {
   d.taxes += num(o.totalTaxSet?.shopMoney?.amount);
 
   for (const l of lines) {
-    d.cogs += l.quantity * num(l.variant?.inventoryItem?.unitCost?.amount);
+    d.cogs += l.quantity * lineCost(o, l);
     if (/diffuser/i.test(l.title)) d.unitsDiffuser += l.quantity; else d.unitsScent += l.quantity;
   }
   for (const t of o.transactions || []) {
@@ -180,7 +210,7 @@ for (const o of orders) {
   const rec = (o.lineItems?.edges || []).reduce((s, e) => {
     const l = e.node;
     return l.sellingPlan
-      ? s + l.quantity * num(l.originalUnitPriceSet?.shopMoney?.amount) * cadenceFactor(l.sellingPlan.name)
+      ? s + l.quantity * planRecurringValue(o, l) * cadenceFactor(l.sellingPlan.name)
       : s;
   }, 0);
   subscribers += 1; mrr += rec; firstSubOrders.push(o);
@@ -212,8 +242,8 @@ const cohort = firstSubOrders.map(o => {
   let recValue = 0, recCogs = 0, cad = 30;
   for (const e of o.lineItems?.edges || []) {
     const l = e.node; if (!l.sellingPlan) continue;
-    recValue += l.quantity * num(l.originalUnitPriceSet?.shopMoney?.amount);
-    recCogs += l.quantity * num(l.variant?.inventoryItem?.unitCost?.amount);
+    recValue += l.quantity * planRecurringValue(o, l);
+    recCogs += l.quantity * num(l.variant?.inventoryItem?.unitCost?.amount); // renewals ship scents only → scent cost
     cad = cadenceDays(l.sellingPlan.name);
   }
   const margin = recValue - recCogs - shipCost - (recValue * FEE_PCT + FEE_FIXED);

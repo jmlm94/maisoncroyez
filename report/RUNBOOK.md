@@ -121,3 +121,18 @@ net sales (post-discount, pre-tax) + shipping charged − refunds (day issued)
 processing fees − Meta ad spend = **contribution profit**.
 Blended ROAS (MER) = net sales ÷ Meta spend. Subscription order = has the
 `Subi Subscription` tag or any selling-plan line item.
+
+## Cost rules confirmed by Jose (Sep 8 2026) — the full list
+
+These replace every earlier costing note. `compute.mjs` implements all of them; `config.json` holds the two per-order constants.
+
+1. **Kit COGS is all-inclusive, keyed by kit price.** "Maison Croyez Diffuser — Special Kits": 1 Diffuser $69.95 → $26 (diffuser only, no scent). 2 Diffusers + 2 Scents $89.95 → $70. 3 Diffusers + 3 Scents $129.95 → $105. Shopify variant costs match (MC-FO-1D/2D/3D); `KIT_COST` in compute.mjs guards against drift.
+2. **Scents included in a kit add no cost.** On a kit order, scent lines at $0 (the "Every 45 days" subscription scents) and one-time scent lines fully discounted to $0 are the box contents. Paid add-ons on the same order (post-purchase upsell scent $9, extra diffuser $26) do count.
+3. **Subscription and cadence come from the order itself.** A line is a subscription when it carries `sellingPlan`; the cadence is parsed from the plan name (Monthly / Delivered every 30 days = 30; Delivered every 45 days ❤️ and Every 45 days = 45; Every 3 months = 90). Kit subscriptions renew at the kit price ($89.95 / $129.95) every 45 days and ship scents only ($9 each).
+4. **Shipping $7.50 flat per paid order**, first orders and renewals alike. Customer-paid shipping counts as revenue.
+5. **Fees = Shopify's actual per-transaction fee + $1.00 handling per paid order.** When an order has no fee record, or the record covers less than 1.5% of the order total (upsell-only charge), estimate 2.9% + $0.30 on the order total.
+6. **$0 orders are excluded entirely** (no revenue, COGS, shipping, fees, subscriber count).
+7. **Refunds** reduce net sales on the day issued; product, shipping and fee costs stay (the box already shipped).
+8. **Only orders created on or before the report day** enter that day's report, so rebuilt archives never see later subscribers.
+
+Rebuilding archives: `scratchpad/rebuild_archives.sh` pattern — per archived date, copy orders_raw + meta_daily into a temp dir, recover the campaign tables from the archived report.html (`const CAMPS=`), run compute with `--yesterday=<date>`, render, copy computed.json / report.html / slack.md back.

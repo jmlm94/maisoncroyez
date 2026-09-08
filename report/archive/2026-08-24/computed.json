@@ -1,9 +1,10 @@
 {
- "generatedAt": "2026-08-25T11:00:59.031Z",
+ "generatedAt": "2026-09-08T16:26:45.218Z",
  "yesterday": "2026-08-24",
  "config": {
   "shippingEstimated": true,
-  "shippingCostPerOrder": 6,
+  "shippingCostPerOrder": 7.5,
+  "handlingPerOrder": 1,
   "adsStartDate": "2026-07-15"
  },
  "windows": {
@@ -32,8 +33,9 @@
    "days": 1,
    "start": "2026-08-24",
    "end": "2026-08-24",
-   "shippingExpense": 36,
-   "profit": -398.58000000000004,
+   "shippingExpense": 45,
+   "handlingExpense": 6,
+   "profit": -413.58000000000004,
    "mer": 0.8291094992571878,
    "aov": 63.25,
    "cpm": 119.29111284857963,
@@ -44,7 +46,7 @@
    "prev": {
     "netSales": 429.35,
     "spend": 545.15,
-    "profit": -465.69999999999993,
+    "profit": -480.69999999999993,
     "orders": 6
    },
    "delta": {
@@ -58,7 +60,7 @@
     },
     "profit": {
      "abs": 67.11999999999989,
-     "pct": 14.41271204638177
+     "pct": 13.962970667776139
     },
     "orders": {
      "abs": 0,
@@ -96,7 +98,7 @@
    "taxes": 6.699999999999999,
    "refunds": 0,
    "cogs": 2272,
-   "fees": 103.82,
+   "fees": 105.35974999999999,
    "unitsDiffuser": 59,
    "unitsScent": 85,
    "spend": 3470.8199999999997,
@@ -107,8 +109,9 @@
    "days": 7,
    "start": "2026-08-18",
    "end": "2026-08-24",
-   "shippingExpense": 300,
-   "profit": -2965.91,
+   "shippingExpense": 375,
+   "handlingExpense": 50,
+   "profit": -3092.4497499999998,
    "mer": 0.9164203271849305,
    "aov": 63.6146,
    "cpm": 147.9841391660271,
@@ -119,7 +122,7 @@
    "prev": {
     "netSales": 3662.9799999999996,
     "spend": 4894.94,
-    "profit": -4177.55,
+    "profit": -4345.4442,
     "orders": 47
    },
    "delta": {
@@ -132,8 +135,8 @@
      "pct": -29.09371718550176
     },
     "profit": {
-     "abs": 1211.6400000000003,
-     "pct": 29.003602590034838
+     "abs": 1252.9944500000001,
+     "pct": 28.834668962036154
     },
     "orders": {
      "abs": 3,
@@ -170,8 +173,8 @@
    "shippingIncome": 0,
    "taxes": 6.699999999999999,
    "refunds": 0,
-   "cogs": 4827,
-   "fees": 212.41,
+   "cogs": 4871,
+   "fees": 220.34394999999998,
    "unitsDiffuser": 127,
    "unitsScent": 161,
    "spend": 8365.759999999998,
@@ -182,8 +185,9 @@
    "days": 14,
    "start": "2026-08-11",
    "end": "2026-08-24",
-   "shippingExpense": 582,
-   "profit": -7143.459999999998,
+   "shippingExpense": 727.5,
+   "handlingExpense": 97,
+   "profit": -7437.893949999998,
    "mer": 0.8180619573117088,
    "aov": 70.55371134020619,
    "cpm": 167.82538918311664,
@@ -194,7 +198,7 @@
    "prev": {
     "netSales": 6479.920000000002,
     "spend": 10389.08,
-    "profit": -8894.129999999997,
+    "profit": -9166.952439999997,
     "orders": 98
    },
    "delta": {
@@ -207,8 +211,8 @@
      "pct": -19.47544922168278
     },
     "profit": {
-     "abs": 1750.6699999999992,
-     "pct": 19.683431656609468
+     "abs": 1729.0584899999994,
+     "pct": 18.86186823065922
     },
     "orders": {
      "abs": -1,
@@ -245,8 +249,8 @@
    "shippingIncome": 0,
    "taxes": 10.07,
    "refunds": 49.95,
-   "cogs": 8989,
-   "fees": 397.43000000000006,
+   "cogs": 9033,
+   "fees": 433.18639,
    "unitsDiffuser": 239,
    "unitsScent": 274,
    "spend": 18754.84,
@@ -257,8 +261,9 @@
    "days": 28,
    "start": "2026-07-28",
    "end": "2026-08-24",
-   "shippingExpense": 1170,
-   "profit": -16037.59,
+   "shippingExpense": 1462.5,
+   "handlingExpense": 195,
+   "profit": -16604.84639,
    "mer": 0.7104102194420214,
    "aov": 68.3263076923077,
    "cpm": 144.32239844248986,
@@ -269,8 +274,8 @@
    "prev": {
     "netSales": 2617.2499999999995,
     "spend": 7011.380000000001,
-    "profit": -6564.620000000002,
-    "orders": 49
+    "profit": -6669.620000000002,
+    "orders": 48
    },
    "delta": {
     "netSales": null,
@@ -284,10 +289,10 @@
    }
   },
   "45": {
-   "orders": 239,
-   "subOrders": 221,
+   "orders": 238,
+   "subOrders": 220,
    "oneTimeOrders": 18,
-   "firstSubOrders": 207,
+   "firstSubOrders": 206,
    "grossSales": 40212.25000000001,
    "discounts": 25010.969999999998,
    "netSales": 15201.280000000002,
@@ -296,10 +301,10 @@
    "shippingIncome": 0,
    "taxes": 10.07,
    "refunds": 49.95,
-   "cogs": 10539,
-   "fees": 462.05,
+   "cogs": 10574,
+   "fees": 497.80638999999996,
    "unitsDiffuser": 282,
-   "unitsScent": 322,
+   "unitsScent": 321,
    "spend": 25766.22000000001,
    "impressions": 252837,
    "clicks": 16777,
@@ -308,19 +313,20 @@
    "days": 45,
    "start": "2026-07-11",
    "end": "2026-08-24",
-   "shippingExpense": 1434,
-   "profit": -23049.940000000006,
+   "shippingExpense": 1785,
+   "handlingExpense": 238,
+   "profit": -23709.696390000005,
    "mer": 0.5899693474634617,
-   "aov": 63.60368200836821,
+   "aov": 63.87092436974791,
    "cpm": 101.90842321337466,
    "cpc": 1.535806163199619,
    "ctr": 6.635500342117649,
-   "costPerOrder": 107.80845188284522,
+   "costPerOrder": 108.26142857142861,
    "metaRoas": 0.46481594894400485,
    "prev": {
     "netSales": 869.5000000000002,
     "spend": 0,
-    "profit": 536.2400000000002,
+    "profit": 518.7400000000002,
     "orders": 7
    },
    "delta": {
@@ -335,10 +341,10 @@
    }
   },
   "90": {
-   "orders": 246,
-   "subOrders": 221,
+   "orders": 245,
+   "subOrders": 220,
    "oneTimeOrders": 25,
-   "firstSubOrders": 207,
+   "firstSubOrders": 206,
    "grossSales": 41361.40000000001,
    "discounts": 25290.62,
    "netSales": 16070.780000000004,
@@ -347,10 +353,10 @@
    "shippingIncome": 59.940000000000005,
    "taxes": 10.07,
    "refunds": 49.95,
-   "cogs": 10863,
-   "fees": 489.25,
+   "cogs": 10898,
+   "fees": 525.0063899999999,
    "unitsDiffuser": 289,
-   "unitsScent": 332,
+   "unitsScent": 331,
    "spend": 25766.22000000001,
    "impressions": 252837,
    "clicks": 16777,
@@ -359,14 +365,15 @@
    "days": 90,
    "start": "2026-05-27",
    "end": "2026-08-24",
-   "shippingExpense": 1476,
-   "profit": -22513.700000000004,
+   "shippingExpense": 1837.5,
+   "handlingExpense": 245,
+   "profit": -23190.956390000003,
    "mer": 0.623715081218743,
-   "aov": 65.32837398373985,
+   "aov": 65.59502040816328,
    "cpm": 101.90842321337466,
    "cpc": 1.535806163199619,
    "ctr": 6.635500342117649,
-   "costPerOrder": 104.74073170731711,
+   "costPerOrder": 105.16824489795921,
    "metaRoas": 0.46481594894400485,
    "prev": {
     "netSales": 0,
@@ -405,18 +412,18 @@
  },
  "subscriptions": {
   "derivedFromOrders": true,
-  "active": 210,
-  "mrr": 10144.450000000006,
-  "avgSubValue": 48.30690476190479,
+  "active": 206,
+  "mrr": 9904.750000000007,
+  "avgSubValue": 48.08131067961168,
   "newSubs28": 163,
   "renewals28": 14,
   "newSubsYesterday": 4,
   "netAddsPerDay": 5.285714285714286,
-  "projectedMrr30": 17804.544897959193,
-  "projectedMrr60": 25464.63979591838,
-  "projectedMrr90": 33124.73469387757,
+  "projectedMrr30": 17529.072122052716,
+  "projectedMrr60": 25153.394244105424,
+  "projectedMrr90": 32777.716366158136,
   "cadenceMix": {
-   "30": 153,
+   "30": 150,
    "45": 53,
    "90": 3
   },
@@ -514,22 +521,22 @@
    },
    "45": {
     "days": 45,
-    "newSubs": 207,
+    "newSubs": 206,
     "renewals": 14,
     "subNetSales": 13225.760000000002,
     "oneTimeNetSales": 1975.5200000000002,
-    "attachPct": 86.61087866108787,
-    "cacPerSub": 124.47449275362322,
+    "attachPct": 86.5546218487395,
+    "cacPerSub": 125.07873786407771,
     "delta": {}
    },
    "90": {
     "days": 90,
-    "newSubs": 207,
+    "newSubs": 206,
     "renewals": 14,
     "subNetSales": 13225.760000000002,
     "oneTimeNetSales": 2845.0199999999995,
-    "attachPct": 84.14634146341463,
-    "cacPerSub": 124.47449275362322,
+    "attachPct": 84.08163265306122,
+    "cacPerSub": 125.07873786407771,
     "delta": {}
    }
   },
@@ -537,960 +544,961 @@
    "assumptions": {
     "retention": 0.75,
     "lifeCapDays": 180,
-    "shipCostPerOrder": 6,
+    "shipCostPerOrder": 7.5,
+    "handlingPerOrder": 1,
     "feePct": 0.02703,
     "feeFixed": 0.3,
-    "frontEndDailyProfit": -510.2471428571427,
+    "frontEndDailyProfit": -531.2781392857141,
     "newSubsPerDay": 5.285714285714286,
-    "avgRenewalValue": 53.763875598086116,
-    "avgRenewalMargin": 34.513030385167475,
-    "holeToDate": -22513.700000000004
+    "avgRenewalValue": 53.38325242718446,
+    "avgRenewalMargin": 31.737390492718447,
+    "holeToDate": -23190.956390000003
    },
    "horizons": {
     "30": {
      "renewalOrders": 152,
      "renewalRevenue": 8030.475,
-     "renewalMargin": 5139.73626075,
-     "pnlAfterRenewals": -17373.963739250004,
-     "recoveredPct": 22.82937171921985,
-     "scenarioBCumulative": -10167.678024964282
+     "renewalMargin": 4759.111260750001,
+     "pnlAfterRenewals": -18431.845129250003,
+     "recoveredPct": 20.521410073463557,
+     "scenarioBCumulative": -11179.232917821426
     },
     "60": {
-     "renewalOrders": 269,
-     "renewalRevenue": 14434.9875,
-     "renewalMargin": 9201.009787874998,
-     "pnlAfterRenewals": -13312.690212125006,
-     "recoveredPct": 40.868492464033,
-     "scenarioBCumulative": -17888.588739589435
+     "renewalOrders": 266,
+     "renewalRevenue": 14255.2125,
+     "renewalMargin": 8415.144106125003,
+     "pnlAfterRenewals": -14775.812283875,
+     "recoveredPct": 36.28631766887214,
+     "scenarioBCumulative": -20227.58229277533
     },
     "90": {
-     "renewalOrders": 424,
-     "renewalRevenue": 22682.699999999986,
-     "renewalMargin": 14485.961618999998,
-     "pnlAfterRenewals": -8027.7383810000065,
-     "recoveredPct": 64.34287397895501,
-     "scenarioBCumulative": -20860.591106250457
+     "renewalOrders": 419,
+     "renewalRevenue": 22323.14999999999,
+     "renewalMargin": 13197.3552555,
+     "pnlAfterRenewals": -9993.601134500002,
+     "recoveredPct": 56.90733505579241,
+     "scenarioBCumulative": -24915.791405486736
     },
     "180": {
-     "renewalOrders": 830,
-     "renewalRevenue": 44766.149999999994,
-     "renewalMargin": 28632.545965499983,
-     "pnlAfterRenewals": 6118.845965499979,
-     "recoveredPct": 127.1783223792623,
-     "scenarioBCumulative": -8595.423023079597
+     "renewalOrders": 819,
+     "renewalRevenue": 43867.274999999994,
+     "renewalMargin": 25983.84255674999,
+     "pnlAfterRenewals": 2792.8861667499878,
+     "recoveredPct": 112.04299693286599,
+     "scenarioBCumulative": -19515.23147925923
     }
    },
    "series": [
     {
      "t": 1,
-     "cumRenewal": 88,
-     "scenarioB": -422
+     "cumRenewal": 79,
+     "scenarioB": -452
     },
     {
      "t": 2,
-     "cumRenewal": 265,
-     "scenarioB": -755
+     "cumRenewal": 237,
+     "scenarioB": -826
     },
     {
      "t": 3,
-     "cumRenewal": 407,
-     "scenarioB": -1124
+     "cumRenewal": 363,
+     "scenarioB": -1230
     },
     {
      "t": 4,
-     "cumRenewal": 460,
-     "scenarioB": -1581
+     "cumRenewal": 411,
+     "scenarioB": -1714
     },
     {
      "t": 5,
-     "cumRenewal": 691,
-     "scenarioB": -1861
+     "cumRenewal": 627,
+     "scenarioB": -2029
     },
     {
      "t": 6,
-     "cumRenewal": 726,
-     "scenarioB": -2335
+     "cumRenewal": 659,
+     "scenarioB": -2529
     },
     {
      "t": 7,
-     "cumRenewal": 726,
-     "scenarioB": -2846
+     "cumRenewal": 659,
+     "scenarioB": -3060
     },
     {
      "t": 8,
-     "cumRenewal": 806,
-     "scenarioB": -3276
+     "cumRenewal": 734,
+     "scenarioB": -3516
     },
     {
      "t": 9,
-     "cumRenewal": 806,
-     "scenarioB": -3787
+     "cumRenewal": 734,
+     "scenarioB": -4047
     },
     {
      "t": 10,
-     "cumRenewal": 806,
-     "scenarioB": -4297
+     "cumRenewal": 734,
+     "scenarioB": -4578
     },
     {
      "t": 11,
-     "cumRenewal": 806,
-     "scenarioB": -4807
+     "cumRenewal": 734,
+     "scenarioB": -5110
     },
     {
      "t": 12,
-     "cumRenewal": 806,
-     "scenarioB": -5317
+     "cumRenewal": 734,
+     "scenarioB": -5641
     },
     {
      "t": 13,
-     "cumRenewal": 806,
-     "scenarioB": -5828
+     "cumRenewal": 734,
+     "scenarioB": -6172
     },
     {
      "t": 14,
-     "cumRenewal": 806,
-     "scenarioB": -6338
+     "cumRenewal": 734,
+     "scenarioB": -6703
     },
     {
      "t": 15,
-     "cumRenewal": 859,
-     "scenarioB": -6795
+     "cumRenewal": 782,
+     "scenarioB": -7187
     },
     {
      "t": 16,
-     "cumRenewal": 1040,
-     "scenarioB": -7124
+     "cumRenewal": 946,
+     "scenarioB": -7554
     },
     {
      "t": 17,
-     "cumRenewal": 1076,
-     "scenarioB": -7599
+     "cumRenewal": 978,
+     "scenarioB": -8054
     },
     {
      "t": 18,
-     "cumRenewal": 1129,
-     "scenarioB": -8056
+     "cumRenewal": 1025,
+     "scenarioB": -8538
     },
     {
      "t": 19,
-     "cumRenewal": 1266,
-     "scenarioB": -8428
+     "cumRenewal": 1156,
+     "scenarioB": -8938
     },
     {
      "t": 20,
-     "cumRenewal": 1440,
-     "scenarioB": -8765
+     "cumRenewal": 1318,
+     "scenarioB": -9308
     },
     {
      "t": 21,
-     "cumRenewal": 1638,
-     "scenarioB": -9077
+     "cumRenewal": 1503,
+     "scenarioB": -9654
     },
     {
      "t": 22,
-     "cumRenewal": 2114,
-     "scenarioB": -9111
+     "cumRenewal": 1943,
+     "scenarioB": -9745
     },
     {
      "t": 23,
-     "cumRenewal": 2705,
-     "scenarioB": -9031
+     "cumRenewal": 2502,
+     "scenarioB": -9717
     },
     {
      "t": 24,
-     "cumRenewal": 2941,
-     "scenarioB": -9305
+     "cumRenewal": 2720,
+     "scenarioB": -10031
     },
     {
      "t": 25,
-     "cumRenewal": 3187,
-     "scenarioB": -9569
+     "cumRenewal": 2945,
+     "scenarioB": -10337
     },
     {
      "t": 26,
-     "cumRenewal": 3731,
-     "scenarioB": -9535
+     "cumRenewal": 3454,
+     "scenarioB": -10359
     },
     {
      "t": 27,
-     "cumRenewal": 4009,
-     "scenarioB": -9767
+     "cumRenewal": 3715,
+     "scenarioB": -10630
     },
     {
      "t": 28,
-     "cumRenewal": 4467,
-     "scenarioB": -9820
+     "cumRenewal": 4139,
+     "scenarioB": -10737
     },
     {
      "t": 29,
-     "cumRenewal": 4778,
-     "scenarioB": -10019
+     "cumRenewal": 4426,
+     "scenarioB": -10981
     },
     {
      "t": 30,
-     "cumRenewal": 5140,
-     "scenarioB": -10168
+     "cumRenewal": 4759,
+     "scenarioB": -11179
     },
     {
      "t": 31,
-     "cumRenewal": 5348,
-     "scenarioB": -10369
+     "cumRenewal": 4838,
+     "scenarioB": -11540
     },
     {
      "t": 32,
-     "cumRenewal": 5525,
-     "scenarioB": -10602
+     "cumRenewal": 4996,
+     "scenarioB": -11822
     },
     {
      "t": 33,
-     "cumRenewal": 5667,
-     "scenarioB": -10871
+     "cumRenewal": 5123,
+     "scenarioB": -12135
     },
     {
      "t": 34,
-     "cumRenewal": 5720,
-     "scenarioB": -11228
+     "cumRenewal": 5170,
+     "scenarioB": -12527
     },
     {
      "t": 35,
-     "cumRenewal": 5951,
-     "scenarioB": -11407
+     "cumRenewal": 5386,
+     "scenarioB": -12751
     },
     {
      "t": 36,
-     "cumRenewal": 5986,
-     "scenarioB": -11782
+     "cumRenewal": 5418,
+     "scenarioB": -13159
     },
     {
      "t": 37,
-     "cumRenewal": 5986,
-     "scenarioB": -12192
+     "cumRenewal": 5418,
+     "scenarioB": -13598
     },
     {
      "t": 38,
-     "cumRenewal": 6066,
-     "scenarioB": -12522
+     "cumRenewal": 5494,
+     "scenarioB": -13962
     },
     {
      "t": 39,
-     "cumRenewal": 6066,
-     "scenarioB": -12933
+     "cumRenewal": 5494,
+     "scenarioB": -14402
     },
     {
      "t": 40,
-     "cumRenewal": 6066,
-     "scenarioB": -13343
+     "cumRenewal": 5494,
+     "scenarioB": -14841
     },
     {
      "t": 41,
-     "cumRenewal": 6066,
-     "scenarioB": -13753
+     "cumRenewal": 5494,
+     "scenarioB": -15281
     },
     {
      "t": 42,
-     "cumRenewal": 6066,
-     "scenarioB": -14163
+     "cumRenewal": 5494,
+     "scenarioB": -15721
     },
     {
      "t": 43,
-     "cumRenewal": 6066,
-     "scenarioB": -14573
+     "cumRenewal": 5494,
+     "scenarioB": -16160
     },
     {
      "t": 44,
-     "cumRenewal": 6066,
-     "scenarioB": -14983
+     "cumRenewal": 5494,
+     "scenarioB": -16600
     },
     {
      "t": 45,
-     "cumRenewal": 6119,
-     "scenarioB": -15340
+     "cumRenewal": 5541,
+     "scenarioB": -16992
     },
     {
      "t": 46,
-     "cumRenewal": 6300,
-     "scenarioB": -15534
+     "cumRenewal": 5706,
+     "scenarioB": -17235
     },
     {
      "t": 47,
-     "cumRenewal": 6336,
-     "scenarioB": -15874
+     "cumRenewal": 5737,
+     "scenarioB": -17611
     },
     {
      "t": 48,
-     "cumRenewal": 6389,
-     "scenarioB": -16196
+     "cumRenewal": 5785,
+     "scenarioB": -17971
     },
     {
      "t": 49,
-     "cumRenewal": 6526,
-     "scenarioB": -16434
+     "cumRenewal": 5915,
+     "scenarioB": -18248
     },
     {
      "t": 50,
-     "cumRenewal": 6762,
-     "scenarioB": -16573
+     "cumRenewal": 6138,
+     "scenarioB": -18432
     },
     {
      "t": 51,
-     "cumRenewal": 6998,
-     "scenarioB": -16713
+     "cumRenewal": 6360,
+     "scenarioB": -18617
     },
     {
      "t": 52,
-     "cumRenewal": 7224,
-     "scenarioB": -16862
+     "cumRenewal": 6570,
+     "scenarioB": -18815
     },
     {
      "t": 53,
-     "cumRenewal": 7665,
-     "scenarioB": -16797
+     "cumRenewal": 6990,
+     "scenarioB": -18802
     },
     {
      "t": 54,
-     "cumRenewal": 7851,
-     "scenarioB": -16986
+     "cumRenewal": 7161,
+     "scenarioB": -19038
     },
     {
      "t": 55,
-     "cumRenewal": 7998,
-     "scenarioB": -17215
+     "cumRenewal": 7294,
+     "scenarioB": -19312
     },
     {
      "t": 56,
-     "cumRenewal": 8442,
-     "scenarioB": -17146
+     "cumRenewal": 7710,
+     "scenarioB": -19303
     },
     {
      "t": 57,
-     "cumRenewal": 8620,
-     "scenarioB": -17343
+     "cumRenewal": 7879,
+     "scenarioB": -19542
     },
     {
      "t": 58,
-     "cumRenewal": 8753,
-     "scenarioB": -17586
+     "cumRenewal": 8003,
+     "scenarioB": -19825
     },
     {
      "t": 59,
-     "cumRenewal": 8939,
-     "scenarioB": -17775
+     "cumRenewal": 8174,
+     "scenarioB": -20061
     },
     {
      "t": 60,
-     "cumRenewal": 9201,
-     "scenarioB": -17889
+     "cumRenewal": 8415,
+     "scenarioB": -20228
     },
     {
      "t": 61,
-     "cumRenewal": 9410,
-     "scenarioB": -17955
+     "cumRenewal": 8494,
+     "scenarioB": -20464
     },
     {
      "t": 62,
-     "cumRenewal": 9586,
-     "scenarioB": -18054
+     "cumRenewal": 8652,
+     "scenarioB": -20622
     },
     {
      "t": 63,
-     "cumRenewal": 9728,
-     "scenarioB": -18187
+     "cumRenewal": 8779,
+     "scenarioB": -20811
     },
     {
      "t": 64,
-     "cumRenewal": 9781,
-     "scenarioB": -18410
+     "cumRenewal": 8826,
+     "scenarioB": -21079
     },
     {
      "t": 65,
-     "cumRenewal": 10012,
-     "scenarioB": -18454
+     "cumRenewal": 9042,
+     "scenarioB": -21179
     },
     {
      "t": 66,
-     "cumRenewal": 10072,
-     "scenarioB": -18669
+     "cumRenewal": 9097,
+     "scenarioB": -21440
     },
     {
      "t": 67,
-     "cumRenewal": 10322,
-     "scenarioB": -18694
+     "cumRenewal": 9328,
+     "scenarioB": -21525
     },
     {
      "t": 68,
-     "cumRenewal": 10576,
-     "scenarioB": -18715
+     "cumRenewal": 9565,
+     "scenarioB": -21603
     },
     {
      "t": 69,
-     "cumRenewal": 10626,
-     "scenarioB": -18940
-    },
-    {
-     "t": 70,
-     "cumRenewal": 10726,
-     "scenarioB": -19116
-    },
-    {
-     "t": 71,
-     "cumRenewal": 10826,
-     "scenarioB": -19291
-    },
-    {
-     "t": 72,
-     "cumRenewal": 10926,
-     "scenarioB": -19466
-    },
-    {
-     "t": 73,
-     "cumRenewal": 11251,
-     "scenarioB": -19417
-    },
-    {
-     "t": 74,
-     "cumRenewal": 11376,
-     "scenarioB": -19567
-    },
-    {
-     "t": 75,
-     "cumRenewal": 11529,
-     "scenarioB": -19689
-    },
-    {
-     "t": 76,
-     "cumRenewal": 11710,
-     "scenarioB": -19783
-    },
-    {
-     "t": 77,
-     "cumRenewal": 11745,
-     "scenarioB": -20023
-    },
-    {
-     "t": 78,
-     "cumRenewal": 11798,
-     "scenarioB": -20245
-    },
-    {
-     "t": 79,
-     "cumRenewal": 11936,
-     "scenarioB": -20383
-    },
-    {
-     "t": 80,
-     "cumRenewal": 12110,
-     "scenarioB": -20485
-    },
-    {
-     "t": 81,
-     "cumRenewal": 12283,
-     "scenarioB": -20587
-    },
-    {
-     "t": 82,
-     "cumRenewal": 12509,
-     "scenarioB": -20635
-    },
-    {
-     "t": 83,
-     "cumRenewal": 12950,
-     "scenarioB": -20470
-    },
-    {
-     "t": 84,
-     "cumRenewal": 13136,
-     "scenarioB": -20559
-    },
-    {
-     "t": 85,
-     "cumRenewal": 13282,
-     "scenarioB": -20688
-    },
-    {
-     "t": 86,
-     "cumRenewal": 13727,
-     "scenarioB": -20519
-    },
-    {
-     "t": 87,
-     "cumRenewal": 13905,
-     "scenarioB": -20616
-    },
-    {
-     "t": 88,
-     "cumRenewal": 14038,
-     "scenarioB": -20758
-    },
-    {
-     "t": 89,
-     "cumRenewal": 14224,
-     "scenarioB": -20847
-    },
-    {
-     "t": 90,
-     "cumRenewal": 14486,
-     "scenarioB": -20861
-    },
-    {
-     "t": 91,
-     "cumRenewal": 14695,
-     "scenarioB": -20790
-    },
-    {
-     "t": 92,
-     "cumRenewal": 14871,
-     "scenarioB": -20752
-    },
-    {
-     "t": 93,
-     "cumRenewal": 15013,
-     "scenarioB": -20749
-    },
-    {
-     "t": 94,
-     "cumRenewal": 15066,
-     "scenarioB": -20834
-    },
-    {
-     "t": 95,
-     "cumRenewal": 15297,
-     "scenarioB": -20742
-    },
-    {
-     "t": 96,
-     "cumRenewal": 15332,
-     "scenarioB": -20845
-    },
-    {
-     "t": 97,
-     "cumRenewal": 15332,
-     "scenarioB": -20983
-    },
-    {
-     "t": 98,
-     "cumRenewal": 15412,
-     "scenarioB": -21042
-    },
-    {
-     "t": 99,
-     "cumRenewal": 15412,
-     "scenarioB": -21180
-    },
-    {
-     "t": 100,
-     "cumRenewal": 15412,
-     "scenarioB": -21319
-    },
-    {
-     "t": 101,
-     "cumRenewal": 15412,
-     "scenarioB": -21457
-    },
-    {
-     "t": 102,
-     "cumRenewal": 15412,
-     "scenarioB": -21596
-    },
-    {
-     "t": 103,
-     "cumRenewal": 15412,
-     "scenarioB": -21734
-    },
-    {
-     "t": 104,
-     "cumRenewal": 15412,
+     "cumRenewal": 9612,
      "scenarioB": -21872
     },
     {
+     "t": 70,
+     "cumRenewal": 9704,
+     "scenarioB": -22096
+    },
+    {
+     "t": 71,
+     "cumRenewal": 9796,
+     "scenarioB": -22319
+    },
+    {
+     "t": 72,
+     "cumRenewal": 9889,
+     "scenarioB": -22542
+    },
+    {
+     "t": 73,
+     "cumRenewal": 10189,
+     "scenarioB": -22558
+    },
+    {
+     "t": 74,
+     "cumRenewal": 10305,
+     "scenarioB": -22758
+    },
+    {
+     "t": 75,
+     "cumRenewal": 10444,
+     "scenarioB": -22934
+    },
+    {
+     "t": 76,
+     "cumRenewal": 10609,
+     "scenarioB": -23085
+    },
+    {
+     "t": 77,
+     "cumRenewal": 10641,
+     "scenarioB": -23369
+    },
+    {
+     "t": 78,
+     "cumRenewal": 10688,
+     "scenarioB": -23637
+    },
+    {
+     "t": 79,
+     "cumRenewal": 10818,
+     "scenarioB": -23822
+    },
+    {
+     "t": 80,
+     "cumRenewal": 10980,
+     "scenarioB": -23976
+    },
+    {
+     "t": 81,
+     "cumRenewal": 11142,
+     "scenarioB": -24130
+    },
+    {
+     "t": 82,
+     "cumRenewal": 11352,
+     "scenarioB": -24236
+    },
+    {
+     "t": 83,
+     "cumRenewal": 11772,
+     "scenarioB": -24131
+    },
+    {
+     "t": 84,
+     "cumRenewal": 11943,
+     "scenarioB": -24276
+    },
+    {
+     "t": 85,
+     "cumRenewal": 12076,
+     "scenarioB": -24458
+    },
+    {
+     "t": 86,
+     "cumRenewal": 12493,
+     "scenarioB": -24358
+    },
+    {
+     "t": 87,
+     "cumRenewal": 12661,
+     "scenarioB": -24505
+    },
+    {
+     "t": 88,
+     "cumRenewal": 12785,
+     "scenarioB": -24697
+    },
+    {
+     "t": 89,
+     "cumRenewal": 12956,
+     "scenarioB": -24841
+    },
+    {
+     "t": 90,
+     "cumRenewal": 13197,
+     "scenarioB": -24916
+    },
+    {
+     "t": 91,
+     "cumRenewal": 13276,
+     "scenarioB": -25027
+    },
+    {
+     "t": 92,
+     "cumRenewal": 13434,
+     "scenarioB": -25058
+    },
+    {
+     "t": 93,
+     "cumRenewal": 13561,
+     "scenarioB": -25122
+    },
+    {
+     "t": 94,
+     "cumRenewal": 13608,
+     "scenarioB": -25264
+    },
+    {
+     "t": 95,
+     "cumRenewal": 13824,
+     "scenarioB": -25238
+    },
+    {
+     "t": 96,
+     "cumRenewal": 13856,
+     "scenarioB": -25396
+    },
+    {
+     "t": 97,
+     "cumRenewal": 13856,
+     "scenarioB": -25586
+    },
+    {
+     "t": 98,
+     "cumRenewal": 13932,
+     "scenarioB": -25700
+    },
+    {
+     "t": 99,
+     "cumRenewal": 13932,
+     "scenarioB": -25890
+    },
+    {
+     "t": 100,
+     "cumRenewal": 13932,
+     "scenarioB": -26080
+    },
+    {
+     "t": 101,
+     "cumRenewal": 13932,
+     "scenarioB": -26270
+    },
+    {
+     "t": 102,
+     "cumRenewal": 13932,
+     "scenarioB": -26460
+    },
+    {
+     "t": 103,
+     "cumRenewal": 13932,
+     "scenarioB": -26650
+    },
+    {
+     "t": 104,
+     "cumRenewal": 13932,
+     "scenarioB": -26839
+    },
+    {
      "t": 105,
-     "cumRenewal": 15465,
-     "scenarioB": -21958
+     "cumRenewal": 13979,
+     "scenarioB": -26982
     },
     {
      "t": 106,
-     "cumRenewal": 15646,
-     "scenarioB": -21915
+     "cumRenewal": 14144,
+     "scenarioB": -27007
     },
     {
      "t": 107,
-     "cumRenewal": 15682,
-     "scenarioB": -22018
+     "cumRenewal": 14175,
+     "scenarioB": -27165
     },
     {
      "t": 108,
-     "cumRenewal": 15735,
-     "scenarioB": -22103
+     "cumRenewal": 14223,
+     "scenarioB": -27308
     },
     {
      "t": 109,
-     "cumRenewal": 15873,
-     "scenarioB": -22104
+     "cumRenewal": 14353,
+     "scenarioB": -27367
     },
     {
      "t": 110,
-     "cumRenewal": 16046,
-     "scenarioB": -22069
+     "cumRenewal": 14515,
+     "scenarioB": -27395
     },
     {
      "t": 111,
-     "cumRenewal": 16244,
-     "scenarioB": -22009
+     "cumRenewal": 14700,
+     "scenarioB": -27400
     },
     {
      "t": 112,
-     "cumRenewal": 16720,
-     "scenarioB": -21671
+     "cumRenewal": 15141,
+     "scenarioB": -27149
     },
     {
      "t": 113,
-     "cumRenewal": 17311,
-     "scenarioB": -21219
+     "cumRenewal": 15700,
+     "scenarioB": -26780
     },
     {
      "t": 114,
-     "cumRenewal": 17547,
-     "scenarioB": -21121
+     "cumRenewal": 15917,
+     "scenarioB": -26753
     },
     {
      "t": 115,
-     "cumRenewal": 17793,
-     "scenarioB": -21014
+     "cumRenewal": 16143,
+     "scenarioB": -26717
     },
     {
      "t": 116,
-     "cumRenewal": 18338,
-     "scenarioB": -20608
+     "cumRenewal": 16651,
+     "scenarioB": -26398
     },
     {
      "t": 117,
-     "cumRenewal": 18615,
-     "scenarioB": -20468
+     "cumRenewal": 16912,
+     "scenarioB": -26327
     },
     {
      "t": 118,
-     "cumRenewal": 19073,
-     "scenarioB": -20149
+     "cumRenewal": 17336,
+     "scenarioB": -26093
     },
     {
      "t": 119,
-     "cumRenewal": 19384,
-     "scenarioB": -19976
+     "cumRenewal": 17623,
+     "scenarioB": -25996
     },
     {
      "t": 120,
-     "cumRenewal": 19746,
-     "scenarioB": -19753
+     "cumRenewal": 17956,
+     "scenarioB": -25853
     },
     {
      "t": 121,
-     "cumRenewal": 19955,
-     "scenarioB": -19583
+     "cumRenewal": 18035,
+     "scenarioB": -25872
     },
     {
      "t": 122,
-     "cumRenewal": 20131,
-     "scenarioB": -19444
+     "cumRenewal": 18194,
+     "scenarioB": -25812
     },
     {
      "t": 123,
-     "cumRenewal": 20273,
-     "scenarioB": -19341
+     "cumRenewal": 18320,
+     "scenarioB": -25784
     },
     {
      "t": 124,
-     "cumRenewal": 20326,
-     "scenarioB": -19326
+     "cumRenewal": 18367,
+     "scenarioB": -25835
     },
     {
      "t": 125,
-     "cumRenewal": 20557,
-     "scenarioB": -19133
+     "cumRenewal": 18583,
+     "scenarioB": -25717
     },
     {
      "t": 126,
-     "cumRenewal": 20592,
-     "scenarioB": -19136
+     "cumRenewal": 18615,
+     "scenarioB": -25784
     },
     {
      "t": 127,
-     "cumRenewal": 20592,
-     "scenarioB": -19175
+     "cumRenewal": 18615,
+     "scenarioB": -25882
     },
     {
      "t": 128,
-     "cumRenewal": 20672,
-     "scenarioB": -19133
+     "cumRenewal": 18691,
+     "scenarioB": -25904
     },
     {
      "t": 129,
-     "cumRenewal": 20672,
-     "scenarioB": -19171
+     "cumRenewal": 18691,
+     "scenarioB": -26002
     },
     {
      "t": 130,
-     "cumRenewal": 20672,
-     "scenarioB": -19210
+     "cumRenewal": 18691,
+     "scenarioB": -26101
     },
     {
      "t": 131,
-     "cumRenewal": 20672,
-     "scenarioB": -19248
+     "cumRenewal": 18691,
+     "scenarioB": -26199
     },
     {
      "t": 132,
-     "cumRenewal": 20672,
-     "scenarioB": -19286
+     "cumRenewal": 18691,
+     "scenarioB": -26297
     },
     {
      "t": 133,
-     "cumRenewal": 20672,
-     "scenarioB": -19324
+     "cumRenewal": 18691,
+     "scenarioB": -26395
     },
     {
      "t": 134,
-     "cumRenewal": 20672,
-     "scenarioB": -19363
+     "cumRenewal": 18691,
+     "scenarioB": -26494
     },
     {
      "t": 135,
-     "cumRenewal": 20725,
-     "scenarioB": -19348
+     "cumRenewal": 18738,
+     "scenarioB": -26545
     },
     {
      "t": 136,
-     "cumRenewal": 20906,
-     "scenarioB": -19170
+     "cumRenewal": 18903,
+     "scenarioB": -26446
     },
     {
      "t": 137,
-     "cumRenewal": 20942,
-     "scenarioB": -19138
+     "cumRenewal": 18935,
+     "scenarioB": -26480
     },
     {
      "t": 138,
-     "cumRenewal": 20995,
-     "scenarioB": -19089
+     "cumRenewal": 18982,
+     "scenarioB": -26499
     },
     {
      "t": 139,
-     "cumRenewal": 21133,
-     "scenarioB": -18954
+     "cumRenewal": 19112,
+     "scenarioB": -26434
     },
     {
      "t": 140,
-     "cumRenewal": 21368,
-     "scenarioB": -18722
+     "cumRenewal": 19335,
+     "scenarioB": -26277
     },
     {
      "t": 141,
-     "cumRenewal": 21604,
-     "scenarioB": -18490
+     "cumRenewal": 19558,
+     "scenarioB": -26121
     },
     {
      "t": 142,
-     "cumRenewal": 21830,
-     "scenarioB": -18267
+     "cumRenewal": 19767,
+     "scenarioB": -25977
     },
     {
      "t": 143,
-     "cumRenewal": 22271,
-     "scenarioB": -17830
+     "cumRenewal": 20187,
+     "scenarioB": -25623
     },
     {
      "t": 144,
-     "cumRenewal": 22458,
-     "scenarioB": -17647
+     "cumRenewal": 20359,
+     "scenarioB": -25517
     },
     {
      "t": 145,
-     "cumRenewal": 22604,
-     "scenarioB": -17505
+     "cumRenewal": 20492,
+     "scenarioB": -25450
     },
     {
      "t": 146,
-     "cumRenewal": 23048,
-     "scenarioB": -17064
+     "cumRenewal": 20908,
+     "scenarioB": -25100
     },
     {
      "t": 147,
-     "cumRenewal": 23226,
-     "scenarioB": -16889
+     "cumRenewal": 21076,
+     "scenarioB": -24997
     },
     {
      "t": 148,
-     "cumRenewal": 23359,
-     "scenarioB": -16760
+     "cumRenewal": 21200,
+     "scenarioB": -24939
     },
     {
      "t": 149,
-     "cumRenewal": 23546,
-     "scenarioB": -16577
+     "cumRenewal": 21371,
+     "scenarioB": -24834
     },
     {
      "t": 150,
-     "cumRenewal": 23807,
-     "scenarioB": -16319
+     "cumRenewal": 21612,
+     "scenarioB": -24659
     },
     {
      "t": 151,
-     "cumRenewal": 24016,
-     "scenarioB": -16014
+     "cumRenewal": 21692,
+     "scenarioB": -24554
     },
     {
      "t": 152,
-     "cumRenewal": 24193,
-     "scenarioB": -15740
+     "cumRenewal": 21850,
+     "scenarioB": -24370
     },
     {
      "t": 153,
-     "cumRenewal": 24334,
-     "scenarioB": -15502
+     "cumRenewal": 21976,
+     "scenarioB": -24218
     },
     {
      "t": 154,
-     "cumRenewal": 24387,
-     "scenarioB": -15353
+     "cumRenewal": 22023,
+     "scenarioB": -24145
     },
     {
      "t": 155,
-     "cumRenewal": 24618,
-     "scenarioB": -15025
+     "cumRenewal": 22239,
+     "scenarioB": -23903
     },
     {
      "t": 156,
-     "cumRenewal": 24678,
-     "scenarioB": -14868
+     "cumRenewal": 22294,
+     "scenarioB": -23823
     },
     {
      "t": 157,
-     "cumRenewal": 24928,
-     "scenarioB": -14522
+     "cumRenewal": 22525,
+     "scenarioB": -23566
     },
     {
      "t": 158,
-     "cumRenewal": 25183,
-     "scenarioB": -14171
+     "cumRenewal": 22763,
+     "scenarioB": -23302
     },
     {
      "t": 159,
-     "cumRenewal": 25233,
-     "scenarioB": -14024
+     "cumRenewal": 22809,
+     "scenarioB": -23231
     },
     {
      "t": 160,
-     "cumRenewal": 25333,
-     "scenarioB": -13828
+     "cumRenewal": 22901,
+     "scenarioB": -23112
     },
     {
      "t": 161,
-     "cumRenewal": 25432,
-     "scenarioB": -13631
+     "cumRenewal": 22994,
+     "scenarioB": -22994
     },
     {
      "t": 162,
-     "cumRenewal": 25532,
-     "scenarioB": -13435
+     "cumRenewal": 23086,
+     "scenarioB": -22876
     },
     {
      "t": 163,
-     "cumRenewal": 25857,
-     "scenarioB": -13013
+     "cumRenewal": 23386,
+     "scenarioB": -22550
     },
     {
      "t": 164,
-     "cumRenewal": 25982,
-     "scenarioB": -12792
+     "cumRenewal": 23502,
+     "scenarioB": -22409
     },
     {
      "t": 165,
-     "cumRenewal": 26135,
-     "scenarioB": -12542
+     "cumRenewal": 23642,
+     "scenarioB": -22243
     },
     {
      "t": 166,
-     "cumRenewal": 26316,
-     "scenarioB": -12264
+     "cumRenewal": 23806,
+     "scenarioB": -22053
     },
     {
      "t": 167,
-     "cumRenewal": 26352,
-     "scenarioB": -12132
+     "cumRenewal": 23838,
+     "scenarioB": -21996
     },
     {
      "t": 168,
-     "cumRenewal": 26405,
-     "scenarioB": -11983
+     "cumRenewal": 23885,
+     "scenarioB": -21923
     },
     {
      "t": 169,
-     "cumRenewal": 26543,
-     "scenarioB": -11748
+     "cumRenewal": 24016,
+     "scenarioB": -21766
     },
     {
      "t": 170,
-     "cumRenewal": 26716,
-     "scenarioB": -11478
+     "cumRenewal": 24178,
+     "scenarioB": -21579
     },
     {
      "t": 171,
-     "cumRenewal": 26889,
-     "scenarioB": -11208
+     "cumRenewal": 24340,
+     "scenarioB": -21391
     },
     {
      "t": 172,
-     "cumRenewal": 27098,
-     "scenarioB": -10903
+     "cumRenewal": 24533,
+     "scenarioB": -21171
     },
     {
      "t": 173,
-     "cumRenewal": 27468,
-     "scenarioB": -10436
+     "cumRenewal": 24890,
+     "scenarioB": -20789
     },
     {
      "t": 174,
-     "cumRenewal": 27566,
-     "scenarioB": -10242
+     "cumRenewal": 24983,
+     "scenarioB": -20671
     },
     {
      "t": 175,
-     "cumRenewal": 27694,
-     "scenarioB": -10017
+     "cumRenewal": 25100,
+     "scenarioB": -20528
     },
     {
      "t": 176,
-     "cumRenewal": 28121,
-     "scenarioB": -9493
+     "cumRenewal": 25500,
+     "scenarioB": -20102
     },
     {
      "t": 177,
-     "cumRenewal": 28299,
-     "scenarioB": -9219
+     "cumRenewal": 25669,
+     "scenarioB": -19907
     },
     {
      "t": 178,
-     "cumRenewal": 28361,
-     "scenarioB": -9060
+     "cumRenewal": 25730,
+     "scenarioB": -19821
     },
     {
      "t": 179,
-     "cumRenewal": 28495,
-     "scenarioB": -8830
+     "cumRenewal": 25853,
+     "scenarioB": -19671
     },
     {
      "t": 180,
-     "cumRenewal": 28633,
-     "scenarioB": -8595
+     "cumRenewal": 25984,
+     "scenarioB": -19515
     }
    ],
    "dailyBreakEvenDay": 23,
-   "ltv180": 139.77227082057382,
+   "ltv180": 128.12966267475701,
    "cac28": 115.06036809815951,
-   "ltvToCac": 1.2147733675015906,
+   "ltvToCac": 1.1135864137462859,
    "verdict": {
     "worthIt": true,
-    "breakEvenCac": 139.77227082057382,
-    "retentionNeeded": 0.6173991133362725,
-    "gapPerSub": 24.711902722414308
+    "breakEvenCac": 128.12966267475701,
+    "retentionNeeded": 0.6734995962072471,
+    "gapPerSub": 13.0692945765975
    }
   }
  },
@@ -1499,7 +1507,7 @@
    "date": "2026-07-15",
    "netSales": 119.85,
    "spend": 718.52,
-   "profit": -661.93,
+   "profit": -664.43,
    "orders": 1,
    "subNetSales": 119.85,
    "oneTimeNetSales": 0,
@@ -1510,7 +1518,7 @@
    "date": "2026-07-16",
    "netSales": 119.85,
    "spend": 676.06,
-   "profit": -618.75,
+   "profit": -621.25,
    "orders": 1,
    "subNetSales": 119.85,
    "oneTimeNetSales": 0,
@@ -1521,7 +1529,7 @@
    "date": "2026-07-17",
    "netSales": 39.95,
    "spend": 674.08,
-   "profit": -676.51,
+   "profit": -679.01,
    "orders": 1,
    "subNetSales": 39.95,
    "oneTimeNetSales": 0,
@@ -1532,7 +1540,7 @@
    "date": "2026-07-18",
    "netSales": 159.8,
    "spend": 651.13,
-   "profit": -660.85,
+   "profit": -670.85,
    "orders": 4,
    "subNetSales": 159.8,
    "oneTimeNetSales": 0,
@@ -1543,7 +1551,7 @@
    "date": "2026-07-19",
    "netSales": 199.75,
    "spend": 820.99,
-   "profit": -833.38,
+   "profit": -845.88,
    "orders": 5,
    "subNetSales": 199.75,
    "oneTimeNetSales": 0,
@@ -1554,7 +1562,7 @@
    "date": "2026-07-20",
    "netSales": 39.95,
    "spend": 706.24,
-   "profit": -708.67,
+   "profit": -711.17,
    "orders": 1,
    "subNetSales": 39.95,
    "oneTimeNetSales": 0,
@@ -1565,7 +1573,7 @@
    "date": "2026-07-21",
    "netSales": 39.95,
    "spend": 574.84,
-   "profit": -577.27,
+   "profit": -579.77,
    "orders": 1,
    "subNetSales": 39.95,
    "oneTimeNetSales": 0,
@@ -1587,7 +1595,7 @@
    "date": "2026-07-23",
    "netSales": 159.8,
    "spend": 463.83,
-   "profit": -473.55,
+   "profit": -483.55,
    "orders": 4,
    "subNetSales": 159.8,
    "oneTimeNetSales": 0,
@@ -1598,7 +1606,7 @@
    "date": "2026-07-24",
    "netSales": 119.85,
    "spend": 397.33,
-   "profit": -404.62,
+   "profit": -412.12,
    "orders": 3,
    "subNetSales": 119.85,
    "oneTimeNetSales": 0,
@@ -1609,7 +1617,7 @@
    "date": "2026-07-25",
    "netSales": 279.65,
    "spend": 276.69,
-   "profit": -293.7,
+   "profit": -311.2,
    "orders": 7,
    "subNetSales": 279.65,
    "oneTimeNetSales": 0,
@@ -1620,7 +1628,7 @@
    "date": "2026-07-26",
    "netSales": 199.75,
    "spend": 598.51,
-   "profit": -610.66,
+   "profit": -623.16,
    "orders": 5,
    "subNetSales": 199.75,
    "oneTimeNetSales": 0,
@@ -1631,8 +1639,8 @@
    "date": "2026-07-27",
    "netSales": 399.5,
    "spend": 320.05,
-   "profit": -359.35,
-   "orders": 11,
+   "profit": -369.35,
+   "orders": 10,
    "subNetSales": 399.5,
    "oneTimeNetSales": 0,
    "roas": 1.248,
@@ -1642,7 +1650,7 @@
    "date": "2026-07-28",
    "netSales": 364.58,
    "spend": 528.32,
-   "profit": -530.29,
+   "profit": -550.29,
    "orders": 8,
    "subNetSales": 364.58,
    "oneTimeNetSales": 0,
@@ -1653,7 +1661,7 @@
    "date": "2026-07-29",
    "netSales": 119.85,
    "spend": 516.55,
-   "profit": -523.84,
+   "profit": -531.34,
    "orders": 3,
    "subNetSales": 119.85,
    "oneTimeNetSales": 0,
@@ -1664,7 +1672,7 @@
    "date": "2026-07-30",
    "netSales": 717.27,
    "spend": 772.49,
-   "profit": -684.9,
+   "profit": -704.9,
    "orders": 8,
    "subNetSales": 717.27,
    "oneTimeNetSales": 0,
@@ -1675,7 +1683,7 @@
    "date": "2026-07-31",
    "netSales": 129.85,
    "spend": 779.22,
-   "profit": -776.78,
+   "profit": -784.28,
    "orders": 3,
    "subNetSales": 129.85,
    "oneTimeNetSales": 0,
@@ -1686,7 +1694,7 @@
    "date": "2026-08-01",
    "netSales": 887.35,
    "spend": 714.37,
-   "profit": -456.11,
+   "profit": -489.59,
    "orders": 11,
    "subNetSales": 747.45,
    "oneTimeNetSales": 139.9,
@@ -1697,7 +1705,7 @@
    "date": "2026-08-02",
    "netSales": 612.42,
    "spend": 824.94,
-   "profit": -675.81,
+   "profit": -702.56,
    "orders": 10,
    "subNetSales": 562.47,
    "oneTimeNetSales": 49.95,
@@ -1708,7 +1716,7 @@
    "date": "2026-08-03",
    "netSales": 149.85,
    "spend": 571.89,
-   "profit": -522.34,
+   "profit": -531.59,
    "orders": 3,
    "subNetSales": 99.9,
    "oneTimeNetSales": 49.95,
@@ -1719,7 +1727,7 @@
    "date": "2026-08-04",
    "netSales": 262.77,
    "spend": 588.89,
-   "profit": -523.02,
+   "profit": -534.94,
    "orders": 4,
    "subNetSales": 262.77,
    "oneTimeNetSales": 0,
@@ -1730,7 +1738,7 @@
    "date": "2026-08-05",
    "netSales": 679.5,
    "spend": 637.45,
-   "profit": -317.93,
+   "profit": -345.58,
    "orders": 7,
    "subNetSales": 199.8,
    "oneTimeNetSales": 479.7,
@@ -1741,7 +1749,7 @@
    "date": "2026-08-06",
    "netSales": 199.8,
    "spend": 704.41,
-   "profit": -675.21,
+   "profit": -685.21,
    "orders": 4,
    "subNetSales": 199.8,
    "oneTimeNetSales": 0,
@@ -1752,7 +1760,7 @@
    "date": "2026-08-07",
    "netSales": 762.25,
    "spend": 1124.77,
-   "profit": -972.91,
+   "profit": -1005.41,
    "orders": 13,
    "subNetSales": 762.25,
    "oneTimeNetSales": 0,
@@ -1763,7 +1771,7 @@
    "date": "2026-08-08",
    "netSales": 577.5,
    "spend": 664.14,
-   "profit": -478.35,
+   "profit": -495.85,
    "orders": 7,
    "subNetSales": 387.65,
    "oneTimeNetSales": 189.85,
@@ -1774,7 +1782,7 @@
    "date": "2026-08-09",
    "netSales": 567.5,
    "spend": 1166.16,
-   "profit": -964.91,
+   "profit": -991.17,
    "orders": 8,
    "subNetSales": 427.6,
    "oneTimeNetSales": 139.9,
@@ -1785,7 +1793,7 @@
    "date": "2026-08-10",
    "netSales": 449.43,
    "spend": 795.48,
-   "profit": -791.73,
+   "profit": -814.23,
    "orders": 9,
    "subNetSales": 449.43,
    "oneTimeNetSales": 0,
@@ -1796,7 +1804,7 @@
    "date": "2026-08-11",
    "netSales": 79.9,
    "spend": 333.71,
-   "profit": -338.57,
+   "profit": -343.57,
    "orders": 2,
    "subNetSales": 79.9,
    "oneTimeNetSales": 0,
@@ -1807,7 +1815,7 @@
    "date": "2026-08-12",
    "netSales": 119.85,
    "spend": 850.61,
-   "profit": -857.9,
+   "profit": -865.4,
    "orders": 3,
    "subNetSales": 119.85,
    "oneTimeNetSales": 0,
@@ -1818,7 +1826,7 @@
    "date": "2026-08-13",
    "netSales": 399.5,
    "spend": 690.22,
-   "profit": -605.02,
+   "profit": -617.52,
    "orders": 5,
    "subNetSales": 279.65,
    "oneTimeNetSales": 119.85,
@@ -1829,7 +1837,7 @@
    "date": "2026-08-14",
    "netSales": 719.28,
    "spend": 723.79,
-   "profit": -579.24,
+   "profit": -601.74,
    "orders": 9,
    "subNetSales": 489.38,
    "oneTimeNetSales": 229.9,
@@ -1840,7 +1848,7 @@
    "date": "2026-08-15",
    "netSales": 679.25,
    "spend": 623.71,
-   "profit": -444.98,
+   "profit": -471.26,
    "orders": 9,
    "subNetSales": 519.4,
    "oneTimeNetSales": 159.85,
@@ -1851,7 +1859,7 @@
    "date": "2026-08-16",
    "netSales": 681.35,
    "spend": 1127.88,
-   "profit": -1020.24,
+   "profit": -1042.74,
    "orders": 9,
    "subNetSales": 564.43,
    "oneTimeNetSales": 116.92,
@@ -1862,7 +1870,7 @@
    "date": "2026-08-17",
    "netSales": 983.85,
    "spend": 545.02,
-   "profit": -331.6,
+   "profit": -403.22,
    "orders": 10,
    "subNetSales": 764,
    "oneTimeNetSales": 219.85,
@@ -1873,7 +1881,7 @@
    "date": "2026-08-18",
    "netSales": 319.6,
    "spend": 457.98,
-   "profit": -386.82,
+   "profit": -401.82,
    "orders": 6,
    "subNetSales": 319.6,
    "oneTimeNetSales": 0,
@@ -1884,7 +1892,7 @@
    "date": "2026-08-19",
    "netSales": 494.43,
    "spend": 556.16,
-   "profit": -439.33,
+   "profit": -461.83,
    "orders": 9,
    "subNetSales": 494.43,
    "oneTimeNetSales": 0,
@@ -1895,7 +1903,7 @@
    "date": "2026-08-20",
    "netSales": 1003.7,
    "spend": 520.39,
-   "profit": -397.94,
+   "profit": -439.48,
    "orders": 16,
    "subNetSales": 963.75,
    "oneTimeNetSales": 39.95,
@@ -1906,7 +1914,7 @@
    "date": "2026-08-21",
    "netSales": 434.3,
    "spend": 582.19,
-   "profit": -531.62,
+   "profit": -546.62,
    "orders": 6,
    "subNetSales": 434.3,
    "oneTimeNetSales": 0,
@@ -1917,7 +1925,7 @@
    "date": "2026-08-22",
    "netSales": 119.85,
    "spend": 351.23,
-   "profit": -345.92,
+   "profit": -348.42,
    "orders": 1,
    "subNetSales": 119.85,
    "oneTimeNetSales": 0,
@@ -1928,7 +1936,7 @@
    "date": "2026-08-23",
    "netSales": 429.35,
    "spend": 545.15,
-   "profit": -465.7,
+   "profit": -480.7,
    "orders": 6,
    "subNetSales": 429.35,
    "oneTimeNetSales": 0,
@@ -1939,7 +1947,7 @@
    "date": "2026-08-24",
    "netSales": 379.5,
    "spend": 457.72,
-   "profit": -398.58,
+   "profit": -413.58,
    "orders": 6,
    "subNetSales": 339.55,
    "oneTimeNetSales": 39.95,
@@ -1947,5 +1955,5 @@
    "roas7": 0.916
   }
  ],
- "breakevenRoas": 4.9410241904738434
+ "breakevenRoas": 6.240440760159683
 }

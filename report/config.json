@@ -9,10 +9,21 @@
   "adsStartDate": "2026-07-15",
   "backfillDays": 90,
   "shippingCostPerOrder": {
-    "value": 6.0,
+    "value": 7.5,
     "estimated": true,
-    "note": "Per Jose (Aug 2026): fulfilling a $39.95 single-scent order costs ~$15 all-in; $9 of that is product cost, leaving ~$6 shipping per order. Shopify's API does not expose real label costs — replace 'value' with the true average from Shopify Shipping billing when known and set estimated=false."
+    "note": "Per Jose (Sep 8 2026): flat $7.50 per paid order, deliberately conservative, applied to first orders and renewals alike. Shopify's API does not expose real label costs."
   },
   "artifactUrl": "https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039",
-  "windows": [1, 7, 14, 28, 45, 90]
+  "windows": [
+    1,
+    7,
+    14,
+    28,
+    45,
+    90
+  ],
+  "handlingPerOrder": {
+    "value": 1,
+    "note": "Per Jose (Sep 8 2026): $1 handling/miscellaneous per paid order, on top of actual processing fees."
+  }
 }

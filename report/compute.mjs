@@ -46,6 +46,10 @@ const ordersAll = load('orders_raw.json');
 // scent lines that are $0 (subscription scents) or fully discounted are the kit's included scents and
 // carry no extra cost. Paid add-on scents on the same order still count. ----
 const KIT_RE = /Special Kits/i;
+// Kit unit costs confirmed by Jose (Sep 8 2026), keyed by kit price. 1 Diffuser = diffuser only ($26);
+// 2+2 = $70; 3+3 = $105. Shopify's variant costs now match; the map guards against drift in old pulls.
+const KIT_COST = { '69.95': 26, '89.95': 70, '129.95': 105 };
+const kitCost = l => KIT_COST[num(l.originalUnitPriceSet?.shopMoney?.amount).toFixed(2)];
 const SCENT_RE = /100ml|Scents/i;
 const hasKit = o => (o.lineItems?.edges || []).some(e => KIT_RE.test(e.node.title || ''));
 const includedScentsFullyDiscounted = o => {
@@ -55,6 +59,7 @@ const includedScentsFullyDiscounted = o => {
 };
 const lineCost = (o, l) => {
   const unit = num(l.variant?.inventoryItem?.unitCost?.amount);
+  if (KIT_RE.test(l.title || '') && kitCost(l) != null) return kitCost(l);
   if (!hasKit(o) || !SCENT_RE.test(l.title || '')) return unit;
   const price = num(l.originalUnitPriceSet?.shopMoney?.amount);
   if (price === 0) return 0;                                  // subscription scents inside the kit
@@ -70,7 +75,6 @@ const planRecurringValue = (o, l) => {
   const planQty = (o.lineItems?.edges || []).map(e => e.node).filter(x => x.sellingPlan && num(x.originalUnitPriceSet?.shopMoney?.amount) === 0).reduce((s, x) => s + x.quantity, 0) || 1;
   return num(kit?.originalUnitPriceSet?.shopMoney?.amount) / planQty;
 };
-const orders = ordersAll.filter(o => parseFloat(o.totalPriceSet?.shopMoney?.amount ?? 0) > 0);
 const metaDaily = load('meta_daily.json', []);
 
 // ---- date helpers (all bucketing in the shop's timezone) ----
@@ -81,6 +85,10 @@ const addDays = (ymd, n) => {
   return d.toISOString().slice(0, 10);
 };
 const yesterday = argv.yesterday || addDays(etDate(new Date().toISOString()), -1);
+// Paid orders only ($0 rule), and only orders created on or before the report day, so a rebuilt
+// past report never sees subscribers or sales that did not exist yet on that date.
+const orders = ordersAll.filter(o => parseFloat(o.totalPriceSet?.shopMoney?.amount ?? 0) > 0)
+  .filter(o => etDate(o.createdAt) <= yesterday);
 
 // ---- per-day aggregation ----
 const blankDay = () => ({
@@ -93,6 +101,7 @@ const blankDay = () => ({
 const days = new Map();
 const day = ymd => { if (!days.has(ymd)) days.set(ymd, blankDay()); return days.get(ymd); };
 const num = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : 0; };
+const FEE_EST_PCT = 0.029, FEE_EST_FIXED = 0.30; // fallback only, when Shopify has no fee record
 
 for (const o of orders) {
   if (o.displayFinancialStatus === 'VOIDED') continue;
@@ -116,10 +125,17 @@ for (const o of orders) {
     d.cogs += l.quantity * lineCost(o, l);
     if (/diffuser/i.test(l.title)) d.unitsDiffuser += l.quantity; else d.unitsScent += l.quantity;
   }
+  let feeSeen = false, feeSum = 0;
   for (const t of o.transactions || []) {
     if (t.status !== 'SUCCESS') continue;
-    for (const f of t.fees || []) d.fees += num(f.amount?.amount);
+    for (const f of t.fees || []) { feeSum += num(f.amount?.amount); feeSeen = true; }
   }
+  d.fees += feeSum;
+  // Fee record missing (11 of 317 paid orders as of Sep 8 2026) or covering only part of the order
+  // (e.g. a Zipify upsell charge with fees while the main charge has none): estimate 2.9% + $0.30 on the
+  // order total instead. Transaction amounts are not in the pull, so the whole order is estimated.
+  const orderTotal = num(o.totalPriceSet?.shopMoney?.amount);
+  if (!feeSeen || feeSum < orderTotal * 0.015) d.fees += (orderTotal * FEE_EST_PCT + FEE_EST_FIXED) - feeSum;
   for (const r of o.refunds || []) {
     const amt = num(r.totalRefundedSet?.shopMoney?.amount);
     if (amt > 0) day(etDate(r.createdAt)).refunds += amt;
@@ -137,8 +153,9 @@ for (const m of metaDaily) {
 }
 
 const shipCost = num(config.shippingCostPerOrder.value);
+const handling = num(config.handlingPerOrder?.value); // $1 per paid order (Jose, Sep 8 2026)
 const profitOf = d => d.netSales + d.shippingIncome - d.refunds - d.cogs
-  - d.orders * shipCost - d.fees - d.spend;
+  - d.orders * (shipCost + handling) - d.fees - d.spend;
 
 // ---- windows ----
 const sumWindow = (end, n) => {
@@ -148,6 +165,7 @@ const sumWindow = (end, n) => {
     for (const k of Object.keys(blankDay())) t[k] += d[k];
   }
   t.shippingExpense = t.orders * shipCost;
+  t.handlingExpense = t.orders * handling;
   t.profit = profitOf(t);
   t.mer = t.spend > 0 ? t.netSales / t.spend : null;           // blended ROAS
   t.aov = t.orders > 0 ? t.netSales / t.orders : null;
@@ -226,7 +244,7 @@ const projMrr = n => Math.max(0, mrr + netAddsPerDay * n * avgSubValue);
 // for at least 180 days, the other 25% never renew) ----
 const RETENTION = 0.75;         // survives-to-180-days share
 const LIFE_CAP_DAYS = 180;      // count no renewals beyond day 180 of a sub's life
-const FEE_PCT = 0.02703, FEE_FIXED = 0.30; // derived from actual Shopify fees
+const FEE_PCT = 0.02703, FEE_FIXED = 0.30; // average of actual Shopify fees (renewal projection)
 const HORIZONS = [30, 60, 90, 180];
 const cadenceDays = name => {
   if (!name) return 30;
@@ -246,7 +264,7 @@ const cohort = firstSubOrders.map(o => {
     recCogs += l.quantity * num(l.variant?.inventoryItem?.unitCost?.amount); // renewals ship scents only → scent cost
     cad = cadenceDays(l.sellingPlan.name);
   }
-  const margin = recValue - recCogs - shipCost - (recValue * FEE_PCT + FEE_FIXED);
+  const margin = recValue - recCogs - shipCost - handling - (recValue * FEE_PCT + FEE_FIXED);
   return { acq: etDate(o.createdAt), cad, recValue, margin };
 }).filter(s => s.recValue > 0);
 
@@ -287,7 +305,7 @@ for (let born = 1; born <= maxH; born++) {
 }
 const holeToDate = sumWindow(yesterday, 90).profit; // cumulative contribution P&L (all history ≤ 90d old)
 const projection = { assumptions: {
-  retention: RETENTION, lifeCapDays: LIFE_CAP_DAYS, shipCostPerOrder: shipCost,
+  retention: RETENTION, lifeCapDays: LIFE_CAP_DAYS, shipCostPerOrder: shipCost, handlingPerOrder: handling,
   feePct: FEE_PCT, feeFixed: FEE_FIXED, frontEndDailyProfit: frontEndDaily,
   newSubsPerDay, avgRenewalValue, avgRenewalMargin, holeToDate,
 }, horizons: {} };
@@ -389,7 +407,7 @@ writeFileSync(join(dataDir, 'computed.json'), JSON.stringify({
   generatedAt: new Date().toISOString(),
   yesterday, config: {
     shippingEstimated: config.shippingCostPerOrder.estimated,
-    shippingCostPerOrder: shipCost, adsStartDate: config.adsStartDate,
+    shippingCostPerOrder: shipCost, handlingPerOrder: handling, adsStartDate: config.adsStartDate,
   },
   windows, metaDoD, subscriptions, series, breakevenRoas,
 }, null, 1));

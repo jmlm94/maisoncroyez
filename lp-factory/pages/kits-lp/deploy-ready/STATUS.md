@@ -581,3 +581,9 @@ arrive every 45 days", "Day 38 / Day 45" timeline, "Next refill" date. Fixed in 
 ### 2026-09-09 — v3s17: selStore.freq 45 -> 30 (last 45-day source on the page)
 Drives "Refills arrive every 30 days", the Day 23 / Day 30 timeline and the "Next refill"
 date. mc-v3-app.js 79,232B. Verify: r196 (zero 45-day matches in the rendered page).
+r196 result: zero "45 days / every 45 / Day 45" matches on load; after picking 2 scents the
+step-3 plan card still said "$39.95 / scent from day 45" (literal). Fixed in v3s18.
+
+### 2026-09-09 — v3s18: "from day 45" -> "from day 30" on the auto-refill plan card
+Last literal 45 in customer-facing copy. Remaining "45" in mc-v3-app.js: the FAQ bottle-life
+answer ("45+ days per 100ml bottle"), intentionally kept. Verify: r197.

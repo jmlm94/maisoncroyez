@@ -715,7 +715,7 @@ function BuyBox() {
               <span class="mode-dot" aria-hidden="true"></span>
               <span class="mode-tx">
                 <b>${inc ? "Auto-refill & Save 20% 🏷️" : "Subscribe & Save 20% 🏷️"}</b>
-                <span class="mode-price"><s>$49.95</s> <b>$39.95</b> / scent${inc ? html` <em class="mode-from">from day 45</em>` : null}</span>
+                <span class="mode-price"><s>$49.95</s> <b>$39.95</b> / scent${inc ? html` <em class="mode-from">from day 30</em>` : null}</span>
                 <span class="mode-note">${inc ? "Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime." : "Delivered every 30 days. Skip, swap or cancel anytime."}</span>
                 <span class="mode-perks">
                   <span>✓ 20% off every refill</span>

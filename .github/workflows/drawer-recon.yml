@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 194 — verify v3s15 live: badges anchored to the card top-right (rightGap ~13, topOffset ~-9, not clipped) + tier name .9rem, tiers screenshot mobile + desktop
+# run 195 — verify v3s16 live: no "45 day / every 45" copy left in the rendered page, 30-day copy present, 7 x 100ml badges beside the scent intentions, picker + step-3 screenshots
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,31 +20,45 @@ jobs:
       - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r194.mjs <<'EOF2'
+          cat > r195.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
           const out = {};
-          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['small', { width: 360, height: 780 }], ['desktop', { width: 1366, height: 900 }]]) {
+          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
             const pg = await (await b.newContext({ viewport: vp })).newPage();
             await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(3500);
-            out[name] = await pg.evaluate((k) => ({ key: document.documentElement.innerHTML.includes(k), names: [...document.querySelectorAll('.tier-name')].map(e => { const r = e.getBoundingClientRect(); const fs = parseFloat(getComputedStyle(e).fontSize); return { text: e.textContent, h: Math.round(r.height), w: Math.round(r.width), fs, oneLine: r.height <= fs * 1.5, clipped: e.scrollWidth > e.clientWidth + 1 }; }), cardH: [...document.querySelectorAll('.tier')].map(e => Math.round(e.getBoundingClientRect().height)), priceFs: getComputedStyle(document.querySelector('.buybox .tier-price b')).fontSize, nameFs: getComputedStyle(document.querySelector('.buybox .tier-name')).fontSize, badges: [...document.querySelectorAll('.tier .kg-tag')].map(b => { const r = b.getBoundingClientRect(); const c = b.closest('.tier').getBoundingClientRect(); return { text: b.textContent, w: Math.round(r.width), rightGap: Math.round(c.right - r.right), topOffset: Math.round(r.top - c.top), clipped: b.scrollWidth > b.clientWidth + 1 }; }) }), KEY);
-            await pg.locator('.tiers').scrollIntoViewIfNeeded(); await pg.waitForTimeout(500);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s15-tiers-' + name + '.png' });
+            await pg.waitForSelector('.pick.compact', { timeout: 60000 }); await pg.waitForTimeout(3500);
+            // open every FAQ item so its text is in the DOM/innerText
+            for (const q of await pg.locator('.faq-q, .faq summary, details summary, [class*=faq] button').all()) { try { await q.click({ timeout: 800 }); } catch (e) {} }
+            await pg.waitForTimeout(400);
+            out[name] = await pg.evaluate((k) => {
+              const txt = document.getElementById('root').innerText;
+              const ctx = (re) => [...txt.matchAll(re)].map(m => txt.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' '));
+              return { key: document.documentElement.innerHTML.includes(k), src45: (document.getElementById('root').innerHTML.match(/45[ -]day|every 45|in 45 days/gi) || []).length, ctx45: ctx(/45[ -]day|every 45|in 45 days/gi), ctx30: ctx(/30[ -]day|every 30|in 30 days/gi), badges: document.querySelectorAll('.pick-vol').length, picks: document.querySelectorAll('.pick.compact').length, rows: [...document.querySelectorAll('.pick-introw')].map(r => { const i = r.querySelector('.pick-int').getBoundingClientRect(), m = r.querySelector('.pick-vol').getBoundingClientRect(); return { int: r.querySelector('.pick-int').textContent, badgeText: r.querySelector('.pick-vol').textContent, h: Math.round(m.height), gap: Math.round(m.left - i.right), lastLine: Math.abs(i.bottom - m.bottom) < 10 }; }), badgeCss: (() => { const e = document.querySelector('.pick-vol'); const c = getComputedStyle(e); return { display: c.display, fontSize: c.fontSize, border: c.borderTopWidth, radius: c.borderTopLeftRadius }; })() };
+            }, KEY);
+            await pg.locator('.pick.compact').first().scrollIntoViewIfNeeded(); await pg.waitForTimeout(400);
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s16-picker-' + name + '.png' });
+            // pick 2 scents on the default (2D) tier to reveal step 3 copy
+            const cards = pg.locator('.pick.compact'); await cards.nth(0).click(); await pg.waitForTimeout(300); await cards.nth(1).click(); await pg.waitForTimeout(800);
+            const s3 = pg.locator('.decline, .plan-card, [class*=plansel]').first();
+            try { await s3.scrollIntoViewIfNeeded(); } catch (e) {}
+            await pg.waitForTimeout(400);
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s16-step3-' + name + '.png' });
+            out[name].step3ctx30 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/30[ -]day|every 30|in 30 days/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); });
             await pg.context().close();
           }
-          console.log('TIERS ' + JSON.stringify(out, null, 1));
+          console.log('V3S16 ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r194.mjs
+          KEY="${KEY}" node r195.mjs
         env:
-          KEY: v3s15-f19e274
+          KEY: v3s16-d202fdb
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r194: v3s15 tier screenshots" || exit 0
+          git commit -m "r195: v3s16 picker/step3 screenshots" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

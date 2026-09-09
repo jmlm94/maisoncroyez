@@ -305,7 +305,7 @@ const CONFIG = {
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged?", a: "Once, today, for your kit. If you choose the refill plan for your scents, refills are charged only when they ship, every 45 days, at $39.95 each. You get a heads-up 7 days before every refill. Skip it and you're not charged." },
+      { q: "When am I charged?", a: "Once, today, for your kit. If you choose the refill plan for your scents, refills are charged only when they ship, every 30 days, at $39.95 each. You get a heads-up 7 days before every refill. Skip it and you're not charged." },
       { q: "Do I have to subscribe?", a: "No. Every kit is a one-time purchase. The refill plan is an optional 20% discount on scents ($39.95 instead of $49.95). Take it or leave it, and switch anytime from your account." },
       { q: "How do I cancel a refill plan?", a: "Two clicks, from your account or any email we send. No phone calls, no chat queues, no retention offers. Nothing to return, your diffusers and scents are yours." },
       { q: "How long does each bottle last?", a: "45+ days per 100ml bottle. Running it on low stretches a bottle even further." },
@@ -391,8 +391,8 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
    Scents = the 7 real scent products, added as separate lines.
    Included scents on 2D/3D:
      one-time  -> automatic BXGY zeroes 2 (or 3) one-time scent lines.
-     refill    -> scents ride Subi Plan 5 "Every 45 days" (first delivery
-                  $0, then $39.95 each every 45 days), so today's total is
+     refill    -> scents ride Subi Plan 5 "Every 30 days" (first delivery
+                  $0, then $39.95 each every 30 days), so today's total is
                   exactly the kit price and no kit-side discount is needed.
    1D: optional scents at $49.95 one-time only (no refill plan on this tier,
        owner decision 2026-09-05, so no Shopify discount has to touch
@@ -400,7 +400,7 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
 const CART3 = {
   kitVariants: { one: 45784228429933, two: 45784228462701, three: 45784228495469 },
   sellingPlan: 2661875821,      /* Subi Plan 4 — unused since v3s5 (1D is one-time only); kept for reference */
-  sellingPlanFree: 2747695213,  /* Subi Plan 5 "Every 45 days" — included scents on 2D/3D ($0 today) */
+  sellingPlanFree: 2747695213,  /* Subi Plan 5 "Every 30 days" — included scents on 2D/3D ($0 today) */
   cartUrl: "/cart",
 };
 async function addToCart(setBusy, setToast) {
@@ -415,7 +415,7 @@ async function addToCart(setBusy, setToast) {
   const planId = CART3.sellingPlanFree;
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
   if (!onStore()) {
-    setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 45-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
+    setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 30-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
     return;
   }
   try { if (window.fbq) fbq("track", "AddToCart", { content_type: "product", content_ids: items.map((x) => String(x.id)), value: Math.round(selStore.today() * 100) / 100, currency: "USD", num_items: items.length }); } catch (e) {}
@@ -688,7 +688,7 @@ function BuyBox() {
                   <${Img} slot=${f.img} style=${{ width: "40px", flex: "0 0 40px", borderRadius: "8px", minHeight: "40px" }} alt=${f.name}/>
                   <span class="pick-txt">
                     <span class="pick-name">${f.name}${f.topSeller ? " 🏆" : ""}</span>
-                    <span class="pick-int">${f.intention}</span>
+                    <span class="pick-introw"><span class="pick-int">${f.intention}</span><span class="pick-vol">100ml</span></span>
                   </span>
                 </span>
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
@@ -707,7 +707,7 @@ function BuyBox() {
           ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; if (!inc) return null; /* refill plan only where scents are included (2D/3D) */ return html`
           <div class="picker-title">${inc ? "3. How would you like your refills?" : "3. How would you like your scents?"}</div>
           <div class="picker-sub">${inc
-            ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 45 days.`
+            ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 30 days.`
             : (n > 0 ? html`For the ${n} scent${n > 1 ? "s" : ""} you added: one-time, or a 20%-off refill plan.` : html`Add a scent above to choose one-time or a 20%-off refill plan.`)}</div>
           <div class=${"modes" + (dim ? " dim" : "")} role="radiogroup" aria-label="Scent purchase mode">
             <div class=${"mode sub" + (sel.plan === "sub" ? " on" : "")} role="radio" aria-checked=${sel.plan === "sub"} tabindex="0" style=${{ background: sel.plan === "sub" ? MODE_GRAD.sub : "" }}
@@ -716,7 +716,7 @@ function BuyBox() {
               <span class="mode-tx">
                 <b>${inc ? "Auto-refill & Save 20% 🏷️" : "Subscribe & Save 20% 🏷️"}</b>
                 <span class="mode-price"><s>$49.95</s> <b>$39.95</b> / scent${inc ? html` <em class="mode-from">from day 45</em>` : null}</span>
-                <span class="mode-note">${inc ? "Nothing extra today. Your first refill ships in 45 days. Skip, swap or cancel anytime." : "Delivered every 45 days. Skip, swap or cancel anytime."}</span>
+                <span class="mode-note">${inc ? "Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime." : "Delivered every 30 days. Skip, swap or cancel anytime."}</span>
                 <span class="mode-perks">
                   <span>✓ 20% off every refill</span>
                   <span>✓ Free shipping, always</span>

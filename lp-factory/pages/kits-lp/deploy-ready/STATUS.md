@@ -561,3 +561,15 @@ card, plus `#root .tier .tier-pics.tp-kit .kg-tag.pic-tag{top:-10px;left:auto;ri
 transform:none;font-size:.56rem;padding:3px 9px}` (specificity beats the base pic-tag
 rule). Verified on a local render of the mock (rightGap 13, topOffset -9, not clipped) and
 live in r194. mc-v3.css 49,968B.
+
+### 2026-09-09 — v3s16: refill cadence 30 days everywhere + 100ml badge on the scent picker
+Owner changed Subi Plan 5 (SellingPlan 2747695213) to "Every 30 days" (billing + delivery
+DAY/30, minCycles 3; confirmed via Admin API). Page copy updated to match in mc-v3-app.js:
+FAQ "When am I charged?", auto-refill picker note ("Delivered every 30 days"), step-3
+explainer ("first refill ships in 30 days" / "the next ones, in 30 days"), cart line-item
+note ("30-day refill plan"), and the CART3 comment. FAQ "45+ days per 100ml bottle" left as
+is (bottle life, not cadence — flagged to owner). Scent picker: `.pick-introw` wraps the
+intention and a new `<span class="pick-vol">100ml</span>` pill (inline after the intention,
+follows onto the next line when the intention wraps). Class name avoids the legacy
+`.pick-ml` (hidden in compact cards). mc-v3-app.js 79,232B, mc-v3.css 50,336B.
+Verify: r195 (no "45 day" text in the rendered page, 7 badges, picker screenshots).

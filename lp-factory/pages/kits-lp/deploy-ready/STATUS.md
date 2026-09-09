@@ -605,3 +605,9 @@ adv-scent-ritual, kits product page and a scent product page all carry zero "45+
 text; the-scent-story had one more bottle-life line in the "The Fragrances" checklist
 ("One 100ml bottle lasts 45+ days") -> 30+ days (this commit, mc-adv-ritual-app.js 95,617B).
 Its remaining "every 45 days" lines are the Plan 4 cadence and stay. Verify: r199.
+
+### 2026-09-09 — the-scent-story: refill cadence copy 45 -> 30 days (owner moving Subi Plan 4 to 30 days)
+mc-adv-ritual-app.js: "every 45 days" x6, "Every 45 days", "EVERY 45 DAYS", "45-day" comments
+-> 30. Page loader key bumped ss19- -> ss20- so the edge serves the new file immediately
+instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
+(2661875821) still read DAY/45 in the Admin API; owner said they will change it.

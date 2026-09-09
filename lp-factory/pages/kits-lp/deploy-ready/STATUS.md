@@ -587,3 +587,16 @@ step-3 plan card still said "$39.95 / scent from day 45" (literal). Fixed in v3s
 ### 2026-09-09 — v3s18: "from day 45" -> "from day 30" on the auto-refill plan card
 Last literal 45 in customer-facing copy. Remaining "45" in mc-v3-app.js: the FAQ bottle-life
 answer ("45+ days per 100ml bottle"), intentionally kept. Verify: r197.
+
+### 2026-09-09 — v3s19: bottle life "45+ days" -> "30+ days" everywhere (owner request)
+Founder's Offer page: proof-stat tile "30+ DAYS / Per bottle" and FAQ "30+ days per 100ml
+bottle" (mc-v3-app.js). Same claim updated in the other live LP apps that still carried it:
+- mc-lp-kits-app.js (/pages/manifestation-kits, hour-keyed loader `mk3-`): 6 strings.
+- mc-adv-ritual-app.js (/pages/the-scent-story, hour-keyed `ss19-`): 7 strings incl. the
+  cart summary line (now "Lasts 30+ days per bottle."). Refill cadence on that page stays
+  "every 45 days" because it rides Subi Plan 4 (2661875821), still DAY/45 — flagged.
+Already at 30 days, untouched: mc-lp-free-diffuser-app.js, mc-kit-app.js. Not live
+(no page loads them): mc-ic-app.js, mc-6mp-app.js — left as is. Products: no "45" in any
+description. Verify: r198 (six-month-program + manifestation-kits + the-scent-story text
+scan for "45+"/"45 day", plus /pages/diffuser, /pages/adv-scent-ritual and the kits product
+page whose bundles are not in the repo).

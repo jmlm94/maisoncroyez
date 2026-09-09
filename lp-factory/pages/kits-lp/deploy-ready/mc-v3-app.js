@@ -254,7 +254,7 @@ const CONFIG = {
     stats: [
       { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on the highest setting. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
-      { fill: 72, value: "45+ DAYS", label: "Per bottle", desc: "One 100ml bottle, week after week, without touching it." },
+      { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle, week after week, without touching it." },
     ],
   },
 
@@ -308,7 +308,7 @@ const CONFIG = {
       { q: "When am I charged?", a: "Once, today, for your kit. If you choose the refill plan for your scents, refills are charged only when they ship, every 30 days, at $39.95 each. You get a heads-up 7 days before every refill. Skip it and you're not charged." },
       { q: "Do I have to subscribe?", a: "No. Every kit is a one-time purchase. The refill plan is an optional 20% discount on scents ($39.95 instead of $49.95). Take it or leave it, and switch anytime from your account." },
       { q: "How do I cancel a refill plan?", a: "Two clicks, from your account or any email we send. No phone calls, no chat queues, no retention offers. Nothing to return, your diffusers and scents are yours." },
-      { q: "How long does each bottle last?", a: "45+ days per 100ml bottle. Running it on low stretches a bottle even further." },
+      { q: "How long does each bottle last?", a: "30+ days per 100ml bottle. Running it on low stretches a bottle even further." },
       { q: "What if I don't love it?", a: "Live with it for 90 days. If your home doesn't feel different, send it back with the prepaid label for a full refund. And every diffuser is covered for life." },
     ],
   },

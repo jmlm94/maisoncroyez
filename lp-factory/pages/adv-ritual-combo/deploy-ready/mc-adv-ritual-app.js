@@ -133,11 +133,11 @@ const CONFIG = {
 
     { t: "h2", pre: "She Told Me She Got the Diffuser", em: "for FREE?" },
     { t: "p", s: "I made her repeat it. Twice. Elena never bought the diffuser at all. **She buys the scent, and the award-winning diffuser came free with it.**" },
-    { t: "p", s: "I didn’t believe her. Nothing in this category is free, and no bottle I’ve ever owned survived a month. But there it was on her console: **one 100ml bottle lasts 45+ days**, because it diffuses pure oil in timed pulses instead of burning or misting itself away like every brand in my closet." },
+    { t: "p", s: "I didn’t believe her. Nothing in this category is free, and no bottle I’ve ever owned survived a month. But there it was on her console: **one 100ml bottle lasts 30+ days**, because it diffuses pure oil in timed pulses instead of burning or misting itself away like every brand in my closet." },
     { t: "p", s: "A new bottle arrives every 45 days, right before the last one runs out, so her home never has an off week. No minimum, cancel whenever. And a 30-day guarantee: full refund, they even send the return label." },
     { t: "p", s: "I remember thinking: *we’ll see.*" },
 
-    { t: "h2", pre: "So I Bought It: $49.95, the Diffuser Free, My 45+ Day Fragrance.", em: "This Is What Happened.", cls: "center allblack" },
+    { t: "h2", pre: "So I Bought It: $49.95, the Diffuser Free, My 30+ Day Fragrance.", em: "This Is What Happened.", cls: "center allblack" },
     { t: "p", s: "I chose the scent Elena runs in her gathering room: **Golden Blossom Harmony, the one composed for love.** Buttercup, honeysuckle, sunflower. “For homes that hold people together,” the box said." },
     { t: "img", slot: "firstEvening", alt: "The living room, the first evening" },
     { t: "p", s: "It arrived on a Thursday. I set it on the console by my entryway (no water, no setup) and pressed the button once to G2 while I started dinner." },
@@ -150,7 +150,7 @@ const CONFIG = {
     { t: "cards", items: [
       { title: "My home finally holds my intention", body: "I chose love, and that’s what the house carries now. The air feels decided, warm on purpose, the way Elena’s always did." },
       { title: "My guests feel it before I say a word", body: "It’s the first thing people mention at the door. Not “what candle is that,” but “why does it feel so good in here?”" },
-      { title: "I stopped paying the candle tax", body: "The drawer of $136 candles stays closed. One bottle, 45+ days, and my home never has an off week." },
+      { title: "I stopped paying the candle tax", body: "The drawer of $136 candles stays closed. One bottle, 30+ days, and my home never has an off week." },
     ]},
   ],
 
@@ -851,7 +851,7 @@ const CONFIG = {
     heading: ["Get ready to hear your guests complimenting your spaces", "for weeks, not hours, within a single fill."],
     img: "intentionHero",
     bullets: [
-      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 45 days** \u2014 with nothing burning, nothing to babysit.",
+      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 30 days** \u2014 with nothing burning, nothing to babysit.",
       "Completely waterless: **no mold, no cleaning, no leaks.** 100% organic, **safe around kids and pets**, and designed to look like decor on your shelf, not hide behind it.",
       "Each scent is composed around a powerful intention \u2014 love, abundance, energy, relaxation, purification. You don't just pick a fragrance, **you choose the feeling your home holds all day.**",
     ],
@@ -869,7 +869,7 @@ const CONFIG = {
     stats: [
       { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on the highest setting. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
-      { fill: 72, value: "45+ DAYS", label: "Per bottle", desc: "One 100ml bottle of continuous presence. About 10x longer than candles." },
+      { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle of continuous presence. About 10x longer than candles." },
     ],
   },
 
@@ -1241,7 +1241,7 @@ function BuyBox() {
   const ritual = sel.plan === "ritual";
   const valueRows = ritual
     ? [
-        { label: "Maison Croyez Manifestation Scent", sub: "Lasts 45 days, a new one arrives before.", value: usd(OFFER.price) },
+        { label: "Maison Croyez Manifestation Scent", sub: "Lasts 30+ days per bottle.", value: usd(OFFER.price) },
         { label: "Maison Croyez Diffuser", strike: usd(OFFER.diffuserValue), value: "FREE" },
         { label: "You pay today", value: usd(OFFER.price), total: true },
       ]
@@ -1279,7 +1279,7 @@ function BuyBox() {
               <span class="plan-badge">#1 most ordered!</span>
               <span class="plan-head"><span class="plan-name">Join the Manifestation Circle today and enjoy benefits:</span><span class="plan-price">${usd(OFFER.price)} today</span></span>
               <ul>
-                <li>Members get their diffuser free along with your 100ml scent. Lasts 45+ days.</li>
+                <li>Members get their diffuser free along with your 100ml scent. Lasts 30+ days.</li>
                 <li>Renews every 45 days. Swap scents anytime you want.</li>
                 <li>Access to new launches, special deals, and more.</li>
                 <li><strong>30-day guarantee: Full refund, return label, membership cancelled, you keep the scent for free.</strong></li>

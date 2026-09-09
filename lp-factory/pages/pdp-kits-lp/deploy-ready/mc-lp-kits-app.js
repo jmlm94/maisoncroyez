@@ -48,7 +48,7 @@ const CART = {
 const KITS = [
   { key: "studio", name: "Studio Kit", price: 139.95, value: 189.95, variant: 45644596936813, diffusers: 1, scents: 1,
     img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg?width=160",
-    line: "Diffuser (1) + full-size scent (1) as our gift 🎁", days: "45+ days of FREE SCENT", per: "", tag: "" },
+    line: "Diffuser (1) + full-size scent (1) as our gift 🎁", days: "30+ days of FREE SCENT", per: "", tag: "" },
   { key: "condo", name: "Condo Kit", price: 209.95, value: 359.95, variant: 45644596969581, diffusers: 2, scents: 3,
     img: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg?width=160",
     line: "Diffusers (2) + full-size scents (3) as our gift 🎁", days: "135+ days of FREE SCENT", per: "", tag: "Most Popular & Best Value" },
@@ -121,7 +121,7 @@ const CONFIG = {
     ],
     accordions: [
       { q: "Is this a subscription?", a: "No. Your kit is a one-time purchase: one payment today, nothing recurring, no hidden charges, no surprises. If you ever want refills, grab them anytime — and our optional Manifestation Circle offers member pricing, but it is never required." },
-      { q: "What's included in my kit?", a: "Every kit includes your diffuser(s) plus full-size 100ml scents as our gift: Studio (1 diffuser + 1 scent, 45+ days), Condo (2 diffusers + 3 scents, 135+ days), House (3 diffusers + 5 scents, 225+ days). All kits ship free today through our priority line." },
+      { q: "What's included in my kit?", a: "Every kit includes your diffuser(s) plus full-size 100ml scents as our gift: Studio (1 diffuser + 1 scent, 30+ days), Condo (2 diffusers + 3 scents, 135+ days), House (3 diffusers + 5 scents, 225+ days). All kits ship free today through our priority line." },
       { q: "Which scent should I choose?", a: "Choose by what you want to attract. Each of the 7 scents is composed around one intention: love, abundance, raised energy, relaxation and concentration, purification, love manifestation, or turning ideas into reality. Repeats are welcome — stock every bottle in the one your home loves. And every diffuser works with every Maison Croyez scent, so you can swap freely." },
       { q: "Will it grow mold like water diffusers?", a: "Not at all. Our diffuser is completely waterless, meaning no mold risks and no cleaning is required." },
       { q: "Is it harmful for my kids and pets?", a: "Not at all. 100% organic, hypoallergenic oils and a flame-free diffuser with no hot surfaces. Nothing to knock over, burn, or spill." },
@@ -210,7 +210,7 @@ const CONFIG = {
     heading: ["Get ready to hear your guests complimenting your spaces", "for weeks, not hours, within a single fill."],
     img: "intentionHero",
     bullets: [
-      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 45 days** \u2014 with nothing burning, nothing to babysit.",
+      "Candles and plug-ins fade in an hour and leave soot behind. One bottle of Maison Croyez **fills up to 600 sq ft for over 30 days** \u2014 with nothing burning, nothing to babysit.",
       "Completely waterless: **no mold, no cleaning, no leaks.** 100% organic, **safe around kids and pets**, and designed to look like decor on your shelf, not hide behind it.",
       "Each scent is composed around a powerful intention \u2014 love, abundance, energy, relaxation, purification. You don't just pick a fragrance, **you choose the feeling your home holds all day.**",
     ],
@@ -228,7 +228,7 @@ const CONFIG = {
     stats: [
       { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on the highest setting. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
-      { fill: 72, value: "45+ DAYS", label: "Per bottle", desc: "One 100ml bottle of continuous presence. About 10x longer than candles." },
+      { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle of continuous presence. About 10x longer than candles." },
     ],
   },
 
@@ -318,11 +318,11 @@ const CONFIG = {
     heading: ["Questions?", "We've got answers."],
     items: [
       { q: "When am I charged?", a: "Once, today. Your kit ships free through our priority line, and that's it — no renewals, no hidden charges, no surprises. This is not a subscription." },
-      { q: "Are the scents really a gift?", a: "Yes. You pay for the diffusers; the full-size 100ml scents in your kit ship as our gift — 45+ days of continuous scent per bottle." },
+      { q: "Are the scents really a gift?", a: "Yes. You pay for the diffusers; the full-size 100ml scents in your kit ship as our gift — 30+ days of continuous scent per bottle." },
       { q: "Can I get refills later?", a: "Anytime. Order refills whenever you like, or join our optional Manifestation Circle for member pricing. It's completely optional and never required." },
       { q: "Does it actually fill the room?", a: "Yes. Up to 600 square feet, corner to corner in under 10 minutes on its highest setting. Noticeable but refined: present enough that no one can ignore it, soft enough to feel elegant." },
       { q: "Is it safe for pets and kids?", a: "The fragrances are 100% organic oils, hypoallergenic and pet-friendly, and the diffuser is flame-free with no hot surfaces. Nothing to knock over, burn, or spill." },
-      { q: "How long does each bottle last?", a: "45+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. Running it on low stretches a bottle even further." },
+      { q: "How long does each bottle last?", a: "30+ days of continuous diffusion per 100ml bottle, about 10x longer than burning candles. Running it on low stretches a bottle even further." },
       { q: "Do I need an app, WiFi, or batteries?", a: "No app, no WiFi, no batteries. One button cycles three strengths, from subtle to full presence. Set it and forget it." },
       { q: "Will it look good in my home?", a: "It's a minimal matte-and-linen design made to sit out in the open, closer to an object you style a console with than an appliance you hide. Most guests assume it's a speaker." },
       { q: "What do the “intentions” mean?", a: "Each scent is composed around a specific energy: love, abundance, raised energy, purification, relaxation and concentration, love manifestation, and turning ideas into reality. You choose scents by the feeling you want more of, not just the notes." },

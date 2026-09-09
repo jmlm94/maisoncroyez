@@ -1,76 +1,24 @@
 name: drawer-recon
-# run 199 — re-check the-scent-story after the last bottle-life fix: only Plan 4 cadence "every 45 days" lines may remain; no "45+" anywhere
+# run 200 — confirm the CDN copy of mc-adv-ritual-app.js (fresh cache key) has no "45+" left; the-scent-story page picks it up at the next hour flip (ss19-<hour> loader key)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
     paths: ['.github/workflows/drawer-recon.yml']
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   recon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install
+      - name: Fetch CDN file with a fresh key
         run: |
-          npm i playwright@1.49.0
-          npx playwright install --with-deps chromium
-      - name: Verify
-        run: |
-          mkdir -p lp-factory/pages/kits-lp/live
-          cat > r199.mjs <<'EOF2'
-          import { chromium } from 'playwright';
-          const KEY = process.env.KEY;
-          const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
-          const targets = [
-            ['six-month-program', 'https://maisoncroyez.com/pages/six-month-program', '.pick.compact'],
-            ['the-scent-story', 'https://maisoncroyez.com/pages/the-scent-story?nocache=' + Date.now(), '#root *, #advroot *'],
-          ];
-          const out = {};
-          const scan = (t) => {
-            const re45 = /45\+|45[ -]day|every 45|in 45 days|day 45|over 45 days|45 días/gi;
-            const re30 = /30\+ ?days|30\+ DAYS|over 30 days|every 30 days|30-day/gi;
-            const ctxs = (re) => [...t.matchAll(re)].map(m => t.slice(Math.max(0, m.index - 45), m.index + 35).replace(/\s+/g, ' '));
-            return { n45: (t.match(re45) || []).length, ctx45: ctxs(re45).slice(0, 12), n30: (t.match(re30) || []).length, ctx30: ctxs(re30).slice(0, 8) };
-          };
-          for (const [name, url, sel] of targets) {
-            const pg = await ctx.newPage();
-            const scripts = new Set();
-            pg.on('request', r => { const u = r.url(); if (/files\/mc-[^?]+\.js/.test(u)) scripts.add(u.replace(/^.*files\//, '').replace(/\?.*$/, '')); });
-            try {
-              await pg.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
-              try { await pg.waitForSelector(sel, { timeout: 30000 }); } catch (e) {}
-              await pg.waitForTimeout(4000);
-              for (const q of await pg.locator('details summary, .faq-q, [class*=faq] button').all()) { try { await q.click({ timeout: 500 }); } catch (e) {} }
-              await pg.waitForTimeout(300);
-              let txt = await pg.evaluate(() => document.body.innerText);
-              const r = scan(txt);
-              if (name === 'six-month-program') {
-                r.key = await pg.evaluate((k) => document.documentElement.innerHTML.includes(k), KEY);
-                const cards = pg.locator('.pick.compact'); await cards.nth(0).click(); await pg.waitForTimeout(300); await cards.nth(1).click(); await pg.waitForTimeout(800);
-                r.afterPick = scan(await pg.evaluate(() => document.body.innerText));
-                const tile = pg.locator('text=/Per bottle/i').first(); try { await tile.scrollIntoViewIfNeeded(); } catch (e) {}
-                await pg.waitForTimeout(300); await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s19-bottle-tile-r199.png' });
-              }
-              r.scripts = [...scripts];
-              out[name] = r;
-            } catch (e) { out[name] = { error: String(e).slice(0, 200), scripts: [...scripts] }; }
-            await pg.close();
-          }
-          console.log('SWEEP ' + JSON.stringify(out, null, 1));
-          await b.close();
-          EOF2
-          KEY="${KEY}" node r199.mjs
-        env:
-          KEY: v3s19-e2f0c6b
-      - name: Commit
-        run: |
-          git config user.name "mc-recon"
-          git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/
-          git commit -m "r199: scent-story recheck screenshot" || exit 0
-          git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
-          git push
+          N=$(date +%s)
+          curl -sS "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-adv-ritual-app.js?v=fresh-$N" -o adv.js
+          echo "bytes: $(wc -c < adv.js)"
+          echo "count 45+: $(grep -o '45+' adv.js | wc -l)"
+          echo "count 'lasts 30+ days': $(grep -o 'lasts 30+ days' adv.js | wc -l)"
+          grep -o '.\{40\}45+.\{30\}' adv.js || echo "no 45+ in CDN file"
+          curl -sS "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-adv-ritual-app.js?v=ss19-$(date -u +%Y%m%d%H)" -o adv-hourkey.js
+          echo "hour-key copy bytes: $(wc -c < adv-hourkey.js), 45+ count: $(grep -o '45+' adv-hourkey.js | wc -l)"

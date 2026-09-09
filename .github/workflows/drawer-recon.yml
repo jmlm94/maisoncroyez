@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 198 — bottle-life copy sweep: no "45+ days / 45 days / day 45" text on six-month-program (load + after picking 2 scents), manifestation-kits, the-scent-story (cadence "every 45 days" allowed there: Subi Plan 4), diffuser, adv-scent-ritual, kits product page; which files each page loads
+# run 199 — re-check the-scent-story after the last bottle-life fix: only Plan 4 cadence "every 45 days" lines may remain; no "45+" anywhere
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,19 +20,14 @@ jobs:
       - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r198.mjs <<'EOF2'
+          cat > r199.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
           const targets = [
             ['six-month-program', 'https://maisoncroyez.com/pages/six-month-program', '.pick.compact'],
-            ['manifestation-kits', 'https://maisoncroyez.com/pages/manifestation-kits', '#root *'],
-            ['the-scent-story', 'https://maisoncroyez.com/pages/the-scent-story', '#root *, #advroot *'],
-            ['diffuser', 'https://maisoncroyez.com/pages/diffuser', '#root *'],
-            ['adv-scent-ritual', 'https://maisoncroyez.com/pages/adv-scent-ritual', '#root *'],
-            ['kits-product', 'https://maisoncroyez.com/products/diffuser-scents', '#mc-kits-root *'],
-            ['scent-product', 'https://maisoncroyez.com/products/golden-blossom-harmony-for-love-100ml', 'body'],
+            ['the-scent-story', 'https://maisoncroyez.com/pages/the-scent-story?nocache=' + Date.now(), '#root *, #advroot *'],
           ];
           const out = {};
           const scan = (t) => {
@@ -58,7 +53,7 @@ jobs:
                 const cards = pg.locator('.pick.compact'); await cards.nth(0).click(); await pg.waitForTimeout(300); await cards.nth(1).click(); await pg.waitForTimeout(800);
                 r.afterPick = scan(await pg.evaluate(() => document.body.innerText));
                 const tile = pg.locator('text=/Per bottle/i').first(); try { await tile.scrollIntoViewIfNeeded(); } catch (e) {}
-                await pg.waitForTimeout(300); await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s19-bottle-tile.png' });
+                await pg.waitForTimeout(300); await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s19-bottle-tile-r199.png' });
               }
               r.scripts = [...scripts];
               out[name] = r;
@@ -68,7 +63,7 @@ jobs:
           console.log('SWEEP ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r198.mjs
+          KEY="${KEY}" node r199.mjs
         env:
           KEY: v3s19-e2f0c6b
       - name: Commit
@@ -76,6 +71,6 @@ jobs:
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r198: v3s19 bottle-tile screenshot" || exit 0
+          git commit -m "r199: scent-story recheck screenshot" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

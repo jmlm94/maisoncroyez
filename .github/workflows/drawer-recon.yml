@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 196 — verify v3s17 live: zero "45 day / every 45 / Day 45" text in the rendered page (incl. the auto-refill card after picking 2 scents), 30-day copy present, 7 x 100ml badges
+# run 197 — verify v3s18 live: zero 45-day text anywhere (load + after picking 2 scents, incl. "from day 45"), 30-day copy present, 7 x 100ml badges
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,7 +20,7 @@ jobs:
       - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r196.mjs <<'EOF2'
+          cat > r197.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
@@ -38,27 +38,27 @@ jobs:
               return { key: document.documentElement.innerHTML.includes(k), src45: (document.getElementById('root').innerHTML.match(/45[ -]day|every 45|in 45 days/gi) || []).length, ctx45: ctx(/45[ -]day|every 45|in 45 days/gi), ctx30: ctx(/30[ -]day|every 30|in 30 days/gi), badges: document.querySelectorAll('.pick-vol').length, picks: document.querySelectorAll('.pick.compact').length, rows: [...document.querySelectorAll('.pick-introw')].map(r => { const i = r.querySelector('.pick-int').getBoundingClientRect(), m = r.querySelector('.pick-vol').getBoundingClientRect(); return { int: r.querySelector('.pick-int').textContent, badgeText: r.querySelector('.pick-vol').textContent, h: Math.round(m.height), gap: Math.round(m.left - i.right), lastLine: Math.abs(i.bottom - m.bottom) < 10 }; }), badgeCss: (() => { const e = document.querySelector('.pick-vol'); const c = getComputedStyle(e); return { display: c.display, fontSize: c.fontSize, border: c.borderTopWidth, radius: c.borderTopLeftRadius }; })() };
             }, KEY);
             await pg.locator('.pick.compact').first().scrollIntoViewIfNeeded(); await pg.waitForTimeout(400);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s17-picker-' + name + '.png' });
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s18-picker-' + name + '.png' });
             // pick 2 scents on the default (2D) tier to reveal step 3 copy
             const cards = pg.locator('.pick.compact'); await cards.nth(0).click(); await pg.waitForTimeout(300); await cards.nth(1).click(); await pg.waitForTimeout(800);
-            const s3 = pg.locator('.hw-step').first();
+            const s3 = pg.locator('.plan-card, .plansel-title, .decline').first();
             try { await s3.scrollIntoViewIfNeeded(); } catch (e) {}
             await pg.waitForTimeout(400);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s17-refill-' + name + '.png' });
-            out[name].after45 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/45[ -]day|every 45|in 45 days|Day 45|Day 38/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); }); out[name].after30 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/30[ -]day|every 30|in 30 days|Day 30|Day 23/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); });
+            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s18-step3-' + name + '.png' });
+            out[name].after45 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/45[ -]day|every 45|in 45 days|Day 45|Day 38|day 45/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); }); out[name].after30 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/30[ -]day|every 30|in 30 days|Day 30|Day 23/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); });
             await pg.context().close();
           }
           console.log('V3S16 ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r196.mjs
+          KEY="${KEY}" node r197.mjs
         env:
-          KEY: v3s17-ef6aba0
+          KEY: v3s18-4659d07
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r196: v3s17 picker/refill screenshots" || exit 0
+          git commit -m "r197: v3s18 picker/step3 screenshots" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

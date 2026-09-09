@@ -1345,7 +1345,7 @@ function BuyBox() {
 
           <div class="cbenef-grid">
             <div class="cbenef-col"><h3 class="caps">The Diffuser</h3><ul><li><span class="ck" aria-hidden="true">✓</span>Waterless: no tank, no mold, zero cleaning</li><li><span class="ck" aria-hidden="true">✓</span>Fills up to 600 sq ft in under 10 minutes</li><li><span class="ck" aria-hidden="true">✓</span>One button, three strengths, 1-Year Warranty</li></ul></div>
-            <div class="cbenef-col"><h3 class="caps">The Fragrances</h3><ul><li><span class="ck" aria-hidden="true">✓</span>100% organic oils, safe around kids and pets</li><li><span class="ck" aria-hidden="true">✓</span>Each scent composed around an intention</li><li><span class="ck" aria-hidden="true">✓</span>One 100ml bottle lasts 45+ days</li></ul></div>
+            <div class="cbenef-col"><h3 class="caps">The Fragrances</h3><ul><li><span class="ck" aria-hidden="true">✓</span>100% organic oils, safe around kids and pets</li><li><span class="ck" aria-hidden="true">✓</span>Each scent composed around an intention</li><li><span class="ck" aria-hidden="true">✓</span>One 100ml bottle lasts 30+ days</li></ul></div>
           </div>
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`

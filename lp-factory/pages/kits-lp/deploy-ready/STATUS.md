@@ -600,3 +600,8 @@ Already at 30 days, untouched: mc-lp-free-diffuser-app.js, mc-kit-app.js. Not li
 description. Verify: r198 (six-month-program + manifestation-kits + the-scent-story text
 scan for "45+"/"45 day", plus /pages/diffuser, /pages/adv-scent-ritual and the kits product
 page whose bundles are not in the repo).
+r198 result: six-month-program (load + after picking), manifestation-kits, diffuser,
+adv-scent-ritual, kits product page and a scent product page all carry zero "45+ / 45-day"
+text; the-scent-story had one more bottle-life line in the "The Fragrances" checklist
+("One 100ml bottle lasts 45+ days") -> 30+ days (this commit, mc-adv-ritual-app.js 95,617B).
+Its remaining "every 45 days" lines are the Plan 4 cadence and stay. Verify: r199.

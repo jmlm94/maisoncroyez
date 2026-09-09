@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 197 — verify v3s18 live: zero 45-day text anywhere (load + after picking 2 scents, incl. "from day 45"), 30-day copy present, 7 x 100ml badges
+# run 198 — bottle-life copy sweep: no "45+ days / 45 days / day 45" text on six-month-program (load + after picking 2 scents), manifestation-kits, the-scent-story (cadence "every 45 days" allowed there: Subi Plan 4), diffuser, adv-scent-ritual, kits product page; which files each page loads
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,45 +20,62 @@ jobs:
       - name: Verify
         run: |
           mkdir -p lp-factory/pages/kits-lp/live
-          cat > r197.mjs <<'EOF2'
+          cat > r198.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const KEY = process.env.KEY;
           const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+          const targets = [
+            ['six-month-program', 'https://maisoncroyez.com/pages/six-month-program', '.pick.compact'],
+            ['manifestation-kits', 'https://maisoncroyez.com/pages/manifestation-kits', '#root *'],
+            ['the-scent-story', 'https://maisoncroyez.com/pages/the-scent-story', '#root *, #advroot *'],
+            ['diffuser', 'https://maisoncroyez.com/pages/diffuser', '#root *'],
+            ['adv-scent-ritual', 'https://maisoncroyez.com/pages/adv-scent-ritual', '#root *'],
+            ['kits-product', 'https://maisoncroyez.com/products/diffuser-scents', '#mc-kits-root *'],
+            ['scent-product', 'https://maisoncroyez.com/products/golden-blossom-harmony-for-love-100ml', 'body'],
+          ];
           const out = {};
-          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
-            const pg = await (await b.newContext({ viewport: vp })).newPage();
-            await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForSelector('.pick.compact', { timeout: 60000 }); await pg.waitForTimeout(3500);
-            // open every FAQ item so its text is in the DOM/innerText
-            for (const q of await pg.locator('.faq-q, .faq summary, details summary, [class*=faq] button').all()) { try { await q.click({ timeout: 800 }); } catch (e) {} }
-            await pg.waitForTimeout(400);
-            out[name] = await pg.evaluate((k) => {
-              const txt = document.getElementById('root').innerText;
-              const ctx = (re) => [...txt.matchAll(re)].map(m => txt.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' '));
-              return { key: document.documentElement.innerHTML.includes(k), src45: (document.getElementById('root').innerHTML.match(/45[ -]day|every 45|in 45 days/gi) || []).length, ctx45: ctx(/45[ -]day|every 45|in 45 days/gi), ctx30: ctx(/30[ -]day|every 30|in 30 days/gi), badges: document.querySelectorAll('.pick-vol').length, picks: document.querySelectorAll('.pick.compact').length, rows: [...document.querySelectorAll('.pick-introw')].map(r => { const i = r.querySelector('.pick-int').getBoundingClientRect(), m = r.querySelector('.pick-vol').getBoundingClientRect(); return { int: r.querySelector('.pick-int').textContent, badgeText: r.querySelector('.pick-vol').textContent, h: Math.round(m.height), gap: Math.round(m.left - i.right), lastLine: Math.abs(i.bottom - m.bottom) < 10 }; }), badgeCss: (() => { const e = document.querySelector('.pick-vol'); const c = getComputedStyle(e); return { display: c.display, fontSize: c.fontSize, border: c.borderTopWidth, radius: c.borderTopLeftRadius }; })() };
-            }, KEY);
-            await pg.locator('.pick.compact').first().scrollIntoViewIfNeeded(); await pg.waitForTimeout(400);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s18-picker-' + name + '.png' });
-            // pick 2 scents on the default (2D) tier to reveal step 3 copy
-            const cards = pg.locator('.pick.compact'); await cards.nth(0).click(); await pg.waitForTimeout(300); await cards.nth(1).click(); await pg.waitForTimeout(800);
-            const s3 = pg.locator('.plan-card, .plansel-title, .decline').first();
-            try { await s3.scrollIntoViewIfNeeded(); } catch (e) {}
-            await pg.waitForTimeout(400);
-            await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s18-step3-' + name + '.png' });
-            out[name].after45 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/45[ -]day|every 45|in 45 days|Day 45|Day 38|day 45/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); }); out[name].after30 = await pg.evaluate(() => { const t = document.getElementById('root').innerText; return [...t.matchAll(/30[ -]day|every 30|in 30 days|Day 30|Day 23/gi)].map(m => t.slice(Math.max(0, m.index - 50), m.index + 40).replace(/\s+/g, ' ')); });
-            await pg.context().close();
+          const scan = (t) => {
+            const re45 = /45\+|45[ -]day|every 45|in 45 days|day 45|over 45 days|45 días/gi;
+            const re30 = /30\+ ?days|30\+ DAYS|over 30 days|every 30 days|30-day/gi;
+            const ctxs = (re) => [...t.matchAll(re)].map(m => t.slice(Math.max(0, m.index - 45), m.index + 35).replace(/\s+/g, ' '));
+            return { n45: (t.match(re45) || []).length, ctx45: ctxs(re45).slice(0, 12), n30: (t.match(re30) || []).length, ctx30: ctxs(re30).slice(0, 8) };
+          };
+          for (const [name, url, sel] of targets) {
+            const pg = await ctx.newPage();
+            const scripts = new Set();
+            pg.on('request', r => { const u = r.url(); if (/files\/mc-[^?]+\.js/.test(u)) scripts.add(u.replace(/^.*files\//, '').replace(/\?.*$/, '')); });
+            try {
+              await pg.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
+              try { await pg.waitForSelector(sel, { timeout: 30000 }); } catch (e) {}
+              await pg.waitForTimeout(4000);
+              for (const q of await pg.locator('details summary, .faq-q, [class*=faq] button').all()) { try { await q.click({ timeout: 500 }); } catch (e) {} }
+              await pg.waitForTimeout(300);
+              let txt = await pg.evaluate(() => document.body.innerText);
+              const r = scan(txt);
+              if (name === 'six-month-program') {
+                r.key = await pg.evaluate((k) => document.documentElement.innerHTML.includes(k), KEY);
+                const cards = pg.locator('.pick.compact'); await cards.nth(0).click(); await pg.waitForTimeout(300); await cards.nth(1).click(); await pg.waitForTimeout(800);
+                r.afterPick = scan(await pg.evaluate(() => document.body.innerText));
+                const tile = pg.locator('text=/Per bottle/i').first(); try { await tile.scrollIntoViewIfNeeded(); } catch (e) {}
+                await pg.waitForTimeout(300); await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/v3s19-bottle-tile.png' });
+              }
+              r.scripts = [...scripts];
+              out[name] = r;
+            } catch (e) { out[name] = { error: String(e).slice(0, 200), scripts: [...scripts] }; }
+            await pg.close();
           }
-          console.log('V3S16 ' + JSON.stringify(out, null, 1));
+          console.log('SWEEP ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          KEY="${KEY}" node r197.mjs
+          KEY="${KEY}" node r198.mjs
         env:
-          KEY: v3s18-4659d07
+          KEY: v3s19-e2f0c6b
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/kits-lp/live/
-          git commit -m "r197: v3s18 picker/step3 screenshots" || exit 0
+          git commit -m "r198: v3s19 bottle-tile screenshot" || exit 0
           git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
           git push

@@ -461,7 +461,7 @@ const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_
 const selStore = {
   tierIdx: 1,
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
-  freq: 45,
+  freq: 30,
   keys: [],               /* nothing preselected — the customer picks (owner 2026-09-05) */
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },

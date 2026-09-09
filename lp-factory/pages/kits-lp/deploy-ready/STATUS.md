@@ -573,3 +573,11 @@ intention and a new `<span class="pick-vol">100ml</span>` pill (inline after the
 follows onto the next line when the intention wraps). Class name avoids the legacy
 `.pick-ml` (hidden in compact cards). mc-v3-app.js 79,232B, mc-v3.css 50,336B.
 Verify: r195 (no "45 day" text in the rendered page, 7 badges, picker screenshots).
+r195 result: badges 7/7 inline after the intention (16px pill, 5px gap; drops to the next
+line when the intention wraps on phones), FAQ/step-3/picker copy say 30 days. One leftover:
+the auto-refill "how it works" card builds its text from `selStore.freq` (45) — "Refills
+arrive every 45 days", "Day 38 / Day 45" timeline, "Next refill" date. Fixed in v3s17.
+
+### 2026-09-09 — v3s17: selStore.freq 45 -> 30 (last 45-day source on the page)
+Drives "Refills arrive every 30 days", the Day 23 / Day 30 timeline and the "Next refill"
+date. mc-v3-app.js 79,232B. Verify: r196 (zero 45-day matches in the rendered page).

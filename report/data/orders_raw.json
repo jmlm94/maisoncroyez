@@ -38711,5 +38711,1091 @@
     }
    ]
   }
+ },
+ {
+  "name": "#MC26883",
+  "createdAt": "2026-09-12T12:52:59Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "89.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "99.9"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "89.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": []
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Euphoric Bloom – Energy Raise (100ml)",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "49.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Midnight Sensation – Love Manifestation (100ml)",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "49.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "89.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "70.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26884",
+  "createdAt": "2026-09-12T13:04:09Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "First Subscription Order",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "179.9"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "179.9"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "5.16"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Midnight Sensation – Love Manifestation (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 2,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "89.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "70.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26885",
+  "createdAt": "2026-09-12T13:13:56Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "69.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "69.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": []
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "69.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "26.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26886",
+  "createdAt": "2026-09-12T14:39:34Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "First Subscription Order",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "129.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "129.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "FAILURE",
+    "fees": []
+   },
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "3.81"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Wildwood Mystique – Purification (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Euphoric Bloom – Energy Raise (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Midnight Sensation – Love Manifestation (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "129.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "105.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26887",
+  "createdAt": "2026-09-12T14:45:49Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "129.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "149.85"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "129.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": []
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Midnight Sensation – Love Manifestation (100ml)",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "49.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "49.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "49.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "129.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "105.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26888",
+  "createdAt": "2026-09-13T00:43:12Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "First Subscription Order",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "89.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "89.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "FAILURE",
+    "fees": []
+   },
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.73"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Wildwood Mystique – Purification (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "0.0"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "89.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "70.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26889",
+  "createdAt": "2026-09-13T02:05:16Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "74.9"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "74.9"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [
+   {
+    "createdAt": "2026-09-13T02:35:52Z",
+    "totalRefundedSet": {
+     "shopMoney": {
+      "amount": "0.0"
+     }
+    }
+   }
+  ],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.19"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Maison Croyez Diffuser — Special Kits",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "69.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "26.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Priority & Full Protection Pass",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "4.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": null
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26890",
+  "createdAt": "2026-09-13T08:08:51Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #2",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "79.9"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "79.9"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.46"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Midnight Sensation – Love Manifestation (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Delivered every 30 days ✨"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Euphoric Bloom – Energy Raise (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Delivered every 30 days ✨"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26891",
+  "createdAt": "2026-09-13T08:08:51Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #2",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.38"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Delivered every 30 days ✨"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26892",
+  "createdAt": "2026-09-13T08:08:52Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #2",
+   "Subi Subscription"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.38"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Delivered every 30 days ✨"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
  }
 ]

@@ -3,7 +3,11 @@ name: clarity-export
 # CLARITY_TOKEN repository secret and commits the JSON under lp-factory/analytics/clarity/.
 # The token never appears in the repo. Clarity allows 10 requests per project per day, so this
 # job makes at most 4 per run: by URL, by device, by URL+device, and by OS+browser.
+# Runs when lp-factory/analytics/clarity/RUN changes (bump the number inside to trigger).
 on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['lp-factory/analytics/clarity/RUN']
   workflow_dispatch:
     inputs:
       days:

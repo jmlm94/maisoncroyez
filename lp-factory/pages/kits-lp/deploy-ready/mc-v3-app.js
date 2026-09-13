@@ -736,7 +736,7 @@ function BuyBox() {
           </div>`; })()}
 
           <div class="atc-proof" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7</b> · 124 reviews · <b>90-day</b> money-back · <b>Free</b> shipping</div>
-          <button class=${"btn atc" + (left > 0 ? " need" : "")} disabled=${busy} aria-disabled=${left > 0} onClick=${() => left > 0 ? goPicker() : addToCart(setBusy, setToast)}>
+          <button class=${"btn atc" + (left > 0 ? " need" : "")} disabled=${busy} onClick=${() => left > 0 ? goPicker() : addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
             <span class="btn-sub">${left > 0 ? "Tap here to choose your included scents" : (sel.savings() > 0 ? html`<${Rich} s=${"**You're saving " + usd(sel.savings()) + " today, don't miss it out!**"}/>` : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty")}</span>
           </button>

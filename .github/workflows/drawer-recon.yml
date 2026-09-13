@@ -1,5 +1,6 @@
 name: drawer-recon
-# run 202 — where do the key sections of /pages/six-month-program sit as a % of total page height on a 390px phone (context for Clarity's 21% average scroll depth)
+# run 203 — (a) what occupies the space above the buybox ADD TO CART on a 390px phone, block by block
+#           (b) preview of the branch mc-v3-app.js / mc-v3.css (dead-click fixes + proof strip) rendered over the live page
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,41 +20,83 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Measure
         run: |
-          cat > r202.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r203
+          cat > r203.mjs <<'EOF2'
           import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r203/';
+          const JS = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-v3-app.js', 'utf8');
+          const CSS = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-v3.css', 'utf8');
           const b = await chromium.launch();
-          const out = {};
-          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
-            const pg = await (await b.newContext({ viewport: vp })).newPage();
-            await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(4000);
-            out[name] = await pg.evaluate((vh) => {
-              const H = document.documentElement.scrollHeight;
-              const top = (el) => el ? Math.round(el.getBoundingClientRect().top + window.scrollY) : null;
-              const pct = (y) => y == null ? null : Math.round(100 * y / H);
-              const q = (s) => document.querySelector(s);
-              const byText = (re) => [...document.querySelectorAll('h1,h2,h3,.picker-title,.plansel-title,button,summary')].find(e => re.test(e.textContent || ''));
-              const marks = {
-                'H1': q('#root h1'),
-                'Step 1 tiers': q('.tiers'),
-                'Step 2 scent picker': byText(/Pick your .* scents|2\. /i),
-                'Step 3 plan': byText(/3\. |Auto-refill/i),
-                'Add to cart (inline)': [...document.querySelectorAll('button')].find(b => /add to cart/i.test(b.textContent || '') && getComputedStyle(b).position !== 'fixed'),
-                'Proof stats (30+ days)': byText(/PER BOTTLE/i) || [...document.querySelectorAll('*')].find(e => /30\+ DAYS/.test(e.textContent || '') && e.children.length === 0),
-                'How auto-refill works': byText(/How Auto-refill/i),
-                'Reviews': byText(/reviews|what customers|verified/i),
-                'FAQ': byText(/Questions\?/i),
-              };
-              const r = { pageHeight: H, viewport: vh, firstScreenPct: Math.round(100 * vh / H), sticky: !!([...document.querySelectorAll('button,a')].find(b => /add to cart|pick .* more/i.test(b.textContent || '') && getComputedStyle(b.closest('[class]') || b).position === 'fixed')) };
-              for (const [k, el] of Object.entries(marks)) r[k] = el ? { px: top(el), pct: pct(top(el)) } : null;
-              // 21% line
-              r['y at 21%'] = Math.round(0.21 * H);
-              r['what is at 21%'] = (() => { const y = 0.21 * H; let best = null; for (const e of document.querySelectorAll('#root h1,#root h2,#root h3,#root .picker-title,#root section,#root .tiers')) { const t = e.getBoundingClientRect().top + window.scrollY; if (t <= y && (!best || t > best.t)) best = { t, txt: (e.textContent || '').trim().slice(0, 70), cls: e.className }; } return best; })();
-              return r;
-            }, vp.height);
+          const URL = 'https://maisoncroyez.com/pages/six-month-program';
+          const measure = (vh) => {
+            const H = document.documentElement.scrollHeight;
+            const y = (el) => Math.round(el.getBoundingClientRect().top + window.scrollY);
+            const rows = [];
+            const add = (label, el) => { if (!el) return rows.push({ label, missing: true }); const r = el.getBoundingClientRect(); rows.push({ label, top: y(el), height: Math.round(r.height), screens: +(r.height / vh).toFixed(2), topPctOfPage: Math.round(100 * y(el) / H) }); };
+            add('header (theme)', document.querySelector('header, .header, #shopify-section-header'));
+            add('gallery column', document.querySelector('#buybox .gal-col'));
+            for (const c of document.querySelectorAll('#buybox .buybox > *')) {
+              const cls = (c.className || '').toString().split(' ').slice(0, 2).join('.');
+              const txt = (c.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+              add((c.tagName.toLowerCase()) + '.' + cls + ' | ' + txt, c);
+              if (c.classList.contains('atc')) break;
+            }
+            const atc = document.querySelector('#buybox .btn.atc');
+            return { pageHeight: H, viewport: vh, atcTop: atc ? y(atc) : null, atcScreens: atc ? +(y(atc) / vh).toFixed(1) : null, atcPctOfPage: atc ? Math.round(100 * y(atc) / H) : null, rows };
+          };
+          // (a) live
+          {
+            const pg = await (await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 })).newPage();
+            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('#buybox .btn.atc', { timeout: 60000 }); await pg.waitForTimeout(4000);
+            const live = await pg.evaluate(measure, 844);
+            console.log('LIVE ' + JSON.stringify(live, null, 1));
+            fs.writeFileSync(OUT + 'live-measure.json', JSON.stringify(live, null, 1));
+            await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.waitForTimeout(600);
+            await pg.screenshot({ path: OUT + 'live-button-area.png' });
             await pg.context().close();
           }
-          console.log('LAYOUT ' + JSON.stringify(out, null, 1));
+          // (b) preview with branch files
+          {
+            const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+            await ctx.route(/mc-v3-app\.js/, (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: JS }));
+            await ctx.route(/mc-v3\.css/, (r) => r.fulfill({ status: 200, contentType: 'text/css', body: CSS }));
+            const pg = await ctx.newPage();
+            const errs = []; pg.on('pageerror', (e) => errs.push(String(e)));
+            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('#buybox .btn.atc', { timeout: 60000 }); await pg.waitForTimeout(4000);
+            const prev = await pg.evaluate(measure, 844);
+            console.log('PREVIEW ' + JSON.stringify({ pageHeight: prev.pageHeight, atcTop: prev.atcTop, atcScreens: prev.atcScreens, errs }));
+            fs.writeFileSync(OUT + 'preview-measure.json', JSON.stringify(prev, null, 1));
+            const btn = pg.locator('#buybox .btn.atc');
+            await btn.scrollIntoViewIfNeeded(); await pg.evaluate(() => window.scrollBy(0, -250)); await pg.waitForTimeout(500);
+            await pg.screenshot({ path: OUT + 'preview-1-button-before-picking.png' });
+            console.log('BTN1 ' + JSON.stringify(await btn.evaluate((e) => ({ text: e.textContent.trim().slice(0, 80), disabled: e.disabled, cls: e.className }))));
+            await btn.click(); await pg.waitForTimeout(900);
+            await pg.screenshot({ path: OUT + 'preview-2-after-tapping-button.png' });
+            const cards = pg.locator('#buybox .pick.compact');
+            await cards.nth(0).click(); await pg.waitForTimeout(200); await cards.nth(1).click(); await pg.waitForTimeout(200);
+            console.log('COUNT2 ' + (await pg.locator('#buybox .pick-count').textContent()));
+            await cards.nth(2).click(); await pg.waitForTimeout(300);
+            console.log('COUNT3 ' + (await pg.locator('#buybox .pick-count').textContent()));
+            console.log('SELECTED ' + JSON.stringify(await pg.$$eval('#buybox .pick.compact.on .pick-name', (a) => a.map((e) => e.textContent.trim()))));
+            await pg.locator('#buybox .picker').scrollIntoViewIfNeeded(); await pg.waitForTimeout(300);
+            await pg.screenshot({ path: OUT + 'preview-3-swapped-third-scent.png' });
+            await btn.scrollIntoViewIfNeeded(); await pg.evaluate(() => window.scrollBy(0, -300)); await pg.waitForTimeout(400);
+            await pg.screenshot({ path: OUT + 'preview-4-button-ready.png' });
+            console.log('BTN2 ' + JSON.stringify(await btn.evaluate((e) => ({ text: e.textContent.trim().slice(0, 80), disabled: e.disabled, cls: e.className }))));
+            console.log('ERRS ' + JSON.stringify(errs));
+            await ctx.close();
+          }
           await b.close();
           EOF2
-          node r202.mjs
+          node r203.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/recon/r203
+          git commit -m "r203: buybox height audit + preview screenshots" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

@@ -488,7 +488,7 @@ const selStore = {
   label() { return this.grouped().map(({ f, q }) => f.name + (q > 1 ? ` \u00d7${q}` : "")).join(" + "); },
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
-  add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) return; this.keys = [...this.keys, k]; this.emit(); },
+  add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) { /* full: swap the oldest pick out instead of ignoring the tap (Clarity dead-click fix) */ this.keys = [...this.keys.slice(1), k]; this.emit(); return; } this.keys = [...this.keys, k]; this.emit(); },
   remove(k) {
     const i = this.keys.indexOf(k);
     if (i < 0) return;
@@ -628,6 +628,7 @@ function BuyBox() {
   const left = sel.left();
   const sp = sel.scentPrice();
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "long", day: "numeric" });
+  const goPicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.scrollIntoView({ behavior: "smooth", block: "center" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1600); };
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
@@ -693,12 +694,12 @@ function BuyBox() {
                 </span>
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
                 <span class="pick-smells"><b>SMELLS LIKE:</b> ${f.smells2 || f.smells}</span>
-                <span class="pick-foot" onClick=${(e) => e.stopPropagation()}>
+                <span class="pick-foot">
                   <span class="pick-free">${T.scents > 0 ? html`<s>$49.95</s> Included!` : html`${usd(SCENT_ONE)} each`}</span>
-                  <span class="pick-qty">
+                  <span class="pick-qty" onClick=${(e) => e.stopPropagation()}>
                     <button aria-label="Remove one" disabled=${q === 0} onClick=${() => sel.remove(f.key)}>−</button>
                     <b>${q}</b>
-                    <button aria-label="Add one" disabled=${full} onClick=${() => sel.add(f.key)}>+</button>
+                    <button aria-label=${full && !on ? "Swap this scent in" : "Add one"} onClick=${() => sel.add(f.key)}>+</button>
                   </span>
                 </span>
               </div>`; })}
@@ -734,9 +735,10 @@ function BuyBox() {
             </div>
           </div>`; })()}
 
-          <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
-            <span class="btn-sub">${left > 0 ? "Choose your included scents to continue" : (sel.savings() > 0 ? html`<${Rich} s=${"**You're saving " + usd(sel.savings()) + " today, don't miss it out!**"}/>` : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty")}</span>
+          <div class="atc-proof" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7</b> · 124 reviews · <b>90-day</b> money-back · <b>Free</b> shipping</div>
+          <button class=${"btn atc" + (left > 0 ? " need" : "")} disabled=${busy} aria-disabled=${left > 0} onClick=${() => left > 0 ? goPicker() : addToCart(setBusy, setToast)}>
+            <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
+            <span class="btn-sub">${left > 0 ? "Tap here to choose your included scents" : (sel.savings() > 0 ? html`<${Rich} s=${"**You're saving " + usd(sel.savings()) + " today, don't miss it out!**"}/>` : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty")}</span>
           </button>
           ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">

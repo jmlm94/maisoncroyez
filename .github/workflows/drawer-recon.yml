@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 201 — the-scent-story after cadence 45 -> 30 and loader key ss20-: zero "45" wording anywhere on the page; 30-day cadence lines present; scripts loaded with the ss20 key
+# run 202 — where do the key sections of /pages/six-month-program sit as a % of total page height on a 390px phone (context for Clarity's 21% average scroll depth)
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,34 +17,43 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Verify
+      - name: Measure
         run: |
-          mkdir -p lp-factory/pages/kits-lp/live
-          cat > r201.mjs <<'EOF2'
+          cat > r202.mjs <<'EOF2'
           import { chromium } from 'playwright';
           const b = await chromium.launch();
-          const pg = await (await b.newContext({ viewport: { width: 390, height: 844 } })).newPage();
-          const scripts = [];
-          pg.on('request', r => { const u = r.url(); if (/files\/mc-[^?]+\.js/.test(u)) scripts.push(u.replace(/^.*files\//, '')); });
-          await pg.goto('https://maisoncroyez.com/pages/the-scent-story', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          try { await pg.waitForSelector('#root *', { timeout: 30000 }); } catch (e) {}
-          await pg.waitForTimeout(4000);
-          for (const q of await pg.locator('details summary, .faq-q, [class*=faq] button').all()) { try { await q.click({ timeout: 500 }); } catch (e) {} }
-          await pg.waitForTimeout(300);
-          const t = await pg.evaluate(() => document.body.innerText);
-          const ctx = (re) => [...t.matchAll(re)].map(m => t.slice(Math.max(0, m.index - 45), m.index + 35).replace(/\s+/g, ' '));
-          const out = { n45: (t.match(/\b45\b/g) || []).length, ctx45: ctx(/\b45\b/g).slice(0, 12), ctx30: ctx(/every 30 days|Every 30 days|30\+ days|30-day/gi).slice(0, 14), scripts };
-          const el = pg.locator('text=/Every 30 days/i').first(); try { await el.scrollIntoViewIfNeeded(); } catch (e) {}
-          await pg.waitForTimeout(300); await pg.screenshot({ path: 'lp-factory/pages/kits-lp/live/scent-story-30day.png' });
-          console.log('STORY ' + JSON.stringify(out, null, 1));
+          const out = {};
+          for (const [name, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
+            const pg = await (await b.newContext({ viewport: vp })).newPage();
+            await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('.tiers', { timeout: 60000 }); await pg.waitForTimeout(4000);
+            out[name] = await pg.evaluate((vh) => {
+              const H = document.documentElement.scrollHeight;
+              const top = (el) => el ? Math.round(el.getBoundingClientRect().top + window.scrollY) : null;
+              const pct = (y) => y == null ? null : Math.round(100 * y / H);
+              const q = (s) => document.querySelector(s);
+              const byText = (re) => [...document.querySelectorAll('h1,h2,h3,.picker-title,.plansel-title,button,summary')].find(e => re.test(e.textContent || ''));
+              const marks = {
+                'H1': q('#root h1'),
+                'Step 1 tiers': q('.tiers'),
+                'Step 2 scent picker': byText(/Pick your .* scents|2\. /i),
+                'Step 3 plan': byText(/3\. |Auto-refill/i),
+                'Add to cart (inline)': [...document.querySelectorAll('button')].find(b => /add to cart/i.test(b.textContent || '') && getComputedStyle(b).position !== 'fixed'),
+                'Proof stats (30+ days)': byText(/PER BOTTLE/i) || [...document.querySelectorAll('*')].find(e => /30\+ DAYS/.test(e.textContent || '') && e.children.length === 0),
+                'How auto-refill works': byText(/How Auto-refill/i),
+                'Reviews': byText(/reviews|what customers|verified/i),
+                'FAQ': byText(/Questions\?/i),
+              };
+              const r = { pageHeight: H, viewport: vh, firstScreenPct: Math.round(100 * vh / H), sticky: !!([...document.querySelectorAll('button,a')].find(b => /add to cart|pick .* more/i.test(b.textContent || '') && getComputedStyle(b.closest('[class]') || b).position === 'fixed')) };
+              for (const [k, el] of Object.entries(marks)) r[k] = el ? { px: top(el), pct: pct(top(el)) } : null;
+              // 21% line
+              r['y at 21%'] = Math.round(0.21 * H);
+              r['what is at 21%'] = (() => { const y = 0.21 * H; let best = null; for (const e of document.querySelectorAll('#root h1,#root h2,#root h3,#root .picker-title,#root section,#root .tiers')) { const t = e.getBoundingClientRect().top + window.scrollY; if (t <= y && (!best || t > best.t)) best = { t, txt: (e.textContent || '').trim().slice(0, 70), cls: e.className }; } return best; })();
+              return r;
+            }, vp.height);
+            await pg.context().close();
+          }
+          console.log('LAYOUT ' + JSON.stringify(out, null, 1));
           await b.close();
           EOF2
-          node r201.mjs
-      - name: Commit
-        run: |
-          git config user.name "mc-recon"
-          git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/live/
-          git commit -m "r201: scent-story 30-day screenshot" || exit 0
-          git pull --rebase -q origin claude/maison-diffuser-perf-fixes-f45ggl || true
-          git push
+          node r202.mjs

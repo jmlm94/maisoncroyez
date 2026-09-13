@@ -29,7 +29,9 @@ jobs:
         run: |
           set -e
           if [ -z "$CLARITY_TOKEN" ]; then echo "CLARITY_TOKEN secret is not set"; exit 1; fi
-          STAMP=$(date -u +%Y%m%dT%H%MZ)
+          # Days can also be set in lp-factory/analytics/clarity/DAYS (workflow_dispatch input wins).
+          if [ -z "$DAYS" ] && [ -f lp-factory/analytics/clarity/DAYS ]; then DAYS=$(tr -dc 0-9 < lp-factory/analytics/clarity/DAYS); fi
+          STAMP=$(date -u +%Y%m%dT%H%MZ)-${DAYS:-3}d
           OUT=lp-factory/analytics/clarity/$STAMP
           mkdir -p "$OUT"
           call () {
@@ -37,6 +39,7 @@ jobs:
               "https://www.clarity.ms/export-data/api/v1/project-live-insights?numOfDays=${DAYS:-3}&$2" -o "$OUT/$1.json"
             echo "$1: $(wc -c < "$OUT/$1.json") bytes"
             head -c 300 "$OUT/$1.json"; echo
+            if grep -qi '"error\|"message"' "$OUT/$1.json" && ! grep -q metricName "$OUT/$1.json"; then echo "API rejected the request, stopping"; exit 1; fi
           }
           call by-url "dimension1=URL"
           call by-device "dimension1=Device"

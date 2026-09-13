@@ -627,7 +627,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .picker.flash{animation:mc-flash 1.6s ease-out 1;border-radius:14px}@keyframes mc-flash{0%{box-shadow:0 0 0 0 rgba(36,28,24,.0)}20%{box-shadow:0 0 0 4px rgba(36,28,24,.55)}100%{box-shadow:0 0 0 0 rgba(36,28,24,0)}}
 /* r203c — shorter path to the buy button on phones (button sat 4.1 screens down; the 7 scent cards alone were 1.4 screens) */
 @media (max-width:640px){
-#root .pick.compact{padding:8px 8px 6px;gap:4px}
+#root .picker.compact{align-items:start}#root .pick.compact{padding:8px 8px 6px;gap:4px}
 #root .pick.compact .pick-ingr{font-size:.62rem;line-height:1.25}
 #root .pick.compact:not(.on) .pick-smells{display:none !important}
 #root .pick.compact.on .pick-smells{font-size:.66rem;line-height:1.3}

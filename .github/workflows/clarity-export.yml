@@ -4,6 +4,7 @@ name: clarity-export
 # The token never appears in the repo. Clarity allows 10 requests per project per day, so this
 # job makes at most 4 per run: by URL, by device, by URL+device, and by OS+browser.
 # Runs when lp-factory/analytics/clarity/RUN changes (bump the number inside to trigger).
+# numOfDays above 3 is rejected by the API (empty 4xx body) - confirmed 2026-09-13.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -35,11 +36,11 @@ jobs:
           OUT=lp-factory/analytics/clarity/$STAMP
           mkdir -p "$OUT"
           call () {
-            curl -sS -m 90 -H "Authorization: Bearer $CLARITY_TOKEN" -H "Accept: application/json" \
-              "https://www.clarity.ms/export-data/api/v1/project-live-insights?numOfDays=${DAYS:-3}&$2" -o "$OUT/$1.json"
-            echo "$1: $(wc -c < "$OUT/$1.json") bytes"
+            CODE=$(curl -sS -m 90 -w '%{http_code}' -H "Authorization: Bearer $CLARITY_TOKEN" -H "Accept: application/json" \
+              "https://www.clarity.ms/export-data/api/v1/project-live-insights?numOfDays=${DAYS:-3}&$2" -o "$OUT/$1.json")
+            echo "$1: HTTP $CODE, $(wc -c < "$OUT/$1.json") bytes"
             head -c 300 "$OUT/$1.json"; echo
-            if grep -qi '"error\|"message"' "$OUT/$1.json" && ! grep -q metricName "$OUT/$1.json"; then echo "API rejected the request, stopping"; exit 1; fi
+            if [ "$CODE" != "200" ] || ! grep -q metricName "$OUT/$1.json"; then echo "API rejected the request, stopping"; rm -rf "$OUT"; exit 1; fi
           }
           call by-url "dimension1=URL"
           call by-device "dimension1=Device"

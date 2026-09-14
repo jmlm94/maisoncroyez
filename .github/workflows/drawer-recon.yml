@@ -1,6 +1,5 @@
 name: drawer-recon
-# run 203d — (a) what occupies the space above the buybox ADD TO CART on a 390px phone, block by block
-#           (b) preview of the branch mc-v3-app.js / mc-v3.css (dead-click fixes + proof strip) rendered over the live page
+# run 204 — Lighthouse baseline of the LIVE /pages/six-month-program (mobile + desktop) before the three-step version ships
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -15,88 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install
+        run: npm i lighthouse@12.2.1 chrome-launcher@1.1.2
+      - name: Lighthouse
         run: |
-          npm i playwright@1.49.0
-          npx playwright install --with-deps chromium
-      - name: Measure
-        run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r203
-          cat > r203.mjs <<'EOF2'
-          import { chromium } from 'playwright';
-          import fs from 'fs';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r203/';
-          const JS = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-v3-app.js', 'utf8');
-          const CSS = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-v3.css', 'utf8');
-          const b = await chromium.launch();
-          const URL = 'https://maisoncroyez.com/pages/six-month-program';
-          const measure = (vh) => {
-            const H = document.documentElement.scrollHeight;
-            const y = (el) => Math.round(el.getBoundingClientRect().top + window.scrollY);
-            const rows = [];
-            const add = (label, el) => { if (!el) return rows.push({ label, missing: true }); const r = el.getBoundingClientRect(); rows.push({ label, top: y(el), height: Math.round(r.height), screens: +(r.height / vh).toFixed(2), topPctOfPage: Math.round(100 * y(el) / H) }); };
-            add('header (theme)', document.querySelector('header, .header, #shopify-section-header'));
-            add('gallery column', document.querySelector('#buybox .gal-col'));
-            for (const c of document.querySelectorAll('#buybox .buybox > *')) {
-              const cls = (c.className || '').toString().split(' ').slice(0, 2).join('.');
-              const txt = (c.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40);
-              add((c.tagName.toLowerCase()) + '.' + cls + ' | ' + txt, c);
-              if (c.classList.contains('atc')) break;
-            }
-            const atc = document.querySelector('#buybox .btn.atc');
-            return { pageHeight: H, viewport: vh, atcTop: atc ? y(atc) : null, atcScreens: atc ? +(y(atc) / vh).toFixed(1) : null, atcPctOfPage: atc ? Math.round(100 * y(atc) / H) : null, rows };
-          };
-          // (a) live
-          {
-            const pg = await (await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 })).newPage();
-            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForSelector('#buybox .btn.atc', { timeout: 60000 }); await pg.waitForTimeout(4000);
-            const live = await pg.evaluate(measure, 844);
-            console.log('LIVE ' + JSON.stringify(live, null, 1));
-            fs.writeFileSync(OUT + 'live-measure.json', JSON.stringify(live, null, 1));
-            await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.waitForTimeout(600);
-            await pg.screenshot({ path: OUT + 'live-button-area.png' });
-            await pg.context().close();
-          }
-          // (b) preview with branch files
-          {
-            const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
-            await ctx.route(/mc-v3-app\.js/, (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: JS }));
-            await ctx.route(/mc-v3\.css/, (r) => r.fulfill({ status: 200, contentType: 'text/css', body: CSS }));
-            const pg = await ctx.newPage();
-            const errs = []; pg.on('pageerror', (e) => errs.push(String(e)));
-            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
-            await pg.waitForSelector('#buybox .btn.atc', { timeout: 60000 }); await pg.waitForTimeout(4000);
-            const prev = await pg.evaluate(measure, 844);
-            console.log('PREVIEW ' + JSON.stringify({ pageHeight: prev.pageHeight, atcTop: prev.atcTop, atcScreens: prev.atcScreens, errs }));
-            fs.writeFileSync(OUT + 'preview-measure.json', JSON.stringify(prev, null, 1));
-            const btn = pg.locator('#buybox .btn.atc');
-            await btn.scrollIntoViewIfNeeded(); await pg.evaluate(() => window.scrollBy(0, -250)); await pg.waitForTimeout(500);
-            await pg.screenshot({ path: OUT + 'preview-1-button-before-picking.png' });
-            console.log('BTN1 ' + JSON.stringify(await btn.evaluate((e) => ({ text: e.textContent.trim().slice(0, 80), disabled: e.disabled, cls: e.className }))));
-            await btn.click(); await pg.waitForTimeout(900);
-            await pg.screenshot({ path: OUT + 'preview-2-after-tapping-button.png' });
-            const cards = pg.locator('#buybox .pick.compact');
-            await cards.nth(0).click(); await pg.waitForTimeout(200); await cards.nth(1).click(); await pg.waitForTimeout(200);
-            console.log('COUNT2 ' + (await pg.locator('#buybox .pick-count').textContent()));
-            await cards.nth(2).click(); await pg.waitForTimeout(300);
-            console.log('COUNT3 ' + (await pg.locator('#buybox .pick-count').textContent()));
-            console.log('SELECTED ' + JSON.stringify(await pg.$$eval('#buybox .pick.compact.on .pick-name', (a) => a.map((e) => e.textContent.trim()))));
-            await pg.locator('#buybox .picker').scrollIntoViewIfNeeded(); await pg.waitForTimeout(300);
-            await pg.screenshot({ path: OUT + 'preview-3-swapped-third-scent.png' });
-            await btn.scrollIntoViewIfNeeded(); await pg.evaluate(() => window.scrollBy(0, -300)); await pg.waitForTimeout(400);
-            await pg.screenshot({ path: OUT + 'preview-4-button-ready.png' });
-            console.log('BTN2 ' + JSON.stringify(await btn.evaluate((e) => ({ text: e.textContent.trim().slice(0, 80), disabled: e.disabled, cls: e.className }))));
-            console.log('ERRS ' + JSON.stringify(errs));
-            await ctx.close();
-          }
-          await b.close();
-          EOF2
-          node r203.mjs
-      - name: Commit
-        run: |
-          git config user.name "mc-recon"
-          git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r203
-          git commit -m "r203: buybox height audit + preview screenshots" || exit 0
-          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
-          git push
+          mkdir -p lp-factory/pages/kits-lp/recon/r204
+          for form in mobile desktop; do
+            EXTRA=""; [ "$form" = desktop ] && EXTRA="--preset=desktop"
+            npx lighthouse "https://maisoncroyez.com/pages/six-month-program" --quiet --only-categories=performance,accessibility,best-practices --output=json --output-path=lp-factory/pages/kits-lp/recon/r204/live-$form.json --chrome-flags="--headless=new --no-sandbox" $EXTRA
+            node -e '
+              const r=require("./lp-factory/pages/kits-lp/recon/r204/live-'"$form"'.json"); const a=r.audits; const ms=k=>Math.round(a[k].numericValue);
+              console.log("LH '"$form"'", "perf", Math.round(r.categories.performance.score*100), "a11y", Math.round(r.categories.accessibility.score*100), "bp", Math.round(r.categories["best-practices"].score*100));
+              console.log("  FCP", ms("first-contentful-paint"), "LCP", ms("largest-contentful-paint"), "TBT", ms("total-blocking-time"), "CLS", a["cumulative-layout-shift"].numericValue.toFixed(3), "SI", ms("speed-index"), "TTI", ms("interactive"));
+              console.log("  LCP element:", (a["largest-contentful-paint-element"].details?.items?.[0]?.items?.[0]?.node?.snippet||"").slice(0,120));
+              console.log("  transfer KB", Math.round(a["total-byte-weight"].numericValue/1024), "| requests", a["network-requests"].details.items.length, "| bootup ms", ms("bootup-time"), "| mainthread ms", ms("mainthread-work-breakdown"), "| dom", ms("dom-size"));
+              const big=a["network-requests"].details.items.filter(i=>i.transferSize>60000).sort((x,y)=>y.transferSize-x.transferSize).slice(0,8).map(i=>Math.round(i.transferSize/1024)+"KB "+i.url.replace(/^https?:\/\/[^/]+/,"").slice(0,70)); console.log("  biggest:", big.join(" || "));
+              const opp=Object.values(a).filter(x=>x.details&&x.details.type==="opportunity"&&x.numericValue>150).sort((x,y)=>y.numericValue-x.numericValue).slice(0,6).map(x=>x.title+" ("+Math.round(x.numericValue)+"ms)"); console.log("  opportunities:", opp.join("; ")||"none");
+            '
+          done
+          rm -f lp-factory/pages/kits-lp/recon/r204/*.json

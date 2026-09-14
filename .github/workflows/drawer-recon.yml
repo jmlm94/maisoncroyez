@@ -1,5 +1,7 @@
 name: drawer-recon
-# run 207 — cart drawer: Qty + variant line under each title (branch mc-drawer.js swapped into the live page), real add-to-cart click
+# run 208 — FINAL FUNNEL QA on the live store: page → kit → scents → review → add to cart → drawer → checkout summary, every kit path,
+#           refill and one-time. Reads the real checkout totals/discounts; never places an order. Drawer script swapped to the version
+#           that goes live at 02:00 UTC so the check reflects what visitors will see.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -17,38 +19,83 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Drawer
+      - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r207
-          cat > r207.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r208
+          cat > r208.mjs <<'EOF2'
           import { chromium } from 'playwright';
           import fs from 'fs';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r207/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r208/';
           const DR = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-drawer.js', 'utf8');
+          const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
-          await ctx.route(/mc-drawer\.js/, (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: DR }));
-          const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
-          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.waitForTimeout(2000);
-          await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
-          const c = pg.locator('#buybox .pick.compact');
-          await c.nth(0).click(); await c.nth(0).locator('.pick-qty button:last-child').click(); await c.nth(6).click(); await pg.waitForTimeout(200);
-          await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
-          await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' }));
-          await pg.locator('#buybox .btn.atc').click(); await pg.waitForTimeout(5000);
-          const open = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? { open: d.hasAttribute('open') || d.classList.contains('is-open') || getComputedStyle(d).visibility !== 'hidden', lines: [...d.querySelectorAll('.line-item')].map((li) => ({ title: (li.querySelector('a.bold') || {}).textContent, qv: (li.querySelector('.mc-qv') || {}).innerText })) } : null; });
-          console.log('DRAWER', JSON.stringify(open), 'url', pg.url(), 'errs', JSON.stringify(errs));
-          await pg.screenshot({ path: OUT + 'drawer-qty-variant.png' });
-          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }).catch(() => {}));
+          const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
+          const PATHS = [
+            { id: '2D-refill', tier: 2, picks: [0, 0, 6], plan: 'sub', total: 119.95, scents: 3, desktop: false },
+            { id: '2D-onetime', tier: 2, picks: [1, 3, 5], plan: 'one', total: 119.95, scents: 3, desktop: false },
+            { id: '3D-onetime', tier: 3, picks: [0, 2, 4, 6], plan: 'one', total: 159.95, scents: 4, desktop: true },
+            { id: '1D', tier: 1, picks: [], plan: null, total: 109.95, scents: 0, desktop: false },
+          ];
+          for (const P of PATHS) {
+            const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
+            const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: P.desktop ? 1 : 2 });
+            await ctx.route(/mc-drawer\.js/, (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: DR }));
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            const T = async (s) => (await pg.locator(s).first().innerText()).replace(/\s+/g, ' ').trim();
+            try {
+              await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
+              await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.waitForTimeout(2000);
+              await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(300);
+              if (P.tier === 1) {
+                ok(`${P.id} step-1 button is add to cart`, /ADD TO CART — \$109\.95/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
+                await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' }));
+                await pg.locator('#buybox .step-next').click();
+              } else {
+                await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
+                ok(`${P.id} step 2 asks ${P.scents}`, new RegExp(`Pick your ${P.scents} included`).test(await T('#buybox .step-title')));
+                const c = pg.locator('#buybox .pick.compact');
+                for (const k of P.picks) { if ((await c.nth(k).locator('.pick-qty b').innerText()) !== '0') { await c.nth(k).locator('.pick-qty button:last-child').click(); } else { await c.nth(k).click(); } await pg.waitForTimeout(150); }
+                ok(`${P.id} ${P.scents}/${P.scents} chosen`, new RegExp(`${P.scents}/${P.scents}`).test(await T('#buybox .pick-count')), await T('#buybox .pick-count'));
+                await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
+                ok(`${P.id} review total`, new RegExp(`You only pay: \\$${P.total}`.replace('.', '\\.')).test(await T('#buybox .kr-total')), await T('#buybox .kr-total'));
+                if (P.plan === 'one') { await pg.click('#buybox .decline'); await pg.waitForTimeout(200); ok(`${P.id} one-time selected`, await pg.$eval('#buybox .decline', (e) => e.classList.contains('on'))); }
+                await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' }));
+                await pg.locator('#buybox .btn.atc').click();
+              }
+              await pg.waitForTimeout(5000);
+              const dr = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; return { lines: [...d.querySelectorAll('.line-item')].map((li) => ({ t: ((li.querySelector('a.bold') || {}).textContent || '').trim().slice(0, 40), qv: ((li.querySelector('.mc-qv') || {}).innerText || '').replace(/\s+/g, ' '), price: (li.innerText.match(/\$[\d.,]+/g) || []).join(' ') })), total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0] }; });
+              const scentQty = dr ? dr.lines.filter((l) => !/Special Kits/.test(l.t)).reduce((s, l) => s + (parseInt((l.qv.match(/Qty (\d+)/) || [])[1] || '0', 10)), 0) : -1;
+              ok(`${P.id} drawer: kit + ${P.scents} scents, Qty pills, total $${P.total}`, dr && dr.lines.some((l) => /Special Kits/.test(l.t)) && scentQty === P.scents && dr.total.includes('$' + P.total), JSON.stringify(dr));
+              await pg.screenshot({ path: OUT + `${P.id}-drawer.png` });
+              // to checkout
+              const co = pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first();
+              await co.click(); await pg.waitForURL(/checkouts\//, { timeout: 60000 }); await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000);
+              const sumBtn = pg.locator('button:has-text("order summary"), button[aria-controls*="order-summary"], [data-order-summary-toggle]').first();
+              if (await sumBtn.count()) { try { await sumBtn.click({ timeout: 3000 }); await pg.waitForTimeout(1200); } catch (e) {} }
+              const txt = await pg.evaluate(() => document.body.innerText.replace(/\s+/g, ' '));
+              const money = (label) => { const m = txt.match(new RegExp(label + '\\s*\\$?([\\d,]+\\.\\d\\d)', 'i')); return m ? parseFloat(m[1].replace(',', '')) : null; };
+              const subtotal = money('Subtotal'), total = money('Total'), ship = /Free/i.test((txt.match(/Shipping\s*(\S+)/i) || [])[1] || '');
+              const discountName = (txt.match(/Founder.s Offer[^$]{0,60}/) || [''])[0];
+              const scentsAtZero = (txt.match(/\(100ml\)[^$]{0,80}\$0\.00|\$49\.95\s*\$0\.00|FREE/g) || []).length;
+              ok(`${P.id} checkout total $${P.total}`, total === P.total, `total=${total} subtotal=${subtotal} shipping free=${ship} url=${pg.url().replace(/\?.*/, '').slice(0, 60)}`);
+              if (P.plan === 'one') ok(`${P.id} checkout shows the free-scent discount`, /Founder.s Offer/i.test(txt), discountName || 'no Founder’s Offer line');
+              if (P.plan === 'sub') ok(`${P.id} checkout shows refill plan`, /Every 30 days|every 30 days/.test(txt), (txt.match(/[^.]{0,40}very 30 days[^.]{0,40}/) || [''])[0]);
+              ok(`${P.id} checkout has ${P.scents} scent lines / kit`, (txt.match(/\(100ml\)/g) || []).length >= (P.scents ? 1 : 0) && /Special Kits|Diffusers? \+|1 Diffuser/.test(txt), (txt.match(/(Maison Croyez Diffuser — Special Kits[^$]{0,60})/) || [''])[0]);
+              await pg.screenshot({ path: OUT + `${P.id}-checkout.png`, fullPage: false });
+              ok(`${P.id} no JS errors on page`, errs.length === 0, errs.join(' | '));
+            } catch (e) { ok(`${P.id} crashed`, false, e.message); await pg.screenshot({ path: OUT + `${P.id}-crash.png` }).catch(() => {}); }
+            await ctx.close(); await new Promise((r) => setTimeout(r, 4000));
+          }
           await b.close();
+          for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
+          console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r207.mjs
+          node r208.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r207
-          git commit -m "r207: drawer qty/variant screenshot" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r208
+          git commit -m "r208: final funnel QA screenshots" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

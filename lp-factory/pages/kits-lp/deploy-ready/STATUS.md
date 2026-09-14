@@ -611,3 +611,11 @@ mc-adv-ritual-app.js: "every 45 days" x6, "Every 45 days", "EVERY 45 DAYS", "45-
 -> 30. Page loader key bumped ss19- -> ss20- so the edge serves the new file immediately
 instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 (2661875821) still read DAY/45 in the Admin API; owner said they will change it.
+
+### 2026-09-14 — v3s20: three-step buy box, new kits and prices (owner-approved draft, deployed 01:10 UTC)
+- Page key `v3s20-6304c3c` (Page 119394369645). Files: mc-v3-app.js 86,561 B, mc-v3.css 55,812 B (GenericFiles 29920808403053 / 29920808435821, source commit 6304c3c).
+- Buy box is now a wizard: step 1 kit choice (+ usp tiles, note, "Pick your FREE scents" button, installments, guarantees, pay logos), step 2 scent picker (mystery-gift note, black button + offer line), step 3 kit review ("You only pay", rounded savings), refill plan, ATC, review carousel (6 CDN photos mc-review-1..6.jpg), FAQ accordions. Long-form sections render under step 1 only; FAQ section and mid-page mechanism button removed.
+- Kits: 1D $109.95 (0 scents, adds to cart from step 1), 2D + 3 FREE scents $119.95, 3D + 4 FREE scents $159.95. Strike value = n × $109.95 + scents × $49.95; savings shown rounded to $10 ("$250" / "$370").
+- Shopify side (done via Admin API): variant prices set 01:05 UTC; variants renamed "2 Diffusers + 3 Scents" / "3 Diffusers + 4 Scents"; automatic BXGY discounts now give 3 / 4 free scents on one-time orders; Subi Plan 5 unchanged (first delivery $0, no cap).
+- Verified live by drawer-recon r206 (key v3s20, tiers, steps, review total). Cart maths could not be exercised from CI (Shopify 429 on /cart.js); owner to place one test order.
+- Open: theme announcement bar text lives in header-group.json (theme editor); 4th scent tap is ignored when full (owner rule 2026-09-05); 1D kit has no scent/refill step.

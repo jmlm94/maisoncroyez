@@ -78,7 +78,7 @@ const CONFIG = {
     "buybox",
     "angleIntention", "enemyStack", "mechanism",
     "angleFill", "howTo", "angleLux",
-    "patricia", "guarantee", "faq",
+    "patricia", "guarantee",
   ],
 
   /* --- gallery: EXACT product media, in the product's own order --- */
@@ -390,7 +390,7 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
    Kit = one variant of the unlisted "Founder's Offer" product (1D / 2D / 3D).
    Scents = the 7 real scent products, added as separate lines.
    Included scents on 2D/3D:
-     one-time  -> automatic BXGY zeroes 2 (or 3) one-time scent lines.
+     one-time  -> automatic BXGY zeroes 3 (or 4) one-time scent lines (updated 2026-09-14).
      refill    -> scents ride Subi Plan 5 "Every 30 days" (first delivery
                   $0, then $39.95 each every 30 days), so today's total is
                   exactly the kit price and no kit-side discount is needed.
@@ -446,15 +446,15 @@ async function addToCart(setBusy, setToast) {
    Diffuser count (1-3) + one distinct scent per diffuser.
    First scent (Top Seller) preselected; count 1 behaves as before.
    ================================================================ */
-const DIFFUSER_PRICE = 69.95, SCENT_ONE = 49.95, SCENT_SUB = 39.95;
+const DIFFUSER_PRICE = 109.95, SCENT_ONE = 49.95, SCENT_SUB = 39.95;
 const scentNames = (keys) => { const c = {}; keys.forEach((k) => { c[k] = (c[k] || 0) + 1; }); return Object.keys(c).map((k) => { const f = CONFIG.fragrances.find((x) => x.key === k); return (f ? f.name : k) + (c[k] > 1 ? " \u00d7" + c[k] : ""); }).join(" \u00b7 "); };
 const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" fill=\"none\" aria-labelledby=\"pi-visa\"><title id=\"pi-visa\">Visa</title><rect x=\".5\" y=\".5\" width=\"37\" height=\"23\" rx=\"2.5\" stroke=\"#000\" stroke-opacity=\".07\" fill=\"none\"/><path d=\"M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z\" fill=\"#142FBD\" style=\"fill:#142FBD;fill:color(display-p3 0.0784 0.1843 0.7412);fill-opacity:1;\"/><path d=\"M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z\" fill=\"#1532CB\" style=\"fill:#1532CB;fill:color(display-p3 0.0824 0.1961 0.7961);fill-opacity:1;\"/><path d=\"M29.5944 10.2167H29.2778C28.8556 11.2722 28.5389 11.8 28.2222 13.3833H30.2278C29.9111 11.8 29.9111 11.0611 29.5944 10.2167V10.2167ZM32.6556 16.4444H30.8611C30.7556 16.4444 30.7556 16.4444 30.65 16.3389L30.4389 15.3889L30.3333 15.1778H27.8C27.6944 15.1778 27.5889 15.1778 27.5889 15.3889L27.2722 16.3389C27.2722 16.4444 27.1667 16.4444 27.1667 16.4444H24.95L25.1611 15.9167L28.2222 8.73889C28.2222 8.21111 28.5389 8 29.0667 8H30.65C30.7556 8 30.8611 8 30.8611 8.21111L32.3389 15.0722C32.4444 15.4944 32.55 15.8111 32.55 16.2333C32.6556 16.3389 32.6556 16.3389 32.6556 16.4444V16.4444ZM18.5111 16.1278L18.9333 14.2278C19.0389 14.2278 19.1444 14.3333 19.1444 14.3333C19.8833 14.65 20.6222 14.8611 21.3611 14.7556C21.5722 14.7556 21.8889 14.65 22.1 14.5444C22.6278 14.3333 22.6278 13.8056 22.2056 13.3833C21.9944 13.1722 21.6778 13.0667 21.3611 12.8556C20.9389 12.6444 20.5167 12.4333 20.2 12.1167C18.9333 11.0611 19.3556 9.58333 20.0944 8.84444C20.7278 8.42222 21.0444 8 21.8889 8C23.1556 8 24.5278 8 25.1611 8.21111H25.2667C25.1611 8.84444 25.0556 9.37222 24.8444 10.0056C24.3167 9.79444 23.7889 9.58333 23.2611 9.58333C22.9444 9.58333 22.6278 9.58333 22.3111 9.68889C22.1 9.68889 21.9944 9.79444 21.8889 9.9C21.6778 10.1111 21.6778 10.4278 21.8889 10.6389L22.4167 11.0611C22.8389 11.2722 23.2611 11.4833 23.5778 11.6944C24.1056 12.0111 24.6333 12.5389 24.7389 13.1722C24.95 14.1222 24.6333 14.9667 23.7889 15.6C23.2611 16.0222 23.05 16.2333 22.3111 16.2333C20.8333 16.2333 19.6722 16.3389 18.7222 16.0222C18.6167 16.2333 18.6167 16.2333 18.5111 16.1278V16.1278ZM14.8167 16.4444C14.9222 15.7056 14.9222 15.7056 15.0278 15.3889C15.5556 13.0667 16.0833 10.6389 16.5056 8.31667C16.6111 8.10556 16.6111 8 16.8222 8H18.7222C18.5111 9.26667 18.3 10.2167 17.9833 11.3778C17.6667 12.9611 17.35 14.5444 16.9278 16.1278C16.9278 16.3389 16.8222 16.3389 16.6111 16.3389L14.8167 16.4444ZM5 8.21111C5 8.10556 5.21111 8 5.31667 8H8.90556C9.43333 8 9.85556 8.31667 9.96111 8.84444L10.9111 13.4889C10.9111 13.5944 10.9111 13.5944 11.0167 13.7C11.0167 13.5944 11.1222 13.5944 11.1222 13.5944L13.3389 8.21111C13.2333 8.10556 13.3389 8 13.4444 8H15.6611C15.6611 8.10556 15.6611 8.10556 15.5556 8.21111L12.2833 15.9167C12.1778 16.1278 12.1778 16.2333 12.0722 16.3389C11.9667 16.4444 11.7556 16.3389 11.5444 16.3389H9.96111C9.85556 16.3389 9.75 16.3389 9.75 16.1278L8.06111 9.58333C7.85 9.37222 7.53333 9.05556 7.11111 8.95C6.47778 8.63333 5.31667 8.42222 5.10556 8.42222L5 8.21111Z\" fill=\"white\" style=\"fill:white;fill-opacity:1;\"/></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" fill=\"none\" aria-labelledby=\"pi-master\"><title id=\"pi-master\">Mastercard</title><rect x=\".5\" y=\".5\" width=\"37\" height=\"23\" rx=\"2.5\" stroke=\"#000\" stroke-opacity=\".07\" fill=\"none\"/><path d=\"M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z\" fill=\"#1C1C1C\" style=\"fill:#1C1C1C;fill:color(display-p3 0.1098 0.1098 0.1098);fill-opacity:1;\"/><path d=\"M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z\" fill=\"#232323\" style=\"fill:#232323;fill:color(display-p3 0.1373 0.1373 0.1373);fill-opacity:1;\"/><path d=\"M14.6364 19.2727C18.8538 19.2727 22.2727 15.8538 22.2727 11.6364C22.2727 7.41892 18.8538 4 14.6364 4C10.4189 4 7 7.41892 7 11.6364C7 15.8538 10.4189 19.2727 14.6364 19.2727Z\" fill=\"#EB001B\" style=\"fill:#EB001B;fill:color(display-p3 0.9216 0.0000 0.1059);fill-opacity:1;\"/><path d=\"M23.3637 19.2727C27.5811 19.2727 31 15.8538 31 11.6364C31 7.41892 27.5811 4 23.3637 4C19.1462 4 15.7273 7.41892 15.7273 11.6364C15.7273 15.8538 19.1462 19.2727 23.3637 19.2727Z\" fill=\"#F79E1B\" style=\"fill:#F79E1B;fill:color(display-p3 0.9686 0.6196 0.1059);fill-opacity:1;\"/><path d=\"M22.2727 11.6362C22.2727 9.01797 20.9637 6.72706 19 5.41797C17.0364 6.83615 15.7273 9.12706 15.7273 11.6362C15.7273 14.1452 17.0364 16.5452 19 17.8543C20.9637 16.5452 22.2727 14.2543 22.2727 11.6362Z\" fill=\"#FF5F00\" style=\"fill:#FF5F00;fill:color(display-p3 1.0000 0.3725 0.0000);fill-opacity:1;\"/></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" fill=\"none\" aria-labelledby=\"pi-american_express\"><title id=\"pi-american_express\">American Express</title><rect x=\".5\" y=\".5\" width=\"37\" height=\"23\" rx=\"2.5\" stroke=\"#000\" stroke-opacity=\".07\" fill=\"none\"/><path d=\"M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z\" fill=\"#0071CE\" style=\"fill:#0071CE;fill:color(display-p3 0.0000 0.4431 0.8078);fill-opacity:1;\"/><path d=\"M3 0.5H35C36.3348 0.5 37.5 1.58692 37.5 3V21C37.5 22.4239 36.4239 23.5 35 23.5H3C1.66524 23.5 0.5 22.4131 0.5 21V3C0.5 1.57614 1.57614 0.5 3 0.5Z\" stroke=\"black\" stroke-opacity=\"0.07\" style=\"stroke:black;stroke-opacity:0.07;\"/><path d=\"M25.8662 6.33203V3H31L31.8662 5.5332L32.7334 3H37V14.2002H36.7998L34.8672 16.2656L36.7998 18.3594H37V21.2666H33.5996L31.9336 19.3994L30.2002 21.2666H19.4668V12.666H16L20.2666 3H24.4004L25.8662 6.33203ZM20.5996 20.2656H27V18.5322H22.666V17.3994H26.8662V15.666H22.666V14.5322H27V12.7988H20.5996V20.2656ZM30.5332 16.5322L27 20.2656H29.5996L31.8662 17.8662L34.0664 20.2656H36.7324L33.1992 16.4658L36.7324 12.7988H34.1328L31.8662 15.1992L29.7324 12.7988H27L30.5332 16.5322ZM17.666 11.7324H19.9326L20.5332 10.1992H23.999L24.666 11.7324H26.999L23.666 4.19922H20.999L17.666 11.7324ZM33.5996 4.19922L31.9326 8.86621L30.1992 4.19922H27V11.666H29.0664V6.39941L31 11.666H32.7998L34.7324 6.39941V11.666H36.7324V4.13281L33.5996 4.19922ZM23.2656 8.46582H21.2656L22.2656 5.99902L23.2656 8.46582Z\" fill=\"white\" style=\"fill:white;fill-opacity:1;\"/></svg><svg class=\"paylogo-svg\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" x=\"0\" y=\"0\" viewBox=\"0 0 165.521 105.965\" xml:space=\"preserve\" aria-labelledby=\"pi-apple_pay\"><title id=\"pi-apple_pay\">Apple Pay</title><path fill=\"#000\" d=\"M150.698 0H14.823c-.566 0-1.133 0-1.698.003-.477.004-.953.009-1.43.022-1.039.028-2.087.09-3.113.274a10.51 10.51 0 0 0-2.958.975 9.932 9.932 0 0 0-4.35 4.35 10.463 10.463 0 0 0-.975 2.96C.113 9.611.052 10.658.024 11.696a70.22 70.22 0 0 0-.022 1.43C0 13.69 0 14.256 0 14.823v76.318c0 .567 0 1.132.002 1.699.003.476.009.953.022 1.43.028 1.036.09 2.084.275 3.11a10.46 10.46 0 0 0 .974 2.96 9.897 9.897 0 0 0 1.83 2.52 9.874 9.874 0 0 0 2.52 1.83c.947.483 1.917.79 2.96.977 1.025.183 2.073.245 3.112.273.477.011.953.017 1.43.02.565.004 1.132.004 1.698.004h135.875c.565 0 1.132 0 1.697-.004.476-.002.952-.009 1.431-.02 1.037-.028 2.085-.09 3.113-.273a10.478 10.478 0 0 0 2.958-.977 9.955 9.955 0 0 0 4.35-4.35c.483-.947.789-1.917.974-2.96.186-1.026.246-2.074.274-3.11.013-.477.02-.954.022-1.43.004-.567.004-1.132.004-1.699V14.824c0-.567 0-1.133-.004-1.699a63.067 63.067 0 0 0-.022-1.429c-.028-1.038-.088-2.085-.274-3.112a10.4 10.4 0 0 0-.974-2.96 9.94 9.94 0 0 0-4.35-4.35A10.52 10.52 0 0 0 156.939.3c-1.028-.185-2.076-.246-3.113-.274a71.417 71.417 0 0 0-1.431-.022C151.83 0 151.263 0 150.698 0z\" /><path fill=\"#FFF\" d=\"M150.698 3.532l1.672.003c.452.003.905.008 1.36.02.793.022 1.719.065 2.583.22.75.135 1.38.34 1.984.648a6.392 6.392 0 0 1 2.804 2.807c.306.6.51 1.226.645 1.983.154.854.197 1.783.218 2.58.013.45.019.9.02 1.36.005.557.005 1.113.005 1.671v76.318c0 .558 0 1.114-.004 1.682-.002.45-.008.9-.02 1.35-.022.796-.065 1.725-.221 2.589a6.855 6.855 0 0 1-.645 1.975 6.397 6.397 0 0 1-2.808 2.807c-.6.306-1.228.511-1.971.645-.881.157-1.847.2-2.574.22-.457.01-.912.017-1.379.019-.555.004-1.113.004-1.669.004H14.801c-.55 0-1.1 0-1.66-.004a74.993 74.993 0 0 1-1.35-.018c-.744-.02-1.71-.064-2.584-.22a6.938 6.938 0 0 1-1.986-.65 6.337 6.337 0 0 1-1.622-1.18 6.355 6.355 0 0 1-1.178-1.623 6.935 6.935 0 0 1-.646-1.985c-.156-.863-.2-1.788-.22-2.578a66.088 66.088 0 0 1-.02-1.355l-.003-1.327V14.474l.002-1.325a66.7 66.7 0 0 1 .02-1.357c.022-.792.065-1.717.222-2.587a6.924 6.924 0 0 1 .646-1.981c.304-.598.7-1.144 1.18-1.623a6.386 6.386 0 0 1 1.624-1.18 6.96 6.96 0 0 1 1.98-.646c.865-.155 1.792-.198 2.586-.22.452-.012.905-.017 1.354-.02l1.677-.003h135.875\" /><g><g><path fill=\"#000\" d=\"M43.508 35.77c1.404-1.755 2.356-4.112 2.105-6.52-2.054.102-4.56 1.355-6.012 3.112-1.303 1.504-2.456 3.959-2.156 6.266 2.306.2 4.61-1.152 6.063-2.858\" /><path fill=\"#000\" d=\"M45.587 39.079c-3.35-.2-6.196 1.9-7.795 1.9-1.6 0-4.049-1.8-6.698-1.751-3.447.05-6.645 2-8.395 5.1-3.598 6.2-.95 15.4 2.55 20.45 1.699 2.5 3.747 5.25 6.445 5.151 2.55-.1 3.549-1.65 6.647-1.65 3.097 0 3.997 1.65 6.696 1.6 2.798-.05 4.548-2.5 6.247-5 1.95-2.85 2.747-5.6 2.797-5.75-.05-.05-5.396-2.101-5.446-8.251-.05-5.15 4.198-7.6 4.398-7.751-2.399-3.548-6.147-3.948-7.447-4.048\" /></g><g><path fill=\"#000\" d=\"M78.973 32.11c7.278 0 12.347 5.017 12.347 12.321 0 7.33-5.173 12.373-12.529 12.373h-8.058V69.62h-5.822V32.11h14.062zm-8.24 19.807h6.68c5.07 0 7.954-2.729 7.954-7.46 0-4.73-2.885-7.434-7.928-7.434h-6.706v14.894z\" /><path fill=\"#000\" d=\"M92.764 61.847c0-4.809 3.665-7.564 10.423-7.98l7.252-.442v-2.08c0-3.04-2.001-4.704-5.562-4.704-2.938 0-5.07 1.507-5.51 3.82h-5.252c.157-4.86 4.731-8.395 10.918-8.395 6.654 0 10.995 3.483 10.995 8.89v18.663h-5.38v-4.497h-.13c-1.534 2.937-4.914 4.782-8.579 4.782-5.406 0-9.175-3.222-9.175-8.057zm17.675-2.417v-2.106l-6.472.416c-3.64.234-5.536 1.585-5.536 3.95 0 2.288 1.975 3.77 5.068 3.77 3.95 0 6.94-2.522 6.94-6.03z\" /><path fill=\"#000\" d=\"M120.975 79.652v-4.496c.364.051 1.247.103 1.715.103 2.573 0 4.029-1.09 4.913-3.899l.52-1.663-9.852-27.293h6.082l6.863 22.146h.13l6.862-22.146h5.927l-10.216 28.67c-2.34 6.577-5.017 8.735-10.683 8.735-.442 0-1.872-.052-2.261-.157z\" /></g></g></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" aria-labelledby=\"pi-google_pay\"><title id=\"pi-google_pay\">Google Pay</title><path d=\"M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z\" fill=\"#000\" opacity=\".07\"/><path d=\"M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32\" fill=\"#FFF\"/><path d=\"M18.093 11.976v3.2h-1.018v-7.9h2.691a2.447 2.447 0 0 1 1.747.692 2.28 2.28 0 0 1 .11 3.224l-.11.116c-.47.447-1.098.69-1.747.674l-1.673-.006zm0-3.732v2.788h1.698c.377.012.741-.135 1.005-.404a1.391 1.391 0 0 0-1.005-2.354l-1.698-.03zm6.484 1.348c.65-.03 1.286.188 1.778.613.445.43.682 1.03.65 1.649v3.334h-.969v-.766h-.049a1.93 1.93 0 0 1-1.673.931 2.17 2.17 0 0 1-1.496-.533 1.667 1.667 0 0 1-.613-1.324 1.606 1.606 0 0 1 .613-1.336 2.746 2.746 0 0 1 1.698-.515c.517-.02 1.03.093 1.49.331v-.208a1.134 1.134 0 0 0-.417-.901 1.416 1.416 0 0 0-.98-.368 1.545 1.545 0 0 0-1.319.717l-.895-.564a2.488 2.488 0 0 1 2.182-1.06zM23.29 13.52a.79.79 0 0 0 .337.662c.223.176.5.269.785.263.429-.001.84-.17 1.146-.472.305-.286.478-.685.478-1.103a2.047 2.047 0 0 0-1.324-.374 1.716 1.716 0 0 0-1.03.294.883.883 0 0 0-.392.73zm9.286-3.75l-3.39 7.79h-1.048l1.281-2.728-2.224-5.062h1.103l1.612 3.885 1.569-3.885h1.097z\" fill=\"#5F6368\"/><path d=\"M13.986 11.284c0-.308-.024-.616-.073-.92h-4.29v1.747h2.451a2.096 2.096 0 0 1-.9 1.373v1.134h1.464a4.433 4.433 0 0 0 1.348-3.334z\" fill=\"#4285F4\"/><path d=\"M9.629 15.721a4.352 4.352 0 0 0 3.01-1.097l-1.466-1.14a2.752 2.752 0 0 1-4.094-1.44H5.577v1.17a4.53 4.53 0 0 0 4.052 2.507z\" fill=\"#34A853\"/><path d=\"M7.079 12.05a2.709 2.709 0 0 1 0-1.735v-1.17H5.577a4.505 4.505 0 0 0 0 4.075l1.502-1.17z\" fill=\"#FBBC04\"/><path d=\"M9.629 8.44a2.452 2.452 0 0 1 1.74.68l1.3-1.293a4.37 4.37 0 0 0-3.065-1.183 4.53 4.53 0 0 0-4.027 2.5l1.502 1.171a2.715 2.715 0 0 1 2.55-1.875z\" fill=\"#EA4335\"/></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" aria-labelledby=\"pi-shopify_pay\"><title id=\"pi-shopify_pay\">Shop Pay</title><path opacity=\".07\" d=\"M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z\" fill=\"#000\"/><path d=\"M35.889 0C37.05 0 38 .982 38 2.182v19.636c0 1.2-.95 2.182-2.111 2.182H2.11C.95 24 0 23.018 0 21.818V2.182C0 .982.95 0 2.111 0H35.89z\" fill=\"#5A31F4\"/><path d=\"M9.35 11.368c-1.017-.223-1.47-.31-1.47-.705 0-.372.306-.558.92-.558.54 0 .934.238 1.225.704a.079.079 0 00.104.03l1.146-.584a.082.082 0 00.032-.114c-.475-.831-1.353-1.286-2.51-1.286-1.52 0-2.464.755-2.464 1.956 0 1.275 1.15 1.597 2.17 1.82 1.02.222 1.474.31 1.474.705 0 .396-.332.582-.993.582-.612 0-1.065-.282-1.34-.83a.08.08 0 00-.107-.035l-1.143.57a.083.083 0 00-.036.111c.454.92 1.384 1.437 2.627 1.437 1.583 0 2.539-.742 2.539-1.98s-1.155-1.598-2.173-1.82v-.003zM15.49 8.855c-.65 0-1.224.232-1.636.646a.04.04 0 01-.069-.03v-2.64a.08.08 0 00-.08-.081H12.27a.08.08 0 00-.08.082v8.194a.08.08 0 00.08.082h1.433a.08.08 0 00.081-.082v-3.594c0-.695.528-1.227 1.239-1.227.71 0 1.226.521 1.226 1.227v3.594a.08.08 0 00.081.082h1.433a.08.08 0 00.081-.082v-3.594c0-1.51-.981-2.577-2.355-2.577zM20.753 8.62c-.778 0-1.507.24-2.03.588a.082.082 0 00-.027.109l.632 1.088a.08.08 0 00.11.03 2.5 2.5 0 011.318-.366c1.25 0 2.17.891 2.17 2.068 0 1.003-.736 1.745-1.669 1.745-.76 0-1.288-.446-1.288-1.077 0-.361.152-.657.548-.866a.08.08 0 00.032-.113l-.596-1.018a.08.08 0 00-.098-.035c-.799.299-1.359 1.018-1.359 1.984 0 1.46 1.152 2.55 2.76 2.55 1.877 0 3.227-1.313 3.227-3.195 0-2.018-1.57-3.492-3.73-3.492zM28.675 8.843c-.724 0-1.373.27-1.845.746-.026.027-.069.007-.069-.029v-.572a.08.08 0 00-.08-.082h-1.397a.08.08 0 00-.08.082v8.182a.08.08 0 00.08.081h1.433a.08.08 0 00.081-.081v-2.683c0-.036.043-.054.069-.03a2.6 2.6 0 001.808.7c1.682 0 2.993-1.373 2.993-3.157s-1.313-3.157-2.993-3.157zm-.271 4.929c-.956 0-1.681-.768-1.681-1.783s.723-1.783 1.681-1.783c.958 0 1.68.755 1.68 1.783 0 1.027-.713 1.783-1.681 1.783h.001z\" fill=\"#fff\"/></svg>", shop: "<svg class=\"shoppay-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" aria-labelledby=\"pi-shopify_pay\"><title id=\"pi-shopify_pay\">Shop Pay</title><path opacity=\".07\" d=\"M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z\" fill=\"#000\"/><path d=\"M35.889 0C37.05 0 38 .982 38 2.182v19.636c0 1.2-.95 2.182-2.111 2.182H2.11C.95 24 0 23.018 0 21.818V2.182C0 .982.95 0 2.111 0H35.89z\" fill=\"#5A31F4\"/><path d=\"M9.35 11.368c-1.017-.223-1.47-.31-1.47-.705 0-.372.306-.558.92-.558.54 0 .934.238 1.225.704a.079.079 0 00.104.03l1.146-.584a.082.082 0 00.032-.114c-.475-.831-1.353-1.286-2.51-1.286-1.52 0-2.464.755-2.464 1.956 0 1.275 1.15 1.597 2.17 1.82 1.02.222 1.474.31 1.474.705 0 .396-.332.582-.993.582-.612 0-1.065-.282-1.34-.83a.08.08 0 00-.107-.035l-1.143.57a.083.083 0 00-.036.111c.454.92 1.384 1.437 2.627 1.437 1.583 0 2.539-.742 2.539-1.98s-1.155-1.598-2.173-1.82v-.003zM15.49 8.855c-.65 0-1.224.232-1.636.646a.04.04 0 01-.069-.03v-2.64a.08.08 0 00-.08-.081H12.27a.08.08 0 00-.08.082v8.194a.08.08 0 00.08.082h1.433a.08.08 0 00.081-.082v-3.594c0-.695.528-1.227 1.239-1.227.71 0 1.226.521 1.226 1.227v3.594a.08.08 0 00.081.082h1.433a.08.08 0 00.081-.082v-3.594c0-1.51-.981-2.577-2.355-2.577zM20.753 8.62c-.778 0-1.507.24-2.03.588a.082.082 0 00-.027.109l.632 1.088a.08.08 0 00.11.03 2.5 2.5 0 011.318-.366c1.25 0 2.17.891 2.17 2.068 0 1.003-.736 1.745-1.669 1.745-.76 0-1.288-.446-1.288-1.077 0-.361.152-.657.548-.866a.08.08 0 00.032-.113l-.596-1.018a.08.08 0 00-.098-.035c-.799.299-1.359 1.018-1.359 1.984 0 1.46 1.152 2.55 2.76 2.55 1.877 0 3.227-1.313 3.227-3.195 0-2.018-1.57-3.492-3.73-3.492zM28.675 8.843c-.724 0-1.373.27-1.845.746-.026.027-.069.007-.069-.029v-.572a.08.08 0 00-.08-.082h-1.397a.08.08 0 00-.08.082v8.182a.08.08 0 00.08.081h1.433a.08.08 0 00.081-.081v-2.683c0-.036.043-.054.069-.03a2.6 2.6 0 001.808.7c1.682 0 2.993-1.373 2.993-3.157s-1.313-3.157-2.993-3.157zm-.271 4.929c-.956 0-1.681-.768-1.681-1.783s.723-1.783 1.681-1.783c.958 0 1.68.755 1.68 1.783 0 1.027-.713 1.783-1.681 1.783h.001z\" fill=\"#fff\"/></svg>" };
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one",   n: 1, name: "1 Diffuser",                  price: 69.95,  scents: 0, tag: "",             line: "For restroom, studio, storages.", tags: ["Restroom","Studio","Storage"],          grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
-  { key: "two",   n: 2, name: "2 Diffusers + 2 FREE Scents", price: 89.95,  scents: 2, tag: "MOST POPULAR", line: "For living room, bedroom, kitchen.", tags: ["Living room","Bedroom","Kitchen"],        grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 Diffusers + 3 FREE Scents", price: 129.95, scents: 3, tag: "BEST VALUE",   line: "For large spaces, more than one room.", tags: ["Large spaces","1+ room","+ Intensity"],    grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "one",   n: 1, name: "1 Diffuser",                     price: 109.95, scents: 0, tag: "",             line: "Covers a restroom, studio, storage.",         tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
+  { key: "two",   n: 2, name: "2 Diffusers + 3 FREE Scents 🎁", price: 119.95, scents: 3, tag: "MOST POPULAR", line: "Covers a Living Room, Bedroom, Kitchen.", lineStrong: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
+  { key: "three", n: 3, name: "3 Diffusers + 4 FREE Scents 🎁", price: 159.95, scents: 4, tag: "BEST VALUE",   line: "Covers Large Spaces, More Than One Room.", lineStrong: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -463,6 +463,8 @@ const selStore = {
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 30,
   keys: [],               /* nothing preselected — the customer picks (owner 2026-09-05) */
+  step: 1,                /* 1 = choose kit, 2 = pick scents, 3 = review kit */
+  setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },
   get mode() { return this.plan; },
@@ -488,7 +490,7 @@ const selStore = {
   label() { return this.grouped().map(({ f, q }) => f.name + (q > 1 ? ` \u00d7${q}` : "")).join(" + "); },
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
-  add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) { /* full: swap the oldest pick out instead of ignoring the tap (Clarity dead-click fix) */ this.keys = [...this.keys.slice(1), k]; this.emit(); return; } this.keys = [...this.keys, k]; this.emit(); },
+  add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) return; this.keys = [...this.keys, k]; this.emit(); },
   remove(k) {
     const i = this.keys.indexOf(k);
     if (i < 0) return;
@@ -617,29 +619,101 @@ function Toast({ msg, onClose }) {
   return html`<div class="toast" role="status">${msg}</div>`;
 }
 
+const OFFER_SUB = "38% OFF + FREE SCENTS OFFER APPLIED!";
+const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
+const USP3 = [
+  { ic: "👀", tx: "Your guests will\nask what\u2019s that?" },
+  { ic: "🕯️", tx: "Replace $2,500/year\nin candles" },
+  { ic: "💧", tx: "No water, no leaks,\nand no mold." },
+];
+const GiftNote = () => html`
+  <div class="booklet-obj gift-obj">
+    <span class="gift-art" role="img" aria-label="Mystery gift">
+      <svg viewBox="0 0 110 83" width="110" height="83" aria-hidden="true">
+        <rect x="20" y="36" width="70" height="40" rx="6" fill="#F3E6DC" stroke="#C9A27A" stroke-width="1.5"/>
+        <rect x="14" y="26" width="82" height="14" rx="4" fill="#E9D3C3" stroke="#C9A27A" stroke-width="1.5"/>
+        <rect x="50" y="26" width="10" height="50" fill="#A6473E"/>
+        <rect x="14" y="30" width="82" height="6" fill="#A6473E"/>
+        <ellipse cx="43" cy="19" rx="11" ry="6.5" fill="none" stroke="#A6473E" stroke-width="3.5"/>
+        <ellipse cx="67" cy="19" rx="11" ry="6.5" fill="none" stroke="#A6473E" stroke-width="3.5"/>
+        <circle cx="55" cy="21" r="4.5" fill="#7E3129"/>
+        <circle cx="82" cy="60" r="12" fill="#fff" stroke="#C9A27A" stroke-width="1.5"/>
+        <text x="82" y="66" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-weight="800" font-size="17" fill="#241C18">?</text>
+        <path d="M12 12l1.6 3.6L17.2 17l-3.6 1.4L12 22l-1.6-3.6L6.8 17l3.6-1.4z" fill="#E0A526"/>
+        <path d="M98 6l1.2 2.8 2.8 1.2-2.8 1.2L98 14l-1.2-2.8L94 10l2.8-1.2z" fill="#E0A526"/>
+      </svg>
+    </span>
+    <span class="booklet-txt">
+      <b>Worried you can\u2019t smell them all?</b>
+      <span>We\u2019ll send you a mystery gift so you can. Swap anytime if needed.</span>
+    </span>
+  </div>`;
+const StepHead = ({ n, title }) => html`
+  <div class="stepbar"><div class="prog"><i style=${{ width: Math.round(n / 3 * 100) + "%" }}></i></div><div class="pstep">Step ${n} of 3</div></div>
+  <div class="picker-title step-title">${title}</div>`;
+const RV_IMG = [
+  "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-1.jpg?v=1789347024",
+  "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-2.jpg?v=1789347024",
+  "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-3.jpg?v=1789347024",
+  "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-4.jpg?v=1789347024",
+  "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-5.jpg?v=1789347024",
+  "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-6.jpg?v=1789347024",
+];
+const REVIEWS6 = [
+  { name: "Kate D.", text: "I did the math on my candle habit and switched. One bottle lasted five weeks \u2014 my old candle budget didn\u2019t survive the comparison." },
+  { name: "Renee A.", text: "My ultrasonic grew mold twice. This one I haven\u2019t touched in a month except to switch modes. The scent is actually everywhere." },
+  { name: "Grace L.", text: "Two cats, an allergic husband, zero problems. First home fragrance we\u2019ve agreed on in eleven years of marriage." },
+  { name: "Tiana M.", text: "Bought Crisp Citrus for \u201cabundance\u201d half as a joke. The joke\u2019s over: my office finally feels like a place where things get finished." },
+  { name: "Ayesha K.", text: "Midnight Sensation at dusk turns my apartment into a different place. My sister walked in and said: okay, WHO lives here?" },
+  { name: "Camille B.", text: "Guests walk in and go quiet for a second. That pause is why I bought it." },
+];
+function Reviews6() {
+  const ref = useRef(null);
+  const [i, setI] = useState(0);
+  const onScroll = (e) => { const el = e.target; const c = el.firstElementChild; const step = c ? c.getBoundingClientRect().width + 10 : el.clientWidth; const n = Math.round(el.scrollLeft / step); if (n !== i) setI(n); };
+  const go = (n) => { const el = ref.current; if (!el) return; const k = Math.max(0, Math.min(REVIEWS6.length - 1, n)); const card = el.children[k]; if (card) el.scrollTo({ left: card.offsetLeft - el.offsetLeft, behavior: "smooth" }); };
+  return html`
+    <div class="rv6">
+      <div class="rv6-head"><span class="rv6-title">What customers say</span><span class="rv6-nav"><button type="button" aria-label="Previous review" onClick=${() => go(i - 1)}>\u2190</button><button type="button" aria-label="Next review" onClick=${() => go(i + 1)}>\u2192</button></span></div>
+      <div class="rv6-track" ref=${ref} onScroll=${onScroll}>
+        ${REVIEWS6.map((r, k) => html`
+          <article class="rv6-card" key=${r.name}>
+            <div class="rv6-img"><img src=${RV_IMG[k % RV_IMG.length]} alt=${"Photo from " + r.name} width="520" height="520" loading="lazy" decoding="async"/></div>
+            <span class="rv6-stars" aria-hidden="true">\u2605\u2605\u2605\u2605\u2605</span>
+            <p class="rv6-q">\u201c${r.text}\u201d</p>
+            <div class="rv6-who"><b>${r.name}</b> \u00b7 Verified Buyer</div>
+          </article>`)}
+      </div>
+      <div class="rv6-dots">${REVIEWS6.map((_, k) => html`<span key=${k} class=${"rv6-dot" + (k === i ? " on" : "")}></span>`)}</div>
+    </div>`;
+}
+
 function BuyBox() {
   const B = CONFIG.buybox;
   const sel = useSelection();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
-  const [openKey, setOpenKey] = useState(null);
   const T = sel.tier();
   const left = sel.left();
-  const sp = sel.scentPrice();
+  const step = sel.step || 1;
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "long", day: "numeric" });
-  const goPicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.scrollIntoView({ behavior: "smooth", block: "center" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1600); };
+  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
+  const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  /* kit review rows: the first T.scents picks are included, the rest are extras */
+  const rows = (() => { const m = new Map(); sel.keys.forEach((k) => m.set(k, (m.get(k) || 0) + 1)); let incLeft = T.scents; return [...m.entries()].map(([k, q]) => { const f = CONFIG.fragrances.find((x) => x.key === k); const inc = Math.min(q, incLeft); incLeft -= inc; return { f, q, inc, extra: q - inc }; }); })();
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
-        <div class="gal-col"><${Gallery}/><${Announcement}/></div>
+        <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
+          ${step === 1 ? html`
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
           <h1>Maison Croyez Diffuser & Organic Manifestation Scents — Make your home smell as good as it looks. ✨</h1>
-          <div class="featbs"><span class="featb">WATERLESS</span><span class="featb">LEAKPROOF</span><span class="featb">MAINTENANCE-FREE</span></div>
+          <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
-          <div class="picker-title plansel-title">1. How many spaces would you like to fill?</div>
-          <div class="tiers" role="radiogroup" aria-label="Choose your kit">
+          <${StepHead} n=${1} title="How many spaces would you like to fill?"/>
+                    <div class="tiers" role="radiogroup" aria-label="Choose your kit">
             ${TIERS.map((t, i) => { const on = i === sel.tierIdx; const val = t.n * DIFFUSER_PRICE + t.scents * SCENT_ONE; const save = val - t.price; const per = t.price / t.n; return html`
               <div key=${t.key} class=${"tier" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" style=${{ background: on ? t.grad : "" }}
                 onClick=${() => sel.setTier(i)} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setTier(i); }}>
@@ -650,7 +724,7 @@ function BuyBox() {
                 </span>
                 <span class="tier-main">
                   <span class="tier-name">${t.name}</span>
-                  <span class="tier-tags">${(t.tags || []).map((x) => html`<span class="tier-tag" key=${x}>${x}</span>`)}</span>
+                  <span class=${"tier-line" + (t.lineStrong ? " strong" : "")}>${t.line}</span>
                   ${save > 0 ? html`<span class="tier-save">You save ${usd(save)}</span>` : null}
                 </span>
                 <span class="tier-price">
@@ -661,22 +735,29 @@ function BuyBox() {
               </div>`; })}
           </div>
           <div class="tier-note">
-            <p><b>86% of our customers come back for more diffusers</b> after their first order. So we’d rather save you the time and money now. <i>You’re welcome.</i></p>
+            <p><b>Don\u2019t be afraid of taking 2+ diffusers,</b> 86% of customers have an average of 6 in their homes. Also, you can return anytime for a full refund. <i>You\u2019re welcome.</i></p>
           </div>
+          ${T.scents > 0 ? html`
+          <button class="btn atc step-next" onClick=${() => go(2)}>
+            <span>Pick your FREE scents \u2794</span>
+            <span class="btn-sub">${OFFER_SUB}</span>
+          </button>` : html`
+          <button class="btn atc step-next" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
+            <span>${busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
+            <span class="btn-sub">Free shipping \u00b7 90-day money-back</span>
+          </button>`}
+          ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          <div class="atc-chips">
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
+          </div>
+          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
-          <div class="picker-title">${T.scents > 0
-            ? `2. Pick your ${T.scents} included scent${T.scents > 1 ? "s" : ""}:`
-            : `2. Want scents with your diffuser? (optional)`}</div>
+          ` : step === 2 ? html`
+          <${StepHead} n=${2} title=${T.scents > 0 ? `Pick your ${T.scents} included scents:` : "Want scents with your diffuser? (optional)"}/>
           ${T.scents === 0 ? html`<div class="picker-sub">${usd(SCENT_ONE)} each, one-time. Add as many as you like, or skip and just get the diffuser.</div>` : null}
-          <div class="booklet-obj">
-            ${BOOKLET_IMG
-              ? html`<img class="booklet-img" src=${BOOKLET_IMG} alt="Maison Croyez Official Sample Booklet" width="110" height="83" loading="lazy" decoding="async"/>`
-              : html`<span class="booklet-ph" role="img" aria-label="Official Sample Booklet">📖</span>`}
-            <span class="booklet-txt">
-              <b>Worried you can\u2019t smell them all? You will.</b>
-              <span>Every kit ships with a sample booklet with our 7 intention scents \u2014 swap anytime if needed.</span>
-            </span>
-          </div>
+          <${GiftNote}/>
           <div class="pick-count">${T.scents > 0
             ? `${sel.included()}/${T.scents} included scents chosen` + (left > 0 ? ` \u2014 pick ${left} more` : " \u2713") + (sel.extras() > 0 ? ` \u00b7 +${sel.extras()} extra` : "")
             : (sel.keys.length ? `${sel.keys.length} scent${sel.keys.length > 1 ? "s" : ""} added` : "No scents added yet")}</div>
@@ -694,20 +775,49 @@ function BuyBox() {
                 </span>
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
                 <span class="pick-smells"><b>SMELLS LIKE:</b> ${f.smells2 || f.smells}</span>
-                <span class="pick-foot">
+                <span class="pick-foot" onClick=${(e) => e.stopPropagation()}>
                   <span class="pick-free">${T.scents > 0 ? html`<s>$49.95</s> Included!` : html`${usd(SCENT_ONE)} each`}</span>
-                  <span class="pick-qty" onClick=${(e) => e.stopPropagation()}>
+                  <span class="pick-qty">
                     <button aria-label="Remove one" disabled=${q === 0} onClick=${() => sel.remove(f.key)}>−</button>
                     <b>${q}</b>
-                    <button aria-label=${full && !on ? "Swap this scent in" : "Add one"} onClick=${() => sel.add(f.key)}>+</button>
+                    <button aria-label="Add one" disabled=${full} onClick=${() => sel.add(f.key)}>+</button>
                   </span>
                 </span>
               </div>`; })}
           </div>
 
+          <div class="navrow">
+            <button class="btn secondary" aria-label="Back to kits" onClick=${() => go(1)}>\u2190</button>
+            <button class="btn atc" onClick=${() => left > 0 ? goPick() : go(3)}><span>${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : "Review my kit \u2794"}</span><span class="btn-sub">${OFFER_SUB}</span></button>
+          </div>
+          ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          <div class="atc-chips">
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
+          </div>
+          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
+
+          ` : html`
+          <${StepHead} n=${3} title="Your kit is ready."/>
+          <div class="kitrev">
+            ${rows.map((r) => html`
+              <div class="kr-row" key=${r.f.key}>
+                <${Img} slot=${r.f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${r.f.name}/>
+                <span class="kr-tx"><b>${r.f.name}${r.q > 1 ? ` \u00d7${r.q}` : ""}</b><span class="kr-sub">${r.f.intention} \u00b7 100ml \u00b7 30+ days per bottle</span></span>
+                <span class="kr-pr">${r.inc > 0 ? html`<s>${usd(r.inc * SCENT_ONE)}</s><span class="inc">Included!</span>` : null}${r.extra > 0 ? html`<span class="kr-extra">${r.inc > 0 ? " + " : ""}${usd(r.extra * sel.scentPrice())}</span>` : null}</span>
+              </div>`)}
+            <div class="kr-row">
+              <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
+              <span class="kr-tx"><b>${T.n} \u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
+              <span class="kr-pr">${usd(T.price)}</span>
+            </div>
+            <div class="kr-total"><span>You only pay:</span><b>${usd(sel.today())}</b></div>
+            ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
+          </div>
           ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; if (!inc) return null; /* refill plan only where scents are included (2D/3D) */ return html`
-          <div class="picker-title">${inc ? "3. How would you like your refills?" : "3. How would you like your scents?"}</div>
-          <div class="picker-sub">${inc
+          <div class="picker-title">${inc ? "How would you like your refills?" : "How would you like your scents?"}</div>
+          <div class="picker-sub plan-sub">${inc
             ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 30 days.`
             : (n > 0 ? html`For the ${n} scent${n > 1 ? "s" : ""} you added: one-time, or a 20%-off refill plan.` : html`Add a scent above to choose one-time or a 20%-off refill plan.`)}</div>
           <div class=${"modes" + (dim ? " dim" : "")} role="radiogroup" aria-label="Scent purchase mode">
@@ -716,7 +826,7 @@ function BuyBox() {
               <span class="mode-dot" aria-hidden="true"></span>
               <span class="mode-tx">
                 <b>${inc ? "Auto-refill & Save 20% 🏷️" : "Subscribe & Save 20% 🏷️"}</b>
-                <span class="mode-price"><s>$49.95</s> <b>$39.95</b> / scent${inc ? html` <em class="mode-from">from day 30</em>` : null}</span>
+                <span class="mode-price"><s>$49.95</s> <b>$39.95</b> / scent${inc ? html` <em class="mode-from">every 30 days</em>` : null}</span>
                 <span class="mode-note">${inc ? "Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime." : "Delivered every 30 days. Skip, swap or cancel anytime."}</span>
                 <span class="mode-perks">
                   <span>✓ 20% off every refill</span>
@@ -735,10 +845,9 @@ function BuyBox() {
             </div>
           </div>`; })()}
 
-          <div class="atc-proof" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7</b> · 124 reviews · <b>90-day</b> money-back · <b>Free</b> shipping</div>
-          <button class=${"btn atc" + (left > 0 ? " need" : "")} disabled=${busy} onClick=${() => left > 0 ? goPicker() : addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
-            <span class="btn-sub">${left > 0 ? "Tap here to choose your included scents" : (sel.savings() > 0 ? html`<${Rich} s=${"**You're saving " + usd(sel.savings()) + " today, don't miss it out!**"}/>` : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty")}</span>
+          <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
+            <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
+            <span class="btn-sub">${T.scents > 0 ? OFFER_SUB : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty"}</span>
           </button>
           ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -748,33 +857,7 @@ function BuyBox() {
           </div>
           <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
-          ${sel.plan === "sub" ? html`
-          <div class="howworks">
-            <h3><span class="hw-emoji">💡</span>How ${T.scents > 0 ? "Auto-refill" : "Subscribe"} & Save works:</h3>
-            <div class="hw-step"><span class="hw-ico">🎁</span><span><b>Your kit ships today</b> \u2014 ${T.n} diffuser${T.n > 1 ? "s" : ""}${sel.keys.length ? ` and ${sel.keys.length} scent${sel.keys.length > 1 ? "s" : ""}` : ""}, free shipping.</span></div>
-            <div class="hw-step"><span class="hw-ico">🔄</span><span><b>Refills arrive every ${sel.freq} days</b> at $39.95 each (20% off)${sel.keys.length ? ` \u2014 ${sel.keys.length} scent${sel.keys.length > 1 ? "s" : ""}, ${usd(sel.renew())} per delivery` : ""}, shipped free.</span></div>
-            <div class="hw-step"><span class="hw-ico">⏸️</span><span><b>Skip, pause, or swap in one tap.</b> We email a heads-up 7 days before every refill. Skip it and you\u2019re not charged.</span></div>
-            <div class="hw-step"><span class="hw-ico">✌️</span><span><b>Cancel anytime, nothing to return.</b> Your diffusers are yours. And the 90-day money-back covers your kit either way.</span></div>
-            <div class="hw-dash-t">This is how your dashboard looks like:</div>
-            <div class="portal">
-              <div class="portal-top"><span class="portal-brand">MAISON CROYEZ</span><span>My refill plan</span></div>
-              <div class="portal-next">Next refill: ${nextDate(sel.freq)}</div>
-              <div class="portal-sub">${sel.keys.length || 2} scent${(sel.keys.length || 2) > 1 ? "s" : ""}: ${usd((sel.keys.length || 2) * SCENT_SUB)} + Free Shipping</div>
-              <div class="portal-btns"><span class="portal-btn">Skip this refill</span><span class="portal-btn">Pause</span><span class="portal-btn">Swap scents</span><span class="portal-btn danger">Cancel plan</span></div>
-              <div class="portal-cap">This exact screen is in your account from day one. Every button works instantly \u2014 no calls, no chat queues, no one to convince.</div>
-            </div>
-            <div class="tl">
-              <div class="tl-step"><b>Today</b>Your kit ships, free</div>
-              <div class="tl-step"><b>Day ${sel.freq - 7}</b>Heads-up email before your refill</div>
-              <div class="tl-step"><b>Day ${sel.freq}</b>Fresh scents at your door</div>
-            </div>
-          </div>` : html`
-          <div class="howworks one">
-            <h3><span class="hw-emoji">🛍️</span>One-time purchase \u2014 simple:</h3>
-            <div class="hw-step"><span class="hw-ico">✅</span><span><b>No subscription, no renewals.</b> Your kit ships free today. Re-order scents anytime at $49.95${T.scents > 0 ? ", or switch to Auto-refill later for 20% off" : ""}.</span></div>
-            <div class="hw-step"><span class="hw-ico">🛡️</span><span><b>90-day money-back on your kit</b> \u2014 prepaid return label on us \u2014 plus a lifetime warranty on every diffuser.</span></div>
-          </div>`}
-
+          <${Reviews6}/>
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`
               <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
@@ -784,12 +867,13 @@ function BuyBox() {
                 <div class="ans"><p>${f.a}</p></div>
               </div>`)}
           </div>
+          <div class="navrow back-only"><button class="btn secondary wide" onClick=${() => go(2)}>\u2190 Change my scents</button></div>
+          `}
         </div>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </section>`;
 }
-
 
 /* ---------- Six-Month Program: purchase-mode toggle (spec 04.3) ---------- */
 
@@ -939,30 +1023,39 @@ function StickyBar() {
   const sel = useSelection();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
+  const step = sel.step || 1;
+  const T = sel.tier();
   useEffect(() => {
     let raf = 0;
     const calc = () => {
       raf = 0;
-      const t = document.querySelector(".tiers"), a = document.querySelector(".btn.atc");
+      const t = document.querySelector("#buybox .tiers, #buybox .picker, #buybox .kitrev");
+      const a = document.querySelector("#buybox .step-next, #buybox .navrow .btn:not(.secondary), #buybox .btn.atc");
       if (!t || !a) return setShow(false);
       const tr = t.getBoundingClientRect(), ar = a.getBoundingClientRect();
-      const pastTiers = tr.bottom < 0;
-      const atcVisible = ar.bottom > 0 && ar.top < window.innerHeight;
-      setShow(pastTiers && !atcVisible);
+      const past = tr.bottom < 0;
+      const btnVisible = ar.bottom > 0 && ar.top < window.innerHeight;
+      setShow(past && !btnVisible);
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(calc); };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     calc();
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
-  }, []);
+  }, [step]);
   const left = sel.left();
-  const goPick = () => { const el = document.querySelector(".picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
+  const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  const label = step === 1 ? (T.scents > 0 ? "Pick your FREE scents \u2794" : (busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`))
+    : step === 2 ? (left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2794` : "Review my kit \u2794")
+    : (busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`);
+  const sub = T.scents > 0 ? OFFER_SUB : "Free shipping \u00b7 90-day money-back";
+  const act = () => { if (step === 1) return T.scents > 0 ? go(2) : addToCart(setBusy, setToast); if (step === 2) return left > 0 ? goPick() : go(3); return addToCart(setBusy, setToast); };
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy} onClick=${() => left > 0 ? goPick() : addToCart(setBusy, setToast)}>
-        <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2794` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
-        <span class="btn-sub">${left > 0 ? "Choose your included scents, then add to cart" : (sel.savings() > 0 ? `You're saving ${usd(sel.savings())} today \u00b7 free shipping` : "Free shipping \u00b7 90-day money-back")}</span>
+      <button class="btn" disabled=${busy} onClick=${act}>
+        <span>${label}</span>
+        <span class="btn-sub">${sub}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </div>`;
@@ -1008,10 +1101,6 @@ function MechanismSec() {
         </div>
         <${Img} slot="product" alt="Maison Croyez diffuser filling a living room with fine dry mist"/>
         ${M.paras.map((t, i) => html`<p class="mech-p" key=${i}><${Rich} s=${t}/></p>`)}
-        <button class="btn mech-btn" disabled=${busy} onClick=${() => addToCart(setBusy, setToast)}>
-          <span>${busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
-          <span class="btn-sub">${sel.savings() > 0 ? `You're saving ${usd(sel.savings())} today, don't miss it out!` : "Free shipping \u00b7 90-day money-back"}</span>
-        </button>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </section>`;
@@ -1035,6 +1124,8 @@ function PatriciaSec() {
 }
 
 function App() {
+  const sel = useSelection();
+  const step = sel.step || 1;
   /* The buy box mounts on the first pass; the sections below the fold mount on
      the next idle slot so first paint and first tap are not waiting on them. */
   const [rest, setRest] = useState(false);
@@ -1056,7 +1147,7 @@ function App() {
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,
     faq: () => html`<${Faq} key="faq"/>`,
   };
-  const order = rest ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
+  const order = (rest && step === 1) ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
   return html`
     ${order.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     <${StickyBar}/>`;

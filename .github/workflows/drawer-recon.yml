@@ -1,5 +1,7 @@
 name: drawer-recon
-# run 204 — Lighthouse baseline of the LIVE /pages/six-month-program (mobile + desktop) before the three-step version ships
+# run 205 — pre-deploy check of the three-step buy box: the LIVE /pages/six-month-program with the branch mc-v3-app.js / mc-v3.css
+#           swapped in (route interception). Runs the flow on a phone viewport, screenshots each step, and checks the real cart maths
+#           (one-time: BXGY zeroes 3 scents; refill: Subi plan zeroes 3 scents) against the store.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -14,21 +16,81 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install
-        run: npm i lighthouse@12.2.1 chrome-launcher@1.1.2
-      - name: Lighthouse
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r204
-          for form in mobile desktop; do
-            EXTRA=""; [ "$form" = desktop ] && EXTRA="--preset=desktop"
-            npx lighthouse "https://maisoncroyez.com/pages/six-month-program" --quiet --only-categories=performance,accessibility,best-practices --output=json --output-path=lp-factory/pages/kits-lp/recon/r204/live-$form.json --chrome-flags="--headless=new --no-sandbox" $EXTRA
-            node -e '
-              const r=require("./lp-factory/pages/kits-lp/recon/r204/live-'"$form"'.json"); const a=r.audits; const ms=k=>Math.round(a[k].numericValue);
-              console.log("LH '"$form"'", "perf", Math.round(r.categories.performance.score*100), "a11y", Math.round(r.categories.accessibility.score*100), "bp", Math.round(r.categories["best-practices"].score*100));
-              console.log("  FCP", ms("first-contentful-paint"), "LCP", ms("largest-contentful-paint"), "TBT", ms("total-blocking-time"), "CLS", a["cumulative-layout-shift"].numericValue.toFixed(3), "SI", ms("speed-index"), "TTI", ms("interactive"));
-              console.log("  LCP element:", (a["largest-contentful-paint-element"].details?.items?.[0]?.items?.[0]?.node?.snippet||"").slice(0,120));
-              console.log("  transfer KB", Math.round(a["total-byte-weight"].numericValue/1024), "| requests", a["network-requests"].details.items.length, "| bootup ms", ms("bootup-time"), "| mainthread ms", ms("mainthread-work-breakdown"), "| dom", ms("dom-size"));
-              const big=a["network-requests"].details.items.filter(i=>i.transferSize>60000).sort((x,y)=>y.transferSize-x.transferSize).slice(0,8).map(i=>Math.round(i.transferSize/1024)+"KB "+i.url.replace(/^https?:\/\/[^/]+/,"").slice(0,70)); console.log("  biggest:", big.join(" || "));
-              const opp=Object.values(a).filter(x=>x.details&&x.details.type==="opportunity"&&x.numericValue>150).sort((x,y)=>y.numericValue-x.numericValue).slice(0,6).map(x=>x.title+" ("+Math.round(x.numericValue)+"ms)"); console.log("  opportunities:", opp.join("; ")||"none");
-            '
-          done
-          rm -f lp-factory/pages/kits-lp/recon/r204/*.json
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Check
+        run: |
+          mkdir -p lp-factory/pages/kits-lp/recon/r205
+          cat > r205.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r205/';
+          const JS = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-v3-app.js', 'utf8');
+          const CSS = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-v3.css', 'utf8');
+          const URL = 'https://maisoncroyez.com/pages/six-month-program';
+          const b = await chromium.launch();
+          const R = []; const ok = (n, c, i = '') => { R.push({ n, c: !!c, i: String(i).slice(0, 140) }); };
+          for (const [dev, vp] of [['mobile', { width: 390, height: 844 }], ['desktop', { width: 1366, height: 900 }]]) {
+            const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: dev === 'mobile' ? 2 : 1 });
+            await ctx.route(/mc-v3-app\.js/, (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: JS }));
+            await ctx.route(/mc-v3\.css/, (r) => r.fulfill({ status: 200, contentType: 'text/css', body: CSS }));
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            const t0 = Date.now();
+            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2500);
+            const T = async (s) => (await pg.locator(s).first().innerText()).replace(/\s+/g, ' ').trim();
+            const H = async () => pg.evaluate(() => document.documentElement.scrollHeight);
+            const y = async (s) => pg.evaluate((q) => { const e = document.querySelector(q); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; }, s);
+            ok(`${dev} buy box visible`, true, `${tBuy}ms after navigation start`);
+            ok(`${dev} step 1 page height / button position`, true, `page ${await H()}px, pick button at ${await y('#buybox .step-next')}px (${((await y('#buybox .step-next')) / vp.height).toFixed(1)} screens)`);
+            ok(`${dev} 3 kits new prices`, /109\.95/.test(await T('#buybox .tier:nth-child(1)')) && /119\.95/.test(await T('#buybox .tier:nth-child(2)')) && /159\.95/.test(await T('#buybox .tier:nth-child(3)')));
+            ok(`${dev} no strip / no featbs / no faq section / no mech button`, await pg.evaluate(() => !document.querySelector('.adv-announce') && !document.querySelector('.featbs') && !document.querySelector('#sec-faq') && !document.querySelector('.mech .btn')));
+            ok(`${dev} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+            if (dev === 'mobile') { await pg.evaluate(() => document.querySelector('#buybox .buybox').scrollIntoView()); await pg.screenshot({ path: OUT + 'live-s1-top.png' }); await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.screenshot({ path: OUT + 'live-s1-button.png' }); }
+            await pg.click('#buybox .step-next'); await pg.waitForTimeout(600);
+            ok(`${dev} step 2 asks 3 scents, long-form hidden`, /Pick your 3 included/.test(await T('#buybox .step-title')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1);
+            if (dev === 'mobile') { await pg.evaluate(() => document.querySelector('#buybox .gift-obj').scrollIntoView({ block: 'center' })); await pg.screenshot({ path: OUT + 'live-s2-gift.png' }); }
+            const cards = pg.locator('#buybox .pick.compact');
+            await cards.nth(0).click(); await cards.nth(2).click(); await cards.nth(6).click(); await pg.waitForTimeout(300);
+            ok(`${dev} 3/3 chosen`, /3\/3/.test(await T('#buybox .pick-count')) && /REVIEW MY KIT/i.test(await T('#buybox .navrow .btn.atc')));
+            if (dev === 'mobile') { await pg.evaluate(() => document.querySelector('#buybox .navrow').scrollIntoView({ block: 'center' })); await pg.screenshot({ path: OUT + 'live-s2-button.png' }); }
+            await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
+            ok(`${dev} step 3 review`, /You only pay: \$119\.95/.test(await T('#buybox .kr-total')) && /saving \$250 today!/.test(await T('#buybox .kr-save')) && (await pg.$$eval('#buybox .kr-row', (a) => a.length)) === 4);
+            ok(`${dev} carousel 6 photos from CDN`, await pg.evaluate(() => { const im = [...document.querySelectorAll('#buybox .rv6-card img')]; return im.length === 6 && im.every((i) => /cdn\.shopify\.com.*mc-review-\d\.jpg/.test(i.src)); }));
+            ok(`${dev} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+            if (dev === 'mobile') { await pg.evaluate(() => document.querySelector('#buybox .kitrev').scrollIntoView()); await pg.screenshot({ path: OUT + 'live-s3-review.png' }); await pg.evaluate(() => document.querySelector('#buybox .rv6').scrollIntoView()); await pg.waitForTimeout(800); await pg.screenshot({ path: OUT + 'live-s3-reviews.png' }); }
+            // real cart maths: one-time (BXGY) then refill (Subi plan)
+            const cartTest = async (mode) => {
+              await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }).catch(() => {}));
+              if (mode === 'one') { await pg.click('#buybox .decline'); } else { await pg.click('#buybox .mode.sub'); }
+              await pg.waitForTimeout(200);
+              await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' }));
+              await pg.click('#buybox .btn.atc'); await pg.waitForTimeout(3500);
+              const cart = await pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { Accept: 'application/json' } }); return r.json(); });
+              const items = (cart.items || []).map((i) => ({ t: i.product_title.slice(0, 22), v: (i.variant_title || '').slice(0, 24), q: i.quantity, price: i.price / 100, final: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null }));
+              const scents = items.filter((i) => !/Special Kits/.test(i.t));
+              const kit = items.find((i) => /Special Kits/.test(i.t));
+              const zero = scents.reduce((s, i) => s + i.q, 0) === 3 && scents.every((i) => i.final === 0);
+              ok(`${dev} cart ${mode}: 3 scents at $0 + kit`, kit && zero, JSON.stringify({ total: cart.total_price / 100, discount: cart.total_discount / 100, kit: kit && { v: kit.v, price: kit.price }, scents }).slice(0, 220));
+              await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }).catch(() => {}));
+              // close the cart drawer if it opened
+              await pg.keyboard.press('Escape').catch(() => {}); await pg.waitForTimeout(300);
+            };
+            await cartTest('one'); await cartTest('sub');
+            ok(`${dev} no JS errors`, errs.length === 0, errs.join(' | '));
+            await ctx.close();
+          }
+          await b.close();
+          for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
+          console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
+          EOF2
+          node r205.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/recon/r205
+          git commit -m "r205: pre-deploy screenshots of the three-step buy box" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

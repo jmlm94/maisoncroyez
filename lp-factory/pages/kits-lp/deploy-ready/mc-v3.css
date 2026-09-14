@@ -622,19 +622,52 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .tier-name{font-size:.9rem}
 #root .pick-introw{display:block;min-width:0;line-height:1.35}
 #root .pick-vol{display:inline-block;vertical-align:middle;margin-left:5px;position:relative;top:-1px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.52rem;letter-spacing:.04em;line-height:1;padding:3px 6px;border-radius:999px;border:1px solid rgba(36,28,24,.28);color:#241C18;background:#fff}
-#root .atc-proof{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 6px;margin:14px 0 8px;font-family:'Outfit',sans-serif;font-size:.78rem;letter-spacing:.02em;color:#241C18}#root .atc-proof .stars5{font-size:.85rem;margin-right:2px}#root .atc-proof b{font-weight:700}
-#root .btn.atc.need{background:#241C18;opacity:.92;cursor:pointer}#root .btn.atc.need:hover{opacity:1}
-#root .picker.flash{animation:mc-flash 1.6s ease-out 1;border-radius:14px}@keyframes mc-flash{0%{box-shadow:0 0 0 0 rgba(36,28,24,.0)}20%{box-shadow:0 0 0 4px rgba(36,28,24,.55)}100%{box-shadow:0 0 0 0 rgba(36,28,24,0)}}
-/* r203c — shorter path to the buy button on phones (button sat 4.1 screens down; the 7 scent cards alone were 1.4 screens) */
-@media (max-width:640px){
-#root .picker.compact{align-items:start}#root .pick.compact{padding:8px 8px 6px;gap:4px}
-#root .pick.compact .pick-ingr{font-size:.62rem;line-height:1.25}
-#root .pick.compact:not(.on) .pick-smells{display:none !important}
-#root .pick.compact.on .pick-smells{font-size:.66rem;line-height:1.3}
-#root .booklet-obj{padding:8px 10px;gap:8px;align-items:center}
-#root .booklet-obj .booklet-img,#root .booklet-obj .booklet-ph{display:none}
-#root .booklet-obj .booklet-txt b{display:none}
-#root .booklet-obj .booklet-txt span{font-size:.72rem;line-height:1.3}
-#root .tier-note{padding:6px 10px}#root .tier-note p{font-size:.72rem;line-height:1.3;margin:0}
-#root .mode-perks{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}#root .mode-perks span{font-size:.68rem}
-}
+/* ===== v3s20: three-step buy box (2026-09-14) ===== */
+#root .usp3{display:flex;gap:8px;margin:12px 0 4px}
+#root .usp3 .usp{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:12px;padding:11px 6px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;line-height:1.3;letter-spacing:.01em;text-transform:none;text-align:center;color:#241C18}
+#root .usp3 .usp-ic{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px}
+#root .usp3 .usp-tx{white-space:pre-line}
+#root .usp3 .usp:nth-child(1){background:rgba(183,217,232,.16)}#root .usp3 .usp:nth-child(1) .usp-ic{background:linear-gradient(145deg,#D8ECF3 0%,#B7D9E8 100%)}
+#root .usp3 .usp:nth-child(2){background:rgba(246,201,155,.16)}#root .usp3 .usp:nth-child(2) .usp-ic{background:linear-gradient(145deg,#FBE3C9 0%,#F6C99B 100%)}
+#root .usp3 .usp:nth-child(3){background:rgba(188,228,192,.16)}#root .usp3 .usp:nth-child(3) .usp-ic{background:linear-gradient(145deg,#DFF3D8 0%,#BCE4C0 100%)}
+#root .stepbar{margin:20px 0 2px}
+#root .prog{height:6px;border-radius:99px;background:rgba(36,28,24,.10);overflow:hidden}#root .prog i{display:block;height:100%;background:#241C18;border-radius:99px;transition:width .3s}
+#root .pstep{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A5F;margin-top:6px}
+#root .step-title{margin-top:8px}
+#root .tier-line{display:block;font-size:.74rem;line-height:1.35;color:#5B4B42;margin-top:3px}
+#root .tier-line.strong{font-size:.8rem;font-weight:700;color:#241C18}
+#root .btn.step-next{margin-top:14px}
+#root .navrow{display:flex;gap:10px;margin-top:16px}#root .navrow .btn{flex:1;margin:0}#root .navrow .btn.atc{margin-top:0}
+#root .navrow .btn.secondary{flex:0 0 56px;background:#fff;color:#241C18;border:1.5px solid #241C18;box-shadow:none}
+#root .navrow .btn.secondary.wide{flex:1}
+#root .kitrev{border:1.5px solid rgba(36,28,24,.16);border-radius:14px;background:#fff;box-shadow:0 6px 16px rgba(36,28,24,.06);padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin:12px 0 14px}
+#root .kr-row{display:flex;align-items:center;gap:10px;font-size:.88rem}
+#root .kr-row .kr-img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:0 0 44px;background:#fff}
+#root .kr-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}#root .kr-tx b{font-weight:700}
+#root .kr-sub{font-size:.7rem;line-height:1.3;color:#7A6A5F}
+#root .kr-pr{white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;font-size:.85rem;text-align:right}
+#root .kr-pr s{color:#9A8B80;font-weight:600;margin-right:4px}#root .kr-pr .inc{color:#1F7A3A}
+#root .kr-total{display:flex;justify-content:space-between;border-top:1.5px dashed rgba(36,28,24,.18);padding-top:10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem}
+#root .kr-save{text-align:center;font-size:.82rem;color:#1F7A3A;font-weight:700}
+#root .gift-obj{margin-top:12px}
+#root .gift-art{flex:0 0 110px;width:110px;height:83px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px}
+#root .rv6{margin:18px 0 6px}
+#root .rv6-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#root .rv6-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A5F}
+#root .rv6-nav{display:flex;gap:6px}#root .rv6-nav button{width:32px;height:32px;border-radius:50%;border:1.5px solid #241C18;background:#fff;color:#241C18;font-size:1rem;line-height:1;cursor:pointer;padding:0}
+#root .rv6-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px}#root .rv6-track::-webkit-scrollbar{display:none}
+#root .rv6-card{flex:0 0 78%;max-width:300px;scroll-snap-align:start;background:linear-gradient(160deg,#FFFFFF 0%,#FBF5EC 100%);border:1.5px solid #DECBA0;border-radius:14px;padding:10px 12px 14px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box}
+@media(min-width:900px){#root .rv6-card{flex-basis:32%}}
+#root .rv6-img{position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:#EFE7DF}#root .rv6-img img{width:100%;height:100%;object-fit:cover;display:block}
+#root .rv6-stars{color:#E0A526;font-size:.85rem;letter-spacing:2px;margin-top:4px}
+#root .rv6-q{font-family:'Unna',serif;font-style:italic;font-size:1rem;line-height:1.4;margin:0;color:#241C18}
+#root .rv6-who{font-family:'Outfit',sans-serif;font-size:.74rem;color:#7A6A5F}#root .rv6-who b{color:#241C18}
+#root .rv6-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}#root .rv6-dot{width:6px;height:6px;border-radius:50%;background:rgba(36,28,24,.18)}#root .rv6-dot.on{background:#241C18}
+#root .plan-sub{font-size:1rem;line-height:1.45;color:#241C18}
+#root .mode.sub .mode-tx > b{font-size:1.15rem}
+#root .mode-from{font-style:normal;font-family:'Outfit',sans-serif;font-weight:600;font-size:.9rem}
+#root .mode-note{font-size:.92rem;line-height:1.45;color:#241C18}
+#root .mode-perks span{font-size:.82rem}
+#root .modes .decline,#root .decline,#root .decline.on{background:transparent !important;border-color:transparent !important;box-shadow:none !important}
+#root .modes,#root .modes.dim{background:transparent !important;box-shadow:none !important}
+#root .mode.sub,#root .mode.sub.on{box-shadow:none !important}

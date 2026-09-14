@@ -40,3 +40,9 @@ badge (-> "Free Shipping"), and the "safe around my cat" clause in the Diane R. 
 r177 live (key dr1-2026090519): mystery=false, kids=false, cat=false, badges = Money-Back /
 Lifetime Warranty / Free Shipping, total $89.95 on the v3 default kit, 0 errors.
 Screenshot verify/drawer-clean-v3.png.
+
+## 2026-09-14 — Qty + variant line (GenericFile 29651366445165 <- raw@2cefb8c, 7,670B)
+Each line now shows a "Qty N" pill and the variant title (e.g. "2 Diffusers + 3 Scents") under the
+product title, built from /cart.js (matched by position, then by product title). Verified r207 with a
+real ATC on the live page: Midnight ×1 $0.00, Golden Blossom ×2 $0.00, Special Kits "2 Diffusers + 3
+Scents" $119.95, total $119.95 (refill plan). Goes live sitewide at the next UTC hour flip (dr1- key).

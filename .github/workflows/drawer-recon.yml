@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 209 — cart drawer: ×N beside the title + variant line under each title (branch mc-drawer.js swapped into the live page), real add-to-cart click
+# run 210 — cart drawer: ×N inside the title + variant line under each title (branch mc-drawer.js swapped into the live page), real add-to-cart click
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,11 +19,11 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Drawer
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r209
-          cat > r209.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r210
+          cat > r210.mjs <<'EOF2'
           import { chromium } from 'playwright';
           import fs from 'fs';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r209/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r210/';
           const DR = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-drawer.js', 'utf8');
           const b = await chromium.launch();
           const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
@@ -39,16 +39,16 @@ jobs:
           await pg.locator('#buybox .btn.atc').click(); await pg.waitForTimeout(5000);
           const open = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? { open: d.hasAttribute('open') || d.classList.contains('is-open') || getComputedStyle(d).visibility !== 'hidden', lines: [...d.querySelectorAll('.line-item')].map((li) => ({ title: (li.querySelector('a.bold') || {}).textContent, qv: (li.querySelector('.mc-qv') || {}).innerText })) } : null; });
           console.log('DRAWER', JSON.stringify(open), 'url', pg.url(), 'errs', JSON.stringify(errs));
-          await pg.screenshot({ path: OUT + 'drawer-x-n.png' });
+          await pg.screenshot({ path: OUT + 'drawer-x-n-inline.png' });
           await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }).catch(() => {}));
           await b.close();
           EOF2
-          node r209.mjs
+          node r210.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r209
-          git commit -m "r209: drawer ×N screenshot" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r210
+          git commit -m "r210: drawer ×N inline screenshot" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

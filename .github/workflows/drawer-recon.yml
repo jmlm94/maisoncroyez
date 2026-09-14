@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 205 — pre-deploy check of the three-step buy box: the LIVE /pages/six-month-program with the branch mc-v3-app.js / mc-v3.css
+# run 205b — pre-deploy check of the three-step buy box: the LIVE /pages/six-month-program with the branch mc-v3-app.js / mc-v3.css
 #           swapped in (route interception). Runs the flow on a phone viewport, screenshots each step, and checks the real cart maths
 #           (one-time: BXGY zeroes 3 scents; refill: Subi plan zeroes 3 scents) against the store.
 on:
@@ -66,8 +66,10 @@ jobs:
               if (mode === 'one') { await pg.click('#buybox .decline'); } else { await pg.click('#buybox .mode.sub'); }
               await pg.waitForTimeout(200);
               await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' }));
-              await pg.click('#buybox .btn.atc'); await pg.waitForTimeout(3500);
-              const cart = await pg.evaluate(async () => { const r = await fetch('/cart.js', { headers: { Accept: 'application/json' } }); return r.json(); });
+              await pg.click('#buybox .btn.atc'); await pg.waitForTimeout(4000);
+              await pg.waitForLoadState('domcontentloaded').catch(() => {});
+              const raw = await pg.evaluate(async () => { const r = await fetch('/cart.js', { credentials: 'same-origin', headers: { Accept: 'application/json' } }); return { status: r.status, url: r.url, text: await r.text() }; });
+              let cart = {}; try { cart = JSON.parse(raw.text); } catch (e) { ok(`${dev} cart ${mode}: cart.js readable`, false, `HTTP ${raw.status} ${raw.url} :: ${raw.text.replace(/\s+/g, ' ').slice(0, 160)} :: page now ${pg.url()}`); return; }
               const items = (cart.items || []).map((i) => ({ t: i.product_title.slice(0, 22), v: (i.variant_title || '').slice(0, 24), q: i.quantity, price: i.price / 100, final: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null }));
               const scents = items.filter((i) => !/Special Kits/.test(i.t));
               const kit = items.find((i) => /Special Kits/.test(i.t));
@@ -77,7 +79,7 @@ jobs:
               // close the cart drawer if it opened
               await pg.keyboard.press('Escape').catch(() => {}); await pg.waitForTimeout(300);
             };
-            await cartTest('one'); await cartTest('sub');
+            try { await cartTest('one'); await cartTest('sub'); } catch (e) { ok(`${dev} cart test crashed`, false, e.message); }
             ok(`${dev} no JS errors`, errs.length === 0, errs.join(' | '));
             await ctx.close();
           }

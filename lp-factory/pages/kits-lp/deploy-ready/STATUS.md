@@ -627,3 +627,10 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - Step 3 "How would you like your refills?" + radio + "No thanks" replaced by a fixed card: "Your refill plan is included." / "Congrats! You'll save 20% on your next scents!" / $39.95 per scent every 30 days / "Cancel anytime... we'll pay for the return (only 8% of customers cancel in the first 30 days 😉)" / perks LIFETIME 20% OFF ON REFILLS · PRIORITY PROCESSING · ACCESS TO NEW LAUNCHES · SKIP, SWAP OR PAUSE IN ONE TAP.
 - 2D/3D always add scents on Subi Plan 5; the one-time BXGY discounts stay active but unused. 1D unchanged (no scents).
 - Verified live r211: key v3s21, no .decline/.modes in DOM, plan card text, real ATC → drawer 3 scents at $0.00 + kit $119.95, total $119.95, 0 JS errors.
+
+## 2026-09-16 — r212 full-funnel QA after v3s21 (live, real carts + checkout)
+- Paths: 2D-phone, 3D-desktop, 2D-desktop, 1D-phone. RESULT 63/63 PASS. Screenshots in `recon/r212/`.
+- Every path served `v3s21-6a78f0c`; buy box interactive in 0.8–1.7 s; no JS errors; no horizontal overflow on any step.
+- Steps 1→2→3: kits + prices correct, "Pick your FREE scents" button + offer line, step 2 asks 3/4 scents with gift note and long-form hidden, button unlocks at N/N, step 3 shows "You only pay" $119.95/$159.95 and savings $250/$370, plan card with no opt-out + congrats title + 4 caps perks + cancel copy, 6-photo carousel + 5 FAQ.
+- Drawer: kit variant line, scents at $0.00 with ×N pills, totals $119.95 / $159.95 / $109.95.
+- Checkout: totals match; scents on "Every 30 days" with "First payment $0.00" (×3 / ×4), recurring-charge notice shown; kit line correct; express pay present. 1D path has no plan lines.

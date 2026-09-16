@@ -621,3 +621,9 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - Open: theme announcement bar text lives in header-group.json (theme editor); 4th scent tap is ignored when full (owner rule 2026-09-05); 1D kit has no scent/refill step.
 - Final funnel QA r208 (live store, real carts, no orders placed): 2D refill → checkout total $119.95, scents "First payment $0.00, then $39.95 every 30 days"; 2D one-time → $119.95 with "FOUNDER'S OFFER — 2 DIFFUSERS: 3 SCENTS INCLUDED" (-$49.95 ×3); 3D one-time → $159.95, 4 scents free; 1D → $109.95. Drawer shows kit variant + quantity. Screenshots in recon/r208.
 - Drawer script now "×N" beside the title (GenericFile 29651366445165 ← raw@2daa458, 7,937 B), verified r209; sitewide from the next UTC hour flip.
+
+### 2026-09-16 — v3s21: refill plan included on 2D/3D, no one-time opt-out (deployed 14:31 UTC)
+- Page key `v3s21-6a78f0c`. mc-v3-app.js 85,150 B, mc-v3.css 57,072 B (source commit 6a78f0c).
+- Step 3 "How would you like your refills?" + radio + "No thanks" replaced by a fixed card: "Your refill plan is included." / "Congrats! You'll save 20% on your next scents!" / $39.95 per scent every 30 days / "Cancel anytime... we'll pay for the return (only 8% of customers cancel in the first 30 days 😉)" / perks LIFETIME 20% OFF ON REFILLS · PRIORITY PROCESSING · ACCESS TO NEW LAUNCHES · SKIP, SWAP OR PAUSE IN ONE TAP.
+- 2D/3D always add scents on Subi Plan 5; the one-time BXGY discounts stay active but unused. 1D unchanged (no scents).
+- Verified live r211: key v3s21, no .decline/.modes in DOM, plan card text, real ATC → drawer 3 scents at $0.00 + kit $119.95, total $119.95, 0 JS errors.

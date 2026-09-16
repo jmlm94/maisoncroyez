@@ -1,5 +1,6 @@
 name: drawer-recon
-# run 210 — cart drawer: ×N inside the title + variant line under each title (branch mc-drawer.js swapped into the live page), real add-to-cart click
+# run 211 — post-deploy check of v3s21: CDN bytes under the new key, live step 3 has the included-plan card and no one-time opt-out,
+#           real add-to-cart puts the scents on the refill plan at $0
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -13,42 +14,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: CDN files under the new key
+        run: |
+          for f in mc-v3-app.js mc-v3.css; do printf "%s  " "$f"; curl -sSL -o /tmp/$f "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/$f?v=v3s21-6a78f0c"; wc -c < /tmp/$f; done
+          echo "expected app 85150 css 57072"; grep -c 'plan-card' /tmp/mc-v3-app.js || true
       - name: Install
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Drawer
+      - name: Live page
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r210
-          cat > r210.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r211
+          cat > r211.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          import fs from 'fs';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r210/';
-          const DR = fs.readFileSync('lp-factory/pages/kits-lp/deploy-ready/mc-drawer.js', 'utf8');
+          const OUT = 'lp-factory/pages/kits-lp/recon/r211/';
           const b = await chromium.launch();
-          const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
-          await ctx.route(/mc-drawer\.js/, (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: DR }));
-          const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
-          await pg.goto('https://maisoncroyez.com/pages/six-month-program', { waitUntil: 'domcontentloaded', timeout: 90000 });
-          await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.waitForTimeout(2000);
-          await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
-          const c = pg.locator('#buybox .pick.compact');
-          await c.nth(0).click(); await c.nth(0).locator('.pick-qty button:last-child').click(); await c.nth(6).click(); await pg.waitForTimeout(200);
-          await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
-          await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' }));
-          await pg.locator('#buybox .btn.atc').click(); await pg.waitForTimeout(5000);
-          const open = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? { open: d.hasAttribute('open') || d.classList.contains('is-open') || getComputedStyle(d).visibility !== 'hidden', lines: [...d.querySelectorAll('.line-item')].map((li) => ({ title: (li.querySelector('a.bold') || {}).textContent, qv: (li.querySelector('.mc-qv') || {}).innerText })) } : null; });
-          console.log('DRAWER', JSON.stringify(open), 'url', pg.url(), 'errs', JSON.stringify(errs));
-          await pg.screenshot({ path: OUT + 'drawer-x-n-inline.png' });
-          await pg.evaluate(() => fetch('/cart/clear.js', { method: 'POST' }).catch(() => {}));
+          let done = false;
+          for (let attempt = 1; attempt <= 6 && !done; attempt++) {
+            const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 }); const pg = await ctx.newPage();
+            const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            await pg.goto('https://maisoncroyez.com/pages/six-month-program?nocache=' + Date.now(), { waitUntil: 'domcontentloaded', timeout: 90000 });
+            const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-v3-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
+            await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }).catch(() => {}); await pg.waitForTimeout(2500);
+            console.log(`attempt ${attempt}: key=${key}`);
+            if (!/v3s21/.test(key)) { await ctx.close(); await new Promise((r) => setTimeout(r, 20000)); continue; }
+            await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
+            const c = pg.locator('#buybox .pick.compact'); await c.nth(0).click(); await c.nth(2).click(); await c.nth(6).click();
+            await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(700);
+            const st = await pg.evaluate(() => ({ decline: document.querySelectorAll('#buybox .decline, #buybox .modes').length, card: !!document.querySelector('#buybox .plan-card'), title: (document.querySelector('#buybox .plan-name') || {}).innerText, sub: (document.querySelector('#buybox .plan-sub') || {}).innerText, perks: [...document.querySelectorAll('#buybox .plan-perks span')].map((e) => e.innerText), why: (document.querySelector('#buybox .plan-why') || {}).innerText, atc: (document.querySelector('#buybox .btn.atc') || {}).innerText }));
+            console.log('STEP3 ' + JSON.stringify(st));
+            await pg.evaluate(() => { const e = document.querySelector('#buybox .plan-sub'); scrollTo(0, e.getBoundingClientRect().top + scrollY - 90); }); await pg.waitForTimeout(400);
+            await pg.screenshot({ path: OUT + 'live-v3s21-plan.png' });
+            await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click(); await pg.waitForTimeout(5000);
+            const dr = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? { lines: [...d.querySelectorAll('.line-item')].map((li) => li.innerText.replace(/\s+/g, ' ').slice(0, 90)), total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0] } : null; });
+            console.log('DRAWER ' + JSON.stringify(dr));
+            await pg.screenshot({ path: OUT + 'live-v3s21-drawer.png' });
+            console.log('ERRS ' + JSON.stringify(errs));
+            done = true; await ctx.close();
+          }
           await b.close();
           EOF2
-          node r210.mjs
+          node r211.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r210
-          git commit -m "r210: drawer ×N inline screenshot" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r211
+          git commit -m "r211: live v3s21 screenshots" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

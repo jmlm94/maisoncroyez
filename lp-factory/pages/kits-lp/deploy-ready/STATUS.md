@@ -634,3 +634,7 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - Steps 1→2→3: kits + prices correct, "Pick your FREE scents" button + offer line, step 2 asks 3/4 scents with gift note and long-form hidden, button unlocks at N/N, step 3 shows "You only pay" $119.95/$159.95 and savings $250/$370, plan card with no opt-out + congrats title + 4 caps perks + cancel copy, 6-photo carousel + 5 FAQ.
 - Drawer: kit variant line, scents at $0.00 with ×N pills, totals $119.95 / $159.95 / $109.95.
 - Checkout: totals match; scents on "Every 30 days" with "First payment $0.00" (×3 / ×4), recurring-charge notice shown; kit line correct; express pay present. 1D path has no plan lines.
+
+## 2026-09-16 — v3s22 deployed: mystery-gift note removed
+- Owner request: remove the "Worried you can't smell them all? / mystery gift" box from steps 2 and 3. It only rendered on step 2 (step 3 had none since round 5); the `GiftNote` component and its step-2 render were deleted. CSS left in place (harmless).
+- app.js 83,655 B (raw@2790a9a) → GenericFile 29920808403053; page key `v3s22-2790a9a`. CSS unchanged (57,072 B). r213 asserts no `.gift-obj` / "mystery gift" text on step 2.

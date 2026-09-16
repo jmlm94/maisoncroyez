@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 212 — FULL FUNNEL QA after v3s21 (refill plan included): page → kit → scents → review → add to cart → drawer → checkout,
+# run 213 — FULL FUNNEL QA after v3s22 (mystery-gift note removed from step 2): page → kit → scents → review → add to cart → drawer → checkout,
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r212
-          cat > r212.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r213
+          cat > r213.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r212/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r213/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
@@ -43,7 +43,7 @@ jobs:
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2000);
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-v3-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
-              ok(`${P.id} page version v3s21, buy box in ${tBuy}ms`, /v3s21/.test(key), key);
+              ok(`${P.id} page version v3s22, buy box in ${tBuy}ms`, /v3s22/.test(key), key);
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
               ok(`${P.id} kits + prices`, /109\.95/.test(await T('#buybox .tier:nth-child(1)')) && /119\.95/.test(await T('#buybox .tier:nth-child(2)')) && /159\.95/.test(await T('#buybox .tier:nth-child(3)')));
               await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(300);
@@ -53,7 +53,7 @@ jobs:
               } else {
                 ok(`${P.id} step-1 button = pick scents + offer line`, /PICK YOUR FREE SCENTS/i.test(await T('#buybox .step-next')) && /38% OFF/.test(await T('#buybox .step-next')));
                 await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
-                ok(`${P.id} step 2 asks ${P.scents}, long-form hidden, gift note`, new RegExp(`Pick your ${P.scents} included`).test(await T('#buybox .step-title')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1 && !!(await pg.$('#buybox .gift-obj svg')));
+                ok(`${P.id} step 2 asks ${P.scents}, long-form hidden, NO gift note`, new RegExp(`Pick your ${P.scents} included`).test(await T('#buybox .step-title')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1 && !(await pg.$('#buybox .gift-obj')) && !/mystery gift/i.test(await T('#buybox')));
                 const btnBefore = await T('#buybox .navrow .btn.atc');
                 const c = pg.locator('#buybox .pick.compact');
                 for (const k of P.picks) { if ((await c.nth(k).locator('.pick-qty b').innerText()) !== '0') await c.nth(k).locator('.pick-qty button:last-child').click(); else await c.nth(k).click(); await pg.waitForTimeout(150); }
@@ -97,12 +97,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r212.mjs
+          node r213.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r212
-          git commit -m "r212: funnel QA after v3s21" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r213
+          git commit -m "r213: funnel QA after v3s22" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

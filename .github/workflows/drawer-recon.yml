@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 215 — FULL FUNNEL QA after v3s23 (new offer: 1D $79.95, 2D+2 $89.95, 3D+3 $139.95; per-kit % off line): page → kit → scents → review → add to cart → drawer → checkout, 4 paths.
+# run 216 (r215 re-run, tier-price regex fixed to 89.95/139.95) — FULL FUNNEL QA after v3s23 (new offer: 1D $79.95, 2D+2 $89.95, 3D+3 $139.95; per-kit % off line): page → kit → scents → review → add to cart → drawer → checkout, 4 paths.
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r215
-          cat > r215.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r216
+          cat > r216.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r215/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r216/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
@@ -46,7 +46,7 @@ jobs:
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-v3-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
               ok(`${P.id} page version v3s23, buy box in ${tBuy}ms`, /v3s23/.test(key), key);
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-              ok(`${P.id} kits + prices`, /79\.95/.test(await T('#buybox .tier:nth-child(1)')) && /119\.95/.test(await T('#buybox .tier:nth-child(2)')) && /159\.95/.test(await T('#buybox .tier:nth-child(3)')));
+              ok(`${P.id} kits + prices`, /79\.95/.test(await T('#buybox .tier:nth-child(1)')) && /89\.95/.test(await T('#buybox .tier:nth-child(2)')) && /139\.95/.test(await T('#buybox .tier:nth-child(3)')));
               await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(300);
               if (P.tier === 1) {
                 ok(`${P.id} step-1 button = add to cart $79.95`, /ADD TO CART — \$79\.95/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
@@ -99,12 +99,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r215.mjs
+          node r216.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r215
-          git commit -m "r215: funnel QA after v3s23" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r216
+          git commit -m "r216: funnel QA after v3s23" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

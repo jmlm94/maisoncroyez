@@ -626,28 +626,6 @@ const USP3 = [
   { ic: "🕯️", tx: "Replace $2,500/year\nin candles" },
   { ic: "💧", tx: "No water, no leaks,\nand no mold." },
 ];
-const GiftNote = () => html`
-  <div class="booklet-obj gift-obj">
-    <span class="gift-art" role="img" aria-label="Mystery gift">
-      <svg viewBox="0 0 110 83" width="110" height="83" aria-hidden="true">
-        <rect x="20" y="36" width="70" height="40" rx="6" fill="#F3E6DC" stroke="#C9A27A" stroke-width="1.5"/>
-        <rect x="14" y="26" width="82" height="14" rx="4" fill="#E9D3C3" stroke="#C9A27A" stroke-width="1.5"/>
-        <rect x="50" y="26" width="10" height="50" fill="#A6473E"/>
-        <rect x="14" y="30" width="82" height="6" fill="#A6473E"/>
-        <ellipse cx="43" cy="19" rx="11" ry="6.5" fill="none" stroke="#A6473E" stroke-width="3.5"/>
-        <ellipse cx="67" cy="19" rx="11" ry="6.5" fill="none" stroke="#A6473E" stroke-width="3.5"/>
-        <circle cx="55" cy="21" r="4.5" fill="#7E3129"/>
-        <circle cx="82" cy="60" r="12" fill="#fff" stroke="#C9A27A" stroke-width="1.5"/>
-        <text x="82" y="66" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-weight="800" font-size="17" fill="#241C18">?</text>
-        <path d="M12 12l1.6 3.6L17.2 17l-3.6 1.4L12 22l-1.6-3.6L6.8 17l3.6-1.4z" fill="#E0A526"/>
-        <path d="M98 6l1.2 2.8 2.8 1.2-2.8 1.2L98 14l-1.2-2.8L94 10l2.8-1.2z" fill="#E0A526"/>
-      </svg>
-    </span>
-    <span class="booklet-txt">
-      <b>Worried you can\u2019t smell them all?</b>
-      <span>We\u2019ll send you a mystery gift so you can. Swap anytime if needed.</span>
-    </span>
-  </div>`;
 const StepHead = ({ n, title }) => html`
   <div class="stepbar"><div class="prog"><i style=${{ width: Math.round(n / 3 * 100) + "%" }}></i></div><div class="pstep">Step ${n} of 3</div></div>
   <div class="picker-title step-title">${title}</div>`;
@@ -757,7 +735,6 @@ function BuyBox() {
           ` : step === 2 ? html`
           <${StepHead} n=${2} title=${T.scents > 0 ? `Pick your ${T.scents} included scents:` : "Want scents with your diffuser? (optional)"}/>
           ${T.scents === 0 ? html`<div class="picker-sub">${usd(SCENT_ONE)} each, one-time. Add as many as you like, or skip and just get the diffuser.</div>` : null}
-          <${GiftNote}/>
           <div class="pick-count">${T.scents > 0
             ? `${sel.included()}/${T.scents} included scents chosen` + (left > 0 ? ` \u2014 pick ${left} more` : " \u2713") + (sel.extras() > 0 ? ` \u00b7 +${sel.extras()} extra` : "")
             : (sel.keys.length ? `${sel.keys.length} scent${sel.keys.length > 1 ? "s" : ""} added` : "No scents added yet")}</div>

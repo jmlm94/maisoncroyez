@@ -306,7 +306,7 @@ const CONFIG = {
     heading: ["Questions?", "We've got answers."],
     items: [
       { q: "When am I charged?", a: "Once, today, for your kit. If you choose the refill plan for your scents, refills are charged only when they ship, every 30 days, at $39.95 each. You get a heads-up 7 days before every refill. Skip it and you're not charged." },
-      { q: "Do I have to subscribe?", a: "No. Every kit is a one-time purchase. The refill plan is an optional 20% discount on scents ($39.95 instead of $49.95). Take it or leave it, and switch anytime from your account." },
+      { q: "Do I have to subscribe?", a: "Your kit comes with the refill plan: fresh scents every 30 days at $39.95 each (20% off) from day 30. Skip, swap, pause or cancel in one tap, and the 90-day money-back covers everything, diffusers included." },
       { q: "How do I cancel a refill plan?", a: "Two clicks, from your account or any email we send. No phone calls, no chat queues, no retention offers. Nothing to return, your diffusers and scents are yours." },
       { q: "How long does each bottle last?", a: "30+ days per 100ml bottle. Running it on low stretches a bottle even further." },
       { q: "What if I don't love it?", a: "Live with it for 90 days. If your home doesn't feel different, send it back with the prepaid label for a full refund. And every diffuser is covered for life." },
@@ -390,7 +390,7 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
    Kit = one variant of the unlisted "Founder's Offer" product (1D / 2D / 3D).
    Scents = the 7 real scent products, added as separate lines.
    Included scents on 2D/3D:
-     one-time  -> automatic BXGY zeroes 3 (or 4) one-time scent lines (updated 2026-09-14).
+     one-time  -> no longer offered on 2D/3D since v3s21 (2026-09-16); BXGY discounts left in place, unused.
      refill    -> scents ride Subi Plan 5 "Every 30 days" (first delivery
                   $0, then $39.95 each every 30 days), so today's total is
                   exactly the kit price and no kit-side discount is needed.
@@ -815,36 +815,21 @@ function BuyBox() {
             <div class="kr-total"><span>You only pay:</span><b>${usd(sel.today())}</b></div>
             ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
           </div>
-          ${(() => { const inc = T.scents > 0; const n = sel.keys.length; const dim = !inc && n === 0; if (!inc) return null; /* refill plan only where scents are included (2D/3D) */ return html`
-          <div class="picker-title">${inc ? "How would you like your refills?" : "How would you like your scents?"}</div>
-          <div class="picker-sub plan-sub">${inc
-            ? html`Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. This is only about the next ones, in 30 days.`
-            : (n > 0 ? html`For the ${n} scent${n > 1 ? "s" : ""} you added: one-time, or a 20%-off refill plan.` : html`Add a scent above to choose one-time or a 20%-off refill plan.`)}</div>
-          <div class=${"modes" + (dim ? " dim" : "")} role="radiogroup" aria-label="Scent purchase mode">
-            <div class=${"mode sub" + (sel.plan === "sub" ? " on" : "")} role="radio" aria-checked=${sel.plan === "sub"} tabindex="0" style=${{ background: sel.plan === "sub" ? MODE_GRAD.sub : "" }}
-              onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
-              <span class="mode-dot" aria-hidden="true"></span>
-              <span class="mode-tx">
-                <b>${inc ? "Auto-refill & Save 20% 🏷️" : "Subscribe & Save 20% 🏷️"}</b>
-                <span class="mode-price"><s>$49.95</s> <b>$39.95</b> / scent${inc ? html` <em class="mode-from">every 30 days</em>` : null}</span>
-                <span class="mode-note">${inc ? "Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime." : "Delivered every 30 days. Skip, swap or cancel anytime."}</span>
-                <span class="mode-perks">
-                  <span>✓ 20% off every refill</span>
-                  <span>✓ Free shipping, always</span>
-                  <span>✓ Heads-up 7 days before</span>
-                  <span>✓ Swap or pause in one tap</span>
-                </span>
-              </span>
-              <span class="off-badge mode-badge">🚚 FREE SHIPPING</span>
+          ${T.scents > 0 ? html`
+          <div class="picker-title step-title">Your refill plan is included.</div>
+          <div class="picker-sub plan-sub">Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. From day 30, fresh scents arrive every 30 days.</div>
+          <div class="plan-card" style=${{ background: MODE_GRAD.sub }}>
+            <div class="plan-head"><span class="plan-name">Congrats! You\u2019ll save 20% on your next scents!</span><span class="plan-incl">\u2713 Included</span><span class="off-badge plan-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
+            <div class="plan-price"><s>$49.95</s> <b>$39.95</b> <span class="plan-per">/ scent</span> <em class="mode-from">every 30 days</em></div>
+            <div class="plan-why"><b>Cancel anytime.</b> If we\u2019re not for you, let us know and we\u2019ll pay for the return, no questions asked. <span class="plan-wink">(only 8% of customers cancel in the first 30 days \uD83D\uDE09)</span></div>
+            <div class="mode-perks plan-perks">
+              <span>\u2713 LIFETIME 20% OFF ON REFILLS</span>
+              <span>\u2713 PRIORITY PROCESSING</span>
+              <span>\u2713 ACCESS TO NEW LAUNCHES</span>
+              <span>\u2713 SKIP, SWAP OR PAUSE IN ONE TAP</span>
             </div>
-            <div class=${"decline" + (sel.plan === "one" ? " on" : "")} role="radio" aria-checked=${sel.plan === "one"} tabindex="0"
-              onClick=${() => sel.setPlan("one")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("one"); }}>
-              ${sel.plan === "one"
-                ? html`<span class="decline-ic" aria-hidden="true">\u2713</span><span><b>Got it \u2014 one-time purchase.</b> Nothing renews, nothing else is charged. Re-order scents whenever you like at $49.95.</span>`
-                : html`<span>No thanks, I\u2019ll re-order myself another time <u>(make it a one-time purchase)</u></span>`}
-            </div>
-          </div>`; })()}
-
+          </div>
+          ` : null}
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
             <span class="btn-sub">${T.scents > 0 ? OFFER_SUB : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty"}</span>

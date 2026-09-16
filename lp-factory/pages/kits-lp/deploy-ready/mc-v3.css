@@ -671,3 +671,14 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .modes .decline,#root .decline,#root .decline.on{background:transparent !important;border-color:transparent !important;box-shadow:none !important}
 #root .modes,#root .modes.dim{background:transparent !important;box-shadow:none !important}
 #root .mode.sub,#root .mode.sub.on{box-shadow:none !important}
+
+/* ===== v3s21: refill plan is part of the offer (no opt-out) 2026-09-16 ===== */
+#root .plan-card{position:relative;border:1.5px solid #241C18;border-radius:14px;padding:14px 14px 12px;margin-top:12px;box-shadow:none}
+#root .plan-head{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding-right:0}
+#root .plan-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:#241C18}
+#root .plan-incl{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#1F7A3A;background:#E4F0E4;border-radius:999px;padding:3px 9px}
+#root .plan-ship{margin-left:auto}
+#root .plan-price{font-family:'Unna',serif;font-size:1.15rem;color:#241C18;margin-top:8px}#root .plan-price s{color:#9A8B80;margin-right:4px}#root .plan-price b{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem}#root .plan-per{font-size:.85rem;color:#6E5B4F}
+#root .plan-why{font-size:.92rem;line-height:1.5;color:#241C18;margin-top:10px}#root .plan-why b{font-weight:700}#root .plan-wink{color:#5B4B42}
+#root .plan-perks{border-top:1px solid rgba(36,28,24,.14);margin-top:12px;padding-top:10px}
+@media (max-width:640px){#root .plan-name{font-size:1.05rem}#root .plan-ship{margin-left:0}}

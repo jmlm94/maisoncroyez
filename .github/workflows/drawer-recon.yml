@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 213 — FULL FUNNEL QA after v3s22 (mystery-gift note removed from step 2): page → kit → scents → review → add to cart → drawer → checkout,
+# run 214 — re-run of the two r213 paths that hit an empty cart (2D-desktop, 1D-phone); logs /cart/add.js and /cart.js response statuses to separate page bug from Shopify throttling of the runner.
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,16 +20,14 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r213
-          cat > r213.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r214
+          cat > r214.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r213/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r214/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
           const PATHS = [
-            { id: '2D-phone', tier: 2, picks: [0, 0, 6], total: 119.95, scents: 3, desktop: false },
-            { id: '3D-desktop', tier: 3, picks: [1, 2, 4, 5], total: 159.95, scents: 4, desktop: true },
             { id: '2D-desktop', tier: 2, picks: [3, 4, 5], total: 119.95, scents: 3, desktop: true },
             { id: '1D-phone', tier: 1, picks: [], total: 109.95, scents: 0, desktop: false },
           ];
@@ -37,6 +35,7 @@ jobs:
             const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
             const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: P.desktop ? 1 : 2 }); const pg = await ctx.newPage();
             const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            const net = []; pg.on('response', (r) => { if (/\/cart(\/add)?\.js|\/cart\?section/.test(r.url())) net.push(r.request().method() + ' ' + r.url().replace(/^https?:\/\/[^/]+/, '').slice(0, 60) + ' -> ' + r.status()); });
             const T = async (s) => (await pg.locator(s).first().innerText()).replace(/\s+/g, ' ').trim();
             try {
               const t0 = Date.now();
@@ -72,7 +71,8 @@ jobs:
               const dr = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; return { lines: [...d.querySelectorAll('.line-item')].map((li) => ({ t: ((li.querySelector('a.bold') || {}).textContent || '').trim().slice(0, 40), q: ((li.querySelector('.mc-qty') || {}).innerText || ''), v: ((li.querySelector('.mc-var') || {}).innerText || ''), price: (li.innerText.match(/\$[\d.,]+/g) || []).join(' ') })), total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0] }; });
               const scentQty = dr ? dr.lines.filter((l) => !/Special Kits/.test(l.t)).reduce((s, l) => s + (parseInt((l.q.match(/×(\d+)/) || [])[1] || '0', 10)), 0) : -1;
               const kit = dr && dr.lines.find((l) => /Special Kits/.test(l.t));
-              ok(`${P.id} drawer: kit variant + ${P.scents} scents at $0, ×N pills, total $${P.total}`, kit && scentQty === P.scents && dr.lines.filter((l) => !/Special Kits/.test(l.t)).every((l) => /\$0\.00/.test(l.price)) && dr.total.includes('$' + P.total) && (P.tier === 1 ? /1 Diffuser/.test(kit.v) : new RegExp(`${P.tier} Diffusers \\+ ${P.scents} Scents`).test(kit.v)), JSON.stringify(dr));
+              const toast = await pg.evaluate(() => ((document.querySelector('#buybox .toast, #buybox [class*=toast]') || {}).innerText || ''));
+              ok(`${P.id} drawer: kit variant + ${P.scents} scents at $0, ×N pills, total $${P.total}`, kit && scentQty === P.scents && dr.lines.filter((l) => !/Special Kits/.test(l.t)).every((l) => /\$0\.00/.test(l.price)) && dr.total.includes('$' + P.total) && (P.tier === 1 ? /1 Diffuser/.test(kit.v) : new RegExp(`${P.tier} Diffusers \\+ ${P.scents} Scents`).test(kit.v)), JSON.stringify(dr).slice(0, 300) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
               await pg.screenshot({ path: OUT + `${P.id}-drawer.png` });
               await pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first().click();
               await pg.waitForURL(/checkouts\//, { timeout: 60000 }); await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000);
@@ -91,18 +91,18 @@ jobs:
               await pg.screenshot({ path: OUT + `${P.id}-checkout.png` });
               ok(`${P.id} no JS errors`, errs.length === 0, errs.join(' | '));
             } catch (e) { ok(`${P.id} crashed`, false, e.message); await pg.screenshot({ path: OUT + `${P.id}-crash.png` }).catch(() => {}); }
-            await ctx.close(); await new Promise((r) => setTimeout(r, 4000));
+            await ctx.close(); await new Promise((r) => setTimeout(r, 15000));
           }
           await b.close();
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r213.mjs
+          node r214.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r213
-          git commit -m "r213: funnel QA after v3s22" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r214
+          git commit -m "r214: funnel QA after v3s22" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

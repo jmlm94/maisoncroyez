@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 214 — re-run of the two r213 paths that hit an empty cart (2D-desktop, 1D-phone); logs /cart/add.js and /cart.js response statuses to separate page bug from Shopify throttling of the runner.
+# run 215 — FULL FUNNEL QA after v3s23 (new offer: 1D $79.95, 2D+2 $89.95, 3D+3 $139.95; per-kit % off line): page → kit → scents → review → add to cart → drawer → checkout, 4 paths.
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,16 +20,18 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r214
-          cat > r214.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r215
+          cat > r215.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r214/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r215/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
           const PATHS = [
-            { id: '2D-desktop', tier: 2, picks: [3, 4, 5], total: 119.95, scents: 3, desktop: true },
-            { id: '1D-phone', tier: 1, picks: [], total: 109.95, scents: 0, desktop: false },
+            { id: '2D-phone', tier: 2, picks: [0, 6], total: 89.95, scents: 2, desktop: false },
+            { id: '3D-desktop', tier: 3, picks: [1, 2, 4], total: 139.95, scents: 3, desktop: true },
+            { id: '2D-desktop', tier: 2, picks: [3, 5], total: 89.95, scents: 2, desktop: true },
+            { id: '1D-phone', tier: 1, picks: [], total: 79.95, scents: 0, desktop: false },
           ];
           for (const P of PATHS) {
             const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
@@ -42,15 +44,15 @@ jobs:
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2000);
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-v3-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
-              ok(`${P.id} page version v3s22, buy box in ${tBuy}ms`, /v3s22/.test(key), key);
+              ok(`${P.id} page version v3s23, buy box in ${tBuy}ms`, /v3s23/.test(key), key);
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-              ok(`${P.id} kits + prices`, /109\.95/.test(await T('#buybox .tier:nth-child(1)')) && /119\.95/.test(await T('#buybox .tier:nth-child(2)')) && /159\.95/.test(await T('#buybox .tier:nth-child(3)')));
+              ok(`${P.id} kits + prices`, /79\.95/.test(await T('#buybox .tier:nth-child(1)')) && /119\.95/.test(await T('#buybox .tier:nth-child(2)')) && /159\.95/.test(await T('#buybox .tier:nth-child(3)')));
               await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(300);
               if (P.tier === 1) {
-                ok(`${P.id} step-1 button = add to cart $109.95`, /ADD TO CART — \$109\.95/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
+                ok(`${P.id} step-1 button = add to cart $79.95`, /ADD TO CART — \$79\.95/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
                 await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click();
               } else {
-                ok(`${P.id} step-1 button = pick scents + offer line`, /PICK YOUR FREE SCENTS/i.test(await T('#buybox .step-next')) && /38% OFF/.test(await T('#buybox .step-next')));
+                ok(`${P.id} step-1 button = pick scents + offer line`, /PICK YOUR FREE SCENTS/i.test(await T('#buybox .step-next')) && /4[24]% OFF/.test(await T('#buybox .step-next')));
                 await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
                 ok(`${P.id} step 2 asks ${P.scents}, long-form hidden, NO gift note`, new RegExp(`Pick your ${P.scents} included`).test(await T('#buybox .step-title')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1 && !(await pg.$('#buybox .gift-obj')) && !/mystery gift/i.test(await T('#buybox')));
                 const btnBefore = await T('#buybox .navrow .btn.atc');
@@ -59,11 +61,11 @@ jobs:
                 ok(`${P.id} ${P.scents}/${P.scents} chosen, button unlocks`, new RegExp(`${P.scents}/${P.scents}`).test(await T('#buybox .pick-count')) && /PICK/i.test(btnBefore) && /REVIEW MY KIT/i.test(await T('#buybox .navrow .btn.atc')), await T('#buybox .pick-count'));
                 ok(`${P.id} no overflow s2`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
                 await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
-                ok(`${P.id} review total + saving`, new RegExp(`You only pay: \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .kr-total')) && /saving \$(250|370) today!/.test(await T('#buybox .kr-save')), (await T('#buybox .kr-total')) + ' | ' + (await T('#buybox .kr-save')));
+                ok(`${P.id} review total + saving`, new RegExp(`You only pay: \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .kr-total')) && /saving \$(170|250) today!/.test(await T('#buybox .kr-save')), (await T('#buybox .kr-total')) + ' | ' + (await T('#buybox .kr-save')));
                 const plan = await pg.evaluate(() => ({ decline: document.querySelectorAll('#buybox .decline, #buybox .modes, #buybox .mode').length, card: !!document.querySelector('#buybox .plan-card'), title: (document.querySelector('#buybox .plan-name') || {}).innerText || '', perks: [...document.querySelectorAll('#buybox .plan-perks span')].map((e) => e.innerText), why: (document.querySelector('#buybox .plan-why') || {}).innerText || '' }));
                 ok(`${P.id} plan card: no opt-out, congrats title, 4 caps perks, cancel copy`, plan.decline === 0 && plan.card && /Congrats! You.ll save 20%/.test(plan.title) && plan.perks.length === 4 && plan.perks.every((p) => p === p.toUpperCase()) && /Cancel anytime/.test(plan.why) && /8%/.test(plan.why), JSON.stringify(plan).slice(0, 200));
                 ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
-                ok(`${P.id} ATC button + offer line`, new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .btn.atc')) && /38% OFF/.test(await T('#buybox .btn.atc')));
+                ok(`${P.id} ATC button + offer line`, new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .btn.atc')) && /4[24]% OFF/.test(await T('#buybox .btn.atc')));
                 ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
                 await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
               }
@@ -97,12 +99,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r214.mjs
+          node r215.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r214
-          git commit -m "r214: funnel QA after v3s22" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r215
+          git commit -m "r215: funnel QA after v3s23" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

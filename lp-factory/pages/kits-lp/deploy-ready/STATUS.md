@@ -640,3 +640,9 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - app.js 83,655 B (raw@2790a9a) → GenericFile 29920808403053; page key `v3s22-2790a9a`. CSS unchanged (57,072 B). r213 asserts no `.gift-obj` / "mystery gift" text on step 2.
 - r213 (all 4 paths, live v3s22): 52/56. Steps 1–3 PASS everywhere incl. "NO gift note" on step 2; 2D-phone and 3D-desktop reached checkout OK ($119.95 / $159.95). 2D-desktop and 1D-phone (3rd/4th carts from the same runner within ~1 min) opened the drawer on "Your cart is empty" → no checkout. Add-to-cart code is unchanged since v3s21 (r212 was 63/63 an hour earlier).
 - r214 (re-run of 2D-desktop + 1D-phone with cart network logging, 15 s between paths): 27/27 PASS. `/cart/add.js -> 200`, drawer lines + totals + checkout correct. Conclusion: r213's two empties were transient Shopify throttling of the runner, not a page bug.
+
+## 2026-09-16 — v3s23 deployed: new offer
+- Owner: 1 Diffuser $79.95 · 2 Diffusers + 2 FREE Scents $89.95 · 3 Diffusers + 3 FREE Scents $139.95. `DIFFUSER_PRICE` 79.95 (tracks the 1D price, as originally). Savings shown: $170 (2D) / $250 (3D); strikes $259.80 / $389.70.
+- Offer line is now per kit: `offerPct(t)` = % off vs n × $79.95 → "44% OFF + FREE SCENTS OFFER APPLIED!" on 2D, "42% OFF …" on 3D (owner asked for 44; 3D computed honestly).
+- Shopify (Special Kits 8245945434221, option "Kit"): 45784228429933 "1 Diffuser" $79.95; 45784228462701 renamed "2 Diffusers + 2 Scents" $89.95; 45784228495469 renamed "3 Diffusers + 3 Scents" $139.95. Scents still $0 via Subi plan 2747695213; no discount changes.
+- app.js 83,828 B (raw@d5816d9) → GenericFile 29920808403053; page key `v3s23-d5816d9`; CSS unchanged. r215 = full funnel QA with new numbers.

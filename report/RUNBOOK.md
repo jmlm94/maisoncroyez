@@ -19,7 +19,7 @@ report with a warning naming the cause, and tell Jose to re-authorize the
 connector to Maison Croyez. Additionally, when merging pulled orders, abort if
 any order name does not start with `#MC`.
 
-**Kit costing rule (Sep 8 2026):** a `Special Kits` line's unit cost is all-inclusive (1+1 $34 · 2+2 $70 · 3+3 $105 per Jose). On kit orders, $0 or fully-discounted scent lines are the included scents → no extra COGS; paid add-on scents still count. $0 subscription lines on a kit order renew at the kit price (every 45 days) — `compute.mjs` uses that for MRR and renewal economics. Renewals carry the $6 shipping like every shipment.
+**Kit costing rule (Sep 8 2026, extended Sep 16 2026):** a `Special Kits` line's cost is $26 per diffuser + $9 per included scent, keyed by kit price in `KIT` inside compute.mjs: 1 Diffuser $69.95 → $26 · 2+2 $89.95 → $70 · 3+3 $129.95 → $105 · 2+3 $119.95 → $79 · 3+4 $159.95 → $114 (the 2+3 / 3+4 kits launched Sep 14 2026). Each kit covers N scent units at $0 COGS ($0 subscription lines first, then one-time lines); any scent unit beyond N on the order is a paid add-on at Shopify unit cost ($9). New kit price → add a row to `KIT`, otherwise the kit falls back to Shopify's variant cost with no covered scents. On kit orders, $0 or fully-discounted scent lines are the included scents → no extra COGS; paid add-on scents still count. $0 subscription lines on a kit order renew at the kit price (every 45 days) — `compute.mjs` uses that for MRR and renewal economics. Renewals carry the $7.50 shipping like every shipment.
 
 **$0-order rule:** orders whose total price is $0 (creator samples tagged `sample-request`/`trybe`, free replacements tagged `Replacement`, 100%-discounted internal orders) are excluded from everything — order counts, sales, COGS, subscriber counts. `compute.mjs` enforces this on load; the merge step may also drop them before they reach `orders_raw.json`.
 
@@ -136,3 +136,13 @@ These replace every earlier costing note. `compute.mjs` implements all of them; 
 8. **Only orders created on or before the report day** enter that day's report, so rebuilt archives never see later subscribers.
 
 Rebuilding archives: `scratchpad/rebuild_archives.sh` pattern — per archived date, copy orders_raw + meta_daily into a temp dir, recover the campaign tables from the archived report.html (`const CAMPS=`), run compute with `--yesterday=<date>`, render, copy computed.json / report.html / slack.md back.
+
+## Offer change observed Sep 14 2026
+
+From #MC26904 (Sep 14) every new-customer kit order is the 2+3 kit at $119.95 or the 3+4 kit at $159.95,
+with **no selling plan on any line and no `First Subscription Order` tag** — the new kits are one-time
+purchases as far as Shopify/Subi can see. The daily report's "new subscriptions" line will read 0 until a
+kit order carries a Subi selling plan again. If Jose says the new offer is meant to include the subscription,
+the Subi selling plan is not attached to the new kit variants — flag it, don't patch around it.
+Archives for Sep 9–13 were rebuilt on Sep 16 with the extended kit rule (upsell scents on kit orders were
+previously double-counted or missed; net change −$45 / +$9 / +$9 COGS on Sep 9 / 10 / 11).

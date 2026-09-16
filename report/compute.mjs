@@ -46,25 +46,34 @@ const ordersAll = load('orders_raw.json');
 // scent lines that are $0 (subscription scents) or fully discounted are the kit's included scents and
 // carry no extra cost. Paid add-on scents on the same order still count. ----
 const KIT_RE = /Special Kits/i;
-// Kit unit costs confirmed by Jose (Sep 8 2026), keyed by kit price. 1 Diffuser = diffuser only ($26);
-// 2+2 = $70; 3+3 = $105. Shopify's variant costs now match; the map guards against drift in old pulls.
-const KIT_COST = { '69.95': 26, '89.95': 70, '129.95': 105 };
-const kitCost = l => KIT_COST[num(l.originalUnitPriceSet?.shopMoney?.amount).toFixed(2)];
+// Kit unit costs confirmed by Jose (Sep 8 2026): diffuser $26 + $9 per included scent, keyed by kit price.
+// 1 Diffuser $26 · 2+2 $70 · 3+3 $105 (original offer) · 2+3 $79 · 3+4 $114 (offer launched Sep 14 2026).
+// 'scents' is how many scent lines the kit price already covers; any scent beyond that on the order is a paid add-on ($9).
+const KIT = {
+  '69.95': { cost: 26, scents: 0 },
+  '89.95': { cost: 70, scents: 2 },
+  '129.95': { cost: 105, scents: 3 },
+  '119.95': { cost: 79, scents: 3 },
+  '159.95': { cost: 114, scents: 4 },
+};
+const kitOf = l => KIT[num(l.originalUnitPriceSet?.shopMoney?.amount).toFixed(2)];
 const SCENT_RE = /100ml|Scents/i;
 const hasKit = o => (o.lineItems?.edges || []).some(e => KIT_RE.test(e.node.title || ''));
-const includedScentsFullyDiscounted = o => {
-  const scents = (o.lineItems?.edges || []).map(e => e.node).filter(l => SCENT_RE.test(l.title || '') && !l.sellingPlan);
-  const scentValue = scents.reduce((s, l) => s + l.quantity * num(l.originalUnitPriceSet?.shopMoney?.amount), 0);
-  return scentValue > 0 && num(o.totalDiscountsSet?.shopMoney?.amount) >= scentValue - 0.01;
-};
-const lineCost = (o, l) => {
-  const unit = num(l.variant?.inventoryItem?.unitCost?.amount);
-  if (KIT_RE.test(l.title || '') && kitCost(l) != null) return kitCost(l);
-  if (!hasKit(o) || !SCENT_RE.test(l.title || '')) return unit;
-  const price = num(l.originalUnitPriceSet?.shopMoney?.amount);
-  if (price === 0) return 0;                                  // subscription scents inside the kit
-  if (!l.sellingPlan && includedScentsFullyDiscounted(o)) return 0; // one-time kit, scents discounted to $0
-  return unit;
+// Per-order COGS: kit lines carry the all-inclusive cost; the first N scent units on the order (N = scents the
+// kit covers, $0 subscription lines first, then one-time lines in order) cost $0; every scent unit beyond N is a
+// paid add-on at its Shopify unit cost. Non-kit orders use Shopify unit costs throughout.
+const orderCogs = o => {
+  const lines = (o.lineItems?.edges || []).map(e => e.node);
+  const unit = l => num(l.variant?.inventoryItem?.unitCost?.amount);
+  const kits = lines.filter(l => KIT_RE.test(l.title || ''));
+  if (!kits.length) return lines.reduce((s, l) => s + l.quantity * unit(l), 0);
+  let cogs = 0, quota = 0;
+  for (const k of kits) { const spec = kitOf(k); cogs += k.quantity * (spec ? spec.cost : unit(k)); quota += k.quantity * (spec ? spec.scents : 0); }
+  const scents = lines.filter(l => SCENT_RE.test(l.title || '') && !KIT_RE.test(l.title || ''));
+  const ordered = [...scents.filter(l => num(l.originalUnitPriceSet?.shopMoney?.amount) === 0), ...scents.filter(l => num(l.originalUnitPriceSet?.shopMoney?.amount) > 0)];
+  for (const l of ordered) { const covered = Math.min(quota, l.quantity); quota -= covered; cogs += (l.quantity - covered) * unit(l); }
+  for (const l of lines) if (!KIT_RE.test(l.title || '') && !SCENT_RE.test(l.title || '')) cogs += l.quantity * unit(l);
+  return cogs;
 };
 // Recurring value of a subscription line: $0 plan lines on a kit order renew at the kit's price
 // (every 45 days: $89.95 for the 2-scent kit, $129.95 for the 3-scent kit), spread across the plan lines.
@@ -121,10 +130,8 @@ for (const o of orders) {
   d.shippingIncome += num(o.totalShippingPriceSet?.shopMoney?.amount);
   d.taxes += num(o.totalTaxSet?.shopMoney?.amount);
 
-  for (const l of lines) {
-    d.cogs += l.quantity * lineCost(o, l);
-    if (/diffuser/i.test(l.title)) d.unitsDiffuser += l.quantity; else d.unitsScent += l.quantity;
-  }
+  d.cogs += orderCogs(o);
+  for (const l of lines) { if (/diffuser/i.test(l.title)) d.unitsDiffuser += l.quantity; else d.unitsScent += l.quantity; }
   let feeSeen = false, feeSum = 0;
   for (const t of o.transactions || []) {
     if (t.status !== 'SUCCESS') continue;

@@ -6,12 +6,12 @@ Hello Jose — yesterday we sold *$974* on Shopify across *10 orders* (*$480* su
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $974 | $862 | −$668 (−52.6%) | 1.13× |
-| 7 days | $6,235 | $4,687 | −$2,935 (−173.3%) | 1.33× |
-| 14 days | $8,187 | $6,807 | −$4,009 (+30.8%) | 1.20× |
-| 28 days | $15,835 | $14,199 | −$9,803 (+40.7%) | 1.12× |
-| 45 days | $23,828 | $26,765 | −$20,788  | 0.89× |
-| 90 days | $26,970 | $34,822 | −$28,508  | 0.77× |
+| Yesterday | $974 | $862 | −$668 (−49.5%) | 1.13× |
+| 7 days | $6,235 | $4,687 | −$2,908 (−170.7%) | 1.33× |
+| 14 days | $8,187 | $6,807 | −$3,982 (+31.3%) | 1.20× |
+| 28 days | $15,835 | $14,199 | −$9,776 (+40.9%) | 1.12× |
+| 45 days | $23,828 | $26,765 | −$20,761  | 0.89× |
+| 90 days | $26,970 | $34,822 | −$28,481  | 0.77× |
 
 :seedling: *Subscriptions:* 240 acquired · est. MRR *$12,519* (ceiling — cancels not visible via API) · 3 new yesterday · 53 renewal orders in 28d
 :vs: *Meta vs day before:* CPM −41.8% · CPC −20.1% · CTR −27.2% · spend +12.6%

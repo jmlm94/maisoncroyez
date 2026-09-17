@@ -14,9 +14,12 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with: { ref: ${{ github.ref_name }}, fetch-depth: 1 }
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with:
+          node-version: 20
       - name: Lighthouse mobile + desktop
         run: |
           URL="https://maisoncroyez.com/pages/six-month-program"

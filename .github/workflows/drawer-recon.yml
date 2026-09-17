@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 217 — FULL FUNNEL QA after v3s24 (step 3: owner copy as selectable refill-plan card + one-time option at kit + $49.95/scent): 3 plan paths + 1 one-time path, drawer + checkout.
+# run 218 — owner request: the two scent kits, each on the refill plan (scents $0, Every 30 days) and one-time (scents $49.95, no plan, no discount). Also fixes the "Discount code" label false positive from r217.
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,18 +20,18 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r217
-          cat > r217.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r218
+          cat > r218.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r217/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r218/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
           const PATHS = [
-            { id: '2D-phone', tier: 2, picks: [0, 6], total: 89.95, scents: 2, desktop: false },
-            { id: '3D-desktop', tier: 3, picks: [1, 2, 4], total: 139.95, scents: 3, desktop: true },
+            { id: '2D-phone-plan', tier: 2, picks: [0, 6], total: 89.95, scents: 2, desktop: false },
             { id: '2D-desktop-onetime', tier: 2, picks: [3, 5], total: 189.85, planTotal: 89.95, scents: 2, desktop: true, one: true },
-            { id: '1D-phone', tier: 1, picks: [], total: 79.95, scents: 0, desktop: false },
+            { id: '3D-desktop-plan', tier: 3, picks: [1, 2, 4], total: 139.95, scents: 3, desktop: true },
+            { id: '3D-phone-onetime', tier: 3, picks: [0, 4, 6], total: 289.80, planTotal: 139.95, scents: 3, desktop: false, one: true },
           ];
           for (const P of PATHS) {
             const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
@@ -68,7 +68,7 @@ jobs:
                 if (P.one) {
                   await pg.click('#buybox .onetime'); await pg.waitForTimeout(400);
                   const after = await pg.evaluate(() => ({ oneOn: !!document.querySelector('#buybox .onetime.on'), planChecked: document.querySelector('#buybox .plan-card.plan-v1').getAttribute('aria-checked'), total: document.querySelector('#buybox .kr-total').innerText, rows: [...document.querySelectorAll('#buybox .kr-row .kr-pr')].map((e) => e.innerText.replace(/\s+/g, ' ').trim()), save: (document.querySelector('#buybox .kr-save') || {}).innerText || '', btn: document.querySelector('#buybox .btn.atc').innerText.replace(/\s+/g, ' ') }));
-                  ok(`${P.id} one-time selected: total $${P.total}, scents at $49.95, button + one-time line`, after.oneOn && after.planChecked === 'false' && after.total.includes('$' + P.total) && after.rows.filter((r) => r === '$49.95').length === P.scents && /ADD TO CART — \$189\.85/.test(after.btn) && /ONE-TIME PAYMENT/.test(after.btn) && /saving \$70/.test(after.save), JSON.stringify(after).slice(0, 300));
+                  ok(`${P.id} one-time selected: total $${P.total}, scents at $49.95, button + one-time line`, after.oneOn && after.planChecked === 'false' && after.total.includes('$' + P.total) && after.rows.filter((r) => r === '$49.95').length === P.scents && new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(after.btn) && /ONE-TIME PAYMENT/.test(after.btn) && /saving \$(70|100)/.test(after.save), JSON.stringify(after).slice(0, 300));
                 }
                 ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
                 ok(`${P.id} ATC button + offer line`, new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .btn.atc')) && (P.one ? /ONE-TIME PAYMENT/ : /4[24]% OFF/).test(await T('#buybox .btn.atc')));
@@ -91,7 +91,7 @@ jobs:
               const total = money('Total'), subtotal = money('Subtotal(?: · \\d+ items?)?');
               ok(`${P.id} checkout total $${P.total}`, total === P.total, `total=${total} subtotal=${subtotal}`);
               if (P.scents && P.one) {
-                ok(`${P.id} checkout: one-time, no plan, no discount`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && !/Founder/i.test(txt) && !/Discount/.test(txt), `plan mentions=${(txt.match(/Every 30 days/g) || []).length} discount=${/Discount/.test(txt)}`);
+                ok(`${P.id} checkout: one-time, no plan, no discount`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && !/Founder/i.test(txt) && !/Discount(?! code)/.test(txt) && !/-\s*\$[\d.]+/.test(txt), `plan mentions=${(txt.match(/Every 30 days/g) || []).length} discount line=${/Discount(?! code)/.test(txt)}`);
                 ok(`${P.id} checkout kit line`, new RegExp(`${P.tier} Diffusers \\+ ${P.scents} Scents`).test(txt));
               } else if (P.scents) {
                 const plans = (txt.match(/Every 30 days/g) || []).length; const firstZero = (txt.match(/First payment \$0\.00/g) || []).length;
@@ -108,12 +108,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r217.mjs
+          node r218.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r217
-          git commit -m "r217: funnel QA after v3s24" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r218
+          git commit -m "r218: funnel QA after v3s24" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

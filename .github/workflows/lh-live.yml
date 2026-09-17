@@ -1,0 +1,64 @@
+# Lighthouse on the LIVE kits page (mobile + desktop) with a third-party breakdown, so we can see which
+# scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
+name: lh-live
+on:
+  push:
+    paths: [".github/workflows/lh-live.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: lh-live
+jobs:
+  lh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: ${{ github.ref_name }}, fetch-depth: 1 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Lighthouse mobile + desktop
+        run: |
+          URL="https://maisoncroyez.com/pages/six-month-program"
+          npx -y lighthouse@12 "$URL" --quiet --output=json --output-path=lh-mobile.json --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --only-categories=performance --chrome-flags="--headless=new --no-sandbox --disable-gpu"
+          npx -y lighthouse@12 "$URL" --quiet --output=json --output-path=lh-desktop.json --preset=desktop --only-categories=performance --chrome-flags="--headless=new --no-sandbox --disable-gpu"
+      - name: Summarize
+        run: |
+          cat > sum.mjs <<'EOF2'
+          import fs from 'fs';
+          const day = new Date().toISOString().slice(0, 10);
+          let md = `# Lighthouse — live kits page — ${day}\n\n`;
+          for (const ff of ['mobile', 'desktop']) {
+            const d = JSON.parse(fs.readFileSync(`lh-${ff}.json`, 'utf8')); const a = d.audits;
+            md += `## ${ff} — performance ${Math.round(d.categories.performance.score * 100)}\n\n`;
+            md += `| metric | value |\n|---|---|\n`;
+            for (const k of ['first-contentful-paint', 'largest-contentful-paint', 'total-blocking-time', 'speed-index', 'cumulative-layout-shift', 'interactive', 'server-response-time']) md += `| ${a[k].title} | ${a[k].displayValue} |\n`;
+            const lcp = (((a['largest-contentful-paint-element'] || {}).details || {}).items || [])[0]; const node = lcp && lcp.items && lcp.items[0] && lcp.items[0].node;
+            if (node) md += `\nLCP element: \`${(node.snippet || '').slice(0, 160)}\`\n`;
+            md += `\n### Third parties (by main-thread blocking)\n\n| entity | transfer KB | main-thread ms | blocking ms |\n|---|---|---|---|\n`;
+            const tp = (((a['third-party-summary'] || {}).details || {}).items || []).slice().sort((x, y) => (y.blockingTime || 0) - (x.blockingTime || 0));
+            for (const it of tp.slice(0, 20)) { const e = typeof it.entity === 'object' ? it.entity.text : it.entity; md += `| ${e} | ${Math.round((it.transferSize || 0) / 1024)} | ${Math.round(it.mainThreadTime || 0)} | ${Math.round(it.blockingTime || 0)} |\n`; }
+            md += `\n### Heaviest scripts (boot-up time)\n\n| script | total ms | KB |\n|---|---|---|\n`;
+            const sizes = new Map((((a['network-requests'] || {}).details || {}).items || []).map((r) => [r.url, r.transferSize || 0]));
+            for (const it of (((a['bootup-time'] || {}).details || {}).items || []).slice().sort((x, y) => y.total - x.total).slice(0, 20)) md += `| ${it.url.replace(/^https?:\/\//, '').slice(0, 110)} | ${Math.round(it.total)} | ${Math.round((sizes.get(it.url) || 0) / 1024)} |\n`;
+            md += `\n### Render-blocking\n\n`;
+            for (const it of (((a['render-blocking-resources'] || {}).details || {}).items || [])) md += `- ${it.url.replace(/^https?:\/\//, '').slice(0, 120)} — ${Math.round(it.wastedMs)} ms\n`;
+            const reqs = (((a['network-requests'] || {}).details || {}).items || []);
+            const byHost = {}; for (const r of reqs) { try { const h = new URL(r.url).host; byHost[h] = byHost[h] || { n: 0, kb: 0 }; byHost[h].n++; byHost[h].kb += (r.transferSize || 0) / 1024; } catch (e) {} }
+            md += `\n### Requests by host\n\n| host | requests | KB |\n|---|---|---|\n`;
+            for (const [h, v] of Object.entries(byHost).sort((x, y) => y[1].kb - x[1].kb).slice(0, 25)) md += `| ${h} | ${v.n} | ${Math.round(v.kb)} |\n`;
+            md += `\nTotal requests: ${reqs.length}, total transfer: ${Math.round(reqs.reduce((s, r) => s + (r.transferSize || 0), 0) / 1024)} KB\n\n`;
+          }
+          fs.mkdirSync('lp-factory/pages/kits-lp/perf', { recursive: true });
+          fs.writeFileSync(`lp-factory/pages/kits-lp/perf/lh-${day}.md`, md);
+          fs.copyFileSync('lh-mobile.json', `lp-factory/pages/kits-lp/perf/lh-${day}-mobile.json`);
+          console.log(md.slice(0, 6000));
+          EOF2
+          node sum.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"; git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/kits-lp/perf
+          git commit -m "perf: Lighthouse of live kits page" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

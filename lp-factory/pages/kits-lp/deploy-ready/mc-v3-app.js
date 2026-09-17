@@ -799,8 +799,9 @@ function BuyBox() {
           <div class=${"plan-card plan-v1" + (sel.oneTime() ? " dim" : "")} style=${{ background: sel.oneTime() ? "#fff" : MODE_GRAD.sub }} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
             <div class="plan-opt"><span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span><span class="plan-opt-l">Scents auto-refill every 30 days</span>${sel.oneTime() ? null : html`<span class="plan-incl">\u2713 Selected</span>`}</div>
             <div class="plan-q">This is how we fit ${usdR(sel.value())} of value into ${usd(T.price)}:</div>
-            <p class="plan-why">We\u2019re so sure about our diffusers and scents <b>(89% stay after 6+ months)</b> that we\u2019re giving better access to those who want to try us out.</p>
+            <p class="plan-why">We\u2019re so sure about our diffusers and scents <b>(86% stay after 6+ months)</b> that we\u2019re giving better access to those who want to try us out.</p>
             <p class="plan-why"><b>Every 30 days,</b> ${T.scents} fresh scents arrive at your doorstep with a <b>lifetime 20% OFF</b> (${usd(SCENT_SUB)} each). Pause, swap and <b>cancel anytime</b>.</p>
+            <p class="plan-why plan-day">That\u2019s ${usd(Math.round(SCENT_SUB / 30 * 100) / 100)} a day per room. Candles run about $6.85 a day.</p>
             <p class="plan-why plan-exit"><b>Not your expectations?</b> Let us know, we pay for the return, you\u2019re free.</p>
           </div>
           <button type="button" class=${"onetime" + (sel.oneTime() ? " on" : "")} aria-pressed=${sel.oneTime()} onClick=${() => sel.setPlan(sel.oneTime() ? "sub" : "one")}>

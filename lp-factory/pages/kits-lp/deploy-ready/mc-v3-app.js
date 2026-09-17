@@ -805,8 +805,9 @@ function BuyBox() {
             <p class="plan-why plan-exit"><b>Not your expectations?</b> Let us know, we pay for the return, you\u2019re free.</p>
           </div>
           <button type="button" class=${"onetime" + (sel.oneTime() ? " on" : "")} aria-pressed=${sel.oneTime()} onClick=${() => sel.setPlan(sel.oneTime() ? "sub" : "one")}>
-            <span class="ot-dot" aria-hidden="true"></span>
-            <span class="ot-tx"><b>Don\u2019t want refills?</b> Buy this kit one-time for <b>${usd(T.price + T.scents * SCENT_ONE)}</b>.<small>${T.n} diffusers + ${T.scents} scents at ${usd(SCENT_ONE)} each. Nothing recurring.</small></span>
+            ${sel.oneTime()
+              ? html`<b>\u2713 One-time purchase selected \u2014 ${usd(T.price + T.scents * SCENT_ONE)}.</b> <u>Back to the refill plan</u>`
+              : html`<b>Don\u2019t want refills?</b> <u>Buy this kit one-time for ${usd(T.price + T.scents * SCENT_ONE)}.</u>`}
           </button>
           ` : null}
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>

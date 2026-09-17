@@ -686,10 +686,13 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .plan-q{font-family:'Unna',serif;font-weight:700;font-size:1.4rem;line-height:1.05;letter-spacing:-.02em;color:#241C18}
 .plan-card.plan-v1 .plan-why{margin-top:9px}.plan-card.plan-v1 .plan-exit{padding-top:9px;border-top:1px solid rgba(36,28,24,.14)}
 .plan-card.plan-v1.dim{border-color:rgba(36,28,24,.28)}
-.onetime{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1.5px solid rgba(36,28,24,.32);border-radius:14px;padding:12px 14px;margin-top:10px;font:inherit;color:#241C18;cursor:pointer}
-.onetime.on{border-color:#241C18;background:#F7F3EE;box-shadow:inset 0 0 0 1px #241C18}
 .ot-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid #241C18;flex:0 0 auto;margin-top:2px;position:relative;background:#fff}
-.onetime.on .ot-dot::after,.ot-dot.chk::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#241C18}
+.ot-dot.chk::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#241C18}
 .plan-card.plan-v1{cursor:pointer}.plan-opt{display:flex;align-items:center;gap:8px;margin-bottom:10px}.plan-opt-l{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:0;text-transform:none;color:#241C18;line-height:1.2}.plan-opt .plan-incl{margin-left:auto;white-space:nowrap;flex:0 0 auto}.plan-opt .ot-dot{margin-top:0}
 .plan-q{text-align:left}
 .plan-card.plan-v1 .plan-day{font-size:.8rem;color:#5C4F48;margin-top:6px}
+/* v3s26: one-time choice as plain text (owner 2026-09-17) */
+.onetime{display:block;width:100%;background:none;border:0;padding:12px 8px 2px;margin:0;font:inherit;font-size:.9rem;line-height:1.45;color:#241C18;text-align:center;cursor:pointer}
+.onetime u{text-decoration-thickness:1px;text-underline-offset:3px}
+.onetime.on{color:#241C18}.onetime.on b{color:#1F7A3A}
+.onetime:focus-visible{outline:2px solid #241C18;outline-offset:2px;border-radius:8px}

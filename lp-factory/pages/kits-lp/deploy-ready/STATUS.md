@@ -667,3 +667,7 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - New workflow `.github/workflows/lh-live.yml`: Lighthouse mobile+desktop on the LIVE page with third-party breakdown → `lp-factory/pages/kits-lp/perf/lh-<date>.md`. First run triggered by this push.
 - r219 (live v3s25): 74/74 PASS — 2D/3D × plan/one-time, 86% stat + per-day line verified, one-time checkouts subtotal === total ($189.85 / $289.80), plan checkouts $89.95 / $139.95 with scents $0 on "Every 30 days".
 - Lighthouse live (lh-live run 1, 2026-09-17): mobile 51 (FCP 2.0s, LCP 4.8s = hero <video>, TBT 1,670ms, TTI 13.6s), desktop 93. Blocking on mobile: Clarity 565ms, Facebook pixel 520ms, Shopify web-pixels manager (wpm) 1,140ms total, inline document scripts 1,300ms, trekkie 271ms; azurefd "adsagentclient" 280KB/11 req, 9gtb.com 64KB, Klaviyo 67KB, Subi 58KB. Our bundle (vendor+app) ~160ms. Details: `perf/lh-2026-09-17.md`.
+
+## 2026-09-17 — v3s26 deployed: one-time choice as plain text
+- The boxed radio row became a centred text line: "**Don't want refills?** <u>Buy this kit one-time for $189.85.</u>" (sub-line "2 diffusers + 2 scents at $49.95 each. Nothing recurring." removed). Selected state: "✓ One-time purchase selected — $189.85. <u>Back to the refill plan</u>". Same toggle logic.
+- app.js 84,736 B + css 58,607 B (raw@66d154e); page key `v3s26-66d154e`. r220 = 2D/3D × plan/one-time funnel QA, asserts no border on the text line and no sub-line.

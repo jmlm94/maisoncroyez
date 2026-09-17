@@ -648,3 +648,7 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - app.js 83,828 B (raw@d5816d9) → GenericFile 29920808403053; page key `v3s23-d5816d9`; CSS unchanged. r215 = full funnel QA with new numbers.
 - r215 (live v3s23, 4 paths, real carts + checkout): 59/63. The 4 FAILs are all the "kits + prices" check, whose regex still expected $119.95/$159.95 on tiers 2–3 (test bug, not page). Every other check passed: step 2 asks 2/3 scents, "You only pay" $89.95/$139.95, savings $170/$250, offer line 44%/42%, drawer totals $89.95/$139.95/$79.95, checkout totals match with scents on "Every 30 days / First payment $0.00", kit lines "2 Diffusers + 2 Scents" / "3 Diffusers + 3 Scents" / "1 Diffuser". r216 = same run with the regex fixed.
 - r216 (regex fixed): 63/63 PASS on live v3s23. Screenshots in `recon/r216/`.
+
+## 2026-09-17 — Shopify: Founder's Offer BXGY discounts deactivated
+- 1386354278509 ("2 Diffusers: 3 scents included") and 1386354311277 ("3 Diffusers: 4 scents included") → status EXPIRED (discountAutomaticDeactivate). They only ever applied to one-time lines and would have made the new one-time kit option ($189.85 / $289.80, scents at $49.95) free. Subi plan pricing (first delivery $49.95 off, then $39.95) untouched — it is the only pricing mechanism for the plan path.
+- Draft artifact (v49) holds the pending step-3 change: owner copy ("This is how we fit $260 of value into $89.95:" …) as a selectable plan card + one-time option (kit + scents at $49.95, no plan). Not deployed yet.

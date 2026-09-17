@@ -476,7 +476,8 @@ const selStore = {
   included() { return Math.min(this.keys.length, this.tier().scents); },
   extras() { return Math.max(0, this.keys.length - this.tier().scents); },
   left() { return Math.max(0, this.tier().scents - this.keys.length); },
-  today() { return this.tier().price + this.extras() * this.scentPrice(); },
+  oneTime() { return this.plan === "one" && this.tier().scents > 0; },
+  today() { return this.tier().price + (this.oneTime() ? this.keys.length : this.extras()) * this.scentPrice(); },
   value() { return this.tier().n * DIFFUSER_PRICE + this.keys.length * SCENT_ONE; },
   savings() { return Math.max(0, this.value() - this.today()); },
   renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * SCENT_SUB : 0; },
@@ -621,6 +622,7 @@ function Toast({ msg, onClose }) {
 
 const offerPct = (t) => Math.round((1 - t.price / (t.n * DIFFUSER_PRICE)) * 100); /* 2D: 44%, 3D: 42% (owner 2026-09-16) */
 const OFFER_SUB_FOR = (t) => offerPct(t) + "% OFF + FREE SCENTS OFFER APPLIED!";
+const ONE_SUB = "ONE-TIME PAYMENT \u00b7 NO REFILLS \u00b7 FREE SHIPPING";
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
   { ic: "👀", tx: "Your guests will\nask what\u2019s that?" },
@@ -783,7 +785,7 @@ function BuyBox() {
               <div class="kr-row" key=${r.f.key}>
                 <${Img} slot=${r.f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${r.f.name}/>
                 <span class="kr-tx"><b>${r.f.name}${r.q > 1 ? ` \u00d7${r.q}` : ""}</b><span class="kr-sub">${r.f.intention} \u00b7 100ml \u00b7 30+ days per bottle</span></span>
-                <span class="kr-pr">${r.inc > 0 ? html`<s>${usd(r.inc * SCENT_ONE)}</s><span class="inc">Included!</span>` : null}${r.extra > 0 ? html`<span class="kr-extra">${r.inc > 0 ? " + " : ""}${usd(r.extra * sel.scentPrice())}</span>` : null}</span>
+                <span class="kr-pr">${sel.oneTime() ? html`<span class="kr-extra">${usd(r.q * SCENT_ONE)}</span>` : html`${r.inc > 0 ? html`<s>${usd(r.inc * SCENT_ONE)}</s><span class="inc">Included!</span>` : null}${r.extra > 0 ? html`<span class="kr-extra">${r.inc > 0 ? " + " : ""}${usd(r.extra * sel.scentPrice())}</span>` : null}`}</span>
               </div>`)}
             <div class="kr-row">
               <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
@@ -794,23 +796,21 @@ function BuyBox() {
             ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
           </div>
           ${T.scents > 0 ? html`
-          <div class="picker-title step-title">Your refill plan is included.</div>
-          <div class="picker-sub plan-sub">Your ${T.scents} scents are <b>included today \u2014 nothing extra to pay</b>. From day 30, fresh scents arrive every 30 days.</div>
-          <div class="plan-card" style=${{ background: MODE_GRAD.sub }}>
-            <div class="plan-head"><span class="plan-name">Congrats! You\u2019ll save 20% on your next scents!</span><span class="plan-incl">\u2713 Included</span><span class="off-badge plan-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
-            <div class="plan-price"><s>$49.95</s> <b>$39.95</b> <span class="plan-per">/ scent</span> <em class="mode-from">every 30 days</em></div>
-            <div class="plan-why"><b>Cancel anytime.</b> If we\u2019re not for you, let us know and we\u2019ll pay for the return, no questions asked. <span class="plan-wink">(only 8% of customers cancel in the first 30 days \uD83D\uDE09)</span></div>
-            <div class="mode-perks plan-perks">
-              <span>\u2713 LIFETIME 20% OFF ON REFILLS</span>
-              <span>\u2713 PRIORITY PROCESSING</span>
-              <span>\u2713 ACCESS TO NEW LAUNCHES</span>
-              <span>\u2713 SKIP, SWAP OR PAUSE IN ONE TAP</span>
-            </div>
+          <div class=${"plan-card plan-v1" + (sel.oneTime() ? " dim" : "")} style=${{ background: sel.oneTime() ? "#fff" : MODE_GRAD.sub }} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
+            <div class="plan-opt"><span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span><span class="plan-opt-l">Scents auto-refill every 30 days</span>${sel.oneTime() ? null : html`<span class="plan-incl">\u2713 Selected</span>`}</div>
+            <div class="plan-q">This is how we fit ${usdR(sel.value())} of value into ${usd(T.price)}:</div>
+            <p class="plan-why">We\u2019re so sure about our diffusers and scents <b>(89% stay after 6+ months)</b> that we\u2019re giving better access to those who want to try us out.</p>
+            <p class="plan-why"><b>Every 30 days,</b> ${T.scents} fresh scents arrive at your doorstep with a <b>lifetime 20% OFF</b> (${usd(SCENT_SUB)} each). Pause, swap and <b>cancel anytime</b>.</p>
+            <p class="plan-why plan-exit"><b>Not your expectations?</b> Let us know, we pay for the return, you\u2019re free.</p>
           </div>
+          <button type="button" class=${"onetime" + (sel.oneTime() ? " on" : "")} aria-pressed=${sel.oneTime()} onClick=${() => sel.setPlan(sel.oneTime() ? "sub" : "one")}>
+            <span class="ot-dot" aria-hidden="true"></span>
+            <span class="ot-tx"><b>Don\u2019t want refills?</b> Buy this kit one-time for <b>${usd(T.price + T.scents * SCENT_ONE)}</b>.<small>${T.n} diffusers + ${T.scents} scents at ${usd(SCENT_ONE)} each. Nothing recurring.</small></span>
+          </button>
           ` : null}
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
-            <span class="btn-sub">${T.scents > 0 ? OFFER_SUB_FOR(T) : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty"}</span>
+            <span class="btn-sub">${T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty"}</span>
           </button>
           ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -1012,7 +1012,7 @@ function StickyBar() {
   const label = step === 1 ? (T.scents > 0 ? "Pick your FREE scents \u2794" : (busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`))
     : step === 2 ? (left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2794` : "Review my kit \u2794")
     : (busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`);
-  const sub = T.scents > 0 ? OFFER_SUB_FOR(T) : "Free shipping \u00b7 90-day money-back";
+  const sub = T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 90-day money-back";
   const act = () => { if (step === 1) return T.scents > 0 ? go(2) : addToCart(setBusy, setToast); if (step === 2) return left > 0 ? goPick() : go(3); return addToCart(setBusy, setToast); };
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>

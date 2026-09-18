@@ -672,3 +672,7 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 - The boxed radio row became a centred text line: "**Don't want refills?** <u>Buy this kit one-time for $189.85.</u>" (sub-line "2 diffusers + 2 scents at $49.95 each. Nothing recurring." removed). Selected state: "✓ One-time purchase selected — $189.85. <u>Back to the refill plan</u>". Same toggle logic.
 - app.js 84,736 B + css 58,607 B (raw@66d154e); page key `v3s26-66d154e`. r220 = 2D/3D × plan/one-time funnel QA, asserts no border on the text line and no sub-line.
 - r220 (live v3s26): 74/74 PASS. Plain-text one-time line renders without a border, toggles to '✓ One-time purchase selected — $189.85 / $289.80' and back; plan/one-time totals, drawer and checkout unchanged from r219.
+
+## 2026-09-18 — v3s27 deployed: 3 Diffusers + 3 Scents at $129.95
+- Shopify variant 45784228495469 price 139.95 → 129.95 (title unchanged "3 Diffusers + 3 Scents"). TIERS three price 129.95 in app.js + draft. Derived: strike $389.70, save $260, $43.32/diffuser, offer line "46% OFF + FREE SCENTS OFFER APPLIED!", card "This is how we fit $390 of value into $129.95:", one-time $279.80 (saving line $110).
+- app.js 84,736 B (raw@ccd5815); CSS unchanged; page key `v3s27-ccd5815`. r221 = 2D/3D × plan/one-time funnel QA with the new numbers.

@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 222 (r221 re-run; offer-line regex fixed to 44%/46%) — FULL FUNNEL QA after v3s27 (3 Diffusers + 3 Scents now $129.95; one-time $279.80; 46% off line; savings $260/$110). 2D/3D × plan/one-time.
+# run 223 — owner request: FULL FUNNEL QA on live v3s27, all 5 paths: 2D plan, 2D one-time, 3D plan, 3D one-time, 1D. page → kit → scents → review → add to cart → drawer → checkout.
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r222
-          cat > r222.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r223
+          cat > r223.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r222/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r223/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
@@ -32,6 +32,7 @@ jobs:
             { id: '2D-desktop-onetime', tier: 2, picks: [3, 5], total: 189.85, planTotal: 89.95, scents: 2, desktop: true, one: true },
             { id: '3D-desktop-plan', tier: 3, picks: [1, 2, 4], total: 129.95, scents: 3, desktop: true },
             { id: '3D-phone-onetime', tier: 3, picks: [0, 4, 6], total: 279.80, planTotal: 129.95, scents: 3, desktop: false, one: true },
+            { id: '1D-phone', tier: 1, picks: [], total: 79.95, scents: 0, desktop: false },
           ];
           for (const P of PATHS) {
             const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
@@ -109,12 +110,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r222.mjs
+          node r223.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r222
-          git commit -m "r222: funnel QA after v3s27" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r223
+          git commit -m "r223: funnel QA after v3s27" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

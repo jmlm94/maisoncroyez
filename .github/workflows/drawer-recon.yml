@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 221 — FULL FUNNEL QA after v3s27 (3 Diffusers + 3 Scents now $129.95; one-time $279.80; 46% off line; savings $260/$110). 2D/3D × plan/one-time.
+# run 222 (r221 re-run; offer-line regex fixed to 44%/46%) — FULL FUNNEL QA after v3s27 (3 Diffusers + 3 Scents now $129.95; one-time $279.80; 46% off line; savings $260/$110). 2D/3D × plan/one-time.
 #           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r221
-          cat > r221.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/kits-lp/recon/r222
+          cat > r222.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r221/';
+          const OUT = 'lp-factory/pages/kits-lp/recon/r222/';
           const URL = 'https://maisoncroyez.com/pages/six-month-program';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
@@ -52,7 +52,7 @@ jobs:
                 ok(`${P.id} step-1 button = add to cart $79.95`, /ADD TO CART — \$79\.95/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
                 await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click();
               } else {
-                ok(`${P.id} step-1 button = pick scents + offer line`, /PICK YOUR FREE SCENTS/i.test(await T('#buybox .step-next')) && /4[26]% OFF/.test(await T('#buybox .step-next')));
+                ok(`${P.id} step-1 button = pick scents + offer line`, /PICK YOUR FREE SCENTS/i.test(await T('#buybox .step-next')) && /4[46]% OFF/.test(await T('#buybox .step-next')));
                 await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
                 ok(`${P.id} step 2 asks ${P.scents}, long-form hidden, NO gift note`, new RegExp(`Pick your ${P.scents} included`).test(await T('#buybox .step-title')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1 && !(await pg.$('#buybox .gift-obj')) && !/mystery gift/i.test(await T('#buybox')));
                 const btnBefore = await T('#buybox .navrow .btn.atc');
@@ -72,7 +72,7 @@ jobs:
                   ok(`${P.id} one-time selected: total $${P.total}, scents at $49.95, button + one-time line`, /One-time purchase selected/.test(after.oneTxt) && /Back to the refill plan/.test(after.oneTxt) && after.oneOn && after.planChecked === 'false' && after.total.includes('$' + P.total) && after.rows.filter((r) => r === '$49.95').length === P.scents && new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(after.btn) && /ONE-TIME PAYMENT/.test(after.btn) && /saving \$(70|110)/.test(after.save), JSON.stringify(after).slice(0, 300));
                 }
                 ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
-                ok(`${P.id} ATC button + offer line`, new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .btn.atc')) && (P.one ? /ONE-TIME PAYMENT/ : /4[26]% OFF/).test(await T('#buybox .btn.atc')));
+                ok(`${P.id} ATC button + offer line`, new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .btn.atc')) && (P.one ? /ONE-TIME PAYMENT/ : /4[46]% OFF/).test(await T('#buybox .btn.atc')));
                 ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
                 await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
               }
@@ -109,12 +109,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r221.mjs
+          node r222.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r221
-          git commit -m "r221: funnel QA after v3s27" || exit 0
+          git add lp-factory/pages/kits-lp/recon/r222
+          git commit -m "r222: funnel QA after v3s27" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

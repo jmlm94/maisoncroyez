@@ -676,3 +676,4 @@ instead of at the next hour flip. Verify: r201. NOTE: at deploy time Subi Plan 4
 ## 2026-09-18 — v3s27 deployed: 3 Diffusers + 3 Scents at $129.95
 - Shopify variant 45784228495469 price 139.95 → 129.95 (title unchanged "3 Diffusers + 3 Scents"). TIERS three price 129.95 in app.js + draft. Derived: strike $389.70, save $260, $43.32/diffuser, offer line "46% OFF + FREE SCENTS OFFER APPLIED!", card "This is how we fit $390 of value into $129.95:", one-time $279.80 (saving line $110).
 - app.js 84,736 B (raw@ccd5815); CSS unchanged; page key `v3s27-ccd5815`. r221 = 2D/3D × plan/one-time funnel QA with the new numbers.
+- r221 (live v3s27): 71/74. All price/total/checkout checks PASS: 3D plan $129.95 (scents $0, Every 30 days), 3D one-time $279.80 (scents $49.95, subtotal = total), 2D unchanged. The 3 FAILs were my offer-line regex (changed to 42/46 and so missed the 2D kit's 44%). r222 = re-run with /4[46]% OFF/.

@@ -454,7 +454,7 @@ const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one:
 const TIERS = [
   { key: "one",   n: 1, name: "1 Diffuser",                     price: 79.95, scents: 0, tag: "",             line: "Covers a restroom, studio, storage.",         tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
   { key: "two",   n: 2, name: "2 Diffusers + 2 FREE Scents 🎁", price: 89.95,  scents: 2, tag: "MOST POPULAR", line: "Covers a Living Room, Bedroom, Kitchen.", lineStrong: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 Diffusers + 3 FREE Scents 🎁", price: 139.95, scents: 3, tag: "BEST VALUE",   line: "Covers Large Spaces, More Than One Room.", lineStrong: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "three", n: 3, name: "3 Diffusers + 3 FREE Scents 🎁", price: 129.95, scents: 3, tag: "BEST VALUE",   line: "Covers Large Spaces, More Than One Room.", lineStrong: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);

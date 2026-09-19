@@ -1,7 +1,8 @@
 name: drawer-recon
-# run 232 — sitewide drawer update re-check. r232 (22:42 UTC) got the PREVIOUS mc-drawer.js from the CDN edge: the theme's cache key
-#           is dr1-<UTC hour>, so the URL for that hour was already cached with the old file. This run waits for the 23:01 UTC rollover
-#           first (one-off step). Also fixes the r232 test bug (1S total was set to the post-add total; now afterTotal).
+# run 233 — NEW MONEY MODEL (owner changed Subi Plan 5 on 2026-09-19: full price on the first order, $10 off after).
+#           Subscription: scents $49.95 each on Plan 5 + kit variant at value ($79.95/$159.90/$239.85) made FREE by the automatic
+#           BXGY discounts 1389794623597 / 1389794852973 / 1389794951277 (buy N scents on subscription -> kit N 100% off).
+#           r233 proved the totals (99.90 / 149.85 / 189.95 / 289.95, 1S+add 99.90); this run updates the drawer/checkout wording checks.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,15 +20,12 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Wait for the drawer cache-key rollover (one-off, 23:01 UTC)
-        run: |
-          while [ "$(date -u +%H%M)" -lt 2301 ]; do sleep 20; done; date -u
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r232
-          cat > r232.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r233
+          cat > r233.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r232/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r233/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -95,7 +93,7 @@ jobs:
               const faN = await pg.$$eval('#cart-drawer .mc-fa-c', (a) => a.length);
               ok(`${P.id} drawer: free-shipping bar ${dT < 75 ? 'shows $' + (75 - dT).toFixed(2) + ' away' : 'UNLOCKED'} + ${7 - n} scent cards`, ship && (dT < 75 ? !ship.done && ship.t.includes('$' + (75 - dT).toFixed(2) + ' away') && /Add one more scent/.test(ship.t) : ship.done && /FREE SHIPPING UNLOCKED/.test(ship.t) && ship.w === '100%') && faN === 7 - n, JSON.stringify(ship) + ' cards=' + faN);
               if (P.one) ok(`${P.id} drawer one-time: Free Diffuser Kit "${n} Diffuser(s) + ${n} Scent(s) (One-Time)" $${P.oneKit} + ${n} scents at $49.95, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
-              else ok(`${P.id} drawer plan: Free Diffuser Kit "${n} FREE Diffuser(s) + ${n} Scent(s)" + ${n} scents at $0, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
+              else ok(`${P.id} drawer plan: ${n} scents at $49.95 (Plan 5) + Free Diffuser Kit "${n} FREE Diffuser(s) + ${n} Scent(s)" discounted to $0.00 (BXGY), NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(fdKit.v) && /\$0\.00/.test(fdKit.price) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
               if (P.addOne) {
                 const firstName = await T('#cart-drawer .mc-fa-c .mc-fa-n');
                 await pg.click('#cart-drawer .mc-fa-add'); await pg.waitForTimeout(5000);
@@ -115,7 +113,7 @@ jobs:
                 ok(`${P.id} checkout: one-time, no plan, no discount, kit line "(One-Time)", no Special Kits`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && total === subtotal && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(txt) && /(Free|Home) Diffuser Kit/.test(txt) && !/Special Kits/.test(txt), `plan mentions=${(txt.match(/Every 30 days/g) || []).length} total=${total} subtotal=${subtotal}`);
               } else {
                 const plans = (txt.match(/Every 30 days/g) || []).length; const firstZero = (txt.match(/First payment \$0\.00/g) || []).length;
-                ok(`${P.id} checkout: scents on the 30-day plan, first payment $0, then $39.95`, plans >= 1 && firstZero >= 1 && /then \$39\.95/.test(txt), `"Every 30 days"×${plans}, "First payment $0.00"×${firstZero}, recurring notice=${/recurring charge/i.test(txt)}`);
+                ok(`${P.id} checkout: scents on the 30-day plan at full price today (no first-payment discount), kit discounted, total unchanged`, plans >= 1 && firstZero === 0 && total === subtotal && /FREE DIFFUSER/i.test(txt), `"Every 30 days"×${plans}, "First payment $0.00"×${firstZero}, recurring notice=${/recurring charge/i.test(txt)}, discount title present=${/FREE DIFFUSER/i.test(txt)}`);
                 ok(`${P.id} checkout kit line "${n} FREE Diffuser(s) + ${n} Scent(s)"`, new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(txt) && /(Free|Home) Diffuser Kit/.test(txt));
               }
               ok(`${P.id} checkout express pay present`, /shop|Google Pay|G Pay/i.test(txt), `installments mention=${/installments|interest-free|4 payments/i.test(txt)}`);
@@ -128,12 +126,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r232.mjs
+          node r233.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r232
-          git commit -m "r232: funnel QA fd6 + sitewide drawer after the cache-key rollover" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r233
+          git commit -m "r233: funnel QA fd6, new money model (Plan 5 full price + BXGY kit free)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

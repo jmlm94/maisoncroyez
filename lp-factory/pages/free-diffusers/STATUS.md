@@ -35,3 +35,15 @@
   threshold was 300) and the combined step-3 check on all paths (title + Shop Pay line were fine; r230 logs the strip
   size / pill geometry to see which part). Checkout evidence: "installments" mentioned on one-time checkouts only, NOT on
   subscription checkouts (r229, all 3 plan paths) — the "4 interest-free payments" line on the plan is not backed by checkout.
+
+## 2026-09-19 23:00 — MONEY MODEL CHANGE (owner changed Subi Plan 5: full price on the first order, then $10 off)
+Subscription path now: scents $49.95 each on Plan 5 (then $39.95) + kit variant at diffuser value ($79.95 / $159.90 / $239.85,
+compareAt cleared) made FREE by automatic BXGY discounts "FREE DIFFUSER(S) — N scent subscription"
+(1389794623597 / 1389794852973 / 1389794951277): buy N scents (isSubscription) -> kit variant N 100% off, usesPerOrderLimit 1,
+combines with everything. Automatic BXGY cannot discount subscription lines (API: appliesOnSubscription unsupported) — that is
+why the kit, not the scents, carries the "free". One-time path unchanged ($129.95 / $189.95 / $289.95). Page code unchanged (fd6).
+Six-month page: unpublished by the owner 23:05 UTC (its $89.95/$129.95 kits needed the old first-order scent discount); the two
+"Six-Month Program — N scents included" BXGYs created at 22:50 were deleted (could not apply to subscription lines anyway).
+r232 (23:01 UTC, fd6 + new drawer + new model) = 115/121: all totals correct (99.90 / 149.85 / 189.95 / 289.95; 1S + drawer
+'+ Add' -> 99.90), drawer bar + cards + add flow PASS; the 6 misses were the old wording expectations (scents $0, "First payment
+$0.00") — r233 updates them. Special Kits product 8245945434221 is now unused (recommend Draft).

@@ -23,3 +23,8 @@
   $189.95 / $289.95. No automatic discount; Subi untouched. Product set ACTIVE + seo.hidden=1 (was DRAFT); all six
   variants SKU MC-DIFFUSER. r227 (fd3 re-check) = 80/92, all misses were Shopify 429s on /cart.js (runner throttled
   after 3 recon runs + 3 Lighthouse runs in 30 min) — r228 uses a 45 s gap. QA: r228.
+- 2026-09-19 fd5-94c134b — LIVE. Owner adjustments: promo strip removed; deal box -20% (rows .736rem); kit titles 2+3
+  .99rem/800 (1-kit unchanged); step-3 title "Congratulations, your free diffusers have been reserved."; red strip
+  .84rem; Selected pill now a flex column (no overlap with the option title); Shop Pay "4 interest-free payments" line
+  shown on the plan too (owner says installments are offered; checkout decides eligibility — r229 logs whether the
+  checkout mentions installments); one-time option line "$X today. No refills. No lifetime discounts." QA: r229.

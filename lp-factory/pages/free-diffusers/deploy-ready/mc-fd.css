@@ -740,4 +740,12 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .pick-free .pf-price{color:#241C18;font-weight:800;margin-right:4px}
 .onetime small{display:block;font-size:.76rem;color:#5C4F48}
 
-
+/* ===== fd5 (2026-09-19) owner adjustments: deal box -20%, kit titles 2+3 +10% bold, red strip -20%,
+   Selected pill no longer overlaps the option title (flex column instead of absolute) ===== */
+#root .buybox .dealbox{padding:10px 11px}
+#root .buybox .dealbox > :first-child:not(.deal-row){font-size:1rem}
+#root .buybox .deal-row{font-size:.736rem;padding:3px 0;gap:7px}
+#root .buybox .deal-ic{font-size:.8rem}
+#root .buybox .tier:not(.lite) .tier-name{font-size:.99rem;font-weight:800}
+#root .buybox .scarcity-strip{font-size:.84rem;padding:11px 10px;letter-spacing:.1em}
+#root .popt .plan-incl{position:static;margin-left:auto;flex:0 0 auto;align-self:flex-start;white-space:nowrap;margin-top:2px}

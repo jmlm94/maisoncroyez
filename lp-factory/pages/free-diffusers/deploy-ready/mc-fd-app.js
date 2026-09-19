@@ -692,7 +692,7 @@ function BuyBox() {
   return html`
     <section class="section pdp-buy" id="buybox">
       <div class="wrap">
-        <div class="gal-col"><${Gallery}/><div class="promo-strip">THE FIRST 1,000 FREE DIFFUSERS ARE ON US, ONLY A FEW LEFT!</div></div>
+        <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
@@ -731,7 +731,7 @@ function BuyBox() {
             <span>Pick your scents \u2794</span>
             <span class="btn-sub">${OFFER_SUB_FOR(T)}</span>
           </button>
-          ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
@@ -774,7 +774,7 @@ function BuyBox() {
             <button class="btn secondary" aria-label="Back to kits" onClick=${() => go(1)}>\u2190</button>
             <button class="btn atc" onClick=${() => left > 0 ? goPick() : go(3)}><span>${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : "Review my kit \u2794"}</span><span class="btn-sub">${OFFER_SUB_FOR(T)}</span></button>
           </div>
-          ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
@@ -783,7 +783,7 @@ function BuyBox() {
           <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
           <//>` : html`<${Fragment} key="step3">
-          <${StepHead} n=${3} title="Your kit is ready."/>
+          <${StepHead} n=${3} title="Congratulations, your free diffusers have been reserved."/>
           <div class="kitrev">
             ${rows.map((r) => html`
               <div class="kr-row" key=${r.f.key}>
@@ -814,7 +814,7 @@ function BuyBox() {
               <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
               <span class="popt-tx">
                 <b>One-Time Payment</b>
-                <span class="popt-line"><b>${usd(T.price + T.oneTime)} today.</b> ${T.n} scent${T.n > 1 ? "s" : ""} at full price + ${T.n === 1 ? "the diffuser" : T.n === 2 ? "both diffusers" : "all 3 diffusers"} for ${usd(T.oneTime)}. No refills.</span>
+                <span class="popt-line"><b>${usd(T.price + T.oneTime)} today.</b> No refills. No lifetime discounts.</span>
               </span>
               ${sel.oneTime() ? html`<span class="plan-incl">\u2713 Selected</span>` : null}
             </div>
@@ -824,7 +824,7 @@ function BuyBox() {
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
             <span class="btn-sub">${T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty"}</span>
           </button>
-          ${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>

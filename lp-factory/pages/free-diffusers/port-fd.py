@@ -84,6 +84,13 @@ for old, new in [('price: 49.95,  scents: 1,', 'price: 49.95,  oneTime: 80.00,  
     assert out.count(old) == 1, old[:70]
     out = out.replace(old, new)
 assert 'oneTimeDiffuser' not in out
+# 13. fd5 (2026-09-19): owner adjustments (no promo strip, step-3 title, Shop Pay line on every plan, plain one-time line)
+for old, new in [('<div class="gal-col"><${Gallery}/><div class="promo-strip">THE FIRST 1,000 FREE DIFFUSERS ARE ON US, ONLY A FEW LEFT!</div></div>', '<div class="gal-col"><${Gallery}/></div>'), ('<${StepHead} n=${3} title="Your kit is ready."/>', '<${StepHead} n=${3} title="Congratulations, your free diffusers have been reserved."/>'), ('<span class="popt-line"><b>${usd(T.price + T.oneTime)} today.</b> ${T.n} scent${T.n > 1 ? "s" : ""} at full price + ${T.n === 1 ? "the diffuser" : T.n === 2 ? "both diffusers" : "all 3 diffusers"} for ${usd(T.oneTime)}. No refills.</span>', '<span class="popt-line"><b>${usd(T.price + T.oneTime)} today.</b> No refills. No lifetime discounts.</span>')]:
+    assert out.count(old) == 1, old[:60]
+    out = out.replace(old, new)
+_o = '${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">'
+assert out.count(_o) == 3; out = out.replace(_o, '${html`<div class="atc-pay">')
+FD5_CSS = '\n/* ===== fd5 (2026-09-19) owner adjustments: deal box -20%, kit titles 2+3 +10% bold, red strip -20%,\n   Selected pill no longer overlaps the option title (flex column instead of absolute) ===== */\n#root .buybox .dealbox{padding:10px 11px}\n#root .buybox .dealbox > :first-child:not(.deal-row){font-size:1rem}\n#root .buybox .deal-row{font-size:.736rem;padding:3px 0;gap:7px}\n#root .buybox .deal-ic{font-size:.8rem}\n#root .buybox .tier:not(.lite) .tier-name{font-size:.99rem;font-weight:800}\n#root .buybox .scarcity-strip{font-size:.84rem;padding:11px 10px;letter-spacing:.1em}\n#root .popt .plan-incl{position:static;margin-left:auto;flex:0 0 auto;align-self:flex-start;white-space:nowrap;margin-top:2px}\n'
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad
@@ -92,6 +99,7 @@ i = draft.index('#root .plan-q{'); j = draft.index('</style>', i)
 extra = draft[i:j].replace('#root .', '.').replace('#root.one', '.one').replace('#root ', '')
 extra = re.sub(r'\n(\.plan-q\{text-align:left\})', r'\n\1', extra)
 css_out = css.rstrip('\n') + '\n/* ===== free-diffusers page (2026-09-19): draft delta ===== */\n' + extra + '\n'
+css_out = css_out.rstrip('\n') + '\n' + FD5_CSS
 dep = ROOT / 'lp-factory/pages/free-diffusers/deploy-ready'
 (dep / 'mc-fd-app.js').write_text(out); (dep / 'mc-fd.css').write_text(css_out)
 print('mc-fd-app.js', len(out), 'B  mc-fd.css', len(css_out), 'B')

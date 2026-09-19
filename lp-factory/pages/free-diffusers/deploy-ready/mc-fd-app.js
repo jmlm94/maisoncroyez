@@ -729,7 +729,6 @@ function BuyBox() {
           </div>
           <button class="btn atc step-next" onClick=${() => go(2)}>
             <span>Pick your scents \u2794</span>
-            <span class="btn-sub">${OFFER_SUB_FOR(T)}</span>
           </button>
           ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -772,7 +771,7 @@ function BuyBox() {
 
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to kits" onClick=${() => go(1)}>\u2190</button>
-            <button class="btn atc" onClick=${() => left > 0 ? goPick() : go(3)}><span>${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : "Review my kit \u2794"}</span><span class="btn-sub">${OFFER_SUB_FOR(T)}</span></button>
+            <button class="btn atc" onClick=${() => left > 0 ? goPick() : go(3)}><span>${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : "Review my kit \u2794"}</span></button>
           </div>
           ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -822,7 +821,6 @@ function BuyBox() {
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you\u2019ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
-            <span class="btn-sub">${T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 90-day money-back \u00b7 lifetime warranty"}</span>
           </button>
           ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -967,7 +965,6 @@ function GuaranteeSec() {
         <${AngleBullets} items=${CONFIG.guarantee.bullets}/>
         <button class="btn" disabled=${busy} onClick=${() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }}>
           <span>${CONFIG.guarantee.cta.label + " ➔"}</span>
-          <span class="btn-sub">${CONFIG.guarantee.cta.sub}</span>
         </button>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
@@ -1030,7 +1027,6 @@ function StickyBar() {
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy} onClick=${act}>
         <span>${label}</span>
-        <span class="btn-sub">${sub}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </div>`;

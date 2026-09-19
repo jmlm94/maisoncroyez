@@ -91,6 +91,10 @@ for old, new in [('<div class="gal-col"><${Gallery}/><div class="promo-strip">TH
 _o = '${sel.plan === "sub" && sel.keys.length > 0 ? null : html`<div class="atc-pay">'
 assert out.count(_o) == 3; out = out.replace(_o, '${html`<div class="atc-pay">')
 FD5_CSS = '\n/* ===== fd5 (2026-09-19) owner adjustments: deal box -20%, kit titles 2+3 +10% bold, red strip -20%,\n   Selected pill no longer overlaps the option title (flex column instead of absolute) ===== */\n#root .buybox .dealbox{padding:10px 11px}\n#root .buybox .dealbox > :first-child:not(.deal-row){font-size:1rem}\n#root .buybox .deal-row{font-size:.736rem;padding:3px 0;gap:7px}\n#root .buybox .deal-ic{font-size:.8rem}\n#root .buybox .tier:not(.lite) .tier-name{font-size:.99rem;font-weight:800}\n#root .buybox .scarcity-strip{font-size:.84rem;padding:11px 10px;letter-spacing:.1em}\n#root .popt .plan-incl{position:static;margin-left:auto;flex:0 0 auto;align-self:flex-start;white-space:nowrap;margin-top:2px}\n'
+# 14. fd6 (2026-09-19): owner — no sub-lines under any button (offer line, one-time line, guarantee CTA, sticky)
+_pat = '\\s*<span class="btn-sub">[^\\n]*?</span>'
+assert len(re.findall(_pat, out)) == 5, len(re.findall(_pat, out))
+out = re.sub(_pat, '', out)
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad

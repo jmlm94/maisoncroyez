@@ -31,3 +31,7 @@
 - 2026-09-19 fd6-0606ea1 — LIVE. Owner: no sub-lines under any button (62% offer line, ONE-TIME line, sticky bar,
   guarantee CTA). Money logic unchanged. QA: r230. r228 (fd4) = 98/110, all money checks passed; misses = owner renamed the
   product to "Maison Croyez — Home Diffuser Kit" (text checks) + hero same-box check on 3 paths (detail logged from r229).
+  r229 (fd5) = 108/115: all money checks passed; misses = hero check width threshold (desktop gallery slide is 260 px,
+  threshold was 300) and the combined step-3 check on all paths (title + Shop Pay line were fine; r230 logs the strip
+  size / pill geometry to see which part). Checkout evidence: "installments" mentioned on one-time checkouts only, NOT on
+  subscription checkouts (r229, all 3 plan paths) — the "4 interest-free payments" line on the plan is not backed by checkout.

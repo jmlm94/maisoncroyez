@@ -1,0 +1,160 @@
+[
+ {
+  "path": "phone-2S-plan",
+  "events": [
+   {
+    "t": 7126,
+    "mark": "page loaded (+6s)"
+   },
+   {
+    "t": 7130,
+    "consent": {
+     "hasCP": true,
+     "analytics": true,
+     "marketing": true,
+     "sale": true,
+     "banner": false,
+     "region": "USVA",
+     "trackingConsent": {
+      "marketing": "",
+      "analytics": "",
+      "preferences": "",
+      "sale_of_data": ""
+     }
+    }
+   },
+   {
+    "t": 7130,
+    "perfAfterLoad": []
+   },
+   {
+    "t": 7134,
+    "fbstate": {
+     "queue": [],
+     "eventCount": 1,
+     "userDataFormFields": 0,
+     "consent": "optIn fn"
+    }
+   },
+   {
+    "t": 7135,
+    "fbq": {
+     "fbq": "function",
+     "pixels": [
+      "980908600592309"
+     ],
+     "scripts": [
+      "https://connect.facebook.net/signals/config/980908600592309?v=2.9.403&r=stable&d",
+      "https://connect.facebook.net/en_US/fbevents.js"
+     ]
+    }
+   },
+   {
+    "t": 9825,
+    "mark": "clicking ADD TO CART"
+   },
+   {
+    "t": 17758,
+    "mark": "drawer open (+7s)"
+   },
+   {
+    "t": 17758,
+    "perfAfterATC": []
+   },
+   {
+    "t": 17761,
+    "mark": "drawer + Add"
+   },
+   {
+    "t": 23802,
+    "mark": "clicking checkout"
+   },
+   {
+    "t": 32914,
+    "mark": "checkout loaded (+8s)"
+   },
+   {
+    "t": 32914,
+    "perfCheckout": [],
+    "checkoutFbq": "function"
+   }
+  ]
+ },
+ {
+  "path": "desktop-2S-onetime",
+  "events": [
+   {
+    "t": 6830,
+    "mark": "page loaded (+6s)"
+   },
+   {
+    "t": 6833,
+    "consent": {
+     "hasCP": true,
+     "analytics": true,
+     "marketing": true,
+     "sale": true,
+     "banner": false,
+     "region": "USVA",
+     "trackingConsent": {
+      "marketing": "",
+      "analytics": "",
+      "preferences": "",
+      "sale_of_data": ""
+     }
+    }
+   },
+   {
+    "t": 6833,
+    "perfAfterLoad": []
+   },
+   {
+    "t": 6835,
+    "fbstate": {
+     "queue": [],
+     "eventCount": 1,
+     "userDataFormFields": 0,
+     "consent": "optIn fn"
+    }
+   },
+   {
+    "t": 6836,
+    "fbq": {
+     "fbq": "function",
+     "pixels": [
+      "980908600592309"
+     ],
+     "scripts": [
+      "https://connect.facebook.net/signals/config/980908600592309?v=2.9.403&r=stable&d",
+      "https://connect.facebook.net/en_US/fbevents.js"
+     ]
+    }
+   },
+   {
+    "t": 9796,
+    "mark": "clicking ADD TO CART"
+   },
+   {
+    "t": 17200,
+    "mark": "drawer open (+7s)"
+   },
+   {
+    "t": 17200,
+    "perfAfterATC": []
+   },
+   {
+    "t": 17201,
+    "mark": "clicking checkout"
+   },
+   {
+    "t": 26232,
+    "mark": "checkout loaded (+8s)"
+   },
+   {
+    "t": 26232,
+    "perfCheckout": [],
+    "checkoutFbq": "function"
+   }
+  ]
+ }
+]

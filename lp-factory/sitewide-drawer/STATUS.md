@@ -56,3 +56,5 @@ cart:refresh, row + bar update in place. Testimonial moved below the row. Verifi
 (scratchpad pw/drawer-live.mjs): $49.95 cart -> "$25.05 away", 6 cards; add -> UNLOCKED, 5 cards; $99.90 cart -> UNLOCKED.
 Theme loader key is dr1-<UTC hour>, so browsers pick the new file up within the hour; live QA = drawer-recon r231 (>= 23:00 UTC).
 Note for the LP pages: the cart-drawer add is one-time (a plan add would be $0 today and would not move the bar).
+r231 (22:42 UTC, before the hourly key rollover) confirmed the cache caveat: the runner received the previous script
+(old static bar, no .mc-fa). Page checks all passed (fd6). r232 waits for 23:01 UTC on the runner, then re-checks.

@@ -1,7 +1,7 @@
 name: drawer-recon
-# run 231 — sitewide drawer update (mc-drawer.js): live free-shipping bar ($75) + 'Frequently added together' scent row.
-#           Page stays fd6. 1S path now taps '+ Add' in the drawer: expects bar to flip to UNLOCKED and checkout $99.90. Same 5 paths.
-#           Also fixes the step-3 check regex (the Shop Pay line has a line break before the amount).
+# run 232 — sitewide drawer update re-check. r232 (22:42 UTC) got the PREVIOUS mc-drawer.js from the CDN edge: the theme's cache key
+#           is dr1-<UTC hour>, so the URL for that hour was already cached with the old file. This run waits for the 23:01 UTC rollover
+#           first (one-off step). Also fixes the r232 test bug (1S total was set to the post-add total; now afterTotal).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,12 +19,15 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
+      - name: Wait for the drawer cache-key rollover (one-off, 23:01 UTC)
+        run: |
+          while [ "$(date -u +%H%M)" -lt 2301 ]; do sleep 20; done; date -u
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r231
-          cat > r231.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r232
+          cat > r232.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r231/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r232/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -33,7 +36,7 @@ jobs:
             { id: '2S-phone-plan', tier: 2, picks: [0, 6], total: 99.90, save: 160, oneTotal: 189.95, oneKit: '90.05', desktop: false },
             { id: '3S-desktop-plan', tier: 3, picks: [1, 2, 4], total: 149.85, save: 240, oneTotal: 289.95, oneKit: '140.10', desktop: true },
             { id: '2S-desktop-onetime', tier: 2, picks: [3, 5], total: 189.95, planTotal: 99.90, save: 160, oneTotal: 189.95, oneKit: '90.05', oneSave: 70, desktop: true, one: true },
-            { id: '1S-phone-plan', tier: 1, picks: [2], total: 99.90, drawerTotal: 49.95, addOne: true, save: 80, oneTotal: 129.95, oneKit: '80', desktop: false },
+            { id: '1S-phone-plan', tier: 1, picks: [2], total: 49.95, addOne: true, afterTotal: 99.90, save: 80, oneTotal: 129.95, oneKit: '80', desktop: false },
             { id: '3S-phone-onetime', tier: 3, picks: [0, 4, 6], total: 289.95, planTotal: 149.85, save: 240, oneTotal: 289.95, oneKit: '140.10', oneSave: 100, desktop: false, one: true },
           ];
           for (const P of PATHS) {
@@ -87,7 +90,7 @@ jobs:
               const fdKit = dr && dr.lines.find((l) => /(Free|Home) Diffuser Kit/.test(l.t));
               const skKit = dr && dr.lines.find((l) => /Special Kits/.test(l.t));
               const toast = await pg.evaluate(() => ((document.querySelector('#buybox .toast, #buybox [class*=toast]') || {}).innerText || ''));
-              const dT = P.drawerTotal || P.total;
+              const dT = P.total;
               const ship = await pg.evaluate(() => { const b = document.querySelector('#cart-drawer .mc-shipbar'); return b ? { t: b.innerText.replace(/\s+/g, ' '), done: b.classList.contains('mc-done'), w: b.querySelector('.mc-bar i') ? b.querySelector('.mc-bar i').style.width : '' } : null; });
               const faN = await pg.$$eval('#cart-drawer .mc-fa-c', (a) => a.length);
               ok(`${P.id} drawer: free-shipping bar ${dT < 75 ? 'shows $' + (75 - dT).toFixed(2) + ' away' : 'UNLOCKED'} + ${7 - n} scent cards`, ship && (dT < 75 ? !ship.done && ship.t.includes('$' + (75 - dT).toFixed(2) + ' away') && /Add one more scent/.test(ship.t) : ship.done && /FREE SHIPPING UNLOCKED/.test(ship.t) && ship.w === '100%') && faN === 7 - n, JSON.stringify(ship) + ' cards=' + faN);
@@ -107,7 +110,7 @@ jobs:
               const txt = await pg.evaluate(() => document.body.innerText.replace(/\s+/g, ' '));
               const money = (label) => { const m = txt.match(new RegExp(label + '\\s*(?:USD)?\\s*\\$([\\d,]+\\.\\d\\d)', 'i')); return m ? parseFloat(m[1].replace(',', '')) : null; };
               const total = money('Total'), subtotal = money('Subtotal(?: · \\d+ items?)?');
-              ok(`${P.id} checkout total $${P.total}`, total === P.total, `total=${total} subtotal=${subtotal}`);
+              ok(`${P.id} checkout total $${P.afterTotal || P.total}`, total === (P.afterTotal || P.total), `total=${total} subtotal=${subtotal}`);
               if (P.one) {
                 ok(`${P.id} checkout: one-time, no plan, no discount, kit line "(One-Time)", no Special Kits`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && total === subtotal && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(txt) && /(Free|Home) Diffuser Kit/.test(txt) && !/Special Kits/.test(txt), `plan mentions=${(txt.match(/Every 30 days/g) || []).length} total=${total} subtotal=${subtotal}`);
               } else {
@@ -125,12 +128,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r231.mjs
+          node r232.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r231
-          git commit -m "r231: funnel QA fd6 + sitewide drawer (free-shipping bar, frequently-added row)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r232
+          git commit -m "r232: funnel QA fd6 + sitewide drawer after the cache-key rollover" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

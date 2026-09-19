@@ -7,3 +7,7 @@
   "Review my kit" navrow surviving into step 3 → two .btn.atc; same bug class exists on the live v3 page as a stale
   pick-count line), and a poster <img id="mc-hero-p"> under the pre-hero video so the LCP candidate paints at FCP
   instead of at the video's first frame (LH mobile 68/48/48, LCP 3.2/7.6/7.8 s). QA: r225. Perf: lh-live re-run after.
+- 2026-09-19 fd3-3d4b028 — LIVE. fd2's LCP fix did not take (LH mobile 40/51/69 and 53/68/64; LCP still = adopted
+  video first frame, render delay ~5 s: the pre-hero <img> is hidden before first paint, and moving the pre-hero
+  <video> into the slide pauses it). fd3 renders a poster <img class="hv-poster"> under the video inside the gallery
+  slide (same box, painted with the app render). r225 = 110/110 on fd2. QA: r226. Perf: lh-live re-run after.

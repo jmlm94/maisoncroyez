@@ -47,3 +47,7 @@ Six-month page: unpublished by the owner 23:05 UTC (its $89.95/$129.95 kits need
 r232 (23:01 UTC, fd6 + new drawer + new model) = 115/121: all totals correct (99.90 / 149.85 / 189.95 / 289.95; 1S + drawer
 '+ Add' -> 99.90), drawer bar + cards + add flow PASS; the 6 misses were the old wording expectations (scents $0, "First payment
 $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused (recommend Draft).
+- 2026-09-19 fd7-066b335 — LIVE. Owner (iPhone): kit-review rows now "N× Name" (quantity first, incl. the diffuser row);
+  auto-refill option lines 10% smaller (.81rem / .855rem) and single-line; Selected pill back in the corner, title padded 96px
+  so it never runs under it. Drawer (same commit): .mc-fa contain:inline-size (the scroll row was widening the theme's grid
+  drawer on iPhone → bar/testimonial cut off), Add buttons black/centered/aligned at the card bottom. QA: r234.

@@ -58,3 +58,8 @@ Theme loader key is dr1-<UTC hour>, so browsers pick the new file up within the 
 Note for the LP pages: the cart-drawer add is one-time (a plan add would be $0 today and would not move the bar).
 r231 (22:42 UTC, before the hourly key rollover) confirmed the cache caveat: the runner received the previous script
 (old static bar, no .mc-fa). Page checks all passed (fd6). r232 waits for 23:01 UTC on the runner, then re-checks.
+2026-09-19 23:2x — owner iPhone report: whole drawer content wider than the viewport (bar + testimonial cut off) and Add
+buttons left-aligned white. Cause: the theme drawer body is a grid; the horizontally scrolling row contributed its full
+intrinsic width. Fix (raw@066b335): .mc-fa{min-width:0;max-width:100%;contain:inline-size}, row width/max-width 100%,
+cards flex-column with the button pinned to the bottom, button black #111 / white, flex-centered. Reproduced + verified
+with a grid-body stub (pw/drawer-grid.mjs: scrollWidth == clientWidth).

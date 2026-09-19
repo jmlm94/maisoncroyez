@@ -1,0 +1,61 @@
+name: pixel
+# Meta pixel audit on the live /pages/free-diffusers: which events fire (PageView, ViewContent, AddToCart, InitiateCheckout),
+# with what value/content_ids, and whether AddToCart double-fires (our fbq call + Shopify's Facebook channel web pixel).
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/pixel.yml']
+permissions:
+  contents: write
+jobs:
+  pixel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm i playwright@1.49.0 && npx playwright install --with-deps chromium
+      - name: Audit
+        run: |
+          mkdir -p lp-factory/pages/free-diffusers/pixel
+          cat > pixel.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const b = await chromium.launch();
+          const out = [];
+          for (const P of [{ id: 'phone-2S-plan', tier: 2, picks: [0, 6], one: false, w: 390 }, { id: 'desktop-2S-onetime', tier: 2, picks: [3, 5], one: true, w: 1366 }]) {
+            const ctx = await b.newContext({ viewport: { width: P.w, height: 900 }, deviceScaleFactor: P.w < 500 ? 2 : 1 });
+            const pg = await ctx.newPage();
+            const ev = []; const t0 = Date.now();
+            const rec = (req) => { const u = req.url(); if (!/facebook\.com\/tr/.test(u)) return; let q = {}; try { const url = new URL(u); url.searchParams.forEach((v, k) => { q[k] = v; }); } catch (e) {} const pd = req.postData(); if (pd) { try { new URLSearchParams(pd).forEach((v, k) => { q[k] = v; }); } catch (e) {} } ev.push({ t: Date.now() - t0, m: req.method(), ev: q.ev, id: q.id, eid: q.eid, value: q['cd[value]'], cur: q['cd[currency]'], ids: q['cd[content_ids]'], type: q['cd[content_type]'], name: q['cd[content_name]'], num: q['cd[num_items]'], page: (q.dl || '').replace(/^https?:\/\/[^/]+/, '').slice(0, 40) }); };
+            pg.on('request', rec);
+            const mark = (s) => ev.push({ t: Date.now() - t0, mark: s });
+            await pg.goto('https://maisoncroyez.com/pages/free-diffusers', { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.waitForTimeout(6000); mark('page loaded (+6s)');
+            const fbq = await pg.evaluate(() => ({ fbq: typeof window.fbq, pixels: (window.fbq && window.fbq.instance && window.fbq.instance.pixelsByID) ? Object.keys(window.fbq.instance.pixelsByID) : null, scripts: [...document.scripts].filter((s) => /fbevents|connect\.facebook/.test(s.src)).map((s) => s.src.slice(0, 80)) }));
+            ev.push({ t: Date.now() - t0, fbq });
+            await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(200);
+            await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click(); await pg.waitForTimeout(500);
+            const c = pg.locator('#buybox .pick.compact'); for (const k of P.picks) { await c.nth(k).click(); await pg.waitForTimeout(150); }
+            await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(500);
+            if (P.one) { await pg.click('#buybox .plan-opts .popt:nth-child(2)'); await pg.waitForTimeout(300); }
+            mark('clicking ADD TO CART');
+            await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
+            await pg.waitForTimeout(7000); mark('drawer open (+7s)');
+            if (!P.one) { mark('drawer + Add'); await pg.click('#cart-drawer .mc-fa-add'); await pg.waitForTimeout(6000); }
+            mark('clicking checkout');
+            await pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first().click();
+            await pg.waitForURL(/checkouts\//, { timeout: 60000 }); await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(8000); mark('checkout loaded (+8s)');
+            out.push({ path: P.id, events: ev });
+            await ctx.close(); await new Promise((r) => setTimeout(r, 20000));
+          }
+          await b.close();
+          fs.writeFileSync('lp-factory/pages/free-diffusers/pixel/meta-pixel-' + new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '') + '.json', JSON.stringify(out, null, 1));
+          for (const o of out) { console.log('=== ' + o.path); for (const e of o.events) console.log(JSON.stringify(e)); }
+          EOF2
+          node pixel.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"; git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/free-diffusers/pixel
+          git commit -m "pixel: Meta pixel audit on /pages/free-diffusers" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

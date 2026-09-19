@@ -11,3 +11,10 @@
   video first frame, render delay ~5 s: the pre-hero <img> is hidden before first paint, and moving the pre-hero
   <video> into the slide pauses it). fd3 renders a poster <img class="hv-poster"> under the video inside the gallery
   slide (same box, painted with the app render). r225 = 110/110 on fd2. QA: r226. Perf: lh-live re-run after.
+  Results: LH 3x mobile 54/59/59 (LCP 3.9/4.7/4.5 s, LCP element = img.hv-poster; was 7-8 s on the video frame),
+  desktop 97/96/97. r226 = 105/110: the 5 fails are the hero check requiring a playing video (runner Chromium has no
+  H.264, readyState 0); everything else passed, incl. one ATC button at step 3 and the poster/video same-box check
+  parts. r227 = same run with playback info-only.
+  Remaining speed cost is third-party: Facebook pixel ~525 ms blocking, Clarity ~190 ms, Klaviyo ~90 ms, Shopify web
+  pixels manager ~1.0 s main thread, Clarity "Brand Agents" embed 280 KB (azurefd.net), content.9gtb.com 64 KB,
+  theme.css render-blocking ~330 ms, inline document scripts ~1.0-1.3 s. Our files: ~50 KB gz total, ~150 ms.

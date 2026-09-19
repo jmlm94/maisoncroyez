@@ -787,12 +787,12 @@ function BuyBox() {
             ${rows.map((r) => html`
               <div class="kr-row" key=${r.f.key}>
                 <${Img} slot=${r.f.img} style=${{ width: "44px", flex: "0 0 44px", borderRadius: "8px", minHeight: "44px" }} alt=${r.f.name}/>
-                <span class="kr-tx"><b>${r.f.name}${r.q > 1 ? ` \u00d7${r.q}` : ""}</b><span class="kr-sub">${r.f.intention} \u00b7 100ml \u00b7 30+ days per bottle</span></span>
+                <span class="kr-tx"><b>${r.q}\u00d7 ${r.f.name}</b><span class="kr-sub">${r.f.intention} \u00b7 100ml \u00b7 30+ days per bottle</span></span>
                 <span class="kr-pr">${usd(r.q * SCENT_ONE)}</span>
               </div>`)}
             <div class="kr-row">
               <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
-              <span class="kr-tx"><b>${T.n} \u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
+              <span class="kr-tx"><b>${T.n}\u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
               <span class="kr-pr">${sel.oneTime() ? html`<s>${usd(T.n * DIFFUSER_PRICE)}</s> ${usd(T.oneTime)}` : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE</span>`}</span>
             </div>
             <div class="kr-total"><span>You only pay:</span><b>${usd(sel.today())}</b></div>

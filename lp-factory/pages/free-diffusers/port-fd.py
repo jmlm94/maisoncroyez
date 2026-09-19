@@ -95,6 +95,11 @@ FD5_CSS = '\n/* ===== fd5 (2026-09-19) owner adjustments: deal box -20%, kit tit
 _pat = '\\s*<span class="btn-sub">[^\\n]*?</span>'
 assert len(re.findall(_pat, out)) == 5, len(re.findall(_pat, out))
 out = re.sub(_pat, '', out)
+# 15. fd7 (2026-09-19): quantity first in the kit-review rows; option lines smaller/one line (CSS)
+for old, new in [('<span class="kr-tx"><b>${r.f.name}${r.q > 1 ? ` \\u00d7${r.q}` : ""}</b>', '<span class="kr-tx"><b>${r.q}\\u00d7 ${r.f.name}</b>'), ('<span class="kr-tx"><b>${T.n} \\u00d7 Maison Croyez Diffuser</b>', '<span class="kr-tx"><b>${T.n}\\u00d7 Maison Croyez Diffuser</b>')]:
+    assert out.count(old) == 1, old[:60]
+    out = out.replace(old, new)
+FD7_CSS = '\n/* ===== fd7 (2026-09-19) owner: auto-refill option lines 10% smaller, one line each; Selected pill back to the corner,\n   title padded so it never runs under the pill ===== */\n#root .popt .plan-incl{position:absolute;top:12px;right:12px;margin:0}\n#root .popt.on .popt-tx > b{display:block;padding-right:96px}\n#root .popt-line{font-size:.81rem;line-height:1.4;white-space:nowrap}\n#root .popt-sub.big{font-size:.855rem;white-space:nowrap}\n@media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}\n'
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad
@@ -104,6 +109,7 @@ extra = draft[i:j].replace('#root .', '.').replace('#root.one', '.one').replace(
 extra = re.sub(r'\n(\.plan-q\{text-align:left\})', r'\n\1', extra)
 css_out = css.rstrip('\n') + '\n/* ===== free-diffusers page (2026-09-19): draft delta ===== */\n' + extra + '\n'
 css_out = css_out.rstrip('\n') + '\n' + FD5_CSS
+css_out = css_out.rstrip('\n') + '\n' + FD7_CSS
 dep = ROOT / 'lp-factory/pages/free-diffusers/deploy-ready'
 (dep / 'mc-fd-app.js').write_text(out); (dep / 'mc-fd.css').write_text(css_out)
 print('mc-fd-app.js', len(out), 'B  mc-fd.css', len(css_out), 'B')

@@ -749,3 +749,11 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .tier:not(.lite) .tier-name{font-size:.99rem;font-weight:800}
 #root .buybox .scarcity-strip{font-size:.84rem;padding:11px 10px;letter-spacing:.1em}
 #root .popt .plan-incl{position:static;margin-left:auto;flex:0 0 auto;align-self:flex-start;white-space:nowrap;margin-top:2px}
+
+/* ===== fd7 (2026-09-19) owner: auto-refill option lines 10% smaller, one line each; Selected pill back to the corner,
+   title padded so it never runs under the pill ===== */
+#root .popt .plan-incl{position:absolute;top:12px;right:12px;margin:0}
+#root .popt.on .popt-tx > b{display:block;padding-right:96px}
+#root .popt-line{font-size:.81rem;line-height:1.4;white-space:nowrap}
+#root .popt-sub.big{font-size:.855rem;white-space:nowrap}
+@media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}

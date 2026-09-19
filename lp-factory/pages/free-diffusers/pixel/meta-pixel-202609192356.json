@@ -1,0 +1,296 @@
+[
+ {
+  "path": "phone-2S-plan",
+  "events": [
+   {
+    "t": 7430,
+    "mark": "page loaded (+6s)"
+   },
+   {
+    "t": 7434,
+    "consent": {
+     "hasCP": true,
+     "analytics": true,
+     "marketing": true,
+     "sale": true,
+     "banner": false,
+     "region": "USWY",
+     "trackingConsent": {
+      "marketing": "",
+      "analytics": "",
+      "preferences": "",
+      "sale_of_data": ""
+     }
+    }
+   },
+   {
+    "t": 7434,
+    "perfAfterLoad": []
+   },
+   {
+    "t": 7436,
+    "fbstate": {
+     "queue": [],
+     "eventCount": 1,
+     "userDataFormFields": 0,
+     "consent": "optIn fn"
+    }
+   },
+   {
+    "t": 7439,
+    "who": {
+     "inline": [
+      "(function(){var wpmLoader=function(){\"use strict\";var e=/Googlebot|Storebot-Google|bingbot|Baiduspider|YandexBot|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|AdsBot-Google|Mediapartners-Google|APIs-Google|PetalBot|SemrushBot|AhrefsBot|MJ12bot|DotBot|Acunetix|PerplexityBot|Perplexity-User/i,t=/bytedance/i;function i(){try{var e=document.cookie;if(!e||\"string\"!=typeof e)retu",
+      "!function(a,c,b,d,e,f,g){a.fbq||(e=a.fbq=function(){e.callMethod?e.callMethod.apply(e,arguments):e.queue.push(arguments)},!a._fbq&&(a._fbq=e),e.push=e,e.loaded=!0,e.version=\"2.0\",e.queue=[],f=c.createElement(b),f.async=!0,f.src=d,g=c.getElementsByTagName(b)[0],g.parentNode.insertBefore(f,g))}(window,document,\"script\",\"https://connect.facebook.net/en_US/fbevents.js\");"
+     ],
+     "srcs": [
+      "cdn.shopify.com/proxy/0e1c258f9979759d197d7550aa582c845686efacc10b03606803e31aa344b785/d16",
+      "sdk.postscript.io/sdk-script-loader.bundle.js?shopId=5063&shop=patshion.myshopify.com",
+      "scripts.clarity.ms/0.8.70/clarity.js",
+      "maisoncroyez.com/cdn/s/trekkie.storefront.7ba2605b9cb6cd518b93431f40a9bde3a4a2f7bd.min.js",
+      "www.clarity.ms/tag/yd5sg19ymx?ref=shopify",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/frontendInjection.js",
+      "maisoncroyez.com/cdn/shop/t/47/assets/vendor.min.js?v=52426788336887041471786535322",
+      "maisoncroyez.com/cdn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+      "maisoncroyez.com/cdn/shop/t/47/assets/sections.js?v=106105651946468648521786536963",
+      "maisoncroyez.com/checkouts/internal/preloads.js?locale=en-US",
+      "shop.app/checkouts/internal/preloads.js?locale=en-US&shop_id=2036367469",
+      "cdn.shopify.com/shopifycloud/shop-js/modules/v2/loader.init-shop-cart-sync.en.esm.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shopify_pay/storefront-bf1cdb70.js?v=2",
+      "cdn.shopify.com/shopifycloud/storefront/assets/storefront/origin_trials-5059b83f.js",
+      "static.klaviyo.com/onsite/js/UmHsGf/klaviyo.js?company_id=UmHsGf",
+      "config.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com",
+      "content.9gtb.com/loader.js",
+      "config.gorgias.help/api/contact-forms/replace-mailto-script.js?shopName=patshion",
+      "cdn.shopify.com/extensions/01a06269-4152-74a0-b2c3-9603a76d8a10/test-sms-49/assets/sdk-emb",
+      "maisoncroyez.com/cdn/wpm/b1b3c7779w6e1f7d30p7ae783d3m9b5a05aam.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shop_events_listener-4e26a9ce.js",
+      "maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.9.2.min.js",
+      "maisoncroyez.com/web-pixels@1b3c7779w6e1f7d30p7ae783d3m9b5a05aa/app/web-pixel-476348525@96",
+      "maisoncroyez.com/cdn/shopifycloud/consent-tracking-api/v0.1/consent-tracking-api.js",
+      "sdk.postscript.io/sdk.bundle.js?shopId=5063&src=sdkAppEmbed",
+      "static-tracking.klaviyo.com/onsite/js/fender_analytics.260bfd76609a3.js?cb=2",
+      "static-tracking.klaviyo.com/onsite/js/static.98321b3b5e878.js?cb=2",
+      "static.klaviyo.com/onsite/js/runtime.7d257a51aad73.js?cb=2",
+      "static-tracking.klaviyo.com/onsite/js/post_identification_sync.3d845f644081d.js?cb=2",
+      "static.klaviyo.com/onsite/js/event_adapter.4ff6b8eeb0178.js?cb=2",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr1-2026091923",
+      "cdn.subi.co/subify/v5/subify-sdk.js",
+      "cdn.shopify.com/storefront/standard-actions.js",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-vendor.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser-assets.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-fd-app.js?v=fd7-066b335",
+      "content.9gtb.com/script.js?rev=72bffd8",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr-2026091923b",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/index-C5KmBn1m.js"
+     ],
+     "hits": [],
+     "state": {
+      "pixels": [
+       {
+        "id": "980908600592309",
+        "eventCount": 1
+       }
+      ]
+     }
+    }
+   },
+   {
+    "t": 10441,
+    "grantTest": {
+     "withoutGrant": [],
+     "afterGrant": []
+    }
+   },
+   {
+    "t": 10443,
+    "fbq": {
+     "fbq": "function",
+     "pixels": [
+      "980908600592309"
+     ],
+     "scripts": [
+      "https://connect.facebook.net/signals/config/980908600592309?v=2.9.403&r=stable&d",
+      "https://connect.facebook.net/en_US/fbevents.js"
+     ]
+    }
+   },
+   {
+    "t": 13827,
+    "mark": "clicking ADD TO CART"
+   },
+   {
+    "t": 21749,
+    "mark": "drawer open (+7s)"
+   },
+   {
+    "t": 21749,
+    "perfAfterATC": [],
+    "hitsAfterATC": []
+   },
+   {
+    "t": 21753,
+    "mark": "drawer + Add"
+   },
+   {
+    "t": 27793,
+    "mark": "clicking checkout"
+   },
+   {
+    "t": 38532,
+    "mark": "checkout loaded (+8s)"
+   },
+   {
+    "t": 38532,
+    "perfCheckout": [],
+    "checkoutFbq": "function"
+   }
+  ]
+ },
+ {
+  "path": "desktop-2S-onetime",
+  "events": [
+   {
+    "t": 6904,
+    "mark": "page loaded (+6s)"
+   },
+   {
+    "t": 6907,
+    "consent": {
+     "hasCP": true,
+     "analytics": true,
+     "marketing": true,
+     "sale": true,
+     "banner": false,
+     "region": "USWY",
+     "trackingConsent": {
+      "marketing": "",
+      "analytics": "",
+      "preferences": "",
+      "sale_of_data": ""
+     }
+    }
+   },
+   {
+    "t": 6907,
+    "perfAfterLoad": []
+   },
+   {
+    "t": 6909,
+    "fbstate": {
+     "queue": [],
+     "eventCount": 1,
+     "userDataFormFields": 0,
+     "consent": "optIn fn"
+    }
+   },
+   {
+    "t": 6911,
+    "who": {
+     "inline": [
+      "(function(){var wpmLoader=function(){\"use strict\";var e=/Googlebot|Storebot-Google|bingbot|Baiduspider|YandexBot|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|AdsBot-Google|Mediapartners-Google|APIs-Google|PetalBot|SemrushBot|AhrefsBot|MJ12bot|DotBot|Acunetix|PerplexityBot|Perplexity-User/i,t=/bytedance/i;function i(){try{var e=document.cookie;if(!e||\"string\"!=typeof e)retu",
+      "!function(a,c,b,d,e,f,g){a.fbq||(e=a.fbq=function(){e.callMethod?e.callMethod.apply(e,arguments):e.queue.push(arguments)},!a._fbq&&(a._fbq=e),e.push=e,e.loaded=!0,e.version=\"2.0\",e.queue=[],f=c.createElement(b),f.async=!0,f.src=d,g=c.getElementsByTagName(b)[0],g.parentNode.insertBefore(f,g))}(window,document,\"script\",\"https://connect.facebook.net/en_US/fbevents.js\");"
+     ],
+     "srcs": [
+      "cdn.shopify.com/proxy/0e1c258f9979759d197d7550aa582c845686efacc10b03606803e31aa344b785/d16",
+      "sdk.postscript.io/sdk-script-loader.bundle.js?shopId=5063&shop=patshion.myshopify.com",
+      "scripts.clarity.ms/0.8.70/clarity.js",
+      "maisoncroyez.com/cdn/s/trekkie.storefront.7ba2605b9cb6cd518b93431f40a9bde3a4a2f7bd.min.js",
+      "www.clarity.ms/tag/yd5sg19ymx?ref=shopify",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/frontendInjection.js",
+      "maisoncroyez.com/cdn/shop/t/47/assets/vendor.min.js?v=52426788336887041471786535322",
+      "maisoncroyez.com/cdn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+      "maisoncroyez.com/cdn/shop/t/47/assets/sections.js?v=106105651946468648521786536963",
+      "maisoncroyez.com/checkouts/internal/preloads.js?locale=en-US",
+      "shop.app/checkouts/internal/preloads.js?locale=en-US&shop_id=2036367469",
+      "cdn.shopify.com/shopifycloud/shop-js/modules/v2/loader.init-shop-cart-sync.en.esm.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shopify_pay/storefront-bf1cdb70.js?v=2",
+      "cdn.shopify.com/shopifycloud/storefront/assets/storefront/origin_trials-5059b83f.js",
+      "static.klaviyo.com/onsite/js/UmHsGf/klaviyo.js?company_id=UmHsGf",
+      "config.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com",
+      "content.9gtb.com/loader.js",
+      "config.gorgias.help/api/contact-forms/replace-mailto-script.js?shopName=patshion",
+      "cdn.shopify.com/extensions/01a06269-4152-74a0-b2c3-9603a76d8a10/test-sms-49/assets/sdk-emb",
+      "maisoncroyez.com/cdn/wpm/b1b3c7779w6e1f7d30p7ae783d3m9b5a05aam.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shop_events_listener-4e26a9ce.js",
+      "maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.9.2.min.js",
+      "maisoncroyez.com/cdn/shopifycloud/consent-tracking-api/v0.1/consent-tracking-api.js",
+      "maisoncroyez.com/web-pixels@1b3c7779w6e1f7d30p7ae783d3m9b5a05aa/app/web-pixel-476348525@96",
+      "sdk.postscript.io/sdk.bundle.js?shopId=5063&src=sdkAppEmbed",
+      "static-tracking.klaviyo.com/onsite/js/fender_analytics.260bfd76609a3.js?cb=2",
+      "static-tracking.klaviyo.com/onsite/js/static.98321b3b5e878.js?cb=2",
+      "static.klaviyo.com/onsite/js/runtime.7d257a51aad73.js?cb=2",
+      "static-tracking.klaviyo.com/onsite/js/post_identification_sync.3d845f644081d.js?cb=2",
+      "static.klaviyo.com/onsite/js/event_adapter.4ff6b8eeb0178.js?cb=2",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr1-2026091923",
+      "cdn.subi.co/subify/v5/subify-sdk.js",
+      "cdn.shopify.com/storefront/standard-actions.js",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-vendor.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser-assets.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-fd-app.js?v=fd7-066b335",
+      "content.9gtb.com/script.js?rev=72bffd8",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr-2026091923b",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/index-C5KmBn1m.js"
+     ],
+     "hits": [],
+     "state": {
+      "pixels": [
+       {
+        "id": "980908600592309",
+        "eventCount": 1
+       }
+      ]
+     }
+    }
+   },
+   {
+    "t": 9913,
+    "grantTest": {
+     "withoutGrant": [],
+     "afterGrant": []
+    }
+   },
+   {
+    "t": 9915,
+    "fbq": {
+     "fbq": "function",
+     "pixels": [
+      "980908600592309"
+     ],
+     "scripts": [
+      "https://connect.facebook.net/signals/config/980908600592309?v=2.9.403&r=stable&d",
+      "https://connect.facebook.net/en_US/fbevents.js"
+     ]
+    }
+   },
+   {
+    "t": 12856,
+    "mark": "clicking ADD TO CART"
+   },
+   {
+    "t": 20245,
+    "mark": "drawer open (+7s)"
+   },
+   {
+    "t": 20245,
+    "perfAfterATC": [],
+    "hitsAfterATC": []
+   },
+   {
+    "t": 20248,
+    "mark": "clicking checkout"
+   },
+   {
+    "t": 29300,
+    "mark": "checkout loaded (+8s)"
+   },
+   {
+    "t": 29300,
+    "perfCheckout": [],
+    "checkoutFbq": "function"
+   }
+  ]
+ }
+]

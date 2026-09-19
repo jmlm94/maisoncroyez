@@ -578,7 +578,12 @@ function HeroVideo({ poster }) {
     };
   }, []);
   const tap = () => { const el = ref.current; if (el) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } };
-  return html`<div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}`;
+  /* fd3 (2026-09-19): a real <img> of the poster UNDER the video. Moving the pre-hero <video> into this slide pauses
+     it (spec: removal runs the pause steps) and its first frame then lands seconds later on a busy phone, so Lighthouse
+     kept reporting LCP = video first frame (7-8 s). The img is cached (preloaded), decodes sync, paints with the app
+     render and is the same size as the video, so it holds the LCP candidate (later equal-size paints don't replace it). */
+  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;
+  return html`<img class="simg hv-poster" src=${posterSrc} alt="" width="720" height="720" decoding="sync" fetchpriority="high" key="poster"/><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}`;
 }
 
 function Gallery() {

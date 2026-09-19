@@ -75,6 +75,10 @@ for old, new in [
 ]:
     assert out.count(old) == 1, old
     out = out.replace(old, new)
+# 11. fd3: poster <img> under the adopted hero video (LCP candidate paints with the app render, not at the video's first frame)
+old_hv = '  return html`<div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\\u25B6</button>` : null}`;'
+new_hv = '  /* fd3 (2026-09-19): a real <img> of the poster UNDER the video. Moving the pre-hero <video> into this slide pauses\n     it (spec: removal runs the pause steps) and its first frame then lands seconds later on a busy phone, so Lighthouse\n     kept reporting LCP = video first frame (7-8 s). The img is cached (preloaded), decodes sync, paints with the app\n     render and is the same size as the video, so it holds the LCP candidate (later equal-size paints don\'t replace it). */\n  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;\n  return html`<img class="simg hv-poster" src=${posterSrc} alt="" width="720" height="720" decoding="sync" fetchpriority="high" key="poster"/><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\\u25B6</button>` : null}`;'
+assert out.count(old_hv) == 1; out = out.replace(old_hv, new_hv)
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad

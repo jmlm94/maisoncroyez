@@ -63,6 +63,18 @@ b = '''  const items = sub ? [{ id: CART3.kitVariants[T.key], quantity: 1 }] : [
 assert out.count(a) == 1; out = out.replace(a, b)
 # 8. version marker
 out = out.replace('/* mc-v3', '/* mc-fd (free-diffusers page) — built from mc-v3', 1) if '/* mc-v3' in out else out
+# 10. keyed step wrappers (fd2, 2026-09-19): the three step templates are unkeyed sibling arrays and Preact
+#     left stale nodes behind on step changes (step-2 "Review my kit" navrow surviving into step 3; the live
+#     v3 page shows the same class of bug with a stale pick-count). A keyed Fragment per step forces a clean swap.
+out = out.replace('createElement: h } = React;', 'createElement: h, Fragment } = React;', 1)
+for old, new in [
+    ('${step === 1 ? html`\n', '${step === 1 ? html`<${Fragment} key="step1">\n'),
+    ('\n          ` : step === 2 ? html`\n', '\n          <//>` : step === 2 ? html`<${Fragment} key="step2">\n'),
+    ('\n          ` : html`\n          <${StepHead} n=${3}', '\n          <//>` : html`<${Fragment} key="step3">\n          <${StepHead} n=${3}'),
+    ('Change my scents</button></div>\n          `}\n', 'Change my scents</button></div>\n          <//>`}\n'),
+]:
+    assert out.count(old) == 1, old
+    out = out.replace(old, new)
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad

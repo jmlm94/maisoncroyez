@@ -33,7 +33,7 @@ var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-
 })();
 
 /* eslint-disable */
-const { useState, useEffect, useLayoutEffect, useRef, useCallback, createElement: h } = React;
+const { useState, useEffect, useLayoutEffect, useRef, useCallback, createElement: h, Fragment } = React;
 const html = htm.bind(h);
 
 /* ================================================================
@@ -690,7 +690,7 @@ function BuyBox() {
       <div class="wrap">
         <div class="gal-col"><${Gallery}/><div class="promo-strip">THE FIRST 1,000 FREE DIFFUSERS ARE ON US, ONLY A FEW LEFT!</div></div>
         <div class="buybox">
-          ${step === 1 ? html`
+          ${step === 1 ? html`<${Fragment} key="step1">
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
           <h1>Maison Croyez Diffuser & Organic Manifestation Scents — Make your home smell as good as it looks. ✨</h1>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
@@ -735,7 +735,7 @@ function BuyBox() {
           </div>
           <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
-          ` : step === 2 ? html`
+          <//>` : step === 2 ? html`<${Fragment} key="step2">
           <${StepHead} n=${2} title=${`Pick your ${T.scents} scent${T.scents > 1 ? "s" : ""}:`}/>
           ${T.scents === 0 ? html`<div class="picker-sub">${usd(SCENT_ONE)} each, one-time. Add as many as you like, or skip and just get the diffuser.</div>` : null}
           <div class="pick-count">${T.scents > 0
@@ -778,7 +778,7 @@ function BuyBox() {
           </div>
           <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
-          ` : html`
+          <//>` : html`<${Fragment} key="step3">
           <${StepHead} n=${3} title="Your kit is ready."/>
           <div class="kitrev">
             ${rows.map((r) => html`
@@ -839,7 +839,7 @@ function BuyBox() {
               </div>`)}
           </div>
           <div class="navrow back-only"><button class="btn secondary wide" onClick=${() => go(2)}>\u2190 Change my scents</button></div>
-          `}
+          <//>`}
         </div>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>

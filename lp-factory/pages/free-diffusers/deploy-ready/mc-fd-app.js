@@ -399,7 +399,7 @@ const onStore = () => /(^|\.)maisoncroyez\.com$/.test(window.location.hostname);
        subscription lines). */
 const CART3 = {
   kitVariants: { one: 45900240257133, two: 45900240289901, three: 45900240322669 },  /* Free Diffuser Kit product (2026-09-19) */
-  oneTimeDiffuser: 45784228429933,   /* Special Kits "1 Diffuser" $79.95, added x N on one-time orders */
+  oneTimeKits: { one: 45900920324205, two: 45900920356973, three: 45900920389741 },  /* same product, "(One-Time)" variants $80.00 / $90.05 / $140.10 (fd4, 2026-09-19) */
   sellingPlan: 2661875821,      /* Subi Plan 4 — unused since v3s5 (1D is one-time only); kept for reference */
   sellingPlanFree: 2747695213,  /* Subi Plan 5 "Every 30 days" — included scents on 2D/3D ($0 today) */
   cartUrl: "/cart",
@@ -412,10 +412,9 @@ async function addToCart(setBusy, setToast) {
   }
   const T = selStore.tier();
   const sub = T.scents > 0 && selStore.plan === "sub" && selStore.keys.length > 0;
-  const items = sub ? [{ id: CART3.kitVariants[T.key], quantity: 1 }] : [];
+  const items = [{ id: sub ? CART3.kitVariants[T.key] : CART3.oneTimeKits[T.key], quantity: 1 }];
   const planId = CART3.sellingPlanFree;
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
-  if (!sub) items.push({ id: CART3.oneTimeDiffuser, quantity: T.n });
   if (!onStore()) {
     setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 30-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
     return;
@@ -454,9 +453,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "(Requires 1 scent)",  price: 49.95,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "$9.95 FLAT FEE \u2014 FREE ON $75+ ORDERS", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
-  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "(Requires 2 scents)", price: 99.90,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "(Requires 3 scents)", price: 149.85, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "(Requires 1 scent)",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "$9.95 FLAT FEE \u2014 FREE ON $75+ ORDERS", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
+  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "(Requires 2 scents)", price: 99.90,  oneTime: 90.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
+  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "(Requires 3 scents)", price: 149.85, oneTime: 140.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -479,7 +478,7 @@ const selStore = {
   extras() { return Math.max(0, this.keys.length - this.tier().scents); },
   left() { return Math.max(0, this.tier().scents - this.keys.length); },
   oneTime() { return this.plan === "one" && this.tier().scents > 0; },
-  today() { return this.tier().price + this.extras() * this.scentPrice() + (this.oneTime() ? this.tier().n * DIFFUSER_PRICE : 0); },
+  today() { return this.tier().price + this.extras() * this.scentPrice() + (this.oneTime() ? this.tier().oneTime : 0); }, /* fd4: one-time = kit price + one-time kit variant (80.00 / 90.05 / 140.10) => $129.95 / $189.95 / $289.95 */
   value() { return this.tier().n * DIFFUSER_PRICE + this.keys.length * SCENT_ONE; },
   savings() { return Math.max(0, this.value() - this.today()); },
   renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * SCENT_SUB : 0; },
@@ -795,7 +794,7 @@ function BuyBox() {
             <div class="kr-row">
               <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
               <span class="kr-tx"><b>${T.n} \u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
-              <span class="kr-pr">${sel.oneTime() ? usd(T.n * DIFFUSER_PRICE) : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE</span>`}</span>
+              <span class="kr-pr">${sel.oneTime() ? html`<s>${usd(T.n * DIFFUSER_PRICE)}</s> ${usd(T.oneTime)}` : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE</span>`}</span>
             </div>
             <div class="kr-total"><span>You only pay:</span><b>${usd(sel.today())}</b></div>
             ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
@@ -815,7 +814,7 @@ function BuyBox() {
               <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
               <span class="popt-tx">
                 <b>One-Time Payment</b>
-                <span class="popt-line"><b>${usd(T.price + T.n * DIFFUSER_PRICE)} today.</b> Diffusers charged ${usd(DIFFUSER_PRICE)} each. No refills.</span>
+                <span class="popt-line"><b>${usd(T.price + T.oneTime)} today.</b> ${T.n} scent${T.n > 1 ? "s" : ""} at full price + ${T.n === 1 ? "the diffuser" : T.n === 2 ? "both diffusers" : "all 3 diffusers"} for ${usd(T.oneTime)}. No refills.</span>
               </span>
               ${sel.oneTime() ? html`<span class="plan-incl">\u2713 Selected</span>` : null}
             </div>

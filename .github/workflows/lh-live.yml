@@ -45,11 +45,10 @@ jobs:
         run: |
           cat > sum.mjs <<'EOF2'
           import fs from 'fs';
-          const URL = process.env.URL, OUT = process.env.OUT, RUNS = parseInt(process.env.RUNS || '3', 10);
+          const PAGE = process.env.URL, OUT = process.env.OUT, RUNS = parseInt(process.env.RUNS || '3', 10); // not `URL`: that shadows the global and broke the by-host table
           const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13) + 'Z';
-          const day = stamp.slice(0, 8);
           const MET = ['first-contentful-paint', 'largest-contentful-paint', 'total-blocking-time', 'speed-index', 'cumulative-layout-shift', 'interactive', 'server-response-time'];
-          let md = `# Lighthouse — ${URL} — ${stamp} — ${RUNS} runs per form factor\n\n`;
+          let md = `# Lighthouse — ${PAGE} — ${stamp} — ${RUNS} runs per form factor\n\n`;
           const kb = (n) => Math.round((n || 0) / 1024);
           for (const ff of ['mobile', 'desktop']) {
             const runs = []; for (let i = 1; i <= RUNS; i++) { try { runs.push(JSON.parse(fs.readFileSync(`lh-${ff}-${i}.json`, 'utf8'))); } catch (e) {} }

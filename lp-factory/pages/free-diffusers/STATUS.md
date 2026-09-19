@@ -18,3 +18,8 @@
   Remaining speed cost is third-party: Facebook pixel ~525 ms blocking, Clarity ~190 ms, Klaviyo ~90 ms, Shopify web
   pixels manager ~1.0 s main thread, Clarity "Brand Agents" embed 280 KB (azurefd.net), content.9gtb.com 64 KB,
   theme.css render-blocking ~330 ms, inline document scripts ~1.0-1.3 s. Our files: ~50 KB gz total, ~150 ms.
+- 2026-09-19 fd4-9571dda — LIVE. Owner decision (option 2): one-time = "(One-Time)" kit variants on the same hidden
+  product, 45900920324205 $80.00 / 45900920356973 $90.05 / 45900920389741 $140.10 (+ full-price scents) => $129.95 /
+  $189.95 / $289.95. No automatic discount; Subi untouched. Product set ACTIVE + seo.hidden=1 (was DRAFT); all six
+  variants SKU MC-DIFFUSER. r227 (fd3 re-check) = 80/92, all misses were Shopify 429s on /cart.js (runner throttled
+  after 3 recon runs + 3 Lighthouse runs in 30 min) — r228 uses a 45 s gap. QA: r228.

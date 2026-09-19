@@ -1,17 +1,32 @@
-# Lighthouse on the LIVE kits page (mobile + desktop) with a third-party breakdown, so we can see which
+# Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
+# Default target: the new /pages/free-diffusers page (2026-09-19). Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:
     paths: [".github/workflows/lh-live.yml"]
   workflow_dispatch:
+    inputs:
+      url:
+        description: Page to test
+        default: https://maisoncroyez.com/pages/free-diffusers
+      out:
+        description: Output folder (repo path)
+        default: lp-factory/pages/free-diffusers/perf
+      runs:
+        description: Repeats per form factor
+        default: "3"
 permissions:
   contents: write
 concurrency: lh-live
 jobs:
   lh:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
+    env:
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/free-diffusers' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/perf' }}
+      RUNS: ${{ github.event.inputs.runs || '3' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,48 +35,68 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Lighthouse mobile + desktop
+      - name: Lighthouse mobile + desktop × RUNS
         run: |
-          URL="https://maisoncroyez.com/pages/six-month-program"
-          npx -y lighthouse@12 "$URL" --quiet --output=json --output-path=lh-mobile.json --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --only-categories=performance --chrome-flags="--headless=new --no-sandbox --disable-gpu"
-          npx -y lighthouse@12 "$URL" --quiet --output=json --output-path=lh-desktop.json --preset=desktop --only-categories=performance --chrome-flags="--headless=new --no-sandbox --disable-gpu"
+          for i in $(seq 1 "$RUNS"); do
+            npx -y lighthouse@12 "$URL" --quiet --output=json --output-path=lh-mobile-$i.json --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --only-categories=performance --chrome-flags="--headless=new --no-sandbox --disable-gpu"
+            npx -y lighthouse@12 "$URL" --quiet --output=json --output-path=lh-desktop-$i.json --preset=desktop --only-categories=performance --chrome-flags="--headless=new --no-sandbox --disable-gpu"
+          done
       - name: Summarize
         run: |
           cat > sum.mjs <<'EOF2'
           import fs from 'fs';
-          const day = new Date().toISOString().slice(0, 10);
-          let md = `# Lighthouse — live kits page — ${day}\n\n`;
+          const URL = process.env.URL, OUT = process.env.OUT, RUNS = parseInt(process.env.RUNS || '3', 10);
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13) + 'Z';
+          const day = stamp.slice(0, 8);
+          const MET = ['first-contentful-paint', 'largest-contentful-paint', 'total-blocking-time', 'speed-index', 'cumulative-layout-shift', 'interactive', 'server-response-time'];
+          let md = `# Lighthouse — ${URL} — ${stamp} — ${RUNS} runs per form factor\n\n`;
+          const kb = (n) => Math.round((n || 0) / 1024);
           for (const ff of ['mobile', 'desktop']) {
-            const d = JSON.parse(fs.readFileSync(`lh-${ff}.json`, 'utf8')); const a = d.audits;
-            md += `## ${ff} — performance ${Math.round(d.categories.performance.score * 100)}\n\n`;
-            md += `| metric | value |\n|---|---|\n`;
-            for (const k of ['first-contentful-paint', 'largest-contentful-paint', 'total-blocking-time', 'speed-index', 'cumulative-layout-shift', 'interactive', 'server-response-time']) md += `| ${a[k].title} | ${a[k].displayValue} |\n`;
+            const runs = []; for (let i = 1; i <= RUNS; i++) { try { runs.push(JSON.parse(fs.readFileSync(`lh-${ff}-${i}.json`, 'utf8'))); } catch (e) {} }
+            if (!runs.length) continue;
+            md += `## ${ff} — performance ${runs.map((d) => Math.round(d.categories.performance.score * 100)).join(' / ')}\n\n`;
+            md += `| metric | ${runs.map((_, i) => 'run ' + (i + 1)).join(' | ')} |\n|---|${runs.map(() => '---').join('|')}|\n`;
+            for (const k of MET) md += `| ${runs[0].audits[k].title} | ${runs.map((d) => d.audits[k].displayValue).join(' | ')} |\n`;
+            // the median-score run drives the detail sections
+            const sorted = runs.slice().sort((x, y) => x.categories.performance.score - y.categories.performance.score); const d = sorted[Math.floor(sorted.length / 2)]; const a = d.audits;
+            md += `\nDetail below = median run (score ${Math.round(d.categories.performance.score * 100)}).\n`;
             const lcp = (((a['largest-contentful-paint-element'] || {}).details || {}).items || [])[0]; const node = lcp && lcp.items && lcp.items[0] && lcp.items[0].node;
-            if (node) md += `\nLCP element: \`${(node.snippet || '').slice(0, 160)}\`\n`;
+            if (node) md += `\nLCP element: \`${(node.snippet || '').slice(0, 200)}\`\n`;
+            const ph = (((a['largest-contentful-paint-element'] || {}).details || {}).items || [])[1];
+            if (ph && ph.items) md += `\nLCP phases: ${ph.items.map((p) => `${p.phase} ${Math.round(p.timing)} ms`).join(', ')}\n`;
             md += `\n### Third parties (by main-thread blocking)\n\n| entity | transfer KB | main-thread ms | blocking ms |\n|---|---|---|---|\n`;
             const tp = (((a['third-party-summary'] || {}).details || {}).items || []).slice().sort((x, y) => (y.blockingTime || 0) - (x.blockingTime || 0));
-            for (const it of tp.slice(0, 20)) { const e = typeof it.entity === 'object' ? it.entity.text : it.entity; md += `| ${e} | ${Math.round((it.transferSize || 0) / 1024)} | ${Math.round(it.mainThreadTime || 0)} | ${Math.round(it.blockingTime || 0)} |\n`; }
+            for (const it of tp.slice(0, 20)) { const e = typeof it.entity === 'object' ? it.entity.text : it.entity; md += `| ${e} | ${kb(it.transferSize)} | ${Math.round(it.mainThreadTime || 0)} | ${Math.round(it.blockingTime || 0)} |\n`; }
+            const reqs = (((a['network-requests'] || {}).details || {}).items || []);
+            const sizes = new Map(reqs.map((r) => [r.url, r.transferSize || 0]));
             md += `\n### Heaviest scripts (boot-up time)\n\n| script | total ms | KB |\n|---|---|---|\n`;
-            const sizes = new Map((((a['network-requests'] || {}).details || {}).items || []).map((r) => [r.url, r.transferSize || 0]));
-            for (const it of (((a['bootup-time'] || {}).details || {}).items || []).slice().sort((x, y) => y.total - x.total).slice(0, 20)) md += `| ${it.url.replace(/^https?:\/\//, '').slice(0, 110)} | ${Math.round(it.total)} | ${Math.round((sizes.get(it.url) || 0) / 1024)} |\n`;
+            for (const it of (((a['bootup-time'] || {}).details || {}).items || []).slice().sort((x, y) => y.total - x.total).slice(0, 20)) md += `| ${it.url.replace(/^https?:\/\//, '').slice(0, 110)} | ${Math.round(it.total)} | ${kb(sizes.get(it.url))} |\n`;
             md += `\n### Render-blocking\n\n`;
             for (const it of (((a['render-blocking-resources'] || {}).details || {}).items || [])) md += `- ${it.url.replace(/^https?:\/\//, '').slice(0, 120)} — ${Math.round(it.wastedMs)} ms\n`;
-            const reqs = (((a['network-requests'] || {}).details || {}).items || []);
+            md += `\n### Our files (mc-*) — transfer KB, start → end ms, priority\n\n| file | KB | start | end | prio | type |\n|---|---|---|---|---|---|\n`;
+            for (const r of reqs.filter((r) => /\/files\/mc-|hero-loop|hero-poster/.test(r.url)).sort((x, y) => x.networkRequestTime - y.networkRequestTime)) md += `| ${r.url.replace(/^https?:\/\/[^/]+\/s\/files\/1\/0020\/3636\/7469\/files\//, '').slice(0, 70)} | ${kb(r.transferSize)} | ${Math.round(r.networkRequestTime)} | ${Math.round(r.networkEndTime)} | ${r.priority || ''} | ${r.resourceType || ''} |\n`;
+            md += `\n### Largest requests (any host)\n\n| url | KB | type | start ms |\n|---|---|---|---|\n`;
+            for (const r of reqs.slice().sort((x, y) => (y.transferSize || 0) - (x.transferSize || 0)).slice(0, 25)) md += `| ${r.url.replace(/^https?:\/\//, '').slice(0, 100)} | ${kb(r.transferSize)} | ${r.resourceType || ''} | ${Math.round(r.networkRequestTime)} |\n`;
             const byHost = {}; for (const r of reqs) { try { const h = new URL(r.url).host; byHost[h] = byHost[h] || { n: 0, kb: 0 }; byHost[h].n++; byHost[h].kb += (r.transferSize || 0) / 1024; } catch (e) {} }
             md += `\n### Requests by host\n\n| host | requests | KB |\n|---|---|---|\n`;
             for (const [h, v] of Object.entries(byHost).sort((x, y) => y[1].kb - x[1].kb).slice(0, 25)) md += `| ${h} | ${v.n} | ${Math.round(v.kb)} |\n`;
-            md += `\nTotal requests: ${reqs.length}, total transfer: ${Math.round(reqs.reduce((s, r) => s + (r.transferSize || 0), 0) / 1024)} KB\n\n`;
+            md += `\nTotal requests: ${reqs.length}, total transfer: ${kb(reqs.reduce((s, r) => s + (r.transferSize || 0), 0))} KB\n`;
+            md += `\n### Opportunities / diagnostics (median run)\n\n`;
+            for (const [k, v] of Object.entries(a)) { if (v.details && v.details.type === 'opportunity' && (v.details.overallSavingsMs || 0) > 50) md += `- ${v.title}: ${Math.round(v.details.overallSavingsMs)} ms${v.details.overallSavingsBytes ? `, ${kb(v.details.overallSavingsBytes)} KB` : ''}\n`; }
+            for (const k of ['unused-javascript', 'unused-css-rules', 'legacy-javascript', 'dom-size', 'mainthread-work-breakdown', 'long-tasks', 'layout-shifts', 'uses-long-cache-ttl', 'font-display', 'prioritize-lcp-image', 'lcp-lazy-loaded', 'critical-request-chains']) { const v = a[k]; if (!v || v.score === 1 || v.score === null && !v.displayValue) continue; md += `- ${v.title}: ${v.displayValue || ''}\n`; const items = ((v.details || {}).items || []).slice(0, 8); for (const it of items) { const u = it.url || (it.node && it.node.snippet) || it.groupLabel || it.statistic || ''; const extra = [it.wastedBytes ? kb(it.wastedBytes) + ' KB wasted' : '', it.wastedMs ? Math.round(it.wastedMs) + ' ms' : '', it.duration ? Math.round(it.duration) + ' ms' : '', it.score ? 'cls ' + it.score.toFixed(3) : '', it.value !== undefined && typeof it.value !== 'object' ? it.value : ''].filter(Boolean).join(', '); if (u) md += `  - ${String(u).replace(/^https?:\/\//, '').slice(0, 120)}${extra ? ' — ' + extra : ''}\n`; } }
+            md += `\n`;
           }
-          fs.mkdirSync('lp-factory/pages/kits-lp/perf', { recursive: true });
-          fs.writeFileSync(`lp-factory/pages/kits-lp/perf/lh-${day}.md`, md);
-          fs.copyFileSync('lh-mobile.json', `lp-factory/pages/kits-lp/perf/lh-${day}-mobile.json`);
-          console.log(md.slice(0, 6000));
+          fs.mkdirSync(OUT, { recursive: true });
+          fs.writeFileSync(`${OUT}/lh-${stamp}.md`, md);
+          // keep one raw JSON (mobile run 1) so the report stays reproducible without bloating the repo
+          try { fs.copyFileSync('lh-mobile-1.json', `${OUT}/lh-${stamp}-mobile.json`); } catch (e) {}
+          console.log(md.slice(0, 12000));
           EOF2
           node sum.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"; git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/perf
-          git commit -m "perf: Lighthouse of live kits page" || exit 0
+          git add "$OUT"
+          git commit -m "perf: Lighthouse ${RUNS}x of $URL" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

@@ -137,3 +137,29 @@ Jose: open the cart drawer after the button instead of jumping to /checkout, ren
 ## kb19 (2026-08-23, SHA 1924e6f, VERIFIED LIVE r80) — copy fix
 Compliments line: "for all the excessive compliments" -> "for the excessive compliments" (artifact + bundle).
 r80 live: appKey kb19-1924e6f, line renders corrected, CTA "Add to cart" intact, 4 plans, 0 JS errors.
+
+## kb20 (2026-09-19) — free-diffuser subscription offer — BUILT, NOT DEPLOYED (live is still kb19-1924e6f)
+Owner brief: 1/2/3 scents at $49.95 each, one free $89.95 diffuser per scent, refills $39.95 per scent every 30 days,
+one-time toggle at $139.90 / $279.80 / $419.70 (diffusers charged $89.95 each). Products, Subi plan, shipping, drawer, ads
+handled separately; the page only displays.
+- NEW single source of truth: `src/make-kb20.py` → writes deploy-ready/mc-kit-app.js (27.8 KB) + appends the kb20 block to
+  mc-kit.css (55.4 KB) + optional preview HTML (images/fonts inlined) for the artifact. `src/make-kit-mock.py` is stale (pre-kb7).
+- Step 1: trust row (30-day money-back, free shipping on 2+ scents; NO star rating — no review count found in Shopify
+  metafields), H1 "Pick your scents. The diffusers are free.", subline per brief, duo columns kept, 3 tier cards (2-scent
+  pre-selected "Most popular", 3-scent "Best value" + "Priority & Protection Pass included"), each card: price, "Then $39.95
+  per scent every 30 days. Cancel anytime.", value line, shipping line (+ $9.95 / Free / Free or 4 × $37.46 Shop Pay).
+  3 columns ≥900px (panel widened to 760px), stacked on mobile. Mode toggle under the cards (Subscribe / One-time);
+  one-time swaps prices + note "Diffusers charged at $89.95 each". Banner + fake counter REMOVED (not inventory-tied).
+- Step 2: picker unchanged; pick-price "$49.95 for 100ml"; scent-value line mode-aware ($1.33/day sub, $1.66/day one-time).
+  Picks reset when the tier is lowered below the current pick count.
+- Step 3: rows at $49.95 (meta "then $39.95 every 30 days" / "one-time"), diffuser row ×N struck→FREE (one-time: charged),
+  Pass row INCLUDED on tier 3; valline; Due today + refill line; pay4 only on tier 3 ($37.46 sub / $104.93 one-time);
+  CTA "Get my free diffuser(s) ➔" (one-time: "Add to cart ➔"); How it works ×3; testimonial; guar3; 5 FAQs per brief.
+- Cart payload: sub → scents {selling_plan: PLAN} + DIFF×N (+ PASS 45511817920621 ×1 on tier 3); one-time → same without
+  selling_plan. fbq AddToCart value = due today. Preview mode (not on maisoncroyez.com) shows the payload in a toast.
+- OPEN BEFORE DEPLOY: (1) PLAN is a placeholder (2627895405 "Delivered every 30 days ✨" charges $49.95 every cycle, 0% off) —
+  needs the Subi plan that bills $49.95 first, $39.95 after (owner). (2) Diffuser zeroing: BXGY 1375641600109 is EXPIRED and
+  re-scoped; kb relied on "Subi automation" on variant 45450822778989 ($89.95, untracked) — confirm it still zeroes N units.
+  (3) Pass 45511817920621 is $4.95: needs a zeroing rule or drop it from the payload. (4) $9.95 shipping for 1 scent = shipping
+  rates (owner). (5) Shop Pay Installments must be enabled in Shopify Payments (owner). (6) Page body armor (pageUpdate) drops
+  the .banner/.left-line rules and the kb-pre hero stays; key kb19 → kb20-<sha>.

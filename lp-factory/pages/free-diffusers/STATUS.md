@@ -28,3 +28,6 @@
   .84rem; Selected pill now a flex column (no overlap with the option title); Shop Pay "4 interest-free payments" line
   shown on the plan too (owner says installments are offered; checkout decides eligibility — r229 logs whether the
   checkout mentions installments); one-time option line "$X today. No refills. No lifetime discounts." QA: r229.
+- 2026-09-19 fd6-0606ea1 — LIVE. Owner: no sub-lines under any button (62% offer line, ONE-TIME line, sticky bar,
+  guarantee CTA). Money logic unchanged. QA: r230. r228 (fd4) = 98/110, all money checks passed; misses = owner renamed the
+  product to "Maison Croyez — Home Diffuser Kit" (text checks) + hero same-box check on 3 paths (detail logged from r229).

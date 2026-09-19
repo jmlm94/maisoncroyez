@@ -1,5 +1,5 @@
 name: pixel
-# v2 (adds performance-entry capture, Shopify consent state, fbq queue). Meta pixel audit on the live /pages/free-diffusers: which events fire (PageView, ViewContent, AddToCart, InitiateCheckout),
+# v3 (hooks fetch/beacon/xhr/img, finds the injector, consent grant test). v2 (adds performance-entry capture, Shopify consent state, fbq queue). Meta pixel audit on the live /pages/free-diffusers: which events fire (PageView, ViewContent, AddToCart, InitiateCheckout),
 # with what value/content_ids, and whether AddToCart double-fires (our fbq call + Shopify's Facebook channel web pixel).
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
           for (const P of [{ id: 'phone-2S-plan', tier: 2, picks: [0, 6], one: false, w: 390 }, { id: 'desktop-2S-onetime', tier: 2, picks: [3, 5], one: true, w: 1366 }]) {
             const ctx = await b.newContext({ viewport: { width: P.w, height: 900 }, deviceScaleFactor: P.w < 500 ? 2 : 1 });
             const pg = await ctx.newPage();
+            await pg.addInitScript(() => { window.__fbHits = []; const log = (k, u) => { try { if (/facebook\.com\/tr|facebook\.net\/signals/.test(String(u))) window.__fbHits.push(k + ' ' + String(u).slice(0, 140)); } catch (e) {} }; const of = window.fetch; window.fetch = function (u, o) { log('fetch', (u && u.url) || u); return of.apply(this, arguments); }; const ob = navigator.sendBeacon && navigator.sendBeacon.bind(navigator); if (ob) navigator.sendBeacon = function (u, d) { log('beacon', u); return ob(u, d); }; const oo = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function (m, u) { log('xhr', u); return oo.apply(this, arguments); }; const d = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src'); if (d && d.set) Object.defineProperty(HTMLImageElement.prototype, 'src', { set(v) { log('img', v); return d.set.call(this, v); }, get() { return d.get.call(this); } }); });
             const ev = []; const t0 = Date.now();
             const rec = (req) => { const u = req.url(); if (!/facebook\.com\/tr/.test(u)) return; let q = {}; try { const url = new URL(u); url.searchParams.forEach((v, k) => { q[k] = v; }); } catch (e) {} const pd = req.postData(); if (pd) { try { new URLSearchParams(pd).forEach((v, k) => { q[k] = v; }); } catch (e) {} } ev.push({ t: Date.now() - t0, m: req.method(), ev: q.ev, id: q.id, eid: q.eid, value: q['cd[value]'], cur: q['cd[currency]'], ids: q['cd[content_ids]'], type: q['cd[content_type]'], name: q['cd[content_name]'], num: q['cd[num_items]'], page: (q.dl || '').replace(/^https?:\/\/[^/]+/, '').slice(0, 40) }); };
             pg.on('request', rec);
@@ -36,6 +37,10 @@ jobs:
             ev.push({ t: Date.now() - t0, perfAfterLoad: await perf() });
             const fbstate = await pg.evaluate(() => { try { const q = window.fbq && window.fbq.queue ? window.fbq.queue.map((a) => Array.from(a).slice(0, 2).map(String)) : null; const px = window.fbq && window.fbq.instance && window.fbq.instance.pixelsByID; const p = px && px['980908600592309']; return { queue: q, eventCount: p ? p.eventCount : null, userDataFormFields: p ? Object.keys(p.userData || {}).length : null, consent: (window.fbq && window.fbq.instance && window.fbq.instance.optIn) ? 'optIn fn' : 'n/a' }; } catch (e) { return String(e); } });
             ev.push({ t: Date.now() - t0, fbstate });
+            const who = await pg.evaluate(() => ({ inline: [...document.scripts].filter((x) => !x.src && /fbq|980908600592309/.test(x.textContent)).map((x) => x.textContent.replace(/\s+/g, ' ').slice(0, 400)), srcs: [...document.scripts].filter((x) => x.src && !/facebook/.test(x.src)).map((x) => x.src.replace(/^https?:\/\//, '').slice(0, 90)), hits: window.__fbHits, state: (() => { try { const st = window.fbq.getState(); return { pixels: st.pixels.map((p) => ({ id: p.id, eventCount: p.eventCount, consent: p.consent })), fbqConsent: st.consent }; } catch (e) { return String(e); } })() }));
+            ev.push({ t: Date.now() - t0, who });
+            const grantTest = await pg.evaluate(async () => { try { window.__fbHits.length = 0; fbq('track', 'PageView'); await new Promise((r) => setTimeout(r, 1500)); const before = window.__fbHits.slice(); window.__fbHits.length = 0; fbq('consent', 'grant'); fbq('track', 'PageView'); await new Promise((r) => setTimeout(r, 1500)); return { withoutGrant: before, afterGrant: window.__fbHits.slice() }; } catch (e) { return String(e); } });
+            ev.push({ t: Date.now() - t0, grantTest });
             const fbq = await pg.evaluate(() => ({ fbq: typeof window.fbq, pixels: (window.fbq && window.fbq.instance && window.fbq.instance.pixelsByID) ? Object.keys(window.fbq.instance.pixelsByID) : null, scripts: [...document.scripts].filter((s) => /fbevents|connect\.facebook/.test(s.src)).map((s) => s.src.slice(0, 80)) }));
             ev.push({ t: Date.now() - t0, fbq });
             await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(200);
@@ -45,7 +50,7 @@ jobs:
             if (P.one) { await pg.click('#buybox .plan-opts .popt:nth-child(2)'); await pg.waitForTimeout(300); }
             mark('clicking ADD TO CART');
             await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
-            await pg.waitForTimeout(7000); mark('drawer open (+7s)'); ev.push({ t: Date.now() - t0, perfAfterATC: await perf() });
+            await pg.waitForTimeout(7000); mark('drawer open (+7s)'); ev.push({ t: Date.now() - t0, perfAfterATC: await perf(), hitsAfterATC: await pg.evaluate(() => window.__fbHits.slice(-12)) });
             if (!P.one) { mark('drawer + Add'); await pg.click('#cart-drawer .mc-fa-add'); await pg.waitForTimeout(6000); }
             mark('clicking checkout');
             await pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first().click();

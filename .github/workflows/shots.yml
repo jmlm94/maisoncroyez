@@ -1,6 +1,5 @@
 name: shots
-# Phone screenshots of the live /pages/free-diffusers (fd7) + the cart drawer with the CURRENT mc-drawer.js
-# (re-injected with a fresh cache-buster, because the theme's hourly key can still serve the previous copy).
+# v2: phone screenshots of the live /pages/free-diffusers (fd7) + the cart drawer exactly as a visitor gets it (page pins the drawer build).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -35,9 +34,8 @@ jobs:
           await pg.screenshot({ path: OUT + '3-review.png' });
           await pg.evaluate(() => document.querySelector('#buybox .plan-opts').scrollIntoView({ block: 'start' })); await pg.waitForTimeout(400);
           await pg.screenshot({ path: OUT + '4-options.png' });
-          // fresh drawer script (bypass the hourly cache key)
-          await pg.evaluate(() => { const st = document.getElementById('mc-drawer-style'); st && st.remove(); window.__mcDrawer = 0; return new Promise((res) => { const s = document.createElement('script'); s.src = 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=fresh' + Date.now(); s.onload = res; s.onerror = res; document.body.appendChild(s); }); });
-          await pg.waitForTimeout(800);
+          // v2: NO injection — the page body now pins mc-drawer.js?v=dr-d8b7912 itself; this run proves that on its own
+          console.log('drawer scripts', JSON.stringify(await pg.evaluate(() => [...document.scripts].filter((x) => /mc-drawer/.test(x.src)).map((x) => x.src.split('?')[1]))));
           await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
           await pg.waitForTimeout(6000);
           await pg.screenshot({ path: OUT + '5-drawer.png' });

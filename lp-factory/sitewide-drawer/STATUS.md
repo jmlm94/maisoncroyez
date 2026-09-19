@@ -46,3 +46,13 @@ Each line now shows a "Qty N" pill and the variant title (e.g. "2 Diffusers + 3 
 product title, built from /cart.js (matched by position, then by product title). Verified r207 with a
 real ATC on the live page: Midnight ×1 $0.00, Golden Blossom ×2 $0.00, Special Kits "2 Diffusers + 3
 Scents" $119.95, total $119.95 (refill plan). Goes live sitewide at the next UTC hour flip (dr1- key).
+
+## 2026-09-19 — Free-shipping progress bar + "Frequently added together" (GenericFile 29651366445165 <- raw@dc78653, 12,515 B / 4.6 KB gz)
+Owner request. The static "FREE SHIPPING UNLOCKED" bar is now live: reads cart.js total_price against FREE_AT=75 —
+below: amber "🚚 You're $X away from FREE shipping" + progress + "Add N more scent(s) and shipping is on us."; at/above:
+green "✓ FREE SHIPPING UNLOCKED — SHIPS IN 24H 🕝" (class mc-done). New .mc-fa block after the line items: the scents not
+yet in the cart (7 variants, product featured images &width=200, lazy) with "+ Add · $49.95" -> POST /cart/add.js one-time,
+cart:refresh, row + bar update in place. Testimonial moved below the row. Verified against a stubbed drawer + cart API
+(scratchpad pw/drawer-live.mjs): $49.95 cart -> "$25.05 away", 6 cards; add -> UNLOCKED, 5 cards; $99.90 cart -> UNLOCKED.
+Theme loader key is dr1-<UTC hour>, so browsers pick the new file up within the hour; live QA = drawer-recon r231 (>= 23:00 UTC).
+Note for the LP pages: the cart-drawer add is one-time (a plan add would be $0 today and would not move the bar).

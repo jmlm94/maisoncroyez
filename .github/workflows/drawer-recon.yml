@@ -1,6 +1,7 @@
 name: drawer-recon
-# run 230 — /pages/free-diffusers fd6: owner — no sub-lines under any button (62% offer line, ONE-TIME line, sticky, guarantee CTA).
-#           fd5 adjustments + fd4 money logic unchanged. Same 5 paths.
+# run 231 — sitewide drawer update (mc-drawer.js): live free-shipping bar ($75) + 'Frequently added together' scent row.
+#           Page stays fd6. 1S path now taps '+ Add' in the drawer: expects bar to flip to UNLOCKED and checkout $99.90. Same 5 paths.
+#           Also fixes the step-3 check regex (the Shop Pay line has a line break before the amount).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,10 +21,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r230
-          cat > r230.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r231
+          cat > r231.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r230/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r231/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -32,7 +33,7 @@ jobs:
             { id: '2S-phone-plan', tier: 2, picks: [0, 6], total: 99.90, save: 160, oneTotal: 189.95, oneKit: '90.05', desktop: false },
             { id: '3S-desktop-plan', tier: 3, picks: [1, 2, 4], total: 149.85, save: 240, oneTotal: 289.95, oneKit: '140.10', desktop: true },
             { id: '2S-desktop-onetime', tier: 2, picks: [3, 5], total: 189.95, planTotal: 99.90, save: 160, oneTotal: 189.95, oneKit: '90.05', oneSave: 70, desktop: true, one: true },
-            { id: '1S-phone-plan', tier: 1, picks: [2], total: 49.95, save: 80, oneTotal: 129.95, oneKit: '80', desktop: false },
+            { id: '1S-phone-plan', tier: 1, picks: [2], total: 99.90, drawerTotal: 49.95, addOne: true, save: 80, oneTotal: 129.95, oneKit: '80', desktop: false },
             { id: '3S-phone-onetime', tier: 3, picks: [0, 4, 6], total: 289.95, planTotal: 149.85, save: 240, oneTotal: 289.95, oneKit: '140.10', oneSave: 100, desktop: false, one: true },
           ];
           for (const P of PATHS) {
@@ -66,7 +67,7 @@ jobs:
               const rev = await pg.evaluate(() => ({ rows: [...document.querySelectorAll('#buybox .kr-row .kr-pr')].map((e) => e.innerText.replace(/\s+/g, ' ').trim()), struck: !!document.querySelector('#buybox .kr-row .kr-pr s'), total: (document.querySelector('#buybox .kr-total') || {}).innerText || '', save: (document.querySelector('#buybox .kr-save') || {}).innerText || '', strip: (document.querySelector('#buybox .scarcity-strip') || {}).innerText || '', sirens: document.querySelectorAll('#buybox .scarcity-strip .siren').length, opts: [...document.querySelectorAll('#buybox .plan-opts .popt')].map((e) => ({ on: e.classList.contains('on'), chk: e.getAttribute('aria-checked'), t: e.innerText.replace(/\s+/g, ' ') })), fact: (document.querySelector('#buybox .plan-fact') || {}).innerText || '', old: document.querySelectorAll('#buybox .decline, #buybox .modes, #buybox .mode, #buybox .plan-card, #buybox .onetime, #buybox .gift-obj').length, btn: document.querySelector('#buybox .btn.atc').innerText.replace(/\s+/g, ' ') }));
               ok(`${P.id} review: ${n} scents $49.95, diffusers struck FREE, total $${planTotal}, saving $${P.save}`, rev.rows.filter((r) => r === '$49.95').length === n && rev.struck && new RegExp(`^\\$${$(n * 79.95)} ?FREE$`).test(rev.rows[rev.rows.length - 1]) && new RegExp(`You only pay: ?\\$${$(planTotal)}`).test(rev.total.replace(/\s+/g, ' ')) && new RegExp(`saving \\$${P.save} today!`).test(rev.save), JSON.stringify(rev).slice(0, 300));
               ok(`${P.id} red strip 🚨 LAST 100 🚨, two plain options (sub selected), fact line, no old widgets`, /LAST 100 DIFFUSERS AVAILABLE/.test(rev.strip) && rev.sirens === 2 && rev.opts.length === 2 && rev.opts[0].on && rev.opts[0].chk === 'true' && !rev.opts[1].on && rev.opts[1].chk === 'false' && /Auto-refill every 30 days \+ 20% OFF lifetime/.test(rev.opts[0].t) && new RegExp(`\\$${$(planTotal)} today, then \\$39\\.95/scent, every 30 days\\.`).test(rev.opts[0].t) && /Pause, swap and cancel anytime\./.test(rev.opts[0].t) && /✓ Selected/i.test(rev.opts[0].t) && /One-Time Payment/.test(rev.opts[1].t) && new RegExp(`\\$${$(P.oneTotal)} today\\. No refills\\. No lifetime discounts\\.`).test(rev.opts[1].t) && !/Selected/i.test(rev.opts[1].t) && /Fact: 86% of customers have stayed with us for 6\+ months/.test(rev.fact) && /or your money back\. Try us out\./.test(rev.fact) && rev.old === 0, JSON.stringify(rev.opts) + ' ' + rev.fact);
-              ok(`${P.id} step-3 title + strip -20% + Selected pill clear of the title + Shop Pay line shown on plan`, /Congratulations, your free diffusers have been reserved\./.test(await T('#buybox .step-title')) && (await pg.evaluate(() => { const st = getComputedStyle(document.querySelector('#buybox .scarcity-strip')); const pillEl = document.querySelector('#buybox .popt.on .plan-incl'); const pill = pillEl.getBoundingClientRect(); const ttl = document.querySelector('#buybox .popt.on .popt-tx > b').getBoundingClientRect(); const pay = document.querySelector('#buybox .atc-pay'); const r = { strip: parseFloat(st.fontSize), pillPos: getComputedStyle(pillEl).position, pill: [Math.round(pill.left), Math.round(pill.top), Math.round(pill.right), Math.round(pill.bottom)], ttl: [Math.round(ttl.left), Math.round(ttl.top), Math.round(ttl.right), Math.round(ttl.bottom)], overlap: (ttl.right > pill.left && ttl.top < pill.bottom && ttl.bottom > pill.top), pay: pay ? pay.innerText.replace(/\s+/g, ' ') : null }; window.__s3 = r; return Math.abs(r.strip - 13.44) < 0.2 && !r.overlap && !!pay && /4 interest-free payments of \$/.test(pay.innerText); })), (await T('#buybox .step-title')) + ' | ' + (await pg.evaluate(() => JSON.stringify(window.__s3))));
+              ok(`${P.id} step-3 title + strip -20% + Selected pill clear of the title + Shop Pay line shown on plan`, /Congratulations, your free diffusers have been reserved\./.test(await T('#buybox .step-title')) && (await pg.evaluate(() => { const st = getComputedStyle(document.querySelector('#buybox .scarcity-strip')); const pillEl = document.querySelector('#buybox .popt.on .plan-incl'); const pill = pillEl.getBoundingClientRect(); const ttl = document.querySelector('#buybox .popt.on .popt-tx > b').getBoundingClientRect(); const pay = document.querySelector('#buybox .atc-pay'); const r = { strip: parseFloat(st.fontSize), pillPos: getComputedStyle(pillEl).position, pill: [Math.round(pill.left), Math.round(pill.top), Math.round(pill.right), Math.round(pill.bottom)], ttl: [Math.round(ttl.left), Math.round(ttl.top), Math.round(ttl.right), Math.round(ttl.bottom)], overlap: (ttl.right > pill.left && ttl.top < pill.bottom && ttl.bottom > pill.top), pay: pay ? pay.innerText.replace(/\s+/g, ' ') : null }; window.__s3 = r; return Math.abs(r.strip - 13.44) < 0.2 && !r.overlap && !!pay && /4 interest-free payments of\s*\$/.test(pay.innerText); })), (await T('#buybox .step-title')) + ' | ' + (await pg.evaluate(() => JSON.stringify(window.__s3))));
               ok(`${P.id} ATC button (plan) $${planTotal}, no sub-line`, new RegExp(`ADD TO CART — \\$${$(planTotal)}`).test(rev.btn) && !/62% OFF|OFFER APPLIED/.test(rev.btn) && !(await pg.$('#root .btn-sub')), rev.btn);
               ok(`${P.id} step 3: ONE add-to-cart button, no stale step-2 nodes (fd2 fix)`, (await pg.$$eval('#buybox .btn.atc', (a) => a.length)) === 1 && !(await pg.$('#buybox .buybox > .pick-count')) && !(await pg.$('#buybox .buybox > .navrow:not(.back-only)')) && !(await pg.$('#buybox .buybox > .picker')), await pg.$$eval('#buybox .buybox > *', (a) => a.map((e) => e.tagName.toLowerCase() + '.' + String(e.className).replace(/\s+/g, '.')).join(' ')));
               ok(`${P.id} hero: poster <img> under the adopted video in the gallery slide, same box (LCP fix)`, await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); if (!i || !v) return false; const a = i.getBoundingClientRect(), b = v.getBoundingClientRect(); return !document.getElementById('mc-hero-v') && a.width > 200 && Math.abs(a.width - b.width) < 2 && Math.abs(a.height - b.height) < 2 && Math.abs(a.top - b.top) < 2 && [...s.children].indexOf(i) < [...s.children].indexOf(v.parentElement); }), await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); const r = (e) => { if (!e) return null; const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; }; return JSON.stringify({ pre: !!document.getElementById('mc-hero-v'), img: r(i), vid: r(v), kids: s ? [...s.children].map((e) => e.className).join(',') : null, paused: v && v.paused, rs: v && v.readyState }); }));
@@ -86,8 +87,18 @@ jobs:
               const fdKit = dr && dr.lines.find((l) => /(Free|Home) Diffuser Kit/.test(l.t));
               const skKit = dr && dr.lines.find((l) => /Special Kits/.test(l.t));
               const toast = await pg.evaluate(() => ((document.querySelector('#buybox .toast, #buybox [class*=toast]') || {}).innerText || ''));
-              if (P.one) ok(`${P.id} drawer one-time: Free Diffuser Kit "${n} Diffuser(s) + ${n} Scent(s) (One-Time)" $${P.oneKit} + ${n} scents at $49.95, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + P.total.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
-              else ok(`${P.id} drawer plan: Free Diffuser Kit "${n} FREE Diffuser(s) + ${n} Scent(s)" + ${n} scents at $0, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$0\.00/.test(l.price)) && dr.total.includes('$' + P.total.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
+              const dT = P.drawerTotal || P.total;
+              const ship = await pg.evaluate(() => { const b = document.querySelector('#cart-drawer .mc-shipbar'); return b ? { t: b.innerText.replace(/\s+/g, ' '), done: b.classList.contains('mc-done'), w: b.querySelector('.mc-bar i') ? b.querySelector('.mc-bar i').style.width : '' } : null; });
+              const faN = await pg.$$eval('#cart-drawer .mc-fa-c', (a) => a.length);
+              ok(`${P.id} drawer: free-shipping bar ${dT < 75 ? 'shows $' + (75 - dT).toFixed(2) + ' away' : 'UNLOCKED'} + ${7 - n} scent cards`, ship && (dT < 75 ? !ship.done && ship.t.includes('$' + (75 - dT).toFixed(2) + ' away') && /Add one more scent/.test(ship.t) : ship.done && /FREE SHIPPING UNLOCKED/.test(ship.t) && ship.w === '100%') && faN === 7 - n, JSON.stringify(ship) + ' cards=' + faN);
+              if (P.one) ok(`${P.id} drawer one-time: Free Diffuser Kit "${n} Diffuser(s) + ${n} Scent(s) (One-Time)" $${P.oneKit} + ${n} scents at $49.95, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
+              else ok(`${P.id} drawer plan: Free Diffuser Kit "${n} FREE Diffuser(s) + ${n} Scent(s)" + ${n} scents at $0, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
+              if (P.addOne) {
+                const firstName = await T('#cart-drawer .mc-fa-c .mc-fa-n');
+                await pg.click('#cart-drawer .mc-fa-add'); await pg.waitForTimeout(5000);
+                const after = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); const b = d.querySelector('.mc-shipbar'); return { bar: b ? b.innerText.replace(/\s+/g, ' ') : '', done: !!(b && b.classList.contains('mc-done')), cards: d.querySelectorAll('.mc-fa-c').length, lines: d.querySelectorAll('.line-item').length, total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0], prices: [...d.querySelectorAll('.line-item')].map((li) => (li.innerText.match(/\$[\d.,]+/g) || []).join(' ')) }; });
+                ok(`${P.id} drawer '+ Add' (${firstName}): one-time scent added at $49.95, bar flips to UNLOCKED, 5 cards left, total $99.90`, after.done && /FREE SHIPPING UNLOCKED/.test(after.bar) && after.cards === 5 && after.lines === 3 && after.prices.some((p) => p === '$49.95') && after.total.includes('$99.90'), JSON.stringify(after).slice(0, 300));
+              }
               await pg.screenshot({ path: OUT + `${P.id}-drawer.png` });
               await pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first().click();
               await pg.waitForURL(/checkouts\//, { timeout: 60000 }); await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000);
@@ -114,12 +125,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r230.mjs
+          node r231.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r230
-          git commit -m "r230: funnel QA on /pages/free-diffusers fd6 (no button sub-lines)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r231
+          git commit -m "r231: funnel QA fd6 + sitewide drawer (free-shipping bar, frequently-added row)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

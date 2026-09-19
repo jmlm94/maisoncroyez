@@ -1,6 +1,7 @@
 name: drawer-recon
-# run 223 — owner request: FULL FUNNEL QA on live v3s27, all 5 paths: 2D plan, 2D one-time, 3D plan, 3D one-time, 1D. page → kit → scents → review → add to cart → drawer → checkout.
-#           2D phone, 3D desktop, 2D desktop, 1D phone. Real carts, real checkout page, no order placed.
+# run 224 — NEW PAGE /pages/free-diffusers (fd1): full funnel QA, 5 paths: 2S plan (phone), 3S plan (desktop),
+#           2S one-time (desktop), 1S plan (phone), 3S one-time (phone). page → kit → scents → review → add to cart → drawer → checkout.
+#           Real carts, real checkout page, no order placed.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,21 +21,23 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/kits-lp/recon/r223
-          cat > r223.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r224
+          cat > r224.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/kits-lp/recon/r223/';
-          const URL = 'https://maisoncroyez.com/pages/six-month-program';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r224/';
+          const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
-          const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 240) });
+          const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
+          const $ = (n) => String(n.toFixed(2)).replace('.', '\\.');
           const PATHS = [
-            { id: '2D-phone-plan', tier: 2, picks: [0, 6], total: 89.95, scents: 2, desktop: false },
-            { id: '2D-desktop-onetime', tier: 2, picks: [3, 5], total: 189.85, planTotal: 89.95, scents: 2, desktop: true, one: true },
-            { id: '3D-desktop-plan', tier: 3, picks: [1, 2, 4], total: 129.95, scents: 3, desktop: true },
-            { id: '3D-phone-onetime', tier: 3, picks: [0, 4, 6], total: 279.80, planTotal: 129.95, scents: 3, desktop: false, one: true },
-            { id: '1D-phone', tier: 1, picks: [], total: 79.95, scents: 0, desktop: false },
+            { id: '2S-phone-plan', tier: 2, picks: [0, 6], total: 99.90, save: 160, desktop: false },
+            { id: '3S-desktop-plan', tier: 3, picks: [1, 2, 4], total: 149.85, save: 240, desktop: true },
+            { id: '2S-desktop-onetime', tier: 2, picks: [3, 5], total: 259.80, planTotal: 99.90, save: 160, desktop: true, one: true },
+            { id: '1S-phone-plan', tier: 1, picks: [2], total: 49.95, save: 80, desktop: false },
+            { id: '3S-phone-onetime', tier: 3, picks: [0, 4, 6], total: 389.70, planTotal: 149.85, save: 240, desktop: false, one: true },
           ];
           for (const P of PATHS) {
+            const n = P.tier, planTotal = P.planTotal || P.total;
             const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
             const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: P.desktop ? 1 : 2 }); const pg = await ctx.newPage();
             const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
@@ -44,45 +47,45 @@ jobs:
               const t0 = Date.now();
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2000);
-              const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-v3-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
-              ok(`${P.id} page version v3s27, buy box in ${tBuy}ms`, /v3s27/.test(key), key);
+              const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
+              ok(`${P.id} page version fd1, buy box in ${tBuy}ms`, /^fd1-/.test(key), key);
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-              ok(`${P.id} kits + prices`, /79\.95/.test(await T('#buybox .tier:nth-child(1)')) && /89\.95/.test(await T('#buybox .tier:nth-child(2)')) && /129\.95/.test(await T('#buybox .tier:nth-child(3)')));
-              await pg.click(`#buybox .tier:nth-child(${P.tier})`); await pg.waitForTimeout(300);
-              if (P.tier === 1) {
-                ok(`${P.id} step-1 button = add to cart $79.95`, /ADD TO CART — \$79\.95/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
-                await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click();
-              } else {
-                ok(`${P.id} step-1 button = pick scents + offer line`, /PICK YOUR FREE SCENTS/i.test(await T('#buybox .step-next')) && /4[46]% OFF/.test(await T('#buybox .step-next')));
-                await pg.click('#buybox .step-next'); await pg.waitForTimeout(500);
-                ok(`${P.id} step 2 asks ${P.scents}, long-form hidden, NO gift note`, new RegExp(`Pick your ${P.scents} included`).test(await T('#buybox .step-title')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1 && !(await pg.$('#buybox .gift-obj')) && !/mystery gift/i.test(await T('#buybox')));
-                const btnBefore = await T('#buybox .navrow .btn.atc');
-                const c = pg.locator('#buybox .pick.compact');
-                for (const k of P.picks) { if ((await c.nth(k).locator('.pick-qty b').innerText()) !== '0') await c.nth(k).locator('.pick-qty button:last-child').click(); else await c.nth(k).click(); await pg.waitForTimeout(150); }
-                ok(`${P.id} ${P.scents}/${P.scents} chosen, button unlocks`, new RegExp(`${P.scents}/${P.scents}`).test(await T('#buybox .pick-count')) && /PICK/i.test(btnBefore) && /REVIEW MY KIT/i.test(await T('#buybox .navrow .btn.atc')), await T('#buybox .pick-count'));
-                ok(`${P.id} no overflow s2`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-                await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
-                ok(`${P.id} review total + saving`, new RegExp(`You only pay: \\$${String(P.planTotal || P.total).replace('.', '\\.')}`).test(await T('#buybox .kr-total')) && /saving \$(170|260) today!/.test(await T('#buybox .kr-save')), (await T('#buybox .kr-total')) + ' | ' + (await T('#buybox .kr-save')));
-                const plan = await pg.evaluate(() => ({ old: document.querySelectorAll('#buybox .decline, #buybox .modes, #buybox .mode, #buybox .plan-perks, #buybox .gift-obj').length, card: !!document.querySelector('#buybox .plan-card.plan-v1'), checked: (document.querySelector('#buybox .plan-card.plan-v1') || {}).getAttribute ? document.querySelector('#buybox .plan-card.plan-v1').getAttribute('aria-checked') : null, label: (document.querySelector('#buybox .plan-opt-l') || {}).innerText || '', q: (document.querySelector('#buybox .plan-q') || {}).innerText || '', why: [...document.querySelectorAll('#buybox .plan-why')].map((e) => e.innerText).join(' | '), one: (document.querySelector('#buybox .onetime') || {}).innerText || '', oneOn: !!document.querySelector('#buybox .onetime.on') }));
-                const document_hasBox = await pg.evaluate(() => { const e = document.querySelector('#buybox .onetime'); if (!e) return true; const cs = getComputedStyle(e); return cs.borderStyle !== 'none' && parseFloat(cs.borderWidth) > 0; });
-                const oneTotal = (P.one ? P.total : (P.planTotal || P.total) + P.scents * 49.95).toFixed(2);
-                ok(`${P.id} plan card: selectable, owner copy, one-time row $${oneTotal}`, plan.old === 0 && plan.card && plan.checked === 'true' && /Scents auto-refill every 30 days/.test(plan.label) && new RegExp(`This is how we fit \\$(260|390) of value into \\$${String(P.planTotal || P.total).replace('.', '\\.')}:`).test(plan.q) && /86% stay after 6\+ months/.test(plan.why) && /\$1\.33 a day per room\. Candles run about \$6\.85 a day/.test(plan.why) && new RegExp(`Every 30 days, ${P.scents} fresh scents`).test(plan.why) && /Pause, swap and cancel anytime/.test(plan.why) && /we pay for the return, you.re free/.test(plan.why) && /Don.t want refills\?/.test(plan.one) && plan.one.includes('$' + oneTotal) && !/Nothing recurring|diffusers \+/.test(plan.one) && !plan.oneOn && !document_hasBox, JSON.stringify(plan).slice(0, 400));
-                if (P.one) {
-                  await pg.click('#buybox .onetime'); await pg.waitForTimeout(400);
-                  const after = await pg.evaluate(() => ({ oneOn: !!document.querySelector('#buybox .onetime.on'), planChecked: document.querySelector('#buybox .plan-card.plan-v1').getAttribute('aria-checked'), total: document.querySelector('#buybox .kr-total').innerText, rows: [...document.querySelectorAll('#buybox .kr-row .kr-pr')].map((e) => e.innerText.replace(/\s+/g, ' ').trim()), save: (document.querySelector('#buybox .kr-save') || {}).innerText || '', btn: document.querySelector('#buybox .btn.atc').innerText.replace(/\s+/g, ' '), oneTxt: document.querySelector('#buybox .onetime').innerText.replace(/\s+/g, ' ') }));
-                  ok(`${P.id} one-time selected: total $${P.total}, scents at $49.95, button + one-time line`, /One-time purchase selected/.test(after.oneTxt) && /Back to the refill plan/.test(after.oneTxt) && after.oneOn && after.planChecked === 'false' && after.total.includes('$' + P.total) && after.rows.filter((r) => r === '$49.95').length === P.scents && new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(after.btn) && /ONE-TIME PAYMENT/.test(after.btn) && /saving \$(70|110)/.test(after.save), JSON.stringify(after).slice(0, 300));
-                }
-                ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
-                ok(`${P.id} ATC button + offer line`, new RegExp(`ADD TO CART — \\$${String(P.total).replace('.', '\\.')}`).test(await T('#buybox .btn.atc')) && (P.one ? /ONE-TIME PAYMENT/ : /4[46]% OFF/).test(await T('#buybox .btn.atc')));
-                ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-                await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
+              ok(`${P.id} black promo strip + deal box (3 rows)`, /THE FIRST 1,000 FREE DIFFUSERS ARE ON US, ONLY A FEW LEFT!/.test(await T('#root .promo-strip')) && (await pg.$$eval('#buybox .dealbox .deal-row', (a) => a.length)) === 3 && /1 scent = 1 FREE diffuser/.test(await T('#buybox .dealbox')) && /20% OFF, for life/.test(await T('#buybox .dealbox')) && /We.ll pay the return \+ full refund/.test(await T('#buybox .dealbox')), await T('#buybox .dealbox'));
+              ok(`${P.id} step-1 title`, /How many free diffusers would you like to receive\?/.test(await T('#buybox .step-title')), await T('#buybox .step-title'));
+              const cards = await pg.$$eval('#buybox .tier', (a) => a.map((e) => ({ t: e.innerText.replace(/\s+/g, ' '), name: (e.querySelector('.tier-name') || {}).innerText || '', req: (e.querySelector('.tier-req') || {}).innerText || '', claim: (e.querySelector('.tier-claim') || {}).innerText || '', ship: (e.querySelector('.tier-ship') || {}).innerText || '', shipFree: !!e.querySelector('.tier-ship.free'), on: e.classList.contains('on'), reqUpper: getComputedStyle(e.querySelector('.tier-req')).textTransform })));
+              ok(`${P.id} 3 kit cards: names, (REQUIRES N SCENT) caps, claim bold, ship pills, NO prices, 2-kit default`, cards.length === 3 && cards[0].name.startsWith('1 FREE Diffuser') && cards[1].name.startsWith('2 FREE Diffusers') && cards[2].name.startsWith('3 FREE Diffusers') && cards.every((c, i) => new RegExp(`\\(requires ${i + 1} scent`, 'i').test(c.req) && c.reqUpper === 'uppercase' && new RegExp(`You.re claiming \\$${$((i + 1) * 79.95)} of diffusers, free\\.`).test(c.claim) && !/\$(49\.95|99\.90|149\.85)/.test(c.t)) && /\$9\.95 FLAT FEE — FREE ON \$75\+ ORDERS/.test(cards[0].ship) && !cards[0].shipFree && cards[1].shipFree && cards[2].shipFree && /ELIGIBLE FOR FREE SHIPPING/.test(cards[1].ship) && /ELIGIBLE FOR FREE SHIPPING/.test(cards[2].ship) && /Restroom, Studio, Storage/.test(cards[0].t) && /Living Room \+ Bedroom/.test(cards[1].t) && /Living Room, Bedroom, Kitchen/.test(cards[2].t) && /MOST POPULAR/.test(cards[1].t) && /BEST VALUE/.test(cards[2].t) && cards[1].on && !cards[0].on && !cards[2].on, JSON.stringify(cards).slice(0, 500));
+              await pg.click(`#buybox .tier:nth-child(${n})`); await pg.waitForTimeout(300);
+              ok(`${P.id} step-1 button = pick your scents + 62% offer line`, /Pick your scents/i.test(await T('#buybox .step-next')) && /62% OFF \+ FREE DIFFUSERS OFFER APPLIED!/.test(await T('#buybox .step-next')), await T('#buybox .step-next'));
+              await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click(); await pg.waitForTimeout(500);
+              ok(`${P.id} step 2 title asks ${n}, pick-free line, long-form hidden, NO gift note`, new RegExp(`Pick your ${n} scent${n > 1 ? 's' : ''}:`).test(await T('#buybox .step-title')) && /\$49\.95 \+ FREE diffuser/.test(await T('#buybox .pick-free')) && (await pg.$$eval('[id^=sec-]', (a) => a.length)) === 1 && !(await pg.$('#buybox .gift-obj')) && !/mystery gift/i.test(await T('#buybox')), await T('#buybox .step-title'));
+              const btnBefore = await T('#buybox .navrow .btn.atc');
+              const c = pg.locator('#buybox .pick.compact');
+              for (const k of P.picks) { if ((await c.nth(k).locator('.pick-qty b').innerText()) !== '0') await c.nth(k).locator('.pick-qty button:last-child').click(); else await c.nth(k).click(); await pg.waitForTimeout(150); }
+              ok(`${P.id} ${n}/${n} chosen, button unlocks`, new RegExp(`${n}/${n} scent`).test(await T('#buybox .pick-count')) && /PICK/i.test(btnBefore) && /REVIEW MY KIT/i.test(await T('#buybox .navrow .btn.atc')), await T('#buybox .pick-count'));
+              ok(`${P.id} no overflow s2`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+              await pg.click('#buybox .navrow .btn.atc'); await pg.waitForTimeout(600);
+              const rev = await pg.evaluate(() => ({ rows: [...document.querySelectorAll('#buybox .kr-row .kr-pr')].map((e) => e.innerText.replace(/\s+/g, ' ').trim()), struck: !!document.querySelector('#buybox .kr-row .kr-pr s'), total: (document.querySelector('#buybox .kr-total') || {}).innerText || '', save: (document.querySelector('#buybox .kr-save') || {}).innerText || '', strip: (document.querySelector('#buybox .scarcity-strip') || {}).innerText || '', sirens: document.querySelectorAll('#buybox .scarcity-strip .siren').length, opts: [...document.querySelectorAll('#buybox .plan-opts .popt')].map((e) => ({ on: e.classList.contains('on'), chk: e.getAttribute('aria-checked'), t: e.innerText.replace(/\s+/g, ' ') })), fact: (document.querySelector('#buybox .plan-fact') || {}).innerText || '', old: document.querySelectorAll('#buybox .decline, #buybox .modes, #buybox .mode, #buybox .plan-card, #buybox .onetime, #buybox .gift-obj').length, btn: document.querySelector('#buybox .btn.atc').innerText.replace(/\s+/g, ' ') }));
+              ok(`${P.id} review: ${n} scents $49.95, diffusers struck FREE, total $${planTotal}, saving $${P.save}`, rev.rows.filter((r) => r === '$49.95').length === n && rev.struck && new RegExp(`^\\$${$(n * 79.95)} ?FREE$`).test(rev.rows[rev.rows.length - 1]) && new RegExp(`You only pay: ?\\$${$(planTotal)}`).test(rev.total.replace(/\s+/g, ' ')) && new RegExp(`saving \\$${P.save} today!`).test(rev.save), JSON.stringify(rev).slice(0, 300));
+              ok(`${P.id} red strip 🚨 LAST 100 🚨, two plain options (sub selected), fact line, no old widgets`, /LAST 100 DIFFUSERS AVAILABLE/.test(rev.strip) && rev.sirens === 2 && rev.opts.length === 2 && rev.opts[0].on && rev.opts[0].chk === 'true' && !rev.opts[1].on && rev.opts[1].chk === 'false' && /Auto-refill every 30 days \+ 20% OFF lifetime/.test(rev.opts[0].t) && new RegExp(`\\$${$(planTotal)} today, then \\$39\\.95/scent, every 30 days\\.`).test(rev.opts[0].t) && /Pause, swap and cancel anytime\./.test(rev.opts[0].t) && /✓ Selected/.test(rev.opts[0].t) && /One-Time Payment/.test(rev.opts[1].t) && new RegExp(`\\$${$(planTotal + n * 79.95)} today\\. Diffusers charged \\$79\\.95 each\\. No refills\\.`).test(rev.opts[1].t) && !/Selected/.test(rev.opts[1].t) && /Fact: 86% of customers have stayed with us for 6\+ months/.test(rev.fact) && /or your money back\. Try us out\./.test(rev.fact) && rev.old === 0, JSON.stringify(rev.opts) + ' ' + rev.fact);
+              ok(`${P.id} ATC button (plan) $${planTotal} + 62% line`, new RegExp(`ADD TO CART — \\$${$(planTotal)}`).test(rev.btn) && /62% OFF \+ FREE DIFFUSERS OFFER APPLIED!/.test(rev.btn), rev.btn);
+              if (P.one) {
+                await pg.click('#buybox .plan-opts .popt:nth-child(2)'); await pg.waitForTimeout(400);
+                const after = await pg.evaluate(() => ({ opts: [...document.querySelectorAll('#buybox .plan-opts .popt')].map((e) => ({ on: e.classList.contains('on'), chk: e.getAttribute('aria-checked'), sel: /Selected/.test(e.innerText) })), rows: [...document.querySelectorAll('#buybox .kr-row .kr-pr')].map((e) => e.innerText.replace(/\s+/g, ' ').trim()), struck: !!document.querySelector('#buybox .kr-row .kr-pr s'), total: document.querySelector('#buybox .kr-total').innerText.replace(/\s+/g, ' '), save: !!document.querySelector('#buybox .kr-save'), btn: document.querySelector('#buybox .btn.atc').innerText.replace(/\s+/g, ' ') }));
+                ok(`${P.id} one-time selected: total $${P.total}, scents $49.95, diffusers charged $${(n * 79.95).toFixed(2)}, no saving line, ONE-TIME button`, after.opts[1].on && after.opts[1].chk === 'true' && after.opts[1].sel && !after.opts[0].on && !after.opts[0].sel && after.rows.filter((r) => r === '$49.95').length === n && !after.struck && after.rows[after.rows.length - 1] === '$' + (n * 79.95).toFixed(2) && after.total.includes('$' + P.total.toFixed(2)) && !after.save && new RegExp(`ADD TO CART — \\$${$(P.total)}`).test(after.btn) && /ONE-TIME PAYMENT · NO REFILLS · FREE SHIPPING/.test(after.btn), JSON.stringify(after).slice(0, 300));
               }
+              ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
+              ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+              await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
               await pg.waitForTimeout(5000);
               const dr = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; return { lines: [...d.querySelectorAll('.line-item')].map((li) => ({ t: ((li.querySelector('a.bold') || {}).textContent || '').trim().slice(0, 40), q: ((li.querySelector('.mc-qty') || {}).innerText || ''), v: ((li.querySelector('.mc-var') || {}).innerText || ''), price: (li.innerText.match(/\$[\d.,]+/g) || []).join(' ') })), total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0] }; });
-              const scentQty = dr ? dr.lines.filter((l) => !/Special Kits/.test(l.t)).reduce((s, l) => s + (parseInt((l.q.match(/×(\d+)/) || [])[1] || '0', 10)), 0) : -1;
-              const kit = dr && dr.lines.find((l) => /Special Kits/.test(l.t));
+              const isKit = (l) => /Free Diffuser Kit|Special Kits/.test(l.t);
+              const scentLines = dr ? dr.lines.filter((l) => !isKit(l)) : [];
+              const scentQty = dr ? scentLines.reduce((s, l) => s + (parseInt((l.q.match(/×(\d+)/) || [])[1] || '0', 10)), 0) : -1;
+              const fdKit = dr && dr.lines.find((l) => /Free Diffuser Kit/.test(l.t));
+              const skKit = dr && dr.lines.find((l) => /Special Kits/.test(l.t));
               const toast = await pg.evaluate(() => ((document.querySelector('#buybox .toast, #buybox [class*=toast]') || {}).innerText || ''));
-              ok(`${P.id} drawer: kit variant + ${P.scents} scents at ${P.one ? '$49.95' : '$0'}, ×N pills, total $${P.total}`, kit && scentQty === P.scents && dr.lines.filter((l) => !/Special Kits/.test(l.t)).every((l) => (P.one ? /\$49\.95/ : /\$0\.00/).test(l.price) && (P.one ? !/\$0\.00/.test(l.price) : true)) && dr.total.includes('$' + P.total) && (P.tier === 1 ? /1 Diffuser/.test(kit.v) : new RegExp(`${P.tier} Diffusers \\+ ${P.scents} Scents`).test(kit.v)), JSON.stringify(dr).slice(0, 300) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
+              if (P.one) ok(`${P.id} drawer one-time: ${n} scents at $49.95 + "1 Diffuser" ×${n} @ $79.95, NO kit line, total $${P.total}`, !fdKit && skKit && /1 Diffuser/.test(skKit.v) && new RegExp(`×${n}`).test(skKit.q) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + P.total.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
+              else ok(`${P.id} drawer plan: Free Diffuser Kit "${n} FREE Diffuser(s) + ${n} Scent(s)" + ${n} scents at $0, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$0\.00/.test(l.price)) && dr.total.includes('$' + P.total.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
               await pg.screenshot({ path: OUT + `${P.id}-drawer.png` });
               await pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first().click();
               await pg.waitForURL(/checkouts\//, { timeout: 60000 }); await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000);
@@ -92,14 +95,13 @@ jobs:
               const money = (label) => { const m = txt.match(new RegExp(label + '\\s*(?:USD)?\\s*\\$([\\d,]+\\.\\d\\d)', 'i')); return m ? parseFloat(m[1].replace(',', '')) : null; };
               const total = money('Total'), subtotal = money('Subtotal(?: · \\d+ items?)?');
               ok(`${P.id} checkout total $${P.total}`, total === P.total, `total=${total} subtotal=${subtotal}`);
-              if (P.scents && P.one) {
-                ok(`${P.id} checkout: one-time, no plan, no discount`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && !/Founder/i.test(txt) && total === subtotal && total === P.total, `plan mentions=${(txt.match(/Every 30 days/g) || []).length} total=${total} subtotal=${subtotal}`);
-                ok(`${P.id} checkout kit line`, new RegExp(`${P.tier} Diffusers \\+ ${P.scents} Scents`).test(txt));
-              } else if (P.scents) {
+              if (P.one) {
+                ok(`${P.id} checkout: one-time, no plan, no discount, "1 Diffuser" line, no kit product`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && total === subtotal && /1 Diffuser/.test(txt) && !/Free Diffuser Kit/.test(txt), `plan mentions=${(txt.match(/Every 30 days/g) || []).length} total=${total} subtotal=${subtotal}`);
+              } else {
                 const plans = (txt.match(/Every 30 days/g) || []).length; const firstZero = (txt.match(/First payment \$0\.00/g) || []).length;
-                ok(`${P.id} checkout: scents on the 30-day plan, first payment $0`, plans >= 1 && firstZero >= 1, `"Every 30 days"×${plans}, "First payment $0.00"×${firstZero}, recurring notice=${/recurring charge/i.test(txt)}`);
-                ok(`${P.id} checkout kit line`, new RegExp(`${P.tier} Diffusers \\+ ${P.scents} Scents`).test(txt));
-              } else ok(`${P.id} checkout kit line`, /1 Diffuser/.test(txt) && !/Every 30 days/.test(txt));
+                ok(`${P.id} checkout: scents on the 30-day plan, first payment $0, then $39.95`, plans >= 1 && firstZero >= 1 && /then \$39\.95/.test(txt), `"Every 30 days"×${plans}, "First payment $0.00"×${firstZero}, recurring notice=${/recurring charge/i.test(txt)}`);
+                ok(`${P.id} checkout kit line "${n} FREE Diffuser(s) + ${n} Scent(s)"`, new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(txt) && /Free Diffuser Kit/.test(txt));
+              }
               ok(`${P.id} checkout express pay present`, /shop|Google Pay|G Pay/i.test(txt));
               await pg.screenshot({ path: OUT + `${P.id}-checkout.png` });
               ok(`${P.id} no JS errors`, errs.length === 0, errs.join(' | '));
@@ -110,12 +112,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r223.mjs
+          node r224.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/kits-lp/recon/r223
-          git commit -m "r223: funnel QA after v3s27" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r224
+          git commit -m "r224: funnel QA on new /pages/free-diffusers (fd1)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

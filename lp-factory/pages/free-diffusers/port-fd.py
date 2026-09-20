@@ -138,6 +138,37 @@ _o = '  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POST
 assert out.count(_o) == 1, out.count(_o)
 out = out.replace(_o, '  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><div class="hv-host" ref=${host} key="host"></div>')
 FD9_CSS = '/* fd9 (2026-09-20): wrapper for the adopted pre-hero poster; transparent to layout so .simg positions against the slide */\n.hv-pwrap{display:contents}\n'
+# 18. fd10 (2026-09-20, page speed round 2): LCP forensics on a throttled phone showed the poster still finishing at ~3.6 s
+#     because the below-fold sections mount on the next idle slot (<=1.5 s) and their ~200 KB of images share the CDN
+#     connection with the LCP image. (a) the sections now wait for the hero poster to finish (capped at 3 s);
+#     (b) the hero mp4 also waits for the poster; (c) page-body serves the poster through the image CDN (&width=720,
+#     content-negotiated WebP/AVIF) with a srcset, and the <video> has no poster attribute (it sat on the plain URL = a
+#     second copy once the <img> URL changed).
+_o = '''  useEffect(() => {
+    let t = 0, idle = 0;
+    const go = () => setRest(true);
+    if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 1500 }); else t = setTimeout(go, 250);
+    return () => { clearTimeout(t); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); };
+  }, []);
+'''
+assert out.count(_o) == 1
+out = out.replace(_o, '''  useEffect(() => {
+    let t = 0, idle = 0, cap = 0, done = false;
+    const go = () => { if (done) return; done = true; setRest(true); };
+    const schedule = () => { if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 1500 }); else t = setTimeout(go, 250); };
+    /* fd10: the sections' images share the CDN connection with the LCP poster on slow phones — wait for it (cap 3 s) */
+    const im = document.querySelector("img.hv-poster") || document.getElementById("mc-hero-p");
+    if (im && !im.complete) {
+      const onl = () => { clearTimeout(cap); schedule(); };
+      im.addEventListener("load", onl, { once: true }); im.addEventListener("error", onl, { once: true });
+      cap = setTimeout(schedule, 3000);
+    } else schedule();
+    return () => { clearTimeout(t); clearTimeout(cap); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); };
+  }, []);
+''')
+_o = '    else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(start, 200); }); });\n'
+assert out.count(_o) == 1
+out = out.replace(_o, '    else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(() => { const im = pw.current && pw.current.querySelector("img"); if (im && !im.complete) { im.addEventListener("load", start, { once: true }); im.addEventListener("error", start, { once: true }); } else start(); }, 200); }); });\n')
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad

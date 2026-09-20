@@ -584,7 +584,7 @@ function HeroVideo({ poster }) {
     let startT = 0, raf1 = 0, raf2 = 0;
     const start = () => { if (!el.getAttribute("src")) { el.preload = "auto"; el.src = el.getAttribute("data-src") || MC_HERO_VIDEO; el.load(); } tryPlay(); };
     if (el.getAttribute("src")) tryPlay();
-    else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(start, 200); }); });
+    else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(() => { const im = pw.current && pw.current.querySelector("img"); if (im && !im.complete) { im.addEventListener("load", start, { once: true }); im.addEventListener("error", start, { once: true }); } else start(); }, 200); }); });
     return () => {
       cancelAnimationFrame(raf1); cancelAnimationFrame(raf2); clearTimeout(startT);
       el.removeEventListener("playing", onPlaying); el.removeEventListener("canplay", tryPlay); el.removeEventListener("loadeddata", tryPlay);
@@ -1116,10 +1116,17 @@ function App() {
      the next idle slot so first paint and first tap are not waiting on them. */
   const [rest, setRest] = useState(false);
   useEffect(() => {
-    let t = 0, idle = 0;
-    const go = () => setRest(true);
-    if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 1500 }); else t = setTimeout(go, 250);
-    return () => { clearTimeout(t); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); };
+    let t = 0, idle = 0, cap = 0, done = false;
+    const go = () => { if (done) return; done = true; setRest(true); };
+    const schedule = () => { if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 1500 }); else t = setTimeout(go, 250); };
+    /* fd10: the sections' images share the CDN connection with the LCP poster on slow phones — wait for it (cap 3 s) */
+    const im = document.querySelector("img.hv-poster") || document.getElementById("mc-hero-p");
+    if (im && !im.complete) {
+      const onl = () => { clearTimeout(cap); schedule(); };
+      im.addEventListener("load", onl, { once: true }); im.addEventListener("error", onl, { once: true });
+      cap = setTimeout(schedule, 3000);
+    } else schedule();
+    return () => { clearTimeout(t); clearTimeout(cap); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); };
   }, []);
   const sections = {
     buybox: () => html`<${BuyBox} key="bb"/>`,

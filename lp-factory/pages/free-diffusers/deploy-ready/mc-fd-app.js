@@ -538,8 +538,18 @@ function HeroVideo({ poster }) {
      the element when the page has no pre-hero (product-page host, preview). */
   const host = useRef(null);
   const ref = useRef(null);
+  const pw = useRef(null);
   const [blocked, setBlocked] = useState(false);
+  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;
   useLayoutEffect(() => {
+    /* fd9: adopt the pre-hero poster <img> (page-body) — same node, no second fetch, no second decode */
+    const w = pw.current;
+    if (w) {
+      let im = document.getElementById("mc-hero-p");
+      if (im) { im.removeAttribute("id"); im.removeAttribute("style"); }
+      else { im = document.createElement("img"); im.src = posterSrc; im.width = 720; im.height = 720; im.alt = ""; im.decoding = "sync"; im.setAttribute("fetchpriority", "high"); }
+      im.className = "simg hv-poster"; w.appendChild(im);
+    }
     const hst = host.current; if (!hst) return;
     let el = document.getElementById("mc-hero-v");
     if (el) { el.removeAttribute("id"); el.removeAttribute("style"); }
@@ -569,9 +579,14 @@ function HeroVideo({ poster }) {
     el.addEventListener("loadeddata", tryPlay);
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("pageshow", tryPlay);
-    if (!el.getAttribute("src")) { el.preload = "auto"; el.src = MC_HERO_VIDEO; el.load(); }
-    tryPlay();
+    /* fd9 (2026-09-20): the pre-hero <video> has no src (page-body ships data-src) so the 600 KB loop does not compete with
+       CSS/JS/fonts during the LCP window; start it right after the first app paint. */
+    let startT = 0, raf1 = 0, raf2 = 0;
+    const start = () => { if (!el.getAttribute("src")) { el.preload = "auto"; el.src = el.getAttribute("data-src") || MC_HERO_VIDEO; el.load(); } tryPlay(); };
+    if (el.getAttribute("src")) tryPlay();
+    else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(start, 200); }); });
     return () => {
+      cancelAnimationFrame(raf1); cancelAnimationFrame(raf2); clearTimeout(startT);
       el.removeEventListener("playing", onPlaying); el.removeEventListener("canplay", tryPlay); el.removeEventListener("loadeddata", tryPlay);
       document.removeEventListener("visibilitychange", onVis); window.removeEventListener("pageshow", tryPlay);
       EVS.forEach((ev) => document.removeEventListener(ev, onGesture, true));
@@ -582,8 +597,7 @@ function HeroVideo({ poster }) {
      it (spec: removal runs the pause steps) and its first frame then lands seconds later on a busy phone, so Lighthouse
      kept reporting LCP = video first frame (7-8 s). The img is cached (preloaded), decodes sync, paints with the app
      render and is the same size as the video, so it holds the LCP candidate (later equal-size paints don't replace it). */
-  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;
-  return html`<img class="simg hv-poster" src=${posterSrc} alt="" width="720" height="720" decoding="sync" fetchpriority="high" key="poster"/><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}`;
+  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}`;
 }
 
 function Gallery() {

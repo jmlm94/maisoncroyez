@@ -757,3 +757,5 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .popt-line{font-size:.81rem;line-height:1.4;white-space:nowrap}
 #root .popt-sub.big{font-size:.855rem;white-space:nowrap}
 @media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}
+/* fd9 (2026-09-20): wrapper for the adopted pre-hero poster; transparent to layout so .simg positions against the slide */
+.hv-pwrap{display:contents}

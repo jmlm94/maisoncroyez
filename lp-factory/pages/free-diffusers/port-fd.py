@@ -103,6 +103,41 @@ FD7_CSS = '\n/* ===== fd7 (2026-09-19) owner: auto-refill option lines 10% small
 # 16. fd8 (2026-09-20): drop the custom fbq AddToCart (Shopify's Facebook channel pixel already fires it per line)
 _o = '  try { if (window.fbq) fbq("track", "AddToCart", { content_type: "product", content_ids: items.map((x) => String(x.id)), value: Math.round(selStore.today() * 100) / 100, currency: "USD", num_items: items.length }); } catch (e) {}\n'
 assert out.count(_o) == 1; out = out.replace(_o, "  /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line\n     from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */\n")
+# 17. fd9 (2026-09-20, page speed): the pre-hero <video> in page-body ships WITHOUT src (data-src instead), so the 600 KB
+#     loop no longer competes with the CSS / JS / fonts during the LCP window on phones. The app starts the download right
+#     after its first paint (2 rAF + 200 ms); the poster covers until then.
+_o = '    if (!el.getAttribute("src")) { el.preload = "auto"; el.src = MC_HERO_VIDEO; el.load(); }\n    tryPlay();\n    return () => {\n'
+assert out.count(_o) == 1
+_n = ('    /* fd9 (2026-09-20): the pre-hero <video> has no src (page-body ships data-src) so the 600 KB loop does not compete with\n'
+      '       CSS/JS/fonts during the LCP window; start it right after the first app paint. */\n'
+      '    let startT = 0, raf1 = 0, raf2 = 0;\n'
+      '    const start = () => { if (!el.getAttribute("src")) { el.preload = "auto"; el.src = el.getAttribute("data-src") || MC_HERO_VIDEO; el.load(); } tryPlay(); };\n'
+      '    if (el.getAttribute("src")) tryPlay();\n'
+      '    else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(start, 200); }); });\n'
+      '    return () => {\n'
+      '      cancelAnimationFrame(raf1); cancelAnimationFrame(raf2); clearTimeout(startT);\n')
+out = out.replace(_o, _n)
+# 17b. fd9: ADOPT the pre-hero poster <img id="mc-hero-p"> (already fetched, decoded and painted with the document) instead of
+#      rendering a second <img> of the same URL — Lighthouse showed the app's poster as a separate ~470 ms request on phones
+#      and the LCP element, i.e. the pre-hero paint was not being credited. Moving the node re-paints instantly (no fetch).
+_o = '  const host = useRef(null);\n  const ref = useRef(null);\n  const [blocked, setBlocked] = useState(false);\n  useLayoutEffect(() => {\n    const hst = host.current; if (!hst) return;\n'
+assert out.count(_o) == 1
+out = out.replace(_o, '  const host = useRef(null);\n  const ref = useRef(null);\n  const pw = useRef(null);\n  const [blocked, setBlocked] = useState(false);\n'
+  '  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;\n'
+  '  useLayoutEffect(() => {\n'
+  '    /* fd9: adopt the pre-hero poster <img> (page-body) — same node, no second fetch, no second decode */\n'
+  '    const w = pw.current;\n'
+  '    if (w) {\n'
+  '      let im = document.getElementById("mc-hero-p");\n'
+  '      if (im) { im.removeAttribute("id"); im.removeAttribute("style"); }\n'
+  '      else { im = document.createElement("img"); im.src = posterSrc; im.width = 720; im.height = 720; im.alt = ""; im.decoding = "sync"; im.setAttribute("fetchpriority", "high"); }\n'
+  '      im.className = "simg hv-poster"; w.appendChild(im);\n'
+  '    }\n'
+  '    const hst = host.current; if (!hst) return;\n')
+_o = '  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;\n  return html`<img class="simg hv-poster" src=${posterSrc} alt="" width="720" height="720" decoding="sync" fetchpriority="high" key="poster"/><div class="hv-host" ref=${host} key="host"></div>'
+assert out.count(_o) == 1, out.count(_o)
+out = out.replace(_o, '  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><div class="hv-host" ref=${host} key="host"></div>')
+FD9_CSS = '/* fd9 (2026-09-20): wrapper for the adopted pre-hero poster; transparent to layout so .simg positions against the slide */\n.hv-pwrap{display:contents}\n'
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad
@@ -113,6 +148,7 @@ extra = re.sub(r'\n(\.plan-q\{text-align:left\})', r'\n\1', extra)
 css_out = css.rstrip('\n') + '\n/* ===== free-diffusers page (2026-09-19): draft delta ===== */\n' + extra + '\n'
 css_out = css_out.rstrip('\n') + '\n' + FD5_CSS
 css_out = css_out.rstrip('\n') + '\n' + FD7_CSS
+css_out = css_out.rstrip('\n') + '\n' + FD9_CSS
 dep = ROOT / 'lp-factory/pages/free-diffusers/deploy-ready'
 (dep / 'mc-fd-app.js').write_text(out); (dep / 'mc-fd.css').write_text(css_out)
 print('mc-fd-app.js', len(out), 'B  mc-fd.css', len(css_out), 'B')

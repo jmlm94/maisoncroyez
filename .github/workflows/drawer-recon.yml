@@ -1,7 +1,6 @@
 name: drawer-recon
-# run 237 — fd10 (page speed round 2): below-fold sections + hero mp4 wait for the LCP poster; poster served through the
-#           image CDN (&width=720 + srcset, no <video poster>). New check: poster currentSrc carries width=720 and its
-#           transfer size is logged (WebP/AVIF negotiation), one poster request only.
+# run 238 — fd10 re-run: r238 started before Shopify's page cache had the fd10 body (4 of 5 paths still got fd9-616b22a;
+#           the 5th got fd10 and passed 100%, poster via CDN width=720 = 25 KB, one request). Same checks as r238.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -21,10 +20,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r237
-          cat > r237.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r238
+          cat > r238.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r237/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r238/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -133,12 +132,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r237.mjs
+          node r238.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r237
-          git commit -m "r237: funnel QA fd10 (poster-gated sections + mp4, CDN poster)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r238
+          git commit -m "r238: funnel QA fd10 (re-run after the page cache caught up)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

@@ -419,7 +419,8 @@ async function addToCart(setBusy, setToast) {
     setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 30-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
     return;
   }
-  try { if (window.fbq) fbq("track", "AddToCart", { content_type: "product", content_ids: items.map((x) => String(x.id)), value: Math.round(selStore.today() * 100) / 100, currency: "USD", num_items: items.length }); } catch (e) {}
+  /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line
+     from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */
   try {
     setBusy(true);
     const r = await fetch("/cart/add.js", {

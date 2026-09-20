@@ -100,6 +100,9 @@ for old, new in [('<span class="kr-tx"><b>${r.f.name}${r.q > 1 ? ` \\u00d7${r.q}
     assert out.count(old) == 1, old[:60]
     out = out.replace(old, new)
 FD7_CSS = '\n/* ===== fd7 (2026-09-19) owner: auto-refill option lines 10% smaller, one line each; Selected pill back to the corner,\n   title padded so it never runs under the pill ===== */\n#root .popt .plan-incl{position:absolute;top:12px;right:12px;margin:0}\n#root .popt.on .popt-tx > b{display:block;padding-right:96px}\n#root .popt-line{font-size:.81rem;line-height:1.4;white-space:nowrap}\n#root .popt-sub.big{font-size:.855rem;white-space:nowrap}\n@media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}\n'
+# 16. fd8 (2026-09-20): drop the custom fbq AddToCart (Shopify's Facebook channel pixel already fires it per line)
+_o = '  try { if (window.fbq) fbq("track", "AddToCart", { content_type: "product", content_ids: items.map((x) => String(x.id)), value: Math.round(selStore.today() * 100) / 100, currency: "USD", num_items: items.length }); } catch (e) {}\n'
+assert out.count(_o) == 1; out = out.replace(_o, "  /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line\n     from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */\n")
 # sanity: nothing from the old offer left
 for bad in ['FREE SCENTS OFFER', 'Included!', 'plan-card plan-v1', 'class="onetime"', 'How many spaces would you like to fill']:
     assert bad not in out, bad

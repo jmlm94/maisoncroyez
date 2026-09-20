@@ -1,6 +1,7 @@
 name: drawer-recon
-# run 238 — fd10 re-run: r238 started before Shopify's page cache had the fd10 body (4 of 5 paths still got fd9-616b22a;
-#           the 5th got fd10 and passed 100%, poster via CDN width=720 = 25 KB, one request). Same checks as r238.
+# run 239 — fd11: the <video poster> is back (same &width=720 URL as the <img>, so still one request). Lighthouse on fd10
+#           reported the poster-less <video>'s FIRST FRAME as the LCP element (render 8 s on the simulated phone); with a
+#           poster Chrome credits the poster image instead. srcset dropped so img src == poster URL on every device.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,10 +21,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r238
-          cat > r238.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r239
+          cat > r239.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r238/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r239/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -47,7 +48,7 @@ jobs:
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2000);
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
-              ok(`${P.id} page version fd10, buy box in ${tBuy}ms`, /^fd10-/.test(key), key);
+              ok(`${P.id} page version fd11, buy box in ${tBuy}ms`, /^fd11-/.test(key), key);
               let appSrc = 'FETCHFAIL'; try { appSrc = await pg.evaluate(async () => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? await (await fetch(s.src)).text() : ''; }); } catch (e) {}
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
               ok(`${P.id} NO promo strip, deal box (3 rows)`, !(await pg.$('#root .promo-strip')) && (await pg.$$eval('#buybox .dealbox .deal-row', (a) => a.length)) === 3 && /1 scent = 1 FREE diffuser/.test(await T('#buybox .dealbox')) && /20% OFF, for life/.test(await T('#buybox .dealbox')) && /We.ll pay the return \+ full refund/.test(await T('#buybox .dealbox')), await T('#buybox .dealbox'));
@@ -71,7 +72,7 @@ jobs:
               ok(`${P.id} fd7: quantity-first rows, option lines one line + 10% smaller`, await pg.evaluate(() => { const rows = [...document.querySelectorAll('#buybox .kr-tx b')].map((e) => e.innerText); const l = document.querySelector('#buybox .popt.on .popt-line'), sb = document.querySelector('#buybox .popt.on .popt-sub.big'); const one = (e) => e.getBoundingClientRect().height < parseFloat(getComputedStyle(e).fontSize) * 1.75; return rows.length >= 2 && rows.every((t) => /^\d+× /.test(t)) && Math.abs(parseFloat(getComputedStyle(l).fontSize) - 12.96) < 0.2 && Math.abs(parseFloat(getComputedStyle(sb).fontSize) - 13.68) < 0.2 && one(l) && one(sb); }), await pg.evaluate(() => JSON.stringify({ rows: [...document.querySelectorAll('#buybox .kr-tx b')].map((e) => e.innerText), lineH: document.querySelector('#buybox .popt.on .popt-line').getBoundingClientRect().height, subH: document.querySelector('#buybox .popt.on .popt-sub.big').getBoundingClientRect().height })));
               ok(`${P.id} ATC button (plan) $${planTotal}, no sub-line`, new RegExp(`ADD TO CART — \\$${$(planTotal)}`).test(rev.btn) && !/62% OFF|OFFER APPLIED/.test(rev.btn) && !(await pg.$('#root .btn-sub')), rev.btn);
               ok(`${P.id} step 3: ONE add-to-cart button, no stale step-2 nodes (fd2 fix)`, (await pg.$$eval('#buybox .btn.atc', (a) => a.length)) === 1 && !(await pg.$('#buybox .buybox > .pick-count')) && !(await pg.$('#buybox .buybox > .navrow:not(.back-only)')) && !(await pg.$('#buybox .buybox > .picker')), await pg.$$eval('#buybox .buybox > *', (a) => a.map((e) => e.tagName.toLowerCase() + '.' + String(e.className).replace(/\s+/g, '.')).join(' ')));
-              ok(`${P.id} hero: adopted poster (CDN width=720, one request) under the adopted video, mp4 src set after the poster loaded (fd10)`, await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); if (!i || !v) return false; const a = i.getBoundingClientRect(), b = v.getBoundingClientRect(); return !document.getElementById('mc-hero-v') && a.width > 200 && Math.abs(a.width - b.width) < 2 && Math.abs(a.height - b.height) < 2 && Math.abs(a.top - b.top) < 2 && [...s.children].indexOf(i.closest('.hv-pwrap') || i) < [...s.children].indexOf(v.parentElement) && !document.getElementById('mc-hero-p') && document.querySelectorAll('img.hv-poster').length === 1 && !!v.getAttribute('src') && /mc-hero-loop-720\.mp4/.test(v.getAttribute('src')) && /width=720/.test(i.currentSrc) && performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)).length === 1; }), await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); const r = (e) => { if (!e) return null; const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; }; const pr = performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)); return JSON.stringify({ posterReqs: pr.length, posterKB: pr.map((e) => Math.round(e.transferSize / 1024)), cur: i ? i.currentSrc.split('?')[1] : null, pre: !!document.getElementById('mc-hero-v'), img: r(i), vid: r(v), kids: s ? [...s.children].map((e) => e.className).join(',') : null, paused: v && v.paused, rs: v && v.readyState }); }));
+              ok(`${P.id} hero: adopted poster (CDN width=720, one request) under the adopted video, mp4 src set after the poster loaded (fd10)`, await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); if (!i || !v) return false; const a = i.getBoundingClientRect(), b = v.getBoundingClientRect(); return !document.getElementById('mc-hero-v') && a.width > 200 && Math.abs(a.width - b.width) < 2 && Math.abs(a.height - b.height) < 2 && Math.abs(a.top - b.top) < 2 && [...s.children].indexOf(i.closest('.hv-pwrap') || i) < [...s.children].indexOf(v.parentElement) && !document.getElementById('mc-hero-p') && document.querySelectorAll('img.hv-poster').length === 1 && !!v.getAttribute('src') && /mc-hero-loop-720\.mp4/.test(v.getAttribute('src')) && /width=720/.test(i.currentSrc) && performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)).length === 1 && /width=720/.test(v.getAttribute('poster') || ''); }), await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); const r = (e) => { if (!e) return null; const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; }; const pr = performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)); return JSON.stringify({ posterReqs: pr.length, posterKB: pr.map((e) => Math.round(e.transferSize / 1024)), cur: i ? i.currentSrc.split('?')[1] : null, pre: !!document.getElementById('mc-hero-v'), img: r(i), vid: r(v), kids: s ? [...s.children].map((e) => e.className).join(',') : null, paused: v && v.paused, rs: v && v.readyState }); }));
               if (P.one) {
                 await pg.click('#buybox .plan-opts .popt:nth-child(2)'); await pg.waitForTimeout(400);
                 const after = await pg.evaluate(() => ({ opts: [...document.querySelectorAll('#buybox .plan-opts .popt')].map((e) => ({ on: e.classList.contains('on'), chk: e.getAttribute('aria-checked'), sel: /Selected/i.test(e.innerText) })), rows: [...document.querySelectorAll('#buybox .kr-row .kr-pr')].map((e) => e.innerText.replace(/\s+/g, ' ').trim()), struck: !!document.querySelector('#buybox .kr-row .kr-pr s'), total: document.querySelector('#buybox .kr-total').innerText.replace(/\s+/g, ' '), save: (document.querySelector('#buybox .kr-save') || {}).innerText || '', btn: document.querySelector('#buybox .btn.atc').innerText.replace(/\s+/g, ' ') }));
@@ -132,12 +133,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r238.mjs
+          node r239.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r238
-          git commit -m "r238: funnel QA fd10 (re-run after the page cache caught up)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r239
+          git commit -m "r239: funnel QA fd11 (video poster restored)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

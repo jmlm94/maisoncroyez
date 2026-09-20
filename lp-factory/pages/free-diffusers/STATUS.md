@@ -81,3 +81,10 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   hero mp4 now wait for the LCP poster's load event (cap 3 s); (2) poster served through the image CDN: &width=720 + srcset
   480w/720w, sizes (max-width:768px) 100vw / 520px, preload with imagesrcset, so Chrome/Safari get WebP/AVIF; (3) <video>
   has no poster attribute (it pointed at the plain URL = would have been a second copy). QA: r237; LH + LCP re-run.
+  r237 133/141 (4 paths still got the cached fd9 body; the 5th got fd10 and passed 100%), r238 = fd10 on all paths. Lighthouse
+  fd10: desktop 96/98/97, LCP 1.0–1.1 s (best so far). Mobile 46/57/54 with LCP 5.7/8.5/8.8 s — a REGRESSION: with no poster
+  attribute Chrome reports the <video>'s first frame as the LCP element (render delay 8.1 s on the simulated phone); the
+  poster-bearing video in fd9 never did that. The CDN &width=720 poster is served as image/webp but is 26 KB either way.
+  LCP forensics (runner Chromium, no H.264 so the video never paints): unchanged at 3.5–3.9 s, bandwidth-bound.
+- 2026-09-20 fd11-52ee8bc — LIVE (page body only; CDN files = fd10 build). <video poster> restored with the SAME &width=720
+  URL as the <img> (one request), srcset dropped so the two URLs always match. QA: r239; Lighthouse re-run.

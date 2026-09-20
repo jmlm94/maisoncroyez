@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Re-run 2026-09-20 19:1x on fd10 (the 19:02 run started before the fd10 page publish at 19:04 and measured fd9). Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
+# Re-run 2026-09-20 on fd11 (video poster restored; fd10 without it made Chrome credit the video first frame as LCP). Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:

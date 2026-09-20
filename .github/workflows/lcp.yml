@@ -2,7 +2,7 @@
 # largest-contentful-paint candidate (element, size, render time), plus app-mount / pre-hero-hide timestamps and the resource
 # timing of the poster, the hero mp4 and our files. Real CDP throttling (1.6 Mbps / 150 ms RTT / 4x CPU) on a phone
 # viewport, 3 runs, plus one desktop run. Answers "why isn't the pre-hero poster the LCP?" — Lighthouse only shows the final one.
-# run 1 — baseline on fd8 (2026-09-20)
+# run 2 — fd9 (2026-09-20): hero mp4 deferred to after first app paint, pre-hero poster adopted (run 1 was the fd8 baseline)
 name: lcp
 on:
   push:

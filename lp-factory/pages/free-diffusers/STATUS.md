@@ -59,3 +59,16 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
 - 2026-09-20 fd8-9c3bb61 — LIVE (app js 85768 B; css unchanged; drawer pin dr-2026091923b kept). Removes the page's own
   fbq("track","AddToCart"): the pixel audit showed 4 AddToCart per click (Shopify's Facebook channel pixel fires one per cart
   line + ours). Only the app js changed. QA: r235 (adds an fd8 check: page-level fbq AddToCart count 0, no such call in the source).
+  r235: 131/136 — every page, money and checkout check passed on 5 paths; the fd8 check passed (page fbq AddToCart = 0, no such
+  call in the served source). The 5 misses were all the same drawer check: Add buttons unstyled (transparent). Root cause: the
+  page's drawer PIN snippet removed #mc-drawer-style before loading mc-drawer.js; when the theme's hourly copy had already run
+  (same build), the pinned copy's init returned early and never re-injected the style. Fixed in fd9 (pin removed; drawer
+  re-injects). Also learned: Shopify shows a "FREE DIFFUSERS — N scent subscription (-$0.00)" badge on each scent line in the
+  drawer (li.badge) — cosmetic; the discount lands on the kit line.
+- 2026-09-20 fd9-616b22a — LIVE (app js 86792 B, css 64826 B, drawer 13086 B build dr-2026092017). Page speed, after the fd8
+  Lighthouse (mobile 47/58/65, LCP 4.1–5.2 s, LCP element = the app's poster <img>, load delay 1.7 s + render delay 2.4 s):
+  (1) hero mp4 no longer starts with the document — page-body ships data-src, preload=none, no autoplay; the app sets src
+  2 rAF + 200 ms after its first paint (600 KB was competing with css/js/fonts during the LCP window on phones);
+  (2) the app ADOPTS the pre-hero poster <img id="mc-hero-p"> (moves the node into .hv-pwrap{display:contents}) instead of
+  rendering a second <img> of the same URL; (3) bvp-400/600 fonts preloaded (they were "VeryHigh" late discoveries);
+  (4) drawer pin removed from the page (see r235). QA: r236; Lighthouse + LCP forensics re-run on fd9.

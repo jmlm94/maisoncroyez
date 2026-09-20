@@ -1,7 +1,8 @@
 name: drawer-recon
-# run 234 — fd7 + drawer fix (owner iPhone report): the frequently-added row widened the theme's grid drawer (bar/text cut off) ->
-#           contain:inline-size; Add buttons black, centered, aligned at card bottom. Page: quantity first in kit-review rows,
-#           auto-refill option lines 10% smaller + one line, Selected pill back in the corner with the title padded clear of it.
+# run 235 — fd8: custom fbq AddToCart removed from the page (Shopify's Facebook channel pixel already fires it per line;
+#           the pixel audit showed 4 per click). Same 5 paths as r235. Test fixes: scent-line price ignores Shopify's
+#           "(-$0.00)" BXGY badge on the buys lines (3-scent case), Add-button check waits for the row and logs styles,
+#           checkout navigation retries once on Shopify's "problem loading this website" page.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,15 +20,12 @@ jobs:
         run: |
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
-      - name: Wait for the drawer cache-key rollover (one-off, 00:01 UTC — the theme key is dr1-<UTC hour>)
-        run: |
-          while [ "$(date -u +%H%M)" -ge 2300 ] || [ "$(date -u +%H%M)" -lt 0001 ]; do sleep 20; done; date -u
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r234
-          cat > r234.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r235
+          cat > r235.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r234/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r235/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -51,7 +49,8 @@ jobs:
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2000);
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
-              ok(`${P.id} page version fd7, buy box in ${tBuy}ms`, /^fd7-/.test(key), key);
+              ok(`${P.id} page version fd8, buy box in ${tBuy}ms`, /^fd8-/.test(key), key);
+              let appSrc = 'FETCHFAIL'; try { appSrc = await pg.evaluate(async () => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? await (await fetch(s.src)).text() : ''; }); } catch (e) {}
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
               ok(`${P.id} NO promo strip, deal box (3 rows)`, !(await pg.$('#root .promo-strip')) && (await pg.$$eval('#buybox .dealbox .deal-row', (a) => a.length)) === 3 && /1 scent = 1 FREE diffuser/.test(await T('#buybox .dealbox')) && /20% OFF, for life/.test(await T('#buybox .dealbox')) && /We.ll pay the return \+ full refund/.test(await T('#buybox .dealbox')), await T('#buybox .dealbox'));
               ok(`${P.id} step-1 title`, /How many free diffusers would you like to receive\?/.test(await T('#buybox .step-title')), await T('#buybox .step-title'));
@@ -82,9 +81,10 @@ jobs:
               }
               ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
               ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+              await pg.evaluate(() => { const o = window.fbq; window.__mcAtc = 0; const w = function () { if (arguments[1] === 'AddToCart') window.__mcAtc++; return o ? o.apply(this, arguments) : undefined; }; if (o) { w.queue = o.queue; w.callMethod = o.callMethod; w.push = o.push; w.loaded = o.loaded; w.version = o.version; } window.fbq = w; });
               await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .btn.atc').click();
               await pg.waitForTimeout(5000);
-              const dr = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; return { lines: [...d.querySelectorAll('.line-item')].map((li) => ({ t: ((li.querySelector('a.bold') || {}).textContent || '').trim().slice(0, 40), q: ((li.querySelector('.mc-qty') || {}).innerText || ''), v: ((li.querySelector('.mc-var') || {}).innerText || ''), price: (li.innerText.match(/\$[\d.,]+/g) || []).join(' ') })), total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0] }; });
+              const dr = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; return { lines: [...d.querySelectorAll('.line-item')].map((li) => ({ t: ((li.querySelector('a.bold') || {}).textContent || '').trim().slice(0, 40), q: ((li.querySelector('.mc-qty') || {}).innerText || ''), v: ((li.querySelector('.mc-var') || {}).innerText || ''), price: (li.innerText.replace(/\(-\$0\.00\)/g, '').match(/\$[\d.,]+/g) || []).join(' '), badge: (li.innerText.match(/[^\n]*\(-\$[\d.]+\)[^\n]*/) || [''])[0].trim(), bhtml: (([...li.querySelectorAll('*')].filter((e) => /\(-\$/.test(e.textContent) && e.children.length <= 2).pop() || {}).outerHTML || '').slice(0, 260) })), total: (d.innerText.match(/Today's total:\s*\$[\d.,]+/) || [''])[0] }; });
               const isKit = (l) => /(Free|Home) Diffuser Kit|Special Kits/.test(l.t);
               const scentLines = dr ? dr.lines.filter((l) => !isKit(l)) : [];
               const scentQty = dr ? scentLines.reduce((s, l) => s + (parseInt((l.q.match(/×(\d+)/) || [])[1] || '0', 10)), 0) : -1;
@@ -94,7 +94,9 @@ jobs:
               const dT = P.total;
               const ship = await pg.evaluate(() => { const b = document.querySelector('#cart-drawer .mc-shipbar'); return b ? { t: b.innerText.replace(/\s+/g, ' '), done: b.classList.contains('mc-done'), w: b.querySelector('.mc-bar i') ? b.querySelector('.mc-bar i').style.width : '' } : null; });
               const faN = await pg.$$eval('#cart-drawer .mc-fa-c', (a) => a.length);
-              ok(`${P.id} drawer: content fits (no horizontal overflow), Add buttons black + centered + aligned`, await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); const inner = d.querySelector('.cart-drawer__top').parentElement; const btns = [...d.querySelectorAll('.mc-fa-add')]; const tops = btns.slice(0, 3).map((b) => Math.round(b.getBoundingClientRect().top)); const c = btns.length ? getComputedStyle(btns[0]) : null; const bar = d.querySelector('.mc-shipbar').getBoundingClientRect(); return inner.scrollWidth <= inner.clientWidth + 1 && bar.right <= innerWidth && !!c && c.backgroundColor === 'rgb(17, 17, 17)' && c.color === 'rgb(255, 255, 255)' && c.justifyContent === 'center' && tops.every((t) => t === tops[0]); }), await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); const inner = d.querySelector('.cart-drawer__top').parentElement; return `inner=${inner.scrollWidth}/${inner.clientWidth} barRight=${Math.round(d.querySelector('.mc-shipbar').getBoundingClientRect().right)} vw=${innerWidth}`; }));
+              await pg.waitForSelector('#cart-drawer .mc-fa-add', { timeout: 8000 }).catch(() => {}); await pg.waitForTimeout(800);
+              ok(`${P.id} drawer: content fits (no horizontal overflow), Add buttons black + centered + aligned`, await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); const inner = d.querySelector('.cart-drawer__top').parentElement; const btns = [...d.querySelectorAll('.mc-fa-add')]; const tops = btns.slice(0, 3).map((b) => Math.round(b.getBoundingClientRect().top)); const c = btns.length ? getComputedStyle(btns[0]) : null; const bar = d.querySelector('.mc-shipbar').getBoundingClientRect(); return inner.scrollWidth <= inner.clientWidth + 1 && bar.right <= innerWidth && !!c && c.backgroundColor === 'rgb(17, 17, 17)' && c.color === 'rgb(255, 255, 255)' && c.justifyContent === 'center' && tops.every((t) => t === tops[0]); }), await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); const inner = d.querySelector('.cart-drawer__top').parentElement; const btns = [...d.querySelectorAll('.mc-fa-add')]; const c = btns.length ? getComputedStyle(btns[0]) : {}; return `inner=${inner.scrollWidth}/${inner.clientWidth} barRight=${Math.round(d.querySelector('.mc-shipbar').getBoundingClientRect().right)} vw=${innerWidth} btns=${btns.length} bg=${c.backgroundColor} col=${c.color} jc=${c.justifyContent} tops=${btns.slice(0, 4).map((b) => Math.round(b.getBoundingClientRect().top)).join(',')} disp=${c.display}`; }));
+              ok(`${P.id} fd8: no custom fbq AddToCart from the page (Shopify's channel pixel fires it)`, (await pg.evaluate(() => window.__mcAtc)) === 0 && appSrc !== 'FETCHFAIL' && !/fbq\(\s*["']track["']\s*,\s*["']AddToCart/.test(appSrc), `pageAtc=${await pg.evaluate(() => window.__mcAtc)} src=${appSrc.length}B fbqInSrc=${(appSrc.match(/fbq\(/g) || []).length}`);
               ok(`${P.id} drawer: free-shipping bar ${dT < 75 ? 'shows $' + (75 - dT).toFixed(2) + ' away' : 'UNLOCKED'} + ${7 - n} scent cards`, ship && (dT < 75 ? !ship.done && ship.t.includes('$' + (75 - dT).toFixed(2) + ' away') && /Add one more scent/.test(ship.t) : ship.done && /FREE SHIPPING UNLOCKED/.test(ship.t) && ship.w === '100%') && faN === 7 - n, JSON.stringify(ship) + ' cards=' + faN);
               if (P.one) ok(`${P.id} drawer one-time: Free Diffuser Kit "${n} Diffuser(s) + ${n} Scent(s) (One-Time)" $${P.oneKit} + ${n} scents at $49.95, NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(fdKit.v) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
               else ok(`${P.id} drawer plan: ${n} scents at $49.95 (Plan 5) + Free Diffuser Kit "${n} FREE Diffuser(s) + ${n} Scent(s)" discounted to $0.00 (BXGY), NO Special Kits, total $${P.total}`, fdKit && !skKit && new RegExp(`${n} FREE Diffusers? \\+ ${n} Scents?`).test(fdKit.v) && /\$0\.00/.test(fdKit.price) && scentQty === n && scentLines.every((l) => /\$49\.95/.test(l.price) && !/\$0\.00/.test(l.price)) && dr.total.includes('$' + dT.toFixed(2)), JSON.stringify(dr).slice(0, 320) + ' NET=' + JSON.stringify(net) + ' TOAST=' + JSON.stringify(toast));
@@ -106,7 +108,8 @@ jobs:
               }
               await pg.screenshot({ path: OUT + `${P.id}-drawer.png` });
               await pg.locator('#cart-drawer form.buy-buttons button, #cart-drawer form.buy-buttons .btn').first().click();
-              await pg.waitForURL(/checkouts\//, { timeout: 60000 }); await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000);
+              try { await pg.waitForURL(/checkouts\//, { timeout: 60000, waitUntil: 'commit' }); } catch (e) { console.log(`${P.id} checkout nav retry: ` + (await pg.evaluate(() => location.href + ' | ' + document.body.innerText.slice(0, 120).replace(/\s+/g, ' ')))); await pg.goto('https://maisoncroyez.com/checkout', { waitUntil: 'domcontentloaded', timeout: 90000 }); await pg.waitForURL(/checkouts\//, { timeout: 60000, waitUntil: 'commit' }); }
+              await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000); if (/problem loading this website/i.test(await pg.evaluate(() => document.body.innerText))) { console.log(`${P.id} checkout error page, reloading`); await pg.reload({ waitUntil: 'domcontentloaded' }); await pg.waitForTimeout(6000); }
               const sumBtn = pg.locator('button:has-text("order summary"), button[aria-controls*="order-summary"]').first();
               if (await sumBtn.count()) { try { await sumBtn.click({ timeout: 3000 }); await pg.waitForTimeout(1200); } catch (e) {} }
               const txt = await pg.evaluate(() => document.body.innerText.replace(/\s+/g, ' '));
@@ -130,12 +133,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r234.mjs
+          node r235.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r234
-          git commit -m "r234: funnel QA fd7 + drawer layout fix" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r235
+          git commit -m "r235: funnel QA fd8 (no custom fbq AddToCart) + drawer" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

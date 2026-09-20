@@ -51,3 +51,11 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   auto-refill option lines 10% smaller (.81rem / .855rem) and single-line; Selected pill back in the corner, title padded 96px
   so it never runs under it. Drawer (same commit): .mc-fa contain:inline-size (the scroll row was widening the theme's grid
   drawer on iPhone → bar/testimonial cut off), Add buttons black/centered/aligned at the card bottom. QA: r234.
+  r234 (after the 00:01 UTC drawer cache rollover): 124/127. All page checks + all money totals passed on 5 paths. The 3 misses were
+  test artefacts: (a) 2S-phone got Shopify's "There was a problem loading this website" page at checkout (drawer had already
+  passed), (b) 3S-desktop-plan drawer: Shopify attaches a "FREE DIFFUSERS — 3 scent subscription (-$0.00)" badge to each scent
+  line in the 3-scent BXGY case, which the price regex read as $0.00 (total was $149.85, correct), (c) the Add-button style
+  check ran during a drawer re-render. r235 fixes the checks (tolerant price parse, waits for the row, checkout retry).
+- 2026-09-20 fd8-9c3bb61 — LIVE (app js 85768 B; css unchanged; drawer pin dr-2026091923b kept). Removes the page's own
+  fbq("track","AddToCart"): the pixel audit showed 4 AddToCart per click (Shopify's Facebook channel pixel fires one per cart
+  line + ours). Only the app js changed. QA: r235 (adds an fd8 check: page-level fbq AddToCart count 0, no such call in the source).

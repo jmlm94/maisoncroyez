@@ -1,0 +1,77 @@
+# LCP forensics on the LIVE /pages/free-diffusers page: a PerformanceObserver installed before navigation records EVERY
+# largest-contentful-paint candidate (element, size, render time), plus app-mount / pre-hero-hide timestamps and the resource
+# timing of the poster, the hero mp4 and our files. Real CDP throttling (1.6 Mbps / 150 ms RTT / 4x CPU) on a phone
+# viewport, 3 runs, plus one desktop run. Answers "why isn't the pre-hero poster the LCP?" — Lighthouse only shows the final one.
+# run 1 — baseline on fd8 (2026-09-20)
+name: lcp
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/lcp.yml']
+permissions:
+  contents: write
+jobs:
+  lcp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm i playwright@1.49.0 && npx playwright install --with-deps chromium
+      - name: Measure
+        run: |
+          mkdir -p lp-factory/pages/free-diffusers/perf
+          cat > lcp.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL = 'https://maisoncroyez.com/pages/free-diffusers';
+          const b = await chromium.launch();
+          const out = [];
+          const RUNS = [{ id: 'phone-1', m: true }, { id: 'phone-2', m: true }, { id: 'phone-3', m: true }, { id: 'desktop', m: false }];
+          for (const R of RUNS) {
+            const ctx = await b.newContext(R.m ? { viewport: { width: 412, height: 823 }, deviceScaleFactor: 2.625, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36' } : { viewport: { width: 1350, height: 940 } });
+            const pg = await ctx.newPage();
+            const cdp = await ctx.newCDPSession(pg);
+            await cdp.send('Network.enable');
+            if (R.m) { await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 1.6 * 1024 * 1024 / 8, uploadThroughput: 750 * 1024 / 8 }); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 }); }
+            await pg.addInitScript(() => {
+              window.__lcp = []; window.__marks = {};
+              const desc = (el) => el ? el.tagName + (el.id ? '#' + el.id : '') + (el.className ? '.' + String(el.className).replace(/\s+/g, '.') : '') : null;
+              try { new PerformanceObserver((l) => { for (const e of l.getEntries()) { const el = e.element; const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null; window.__lcp.push({ render: Math.round(e.renderTime || 0), load: Math.round(e.loadTime || 0), size: e.size, url: (e.url || '').split('/').pop().slice(0, 40), el: desc(el), rect: r ? [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)] : null }); } }).observe({ type: 'largest-contentful-paint', buffered: true }); } catch (e) {}
+              try { new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__marks[e.name] = Math.round(e.startTime); }).observe({ type: 'paint', buffered: true }); } catch (e) {}
+              const tick = () => {
+                const r = document.getElementById('root'); if (r && r.children.length && !window.__marks.appMount) window.__marks.appMount = Math.round(performance.now());
+                const p = document.getElementById('mc-prehero'); if (p && !window.__marks.prehero) { window.__marks.prehero = Math.round(performance.now()); }
+                if (p && getComputedStyle(p).display === 'none' && !window.__marks.prehide) window.__marks.prehide = Math.round(performance.now());
+                const im = document.getElementById('mc-hero-p'); if (im && im.complete && !window.__marks.preImgComplete) { window.__marks.preImgComplete = Math.round(performance.now()); const q = im.getBoundingClientRect(); window.__marks.preImgRect = [Math.round(q.left), Math.round(q.top), Math.round(q.width), Math.round(q.height)]; window.__marks.preImgVis = getComputedStyle(im).visibility + '/' + getComputedStyle(im).opacity + '/' + getComputedStyle(p).display; }
+                if (!window.__marks.hvPoster && document.querySelector('img.hv-poster')) window.__marks.hvPoster = Math.round(performance.now());
+              };
+              document.addEventListener('DOMContentLoaded', () => { tick(); try { new MutationObserver(tick).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'id'] }); } catch (e) {} setInterval(tick, 50); });
+            });
+            const t0 = Date.now();
+            await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 120000 });
+            await pg.waitForTimeout(R.m ? 14000 : 7000);
+            // a click ends the LCP window and flushes the final candidate
+            await pg.mouse.click(5, 5); await pg.waitForTimeout(500);
+            const r = await pg.evaluate(() => {
+              const res = performance.getEntriesByType('resource').filter((e) => /mc-hero|mc-fd|mc-lp-vendor|mc-lp-diffuser|mc-drawer|theme\.css|theme\.js|fbevents|clarity|klaviyo|wpm/.test(e.name)).map((e) => ({ n: e.name.split('/').pop().split('?')[0].slice(0, 32), start: Math.round(e.startTime), end: Math.round(e.responseEnd), kb: Math.round((e.transferSize || 0) / 1024), pri: e.initiatorType })).sort((a, b) => a.start - b.start);
+              const nav = performance.getEntriesByType('navigation')[0];
+              return { lcp: window.__lcp, marks: window.__marks, nav: nav ? { ttfb: Math.round(nav.responseStart), dcl: Math.round(nav.domContentLoadedEventEnd), load: Math.round(nav.loadEventEnd) } : null, res, video: (() => { const v = document.querySelector('.hv-host video'); return v ? { src: !!v.getAttribute('src'), rs: v.readyState, paused: v.paused, cur: Math.round(v.currentTime * 10) / 10 } : null; })() };
+            });
+            r.id = R.id; out.push(r);
+            console.log('==', R.id, JSON.stringify(r.nav), 'marks', JSON.stringify(r.marks));
+            for (const c of r.lcp) console.log('  LCP candidate', JSON.stringify(c));
+            console.log('  video', JSON.stringify(r.video));
+            for (const x of r.res) console.log('  res', JSON.stringify(x));
+            await ctx.close();
+          }
+          await b.close();
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13) + 'Z';
+          fs.writeFileSync(`lp-factory/pages/free-diffusers/perf/lcp-${stamp}.json`, JSON.stringify(out, null, 1));
+          EOF2
+          node lcp.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"; git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/free-diffusers/perf
+          git commit -m "perf: LCP candidate forensics on the live page" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

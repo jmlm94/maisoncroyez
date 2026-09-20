@@ -72,3 +72,12 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   (2) the app ADOPTS the pre-hero poster <img id="mc-hero-p"> (moves the node into .hv-pwrap{display:contents}) instead of
   rendering a second <img> of the same URL; (3) bvp-400/600 fonts preloaded (they were "VeryHigh" late discoveries);
   (4) drawer pin removed from the page (see r235). QA: r236; Lighthouse + LCP forensics re-run on fd9.
+  r236: 141/141 (drawer styled on all 5 paths with the theme's copy alone, fd8 pixel check, all totals). Lighthouse fd9:
+  mobile 62/71/58, LCP 3.5/3.2/4.8 s (fd8: 47/58/65, LCP 4.1–5.2 s); LCP render delay 2.4 s -> 0.34 s (adopted poster);
+  desktop 94–96. LCP forensics (real 1.6 Mbps / 4x CPU phone): mp4 now starts at 3.9–4.2 s (was 0.8 s) but the poster still
+  finishes at 3.6–3.9 s: DCL is 4.7–4.8 s and everything else (theme.js 3.4 s, web-pixel manager 75 KB to 5.1 s, section
+  images ~200 KB from ~0.8 s, checkout preloads ~530 KB, third parties ~1 MB) saturates the pipe.
+- 2026-09-20 fd10-230ff7c — LIVE (app js 87357 B; css unchanged). (1) the below-fold sections (their ~200 KB of images) and the
+  hero mp4 now wait for the LCP poster's load event (cap 3 s); (2) poster served through the image CDN: &width=720 + srcset
+  480w/720w, sizes (max-width:768px) 100vw / 520px, preload with imagesrcset, so Chrome/Safari get WebP/AVIF; (3) <video>
+  has no poster attribute (it pointed at the plain URL = would have been a second copy). QA: r237; LH + LCP re-run.

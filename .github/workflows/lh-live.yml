@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Re-run 2026-09-20 on fd9 (deferred hero mp4, adopted poster, bvp font preloads). Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
+# Re-run 2026-09-20 on fd10 (poster-gated sections + mp4, CDN poster with srcset). Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:

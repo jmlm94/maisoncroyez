@@ -1,0 +1,772 @@
+<title>Maison Croyez Cancel Flow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground: #F5EFE6;
+    --surface: #FCF9F3;
+    --surface-2: #F0E8DA;
+    --ink: #1C1A17;
+    --muted: #6F665C;
+    --accent: #8A6D3B;
+    --accent-ink: #FBF6EC;
+    --line: #E3D9C9;
+    --line-strong: #CFC2AC;
+    --good: #3F6B4F;
+    --note: #FFF9EC;
+    --note-line: #E8D7B1;
+    --shadow: 0 18px 50px rgba(60, 44, 20, 0.12);
+    --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+    --body: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #17150F;
+      --surface: #211E16;
+      --surface-2: #2B271D;
+      --ink: #EFE7DA;
+      --muted: #A79C8C;
+      --accent: #C4A46A;
+      --accent-ink: #1B160C;
+      --line: #35302A;
+      --line-strong: #4A433A;
+      --good: #8FBF9E;
+      --note: #26221A;
+      --note-line: #4A4030;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #17150F;
+    --surface: #211E16;
+    --surface-2: #2B271D;
+    --ink: #EFE7DA;
+    --muted: #A79C8C;
+    --accent: #C4A46A;
+    --accent-ink: #1B160C;
+    --line: #35302A;
+    --line-strong: #4A433A;
+    --good: #8FBF9E;
+    --note: #26221A;
+    --note-line: #4A4030;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-block: 28px 64px;
+    padding-inline: 16px;
+  }
+
+  /* Header */
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(30px, 4vw, 40px);
+    line-height: 1.05;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .top p { margin: 8px 0 0; color: var(--muted); max-width: 60ch; }
+  .controls { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 500; }
+  .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .switch .track {
+    width: 40px; height: 22px; border-radius: 11px;
+    background: var(--line-strong); position: relative; transition: background .2s;
+  }
+  .switch .track::after {
+    content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--surface); transition: transform .2s;
+  }
+  .switch input:checked + .track { background: var(--accent); }
+  .switch input:checked + .track::after { transform: translateX(18px); }
+  .switch input:focus-visible + .track { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .linkbtn {
+    background: none; border: 1px solid var(--line-strong); color: var(--ink);
+    border-radius: 999px; padding: 7px 14px; font: inherit; font-weight: 500; cursor: pointer;
+  }
+  .linkbtn:hover { border-color: var(--accent); }
+  .linkbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Two column stage */
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+  }
+  .stage.notes-off { grid-template-columns: minmax(0, 440px); justify-content: center; }
+  .stage.notes-off .notes { display: none; }
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Phone */
+  .phone {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    min-height: 640px;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px 0; font-size: 11px; color: var(--muted); letter-spacing: .04em;
+  }
+  .brand {
+    text-align: center; padding: 18px 20px 6px;
+    font-family: var(--display); font-weight: 600; letter-spacing: .22em; font-size: 15px;
+  }
+  .brand small { display: block; font-family: var(--body); font-weight: 400; letter-spacing: .12em; font-size: 9px; color: var(--muted); margin-top: 2px; text-transform: lowercase; }
+  .screen { padding: 14px 24px 28px; flex: 1; display: flex; flex-direction: column; }
+  .step { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .screen h2 {
+    font-family: var(--display); font-weight: 500; font-size: 27px; line-height: 1.12;
+    margin: 0 0 10px; text-wrap: balance;
+  }
+  .screen p { margin: 0 0 12px; color: var(--ink); }
+  .screen p.soft { color: var(--muted); font-size: 14px; }
+  .sub-card {
+    border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 6px 0 18px;
+    background: var(--ground);
+  }
+  .sub-card .name { font-family: var(--display); font-size: 21px; font-weight: 600; margin: 0; }
+  .sub-card .intent { color: var(--accent); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 2px 0 10px; }
+  .kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 13px; }
+  .kv dt { color: var(--muted); margin: 0; }
+  .kv dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .opts { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 14px; }
+  .opt {
+    display: block; width: 100%; text-align: left; background: var(--surface);
+    border: 1px solid var(--line-strong); border-radius: 14px; padding: 13px 16px;
+    font: inherit; color: var(--ink); cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .opt:hover { border-color: var(--accent); background: var(--ground); }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .opt strong { display: block; font-weight: 600; }
+  .opt span { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .opt.primary { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .opt.primary span { color: var(--line-strong); }
+  .opt.primary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .opt.primary:hover span { color: var(--accent-ink); }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .pill {
+    border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px;
+    padding: 7px 12px; font: inherit; font-size: 13px; cursor: pointer; color: var(--ink);
+  }
+  .pill:hover, .pill[aria-pressed="true"] { border-color: var(--accent); background: var(--ground); color: var(--accent); font-weight: 600; }
+  .pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .foot { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .quiet {
+    background: none; border: none; color: var(--muted); text-decoration: underline; text-underline-offset: 3px;
+    font: inherit; font-size: 14px; cursor: pointer; padding: 6px 0;
+  }
+  .quiet:hover { color: var(--ink); }
+  .quiet:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .quiet.cancel { color: var(--ink); }
+
+  .tip {
+    border-left: 2px solid var(--accent); padding: 8px 14px; margin: 6px 0 14px;
+    color: var(--ink); font-size: 14px; background: var(--ground); border-radius: 0 10px 10px 0;
+  }
+  .tip em { font-family: var(--display); font-style: italic; font-size: 17px; }
+
+  .check {
+    width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--good); color: var(--good);
+    display: grid; place-items: center; margin: 4px 0 14px; font-size: 20px;
+  }
+  .list { padding-left: 18px; margin: 0 0 14px; color: var(--ink); }
+  .list li { margin-bottom: 6px; }
+
+  /* Notes */
+  .notes { position: sticky; top: env(safe-area-inset-top, 0px); }
+  .notes-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .notes-head h3 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0; }
+  .notes-head .count { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .note-card {
+    background: var(--note); border: 1px solid var(--note-line); border-radius: 16px; padding: 18px 20px;
+  }
+  .note-card .tag {
+    display: inline-block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 8px;
+  }
+  .note-card h4 { font-family: var(--display); font-size: 22px; font-weight: 600; margin: 0 0 8px; line-height: 1.15; }
+  .note-card p { margin: 0 0 10px; }
+  .note-card ul { padding-left: 18px; margin: 0; }
+  .note-card li { margin-bottom: 7px; }
+  .note-card .rule { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--note-line); font-size: 13px; color: var(--muted); }
+
+  .path { margin-top: 18px; font-size: 13px; color: var(--muted); }
+  .path b { color: var(--ink); font-weight: 600; }
+  .path ol { margin: 6px 0 0; padding-left: 18px; }
+
+  .legend { margin-top: 26px; }
+  .legend h3 { font-family: var(--display); font-weight: 500; font-size: 22px; margin: 0 0 10px; }
+  .legend ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 28px; }
+  .legend li { break-inside: avoid; margin-bottom: 8px; font-size: 14px; }
+  .legend li b { font-weight: 600; }
+  @media (max-width: 640px) { .legend ol { columns: 1; } }
+
+  .fade { animation: fade .25s ease-out; }
+  @keyframes fade { from { opacity: .35; transform: translateY(4px);} to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .fade { animation: none; }
+    .switch .track, .switch .track::after, .opt { transition: none; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Prototype for review</p>
+      <h1>The Maison Croyez cancellation flow</h1>
+      <p>Tap through it as a subscriber would. Cancel is reachable from every screen in two taps or fewer. Turn on strategy notes to see which retention move each screen makes and the rule it respects.</p>
+    </div>
+    <div class="controls">
+      <label class="switch" for="notesToggle">
+        <input type="checkbox" id="notesToggle" checked>
+        <span class="track" aria-hidden="true"></span>
+        <span>Strategy notes</span>
+      </label>
+      <button class="linkbtn" id="restartBtn" type="button">Start over</button>
+    </div>
+  </header>
+
+  <div class="stage" id="stage">
+    <section class="phone" aria-live="polite">
+      <div class="phone-bar"><span>9:41</span><span>maisoncroyez.com/account</span></div>
+      <div class="brand">MAISON CROYEZ<small>attract what you sense</small></div>
+      <div class="screen" id="screen"></div>
+    </section>
+
+    <aside class="notes" id="notes">
+      <div class="notes-head">
+        <h3>Strategy notes</h3>
+        <span class="count" id="tapCount"></span>
+      </div>
+      <div class="note-card" id="noteCard"></div>
+      <div class="path" id="pathBox"></div>
+      <div class="legend">
+        <h3>The seven strategies in this flow</h3>
+        <ol>
+          <li><b>Flexibility before cancel.</b> Skip, swap, timing and pause sit above the cancel link, since up to 19% of cancels come from people who did not know they could adjust.</li>
+          <li><b>Ask permission to help.</b> One screen asks whether she wants to see options. Cancel now is right beside it. Minnesota now limits save offers shown without consent.</li>
+          <li><b>Match the fix to the reason.</b> Too much product gets skip or slower timing. Price gets slower timing or a smaller bottle. Never a coupon.</li>
+          <li><b>Explain nose adaptation.</b> Two weeks of constant scent dulls the nose. She thinks it stopped working. The fix is rotation and intermittent timing, not a refund.</li>
+          <li><b>Fix before cancel.</b> A device problem routes to the warranty, with billing paused until it is solved.</li>
+          <li><b>Money only as fragrance.</b> The single monetary save is a free 50ml in her next box. No percentage discount, no diffuser discount.</li>
+          <li><b>A graceful exit.</b> After cancelling she gets one-time options: her subscriber price on one more bottle, a low-bottle reminder with no plan attached, and an open door with a gift if she returns.</li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function () {
+  const PRICE = 37.46;           // 25% off $49.95
+  const FULL = 49.95;
+  const SMALL = 22.46;           // planned 50ml at 25% off $29.95
+  const scents = [
+    ["Midnight Sensation", "Love Manifestation"],
+    ["Golden Blossom Harmony", "Peace"],
+    ["Chilled Citrus", "Relaxation and Concentration"],
+    ["Wildwood Mystique", "Purification"],
+    ["Crisp Citrus Scape", "Abundance"],
+    ["Euphoric Bloom", "Energy Raise"],
+    ["Honey Nectar", "Turn Ideas Into Reality"]
+  ];
+  const state = { taps: 0, path: [], reason: null, swap: null };
+  const screenEl = document.getElementById("screen");
+  const noteEl = document.getElementById("noteCard");
+  const pathEl = document.getElementById("pathBox");
+  const tapEl = document.getElementById("tapCount");
+  const stage = document.getElementById("stage");
+
+  const money = n => "$" + n.toFixed(2);
+  const perMonth = days => money(PRICE * 30 / days);
+
+  const cancelLink = '<button class="quiet cancel" data-go="confirm">Cancel my subscription</button>';
+  const backLink = '<button class="quiet" data-go="account">Back to my account</button>';
+
+  const screens = {
+    account: {
+      label: "Account home",
+      html: () => `
+        <p class="step">Your subscription</p>
+        <div class="sub-card">
+          <p class="name">Midnight Sensation</p>
+          <p class="intent">Love Manifestation, 100ml</p>
+          <dl class="kv">
+            <dt>Timing</dt><dd>Every 30 days</dd>
+            <dt>Next delivery</dt><dd>October 3</dd>
+            <dt>Your price</dt><dd>${money(PRICE)} <span style="color:var(--muted)">(was ${money(FULL)})</span></dd>
+            <dt>With us since</dt><dd>June 14, 2026</dd>
+            <dt>Bottles so far</dt><dd>3</dd>
+          </dl>
+        </div>
+        <div class="opts">
+          <button class="opt" data-go="kept" data-msg="skip"><strong>Skip the next delivery</strong><span>Moves October 3 to November 2. One tap, no questions.</span></button>
+          <button class="opt" data-go="swap"><strong>Change the scent</strong><span>Pick a new intention for the next box.</span></button>
+          <button class="opt" data-go="cadence"><strong>Change the timing</strong><span>Every 30, 45 or 60 days.</span></button>
+          <button class="opt" data-go="pause"><strong>Pause for a while</strong><span>Four to twelve weeks. It restarts on its own.</span></button>
+        </div>
+        <div class="foot">
+          <span class="soft" style="color:var(--muted);font-size:13px">Example account for review</span>
+          <button class="quiet cancel" data-go="gate">Cancel subscription</button>
+        </div>`,
+      note: {
+        tag: "Strategy 1", title: "Flexibility sits above the cancel link",
+        body: `<p>Skip, swap, timing and pause are the first four things she sees. Cancel is still on the screen, plainly labelled, no hunting.</p>
+          <ul><li>Ordergroove reports up to 19% of cancellations happen because subscribers did not know they could change timing or contents.</li>
+          <li>Subscribers with skip access last 135% longer and with swap 71% longer, per Ordergroove's data. Vendor figures, but consistent across platforms.</li>
+          <li>Skip is one tap with no questions. Asking why on a skip turns a routine adjustment into a reconsideration.</li></ul>`,
+        rule: "Respects: cancel as easy to find as sign-up (California AB 2863, Massachusetts 940 CMR 38). Bible: subscription flexibility is part of the locked offer."
+      }
+    },
+
+    gate: {
+      label: "Permission screen",
+      html: () => `
+        <p class="step">Cancel, step 1 of 2</p>
+        <h2>Before you go, may we show you a few options?</h2>
+        <p>It takes about twenty seconds. Some people find the timing was the only thing that was off. If not, cancelling is one more tap and takes effect today.</p>
+        <div class="opts">
+          <button class="opt primary" data-go="reason"><strong>Show me the options</strong><span>Skip, timing, scent, pause, or help with the diffuser.</span></button>
+          <button class="opt" data-go="confirm"><strong>No thank you, cancel now</strong><span>No further charges. Your October 3 delivery will not ship.</span></button>
+        </div>
+        <div class="foot">${backLink}</div>`,
+      note: {
+        tag: "Strategy 2", title: "Ask permission before showing a save offer",
+        body: `<p>One honest question, two equal buttons. Nothing is hidden and the cancel button says exactly what will happen.</p>
+          <ul><li>Minnesota's 2025 law limits save offers shown without the customer's permission. Designing for the strictest state keeps one flow for all fifty.</li>
+          <li>The FTC's 2026 actions (Genesis Tech, Hims and Hers, Shutterstock at $35M) all involved cancel paths that omitted options, forced reasons, or kept charging. This flow never does any of the three.</li>
+          <li>The permission screen also improves the save rate. People who opt in to see options are far more likely to take one than people who have an offer pushed at them.</li></ul>`,
+        rule: "Respects: ROSCA simple cancellation. Bible voice: calm, no urgency, no countdowns."
+      }
+    },
+
+    reason: {
+      label: "Reason, optional",
+      html: () => `
+        <p class="step">Cancel, step 2 of 2</p>
+        <h2>What is not working for you?</h2>
+        <p class="soft">Optional. It only helps us point you to the right fix.</p>
+        <div class="opts">
+          <button class="opt" data-go="save_toomuch" data-reason="Too much product"><strong>Bottles are piling up</strong><span>I have more than I can use.</span></button>
+          <button class="opt" data-go="save_notice" data-reason="Stopped noticing it"><strong>I stopped noticing the scent</strong><span>It was strong at first, now I barely smell it.</span></button>
+          <button class="opt" data-go="save_price" data-reason="Price"><strong>It costs more than I want to spend</strong></button>
+          <button class="opt" data-go="save_device" data-reason="Diffuser problem"><strong>Something is wrong with the diffuser</strong></button>
+          <button class="opt" data-go="save_different" data-reason="Want a change"><strong>I want something different</strong></button>
+          <button class="opt" data-go="save_life" data-reason="Life changed"><strong>Life changed, I do not need it right now</strong></button>
+        </div>
+        <div class="foot">
+          <button class="quiet" data-go="save_life">Skip this question</button>
+          ${cancelLink}
+        </div>`,
+      note: {
+        tag: "Strategy 3", title: "One optional question, then the matching fix",
+        body: `<p>Six reasons, written the way she would say them. Each one leads to a different screen. There is a skip link and cancel stays visible.</p>
+          <ul><li>Loop's data across 1,000+ Shopify brands: price 31%, overstock 16%, product fatigue 15%, changed needs 15% of voluntary cancels. This list covers all four plus the device path.</li>
+          <li>Loop reports structured reason-matched flows save about 15% of attempts on average and 20%+ at the best brands. Generic "are you sure?" screens save almost nothing.</li>
+          <li>The reason is optional. A mandatory reason was one of the specific complaints in the FTC's 2026 Genesis Tech case.</li></ul>`,
+        rule: "Two taps from the account home to a confirmed cancel. Never more than three."
+      }
+    },
+
+    save_toomuch: {
+      label: "Save: too much product",
+      html: () => `
+        <p class="step">Bottles piling up</p>
+        <h2>Then we are sending them too fast. Let us slow down.</h2>
+        <div class="tip"><em>A quick read on timing.</em><br>On the 3-hour timer a 100ml bottle lasts most people about two months. On the 6-hour timer, about a month. Every 30 days is only right for the 6-hour crowd.</div>
+        <div class="opts">
+          <button class="opt primary" data-go="kept" data-msg="cad60"><strong>Every 60 days</strong><span>Same bottle, same price, half as often. About ${perMonth(60)} a month.</span></button>
+          <button class="opt" data-go="kept" data-msg="cad45"><strong>Every 45 days</strong><span>About ${perMonth(45)} a month.</span></button>
+          <button class="opt" data-go="kept" data-msg="skip"><strong>Just skip the next one</strong><span>Next delivery moves to November 2.</span></button>
+          <button class="opt" data-go="pause"><strong>Pause until the shelf is clear</strong><span>Four to twelve weeks. It restarts itself and we remind you first.</span></button>
+        </div>
+        <div class="foot">${backLink}${cancelLink}</div>`,
+      note: {
+        tag: "Strategy 3", title: "Overstock gets slower timing, not a coupon",
+        body: `<p>She has too much oil. A discount would only make the pile cheaper. The screen names the real cause (cadence was set wrong for her timer) and offers three ways to slow down.</p>
+          <ul><li>Derived from competitor bottle-life claims, a 100ml bottle is about 200 diffusion hours: roughly 17 days on the 12-hour timer, 33 on the 6-hour, 67 on the 3-hour. A flat 30-day plan overships most light users.</li>
+          <li>Loop: skip-a-month keeps 80%+ of people who take it, versus 40 to 50% for an open pause. So skip and 60-day timing come first, pause last.</li>
+          <li>Ordergroove claims proactive skip prompts cut churn up to 17%. This same screen should also run at day 20 as a message, before she ever reaches the cancel path.</li></ul>`,
+        rule: "Bible: 25% off is structural and never deepens. Price per month shown honestly so the slower plan reads as a saving without a discount."
+      }
+    },
+
+    save_notice: {
+      label: "Save: stopped noticing",
+      html: () => `
+        <p class="step">Stopped noticing the scent</p>
+        <h2>It is still there. Your nose has settled into it.</h2>
+        <p>After about two weeks with the same scent running, the nose stops reporting it. Guests still notice the moment they walk in. Two things bring it back for you.</p>
+        <div class="opts">
+          <button class="opt primary" data-go="swap"><strong>Rotate to a new intention</strong><span>Switch your next box. Coming back to Midnight Sensation later will feel like the first day again.</span></button>
+          <button class="opt" data-go="kept" data-msg="gift"><strong>Add a second scent to rotate</strong><span>A free 50ml of a scent you have not tried, in your next box. Alternate the two week by week.</span></button>
+          <button class="opt" data-go="kept" data-msg="timer"><strong>Show me the timer trick</strong><span>Running the diffuser in shorter windows keeps the scent noticeable and stretches the bottle.</span></button>
+        </div>
+        <div class="foot">${backLink}${cancelLink}</div>`,
+      note: {
+        tag: "Strategy 4", title: "Name olfactory adaptation before she names 'it stopped working'",
+        body: `<p>This is the churn reason the category never talks about. She is not wrong that she cannot smell it. She is wrong about why.</p>
+          <ul><li>A home-exposure study (PubMed 8710455, independent) found two weeks of continuous exposure produces a measurable, scent-specific loss of sensitivity that lasts up to two weeks after exposure ends.</li>
+          <li>Hotels and Aroma360 counter it with 2 to 4 week rotation and intermittent diffusion. The diffuser's own timers and G1 to G3 modes are the tool.</li>
+          <li>Loop puts product fatigue at 15% of voluntary cancels. For a seven-scent brand built on intention, rotation is on-brand: a new intention for a new season.</li></ul>`,
+        rule: "The free 50ml is the flow's only monetary save (Strategy 6). It is fragrance, not a percentage. Proposed addition to the offer stack, needs Jose's approval."
+      }
+    },
+
+    save_price: {
+      label: "Save: price",
+      html: () => `
+        <p class="step">Costs more than you want to spend</p>
+        <h2>Let us bring the monthly number down without touching the scent.</h2>
+        <p class="soft">Your bottle price stays locked at ${money(PRICE)} for as long as you subscribe. These change how often it arrives, or how big it is.</p>
+        <div class="opts">
+          <button class="opt primary" data-go="kept" data-msg="cad60"><strong>Every 60 days</strong><span>About ${perMonth(60)} a month. Right for the 3-hour timer.</span></button>
+          <button class="opt" data-go="kept" data-msg="cad45"><strong>Every 45 days</strong><span>About ${perMonth(45)} a month.</span></button>
+          <button class="opt" data-go="kept" data-msg="small"><strong>Switch to the 50ml bottle</strong><span>${money(SMALL)} every 30 days. Same scent, smaller footprint.</span></button>
+          <button class="opt" data-go="pause"><strong>Pause for now</strong><span>Your price lock stays in place while paused.</span></button>
+        </div>
+        <div class="foot">${backLink}${cancelLink}</div>`,
+      note: {
+        tag: "Strategy 3 and 6", title: "Price objections get structure, not a discount",
+        body: `<p>Price is the largest single cancel reason (31% in Loop's data). The temptation is a 10 or 15% coupon. This flow refuses it and offers three structural ways to lower the monthly spend.</p>
+          <ul><li>Eli Weiss's line applies: a discount for someone who feels overcharged teaches her the list price was never real. Scentiment's price lock and Aera's 10 to 15% no-strings plan show premium brands hold the line.</li>
+          <li>Slower cadence lowers her monthly outlay by a third or a half with zero margin given up per bottle.</li>
+          <li>The 50ml at ${money(SMALL)} is the natural "lighter" option and the planned SKU from the bible. If it is not produced yet, hide this button.</li></ul>`,
+        rule: "Bible: never compete on price, the only standing discount is the 25%. Price lock is a proposed addition to the stack (Scentiment precedent)."
+      }
+    },
+
+    save_device: {
+      label: "Save: device problem",
+      html: () => `
+        <p class="step">Something is wrong with the diffuser</p>
+        <h2>That is on us to fix, and billing stops while we do.</h2>
+        <p>Your diffuser is covered by the one-year warranty. Tell us what you are seeing and we will send parts or a replacement. Your next charge is on hold until it is working.</p>
+        <div class="pill-row" role="group" aria-label="What is happening">
+          <button class="pill" type="button" data-pill>No mist coming out</button>
+          <button class="pill" type="button" data-pill>Scent is very weak</button>
+          <button class="pill" type="button" data-pill>Bottle is leaking</button>
+          <button class="pill" type="button" data-pill>Light or timer not working</button>
+          <button class="pill" type="button" data-pill>Something else</button>
+        </div>
+        <div class="opts">
+          <button class="opt primary" data-go="kept" data-msg="claim"><strong>Start a warranty claim</strong><span>Two minutes. We reply the same day.</span></button>
+          <button class="opt" data-go="kept" data-msg="video"><strong>Try the 60-second fix first</strong><span>Most weak-scent reports are a mode setting or a seated bottle.</span></button>
+        </div>
+        <div class="foot">${backLink}${cancelLink}</div>`,
+      note: {
+        tag: "Strategy 5", title: "Route a broken device to the warranty, and pause billing",
+        body: `<p>The competitors with the worst reviews (Hotel Collection at 1.1 on Trustpilot, Aroma360 at 1.2) share one failure: the device broke, billing continued, support did not answer. This screen is the opposite of that.</p>
+          <ul><li>Billing pauses the moment she opens a claim. Charging for refills she cannot use is the fastest way to turn a warranty ticket into a chargeback and a one-star review.</li>
+          <li>Pura turns its one-year warranty into a lifetime one while subscribed. Scentiment extends warranty on every device a subscriber owns. A subscriber warranty extension is a proposed addition to the stack and belongs on this screen once approved.</li>
+          <li>The 60-second video handles the two most common "broken" reports (mode set to G1, bottle not seated) without a ticket.</li></ul>`,
+        rule: "Bible: one-year warranty is in the locked stack. Support response target for subscription tickets: same day."
+      }
+    },
+
+    save_different: {
+      label: "Save: want a change",
+      html: () => `
+        <p class="step">You want something different</p>
+        <h2>Seven intentions. You have met one.</h2>
+        <p class="soft">The sample booklet in your first box has all seven. Pick the one your home is asking for now.</p>
+        <div class="opts">
+          <button class="opt primary" data-go="swap"><strong>Choose a new scent for the next box</strong><span>Swap as often as you like. Same price, same timing.</span></button>
+          <button class="opt" data-go="kept" data-msg="gift"><strong>Let us pick a second one for you</strong><span>A free 50ml of a scent you have not tried, in your next box.</span></button>
+        </div>
+        <div class="foot">${backLink}${cancelLink}</div>`,
+      note: {
+        tag: "Strategy 4", title: "Variety inside the brand, before variety outside it",
+        body: `<p>"I want something different" is often "I want a different scent," and the brand has six she has not lived with. Swapping is already part of the locked offer, so this screen simply makes it the obvious next step.</p>
+          <ul><li>A subscription-box study found perceived variety raises continuance through satisfaction. Scentbird's queue and education are linked to lower churn in secondary coverage.</li>
+          <li>The alternative gift (a 50ml chosen for her) uses the same single monetary save as elsewhere. One consistent gift across the flow keeps it honest and easy to account for.</li></ul>`,
+        rule: "Bible: swap scents anytime is locked. Free sample booklet is locked."
+      }
+    },
+
+    save_life: {
+      label: "Save: life changed",
+      html: () => `
+        <p class="step">Not right now</p>
+        <h2>Then let us step aside for a while, not for good.</h2>
+        <p>A pause keeps your price and your scent exactly as they are. Nothing ships, nothing is charged. We send one note five days before it resumes, with a single tap to extend.</p>
+        <div class="opts">
+          <button class="opt primary" data-go="pause"><strong>Pause my subscription</strong><span>Four, eight or twelve weeks.</span></button>
+          <button class="opt" data-go="confirm"><strong>Cancel instead</strong><span>You can always start again later.</span></button>
+        </div>
+        <div class="foot">${backLink}</div>`,
+      note: {
+        tag: "Strategy 3", title: "Pause is the right answer when the reason is not the product",
+        body: `<p>A move, a baby, a trip, a tight month. None of these are about the scent. A pause with a clear end date holds the relationship without asking her to decide anything today.</p>
+          <ul><li>Loop: about one in four would-be cancellers take a pause when offered, and roughly three in four pausers return. Recurly reports 75% of paused subscribers come back.</li>
+          <li>Recharge's "pause before cancel" feature averaged a 9.6% save on its own across 1,700+ merchants.</li>
+          <li>The pause resumes itself with a reminder five days out. An open-ended pause is a slow cancel; a dated one is a plan.</li></ul>`,
+        rule: "The reminder before resuming keeps the pause inside pre-charge notice rules and the brand's no-surprise-charge promise."
+      }
+    },
+
+    pause: {
+      label: "Pause",
+      html: () => `
+        <p class="step">Pause</p>
+        <h2>How long should we step aside?</h2>
+        <p class="soft">Your price and scent stay as they are. You will hear from us once, five days before it resumes, with one tap to extend or restart early.</p>
+        <div class="opts">
+          <button class="opt" data-go="kept" data-msg="p4"><strong>Four weeks</strong><span>Resumes October 31.</span></button>
+          <button class="opt primary" data-go="kept" data-msg="p8"><strong>Eight weeks</strong><span>Resumes November 28.</span></button>
+          <button class="opt" data-go="kept" data-msg="p12"><strong>Twelve weeks</strong><span>Resumes December 26.</span></button>
+        </div>
+        <div class="foot">${backLink}${cancelLink}</div>`,
+      note: {
+        tag: "Strategy 3", title: "A dated pause that restarts on its own",
+        body: `<ul><li>Three fixed lengths, with eight weeks recommended. Fixed dates set expectations and keep the pause from becoming a forgotten subscription that surprises her later.</li>
+          <li>The resume reminder goes out five days ahead by SMS and email with one-tap extend. That reminder is the same mechanism as the pre-charge notice every renewal gets.</li>
+          <li>Pausers keep their price lock and tenure count, so a return does not feel like starting over.</li></ul>`,
+        rule: "Pre-charge notice three to five days out matches card network expectations and the brand's promise of no surprise charges."
+      }
+    },
+
+    cadence: {
+      label: "Change timing",
+      html: () => `
+        <p class="step">Change the timing</p>
+        <h2>How often should a bottle arrive?</h2>
+        <div class="tip"><em>A guide by timer.</em><br>12-hour timer: every 30 days or sooner. 6-hour timer: every 30 days. 3-hour timer: every 60 days. Add a second room and halve the gap.</div>
+        <div class="opts">
+          <button class="opt" data-go="kept" data-msg="cad30"><strong>Every 30 days</strong><span>Current. About ${perMonth(30)} a month.</span></button>
+          <button class="opt" data-go="kept" data-msg="cad45"><strong>Every 45 days</strong><span>About ${perMonth(45)} a month.</span></button>
+          <button class="opt" data-go="kept" data-msg="cad60"><strong>Every 60 days</strong><span>About ${perMonth(60)} a month.</span></button>
+        </div>
+        <div class="foot">${backLink}</div>`,
+      note: {
+        tag: "Strategy 1", title: "Timing is a normal setting, not a rescue",
+        body: `<ul><li>The same three cadences appear here, in the save screens, and at signup. One menu everywhere, so the customer learns it once.</li>
+          <li>The by-timer guide is the brand's real advantage: the diffuser's own settings tell you the right cadence. No competitor found does this at signup.</li>
+          <li>Category incumbents already offer one to four month cadences. A 30-day-only plan would be the least flexible in the set.</li></ul>`,
+        rule: "The bench test (one bottle on each timer and mode, days to empty) should replace the estimates in this guide before launch."
+      }
+    },
+
+    swap: {
+      label: "Change scent",
+      html: () => `
+        <p class="step">Change the scent</p>
+        <h2>Which intention is your home asking for?</h2>
+        <p class="soft">This changes your next box. Same price, same timing. Switch back whenever you like.</p>
+        <div class="opts">
+          ${scents.filter(s => s[0] !== "Midnight Sensation").map(s =>
+            `<button class="opt" data-go="kept" data-msg="swap" data-swap="${s[0]}"><strong>${s[0]}</strong><span>${s[1]}</span></button>`).join("")}
+        </div>
+        <div class="foot">${backLink}</div>`,
+      note: {
+        tag: "Strategy 4", title: "Swap is one tap and always available",
+        body: `<ul><li>Six other intentions, each with its name and purpose. No search, no dropdown, no confirmation dialog.</li>
+          <li>Swap access correlates with 71% longer subscriber lifetime in Ordergroove's data. It also directly answers the fatigue and "want a change" reasons.</li>
+          <li>The same list should appear in the pre-charge SMS as a one-tap link, so most swaps happen there and never reach this page.</li></ul>`,
+        rule: "Bible: swap scents anytime is part of the locked offer."
+      }
+    },
+
+    kept: {
+      label: "Kept",
+      html: (ctx) => {
+        const m = {
+          skip:  ["Next delivery moved to November 2.", "Nothing is charged until then. Skip again anytime from your account."],
+          cad45: ["Your bottle now arrives every 45 days.", "Next delivery October 18. Your price stays " + money(PRICE) + "."],
+          cad60: ["Your bottle now arrives every 60 days.", "Next delivery November 2. Your price stays " + money(PRICE) + "."],
+          cad30: ["Timing kept at every 30 days.", "Next delivery October 3."],
+          swap:  [`${ctx.swap || "Your new scent"} arrives in your next box.`, "October 3, at your usual price. Midnight Sensation is one tap away whenever you want it back."],
+          gift:  ["A free 50ml is coming with your next box.", "We will choose a scent you have not tried. Alternate the two week by week and both will stay vivid."],
+          timer: ["Here is the timer trick.", "Set the 3-hour or 6-hour timer instead of 12. Your nose resets in the gaps, the room still holds the scent, and the bottle lasts longer. We have sent this to your email too."],
+          small: ["Switched to the 50ml bottle.", "Midnight Sensation, " + money(SMALL) + " every 30 days, starting October 3."],
+          claim: ["Warranty claim opened. Billing is paused.", "We reply the same day with a replacement or parts. Your subscription resumes only once the diffuser is working, and only after we check with you."],
+          video: ["The 60-second fix is on its way to your email.", "If it does not solve it, reply to that email and a claim opens automatically. Your next charge is on hold for seven days while you try it."],
+          p4:  ["Paused for four weeks.", "Resumes October 31. One note five days before, with one tap to extend."],
+          p8:  ["Paused for eight weeks.", "Resumes November 28. One note five days before, with one tap to extend."],
+          p12: ["Paused for twelve weeks.", "Resumes December 26. One note five days before, with one tap to extend."]
+        }[ctx.msg] || ["Done.", ""];
+        return `
+        <p class="step">Done</p>
+        <div class="check" aria-hidden="true">&#10003;</div>
+        <h2>${m[0]}</h2>
+        <p>${m[1]}</p>
+        <p class="soft">A confirmation email is on its way with everything above and a link to change it again.</p>
+        <div class="opts" style="margin-top:auto">
+          <button class="opt" data-go="account"><strong>Back to my account</strong></button>
+        </div>
+        <div class="foot"><span class="soft" style="color:var(--muted);font-size:13px">Saved</span><button class="quiet" data-go="gate">Still want to cancel</button></div>`;
+      },
+      note: {
+        tag: "Outcome", title: "A save that is confirmed in writing and easy to undo",
+        body: `<ul><li>Every save shows the new date and price on screen and sends a confirmation email. A silent change is how a save turns into a "surprise charge" complaint a month later.</li>
+          <li>"Still want to cancel" stays on the screen. A saved subscriber who feels trapped will cancel next month anyway and tell people.</li>
+          <li>Track what happens 90 days after a save. Loop calls 90-day survival of saved subscribers the real save metric, not the save rate itself.</li></ul>`,
+        rule: "Target save rate 10 to 20% at launch and 20 to 30% by month six, measured on 90-day survival."
+      }
+    },
+
+    confirm: {
+      label: "Confirm cancel",
+      html: () => `
+        <p class="step">Cancel</p>
+        <h2>Cancelling your subscription. Here is what happens.</h2>
+        <ul class="list">
+          <li>No further charges. The October 3 delivery will not ship.</li>
+          <li>Your diffuser warranty continues until June 14, 2027.</li>
+          <li>The 90-day guarantee on your last bottle stands.</li>
+          <li>Your subscriber price of ${money(PRICE)} ends today. Bottles return to ${money(FULL)}.</li>
+        </ul>
+        <div class="opts" style="margin-top:auto">
+          <button class="opt primary" data-go="done"><strong>Confirm cancellation</strong></button>
+          <button class="opt" data-go="account"><strong>Keep my subscription</strong></button>
+        </div>`,
+      note: {
+        tag: "Legal floor", title: "Plain terms, one button, effective today",
+        body: `<ul><li>What stops, what continues, and what she loses, in four lines. The loss (subscriber price) is stated as fact, not as a threat. No countdown, no red text, no guilt.</li>
+          <li>From the account home this screen is at most two taps away. The ICPEN sweep found the average site takes 6.7 clicks to cancel versus 1 to 2 to subscribe. This is the gap regulators are targeting.</li>
+          <li>An email confirms the cancellation with the same four lines and the date, which California's record-keeping requirement expects the brand to retain.</li></ul>`,
+        rule: "Respects: ROSCA, California AB 2863 (same-medium cancel, records), Massachusetts (same channel as sign-up), Mastercard (direct cancellation link, not a generic support page)."
+      }
+    },
+
+    done: {
+      label: "Cancelled, exit offers",
+      html: () => `
+        <p class="step">Cancelled</p>
+        <div class="check" aria-hidden="true">&#10003;</div>
+        <h2>Your subscription is cancelled. Thank you for three months with us.</h2>
+        <p class="soft">A confirmation is in your inbox. Three things stay open to you, none of them a subscription.</p>
+        <div class="opts">
+          <button class="opt" data-go="exit" data-msg="last"><strong>One more bottle at your subscriber price</strong><span>${money(PRICE)} instead of ${money(FULL)}, one time, no plan attached. Available for 30 days.</span></button>
+          <button class="opt" data-go="exit" data-msg="remind"><strong>One reminder when your bottle is likely low</strong><span>A single message around day 25. Nothing ships, nothing is charged.</span></button>
+          <button class="opt" data-go="exit" data-msg="door"><strong>The door stays open</strong><span>Come back within 90 days and your first box includes a free 50ml and your old price.</span></button>
+        </div>
+        <div class="foot"><button class="quiet" data-go="account">Back to my account</button><span class="soft" style="color:var(--muted);font-size:13px">No thanks is fine too</span></div>`,
+      note: {
+        tag: "Strategy 7", title: "Cancel first, then offer. Never the other way round.",
+        body: `<p>The cancellation is confirmed before any of this appears. That ordering is what separates a graceful exit from a dark pattern. Each offer is one-time, has no subscription attached, and is explained in one line.</p>
+          <ul><li>Last bottle at subscriber price: keeps the relationship transactional without deepening any discount. It is the existing 25%, honoured once.</li>
+          <li>Low-bottle reminder: a replenishment nudge with no plan. About one in four new subscriptions at Recurly's merchants are returning cancellers; the reminder is how she finds her way back.</li>
+          <li>The open door: a free 50ml and her old price if she returns within 90 days. Win-back sequences of four touches reactivate 10 to 18% versus about 6% for a single email. This screen is touch one; day 7, 30 and 60 messages follow, segmented by the reason she gave.</li></ul>`,
+        rule: "Proposed additions to the stack: one-time subscriber price on a single bottle, return gift, low-bottle reminder. None discounts the diffuser or goes past 25%."
+      }
+    },
+
+    exit: {
+      label: "Exit offer taken",
+      html: (ctx) => {
+        const m = {
+          last: ["Your bottle is on the way.", "Midnight Sensation, " + money(PRICE) + ", charged once. No subscription was created. Order confirmation is in your inbox."],
+          remind: ["We will send one note around day 25.", "It will say roughly when the bottle runs low and link to a one-time order. If you do nothing, nothing happens."],
+          door: ["Noted. Your place is held for 90 days.", "If you come back before December 19, your first box includes a free 50ml and your " + money(PRICE) + " price. We will not message you about it more than three times."]
+        }[ctx.msg] || ["Done.", ""];
+        return `
+        <p class="step">Done</p>
+        <div class="check" aria-hidden="true">&#10003;</div>
+        <h2>${m[0]}</h2>
+        <p>${m[1]}</p>
+        <p class="soft">Your subscription remains cancelled.</p>
+        <div class="opts" style="margin-top:auto">
+          <button class="opt" data-go="account"><strong>Back to my account</strong></button>
+        </div>`;
+      },
+      note: {
+        tag: "Strategy 7", title: "Every exit offer confirms that the cancel still stands",
+        body: `<ul><li>The confirmation repeats that no subscription was created. The FTC's Hims and Hers and Genesis Tech complaints both involved charges after a cancel; this copy exists to make that impossible to misread.</li>
+          <li>The open-door offer caps its own follow-up at three messages. A stated limit is a small courtesy that premium customers notice.</li>
+          <li>Tag the reason she gave on her Klaviyo profile. The win-back flow branches on it: overstock gets a 60-day cadence offer, fatigue gets a new scent, price gets the 50ml.</li></ul>`,
+        rule: "Win-back cadence: this screen, then day 7, 30, 60. Target reactivation 10%+."
+      }
+    }
+  };
+
+  function render(id, ctx) {
+    ctx = ctx || {};
+    const s = screens[id];
+    screenEl.innerHTML = s.html(ctx);
+    screenEl.classList.remove("fade"); void screenEl.offsetWidth; screenEl.classList.add("fade");
+    noteEl.innerHTML = `<span class="tag">${s.note.tag}</span><h4>${s.note.title}</h4>${s.note.body}<div class="rule">${s.note.rule}</div>`;
+    tapEl.textContent = state.taps === 0 ? "Start of flow" : state.taps + (state.taps === 1 ? " tap" : " taps") + " so far";
+    pathEl.innerHTML = state.path.length
+      ? `<b>Path taken</b><ol>${state.path.map(p => `<li>${p}</li>`).join("")}</ol>`
+      : `<b>Path taken</b><div>Nothing yet. The account home is where every subscriber starts.</div>`;
+    const first = screenEl.querySelector("h2, .step");
+    if (first && state.taps > 0) first.setAttribute("tabindex", "-1"), first.focus({ preventScroll: true });
+  }
+
+  function go(id, btn) {
+    const ds = btn ? btn.dataset : {};
+    state.taps += 1;
+    if (ds.reason) state.reason = ds.reason;
+    if (ds.swap) state.swap = ds.swap;
+    const label = btn && btn.querySelector("strong") ? btn.querySelector("strong").textContent : (btn ? btn.textContent.trim() : "");
+    state.path.push(label + " → " + screens[id].label);
+    if (id === "account") { state.taps = 0; state.path = []; }
+    render(id, { msg: ds.msg, swap: state.swap });
+  }
+
+  screenEl.addEventListener("click", e => {
+    const pill = e.target.closest("[data-pill]");
+    if (pill) {
+      screenEl.querySelectorAll("[data-pill]").forEach(p => p.setAttribute("aria-pressed", p === pill ? "true" : "false"));
+      return;
+    }
+    const btn = e.target.closest("[data-go]");
+    if (btn) go(btn.dataset.go, btn);
+  });
+
+  document.getElementById("restartBtn").addEventListener("click", () => { state.taps = 0; state.path = []; state.swap = null; render("account"); });
+
+  const toggle = document.getElementById("notesToggle");
+  function applyToggle() {
+    stage.classList.toggle("notes-off", !toggle.checked);
+    try { localStorage.setItem("mc-cancel-notes", toggle.checked ? "1" : "0"); } catch (e) {}
+  }
+  try { if (localStorage.getItem("mc-cancel-notes") === "0") toggle.checked = false; } catch (e) {}
+  toggle.addEventListener("change", applyToggle);
+  applyToggle();
+
+  render("account");
+})();
+</script>

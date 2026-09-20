@@ -1,0 +1,599 @@
+[
+ {
+  "path": "phone-2S-plan",
+  "events": [
+   {
+    "t": 1281,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 7025,
+    "mark": "page loaded (+6s)"
+   },
+   {
+    "t": 7028,
+    "consent": {
+     "hasCP": true,
+     "analytics": true,
+     "marketing": true,
+     "sale": true,
+     "banner": false,
+     "region": "USIA",
+     "trackingConsent": {
+      "marketing": "",
+      "analytics": "",
+      "preferences": "",
+      "sale_of_data": ""
+     }
+    }
+   },
+   {
+    "t": 7028,
+    "perfAfterLoad": [
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 1277,
+      "type": "beacon"
+     }
+    ]
+   },
+   {
+    "t": 7031,
+    "fbstate": {
+     "queue": [],
+     "eventCount": 1,
+     "userDataFormFields": 0,
+     "consent": "optIn fn"
+    }
+   },
+   {
+    "t": 7033,
+    "who": {
+     "inline": [
+      "(function(){var wpmLoader=function(){\"use strict\";var e=/Googlebot|Storebot-Google|bingbot|Baiduspider|YandexBot|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|AdsBot-Google|Mediapartners-Google|APIs-Google|PetalBot|SemrushBot|AhrefsBot|MJ12bot|DotBot|Acunetix|PerplexityBot|Perplexity-User/i,t=/bytedance/i;function i(){try{var e=document.cookie;if(!e||\"string\"!=typeof e)retu",
+      "!function(a,c,b,d,e,f,g){a.fbq||(e=a.fbq=function(){e.callMethod?e.callMethod.apply(e,arguments):e.queue.push(arguments)},!a._fbq&&(a._fbq=e),e.push=e,e.loaded=!0,e.version=\"2.0\",e.queue=[],f=c.createElement(b),f.async=!0,f.src=d,g=c.getElementsByTagName(b)[0],g.parentNode.insertBefore(f,g))}(window,document,\"script\",\"https://connect.facebook.net/en_US/fbevents.js\");"
+     ],
+     "srcs": [
+      "cdn.shopify.com/proxy/0e1c258f9979759d197d7550aa582c845686efacc10b03606803e31aa344b785/d16",
+      "sdk.postscript.io/sdk-script-loader.bundle.js?shopId=5063&shop=patshion.myshopify.com",
+      "scripts.clarity.ms/0.8.70/clarity.js",
+      "maisoncroyez.com/cdn/s/trekkie.storefront.7ba2605b9cb6cd518b93431f40a9bde3a4a2f7bd.min.js",
+      "www.clarity.ms/tag/yd5sg19ymx?ref=shopify",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/frontendInjection.js",
+      "maisoncroyez.com/cdn/shop/t/47/assets/vendor.min.js?v=52426788336887041471786535322",
+      "maisoncroyez.com/cdn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+      "maisoncroyez.com/cdn/shop/t/47/assets/sections.js?v=106105651946468648521786536963",
+      "maisoncroyez.com/checkouts/internal/preloads.js?locale=en-US",
+      "shop.app/checkouts/internal/preloads.js?locale=en-US&shop_id=2036367469",
+      "cdn.shopify.com/shopifycloud/shop-js/modules/v2/loader.init-shop-cart-sync.en.esm.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/autosizes-84416378.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shopify_pay/storefront-bf1cdb70.js?v=2",
+      "cdn.shopify.com/shopifycloud/storefront/assets/storefront/origin_trials-5059b83f.js",
+      "config.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com",
+      "content.9gtb.com/loader.js",
+      "config.gorgias.help/api/contact-forms/replace-mailto-script.js?shopName=patshion",
+      "static.klaviyo.com/onsite/js/UmHsGf/klaviyo.js?company_id=UmHsGf",
+      "cdn.shopify.com/extensions/01a06269-4152-74a0-b2c3-9603a76d8a10/test-sms-49/assets/sdk-emb",
+      "maisoncroyez.com/cdn/wpm/b1b3c7779w6e1f7d30p7ae783d3m9b5a05aam.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shop_events_listener-4e26a9ce.js",
+      "maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.9.2.min.js",
+      "maisoncroyez.com/web-pixels@1b3c7779w6e1f7d30p7ae783d3m9b5a05aa/app/web-pixel-476348525@96",
+      "static-tracking.klaviyo.com/onsite/js/fender_analytics.260bfd76609a3.js?cb=2",
+      "static-tracking.klaviyo.com/onsite/js/static.98321b3b5e878.js?cb=2",
+      "static.klaviyo.com/onsite/js/runtime.7d257a51aad73.js?cb=2",
+      "static.klaviyo.com/onsite/js/vendors~static~in_app_forms~signup_forms~post_identification_",
+      "static-tracking.klaviyo.com/onsite/js/post_identification_sync.3d845f644081d.js?cb=2",
+      "static.klaviyo.com/onsite/js/event_adapter.4ff6b8eeb0178.js?cb=2",
+      "maisoncroyez.com/cdn/shopifycloud/consent-tracking-api/v0.1/consent-tracking-api.js",
+      "sdk.postscript.io/sdk.bundle.js?shopId=5063&src=sdkAppEmbed",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr1-2026092000",
+      "cdn.subi.co/subify/v5/subify-sdk.js",
+      "cdn.shopify.com/storefront/standard-actions.js",
+      "content.9gtb.com/script.js?rev=72bffd8",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr-2026091923b",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-vendor.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser-assets.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-fd-app.js?v=fd7-066b335",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/index-C5KmBn1m.js"
+     ],
+     "hits": [
+      "beacon {\"id\":\"980908600592309\",\"ev\":\"PageView\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"sh-bc1f0939-1DB2-4330-84B2-1C39515FACBC\"}"
+     ],
+     "state": {
+      "pixels": [
+       {
+        "id": "980908600592309",
+        "eventCount": 1
+       }
+      ]
+     }
+    }
+   },
+   {
+    "t": 10035,
+    "grantTest": {
+     "withoutGrant": [],
+     "afterGrant": []
+    }
+   },
+   {
+    "t": 10037,
+    "fbq": {
+     "fbq": "function",
+     "pixels": [
+      "980908600592309"
+     ],
+     "scripts": [
+      "https://connect.facebook.net/signals/config/980908600592309?v=2.9.403&r=stable&d",
+      "https://connect.facebook.net/en_US/fbevents.js"
+     ]
+    }
+   },
+   {
+    "t": 11205,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 13435,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 13944,
+    "mark": "clicking ADD TO CART"
+   },
+   {
+    "t": 14868,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 14869,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 15559,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 15564,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 15570,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 21871,
+    "mark": "drawer open (+7s)"
+   },
+   {
+    "t": 21871,
+    "perfAfterATC": [
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 1277,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 11165,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 13410,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 14858,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 14864,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 15556,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 15562,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 15568,
+      "type": "beacon"
+     }
+    ],
+    "hitsAfterATC": [
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"SubscribedButtonClick\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"ob3_plugin-set_68bd0556439a3c072bfa69ec1aca2f716241563f7338f1876170873b60d6fd1f\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"SubscribedButtonClick\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"ob3_plugin-set_b4c6a487ca7813ced11f3f8b919a09518484c030e7ccfbb76af5e471b4ad044e\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"SubscribedButtonClick\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"ob3_plugin-set_c26a34710a5ffcc31250b2de45e7a29c1c9a756dc8cc9fee3ac099c6fca69aab\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_type]\":\"product\",\"cd[content_ids]\":\"[\\\"45900240289901\\\",\\\"41212020457581\\\",\\\"41212019933293\\\"]\",\"cd[value]\":\"99.9\",\"cd[currency]\":\"USD\",\"cd[num_items]\":\"3\",\"eid\":\"ob3_plugin-set_6480e399b64cc079ff444bb1421880ea4230fdbb6c65e7a811995273cba08a5d\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_ids]\":\"[45900240289901]\",\"cd[content_type]\":\"product\",\"cd[content_name]\":\"Maison Croyez — Home Diffuser Kit - 2 FREE Diffusers + 2 Scents\",\"cd[currency]\":\"USD\",\"cd[value]\":\"159.9\",\"cd[num_items]\":\"1\",\"eid\":\"sh-bc1f7eac-9A27-4D20-C0D6-9BC063FF510E\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_ids]\":\"[41212020457581]\",\"cd[content_type]\":\"product\",\"cd[content_name]\":\"Golden Blossom Harmony – Love (100ml)\",\"cd[currency]\":\"USD\",\"cd[value]\":\"49.95\",\"cd[num_items]\":\"1\",\"eid\":\"sh-bc1f7eb4-5E4A-4826-6C5D-EAE16A004907\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_ids]\":\"[41212019933293]\",\"cd[content_type]\":\"product\",\"cd[content_name]\":\"Midnight Sensation – Love Manifestation (100ml)\",\"cd[currency]\":\"USD\",\"cd[value]\":\"49.95\",\"cd[num_items]\":\"1\",\"eid\":\"sh-bc1f7eb8-A7A9-48AC-A321-66AFD4A65944\"}"
+    ]
+   },
+   {
+    "t": 21874,
+    "mark": "drawer + Add"
+   },
+   {
+    "t": 21916,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 22641,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 27920,
+    "mark": "clicking checkout"
+   },
+   {
+    "t": 27963,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 30325,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 30328,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 37392,
+    "mark": "checkout loaded (+8s)"
+   },
+   {
+    "t": 37392,
+    "perfCheckout": [
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 2343,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 2348,
+      "type": "beacon"
+     }
+    ],
+    "checkoutFbq": "function"
+   }
+  ]
+ },
+ {
+  "path": "desktop-2S-onetime",
+  "events": [
+   {
+    "t": 968,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 6773,
+    "mark": "page loaded (+6s)"
+   },
+   {
+    "t": 6775,
+    "consent": {
+     "hasCP": true,
+     "analytics": true,
+     "marketing": true,
+     "sale": true,
+     "banner": false,
+     "region": "USIA",
+     "trackingConsent": {
+      "marketing": "",
+      "analytics": "",
+      "preferences": "",
+      "sale_of_data": ""
+     }
+    }
+   },
+   {
+    "t": 6775,
+    "perfAfterLoad": [
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 959,
+      "type": "beacon"
+     }
+    ]
+   },
+   {
+    "t": 6777,
+    "fbstate": {
+     "queue": [],
+     "eventCount": 1,
+     "userDataFormFields": 0,
+     "consent": "optIn fn"
+    }
+   },
+   {
+    "t": 6779,
+    "who": {
+     "inline": [
+      "(function(){var wpmLoader=function(){\"use strict\";var e=/Googlebot|Storebot-Google|bingbot|Baiduspider|YandexBot|DuckDuckBot|Slurp|facebookexternalhit|Twitterbot|LinkedInBot|Applebot|AdsBot-Google|Mediapartners-Google|APIs-Google|PetalBot|SemrushBot|AhrefsBot|MJ12bot|DotBot|Acunetix|PerplexityBot|Perplexity-User/i,t=/bytedance/i;function i(){try{var e=document.cookie;if(!e||\"string\"!=typeof e)retu",
+      "!function(a,c,b,d,e,f,g){a.fbq||(e=a.fbq=function(){e.callMethod?e.callMethod.apply(e,arguments):e.queue.push(arguments)},!a._fbq&&(a._fbq=e),e.push=e,e.loaded=!0,e.version=\"2.0\",e.queue=[],f=c.createElement(b),f.async=!0,f.src=d,g=c.getElementsByTagName(b)[0],g.parentNode.insertBefore(f,g))}(window,document,\"script\",\"https://connect.facebook.net/en_US/fbevents.js\");"
+     ],
+     "srcs": [
+      "cdn.shopify.com/proxy/0e1c258f9979759d197d7550aa582c845686efacc10b03606803e31aa344b785/d16",
+      "sdk.postscript.io/sdk-script-loader.bundle.js?shopId=5063&shop=patshion.myshopify.com",
+      "scripts.clarity.ms/0.8.70/clarity.js",
+      "maisoncroyez.com/cdn/s/trekkie.storefront.7ba2605b9cb6cd518b93431f40a9bde3a4a2f7bd.min.js",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/frontendInjection.js",
+      "www.clarity.ms/tag/yd5sg19ymx?ref=shopify",
+      "maisoncroyez.com/cdn/shop/t/47/assets/vendor.min.js?v=52426788336887041471786535322",
+      "maisoncroyez.com/cdn/shop/t/47/assets/theme.js?v=49645644743644341911786536849",
+      "maisoncroyez.com/cdn/shop/t/47/assets/sections.js?v=106105651946468648521786536963",
+      "maisoncroyez.com/checkouts/internal/preloads.js?locale=en-US",
+      "shop.app/checkouts/internal/preloads.js?locale=en-US&shop_id=2036367469",
+      "cdn.shopify.com/shopifycloud/shop-js/modules/v2/loader.init-shop-cart-sync.en.esm.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shopify_pay/storefront-bf1cdb70.js?v=2",
+      "cdn.shopify.com/shopifycloud/storefront/assets/storefront/origin_trials-5059b83f.js",
+      "static.klaviyo.com/onsite/js/UmHsGf/klaviyo.js?company_id=UmHsGf",
+      "config.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com",
+      "content.9gtb.com/loader.js",
+      "config.gorgias.help/api/contact-forms/replace-mailto-script.js?shopName=patshion",
+      "cdn.shopify.com/extensions/01a06269-4152-74a0-b2c3-9603a76d8a10/test-sms-49/assets/sdk-emb",
+      "maisoncroyez.com/cdn/wpm/b1b3c7779w6e1f7d30p7ae783d3m9b5a05aam.js",
+      "maisoncroyez.com/cdn/shopifycloud/storefront/assets/shop_events_listener-4e26a9ce.js",
+      "maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.9.2.min.js",
+      "maisoncroyez.com/cdn/shopifycloud/consent-tracking-api/v0.1/consent-tracking-api.js",
+      "sdk.postscript.io/sdk.bundle.js?shopId=5063&src=sdkAppEmbed",
+      "maisoncroyez.com/web-pixels@1b3c7779w6e1f7d30p7ae783d3m9b5a05aa/app/web-pixel-476348525@96",
+      "static-tracking.klaviyo.com/onsite/js/fender_analytics.260bfd76609a3.js?cb=2",
+      "static-tracking.klaviyo.com/onsite/js/static.98321b3b5e878.js?cb=2",
+      "static.klaviyo.com/onsite/js/runtime.7d257a51aad73.js?cb=2",
+      "static.klaviyo.com/onsite/js/vendors~static~in_app_forms~signup_forms~post_identification_",
+      "static-tracking.klaviyo.com/onsite/js/post_identification_sync.3d845f644081d.js?cb=2",
+      "static.klaviyo.com/onsite/js/event_adapter.4ff6b8eeb0178.js?cb=2",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr1-2026092000",
+      "cdn.subi.co/subify/v5/subify-sdk.js",
+      "cdn.shopify.com/storefront/standard-actions.js",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-vendor.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-diffuser-assets.js?v=fd7-066b335",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-fd-app.js?v=fd7-066b335",
+      "content.9gtb.com/script.js?rev=72bffd8",
+      "cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-drawer.js?v=dr-2026091923b",
+      "adsagentclientafd-b7hqhjdrf3fpeqh2.b01.azurefd.net/assets/index-C5KmBn1m.js"
+     ],
+     "hits": [
+      "beacon {\"id\":\"980908600592309\",\"ev\":\"PageView\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"sh-bc1fe905-FBE2-477D-77DF-6A94808FDB55\"}"
+     ],
+     "state": {
+      "pixels": [
+       {
+        "id": "980908600592309",
+        "eventCount": 1
+       }
+      ]
+     }
+    }
+   },
+   {
+    "t": 9781,
+    "grantTest": {
+     "withoutGrant": [],
+     "afterGrant": []
+    }
+   },
+   {
+    "t": 9782,
+    "fbq": {
+     "fbq": "function",
+     "pixels": [
+      "980908600592309"
+     ],
+     "scripts": [
+      "https://connect.facebook.net/signals/config/980908600592309?v=2.9.403&r=stable&d",
+      "https://connect.facebook.net/en_US/fbevents.js"
+     ]
+    }
+   },
+   {
+    "t": 10929,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 11858,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 12702,
+    "mark": "clicking ADD TO CART"
+   },
+   {
+    "t": 13095,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 13096,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 13687,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 13694,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 13699,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 20099,
+    "mark": "drawer open (+7s)"
+   },
+   {
+    "t": 20099,
+    "perfAfterATC": [
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 959,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 10906,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 11834,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 13084,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 13090,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 13681,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 13690,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 13695,
+      "type": "beacon"
+     }
+    ],
+    "hitsAfterATC": [
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"SubscribedButtonClick\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"ob3_plugin-set_0bd11d51c4d779031b7fa09332ba207a79413e90c4d8ec46915cbddf5b99d4d7\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"SubscribedButtonClick\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"ob3_plugin-set_bf12ec0a522ebc44487f821b131b19b1d48972c856fcab52912f7112bf5324b8\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"SubscribedButtonClick\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"eid\":\"ob3_plugin-set_b0f66dcf2d7778d77a1a2de1ff786fc69980bab613c7d36062805dca55fe7bed\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_type]\":\"product\",\"cd[content_ids]\":\"[\\\"45900920356973\\\",\\\"41212021342317\\\",\\\"41212021669997\\\"]\",\"cd[value]\":\"189.95\",\"cd[currency]\":\"USD\",\"cd[num_items]\":\"3\",\"eid\":\"ob3_plugin-set_e93d8cf92cc5090c5931b9b07f13f45c1890b793db2031f4e1c3be05283d89af\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_ids]\":\"[45900920356973]\",\"cd[content_type]\":\"product\",\"cd[content_name]\":\"Maison Croyez — Home Diffuser Kit - 2 Diffusers + 2 Scents (One-Time)\",\"cd[currency]\":\"USD\",\"cd[value]\":\"90.05\",\"cd[num_items]\":\"1\",\"eid\":\"sh-bc20508b-7C25-45EF-E705-D73F342F287F\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_ids]\":\"[41212021342317]\",\"cd[content_type]\":\"product\",\"cd[content_name]\":\"Honey Nectar – Turning Ideas into Reality (100ml)\",\"cd[currency]\":\"USD\",\"cd[value]\":\"49.95\",\"cd[num_items]\":\"1\",\"eid\":\"sh-bc20508b-A272-4E98-3C47-4E83B32AE919\"}",
+     "beacon {\"id\":\"980908600592309\",\"ev\":\"AddToCart\",\"dl\":\"https://maisoncroyez.com/pages/free-diffusers\",\"cd[content_ids]\":\"[41212021669997]\",\"cd[content_type]\":\"product\",\"cd[content_name]\":\"Wildwood Mystique – Purification (100ml)\",\"cd[currency]\":\"USD\",\"cd[value]\":\"49.95\",\"cd[num_items]\":\"1\",\"eid\":\"sh-bc20508c-EA11-4C71-6A2B-08EEC53AA17D\"}"
+    ]
+   },
+   {
+    "t": 20102,
+    "mark": "clicking checkout"
+   },
+   {
+    "t": 20140,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 21939,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 21939,
+    "m": "POST",
+    "page": ""
+   },
+   {
+    "t": 30117,
+    "mark": "checkout loaded (+8s)"
+   },
+   {
+    "t": 30117,
+    "perfCheckout": [
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 1793,
+      "type": "beacon"
+     },
+     {
+      "ev": null,
+      "value": null,
+      "ids": null,
+      "t": 1798,
+      "type": "beacon"
+     }
+    ],
+    "checkoutFbq": "function"
+   }
+  ]
+ }
+]

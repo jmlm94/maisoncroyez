@@ -88,3 +88,10 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   LCP forensics (runner Chromium, no H.264 so the video never paints): unchanged at 3.5–3.9 s, bandwidth-bound.
 - 2026-09-20 fd11-52ee8bc — LIVE (page body only; CDN files = fd10 build). <video poster> restored with the SAME &width=720
   URL as the <img> (one request), srcset dropped so the two URLs always match. QA: r239; Lighthouse re-run.
+  r239: 141/141 (fd11 on all 5 paths; poster one request, width=720, video poster on the same URL). Lighthouse fd11:
+  mobile 68/65/66, LCP 3.7/5.6/5.9 s (LCP element back to the poster <img>), TBT 720/390/400 ms; desktop 97/98/96, LCP 1.1–1.2 s.
+  Series (mobile score / LCP): fd3 54-59 / 3.9–4.7 s -> fd8 47-65 / 4.1–5.2 s -> fd9 58-71 / 3.2–4.8 s -> fd10 46-57 / 5.7–8.8 s
+  (video first frame) -> fd11 65-68 / 3.7–5.9 s. Desktop 94-96 -> 96-98. Page total transfer ~3.4 MB, 255 requests; our
+  files are ~130 KB of it. What is left is outside the page body: theme.js/vendor/sections modules (DCL 4.7 s on a slow
+  phone), Shopify web-pixel manager (75 KB, 900 ms main thread), checkout preloads (~530 KB), Facebook 248 KB / 300 ms
+  blocking, Clarity + Clarity Brand Agents (29 + 280 KB), 9gtb 64 KB, Subi 58 KB, Klaviyo 67 KB — app embeds, owner call.

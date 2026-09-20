@@ -1,0 +1,398 @@
+<title>Manage My Maison Croyez</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,700;1,700&family=Outfit:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ivory:#FFFFFF; --blush:#ECDFDE; --blush-soft:#F3EAE8; --rosewood:#C4A59F; --rosewood-deep:#8A5B52;
+    --rosewood-tint:#E7D6D2; --cream:#F9F5F0; --ink:#241C18; --ink-soft:#5C4F48; --gold:#D9B08C; --cta:#000000;
+    --ok:#3F6B4F;
+    --grad-em:linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%);
+    --grad-hero:linear-gradient(168deg,#F3E7E3 0%,#ECDFDE 34%,#E6CDBB 72%,#DCB99F 100%);
+    --grad-values:linear-gradient(160deg,#F6ECE6 0%,#ECDFDE 45%,#E9D3BE 100%);
+    --radius:22px; --shadow:0 10px 34px rgba(60,38,30,.12);
+    --display:"Unna","Iowan Old Style",Georgia,serif;
+    --label:"Outfit","Avenir Next",system-ui,sans-serif;
+    --body:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ivory); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.55; overflow-x:clip; -webkit-font-smoothing:antialiased; }
+  .page { min-height:100%; background:var(--grad-hero); }
+  .wrap { max-width:560px; margin:0 auto; padding-inline:16px; padding-block:22px 72px; }
+
+  .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:22px; }
+  .logo { font-family:var(--label); font-weight:700; letter-spacing:.28em; font-size:13px; text-transform:uppercase; }
+  .logo small { display:block; font-family:var(--display); font-style:italic; font-weight:700; letter-spacing:0; text-transform:none; font-size:14px; color:var(--rosewood-deep); margin-top:-2px; }
+  .tools { display:flex; gap:8px; }
+  .tool { border:1px solid rgba(36,28,24,.18); background:rgba(255,255,255,.55); border-radius:999px; padding:6px 12px; font-family:var(--label); font-weight:600; font-size:11px; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; color:var(--ink); }
+  .tool[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .tool:focus-visible { outline:2px solid var(--rosewood-deep); outline-offset:2px; }
+
+  .ribbon { font-family:var(--label); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--rosewood-deep); text-align:center; margin:0 0 12px; }
+
+  .card { background:var(--ivory); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 26px 24px; min-height:520px; display:flex; flex-direction:column; }
+  @media (max-width:420px){ .card { padding:22px 18px 20px; } }
+  .eyebrow { font-family:var(--label); font-weight:700; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--rosewood-deep); margin:0 0 10px; }
+  h1 { font-family:var(--display); font-weight:700; font-size:clamp(30px,7vw,38px); line-height:.98; letter-spacing:-.03em; margin:0 0 12px; text-wrap:balance; }
+  h1 em { font-style:italic; background:var(--grad-em); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  p { margin:0 0 12px; }
+  .soft { color:var(--ink-soft); font-size:14px; }
+
+  .sub { background:var(--cream); border-radius:16px; padding:16px 18px; margin:6px 0 16px; }
+  .sub .scent { font-family:var(--display); font-weight:700; font-size:24px; line-height:1; margin:0; }
+  .sub .intent { font-family:var(--label); font-weight:600; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--rosewood-deep); margin:4px 0 12px; }
+  .kv { display:grid; grid-template-columns:1fr auto; gap:5px 14px; font-size:13.5px; margin:0; }
+  .kv dt { color:var(--ink-soft); }
+  .kv dd { margin:0; text-align:right; font-variant-numeric:tabular-nums; font-weight:500; }
+
+  .miles { border:1px solid var(--rosewood-tint); background:var(--blush-soft); border-radius:14px; padding:12px 14px; margin:0 0 16px; font-size:13.5px; }
+  .miles .bar { display:flex; gap:6px; margin:8px 0 6px; }
+  .miles .bar i { flex:1; height:6px; border-radius:3px; background:var(--rosewood-tint); }
+  .miles .bar i.done { background:var(--grad-em); }
+  .miles b { font-weight:600; }
+
+  .opts { display:flex; flex-direction:column; gap:10px; margin:4px 0 14px; }
+  .opt { display:block; width:100%; text-align:left; background:var(--ivory); border:1.5px solid var(--blush); border-radius:16px; padding:13px 16px; font:inherit; color:var(--ink); cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover { border-color:var(--rosewood); background:var(--cream); }
+  .opt:focus-visible { outline:2px solid var(--rosewood-deep); outline-offset:2px; }
+  .opt b { display:block; font-weight:600; }
+  .opt span { display:block; color:var(--ink-soft); font-size:13px; margin-top:2px; }
+  .opt[aria-pressed="true"] { border-color:var(--ink); background:var(--cream); }
+
+  .cta { display:inline-flex; justify-content:center; align-items:center; width:100%; background:var(--cta); color:#fff; border:none; border-radius:999px; padding:15px 22px; font-family:var(--label); font-weight:700; font-size:13px; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; }
+  .cta:hover { background:var(--rosewood-deep); }
+  .cta:focus-visible { outline:2px solid var(--rosewood-deep); outline-offset:3px; }
+  .cta.grad { background:var(--grad-em); }
+  .cta[disabled] { opacity:.45; cursor:not-allowed; }
+
+  .field { display:flex; flex-direction:column; gap:6px; margin:6px 0 16px; }
+  .field label { font-family:var(--label); font-weight:600; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
+  .field input, .field textarea { font:inherit; padding:13px 14px; border:1.5px solid var(--blush); border-radius:14px; background:var(--ivory); color:var(--ink); width:100%; }
+  .field input:focus, .field textarea:focus { outline:2px solid var(--rosewood); border-color:var(--rosewood); }
+
+  .foot { margin-top:auto; padding-top:14px; border-top:1px solid var(--blush); display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .quiet { background:none; border:none; color:var(--ink-soft); text-decoration:underline; text-underline-offset:3px; font:inherit; font-size:14px; cursor:pointer; padding:6px 0; }
+  .quiet:hover { color:var(--ink); }
+  .quiet.dark { color:var(--ink); }
+  .quiet:focus-visible { outline:2px solid var(--rosewood-deep); outline-offset:2px; border-radius:4px; }
+
+  .tip { background:var(--grad-values); border-radius:14px; padding:12px 14px; margin:0 0 14px; font-size:14px; }
+  .tip b { font-family:var(--display); font-weight:700; font-style:italic; font-size:18px; display:block; margin-bottom:2px; }
+  .check { width:46px; height:46px; border-radius:50%; background:var(--grad-em); color:#fff; display:grid; place-items:center; font-size:20px; margin:2px 0 14px; }
+  .summary { border:1.5px solid var(--blush); border-radius:14px; padding:12px 14px; margin:0 0 14px; font-size:14px; }
+  .summary dl { display:grid; grid-template-columns:auto 1fr; gap:6px 14px; margin:0; }
+  .summary dt { color:var(--ink-soft); }
+  .summary dd { margin:0; font-weight:500; }
+  ul.plain { padding-left:18px; margin:0 0 14px; }
+  ul.plain li { margin-bottom:6px; }
+
+  .pkgs { display:flex; flex-direction:column; gap:10px; margin:4px 0 14px; }
+  .pkg { border:1.5px solid var(--blush); border-radius:16px; padding:14px 16px; display:grid; grid-template-columns:1fr auto; gap:4px 12px; cursor:pointer; background:var(--ivory); text-align:left; font:inherit; color:var(--ink); width:100%; }
+  .pkg:hover { border-color:var(--rosewood); background:var(--cream); }
+  .pkg:focus-visible { outline:2px solid var(--rosewood-deep); outline-offset:2px; }
+  .pkg .n { font-family:var(--display); font-weight:700; font-size:22px; line-height:1; }
+  .pkg .p { font-weight:600; text-align:right; font-variant-numeric:tabular-nums; }
+  .pkg .d { grid-column:1 / -1; color:var(--ink-soft); font-size:13px; }
+  .pkg .tag { grid-column:1 / -1; font-family:var(--label); font-weight:700; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--rosewood-deep); }
+
+  .build { margin-top:16px; background:rgba(255,255,255,.7); border:1px dashed var(--rosewood); border-radius:16px; padding:14px 16px; font-size:13.5px; }
+  .build h3 { font-family:var(--label); font-weight:700; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--rosewood-deep); margin:0 0 8px; }
+  .build ul { margin:0; padding-left:18px; }
+  .build li { margin-bottom:5px; }
+  .build[hidden] { display:none; }
+
+  .fade { animation:fade .22s ease-out; }
+  @keyframes fade { from { opacity:.4; transform:translateY(4px);} to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce){ .fade { animation:none; } .opt { transition:none; } }
+</style>
+
+<div class="page">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="logo">Maison Croyez<small>attract what you sense</small></div>
+      <div class="tools">
+        <button class="tool" id="buildToggle" type="button" aria-pressed="false">Build notes</button>
+        <button class="tool" id="restart" type="button">Restart</button>
+      </div>
+    </div>
+    <p class="ribbon">Prototype · example subscriber · maisoncroyez.com/pages/manage</p>
+    <section class="card fade" id="card" aria-live="polite"></section>
+    <aside class="build" id="build" hidden></aside>
+  </div>
+</div>
+
+<script>
+(function(){
+  const PRICE = 39.95, LIST = 49.95, KEEP = 49.95;
+  const money = n => "$" + n.toFixed(2);
+  const scents = [
+    ["Golden Blossom Harmony","Love"],["Honey Nectar","Turn Ideas Into Reality"],["Euphoric Bloom","Raise Energy"],
+    ["Crisp Citrus Scape","Abundance"],["Wildwood Mystique","Purification"],["Chilled Citrus","Relaxation & Concentration"],
+    ["Midnight Sensation","Love Manifestation"]
+  ];
+  // Example subscriber. In production this comes from Subi after the email lookup.
+  const sub = { email:"elena@example.com", scent:"Golden Blossom Harmony", intent:"Love", kit:"Studio Kit", diffusers:1,
+    cadence:30, next:"October 11", started:"August 12, 2026", charges:1, minimum:3 };
+  const st = { reason:null, reasonText:"", exit:null, pkg:null, cadence:30, swap:null, pause:null, path:[] };
+
+  const remaining = () => Math.max(0, sub.minimum - sub.charges);
+  const inCommit = () => remaining() > 0;
+  const card = document.getElementById("card");
+  const build = document.getElementById("build");
+  const buildToggle = document.getElementById("buildToggle");
+
+  const milestone = () => inCommit()
+    ? `<div class="miles"><b>${sub.charges} of ${sub.minimum} fragrance charges complete.</b>
+        <div class="bar">${Array.from({length:sub.minimum},(_,i)=>`<i class="${i<sub.charges?'done':''}"></i>`).join("")}</div>
+        ${remaining()===1 ? "One more renewal and your diffuser is fully yours. A gift may be coming with it." : `${remaining()} more renewals and your diffuser is fully yours. A gift may be coming with that renewal.`}</div>`
+    : `<div class="miles"><b>Your diffuser is fully yours.</b> Thank you for staying with us. Cancel anytime, no conditions.</div>`;
+
+  const foot = (back, cancel) => `<div class="foot">${back?'<button class="quiet" data-go="home">Back to my subscription</button>':'<span></span>'}${cancel?`<button class="quiet dark" data-go="${cancel}">Continue cancelling</button>`:''}</div>`;
+
+  const S = {
+    identify: {
+      html: () => `
+        <p class="eyebrow">Manage my subscription</p>
+        <h1>Let us find <em>your subscription.</em></h1>
+        <p class="soft">Enter the email you used on your order. We will show you what you have and what you can change.</p>
+        <div class="field"><label for="email">Email</label><input id="email" type="email" value="${sub.email}" autocomplete="email"></div>
+        <button class="cta" data-go="home">Find my subscription ➔</button>
+        <div class="foot"><span class="soft">No account or password needed.</span></div>`,
+      notes: ["Lookup: Subi API, subscription contracts by customer email. Show all active contracts if more than one.",
+              "Security: email the customer a 6-digit code or a magic link before showing details. Order numbers are guessable, emails are not.",
+              "Page lives at /pages/manage on the live theme; the same page is the destination for every link in Klaviyo reminders."]
+    },
+    home: {
+      html: () => `
+        <p class="eyebrow">Your subscription</p>
+        <div class="sub">
+          <p class="scent">${sub.scent}</p>
+          <p class="intent">${sub.intent} · 100ml</p>
+          <dl class="kv">
+            <dt>Kit</dt><dd>${sub.kit} · ${sub.diffusers} diffuser</dd>
+            <dt>Delivery</dt><dd>Every ${sub.cadence} days</dd>
+            <dt>Next charge</dt><dd>${sub.next} · ${money(PRICE)}</dd>
+            <dt>With us since</dt><dd>${sub.started}</dd>
+          </dl>
+        </div>
+        ${milestone()}
+        <div class="opts">
+          <button class="opt" data-go="done" data-msg="skip"><b>Skip my next delivery</b><span>Moves ${sub.next} forward by one cycle. Nothing is charged.</span></button>
+          <button class="opt" data-go="swap"><b>Swap my scent</b><span>Choose a new intention for the next box.</span></button>
+          <button class="opt" data-go="timing"><b>Change my timing</b><span>Every 30, 45 or 60 days.</span></button>
+          <button class="opt" data-go="pause"><b>Pause for a while</b><span>Up to 90 days. Nothing ships, nothing is charged.</span></button>
+        </div>
+        <div class="foot"><span class="soft">Changes apply from your next charge.</span><button class="quiet dark" data-go="reason">Cancel my subscription</button></div>`,
+      notes: ["Skip: Subi API skip next order on the contract. One tap, no reason asked.",
+              "Milestone box counts completed recurring charges from Subi (Recurring Order #n). Paused and skipped cycles do not count.",
+              "Cancel link is on the first screen. Two taps from here to the reason screen, no hunting."]
+    },
+    swap: {
+      html: () => `
+        <p class="eyebrow">Swap my scent</p>
+        <h1>Which intention is <em>your home asking for?</em></h1>
+        <p class="soft">Applies to your next box. Same price, same timing. Swap back anytime.</p>
+        <div class="opts">${scents.filter(s=>s[0]!==sub.scent).map(s=>`<button class="opt" data-go="done" data-msg="swap" data-swap="${s[0]}"><b>${s[0]}</b><span>${s[1]}</span></button>`).join("")}</div>
+        ${foot(true,false)}`,
+      notes: ["Swap: Subi API replace line item variant on the contract, quantity unchanged, price unchanged.", "Record the swap on the Klaviyo profile (last_swap_from, last_swap_to) to learn rotation patterns."]
+    },
+    timing: {
+      html: () => `
+        <p class="eyebrow">Change my timing</p>
+        <h1>How often should a <em>bottle arrive?</em></h1>
+        <div class="tip"><b>A quick guide.</b>12-hour timer, every 30 days. 6-hour timer, every 30 to 45 days. 3-hour timer or evenings only, every 60 days.</div>
+        <div class="opts">
+          ${[30,45,60].map(d=>`<button class="opt" data-go="done" data-msg="cad" data-cad="${d}"><b>Every ${d} days${d===sub.cadence?' (current)':''}</b><span>${money(PRICE)} per bottle · about ${money(PRICE*30/d)} a month</span></button>`).join("")}
+        </div>
+        ${foot(true,false)}`,
+      notes: ["Timing: Subi API update the contract's delivery interval; billing follows delivery in Subi. Confirm in Subi that the price stays $39.95 on every cadence (the old 45-day plan bills $49.95).",
+              "Create a 60-day selling plan in Subi at $39.95 before launch. Minimum commitment counts charges, so a slower cadence does not shorten it."]
+    },
+    pause: {
+      html: () => `
+        <p class="eyebrow">Pause</p>
+        <h1>How long should we <em>step aside?</em></h1>
+        <p class="soft">Nothing ships and nothing is charged while paused. Your subscription restarts on its own at the end, and we email you 5 days before so you can extend or restart early. Up to 90 days in total.</p>
+        <div class="opts">
+          <button class="opt" data-go="done" data-msg="pause" data-pause="30"><b>30 days</b><span>Restarts November 10.</span></button>
+          <button class="opt" data-go="done" data-msg="pause" data-pause="60"><b>60 days</b><span>Restarts December 10.</span></button>
+          <button class="opt" data-go="done" data-msg="pause" data-pause="90"><b>90 days</b><span>Restarts January 9. The maximum.</span></button>
+        </div>
+        ${foot(true,false)}`,
+      notes: ["Pause: Subi API pause contract with a resume date. Track total paused days per contract so the 90-day cap holds across multiple pauses.",
+              "Resume reminder 5 days before via Klaviyo. Paused time does not count toward the 3-charge minimum."]
+    },
+    reason: {
+      html: () => `
+        <p class="eyebrow">Cancel my subscription</p>
+        <h1>Before we do, tell us <em>what is not working.</em></h1>
+        <p class="soft">One answer. It points us to the right fix, and it helps us do better.</p>
+        <div class="opts">
+          ${[["toomuch","Bottles are piling up","I have more than I can use."],["notice","I stopped noticing the scent","Strong at first, now I barely smell it."],["price","It costs more than I want to spend",""],["device","Something is wrong with my diffuser",""],["different","I want something different",""],["life","Life changed, I do not need it right now",""],["other","Something else",""]]
+            .map(r=>`<button class="opt" data-go="offer" data-reason="${r[0]}" data-label="${r[1]}"><b>${r[1]}</b>${r[2]?`<span>${r[2]}</span>`:''}</button>`).join("")}
+        </div>
+        <div class="foot"><button class="quiet" data-go="home">Back to my subscription</button></div>`,
+      notes: ["Reason is required and saved to the Klaviyo profile (cancel_reason, cancel_reason_date) and to the Slack alert.",
+              "'Something else' opens a short text box on the next screen. Weekly Slack summary groups by reason and outcome (saved, cancelled, package)."]
+    },
+    offer: {
+      html: () => {
+        const r = st.reason;
+        const stay = `<button class="opt" data-go="done" data-msg="gift"><b>Stay, and a gift may be coming with your next renewal</b><span>Keep everything as it is. We will surprise you with something extra.</span></button>`;
+        const disc = `<button class="opt" data-go="done" data-msg="disc"><b>20% off your next round</b><span>${money(PRICE*0.8)} instead of ${money(PRICE)} on your next charge. One time.</span></button>`;
+        const pkgs = `<button class="opt" data-go="packages"><b>Switch to a one-time supply and close my subscription</b><span>3, 6 or 12 months of fragrance, paid once, with free diffusers included.</span></button>`;
+        const sixty = `<button class="opt" data-go="done" data-msg="cad" data-cad="60"><b>Slow down to every 60 days</b><span>Same bottle, same price, half as often.</span></button>`;
+        const skip = `<button class="opt" data-go="done" data-msg="skip"><b>Skip my next delivery</b><span>Nothing charged, schedule moves forward one cycle.</span></button>`;
+        const pauseB = `<button class="opt" data-go="pause"><b>Pause for up to 90 days</b><span>Nothing ships, nothing is charged, restarts on its own.</span></button>`;
+        const swapB = `<button class="opt" data-go="swap"><b>Rotate to a new intention</b><span>Switch your next box. Your first scent will feel new again when you return to it.</span></button>`;
+        const map = {
+          toomuch: { h:`Then we are sending them <em>too fast.</em>`, p:`Let us slow down instead of stopping.`, o:[skip, sixty, pauseB, stay] },
+          notice:  { h:`It is still there. Your nose has <em>settled into it.</em>`, p:`After about two weeks with one scent running, the nose stops reporting it. Guests still notice the moment they walk in. Rotation brings it back for you.`, o:[swapB, `<button class="opt" data-go="done" data-msg="timer"><b>Show me the timer trick</b><span>Shorter windows keep the scent noticeable and stretch the bottle.</span></button>`, stay] },
+          price:   { h:`Let us bring the monthly number <em>down.</em>`, p:`Your bottle price stays locked at ${money(PRICE)} while you subscribe. These change how often it arrives, or how you pay.`, o:[sixty, disc, pkgs, stay] },
+          device:  { h:`That is on us to fix, and <em>billing stops while we do.</em>`, p:`Your diffuser is under warranty. Open a claim and your next charge is on hold until it is working again.`, o:[`<button class="opt" data-go="done" data-msg="claim"><b>Start a warranty claim</b><span>Two minutes. We reply the same business day. Next charge on hold.</span></button>`, `<button class="opt" data-go="done" data-msg="fix"><b>Try the 60-second fix first</b><span>Most weak-scent reports are a mode setting or an unseated bottle.</span></button>`, stay] },
+          different:{ h:`Seven intentions. <em>You have met one.</em>`, p:`Pick the one your home is asking for now, or take a supply of the ones you love.`, o:[swapB, pkgs, stay] },
+          life:    { h:`Then let us step aside <em>for a while.</em>`, p:`A pause keeps your price and your scent exactly as they are. Nothing ships, nothing is charged.`, o:[pauseB, skip, stay] },
+          other:   { h:`Tell us a little more, if you like.`, p:``, o:[`<div class="field"><label for="why">What happened?</label><textarea id="why" rows="3" placeholder="Optional"></textarea></div>`, pauseB, disc, pkgs, stay] }
+        }[r];
+        return `
+        <p class="eyebrow">Before you cancel</p>
+        <h1>${map.h}</h1>
+        ${map.p?`<p class="soft">${map.p}</p>`:''}
+        ${inCommit()?milestone():''}
+        <div class="opts">${map.o.join("")}</div>
+        ${foot(true, inCommit()?"commit":"review")}`;
+      },
+      notes: ["Offers are matched to the reason. Pause, skip, swap and timing come first; the 20% discount second and only where price is the reason or the reason is unknown; the supply packages third; the gift note last on every screen.",
+              "20% off: Subi API one-time discount on the next order. Flag the profile (discount_used=true) so it is offered once per customer.",
+              "Warranty claim: opens a Gorgias ticket, pauses the contract in Subi, and tags the profile. Timer tip and 60-second fix are Klaviyo emails sent on click.",
+              "The 'continue cancelling' link is on every offer screen. If the subscriber is inside the minimum, it goes to the commitment step; otherwise straight to review."]
+    },
+    packages: {
+      html: () => `
+        <p class="eyebrow">One-time supply</p>
+        <h1>Take the fragrance, <em>skip the plan.</em></h1>
+        <p class="soft">Paid once, shipped once, nothing renews. Buying a supply closes your subscription and counts as your commitment, so your diffuser is fully yours.</p>
+        <div class="pkgs">
+          <button class="pkg" data-go="done" data-msg="pkg" data-pkg="3"><span class="n">3-month supply</span><span class="p">${money(PRICE*3)}</span><span class="d">3 bottles of your choice, plus 1 free diffuser.</span></button>
+          <button class="pkg" data-go="done" data-msg="pkg" data-pkg="6"><span class="n">6-month supply</span><span class="p">${money(PRICE*6-20)}</span><span class="d">6 bottles of your choice, plus 2 free diffusers.</span><span class="tag">Most chosen</span></button>
+          <button class="pkg" data-go="done" data-msg="pkg" data-pkg="12"><span class="n">12-month supply</span><span class="p">${money(PRICE*12-80)}</span><span class="d">12 bottles of your choice, plus 3 free diffusers.</span></button>
+        </div>
+        ${foot(true, inCommit()?"commit":"review")}`,
+      notes: ["Prices here are placeholders built from the $39.95 subscriber price. Set the real package prices and the free-diffuser counts.",
+              "On purchase: Shopify Flow trigger 'Order created' with a supply-package SKU runs a Subi cancel-contract action (or the page calls the Subi API right after checkout). This is the automatic cancel you asked about; no manual step.",
+              "The package order should carry the customer's scent choices; send them to a scent picker inside checkout or the package product page."]
+    },
+    commit: {
+      html: () => `
+        <p class="eyebrow">Cancel my subscription</p>
+        <h1>Your diffuser is part of <em>the plan you started.</em></h1>
+        <p class="soft">Your kit came with free fragrance because it is built around three fragrance charges. You have completed ${sub.charges} of ${sub.minimum}. To cancel now, choose how you would like to handle the diffuser.</p>
+        <div class="opts">
+          <button class="opt" data-go="review" data-exit="keep"><b>Keep my diffuser for ${money(KEEP)}</b><span>Charged once, only after you confirm. Nothing to return. Subscription closes today.</span></button>
+          <button class="opt" data-go="review" data-exit="finish"><b>Finish with ${remaining()===1?'one more renewal':remaining()+' more renewals'}</b><span>Then the diffuser is fully yours and your subscription closes on its own. A gift may be coming with that renewal.</span></button>
+          <button class="opt" data-go="review" data-exit="return"><b>Return my diffuser</b><span>Like-new, original box, tracked shipping at your cost within 14 days. Nothing further charged once it ships.</span></button>
+        </div>
+        <div class="foot"><button class="quiet" data-go="home">Keep my subscription instead</button></div>`,
+      notes: ["Shown only when completed recurring charges are fewer than 3. Subscribers past the minimum skip this screen entirely.",
+              "Keep-it fee: $49.95 per diffuser in the kit (Studio 1, Condo 3, House 5). Charged via Subi one-time charge or a Shopify draft order after the review step confirms.",
+              "'Finish' sets the contract to auto-cancel after the remaining charges. 'Return' emails the RMA instructions and holds billing.",
+              "These terms must be in the Subscription Terms and on the product page before this screen goes live."]
+    },
+    review: {
+      html: () => {
+        const exitLabel = { keep:`Keep my diffuser for ${money(KEEP)}`, finish:`Finish with ${remaining()} more renewal${remaining()===1?'':'s'}, then close`, return:`Return my diffuser` }[st.exit] || "Cancel now, nothing owed";
+        return `
+        <p class="eyebrow">Cancel my subscription</p>
+        <h1>Here is what we <em>will do.</em></h1>
+        <div class="summary"><dl>
+          <dt>Subscription</dt><dd>${sub.scent}, every ${sub.cadence} days</dd>
+          <dt>Reason</dt><dd>${st.reasonLabel || "Not given"}</dd>
+          <dt>Your choice</dt><dd>${exitLabel}</dd>
+          <dt>Next charge</dt><dd>${sub.next}, on hold from now</dd>
+        </dl></div>
+        <ul class="plain">
+          <li>We review your request and confirm by email within one business day.</li>
+          <li>Your ${sub.next} charge will not run while we review.</li>
+          ${st.exit==='keep'?`<li>The ${money(KEEP)} diffuser fee is charged only after our confirmation email.</li>`:''}
+          ${st.exit==='return'?`<li>Our email includes the return address and what to include in the box.</li>`:''}
+          ${st.exit==='finish'?`<li>Your remaining renewal runs on schedule, then your subscription closes on its own.</li>`:''}
+          <li>Fragrance you already have is yours to keep.</li>
+        </ul>
+        <button class="cta" data-go="submitted">Submit my cancellation request ➔</button>
+        <div class="foot"><button class="quiet" data-go="home">Keep my subscription instead</button></div>`;
+      },
+      notes: ["Submitting puts the contract on hold in Subi immediately, so no charge runs during review. That protects you from the 'charged after I cancelled' dispute.",
+              "Slack alert to the retention channel: customer, kit, charges completed, reason, free text, exit choice, link to Subi contract. Reviewer confirms with one click and the customer gets the confirmation email.",
+              "Target: confirm within one business day. State the same promise in the Subscription Terms."]
+    },
+    submitted: {
+      html: () => `
+        <p class="eyebrow">Received</p>
+        <div class="check">✓</div>
+        <h1>We have your request. <em>Thank you for the time with us.</em></h1>
+        <p>You will hear from us by email within one business day. Your ${sub.next} charge is on hold until then.</p>
+        <p class="soft">Changed your mind? Reply to that email or come back here and choose Keep my subscription.</p>
+        <div class="foot"><button class="quiet" data-go="home">Back to my subscription</button></div>`,
+      notes: ["Confirmation email goes out immediately with the request summary. Klaviyo profile gets cancel_status=pending and the reason.",
+              "After the reviewer confirms: Subi cancels the contract, Klaviyo gets cancel_status=cancelled with the exit choice, and the customer gets the final email. Win-back sequencing lives outside this page."]
+    },
+    done: {
+      html: () => {
+        const m = {
+          skip:  [`Next delivery moved forward one cycle.`, `Nothing is charged until then. You can skip again anytime.`],
+          swap:  [`${st.swap} arrives in your next box.`, `Same price, same timing. ${sub.scent} is one tap away whenever you want it back.`],
+          cad:   [`Your bottle now arrives every ${st.cadence} days.`, `Price stays ${money(PRICE)}. Your next charge date has been updated.`],
+          pause: [`Paused for ${st.pause} days.`, `Nothing ships and nothing is charged. We email you 5 days before it restarts, with one tap to extend or restart early.`],
+          gift:  [`Nothing changes, except one thing.`, `A gift may be coming with your next renewal. We are glad you stayed.`],
+          disc:  [`20% off is applied to your next charge.`, `${money(PRICE*0.8)} on ${sub.next}. After that, your regular ${money(PRICE)}.`],
+          timer: [`The timer trick is in your inbox.`, `Run the 3-hour or 6-hour timer instead of 12. Your nose resets in the gaps, the room still holds the scent, and the bottle lasts longer.`],
+          claim: [`Warranty claim opened. Billing is paused.`, `We reply the same business day with parts or a replacement. Your subscription resumes only once your diffuser is working.`],
+          fix:   [`The 60-second fix is in your inbox.`, `If it does not solve it, reply to that email and a claim opens automatically. Your next charge is on hold for 7 days.`],
+          pkg:   [`${st.pkg}-month supply added to your cart.`, `When you complete checkout your subscription closes automatically, and the diffuser is fully yours.`]
+        }[st.msg] || ["Done.",""];
+        const cta = st.msg==='pkg' ? `<button class="cta grad" data-go="home">Go to checkout ➔</button>` : `<button class="cta" data-go="home">Back to my subscription ➔</button>`;
+        return `
+        <p class="eyebrow">Done</p>
+        <div class="check">✓</div>
+        <h1>${m[0]}</h1>
+        <p>${m[1]}</p>
+        <p class="soft">A confirmation email is on its way with everything above and a link to change it again.</p>
+        <div style="margin-top:auto">${cta}</div>
+        ${st.msg!=='pkg' && st.reason ? `<div class="foot"><span></span><button class="quiet" data-go="${inCommit()?'commit':'review'}">I still want to cancel</button></div>` : ''}`;
+      },
+      notes: ["Every saved outcome is confirmed on screen and by email, and 'I still want to cancel' stays visible. A saved subscriber who feels trapped cancels next month and tells people.",
+              "Log outcome to Klaviyo (save_action, save_date) and Slack. Measure saves by 90-day survival, not by the click."]
+    }
+  };
+
+  function render(id){
+    card.innerHTML = S[id].html();
+    card.classList.remove("fade"); void card.offsetWidth; card.classList.add("fade");
+    build.innerHTML = `<h3>Build notes · ${id}</h3><ul>${S[id].notes.map(n=>`<li>${n}</li>`).join("")}</ul>`;
+    const h = card.querySelector("h1"); if (h && st.path.length){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); }
+  }
+  card.addEventListener("click", e => {
+    const b = e.target.closest("[data-go]"); if(!b) return;
+    const d = b.dataset;
+    if (d.reason){ st.reason = d.reason; st.reasonLabel = d.label; }
+    if (d.exit) st.exit = d.exit;
+    if (d.swap) st.swap = d.swap;
+    if (d.cad) st.cadence = +d.cad;
+    if (d.pause) st.pause = +d.pause;
+    if (d.pkg) st.pkg = +d.pkg;
+    if (d.msg) st.msg = d.msg;
+    if (d.go === "review" && !d.exit && !inCommit()) st.exit = null;
+    const why = document.getElementById("why"); if (why) st.reasonText = why.value;
+    st.path.push(d.go);
+    render(d.go);
+  });
+  document.getElementById("restart").addEventListener("click", () => { Object.assign(st,{reason:null,reasonLabel:null,exit:null,pkg:null,cadence:30,swap:null,pause:null,msg:null,path:[]}); render("identify"); });
+  buildToggle.addEventListener("click", () => {
+    const on = buildToggle.getAttribute("aria-pressed") !== "true";
+    buildToggle.setAttribute("aria-pressed", on ? "true" : "false");
+    build.hidden = !on;
+    try { localStorage.setItem("mc-build-notes", on ? "1":"0"); } catch(e){}
+  });
+  try { if (localStorage.getItem("mc-build-notes")==="1") buildToggle.click(); } catch(e){}
+  render("identify");
+})();
+</script>

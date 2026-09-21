@@ -47460,7 +47460,9 @@
       },
       "variant": {
        "inventoryItem": {
-        "unitCost": null
+        "unitCost": {
+         "amount": "26.0"
+        }
        }
       }
      }
@@ -47672,7 +47674,9 @@
       },
       "variant": {
        "inventoryItem": {
-        "unitCost": null
+        "unitCost": {
+         "amount": "26.0"
+        }
        }
       }
      }
@@ -49618,7 +49622,9 @@
       },
       "variant": {
        "inventoryItem": {
-        "unitCost": null
+        "unitCost": {
+         "amount": "52.0"
+        }
        }
       }
      }
@@ -49637,6 +49643,117 @@
        "inventoryItem": {
         "unitCost": {
          "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC26992",
+  "createdAt": "2026-09-21T13:21:42Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "OCU Zipify Post-Purchase Upsell Bought"
+  ],
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "199.85"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "40.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "199.85"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "4.62"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.38"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Maison Croyez — Home Scent Diffuser",
+      "quantity": 2,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "79.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "26.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Maison Croyez — Home Scent Diffuser",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "79.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "26.0"
         }
        }
       }

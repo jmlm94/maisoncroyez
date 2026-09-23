@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# NOTE (2026-09-23, fd12): the deploy-ready files are now edited DIRECTLY (mc-fd-app.js / mc-fd.css). Re-running this
+# port script would overwrite the fd12 changes with the Sep-19 draft. It is kept for history; it refuses to run without --force.
+import sys as _sys
+if '--force' not in _sys.argv:
+    print('port-fd.py is retired since fd12 (deploy-ready files are the source). Pass --force to run anyway.'); _sys.exit(2)
 """Build the free-diffusers page bundle (mc-fd-app.js / mc-fd.css) = live kits-LP bundle (mc-v3-app.js, v3s27)
 + the offer delta from the draft artifact (scratchpad/mc-kits-lp-draft-copy.html). Regions are copied from the
 draft by start/end markers so both files stay in lock-step. Kit variant ids come from KITS below."""

@@ -415,8 +415,9 @@ async function addToCart(setBusy, setToast) {
   const items = [{ id: sub ? CART3.kitVariants[T.key] : CART3.oneTimeKits[T.key], quantity: 1 }];
   const planId = CART3.sellingPlanFree;
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
+  mcTrack("checkout_click", { fd_kit: T.n, fd_plan: sub ? "sub" : "one", fd_total: selStore.today() });
   if (!onStore()) {
-    setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 30-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens the cart.");
+    setToast("Preview mode. On the live store this adds " + T.name + (selStore.keys.length ? " + " + selStore.keys.length + " scent" + (selStore.keys.length > 1 ? "s" : "") + (sub ? " on the 30-day refill plan" : "") : "") + " (" + usd(selStore.today()) + " today) and opens secure checkout.");
     return;
   }
   /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line
@@ -429,14 +430,10 @@ async function addToCart(setBusy, setToast) {
       body: JSON.stringify({ items }),
     });
     if (!r.ok) throw new Error("cart " + r.status);
-    const drawer = document.getElementById("cart-drawer");
-    if (drawer && typeof drawer.show === "function") {
-      document.dispatchEvent(new CustomEvent("cart:refresh"));
-      drawer.show();
-      setBusy(false);
-    } else {
-      window.location.href = CART3.cartUrl;
-    }
+    /* fd12 (2026-09-23): straight to checkout — the drawer was an extra screen where 42% of add-to-carts stopped.
+       The cart icon / drawer still work for anyone who wants to add more. */
+    mcTrack("cart_added", { fd_total: selStore.today() });
+    window.location.href = "/checkout";
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");
@@ -454,9 +451,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "(Requires 1 scent)",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "$9.95 FLAT FEE \u2014 FREE ON $75+ ORDERS", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
-  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "(Requires 2 scents)", price: 99.90,  oneTime: 90.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "(Requires 3 scents)", price: 149.85, oneTime: 140.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "one",   n: 1, name: "1 scent + 1 FREE diffuser \uD83C\uDF81",  req: "",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "Small space: restroom, studio, storage.", ship: "+ $9.95 SHIPPING (FREE FROM $75)", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
+  { key: "two",   n: 2, name: "2 scents + 2 FREE diffusers \uD83C\uDF81", req: "", price: 99.90,  oneTime: 90.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living room + bedroom.", ship: "FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
+  { key: "three", n: 3, name: "3 scents + 3 FREE diffusers \uD83C\uDF81", req: "", price: 149.85, oneTime: 140.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: living room, bedroom, kitchen.", ship: "FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -466,13 +463,13 @@ const selStore = {
   freq: 30,
   keys: [],               /* nothing preselected — the customer picks (owner 2026-09-05) */
   step: 1,                /* 1 = choose kit, 2 = pick scents, 3 = review kit */
-  setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
+  setStep(n) { this.step = n; mcTrack(n === 2 ? "scents_step" : n === 3 ? "review_reached" : "kit_step", { fd_step: n, fd_kit: this.tier().n }); this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
-  setTier(i) { this.tierIdx = i; this.keys = []; this.plan = TIERS[i].scents > 0 ? "sub" : "one"; /* included scents default to auto-refill (nothing extra today); 1D optional scents default to one-time */ this.emit(); },
-  setPlan(p) { this.plan = p; this.emit(); },
+  setTier(i) { this.tierIdx = i; this.keys = []; this.plan = TIERS[i].scents > 0 ? "sub" : "one"; mcTrack("kit_pick", { fd_kit: TIERS[i].n }); /* included scents default to auto-refill (nothing extra today); 1D optional scents default to one-time */ this.emit(); },
+  setPlan(p) { this.plan = p; mcTrack("plan_toggle", { fd_plan: p }); this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return SCENT_ONE; }, /* extras only exist on 1D, which is one-time only */
   included() { return Math.min(this.keys.length, this.tier().scents); },
@@ -493,7 +490,7 @@ const selStore = {
   label() { return this.grouped().map(({ f, q }) => f.name + (q > 1 ? ` \u00d7${q}` : "")).join(" + "); },
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
-  add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) return; this.keys = [...this.keys, k]; this.emit(); },
+  add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) return; this.keys = [...this.keys, k]; mcTrack("scent_pick", { fd_scent: k, fd_picked: this.keys.length + "/" + cap }); this.emit(); },
   remove(k) {
     const i = this.keys.indexOf(k);
     if (i < 0) return;
@@ -644,14 +641,23 @@ function Toast({ msg, onClose }) {
 const offerPct = (t) => Math.round((1 - t.price / (t.n * DIFFUSER_PRICE + t.scents * SCENT_ONE)) * 100); /* % off the scents+diffusers value; diffusers are the free part (owner 2026-09-19) */
 const OFFER_SUB_FOR = (t) => offerPct(t) + "% OFF + FREE DIFFUSERS OFFER APPLIED!";
 const ONE_SUB = "ONE-TIME PAYMENT \u00b7 NO REFILLS \u00b7 FREE SHIPPING";
+/* fd12 (2026-09-23): step instrumentation — Clarity smart events + tags, plus an error tag for the in-app browsers */
+function mcTrack(name, tags) {
+  try { if (typeof window.clarity === "function") { window.clarity("event", name); if (tags) Object.keys(tags).forEach((k) => window.clarity("set", k, String(tags[k]))); } } catch (e) {}
+  try { if (typeof window.fbq === "function" && name === "checkout_click") window.fbq("trackCustom", "FDCheckoutClick", tags || {}); } catch (e) {}
+}
+try {
+  window.addEventListener("error", (e) => { try { window.clarity && window.clarity("set", "js_error", String((e && e.message) || "error").slice(0, 80)); } catch (x) {} });
+  window.addEventListener("unhandledrejection", (e) => { try { window.clarity && window.clarity("set", "js_error", String((e && e.reason && e.reason.message) || e.reason || "rejection").slice(0, 80)); } catch (x) {} });
+} catch (e) {}
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
   { ic: "👀", tx: "Your guests will\nask what\u2019s that?" },
   { ic: "🕯️", tx: "Replace $2,500/year\nin candles." },
   { ic: "💧", tx: "No water, no leaks,\nand no mold." },
 ];
-const StepHead = ({ n, title }) => html`
-  <div class="stepbar"><div class="prog"><i style=${{ width: Math.round(n / 3 * 100) + "%" }}></i></div><div class="pstep">Step ${n} of 3</div></div>
+const StepHead = ({ n, title, right }) => html`
+  <div class="stepbar"><div class="prog"><i style=${{ width: Math.round(n / 3 * 100) + "%" }}></i></div><div class="pstep-row"><div class="pstep">Step ${n} of 3</div>${right ? html`<span class="pick-pill">${right}</span>` : null}</div></div>
   <div class="picker-title step-title">${title}</div>`;
 const RV_IMG = [
   "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-1.jpg?v=1789347024",
@@ -702,6 +708,12 @@ function BuyBox() {
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "long", day: "numeric" });
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  /* fd12: when the LAST scent is picked on step 2, move to the review by itself (only on the completing pick, so Back never traps) */
+  const prevLen = useRef(sel.keys.length);
+  useEffect(() => {
+    const cap = T.scents, now = sel.keys.length, was = prevLen.current; prevLen.current = now;
+    if (step === 2 && cap > 0 && was < cap && now === cap) { const t = setTimeout(() => go(3), 450); return () => clearTimeout(t); }
+  }, [sel.keys.length, step]);
   /* kit review rows: the first T.scents picks are included, the rest are extras */
   const rows = (() => { const m = new Map(); sel.keys.forEach((k) => m.set(k, (m.get(k) || 0) + 1)); let incLeft = T.scents; return [...m.entries()].map(([k, q]) => { const f = CONFIG.fragrances.find((x) => x.key === k); const inc = Math.min(q, incLeft); incLeft -= inc; return { f, q, inc, extra: q - inc }; }); })();
   return html`
@@ -711,16 +723,16 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
-          <h1>Maison Croyez Diffuser & Organic Manifestation Scents — Make your home smell as good as it looks. ✨</h1>
-          <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
-
+          <h1>Pick your scents. The diffusers are on us.</h1>
+          <p class="sub-lede">Each scent is <b>${usd(SCENT_ONE)}</b> and comes with a <b>${usd(DIFFUSER_PRICE)} Maison Croyez diffuser, free</b>. One, two or three rooms.</p>
           <div class="dealbox">
-            <div class="deal-t">Here\u2019s the deal:</div>
-            <div class="deal-row"><span class="deal-ic">\uD83C\uDF81</span><span><b>1 scent = 1 FREE diffuser.</b> Pick 1, 2 or 3 scents, we add a diffuser for each.</span></div>
-            <div class="deal-row"><span class="deal-ic">\uD83D\uDD04</span><span><b>Fresh scents every 30 days</b> at 20% OFF, for life.</span></div>
-            <div class="deal-row"><span class="deal-ic">\u2702\uFE0F</span><span><b>Cancel anytime.</b> Not for you? We\u2019ll pay the return + full refund.</span></div>
+            <div class="deal-t">How it works:</div>
+            <div class="deal-row"><span class="deal-ic">\uD83C\uDF81</span><span><b>${usd(SCENT_ONE)} per scent, diffuser included.</b> Pick 1, 2 or 3.</span></div>
+            <div class="deal-row"><span class="deal-ic">\uD83D\uDD04</span><span><b>Refills every 30 days at ${usd(SCENT_SUB)}.</b> Pause, swap or cancel from your account.</span></div>
+            <div class="deal-row"><span class="deal-ic">\u21A9\uFE0F</span><span><b>90-day money-back.</b> We pay the return label.</span></div>
           </div>
-          <${StepHead} n=${1} title="How many free diffusers would you like to receive?"/>
+          <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
+          <${StepHead} n=${1} title="How many rooms are we scenting?"/>
                     <div class="tiers" role="radiogroup" aria-label="Choose your kit">
             ${TIERS.map((t, i) => { const on = i === sel.tierIdx; const val = t.n * DIFFUSER_PRICE + t.scents * SCENT_ONE; const save = val - t.price; const per = t.price / t.n; return html`
               <div key=${t.key} class=${"tier" + (on ? " on" : "") + (t.lite ? " lite" : "")} role="radio" aria-checked=${on} tabindex="0" style=${{ background: on ? t.grad : "" }}
@@ -732,9 +744,9 @@ function BuyBox() {
                 </span>
                 <span class="tier-main">
                   <span class="tier-name">${t.name}</span>
-                  <span class="tier-req">${t.req}</span>
                   <span class=${"tier-line" + (t.lineStrong ? " strong" : "")}>${t.line}</span>
-                  <span class="tier-claim"><b>You\u2019re claiming ${usd(t.n * DIFFUSER_PRICE)} of diffusers, free.</b></span>
+                  <span class="tier-price"><b>${usd(t.price)} today</b><s>${usd(val)}</s><span class="tier-then">then ${usd(t.scents * SCENT_SUB)} every 30 days \u00b7 cancel anytime</span></span>
+                  <span class="tier-claim"><b>${usd(t.n * DIFFUSER_PRICE)} of diffusers, free</b></span>
                   <span class=${"tier-ship" + (t.shipFree ? " free" : "")}>\uD83D\uDE9A ${t.ship}</span>
                 </span>
               </div>`; })}
@@ -743,7 +755,7 @@ function BuyBox() {
             <p><b>Don\u2019t be afraid of taking 2+ diffusers,</b> 86% of customers have an average of 6 in their homes. Also, you can return anytime for a full refund. <i>You\u2019re welcome.</i></p>
           </div>
           <button class="btn atc step-next" onClick=${() => go(2)}>
-            <span>Pick your scents \u2794</span>
+            <span>Pick your ${T.scents} scent${T.scents > 1 ? "s" : ""} \u2794</span>
           </button>
           ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -754,7 +766,7 @@ function BuyBox() {
           <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
           <//>` : step === 2 ? html`<${Fragment} key="step2">
-          <${StepHead} n=${2} title=${`Pick your ${T.scents} scent${T.scents > 1 ? "s" : ""}:`}/>
+          <${StepHead} n=${2} title=${`Pick your ${T.scents} scent${T.scents > 1 ? "s" : ""}:`} right=${`${T.scents - left} of ${T.scents} picked`}/>
           ${T.scents === 0 ? html`<div class="picker-sub">${usd(SCENT_ONE)} each, one-time. Add as many as you like, or skip and just get the diffuser.</div>` : null}
           <div class="pick-count">${T.scents > 0
             ? `${sel.included()}/${T.scents} scent${T.scents > 1 ? "s" : ""} chosen` + (left > 0 ? ` \u2014 pick ${left} more` : " \u2713") + (sel.extras() > 0 ? ` \u00b7 +${sel.extras()} extra` : "")
@@ -774,7 +786,7 @@ function BuyBox() {
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
                 <span class="pick-smells"><b>SMELLS LIKE:</b> ${f.smells2 || f.smells}</span>
                 <span class="pick-foot" onClick=${(e) => e.stopPropagation()}>
-                  <span class="pick-free"><span class="pf-price">${usd(SCENT_ONE)}</span> + FREE diffuser \uD83C\uDF81</span>
+                  <span class="pick-free">Diffuser included \uD83C\uDF81</span>
                   <span class="pick-qty">
                     <button aria-label="Remove one" disabled=${q === 0} onClick=${() => sel.remove(f.key)}>−</button>
                     <b>${q}</b>
@@ -786,7 +798,7 @@ function BuyBox() {
 
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to kits" onClick=${() => go(1)}>\u2190</button>
-            <button class="btn atc" onClick=${() => left > 0 ? goPick() : go(3)}><span>${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : "Review my kit \u2794"}</span></button>
+            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above and we\u2019ll take you to your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit \u2794</span></button>`}
           </div>
           ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
           <div class="atc-chips">
@@ -810,10 +822,14 @@ function BuyBox() {
               <span class="kr-tx"><b>${T.n}\u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
               <span class="kr-pr">${sel.oneTime() ? html`<s>${usd(T.n * DIFFUSER_PRICE)}</s> ${usd(T.oneTime)}` : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE</span>`}</span>
             </div>
-            <div class="kr-total"><span>You only pay:</span><b>${usd(sel.today())}</b></div>
-            ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
+            <div class="kr-tot2">
+              <span class="kt-l">Today</span><b class="kt-v">${usd(sel.today())}</b>
+              <span>Shipping</span><span class=${T.shipFree || sel.today() >= 75 ? "kt-free" : ""}>${T.shipFree || sel.today() >= 75 ? "FREE" : "$9.95"}</span>
+              <span>Next refill in 30 days</span><span>${sel.oneTime() ? "None. One-time purchase." : `${usd(sel.renew())} \u00b7 skip or cancel anytime`}</span>
+            </div>
+            ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today</div>` : null}
           </div>
-          <div class="scarcity-strip"><span class="siren" aria-hidden="true">\uD83D\uDEA8</span> LAST 100 DIFFUSERS AVAILABLE <span class="siren" aria-hidden="true">\uD83D\uDEA8</span></div>
+          <div class="scarcity-strip calm">Reserved for you \u00b7 last 100 diffusers available</div>
           <div class="plan-opts" role="radiogroup" aria-label="Payment option">
             <div class=${"popt" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
               <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
@@ -835,9 +851,9 @@ function BuyBox() {
           </div>
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you\u2019ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
+            <span>${busy ? "One moment\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `\uD83D\uDD12 SECURE CHECKOUT \u2014 ${usd(sel.today())} \u2794`}</span>
           </button>
-          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span> \u00b7 90-day money-back</div>`}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
@@ -1033,14 +1049,14 @@ function StickyBar() {
   const left = sel.left();
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = step === 1 ? "Pick your scents \u2794"
-    : step === 2 ? (left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2794` : "Review my kit \u2794")
-    : (busy ? "Adding\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`);
+  const label = step === 1 ? `Pick your ${T.scents} scent${T.scents > 1 ? "s" : ""} \u2794`
+    : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794")
+    : (busy ? "One moment\u2026" : `\uD83D\uDD12 SECURE CHECKOUT \u2014 ${usd(sel.today())} \u2794`);
   const sub = T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 90-day money-back";
   const act = () => { if (step === 1) return T.scents > 0 ? go(2) : addToCart(setBusy, setToast); if (step === 2) return left > 0 ? goPick() : go(3); return addToCart(setBusy, setToast); };
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy} onClick=${act}>
+      <button class="btn" disabled=${busy || (step === 2 && left > 0)} onClick=${act}>
         <span>${label}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>

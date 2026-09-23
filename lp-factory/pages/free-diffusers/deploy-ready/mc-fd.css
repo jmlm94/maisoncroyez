@@ -759,24 +759,3 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 @media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}
 /* fd9 (2026-09-20): wrapper for the adopted pre-hero poster; transparent to layout so .simg positions against the slide */
 .hv-pwrap{display:contents}
-/* ===== fd12 (2026-09-23): price up front, no dead-click magnets, one honest total ===== */
-#root .buybox .sub-lede{margin:8px 0 0;font-size:.95rem;line-height:1.45;color:#5C4F46}
-#root .buybox .sub-lede b{color:#241C18}
-#root .buybox .usp3{margin-top:10px}
-#root .buybox .tier-req{display:none}
-#root .buybox .tier-price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:5px}
-#root .buybox .tier-price b{font-size:1.12rem;letter-spacing:-.01em;color:#241C18}
-#root .buybox .tier-price s{color:#8C7D72;font-size:.8rem;font-weight:500}
-#root .buybox .tier-then{width:100%;font-size:.7rem;color:#5C4F46;font-weight:500}
-#root .buybox .tier-claim{margin-top:3px;font-size:.78rem}
-#root .buybox .pstep-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-#root .buybox .pick-pill{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:#F3EBE1;color:#241C18;border-radius:999px;padding:4px 10px;white-space:nowrap}
-#root .buybox .pick-free{color:#1E7A46;font-weight:700}
-#root .buybox .pick-hint{margin:10px 0 0;padding:12px 14px;border:1.5px dashed rgba(36,28,24,.22);border-radius:999px;text-align:center;font-size:.86rem;color:#5C4F46;flex:1}
-#root .buybox .navrow{align-items:center}
-#root .buybox .kr-tot2{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:baseline;border-top:1px dashed rgba(36,28,24,.18);margin-top:8px;padding-top:10px;font-size:.8rem;color:#5C4F46}
-#root .buybox .kr-tot2 .kt-l{font-weight:700;color:#241C18;font-size:.95rem}
-#root .buybox .kr-tot2 .kt-v{font-family:'Unna',serif;font-weight:700;font-size:1.5rem;color:#241C18;line-height:1}
-#root .buybox .kr-tot2 .kt-free{color:#1E7A46;font-weight:700}
-#root .buybox .kr-tot2 > span:nth-child(even){text-align:right}
-#root .buybox .scarcity-strip.calm{background:#F3EBE1;color:#241C18;letter-spacing:.06em;font-size:.78rem}

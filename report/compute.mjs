@@ -65,7 +65,7 @@ const hasKit = o => (o.lineItems?.edges || []).some(e => KIT_RE.test(e.node.titl
 const orderCogs = o => {
   const lines = (o.lineItems?.edges || []).map(e => e.node);
   // Diffuser lines with no Shopify unit cost (e.g. the 'Home Diffuser Kit' free-diffuser line launched Sep 19 2026) cost $26 each.
-  const unit = l => { const u = l.variant?.inventoryItem?.unitCost?.amount; if (u == null && /diffuser/i.test(l.title || '') && !KIT_RE.test(l.title || '')) return 26; return num(u); };
+  const unit = l => { const u = l.variant?.inventoryItem?.unitCost?.amount; if (u == null && /diffuser/i.test(l.title || '') && !KIT_RE.test(l.title || '') && !/keep fee/i.test(l.title || '')) return 26; return num(u); };
   const kits = lines.filter(l => KIT_RE.test(l.title || ''));
   if (!kits.length) return lines.reduce((s, l) => s + l.quantity * unit(l), 0);
   let cogs = 0, quota = 0;

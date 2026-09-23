@@ -1,7 +1,6 @@
 name: drawer-recon
-# run 239 — fd11: the <video poster> is back (same &width=720 URL as the <img>, so still one request). Lighthouse on fd10
-#           reported the poster-less <video>'s FIRST FRAME as the LCP element (render 8 s on the simulated phone); with a
-#           poster Chrome credits the poster image instead. srcset dropped so img src == poster URL on every device.
+# run 240 — live funnel re-check 2026-09-23 (owner: "why are people not converting?"). No page change since fd11;
+#           this run proves the funnel still works end-to-end today (kit pick, scents, review, ATC, drawer, checkout totals).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -21,10 +20,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r239
-          cat > r239.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r240
+          cat > r240.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r239/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r240/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 260) });
@@ -133,12 +132,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r239.mjs
+          node r240.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r239
-          git commit -m "r239: funnel QA fd11 (video poster restored)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r240
+          git commit -m "r240: live funnel re-check (conversion review)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

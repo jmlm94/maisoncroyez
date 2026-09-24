@@ -759,3 +759,5 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 @media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}
 /* fd9 (2026-09-20): wrapper for the adopted pre-hero poster; transparent to layout so .simg positions against the slide */
 .hv-pwrap{display:contents}
+/* fd12 (2026-09-23, owner): the one-time option line wraps (longer copy) */
+#root .popt-line.wrap{white-space:normal}

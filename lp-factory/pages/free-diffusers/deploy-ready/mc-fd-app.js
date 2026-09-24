@@ -739,7 +739,7 @@ function BuyBox() {
           <button class="btn atc step-next" onClick=${() => go(2)}>
             <span>Pick your scents \u2794</span>
           </button>
-          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${sel.oneTime() ? html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>` : null}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
@@ -782,7 +782,7 @@ function BuyBox() {
             <button class="btn secondary" aria-label="Back to kits" onClick=${() => go(1)}>\u2190</button>
             <button class="btn atc" onClick=${() => left > 0 ? goPick() : go(3)}><span>${left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""} \u2191` : "Review my kit \u2794"}</span></button>
           </div>
-          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${sel.oneTime() ? html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>` : null}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>
@@ -822,7 +822,7 @@ function BuyBox() {
               <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
               <span class="popt-tx">
                 <b>One-Time Payment</b>
-                <span class="popt-line"><b>${usd(T.price + T.oneTime)} today.</b> No refills. No lifetime discounts.</span>
+                <span class="popt-line wrap"><b>No subscription.</b> ${usd(T.price + T.oneTime)} today. No refills. Diffusers & scents at full price after.</span>
               </span>
               ${sel.oneTime() ? html`<span class="plan-incl">\u2713 Selected</span>` : null}
             </div>
@@ -831,7 +831,7 @@ function BuyBox() {
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>
           </button>
-          ${html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>`}
+          ${sel.oneTime() ? html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>` : null}
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Orders $75+</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>90-Day Money-Back</b><small>Prepaid Return Label</small></span></span>

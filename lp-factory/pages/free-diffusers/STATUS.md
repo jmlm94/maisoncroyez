@@ -105,3 +105,8 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   the bottom centre of the hero video (red #B3261E, white, HH:MM:SS, per-visitor localStorage, holds at 00:00:00).
   The fd12 prototype from 2026-09-23 (price on cards, auto-advance, checkout button) is NOT part of this; it lives in commit
   17d197f only. port-fd.py is retired; deploy-ready files are the source. QA: r241; Lighthouse re-run.
+  r241: 146/146 on all 5 paths (new checks: no deal box, FREE ON $75+ pill, Subscribe & Save copy, one-time copy + totals
+  159.95/239.95 with kit 60.05/90.10 in drawer + checkout, no Shop Pay line on the plan / present on one-time, countdown
+  badge centred + ticking + red/white). Lighthouse fd12: mobile 46/61/64, LCP 5.9/4.9/4.8 s, TBT 1,820/730/620 ms; desktop
+  97/97/97, LCP 1.1–1.2 s. Same band as fd11 (65–68 / 3.7–5.9 s); the badge costs nothing measurable. Third parties
+  unchanged (Facebook 249 KB / 331 ms blocking, Clarity 320 ms, 9gtb 64 KB, Subi 58 KB, Clarity Brand Agents 280 KB).

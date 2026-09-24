@@ -95,3 +95,13 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   files are ~130 KB of it. What is left is outside the page body: theme.js/vendor/sections modules (DCL 4.7 s on a slow
   phone), Shopify web-pixel manager (75 KB, 900 ms main thread), checkout preloads (~530 KB), Facebook 248 KB / 300 ms
   blocking, Clarity + Clarity Brand Agents (29 + 280 KB), 9gtb 64 KB, Subi 58 KB, Klaviyo 67 KB — app embeds, owner call.
+- 2026-09-24 fd12-ef38e41 — LIVE (app js 88022 B, css 65563 B; page updated 00:13 UTC). Owner-directed changes, previewed
+  on the owner's artifact (MC LP Draft Copy v63–65) first: (1) "Here's the deal" box removed; (2) 1-diffuser card pill
+  "FREE ON $75+ ORDERS" (no flat-fee mention); (3) step-3 option 1 "Subscribe & Save + 20% OFF Lifetime:" + "$39.95/scent
+  every 30 days." (the "$99.90 today" line removed); (4) one-time option "No subscription. $X today. No refills. Diffusers &
+  scents at full price after."; (5) one-time totals $129.95 / $159.95 / $239.95 — kit one-time variants repriced
+  45900920356973 $90.05 -> $60.05, 45900920389741 $140.10 -> $90.10 (45900920324205 stays $80.00); (6) Shop Pay installments
+  line only when one-time is selected (so steps 1–2 and the plan option never show it); (7) 10-minute hold countdown badge at
+  the bottom centre of the hero video (red #B3261E, white, HH:MM:SS, per-visitor localStorage, holds at 00:00:00).
+  The fd12 prototype from 2026-09-23 (price on cards, auto-advance, checkout button) is NOT part of this; it lives in commit
+  17d197f only. port-fd.py is retired; deploy-ready files are the source. QA: r241; Lighthouse re-run.

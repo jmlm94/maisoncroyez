@@ -454,9 +454,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "(Requires 1 scent)",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "$9.95 FLAT FEE \u2014 FREE ON $75+ ORDERS", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
-  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "(Requires 2 scents)", price: 99.90,  oneTime: 90.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "(Requires 3 scents)", price: 149.85, oneTime: 140.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "(Requires 1 scent)",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "FREE ON $75+ ORDERS", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
+  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "(Requires 2 scents)", price: 99.90,  oneTime: 60.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
+  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "(Requires 3 scents)", price: 149.85, oneTime: 90.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -812,8 +812,8 @@ function BuyBox() {
             <div class=${"popt" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
               <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
               <span class="popt-tx">
-                <b>Auto-refill every 30 days + 20% OFF lifetime</b>
-                <span class="popt-line"><b>${usd(T.price)} today</b>, then ${usd(SCENT_SUB)}/scent, every 30 days.</span>
+                <b>Subscribe & Save + 20% OFF Lifetime:</b>
+                <span class="popt-line"><b>${usd(SCENT_SUB)}/scent</b> every 30 days.</span>
                 <span class="popt-sub big">\uD83D\uDEE1\uFE0F Pause, swap and cancel anytime.</span>
               </span>
               ${sel.oneTime() ? null : html`<span class="plan-incl">\u2713 Selected</span>`}

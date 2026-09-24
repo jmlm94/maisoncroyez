@@ -761,3 +761,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .hv-pwrap{display:contents}
 /* fd12 (2026-09-23, owner): the one-time option line wraps (longer copy) */
 #root .popt-line.wrap{white-space:normal}
+/* fd12 (2026-09-24, owner): hold countdown badge on the hero video */
+#root .gal-slide{position:relative}
+#root .hv-timer{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;background:#B3261E;color:#fff;border-radius:999px;padding:8px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
+#root .hv-timer b{font-variant-numeric:tabular-nums;font-size:.86rem;margin-left:2px}
+@media (max-width:359px){#root .hv-timer{font-size:.64rem;padding:7px 11px}}

@@ -530,6 +530,17 @@ const Announcement = () => {
 /* Hero loop: the poster (= frame 1, same file as the page's prehero) is the LCP
    element; the video source is attached only after load + idle so the ~600KB
    download never competes with first paint. */
+/* fd12 (2026-09-24, owner): countdown badge at the bottom centre of the hero video — 10:00, per visitor (localStorage),
+   holds at 00:00:00 when it runs out */
+function HoldTimer() {
+  const HOLD_MS = 10 * 60 * 1000, KEY = "mc_fd_hold_start";
+  const start = (() => { try { const v = parseInt(localStorage.getItem(KEY) || "0", 10); if (v && Date.now() - v < HOLD_MS) return v; const n = Date.now(); localStorage.setItem(KEY, String(n)); return n; } catch (e) { return Date.now(); } })();
+  const left = () => Math.max(0, start + HOLD_MS - Date.now());
+  const [ms, setMs] = useState(left());
+  useEffect(() => { const t = setInterval(() => setMs(left()), 1000); return () => clearInterval(t); }, []);
+  const s = Math.floor(ms / 1000), pad = (n) => String(n).padStart(2, "0");
+  return html`<div class="hv-timer" role="timer" aria-live="off">\u23F3 Free diffusers held for <b>${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}</b></div>`;
+}
 function HeroVideo({ poster }) {
   /* The page HTML ships a real <video id="mc-hero-v"> inside #mc-prehero so the
      loop starts downloading with the document, long before this app runs. On
@@ -597,7 +608,7 @@ function HeroVideo({ poster }) {
      it (spec: removal runs the pause steps) and its first frame then lands seconds later on a busy phone, so Lighthouse
      kept reporting LCP = video first frame (7-8 s). The img is cached (preloaded), decodes sync, paints with the app
      render and is the same size as the video, so it holds the LCP candidate (later equal-size paints don't replace it). */
-  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}`;
+  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}<${HoldTimer} key="timer"/>`;
 }
 
 function Gallery() {

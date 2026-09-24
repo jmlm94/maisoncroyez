@@ -85,6 +85,9 @@ const planRecurringValue = (o, l) => {
   const planQty = (o.lineItems?.edges || []).map(e => e.node).filter(x => x.sellingPlan && num(x.originalUnitPriceSet?.shopMoney?.amount) === 0).reduce((s, x) => s + x.quantity, 0) || 1;
   return num(kit?.originalUnitPriceSet?.shopMoney?.amount) / planQty;
 };
+// Subi applies its tags with a lag (hours); an untagged order with a selling-plan line that went through
+// a normal checkout (AUTHORIZATION) is a first subscription order, not a renewal (renewals are SALE).
+const isFirstSub = o => (o.tags || []).includes('First Subscription Order') || (!(o.tags || []).some(t => /Subi|Recurring|Subscription/i.test(t)) && (o.lineItems?.edges || []).some(e => e.node.sellingPlan) && (o.transactions || []).some(t => t.kind === 'AUTHORIZATION'));
 const metaDaily = load('meta_daily.json', []);
 
 // ---- date helpers (all bucketing in the shop's timezone) ----
@@ -123,7 +126,7 @@ for (const o of orders) {
 
   d.orders += 1;
   d[isSub ? 'subOrders' : 'oneTimeOrders'] += 1;
-  if ((o.tags || []).includes('First Subscription Order')) d.firstSubOrders += 1;
+  if (isFirstSub(o)) d.firstSubOrders += 1;
   d.grossSales += netSales + discounts;
   d.discounts += discounts;
   d.netSales += netSales;
@@ -232,7 +235,7 @@ let mrr = 0, subscribers = 0;
 const firstSubOrders = [];
 for (const o of orders) {
   if (o.displayFinancialStatus === 'VOIDED') continue;
-  if (!(o.tags || []).includes('First Subscription Order')) continue;
+  if (!isFirstSub(o)) continue;
   const rec = (o.lineItems?.edges || []).reduce((s, e) => {
     const l = e.node;
     return l.sellingPlan

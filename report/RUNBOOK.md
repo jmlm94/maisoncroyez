@@ -146,3 +146,5 @@ kit order carries a Subi selling plan again. If Jose says the new offer is meant
 the Subi selling plan is not attached to the new kit variants — flag it, don't patch around it.
 Archives for Sep 9–13 were rebuilt on Sep 16 with the extended kit rule (upsell scents on kit orders were
 previously double-counted or missed; net change −$45 / +$9 / +$9 COGS on Sep 9 / 10 / 11).
+
+**Subi tag lag (observed Sep 24 2026):** Subi can take many hours to apply `First Subscription Order` / `Recurring Order #N` / `Subi Subscription` tags. `compute.mjs` treats an untagged order with a selling-plan line and an AUTHORIZATION transaction as a first subscription order (renewals are SALE transactions). When the daily pull re-reads those orders on a later run, the real tags overwrite the record.

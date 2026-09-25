@@ -1,0 +1,115 @@
+# Lighthouse what-if on the LIVE page (mobile only, N repeats per scenario) so we can put numbers on each remaining perf
+# lever BEFORE touching analytics: base (as-is) · body5/body8 (a page-body shim that also holds Shopify's analytics stack +
+# the Meta pixel until first interaction or 5 s / 8 s) · no3p (every third party + Shopify analytics blocked = the ceiling for
+# this page without theme changes). Commits a markdown summary + a compact JSON. Re-run: edit this comment and push.
+# 2026-09-25 v1 — on fd15-3f17cd3.
+name: lh-whatif
+on:
+  push:
+    paths: [".github/workflows/lh-whatif.yml"]
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: Repeats per scenario
+        default: "3"
+permissions:
+  contents: write
+concurrency: lh-whatif
+jobs:
+  whatif:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      URL: https://maisoncroyez.com/pages/free-diffusers
+      OUT: lp-factory/pages/free-diffusers/perf
+      RUNS: ${{ github.event.inputs.runs || '3' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm i --no-audit --no-fund lighthouse@12 puppeteer@23
+      - name: Run scenarios
+        run: |
+          cat > whatif.mjs <<'EOF2'
+          import fs from 'fs';
+          import puppeteer from 'puppeteer';
+          import lighthouse from 'lighthouse';
+          const PAGE = process.env.URL, OUT = process.env.OUT, RUNS = parseInt(process.env.RUNS || '3', 10);
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13) + 'Z';
+          const R = String.raw`(\/cdn\/wpm\/|trekkie\.storefront|shopify-perf-kit|connect\.facebook\.net|\/shop-js\/|shopify_pay\/storefront|webmcp|klaviyo\.com|clarity\.ms|postscript\.io|gorgias\.(chat|help)|9gtb\.com|cdn\.subi\.co|\/web-pixels|jointrybe|bat\.bing)`;
+          const SHIM = (delay) => `(function(){var D=${delay};var R=new RegExp(${JSON.stringify(R)});var q=[],rel=false,ap,ib;window.__mcWhatIf={deferred:[],installedAt:null,releasedAt:null};
+          function m(n){try{return n&&n.nodeType===1&&n.tagName==='SCRIPT'&&n.src&&R.test(n.src)}catch(e){return false}}
+          function release(){if(rel||!ap)return;rel=true;window.__mcWhatIf.releasedAt=performance.now();Node.prototype.appendChild=ap;Node.prototype.insertBefore=ib;q.forEach(function(x){try{if(x[2]&&x[2].parentNode===x[0])ib.call(x[0],x[1],x[2]);else ap.call(x[0]||document.head,x[1])}catch(e){try{ap.call(document.head,x[1])}catch(e2){}}});q=[]}
+          function install(){if(ap)return;window.__mcWhatIf.installedAt=performance.now();ap=Node.prototype.appendChild;ib=Node.prototype.insertBefore;
+          Node.prototype.appendChild=function(n){if(!rel&&m(n)){q.push([this,n,null]);window.__mcWhatIf.deferred.push(n.src);return n}return ap.call(this,n)};
+          Node.prototype.insertBefore=function(n,r){if(!rel&&m(n)){q.push([this,n,r]);window.__mcWhatIf.deferred.push(n.src);return n}return ib.call(this,n,r)};
+          ['touchstart','touchmove','scroll','wheel','keydown','pointerdown'].forEach(function(e){addEventListener(e,release,{once:true,passive:true,capture:true})});setTimeout(release,D);}
+          var mo=new MutationObserver(function(){if(document.getElementById('mc-prehero')){mo.disconnect();install()}});mo.observe(document,{childList:true,subtree:true});})();`;
+          const BLOCK = ['*cdn/wpm/*', '*trekkie*', '*perf-kit*', '*connect.facebook.net*', '*/shop-js/*', '*shopify_pay/storefront*', '*webmcp*', '*klaviyo.com*', '*clarity.ms*', '*postscript.io*', '*gorgias*', '*9gtb.com*', '*cdn.subi.co*', '*web-pixels*', '*jointrybe*', '*bat.bing*'];
+          const SCEN = [
+            { id: 'base', note: 'as-is (fd15 live)' },
+            { id: 'body5', shim: SHIM(5000), note: 'page-body shim also holds WPM + trekkie + perf-kit + Meta + shop-js + Subi SDK until first interaction or 5 s' },
+            { id: 'body8', shim: SHIM(8000), note: 'same, released at 8 s' },
+            { id: 'no3p', block: BLOCK, note: 'every third party + Shopify analytics blocked (ceiling without theme changes)' },
+          ];
+          const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'] });
+          const out = { stamp, url: PAGE, runs: RUNS, scenarios: [] };
+          const MET = ['first-contentful-paint', 'largest-contentful-paint', 'total-blocking-time', 'speed-index', 'interactive', 'cumulative-layout-shift'];
+          let md = `# Lighthouse what-if — ${PAGE} — ${stamp} — mobile, ${RUNS} runs per scenario\n\n`;
+          md += `| scenario | what | scores | median LCP | median TBT | median SI |\n|---|---|---|---|---|---|\n`;
+          const details = [];
+          for (const sc of SCEN) {
+            const runs = [];
+            for (let i = 1; i <= RUNS; i++) {
+              const page = await browser.newPage();
+              if (sc.shim) await page.evaluateOnNewDocument(sc.shim);
+              const flags = { logLevel: 'error', output: 'json', onlyCategories: ['performance'], formFactor: 'mobile', screenEmulation: { mobile: true, width: 412, height: 823, deviceScaleFactor: 1.75, disabled: false }, throttlingMethod: 'simulate', blockedUrlPatterns: sc.block || [] };
+              let lhr = null, deferred = null;
+              try {
+                const r = await lighthouse(PAGE, flags, undefined, page); lhr = r.lhr;
+                try { deferred = await page.evaluate(() => window.__mcWhatIf || null); } catch (e) {}
+              } catch (e) { console.log(sc.id, i, 'failed', String(e).slice(0, 300)); }
+              try { await page.close(); } catch (e) {}
+              if (!lhr) continue;
+              const a = lhr.audits, m = a.metrics.details.items[0];
+              runs.push({ score: Math.round(lhr.categories.performance.score * 100), lcp: m.largestContentfulPaint, tbt: m.totalBlockingTime, si: m.speedIndex, fcp: m.firstContentfulPaint, tti: m.interactive, cls: m.cumulativeLayoutShift, obsFcp: m.observedFirstContentfulPaint, obsLcp: m.observedLargestContentfulPaint, obsTraceEnd: m.observedTraceEnd, deferred, lhr });
+              console.log(`${sc.id} #${i}: ${runs[runs.length - 1].score} — LCP ${Math.round(m.largestContentfulPaint)} TBT ${Math.round(m.totalBlockingTime)} SI ${Math.round(m.speedIndex)}${deferred ? ` deferred ${deferred.deferred.length} (installed ${Math.round(deferred.installedAt || 0)} ms, released ${deferred.releasedAt ? Math.round(deferred.releasedAt) + ' ms' : 'not within trace'})` : ''}`);
+            }
+            if (!runs.length) { md += `| ${sc.id} | ${sc.note} | failed | | | |\n`; continue; }
+            const sorted = runs.slice().sort((x, y) => x.score - y.score); const med = sorted[Math.floor(sorted.length / 2)]; const a = med.lhr.audits;
+            md += `| ${sc.id} | ${sc.note} | ${runs.map((r) => r.score).join(' / ')} | ${(med.lcp / 1000).toFixed(1)} s | ${Math.round(med.tbt)} ms | ${(med.si / 1000).toFixed(1)} s |\n`;
+            let d = `\n## ${sc.id} — ${sc.note}\n\nScores ${runs.map((r) => r.score).join(' / ')}\n\n| metric | ${runs.map((_, i) => 'run ' + (i + 1)).join(' | ')} |\n|---|${runs.map(() => '---').join('|')}|\n`;
+            for (const k of MET) d += `| ${a[k].title} | ${runs.map((r) => r.lhr.audits[k].displayValue).join(' | ')} |\n`;
+            d += `| observed FCP / LCP / trace end (ms, unthrottled) | ${runs.map((r) => `${Math.round(r.obsFcp)} / ${Math.round(r.obsLcp)} / ${Math.round(r.obsTraceEnd)}`).join(' | ')} |\n`;
+            const ph = (((a['largest-contentful-paint-element'] || {}).details || {}).items || [])[1];
+            if (ph && ph.items) d += `\nMedian LCP phases: ${ph.items.map((p) => `${p.phase} ${Math.round(p.timing)} ms`).join(', ')}\n`;
+            const mt = (((a['mainthread-work-breakdown'] || {}).details || {}).items || []); d += `\nMedian main thread: ${mt.map((x) => `${x.groupLabel} ${Math.round(x.duration)}`).join(' · ')} ms\n`;
+            const tp = (((a['third-party-summary'] || {}).details || {}).items || []).slice().sort((x, y) => (y.blockingTime || 0) - (x.blockingTime || 0)).slice(0, 8);
+            d += `\nMedian third parties (KB / main-thread ms / blocking ms): ${tp.map((it) => `${typeof it.entity === 'object' ? it.entity.text : it.entity} ${Math.round((it.transferSize || 0) / 1024)} / ${Math.round(it.mainThreadTime || 0)} / ${Math.round(it.blockingTime || 0)}`).join(' · ') || 'none'}\n`;
+            const lt = (((a['long-tasks'] || {}).details || {}).items || []).slice(0, 10);
+            d += `\nMedian long tasks: ${lt.map((it) => `${Math.round(it.duration)} ms @${Math.round(it.startTime)} ${String(it.url).replace(/^https?:\/\//, '').slice(0, 70)}`).join(' · ') || 'none'}\n`;
+            if (med.deferred) d += `\nDeferred by the shim in the median run (installed at ${Math.round(med.deferred.installedAt || 0)} ms, released ${med.deferred.releasedAt ? Math.round(med.deferred.releasedAt) + ' ms' : 'after the trace ended'}):\n${med.deferred.deferred.map((u) => `- ${String(u).replace(/^https?:\/\//, '').slice(0, 120)}`).join('\n') || '- (nothing matched)'}\n`;
+            details.push(d);
+            out.scenarios.push({ id: sc.id, note: sc.note, runs: runs.map(({ lhr, ...rest }) => rest), medianThirdParty: tp, medianLongTasks: lt, medianBootup: (((a['bootup-time'] || {}).details || {}).items || []).slice(0, 25), medianRequests: (((a['network-requests'] || {}).details || {}).items || []).map((r) => ({ url: String(r.url).slice(0, 160), start: Math.round(r.networkRequestTime || 0), end: Math.round(r.networkEndTime || 0), kb: Math.round((r.transferSize || 0) / 1024), type: r.resourceType, prio: r.priority })) });
+          }
+          await browser.close();
+          md += details.join('');
+          fs.mkdirSync(OUT, { recursive: true });
+          fs.writeFileSync(`${OUT}/whatif-${stamp}.md`, md);
+          fs.writeFileSync(`${OUT}/whatif-${stamp}.json`, JSON.stringify(out));
+          console.log(md.split('\n').slice(0, 12).join('\n'));
+          EOF2
+          node whatif.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "perf: Lighthouse what-if (base / body5 / body8 / no3p) on $URL" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

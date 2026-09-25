@@ -800,3 +800,6 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .tier-room{display:inline-block;background:#fff;border:1px solid rgba(36,28,24,.16);border-radius:999px;padding:4px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#241C18;white-space:nowrap}
 #root .buybox .tier-claim{margin-top:8px}
 #root .buybox .kg-tag.pic-tag.pop{background:#1E7A46;color:#fff;border-color:#1E7A46}
+/* fd13 (2026-09-25, owner): perk check marks separated from the text */
+#root .buybox .rf-perks li{display:flex;align-items:flex-start;gap:8px}
+#root .buybox .rf-perks li:before{content:"\2713";flex:0 0 auto;width:16px;height:16px;border-radius:50%;background:#1E7A46;color:#fff;font-size:.62rem;line-height:16px;text-align:center;margin-top:1px}

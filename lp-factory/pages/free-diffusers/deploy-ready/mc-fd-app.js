@@ -820,7 +820,7 @@ function BuyBox() {
           <div class=${"rf-card" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
             <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
             <div class="rf-body">
-              <div class="rf-head"><b>Auto-refill & Save 20% \uD83C\uDFF7\uFE0F</b><span class="rf-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
+              <div class="rf-head"><b>Auto-refill & 20% OFF for life:</b><span class="rf-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
               <div class="rf-price"><s>${usd(SCENT_ONE)}</s> <b>${usd(SCENT_SUB)}</b> <span class="rf-per">/ scent</span> <i>from day 30</i></div>
               <div class="rf-line">Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime.</div>
               <ul class="rf-perks">
@@ -832,7 +832,7 @@ function BuyBox() {
             </div>
           </div>
           ${sel.oneTime()
-            ? html`<p class="rf-alt on"><b>One-time purchase selected:</b> ${usd(sel.today())} today. No refills. Diffusers & scents at full price after. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to Auto-refill & Save)</button></p>`
+            ? html`<p class="rf-alt on"><b>One-time purchase selected:</b> ${usd(sel.today())} today. No refills. Diffusers & scents at full price after. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to Auto-refill)</button></p>`
             : html`<p class="rf-alt">No thanks, I\u2019ll re-order myself another time <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>(make it a one-time purchase)</button></p>`}
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you\u2019ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>

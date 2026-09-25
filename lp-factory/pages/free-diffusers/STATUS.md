@@ -174,7 +174,16 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   (2) the app mounts the long-form sections on scroll-near (320 px sentinel) / first interaction / 6 s instead of the first
   idle slot. Not deferrable: Subi is a direct <script> tag in the head. PSI (psi.yml) hit Google's anonymous quota (429) —
   needs an API key as a GitHub secret to be usable. QA: r251 = 145/150 (all funnel/cart/checkout/pixel checks green; the 5
-  fails were the "Subi absent" expectation, relaxed in r252). Lighthouse x5 on this build: see below.
+  fails were the "Subi absent" expectation, relaxed in r252; r252 = 150/150). Lighthouse x5 on fd15 (15:48 UTC,
+  lh-20260925T1548Z.md): mobile 61/75/66/55/60 (FCP 1.8-2.1 s, LCP 4.1/2.7/4.7/4.6/6.0 s, TBT 970/640/590/960/640 ms,
+  TTI 10.6-13.8 s), desktop 96/96/92/98/95 — up from 38/50/72 on fd14, target 85 not reached. Median run: Facebook 250 KB /
+  724 ms main thread / 558 ms blocking, Subi 74 ms, Clarity + Klaviyo ~0 (deferred); long tasks WPM 389 ms, fbevents 347 ms,
+  Meta config 287 ms, theme.js 126 ms, perf-kit 119 ms, trekkie 106 ms. Observed (unthrottled) FCP 583 ms / LCP 696 ms; the
+  simulated LCP (4.1 s) is inflated because every request that finishes before the observed LCP (WPM 80 KB, Subi 58, trekkie 35,
+  perf-kit 26, Shop Pay 24, shop-js 21, theme Nunito fonts 90) is pulled into the LCP dependency graph. What remains is
+  Shopify's analytics stack (WPM + trekkie + perf-kit) and the Meta pixel = an analytics trade-off, so the lh-whatif workflow
+  measures it before anything ships: base / body-shim holding WPM+Meta+Subi until first touch or 5 s / 8 s / all third parties
+  blocked (ceiling).
   Lighthouse fd14-c3e1dc7 (15:19 UTC): mobile 38/50/72 (LCP 6.4/7.2/3.1 s, TBT 4,810/880/810 ms — runner variance;
   best run 3.1 s LCP), desktop 93/97/94 (LCP 1.1-1.5 s). Our files are all in flight by 1.1 s and done by 1.2 s; the
   page is bound by third parties: Facebook 249 KB / 416 ms blocking, Clarity 145 ms, Shopify web-pixels manager 1.4 s

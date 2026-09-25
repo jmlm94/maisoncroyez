@@ -803,18 +803,3 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* fd13 (2026-09-25, owner): perk check marks separated from the text */
 #root .buybox .rf-perks li{display:flex;align-items:flex-start;gap:8px}
 #root .buybox .rf-perks li:before{content:"\2713";flex:0 0 auto;width:16px;height:16px;border-radius:50%;background:#1E7A46;color:#fff;font-size:.62rem;line-height:16px;text-align:center;margin-top:1px}
-/* fd13 (2026-09-25, owner: CRO items 1, 2, 3, 5) */
-#root .buybox .sub-lede{margin:8px 0 0;font-size:.95rem;line-height:1.45;color:#5C4F46}
-#root .buybox .sub-lede b{color:#241C18}
-#root .buybox .usp3{margin-top:10px}
-#root .hv-offer{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:4;background:rgba(36,28,24,.82);color:#fff;border-radius:999px;padding:7px 12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;backdrop-filter:blur(4px)}
-@media (max-width:359px){#root .hv-offer{font-size:.56rem;padding:6px 10px}}
-#root .buybox .tier-price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:8px}
-#root .buybox .tier-price b{font-size:1.12rem;letter-spacing:-.01em;color:#241C18}
-#root .buybox .tier-price s{color:#8C7D72;font-size:.8rem;font-weight:500}
-#root .buybox .tier-then{width:100%;font-size:.7rem;color:#5C4F46;font-weight:500}
-#root .buybox .tier-claim{margin-top:4px;font-size:.78rem}
-#root .buybox .pick-pill-row{display:flex;justify-content:center;margin:-4px 0 10px}
-#root .buybox .pick-pill{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:#F3EBE1;color:#241C18;border-radius:999px;padding:4px 10px;white-space:nowrap}
-#root .buybox .pick-hint{margin:0;padding:12px 14px;border:1.5px dashed rgba(36,28,24,.22);border-radius:999px;text-align:center;font-size:.86rem;color:#5C4F46;flex:1}
-#root .buybox .navrow{align-items:center}

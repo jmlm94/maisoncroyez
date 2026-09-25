@@ -430,11 +430,12 @@ async function addToCart(setBusy, setToast) {
     });
     if (!r.ok) throw new Error("cart " + r.status);
     /* fd13 (2026-09-25, owner): straight to checkout — the drawer was an extra screen where 42% of add-to-carts stopped.
-       Shopify's channel pixel fires AddToCart from the /cart/add.js call above, but fbevents batches beacons for ~1 s
-       (pixel audit 2026-09-20: AddToCart left ~0.7-1.0 s after the add response), so the redirect waits 1.6 s to let it
-       leave before the page unloads. The cart icon / drawer still work for anyone who wants to add more. */
+       Shopify's Meta channel pixel fires one AddToCart per cart line from the /cart/add.js call above; measured
+       2026-09-25 (pixel-diag): the beacons leave 15-35 ms after the add response, via sendBeacon (survives unload).
+       The 800 ms wait is a ~25x margin before the page unloads. The cart icon / drawer still work for anyone who wants
+       to add more. */
     document.dispatchEvent(new CustomEvent("cart:refresh"));
-    setTimeout(() => { window.location.href = "/checkout"; }, 1600);
+    setTimeout(() => { window.location.href = "/checkout"; }, 800);
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");

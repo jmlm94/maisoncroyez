@@ -152,4 +152,5 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   PageView on checkout, cart lines/totals/plans correct, compact cards (94-137 px), no JS errors, no overflow.
   13:2x UTC fd13-6c193c2 — owner: "Remove the auto move to third step, people need to choose carefully". The step-2
   auto-advance effect is gone; after the last pick the page stays on step 2 with "Review my kit ➔" (button + sticky).
-  QA: r249.
+  QA: r249 = 140/140 (stays on step 2 after the last pick, review opens on tap; AddToCart x lines 26-49 ms after the add,
+  InitiateCheckout on checkout, totals/plans/cart unchanged).

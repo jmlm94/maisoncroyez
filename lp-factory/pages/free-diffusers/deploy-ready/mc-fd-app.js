@@ -825,12 +825,12 @@ function BuyBox() {
               <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
               <div class="rf-body">
                 <div class="rf-head"><b>Auto-refill & 20% OFF for life:</b><span class="rf-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
-                <div class="rf-price"><b>${usd(T.price)}</b> <span class="rf-per">today</span> <span class="rf-tag">Diffusers FREE</span></div>
+                <div class="rf-price"><b>${usd(T.price)}</b> <span class="rf-per">today</span> <span class="rf-tag">Free diffusers</span></div>
                 <div class="rf-line">Next scents <b>${usd(SCENT_SUB)} each</b> (was ${usd(SCENT_ONE)}) every 30 days from day 30. Skip, swap or cancel anytime.</div>
                 <ul class="rf-perks">
                   <li>20% off every refill</li>
                   <li>${T.scents * SCENT_SUB >= 75 ? "Free shipping on refills" : "Free shipping from $75"}</li>
-                  <li>Heads-up email before each refill</li>
+                  <li>Cancel anytime, we\u2019ll pay for return</li>
                   <li>Swap or pause in one tap</li>
                 </ul>
               </div>

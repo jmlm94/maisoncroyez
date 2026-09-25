@@ -165,3 +165,7 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   · Keep them free". Previewed on MC LP Draft Copy v79-83 (v83 also embeds the six real review photos so the artifact
   carousel matches live). QA: r250 = 140/140 (new step-3 copy/cards, one-time via the second card + red strip, AddToCart
   x lines 29-59 ms after the add, InitiateCheckout on checkout, totals/plans/cart unchanged).
+  Lighthouse fd14-c3e1dc7 (15:19 UTC): mobile 38/50/72 (LCP 6.4/7.2/3.1 s, TBT 4,810/880/810 ms — runner variance;
+  best run 3.1 s LCP), desktop 93/97/94 (LCP 1.1-1.5 s). Our files are all in flight by 1.1 s and done by 1.2 s; the
+  page is bound by third parties: Facebook 249 KB / 416 ms blocking, Clarity 145 ms, Shopify web-pixels manager 1.4 s
+  boot. Clarity Brand Agents (azurefd, 280 KB) no longer loads.

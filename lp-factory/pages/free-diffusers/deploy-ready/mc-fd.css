@@ -766,3 +766,30 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .hv-timer{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;background:#B3261E;color:#fff;border-radius:999px;padding:8px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
 #root .hv-timer b{font-variant-numeric:tabular-nums;font-size:.86rem;margin-left:2px}
 @media (max-width:359px){#root .hv-timer{font-size:.64rem;padding:7px 11px}}
+/* fd13 (2026-09-25, owner): title above the payment options; step bar and scarcity strip removed in the app */
+#root .buybox .plan-title{font-family:'Unna',serif;font-weight:700;font-size:1.25rem;line-height:1.15;margin:16px 0 8px;color:#241C18}
+#root .buybox .plan-opts{margin-top:0}
+/* fd13 (2026-09-25, owner): refill section — title, explainer, one Auto-refill card, one-time as a text link */
+#root .buybox .plan-title{display:none}
+#root .buybox .refill-title{margin-top:22px}
+#root .buybox .refill-sub{margin:6px 0 12px;text-align:center;font-family:'Unna',serif;font-size:1.05rem;line-height:1.35;color:#5C4F46}
+#root .buybox .refill-sub b{color:#1E7A46;font-weight:700}
+#root .buybox .rf-card{position:relative;display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;border:1.5px solid rgba(36,28,24,.18);border-radius:18px;padding:16px 16px 14px;background:#fff;cursor:pointer}
+#root .buybox .rf-card.on{border-color:#241C18;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%);box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .buybox .rf-card .ot-dot{margin-top:3px}
+#root .buybox .rf-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#root .buybox .rf-head b{font-size:1.08rem;letter-spacing:-.01em}
+#root .buybox .rf-ship{border:1.5px solid #241C18;background:#fff;border-radius:999px;padding:5px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+#root .buybox .rf-price{display:flex;align-items:baseline;gap:6px;margin-top:6px;flex-wrap:wrap}
+#root .buybox .rf-price s{color:#8C7D72;font-size:.95rem}
+#root .buybox .rf-price b{font-size:1.5rem;letter-spacing:-.01em;line-height:1}
+#root .buybox .rf-price .rf-per{font-size:.8rem;color:#5C4F46}
+#root .buybox .rf-price i{font-family:'Unna',serif;font-size:1rem;color:#241C18;margin-left:4px}
+#root .buybox .rf-line{margin-top:8px;font-size:.86rem;line-height:1.4;color:#241C18}
+#root .buybox .rf-perks{list-style:none;margin:12px 0 0;padding:12px 0 0;border-top:1px solid rgba(36,28,24,.14);display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+#root .buybox .rf-perks li{font-size:.8rem;font-weight:700;line-height:1.3}
+#root .buybox .rf-perks li:before{content:"\2713 ";font-weight:700}
+#root .buybox .rf-alt{margin:14px 0 0;text-align:center;font-size:.95rem;line-height:1.45;color:#5C4F46}
+#root .buybox .rf-alt.on{color:#241C18;background:#F3EBE1;border-radius:14px;padding:10px 12px;font-size:.88rem}
+#root .buybox .rf-link{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:359px){#root .buybox .rf-perks{grid-template-columns:1fr}}

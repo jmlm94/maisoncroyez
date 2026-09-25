@@ -454,9 +454,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "(Requires 1 scent)",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "FREE ON $75+ ORDERS", shipFree: false, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
-  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "(Requires 2 scents)", price: 99.90,  oneTime: 60.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "(Requires 3 scents)", price: 149.85, oneTime: 90.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "one",   n: 1, name: "1 FREE Diffuser \uD83C\uDF81",  req: "",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
+  { key: "two",   n: 2, name: "2 FREE Diffusers \uD83C\uDF81", req: "", price: 99.90,  oneTime: 60.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
+  { key: "three", n: 3, name: "3 FREE Diffusers \uD83C\uDF81", req: "", price: 149.85, oneTime: 90.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "ELIGIBLE FOR FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -662,7 +662,6 @@ const USP3 = [
   { ic: "💧", tx: "No water, no leaks,\nand no mold." },
 ];
 const StepHead = ({ n, title }) => html`
-  <div class="stepbar"><div class="prog"><i style=${{ width: Math.round(n / 3 * 100) + "%" }}></i></div><div class="pstep">Step ${n} of 3</div></div>
   <div class="picker-title step-title">${title}</div>`;
 const RV_IMG = [
   "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-review-1.jpg?v=1789347024",
@@ -737,7 +736,6 @@ function BuyBox() {
                 </span>
                 <span class="tier-main">
                   <span class="tier-name">${t.name}</span>
-                  <span class="tier-req">${t.req}</span>
                   <span class=${"tier-line" + (t.lineStrong ? " strong" : "")}>${t.line}</span>
                   <span class="tier-claim"><b>You\u2019re claiming ${usd(t.n * DIFFUSER_PRICE)} of diffusers, free.</b></span>
                   <span class=${"tier-ship" + (t.shipFree ? " free" : "")}>\uD83D\uDE9A ${t.ship}</span>
@@ -815,29 +813,28 @@ function BuyBox() {
               <span class="kr-tx"><b>${T.n}\u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
               <span class="kr-pr">${sel.oneTime() ? html`<s>${usd(T.n * DIFFUSER_PRICE)}</s> ${usd(T.oneTime)}` : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE</span>`}</span>
             </div>
-            <div class="kr-total"><span>You only pay:</span><b>${usd(sel.today())}</b></div>
+            <div class="kr-total"><span>You only pay:</span><b>${sel.oneTime() ? usd(sel.today()) : usd(SCENT_ONE) + "/scent"}</b></div>
             ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
           </div>
-          <div class="scarcity-strip"><span class="siren" aria-hidden="true">\uD83D\uDEA8</span> LAST 100 DIFFUSERS AVAILABLE <span class="siren" aria-hidden="true">\uD83D\uDEA8</span></div>
-          <div class="plan-opts" role="radiogroup" aria-label="Payment option">
-            <div class=${"popt" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
-              <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
-              <span class="popt-tx">
-                <b>Subscribe & Save + 20% OFF Lifetime:</b>
-                <span class="popt-line"><b>${usd(SCENT_SUB)}/scent</b> every 30 days.</span>
-                <span class="popt-sub big">\uD83D\uDEE1\uFE0F Pause, swap and cancel anytime.</span>
-              </span>
-              ${sel.oneTime() ? null : html`<span class="plan-incl">\u2713 Selected</span>`}
-            </div>
-            <div class=${"popt" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("one")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("one"); }}>
-              <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
-              <span class="popt-tx">
-                <b>One-Time Payment</b>
-                <span class="popt-line wrap"><b>No subscription.</b> ${usd(T.price + T.oneTime)} today. No refills. Diffusers & scents at full price after.</span>
-              </span>
-              ${sel.oneTime() ? html`<span class="plan-incl">\u2713 Selected</span>` : null}
+          <div class="picker-title step-title refill-title">How would you like your refills?</div>
+          <p class="refill-sub">Your ${T.scents} scent${T.scents > 1 ? "s" : ""} and ${T.n} diffuser${T.n > 1 ? "s" : ""} are in your kit today. This is only about the <b>next scents, in 30 days</b>.</p>
+          <div class=${"rf-card" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
+            <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
+            <div class="rf-body">
+              <div class="rf-head"><b>Auto-refill & Save 20% \uD83C\uDFF7\uFE0F</b><span class="rf-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
+              <div class="rf-price"><s>${usd(SCENT_ONE)}</s> <b>${usd(SCENT_SUB)}</b> <span class="rf-per">/ scent</span> <i>from day 30</i></div>
+              <div class="rf-line">Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime.</div>
+              <ul class="rf-perks">
+                <li>20% off every refill</li>
+                <li>${sel.renew() >= 75 ? "Free shipping on refills" : "Free shipping from $75"}</li>
+                <li>Heads-up email before each refill</li>
+                <li>Swap or pause in one tap</li>
+              </ul>
             </div>
           </div>
+          ${sel.oneTime()
+            ? html`<p class="rf-alt on"><b>One-time purchase selected:</b> ${usd(sel.today())} today. No refills. Diffusers & scents at full price after. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to Auto-refill & Save)</button></p>`
+            : html`<p class="rf-alt">No thanks, I\u2019ll re-order myself another time <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>(make it a one-time purchase)</button></p>`}
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you\u2019ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "Adding\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`}</span>

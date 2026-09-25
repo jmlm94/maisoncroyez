@@ -165,6 +165,16 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   · Keep them free". Previewed on MC LP Draft Copy v79-83 (v83 also embeds the six real review photos so the artifact
   carousel matches live). QA: r250 = 140/140 (new step-3 copy/cards, one-time via the second card + red strip, AddToCart
   x lines 29-59 ms after the add, InitiateCheckout on checkout, totals/plans/cart unchanged).
+- 2026-09-25 fd15-3f17cd3 — LIVE 15:36 UTC (app js 90304 B; page-body + shim). Owner: "take mobile performance to 85+
+  without affecting the customer experience". Lighthouse mobile is bound by third-party main-thread work (Facebook 416 ms
+  blocking, Clarity 1.0 s + 0.3 s long tasks, Shopify web-pixels manager 1.4 s boot, Klaviyo/Subi/9gtb/Postscript); our
+  files are all in flight by 1.1 s. Levers inside the page: (1) page-body shim holds dynamically inserted third-party
+  scripts until the first touch/scroll/key — Clarity (tier A, or 6 s), Klaviyo onsite chunks / Postscript / Gorgias / 9gtb /
+  Subi SDK (tier B, or 12 s); Shopify scripts, WPM and the Meta pixel are untouched (PageView/AddToCart timing unchanged);
+  (2) the app mounts the long-form sections on scroll-near (320 px sentinel) / first interaction / 6 s instead of the first
+  idle slot. Not deferrable: Subi is a direct <script> tag in the head. PSI (psi.yml) hit Google's anonymous quota (429) —
+  needs an API key as a GitHub secret to be usable. QA: r251 = 145/150 (all funnel/cart/checkout/pixel checks green; the 5
+  fails were the "Subi absent" expectation, relaxed in r252). Lighthouse x5 on this build: see below.
   Lighthouse fd14-c3e1dc7 (15:19 UTC): mobile 38/50/72 (LCP 6.4/7.2/3.1 s, TBT 4,810/880/810 ms — runner variance;
   best run 3.1 s LCP), desktop 93/97/94 (LCP 1.1-1.5 s). Our files are all in flight by 1.1 s and done by 1.2 s; the
   page is bound by third parties: Facebook 249 KB / 416 ms blocking, Clarity 145 ms, Shopify web-pixels manager 1.4 s

@@ -1127,17 +1127,17 @@ function App() {
      the next idle slot so first paint and first tap are not waiting on them. */
   const [rest, setRest] = useState(false);
   useEffect(() => {
-    let t = 0, idle = 0, cap = 0, done = false;
-    const go = () => { if (done) return; done = true; setRest(true); };
-    const schedule = () => { if (window.requestIdleCallback) idle = requestIdleCallback(go, { timeout: 1500 }); else t = setTimeout(go, 250); };
-    /* fd10: the sections' images share the CDN connection with the LCP poster on slow phones — wait for it (cap 3 s) */
-    const im = document.querySelector("img.hv-poster") || document.getElementById("mc-hero-p");
-    if (im && !im.complete) {
-      const onl = () => { clearTimeout(cap); schedule(); };
-      im.addEventListener("load", onl, { once: true }); im.addEventListener("error", onl, { once: true });
-      cap = setTimeout(schedule, 3000);
-    } else schedule();
-    return () => { clearTimeout(t); clearTimeout(cap); if (idle && window.cancelIdleCallback) cancelIdleCallback(idle); };
+    /* fd15 (2026-09-25, perf): the long-form sections mount when the visitor gets near them (sentinel 320 px below the
+       buy box), on the first touch/scroll/key, or after 6 s idle — whichever comes first. Nobody can reach them before
+       they exist, and the first paint + first tap no longer pay for their render. */
+    let t = 0, done = false, io = null;
+    const EVS = ["touchstart", "touchmove", "scroll", "wheel", "keydown", "pointerdown"];
+    const go = () => { if (done) return; done = true; setRest(true); EVS.forEach((ev) => window.removeEventListener(ev, go, true)); if (io) io.disconnect(); };
+    EVS.forEach((ev) => window.addEventListener(ev, go, { capture: true, passive: true, once: true }));
+    const s = document.getElementById("mc-rest-sentinel");
+    if (s && "IntersectionObserver" in window) { io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) go(); }, { rootMargin: "320px 0px" }); io.observe(s); }
+    t = setTimeout(() => { if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 1500 }); else go(); }, 6000);
+    return () => { clearTimeout(t); EVS.forEach((ev) => window.removeEventListener(ev, go, true)); if (io) io.disconnect(); };
   }, []);
   const sections = {
     buybox: () => html`<${BuyBox} key="bb"/>`,
@@ -1154,6 +1154,7 @@ function App() {
   const order = (rest && step === 1) ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
   return html`
     ${order.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
+    ${(!rest && step === 1) ? html`<div id="mc-rest-sentinel" key="sentinel" aria-hidden="true" style=${{ height: "1px" }}></div>` : null}
     <${StickyBar}/>`;
 }
 

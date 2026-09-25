@@ -8,6 +8,25 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-700.woff2?v=1784231284">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-400.woff2?v=1784231284">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-600.woff2?v=1784231284">
+<script>
+(function(){if(window.__MC_TP__)return;window.__MC_TP__=1;
+/* fd15 perf: hold NON-essential third-party scripts that are injected after this point until the first touch/scroll/key
+   (or a timeout), so the hero paint and the first tap are not competing with them. Shopify's own scripts, the Meta pixel,
+   Subi, Klaviyo etc. still load; only the moment changes. Tier A (Clarity) releases at first interaction or 6 s; tier B
+   (Klaviyo onsite chunks, Postscript, Gorgias, 9gtb/Trybe, Subi SDK) at first interaction or 12 s. */
+var A=/scripts\.clarity\.ms/,B=/(static(-tracking)?\.klaviyo\.com|sdk\.postscript\.io|gorgias\.(chat|help)|content\.9gtb\.com\/script|cdn\.subi\.co)/;
+var q=[],rel={A:false,B:false};
+function tier(n){try{if(!n||n.tagName!=='SCRIPT')return'';var s=n.src||n.getAttribute('src')||'';if(!s)return'';if(A.test(s))return'A';if(B.test(s))return'B';}catch(e){}return'';}
+var ap=Node.prototype.appendChild,ib=Node.prototype.insertBefore;
+Node.prototype.appendChild=function(n){var t=tier(n);if(t&&!rel[t]){q.push([t,this,n,null]);return n;}return ap.call(this,n);};
+Node.prototype.insertBefore=function(n,r){var t=tier(n);if(t&&!rel[t]){q.push([t,this,n,r]);return n;}return ib.call(this,n,r);};
+function release(t){if(rel[t])return;rel[t]=true;var keep=[];q.forEach(function(x){if(x[0]!==t){keep.push(x);return;}try{if(x[3]&&x[3].parentNode===x[1])ib.call(x[1],x[2],x[3]);else ap.call(x[1]||document.head,x[2]);}catch(e){try{ap.call(document.head,x[2]);}catch(e2){}}});q=keep;
+if(rel.A&&rel.B){Node.prototype.appendChild=ap;Node.prototype.insertBefore=ib;}}
+function all(){release('A');release('B');}
+['touchstart','touchmove','scroll','wheel','keydown','pointerdown'].forEach(function(e){addEventListener(e,all,{once:true,passive:true,capture:true});});
+setTimeout(function(){release('A');},6000);setTimeout(function(){release('B');},12000);
+window.__mcReleaseThirdParties=all;})();
+</script>
 <div id="mc-prehero"><img id="mc-hero-p" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350&amp;width=720" width="720" height="720" alt="" fetchpriority="high" decoding="sync"><video id="mc-hero-v" muted playsinline webkit-playsinline loop preload="none" poster="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350&amp;width=720" data-src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-720.mp4?v=s1" aria-label="Maison Croyez diffuser video" style="display:block;width:100vw;aspect-ratio:1/1;object-fit:cover;margin:0;background:#fff"></video></div>
 <div id="root"></div>
 <script>

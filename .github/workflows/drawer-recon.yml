@@ -1,5 +1,5 @@
 name: drawer-recon
-# run 245 — fd13 final + compact cards (2026-09-25): r245 re-run with a real user agent and navigator.webdriver hidden —
+# run 246 — (r244/r246 crashed on a Node-side `innerWidth` in the card check — fixed to P.desktop) fd13 final + compact cards (2026-09-25): r246 re-run with a real user agent and navigator.webdriver hidden —
 #           fbevents refuses to send ANY beacon from an automated browser (r242/r243 saw zero facebook.com/tr hits, even
 #           PageView), which the 2026-09-20 pixel audit had already worked around. Checks: owner headline, mockup price
 #           cards (compact), dark countdown, 1.6 s redirect, all-frames Meta beacon hook (AddToCart before the redirect,
@@ -25,10 +25,10 @@ jobs:
         run: sleep 100
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r245
-          cat > r245.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r246
+          cat > r246.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r245/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r246/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 300) });
@@ -71,7 +71,7 @@ jobs:
               const cards = await pg.$$eval('#buybox .tier', (a) => a.map((e) => { const q = (s) => e.querySelector(s); const R = (el) => el ? el.getBoundingClientRect() : null; const pr = R(q('.tier-price')), mn = R(q('.tier-main')); return { t: e.innerText.replace(/\s+/g, ' '), name: (q('.tier-name') || {}).innerText || '', rooms: [...e.querySelectorAll('.tier-room')].map((r) => r.innerText.trim().toUpperCase()).join('|'), priceB: ((q('.tier-price b') || {}).innerText || '').trim(), priceS: ((q('.tier-price s') || {}).innerText || '').trim(), then: ((q('.tier-then') || {}).innerText || '').replace(/\s+/g, ' ').trim(), save: ((q('.tier-save') || {}).innerText || '').replace(/\s+/g, ' ').trim(), saveBg: q('.tier-save') ? getComputedStyle(q('.tier-save')).backgroundColor : '', claim: !!q('.tier-claim'), req: !!q('.tier-req'), ship: !!q('.tier-ship'), right: !!(pr && mn) && pr.left >= mn.right - 1, bFont: q('.tier-price b') ? getComputedStyle(q('.tier-price b')).fontFamily : '', bSize: q('.tier-price b') ? parseFloat(getComputedStyle(q('.tier-price b')).fontSize) : 0, sColor: q('.tier-price s') ? getComputedStyle(q('.tier-price s')).color : '', ow: e.scrollWidth <= e.clientWidth + 1, tag: ((q('.kg-tag') || {}).innerText || ''), tagBg: q('.kg-tag') ? getComputedStyle(q('.kg-tag')).backgroundColor : '', on: e.classList.contains('on') }; }));
               const VAL = [129.90, 259.80, 389.70], PR = [49.95, 99.90, 149.85];
               ok(`${P.id} compact: kit cards <= ${P.desktop ? 130 : 140} px tall`, (await pg.$$eval('#buybox .tier', (a) => Math.max(...a.map((e) => e.getBoundingClientRect().height)))) <= (P.desktop ? 130 : 140), 'heights=' + JSON.stringify(await pg.$$eval('#buybox .tier', (a) => a.map((e) => Math.round(e.getBoundingClientRect().height)))));
-              ok(`${P.id} 3 kit cards (mockup): "N FREE Diffusers + N Scents", room badges, YOU SAVE pill, right column = struck value (red) + serif price (1.25rem); no per-scent line / no today / no 39.95 / no claim / no pills; MOST POPULAR green; 2-kit default`, cards.length === 3 && cards[0].name.startsWith('1 FREE Diffuser + 1 Scent') && cards[1].name.startsWith('2 FREE Diffusers + 2 Scents') && cards[2].name.startsWith('3 FREE Diffusers + 3 Scents') && cards.every((c, i) => c.rooms === ROOMS[i] && c.priceB === `$${PR[i].toFixed(2)}` && c.priceS === `$${VAL[i].toFixed(2)}` && c.then === '' && Math.abs(c.bSize - (innerWidth >= 600 ? 20.8 : 18.4)) < 0.6 && c.save.toUpperCase() === `YOU SAVE $${(VAL[i] - PR[i]).toFixed(2)}` && c.saveBg === 'rgb(228, 243, 234)' && c.right && /Unna/.test(c.bFont) && c.sColor === 'rgb(179, 64, 44)' && c.ow && !c.claim && !c.req && !c.ship && !/today|39\.95|every 30 days|\/scent|ELIGIBLE|FREE ON|FLAT|requires/i.test(c.t)) && /MOST POPULAR/i.test(cards[1].tag) && cards[1].tagBg === 'rgb(30, 122, 70)' && /BEST VALUE/i.test(cards[2].tag) && !cards[0].tag && cards[1].on && !cards[0].on && !cards[2].on, JSON.stringify(cards).slice(0, 700));
+              ok(`${P.id} 3 kit cards (mockup): "N FREE Diffusers + N Scents", room badges, YOU SAVE pill, right column = struck value (red) + serif price (1.25rem); no per-scent line / no today / no 39.95 / no claim / no pills; MOST POPULAR green; 2-kit default`, cards.length === 3 && cards[0].name.startsWith('1 FREE Diffuser + 1 Scent') && cards[1].name.startsWith('2 FREE Diffusers + 2 Scents') && cards[2].name.startsWith('3 FREE Diffusers + 3 Scents') && cards.every((c, i) => c.rooms === ROOMS[i] && c.priceB === `$${PR[i].toFixed(2)}` && c.priceS === `$${VAL[i].toFixed(2)}` && c.then === '' && Math.abs(c.bSize - (P.desktop ? 20.8 : 18.4)) < 0.6 && c.save.toUpperCase() === `YOU SAVE $${(VAL[i] - PR[i]).toFixed(2)}` && c.saveBg === 'rgb(228, 243, 234)' && c.right && /Unna/.test(c.bFont) && c.sColor === 'rgb(179, 64, 44)' && c.ow && !c.claim && !c.req && !c.ship && !/today|39\.95|every 30 days|\/scent|ELIGIBLE|FREE ON|FLAT|requires/i.test(c.t)) && /MOST POPULAR/i.test(cards[1].tag) && cards[1].tagBg === 'rgb(30, 122, 70)' && /BEST VALUE/i.test(cards[2].tag) && !cards[0].tag && cards[1].on && !cards[0].on && !cards[2].on, JSON.stringify(cards).slice(0, 700));
               await shot('s1', !P.desktop);
               await pg.click(`#buybox .tier:nth-child(${n})`); await pg.waitForTimeout(400);
               const tm1 = await timerOk(n);
@@ -169,12 +169,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r245.mjs
+          node r246.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r245
-          git commit -m "r245: funnel QA fd13 final + compact cards (real UA: AddToCart / InitiateCheckout timing)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r246
+          git commit -m "r246: funnel QA fd13 final + compact cards (real UA: AddToCart / InitiateCheckout timing)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

@@ -1,0 +1,73 @@
+name: pixel-diag
+# 2026-09-25 — why does the Meta channel pixel not send AddToCart from /pages/free-diffusers any more? r246/r247 (real UA,
+# webdriver hidden, hooks in every frame) saw SubscribedButtonClick beacons on the LP, PageView + InitiateCheckout on the
+# checkout page, but NO PageView and NO AddToCart on the LP — even with the redirect blocked for 8 s. On 2026-09-20 the same
+# hooks saw per-line AddToCart with "sh-" event ids and a global fbq. This dumps what is (not) installed on the LP.
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/pixel-diag.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Diag
+        run: |
+          mkdir -p lp-factory/pages/free-diffusers/pixel
+          cat > diag.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const b = await chromium.launch();
+          const out = [];
+          for (const P of [{ id: 'phone-2S', w: 390, ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' }, { id: 'desktop-2S', w: 1366, ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' }]) {
+            const ctx = await b.newContext({ viewport: { width: P.w, height: 900 }, deviceScaleFactor: P.w < 500 ? 2 : 1, userAgent: P.ua, locale: 'en-US', timezoneId: 'America/New_York' });
+            await ctx.addInitScript(() => { try { Object.defineProperty(navigator, 'webdriver', { get: () => undefined }); } catch (e) {} });
+            await ctx.addInitScript(() => { try { const push = (k, u, body) => { try { const str = String(u) + ' ' + (body || ''); if (!/facebook\.com\/tr/.test(String(u))) return; const q = {}; try { new URL(String(u)).searchParams.forEach((v, kk) => { q[kk] = v; }); } catch (e) {} try { new URLSearchParams(body || '').forEach((v, kk) => { q[kk] = v; }); } catch (e) {} const h = { ev: q.ev || '?', id: q.id, eid: q.eid, ids: q['cd[content_ids]'], val: q['cd[value]'], k, t: Date.now(), f: location.href.slice(0, 60), top: window === window.top }; (window.__fbHits = window.__fbHits || []).push(h); try { const a = JSON.parse(localStorage.getItem('__mcFbHits') || '[]'); a.push(h); localStorage.setItem('__mcFbHits', JSON.stringify(a.slice(-60))); } catch (e) {} } catch (e) {} }; const bodyOf = (d) => { try { if (typeof d === 'string') return d; if (d instanceof URLSearchParams) return d.toString(); if (d && typeof d.forEach === 'function') { const p = []; d.forEach((v, k) => { if (typeof v === 'string') p.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); }); return p.join('&'); } } catch (e) {} return ''; }; const ob = navigator.sendBeacon && navigator.sendBeacon.bind(navigator); if (ob) navigator.sendBeacon = function (u, d) { const r = ob(u, d); try { if (d instanceof Blob) d.text().then((tx) => push('beacon', u, tx)).catch(() => push('beacon', u, '')); else push('beacon', u, bodyOf(d)); } catch (e) {} return r; }; const of = window.fetch; if (of) window.fetch = function (u, o) { try { push('fetch', (u && u.url) || u, bodyOf(o && o.body)); } catch (e) {} return of.apply(this, arguments); }; const OX = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function (m, u) { push('xhr', u, ''); return OX.apply(this, arguments); }; const desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src'); if (desc && desc.set) Object.defineProperty(HTMLImageElement.prototype, 'src', { get: desc.get, set: function (v) { push('img', v, ''); return desc.set.call(this, v); }, configurable: true }); } catch (e) {} });
+            const pg = await ctx.newPage();
+            const reqs = []; const t0 = Date.now(); let tClick = 0, tAdd = 0;
+            pg.on('request', (rq) => { const u = rq.url(); if (/facebook\.(com|net)/.test(u) || /web-pixels|wpm@|\/wpm\//.test(u)) reqs.push({ t: Date.now() - t0, type: rq.resourceType(), u: u.replace(/^https?:\/\//, '').slice(0, 110), frame: rq.frame() === pg.mainFrame() ? 'top' : rq.frame().url().slice(0, 50) }); });
+            pg.on('response', (r) => { if (/\/cart\/add\.js/.test(r.url())) tAdd = Date.now(); });
+            const errs = []; pg.on('pageerror', (e) => errs.push(e.message.slice(0, 120)));
+            const snap = async (label) => { const d = await pg.evaluate(async () => { const S = window.Shopify || {}; let cp = S.customerPrivacy; if (!cp && S.loadFeatures) { try { await new Promise((res) => { S.loadFeatures([{ name: 'consent-tracking-api', version: '0.1' }], () => res()); setTimeout(res, 2500); }); cp = S.customerPrivacy; } catch (e) {} } const st = (f) => { try { return cp && cp[f] ? cp[f]() : 'n/a'; } catch (e) { return 'err'; } }; return { url: location.href.slice(0, 80), fbq: typeof window.fbq, fbqPixels: (window.fbq && window.fbq.instance && window.fbq.instance.pixelsByID) ? Object.keys(window.fbq.instance.pixelsByID) : null, winKeys: Object.keys(window).filter((k) => /fbq|_fb|pixel|wpm|webPixel/i.test(k)), shopifyKeys: S ? Object.keys(S).filter((k) => /analytics|customerPrivacy|trackingConsent|loadFeatures|PaymentButton|designMode/i.test(k)) : null, analyticsKeys: S.analytics ? Object.keys(S.analytics) : null, trekkie: !!(S.analytics && S.analytics.meta), cp: { has: !!cp, analytics: st('analyticsProcessingAllowed'), marketing: st('marketingAllowed'), sale: st('saleOfDataAllowed'), banner: st('shouldShowBanner'), region: st('getRegion'), preferences: st('preferencesProcessingAllowed') }, cookies: document.cookie.split(';').map((c) => c.trim().split('=')[0]).filter((n) => /_fbp|_fbc|_tracking_consent|_cmp_a|_shopify_y|_shopify_s|localization/.test(n)), iframes: [...document.querySelectorAll('iframe')].map((f) => (f.src || (f.hasAttribute('srcdoc') ? 'srcdoc' : 'blank')).slice(0, 80)), scripts: [...document.scripts].filter((x) => x.src && /facebook|fbevents|wpm|web-pixels|pixel|trekkie|consent|privacy/i.test(x.src)).map((x) => x.src.replace(/^https?:\/\//, '').slice(0, 100)), inlineFbq: [...document.scripts].filter((x) => !x.src && /fbq|980908600592309|fbevents/.test(x.textContent)).map((x) => x.textContent.replace(/\s+/g, ' ').slice(0, 260)), inlineWpm: [...document.scripts].filter((x) => !x.src && /webPixelsManager|wpmLoader|web-pixels-manager/.test(x.textContent)).map((x) => x.textContent.replace(/\s+/g, ' ').slice(0, 200)), perfFb: performance.getEntriesByType('resource').filter((e) => /facebook\.(com|net)/.test(e.name)).map((e) => Math.round(e.startTime) + ':' + e.initiatorType + ':' + e.name.replace(/^https?:\/\//, '').slice(0, 70)), hitsTop: (window.__fbHits || []).map((h) => h.ev + '@' + h.t + '/' + h.k + '/' + (h.top ? 'top' : 'frame')), ls: (() => { try { return JSON.parse(localStorage.getItem('__mcFbHits') || '[]').map((h) => h.ev + '@' + h.t + '/' + h.k + '/' + h.f.replace(/^https?:\/\/[^/]+/, '').slice(0, 24) + (h.eid ? '/' + String(h.eid).slice(0, 12) : '') + (h.ids ? '/' + String(h.ids).slice(0, 40) : '')); } catch (e) { return ['lserr']; } })() }; }); const frames = []; for (const fr of pg.frames()) { if (fr === pg.mainFrame()) continue; try { frames.push({ url: fr.url().slice(0, 80), fbq: await fr.evaluate(() => typeof window.fbq), hits: await fr.evaluate(() => (window.__fbHits || []).length) }); } catch (e) { frames.push({ url: fr.url().slice(0, 80), err: e.message.slice(0, 60) }); } } out.push({ path: P.id, label, t: Date.now() - t0, tClick: tClick ? tClick - t0 : null, tAdd: tAdd ? tAdd - t0 : null, ...d, frames, reqs: reqs.slice(-40), errs: errs.slice(-5) }); console.log(P.id + ' ' + label + ' ' + JSON.stringify(out[out.length - 1]).slice(0, 3500)); };
+            await pg.goto('https://maisoncroyez.com/pages/free-diffusers', { waitUntil: 'domcontentloaded', timeout: 90000 });
+            await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.waitForTimeout(7000);
+            await snap('LP loaded (+7s)');
+            await pg.click('#buybox .tier:nth-child(2)'); await pg.waitForTimeout(300);
+            await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click(); await pg.waitForTimeout(500);
+            const c = pg.locator('#buybox .pick.compact'); for (const k of [0, 6]) { await c.nth(k).click(); await pg.waitForTimeout(200); } await pg.waitForTimeout(1500);
+            const HOLD_RE = /\/checkout(\?|$)/; await pg.route(HOLD_RE, (route) => { const rq = route.request(); if (rq.isNavigationRequest() && rq.frame() === pg.mainFrame()) route.abort(); else route.continue(); });
+            await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); tClick = Date.now(); await pg.locator('#buybox .btn.atc').click();
+            await pg.waitForTimeout(9000);
+            await snap('LP +9s after SECURE CHECKOUT (redirect blocked)');
+            /* second add on the same page, via the page's own cart call, to see whether Shopify's cart observer publishes anything at all */
+            const add2 = await pg.evaluate(async () => { try { const r = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items: [{ id: 41212020457581, quantity: 1 }] }) }); return r.status; } catch (e) { return 'err ' + e.message; } });
+            await pg.waitForTimeout(6000);
+            await snap('LP +6s after a second plain fetch /cart/add.js (' + add2 + ')');
+            await pg.unroute(HOLD_RE);
+            await pg.goto('https://maisoncroyez.com/checkout', { waitUntil: 'domcontentloaded', timeout: 90000 }).catch(() => {});
+            await pg.waitForTimeout(9000);
+            await snap('checkout +9s');
+            await ctx.close(); await new Promise((r) => setTimeout(r, 20000));
+          }
+          await b.close();
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 12);
+          fs.writeFileSync(`lp-factory/pages/free-diffusers/pixel/pixel-diag-${stamp}.json`, JSON.stringify(out, null, 1));
+          EOF2
+          node diag.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/free-diffusers/pixel
+          git commit -m "pixel-diag: what is installed on /pages/free-diffusers (Meta AddToCart missing)" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

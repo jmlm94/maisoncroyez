@@ -795,3 +795,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 @media (max-width:359px){#root .buybox .rf-perks{grid-template-columns:1fr}}
 /* fd13 (2026-09-25, owner): free-shipping pills black */
 #root .buybox .tier-ship.free{background:#111;color:#fff;border-color:#111}
+/* fd13 (2026-09-25, owner): room badges instead of the room sentence; MOST POPULAR green; no shipping pill */
+#root .buybox .tier-rooms{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+#root .buybox .tier-room{display:inline-block;background:#fff;border:1px solid rgba(36,28,24,.16);border-radius:999px;padding:4px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#241C18;white-space:nowrap}
+#root .buybox .tier-claim{margin-top:8px}
+#root .buybox .kg-tag.pic-tag.pop{background:#1E7A46;color:#fff;border-color:#1E7A46}

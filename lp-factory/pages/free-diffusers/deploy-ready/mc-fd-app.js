@@ -454,9 +454,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one",   n: 1, name: "1 FREE Diffuser + 1 Scent \uD83C\uDF81",  req: "",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "For small spaces only: Restroom, Studio, Storage.", ship: "FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
-  { key: "two",   n: 2, name: "2 FREE Diffusers + 2 Scents \uD83C\uDF81", req: "", price: 99.90,  oneTime: 60.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "Living Room + Bedroom. The two rooms you actually live in.", ship: "FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
-  { key: "three", n: 3, name: "3 FREE Diffusers + 3 Scents \uD83C\uDF81", req: "", price: 149.85, oneTime: 90.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "Whole home: Living Room, Bedroom, Kitchen. Nothing left unscented.", ship: "FREE SHIPPING", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
+  { key: "one",   n: 1, name: "1 FREE Diffuser + 1 Scent \uD83C\uDF81",  req: "",  price: 49.95,  oneTime: 80.00,  scents: 1, tag: "",             lite: true,  line: "", rooms: ["Restroom", "Studio", "Storage"], ship: "", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" },
+  { key: "two",   n: 2, name: "2 FREE Diffusers + 2 Scents \uD83C\uDF81", req: "", price: 99.90,  oneTime: 60.05,  scents: 2, tag: "MOST POPULAR", lineStrong: true, line: "", rooms: ["Living Room", "Bedroom", "Kitchen"], ship: "", shipFree: true, tags: [], grad: "linear-gradient(135deg,#FCE4EC 0%,#E9DDF7 100%)" },
+  { key: "three", n: 3, name: "3 FREE Diffusers + 3 Scents \uD83C\uDF81", req: "", price: 149.85, oneTime: 90.10, scents: 3, tag: "BEST VALUE",   lineStrong: true, line: "", rooms: ["Large Spaces", "1+ Room", "+ Intensity"], ship: "", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" },
 ];
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
@@ -731,14 +731,13 @@ function BuyBox() {
                 onClick=${() => sel.setTier(i)} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setTier(i); }}>
                 <span class="tier-dot" aria-hidden="true"></span>
                 <span class="tier-pics tp-kit">
-                  ${t.tag ? html`<span class="kg-tag pic-tag">${t.tag}</span>` : null}
+                  ${t.tag ? html`<span class=${"kg-tag pic-tag" + (t.tag === "MOST POPULAR" ? " pop" : "")}>${t.tag}</span>` : null}
                   <img class="tier-img" aria-hidden="true" src=${(CONFIG.images["kit" + t.n] || {}).src || ""} width="72" height="72" alt="" decoding="async"/>
                 </span>
                 <span class="tier-main">
                   <span class="tier-name">${t.name}</span>
-                  <span class=${"tier-line" + (t.lineStrong ? " strong" : "")}>${t.line}</span>
+                  <span class="tier-rooms">${t.rooms.map((r) => html`<span class="tier-room" key=${r}>${r}</span>`)}</span>
                   <span class="tier-claim"><b>You\u2019re claiming ${usd(t.n * DIFFUSER_PRICE)} of diffusers, free.</b></span>
-                  <span class=${"tier-ship" + (t.shipFree ? " free" : "")}>\uD83D\uDE9A ${t.ship}</span>
                 </span>
               </div>`; })}
           </div>

@@ -784,7 +784,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .rf-price s{color:#8C7D72;font-size:.95rem}
 #root .buybox .rf-price b{font-size:1.5rem;letter-spacing:-.01em;line-height:1}
 #root .buybox .rf-price .rf-per{font-size:.8rem;color:#5C4F46}
-#root .buybox .rf-price i{font-family:'Unna',serif;font-size:1rem;color:#241C18;margin-left:4px}
+#root .buybox .rf-price i{font-family:'Unna',serif !important;font-size:1rem;color:#241C18;margin-left:4px}
 #root .buybox .rf-line{margin-top:8px;font-size:.86rem;line-height:1.4;color:#241C18}
 #root .buybox .rf-perks{list-style:none;margin:12px 0 0;padding:12px 0 0;border-top:1px solid rgba(36,28,24,.14);display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
 #root .buybox .rf-perks li{font-size:.8rem;font-weight:700;line-height:1.3}
@@ -809,7 +809,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .usp3{margin-top:10px}
 #root .buybox .tier-price{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:0;margin:0 0 0 4px;max-width:none;line-height:1.05;align-self:center}
 #root .buybox .tier-price s{font-size:.74rem;color:#B3402C;font-weight:500;line-height:1.2}
-#root .buybox .tier-price b{font-family:'Unna',serif;font-size:1.25rem;font-weight:700;color:#241C18;letter-spacing:0;line-height:1.1}
+#root .buybox .tier-price b{font-family:'Unna',serif !important;font-size:1.25rem;font-weight:700;color:#241C18;letter-spacing:0;line-height:1.1}
 #root .buybox .tier-save{display:inline-block;align-self:flex-start;margin-top:8px;background:#E4F3EA;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 10px;line-height:1.2}
 #root .buybox .tier .tier-name{padding-right:0}
 @media (max-width:359px){#root .buybox .tier-price b{font-size:1.1rem}}

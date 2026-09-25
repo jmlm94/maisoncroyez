@@ -1,10 +1,13 @@
 name: drawer-recon
+# run 254 — (r254 = 150/160: all fd16 checks green — key fd16-280dce7, inline poster byte-identical, no poster request, fbevents
+#           absent at buy-box time / present after the clicks, PageView + AddToCart x lines + InitiateCheckout; the 10 fails were two
+#           pre-fd16 expectations x 5 paths: "Meta loaded 2.5 s after the buy box" and "poster = one CDN request" — both updated.)
 # run 253 — fd16 perf (2026-09-25): (1) the pre-hero poster is an inline WebP data URI (no CDN request; the app adopts the
 #           same <img>) — check: the hero img src is data:image/webp, byte-identical (sha-256) to deploy-ready/page-body.html,
 #           the video poster is the same data URI, no mc-hero-poster.jpg request; (2) shim tier C holds connect.facebook.net
 #           (fbevents.js) until the first touch/scroll/key or 5 s — check: fbevents ABSENT when the buy box appears (unless that
 #           took >= 4.8 s), PRESENT after the funnel clicks, PageView beacon still recorded (after the release). Everything else
-#           as r253 (deferred tiers A/B, sections on scroll-near, owner step-3 rule, AddToCart x lines, InitiateCheckout).
+#           as r254 (deferred tiers A/B, sections on scroll-near, owner step-3 rule, AddToCart x lines, InitiateCheckout).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -26,12 +29,12 @@ jobs:
         run: sleep 120
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r253
-          cat > r253.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r254
+          cat > r254.mjs <<'EOF2'
           import { chromium } from 'playwright';
           import fs from 'fs';
           import crypto from 'crypto';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r253/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r254/';
           const BODY = fs.readFileSync('lp-factory/pages/free-diffusers/deploy-ready/page-body.html', 'utf8'); const EXP_URI = (BODY.match(/id="mc-hero-p" src="(data:image\/webp;base64,[A-Za-z0-9+\/=]+)"/) || [])[1] || ''; const EXP_SHA = crypto.createHash('sha256').update(EXP_URI).digest('hex');
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
@@ -70,7 +73,7 @@ jobs:
               const hero = await pg.evaluate(async () => { const im = document.querySelector('#root img.hv-poster') || document.getElementById('mc-hero-p'); const v = document.querySelector('#root video.simg') || document.getElementById('mc-hero-v'); const src = im ? im.src : ''; const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(src)); const sha = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join(''); return { webp: /^data:image\/webp;base64,/.test(src), len: src.length, sha, nat: im ? im.naturalWidth : 0, complete: im ? im.complete : false, vposter: v ? (v.poster || '').slice(0, 22) : 'none', posterReq: performance.getEntriesByType('resource').filter((e) => /hero-poster/.test(e.name)).length, preloadImg: !!document.querySelector('link[rel=preload][as=image]') }; });
               ok(`${P.id} fd16: hero poster is the inline WebP data URI, byte-identical to page-body.html (sha ${EXP_SHA.slice(0, 12)}…), 720 px decoded, video poster = same URI, no mc-hero-poster.jpg request, no image preload`, hero.webp && hero.sha === EXP_SHA && hero.len === EXP_URI.length && hero.nat === 720 && hero.complete && hero.vposter === 'data:image/webp;base64' && hero.posterReq === 0 && !hero.preloadImg && EXP_URI.length > 10000, JSON.stringify(hero));
               const tp0 = await pg.evaluate(() => { const srcs = [...document.scripts].map((x) => x.src); const has = (re) => srcs.some((u) => re.test(u)); return { clarity: has(/scripts\.clarity\.ms/), klaviyoChunks: has(/static(-tracking)?\.klaviyo\.com\/onsite\/js\/(?!UmHsGf)/), postscript: has(/sdk\.postscript\.io\/sdk\.bundle/), subi: has(/cdn\.subi\.co/), gtb: has(/content\.9gtb\.com\/script/), fbevents: has(/connect\.facebook\.net\/en_US\/fbevents/), wpm: has(/\/wpm\//), shim: !!window.__MC_TP__, sections: document.querySelectorAll('[id^=sec-]').length, sentinel: !!document.getElementById('mc-rest-sentinel') }; });
-              ok(`${P.id} fd15: 2.5 s after the buy box, deferred third parties NOT loaded yet (Clarity / Klaviyo chunks / Postscript / 9gtb; Subi is a head tag and loads anyway), Meta + Shopify WPM loaded, only the buy box mounted${P.desktop ? ' (desktop: sections may mount at once)' : ''}`, tp0.shim && !tp0.clarity && !tp0.klaviyoChunks && !tp0.postscript && !tp0.gtb && tp0.fbevents && tp0.wpm && (P.desktop || (tp0.sections === 1 && tp0.sentinel)), JSON.stringify(tp0));
+              ok(`${P.id} fd15: 2.5 s after the buy box, deferred third parties NOT loaded yet (Clarity / Klaviyo chunks / Postscript / 9gtb; Subi is a head tag and loads anyway), Meta held too (fd16, unless 5 s already passed), Shopify WPM loaded, only the buy box mounted${P.desktop ? ' (desktop: sections may mount at once)' : ''}`, tp0.shim && !tp0.clarity && !tp0.klaviyoChunks && !tp0.postscript && !tp0.gtb && (!tp0.fbevents || tBuy + 2500 >= 4800) && tp0.wpm && (P.desktop || (tp0.sections === 1 && tp0.sentinel)), JSON.stringify(tp0));
               let appSrc = 'FETCHFAIL'; try { appSrc = await pg.evaluate(async () => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? await (await fetch(s.src)).text() : ''; }); } catch (e) {}
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
               const kids = await pg.$$eval('#buybox .buybox > *', (a) => a.slice(0, 5).map((e) => e.tagName.toLowerCase() + '.' + String(e.className).split(' ')[0]).join(' '));
@@ -115,7 +118,7 @@ jobs:
               ok(`${P.id} step 3 button "🔒 SECURE CHECKOUT — $${planTotal} ➔" (one button, sticky matches, no Shop Pay line, no stale step-2 nodes)`, new RegExp(`^🔒 SECURE CHECKOUT — \\$${$(planTotal)} ➔$`).test(rev.btn.trim()) && rev.btnN === 1 && new RegExp(`SECURE CHECKOUT — \\$${$(planTotal)}`).test(rev.sticky) && !rev.pay && !(await pg.$('#buybox .buybox > .pick-count')) && !(await pg.$('#buybox .buybox > .navrow:not(.back-only)')) && !(await pg.$('#buybox .buybox > .picker')), rev.btn + ' | sticky=' + rev.sticky);
               const tm3 = await timerOk(n);
               ok(`${P.id} step 3 hero: countdown still ticking, still no offer pill`, tm3.ok, JSON.stringify(tm3));
-              ok(`${P.id} hero: adopted poster (CDN width=720, one request) under the adopted video, mp4 src set after the poster loaded (fd10)`, await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); if (!i || !v) return false; const a = i.getBoundingClientRect(), b = v.getBoundingClientRect(); return !document.getElementById('mc-hero-v') && a.width > 200 && Math.abs(a.width - b.width) < 2 && Math.abs(a.height - b.height) < 2 && Math.abs(a.top - b.top) < 2 && !document.getElementById('mc-hero-p') && document.querySelectorAll('img.hv-poster').length === 1 && !!v.getAttribute('src') && /mc-hero-loop-720\.mp4/.test(v.getAttribute('src')) && /width=720/.test(i.currentSrc) && performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)).length === 1 && /width=720/.test(v.getAttribute('poster') || ''); }), await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const v = s && s.querySelector('.hv-host video'); const pr = performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)); return JSON.stringify({ posterReqs: pr.length, kids: s ? [...s.children].map((e) => e.className).join(',') : null, paused: v && v.paused, rs: v && v.readyState }); }));
+              ok(`${P.id} hero: adopted poster (inline WebP data URI, zero poster requests — fd16) under the adopted video, mp4 src set after the poster loaded (fd10)`, await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const i = s && s.querySelector('img.hv-poster'); const v = s && s.querySelector('.hv-host video'); if (!i || !v) return false; const a = i.getBoundingClientRect(), b = v.getBoundingClientRect(); return !document.getElementById('mc-hero-v') && a.width > 200 && Math.abs(a.width - b.width) < 2 && Math.abs(a.height - b.height) < 2 && Math.abs(a.top - b.top) < 2 && !document.getElementById('mc-hero-p') && document.querySelectorAll('img.hv-poster').length === 1 && !!v.getAttribute('src') && /mc-hero-loop-720\.mp4/.test(v.getAttribute('src')) && /^data:image\/webp;base64,/.test(i.currentSrc) && performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)).length === 0 && /^data:image\/webp;base64,/.test(v.getAttribute('poster') || ''); }), await pg.evaluate(() => { const s = document.querySelector('#root .gal-slide'); const v = s && s.querySelector('.hv-host video'); const pr = performance.getEntriesByType('resource').filter((e) => /mc-hero-poster/.test(e.name)); return JSON.stringify({ posterReqs: pr.length, kids: s ? [...s.children].map((e) => e.className).join(',') : null, paused: v && v.paused, rs: v && v.readyState }); }));
               await shot('s3', !P.desktop);
               if (P.one) {
                 await pg.evaluate(() => document.querySelector('#buybox .rf-card.rf-one').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .rf-card.rf-one').click(); await pg.waitForTimeout(500);
@@ -185,12 +188,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r253.mjs
+          node r254.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r253
-          git commit -m "r253: funnel QA fd16 (inline poster, Meta pixel held until first touch)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r254
+          git commit -m "r254: funnel QA fd16 (expectations updated for the inline poster + held Meta pixel)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

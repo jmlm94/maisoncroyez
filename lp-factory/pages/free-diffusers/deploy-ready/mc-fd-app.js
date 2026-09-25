@@ -711,12 +711,7 @@ function BuyBox() {
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "long", day: "numeric" });
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  /* fd13: when the LAST scent is picked on step 2, move to the review by itself (only on the completing pick, so Back never traps) */
-  const prevLen = useRef(sel.keys.length);
-  useEffect(() => {
-    const cap = T.scents, now = sel.keys.length, was = prevLen.current; prevLen.current = now;
-    if (step === 2 && cap > 0 && was < cap && now === cap) { const t = setTimeout(() => go(3), 450); return () => clearTimeout(t); }
-  }, [sel.keys.length, step]);
+  /* fd13 (owner, 2026-09-25): no auto-advance after the last pick — people should choose carefully and tap "Review my kit". */
   /* kit review rows: the first T.scents picks are included, the rest are extras */
   const rows = (() => { const m = new Map(); sel.keys.forEach((k) => m.set(k, (m.get(k) || 0) + 1)); let incLeft = T.scents; return [...m.entries()].map(([k, q]) => { const f = CONFIG.fragrances.find((x) => x.key === k); const inc = Math.min(q, incLeft); incLeft -= inc; return { f, q, inc, extra: q - inc }; }); })();
   return html`

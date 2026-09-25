@@ -163,4 +163,5 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   One-time payment, no refills · $Y today · $Z/DIFFUSER, whole dollars) replacing the "No thanks…" text link; diffuser
   row "FREE with Auto-refill"; when one-time is selected a red strip under the row "Diffusers are no longer free: +$Z today
   · Keep them free". Previewed on MC LP Draft Copy v79-83 (v83 also embeds the six real review photos so the artifact
-  carousel matches live). QA: r250.
+  carousel matches live). QA: r250 = 140/140 (new step-3 copy/cards, one-time via the second card + red strip, AddToCart
+  x lines 29-59 ms after the add, InitiateCheckout on checkout, totals/plans/cart unchanged).

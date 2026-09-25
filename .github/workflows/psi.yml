@@ -1,0 +1,73 @@
+name: psi
+# PageSpeed Insights (Google's lab hardware, stable) for the LP plus two store baselines (home, a product page), mobile and
+# desktop, with the third-party / bootup / render-blocking / LCP audits and CrUX field data when present. Commits a markdown
+# summary + raw JSON to lp-factory/pages/free-diffusers/perf/psi-<stamp>.md. Re-run: edit this comment and push.
+# 2026-09-25 v1 — baseline before the third-party deferral work (owner target: mobile 85+).
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/psi.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  psi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PSI
+        run: |
+          mkdir -p lp-factory/pages/free-diffusers/perf
+          cat > psi.mjs <<'EOF2'
+          import fs from 'fs';
+          const URLS = [
+            ['lp', 'https://maisoncroyez.com/pages/free-diffusers'],
+            ['home', 'https://maisoncroyez.com/'],
+            ['product', 'https://maisoncroyez.com/products/maison-croyez-home-diffuser-kit'],
+          ];
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
+          const out = { stamp, results: [] };
+          let md = `# PageSpeed Insights — ${stamp}\n\n`;
+          const fetchPsi = async (url, strategy) => {
+            const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' + encodeURIComponent(url) + '&strategy=' + strategy + '&category=performance';
+            for (let i = 0; i < 4; i++) { const r = await fetch(api); if (r.ok) return r.json(); const t = await r.text(); console.log('psi', strategy, url, r.status, t.slice(0, 200)); await new Promise((res) => setTimeout(res, 15000 * (i + 1))); }
+            return null;
+          };
+          for (const [id, url] of URLS) {
+            for (const strategy of ['mobile', 'desktop']) {
+              const j = await fetchPsi(url, strategy);
+              if (!j) { md += `## ${id} ${strategy}: PSI failed\n\n`; continue; }
+              const lr = j.lighthouseResult, a = lr.audits, m = (k) => a[k] && a[k].displayValue;
+              const score = Math.round(lr.categories.performance.score * 100);
+              const field = j.loadingExperience && j.loadingExperience.metrics ? j.loadingExperience.metrics : null;
+              const origin = j.originLoadingExperience && j.originLoadingExperience.metrics ? j.originLoadingExperience.metrics : null;
+              const tp = (a['third-party-summary'] && a['third-party-summary'].details && a['third-party-summary'].details.items || []).slice(0, 14).map((it) => `| ${it.entity && it.entity.text || it.entity} | ${Math.round((it.transferSize || 0) / 1024)} | ${Math.round(it.mainThreadTime || 0)} | ${Math.round(it.blockingTime || 0)} |`).join('\n');
+              const boot = (a['bootup-time'] && a['bootup-time'].details && a['bootup-time'].details.items || []).slice(0, 14).map((it) => `| ${String(it.url).replace(/^https?:\/\//, '').slice(0, 95)} | ${Math.round(it.total || 0)} | ${Math.round(it.scripting || 0)} |`).join('\n');
+              const rb = (a['render-blocking-resources'] && a['render-blocking-resources'].details && a['render-blocking-resources'].details.items || []).map((it) => `- ${String(it.url).replace(/^https?:\/\//, '').slice(0, 100)} — ${Math.round(it.wastedMs || 0)} ms`).join('\n');
+              const lcpEl = a['largest-contentful-paint-element'] && a['largest-contentful-paint-element'].details && a['largest-contentful-paint-element'].details.items && a['largest-contentful-paint-element'].details.items[0];
+              const lcpNode = lcpEl && lcpEl.items && lcpEl.items[0] && lcpEl.items[0].node ? lcpEl.items[0].node.snippet : (lcpEl && lcpEl.node ? lcpEl.node.snippet : '?');
+              const phases = a['largest-contentful-paint-element'] && a['largest-contentful-paint-element'].details && a['largest-contentful-paint-element'].details.items && a['largest-contentful-paint-element'].details.items[1] && a['largest-contentful-paint-element'].details.items[1].items ? a['largest-contentful-paint-element'].details.items[1].items.map((p) => `${p.phase} ${Math.round(p.timing)} ms`).join(', ') : '';
+              const longTasks = (a['long-tasks'] && a['long-tasks'].details && a['long-tasks'].details.items || []).slice(0, 10).map((it) => `| ${String(it.url).replace(/^https?:\/\//, '').slice(0, 90)} | ${Math.round(it.startTime)} | ${Math.round(it.duration)} |`).join('\n');
+              const fmt = (x) => x ? `${x.category} (p75 ${x.percentile})` : 'n/a';
+              md += `## ${id} — ${strategy}: performance ${score}\n\n`;
+              md += `URL: ${url}\n\n| FCP | LCP | TBT | SI | CLS | TTI |\n|---|---|---|---|---|---|\n| ${m('first-contentful-paint')} | ${m('largest-contentful-paint')} | ${m('total-blocking-time')} | ${m('speed-index')} | ${m('cumulative-layout-shift')} | ${m('interactive')} |\n\n`;
+              md += `Field (CrUX) — this URL: LCP ${fmt(field && field.LARGEST_CONTENTFUL_PAINT_MS)}, INP ${fmt(field && field.INTERACTION_TO_NEXT_PAINT)}, CLS ${fmt(field && field.CUMULATIVE_LAYOUT_SHIFT_SCORE)} · origin: LCP ${fmt(origin && origin.LARGEST_CONTENTFUL_PAINT_MS)}, INP ${fmt(origin && origin.INTERACTION_TO_NEXT_PAINT)}\n\n`;
+              md += `LCP element: \`${String(lcpNode).slice(0, 200)}\`${phases ? ` — phases: ${phases}` : ''}\n\n`;
+              md += `### Third parties\n\n| entity | KB | main-thread ms | blocking ms |\n|---|---|---|---|\n${tp}\n\n### Boot-up time\n\n| script | total ms | scripting ms |\n|---|---|---|\n${boot}\n\n### Render-blocking\n\n${rb || '- none'}\n\n### Long tasks\n\n| script | start ms | duration ms |\n|---|---|---|\n${longTasks}\n\n`;
+              out.results.push({ id, strategy, url, score, metrics: { fcp: m('first-contentful-paint'), lcp: m('largest-contentful-paint'), tbt: m('total-blocking-time'), si: m('speed-index'), cls: m('cumulative-layout-shift'), tti: m('interactive') }, field, origin, lcpNode, phases, thirdParty: (a['third-party-summary'] && a['third-party-summary'].details && a['third-party-summary'].details.items) || [], bootup: (a['bootup-time'] && a['bootup-time'].details && a['bootup-time'].details.items) || [], longTasks: (a['long-tasks'] && a['long-tasks'].details && a['long-tasks'].details.items) || [], renderBlocking: (a['render-blocking-resources'] && a['render-blocking-resources'].details && a['render-blocking-resources'].details.items) || [], unusedJs: ((a['unused-javascript'] && a['unused-javascript'].details && a['unused-javascript'].details.items) || []).slice(0, 20), networkRequests: ((a['network-requests'] && a['network-requests'].details && a['network-requests'].details.items) || []).map((r) => ({ url: String(r.url).slice(0, 160), start: Math.round(r.networkRequestTime || r.startTime || 0), end: Math.round(r.networkEndTime || r.endTime || 0), kb: Math.round((r.transferSize || 0) / 1024), type: r.resourceType, prio: r.priority })) });
+              console.log(`${id} ${strategy}: ${score} — LCP ${m('largest-contentful-paint')} TBT ${m('total-blocking-time')} SI ${m('speed-index')}`);
+            }
+          }
+          fs.writeFileSync(`lp-factory/pages/free-diffusers/perf/psi-${stamp}.md`, md);
+          fs.writeFileSync(`lp-factory/pages/free-diffusers/perf/psi-${stamp}.json`, JSON.stringify(out));
+          EOF2
+          node psi.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/free-diffusers/perf
+          git commit -m "perf: PageSpeed Insights (LP + home + product, mobile + desktop)" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

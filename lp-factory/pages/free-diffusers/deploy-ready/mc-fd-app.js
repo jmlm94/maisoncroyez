@@ -818,8 +818,8 @@ function BuyBox() {
             <div class="kr-total"><span>You only pay:</span><b>${sel.oneTime() ? usd(sel.today()) : usd(SCENT_ONE) + "/scent"}</b></div>
             ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
           </div>
-          <div class="picker-title step-title refill-title">Your free diffusers come with Auto-refill</div>
-          <p class="refill-sub">Your ${T.scents} scent${T.scents > 1 ? "s" : ""} ship today with <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> (${usd(T.n * DIFFUSER_PRICE)} value). They\u2019re free because your next scents are on Auto-refill: <b>${usd(SCENT_SUB)} each every 30 days</b> from day 30. Skip or cancel anytime.</p>
+          <div class="picker-title step-title refill-title">Enjoy auto-refill with your free diffusers every 30 days:</div>
+          <p class="refill-sub">Other brands make this hard. We don\u2019t, because we believe in our craft: your ${T.scents} scent${T.scents > 1 ? "s" : ""} ship today with <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> (${usd(T.n * DIFFUSER_PRICE)} value), and your next scents arrive every 30 days at <b>${usd(SCENT_SUB)} each, 20% off for life</b>. Skip, swap or cancel anytime, in one tap.</p>
           <div class="rf-two">
             <div class=${"rf-card" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
               <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
@@ -838,8 +838,8 @@ function BuyBox() {
             <div class=${"rf-card rf-one" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("one")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("one"); }}>
               <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
               <div class="rf-body">
-                <div class="rf-head"><b>Buy once, no refills:</b></div>
-                <div class="rf-price"><b>${usd(T.price + T.oneTime)}</b> <span class="rf-per">today</span> <span class="rf-tag warn">Diffusers ${usd(T.oneTime)}, not free</span></div>
+                <div class="rf-head"><b>One-time payment, no refills:</b></div>
+                <div class="rf-price"><b>${usd(T.price + T.oneTime)}</b> <span class="rf-per">today</span> <span class="rf-tag warn">${usd(Math.round(T.oneTime / T.n * 100 + 1e-6) / 100)}/diffuser</span></div>
                 <div class="rf-line">No Auto-refill. Diffusers & scents at full price after.</div>
               </div>
             </div>

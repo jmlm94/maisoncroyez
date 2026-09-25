@@ -194,7 +194,16 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   verified in a local harness: LCP = the pre-hero img ~100 ms after FCP, no poster request, video poster set); (2) shim tier
   C holds connect.facebook.net (fbevents.js) until the first touch/scroll/key or 5 s — the channel pixel queues PageView in
   the fbq stub, AddToCart/InitiateCheckout are after a tap anyway. Trade-off to know: visitors who leave within 5 s without
-  touching the screen no longer send a Meta PageView. Revert = tier C line in page-body. QA: r253 + Lighthouse x5 below.
+  touching the screen no longer send a Meta PageView. Revert = tier C line in page-body. QA: r253 = 150/160 (every fd16
+  check green: key, poster byte-identical sha a05560d1…, no poster request, fbevents absent at buy-box time / present after
+  the clicks, PageView 1, AddToCart x lines 15-40 ms after the add, InitiateCheckout on checkout; the 10 fails were two
+  pre-fd16 expectations) → r254 = 160/160. Lighthouse x5 on fd16 (16:41 UTC, lh-20260925T1641Z.md): mobile 62/83/84/83/68
+  (median 83; FCP 2.0-2.7 s, LCP 3.3/3.4/3.5/5.0/5.7 s, TBT 180-510 ms, TTI 7.1-8.7 s), Facebook gone from the third-party
+  table (was 250 KB / 558 ms blocking). Trajectory: fd14 38/50/72 → fd15 61/75/66/55/60 → fd16 62/83/84/83/68. The two
+  low runs are runner-slow runs (observed FCP 0.9 s instead of 0.25 s) where the poster paints late and Lantern pulls the
+  whole theme/app load into the LCP graph. What is left is not in the page body: theme scripts + Shopify WPM/trekkie/perf-kit
+  (~1.1 s main thread, 80+35+26 KB), Subi SDK head tag (58 KB), theme Nunito fonts (90 KB), 300+ KB of Shopify JS before
+  the LCP paint. Ceiling measured with ALL third parties blocked: 85/80/78.
   Lighthouse fd14-c3e1dc7 (15:19 UTC): mobile 38/50/72 (LCP 6.4/7.2/3.1 s, TBT 4,810/880/810 ms — runner variance;
   best run 3.1 s LCP), desktop 93/97/94 (LCP 1.1-1.5 s). Our files are all in flight by 1.1 s and done by 1.2 s; the
   page is bound by third parties: Facebook 249 KB / 416 ms blocking, Clarity 145 ms, Shopify web-pixels manager 1.4 s

@@ -128,6 +128,12 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   (5) countdown now "Free diffusers reserved · HH:MM:SS" on a dark blurred pill (owner: no number, not red).
   Kit cards per the owner's mockup (v73-74): image | name + room badges + green "YOU SAVE $X" pill | right column struck
   value (red) + serif price (1.25rem); no "today", no "$39.95 every 30 days", no per-scent line.
-  QA: r243 (drawer checks replaced by /cart.js + checkout; all-frames Meta beacon hook + one path with the redirect blocked
-  to time the channel pixel's AddToCart against /cart/add.js); Lighthouse re-run (fd13-e595eb8: mobile 52/67/61,
-  LCP 4.7/4.7/6.2 s, desktop unchanged — same band as fd12).
+  02:08 UTC fd13-c9f1148 (CSS only): kit cards + refill card compacted for phones (owner: "more compact, less big") —
+  card height 166-201 -> 94-137 px at 390-430 px, refill card ~200-225 px, single-column perks under 480 px.
+  QA: r243 = 109/120 on fd13-5d7fbe3 (all funnel/cart/checkout checks pass; the 11 fails = a strict 20 px price assertion
+  and the Meta beacon checks, which saw ZERO facebook.com/tr hits in any frame — fbevents sends nothing from a browser
+  with navigator.webdriver=true; the 2026-09-20 pixel audit hid it + used a real UA). r244/r245 crashed on a Node-side
+  innerWidth typo; r246 = the real run (real UA, webdriver hidden, compact-size checks, AddToCart before the redirect,
+  InitiateCheckout on checkout, one path with the redirect blocked to time AddToCart vs /cart/add.js).
+  Lighthouse fd13-e595eb8: mobile 52/67/61, LCP 4.7/4.7/6.2 s; fd13-5d7fbe3 (02:04): mobile 42/46/57 with one 11.9 s LCP
+  outlier (TBT 3,760 ms on that run — runner noise, same third-party stack); desktop unchanged.

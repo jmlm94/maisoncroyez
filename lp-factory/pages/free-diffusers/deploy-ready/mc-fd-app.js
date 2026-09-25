@@ -742,9 +742,9 @@ function BuyBox() {
                 <span class="tier-main">
                   <span class="tier-name">${t.name}</span>
                   <span class="tier-rooms">${t.rooms.map((r) => html`<span class="tier-room" key=${r}>${r}</span>`)}</span>
-                  <span class="tier-price"><b>${usd(t.price)} today</b><s>${usd(val)}</s><span class="tier-then">then ${usd(SCENT_SUB)}/scent every 30 days \u00b7 cancel anytime</span></span>
-                  <span class="tier-claim"><b>${usd(t.n * DIFFUSER_PRICE)} of diffusers, free</b></span>
+                  <span class="tier-save">You save ${usd(save)}</span>
                 </span>
+                <span class="tier-price"><s>${usd(val)}</s><b>${usd(t.price)}</b><span class="tier-then">\uD83C\uDFF7\uFE0F ${usd(SCENT_ONE)}/scent</span></span>
               </div>`; })}
           </div>
           <div class="tier-note">

@@ -809,11 +809,13 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .usp3{margin-top:10px}
 #root .hv-offer{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:4;background:rgba(36,28,24,.82);color:#fff;border-radius:999px;padding:7px 12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;white-space:normal;text-align:center;line-height:1.35;max-width:calc(100% - 24px);pointer-events:none;backdrop-filter:blur(4px)}
 @media (max-width:359px){#root .hv-offer{font-size:.56rem;padding:6px 10px}}
-#root .buybox .tier-price{display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:8px;margin-top:8px;flex:none;width:100%;max-width:none;text-align:left;line-height:1.2}
-#root .buybox .tier-price b{font-size:1.12rem;letter-spacing:-.01em;color:#241C18}
-#root .buybox .tier-price s{color:#8C7D72;font-size:.8rem;font-weight:500}
-#root .buybox .tier-then{flex:none;width:100%;font-size:.7rem;color:#5C4F46;font-weight:500;text-align:left}
-#root .buybox .tier-claim{margin-top:4px;font-size:.78rem}
+#root .buybox .tier-price{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:0;margin:0 0 0 4px;max-width:none;line-height:1.05;align-self:center}
+#root .buybox .tier-price s{font-size:.74rem;color:#B3402C;font-weight:500;line-height:1.2}
+#root .buybox .tier-price b{font-family:'Unna',serif;font-size:1.6rem;font-weight:700;color:#241C18;letter-spacing:0;line-height:1.1}
+#root .buybox .tier-then{width:auto;font-family:'Outfit',sans-serif;font-weight:700;font-size:.7rem;color:#241C18;white-space:nowrap;margin-top:3px;text-align:right;letter-spacing:0}
+#root .buybox .tier-save{display:inline-block;align-self:flex-start;margin-top:8px;background:#E4F3EA;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 10px;line-height:1.2}
+#root .buybox .tier .tier-name{padding-right:0}
+@media (max-width:359px){#root .buybox .tier-price b{font-size:1.4rem}#root .buybox .tier-then{font-size:.64rem}}
 #root .buybox .pick-pill-row{display:flex;justify-content:center;margin:-4px 0 10px}
 #root .buybox .pick-pill{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:#F3EBE1;color:#241C18;border-radius:999px;padding:4px 10px;white-space:nowrap}
 #root .buybox .pick-hint{margin:0;padding:12px 14px;border:1.5px dashed rgba(36,28,24,.22);border-radius:999px;text-align:center;font-size:.86rem;color:#5C4F46;flex:1}

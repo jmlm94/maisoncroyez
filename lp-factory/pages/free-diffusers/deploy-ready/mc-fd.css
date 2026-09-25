@@ -793,3 +793,5 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .rf-alt.on{color:#241C18;background:#F3EBE1;border-radius:14px;padding:10px 12px;font-size:.88rem}
 #root .buybox .rf-link{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 @media (max-width:359px){#root .buybox .rf-perks{grid-template-columns:1fr}}
+/* fd13 (2026-09-25, owner): free-shipping pills black */
+#root .buybox .tier-ship.free{background:#111;color:#fff;border-color:#111}

@@ -150,3 +150,6 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   r248 (13:03 UTC, fd13-03f212c) = 135/135: AddToCart x(lines) 21-53 ms after the /cart/add.js response on every path
   (kit + each scent, "sh-" event ids), redirect lands on /checkouts/ 1.9-2.6 s after the click, InitiateCheckout +
   PageView on checkout, cart lines/totals/plans correct, compact cards (94-137 px), no JS errors, no overflow.
+  13:2x UTC fd13-6c193c2 — owner: "Remove the auto move to third step, people need to choose carefully". The step-2
+  auto-advance effect is gone; after the last pick the page stays on step 2 with "Review my kit ➔" (button + sticky).
+  QA: r249.

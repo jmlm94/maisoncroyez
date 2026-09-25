@@ -1,10 +1,6 @@
 name: drawer-recon
-# run 248 — fd13 final, redirect 0.8 s (2026-09-25). pixel-diag proved the Meta channel pixel sends 3 AddToCart beacons
-#           15-35 ms after the /cart/add.js response; r242-r248 saw none because the test wrapped window.fbq to count
-#           page-level calls (the wrapper lost fbq.instance, which the channel pixel checks) and the "blocked redirect" used
-#           route.abort() (swaps in an error page). This run: no fbq wrapper (page-level AddToCart is checked in the app
-#           source only), the blocked path answers the /checkout navigation with a 204, localStorage hits are not cleared,
-#           Back-button check is case-insensitive.
+# run 249 — fd13, auto-advance removed (owner 2026-09-25: "people need to choose carefully"). After the last pick the page
+#           stays on step 2 with "Review my kit ➔" (button + sticky); the review opens only on tap. Everything else as r249.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -26,10 +22,10 @@ jobs:
         run: sleep 120
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r248
-          cat > r248.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r249
+          cat > r249.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r248/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r249/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 300) });
@@ -86,7 +82,10 @@ jobs:
               for (let k = 0; k < P.picks.length; k++) { const idx = P.picks[k]; if ((await c.nth(idx).locator('.pick-qty b').innerText()) !== '0') await c.nth(idx).locator('.pick-qty button:last-child').click(); else await c.nth(idx).click(); await pg.waitForTimeout(250); if (k < P.picks.length - 1) { st = await s2(); const good = new RegExp(`^${k + 1} of ${n} picked$`, 'i').test(st.pill.trim()) && new RegExp(`^Pick ${n - k - 1} more scent`).test(st.hint.trim()) && !st.hasBtn && /Pick your/.test(st.title); midOk = midOk && good; midInfo += JSON.stringify({ pill: st.pill, hint: st.hint, hasBtn: st.hasBtn }) + ' '; } }
               if (n > 1) ok(`${P.id} step 2: pill counts up while picking, stays on step 2`, midOk, midInfo);
               await pg.waitForTimeout(1400);
-              ok(`${P.id} step 2 → 3 by itself after the last pick (auto-advance)`, /Congratulations, your free diffusers have been reserved\./.test(await T('#buybox .step-title')), await T('#buybox .step-title'));
+              st = await s2();
+              ok(`${P.id} after the last pick the page STAYS on step 2 (no auto-advance): pill "${n} of ${n} picked", "Review my kit ➔" button + sticky enabled`, /Pick your/.test(st.title) && new RegExp(`^${n} of ${n} picked$`, 'i').test(st.pill.trim()) && !st.hint && st.hasBtn && /Review my kit ➔/i.test(st.btn) && !st.stickyDis && /Review my kit/i.test(st.sticky), JSON.stringify(st).slice(0, 300));
+              await pg.evaluate(() => document.querySelector('#buybox .navrow .btn.atc').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .navrow .btn.atc').click(); await pg.waitForTimeout(700);
+              ok(`${P.id} "Review my kit" → step 3`, /Congratulations, your free diffusers have been reserved\./.test(await T('#buybox .step-title')), await T('#buybox .step-title'));
               if (P.backTest) {
                 await pg.evaluate(() => document.querySelector('#buybox .navrow.back-only .btn').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .navrow.back-only .btn').click(); await pg.waitForTimeout(1400);
                 st = await s2();
@@ -170,12 +169,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r248.mjs
+          node r249.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r248
-          git commit -m "r248: funnel QA fd13 final, 0.8 s redirect (Meta AddToCart x3 + InitiateCheckout verified)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r249
+          git commit -m "r249: funnel QA fd13, no auto-advance" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

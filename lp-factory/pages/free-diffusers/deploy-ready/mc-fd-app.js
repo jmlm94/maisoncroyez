@@ -839,7 +839,7 @@ function BuyBox() {
               <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
               <div class="rf-body">
                 <div class="rf-head"><b>One-time payment, no refills:</b></div>
-                <div class="rf-price"><b>${usd(T.price + T.oneTime)}</b> <span class="rf-per">today</span> <span class="rf-tag warn">${usd(Math.round(T.oneTime / T.n * 100 + 1e-6) / 100)}/diffuser</span></div>
+                <div class="rf-price"><b>${usd(T.price + T.oneTime)}</b> <span class="rf-per">today</span> <span class="rf-tag warn">$${Math.round(T.oneTime / T.n)}/diffuser</span></div>
                 <div class="rf-line">No Auto-refill. Diffusers & scents at full price after.</div>
               </div>
             </div>

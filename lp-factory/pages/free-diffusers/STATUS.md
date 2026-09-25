@@ -154,3 +154,13 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   auto-advance effect is gone; after the last pick the page stays on step 2 with "Review my kit ➔" (button + sticky).
   QA: r249 = 140/140 (stays on step 2 after the last pick, review opens on tap; AddToCart x lines 26-49 ms after the add,
   InitiateCheckout on checkout, totals/plans/cart unchanged).
+- 2026-09-25 fd14-c3e1dc7 — LIVE 15:03 UTC (app js 89817 B, css 74597 B). Owner: "if they don't choose the subscription
+  we don't charge $49.95 x diffusers... how can we make it clear?" Step 3 now states the rule: title "Enjoy auto-refill with
+  your free diffusers every 30 days:", owner explainer ("Other brands make this hard. We don't, because we believe in our
+  craft: your N scents ship today with N free diffusers ($V value), and your next scents arrive every 30 days at $39.95
+  each, 20% off for life. Skip, swap or cancel anytime, in one tap."), TWO option cards each with today's price
+  (Auto-refill & 20% OFF for life · $X today · FREE DIFFUSERS · 4 perks incl. "Cancel anytime, we'll pay for return" /
+  One-time payment, no refills · $Y today · $Z/DIFFUSER, whole dollars) replacing the "No thanks…" text link; diffuser
+  row "FREE with Auto-refill"; when one-time is selected a red strip under the row "Diffusers are no longer free: +$Z today
+  · Keep them free". Previewed on MC LP Draft Copy v79-83 (v83 also embeds the six real review photos so the artifact
+  carousel matches live). QA: r250.

@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Re-run 2026-09-25 on fd14-c3e1dc7 (step-3 Auto-refill rule, two cards). Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
+# Re-run 2026-09-25 on fd15-3f17cd3 (third-party deferral shim + deferred sections), 5 repeats. Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
     env:
       URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/free-diffusers' }}
       OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/perf' }}
-      RUNS: ${{ github.event.inputs.runs || '3' }}
+      RUNS: ${{ github.event.inputs.runs || '5' }}
     steps:
       - uses: actions/checkout@v4
         with:

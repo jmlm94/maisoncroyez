@@ -1,11 +1,8 @@
 name: drawer-recon
-# run 243 — fd13 final (2026-09-25): owner's original headline back; kit cards per the owner's mockup (price column on the
-#           right: struck value, big price, "🏷️ $49.95/scent"; green "YOU SAVE $X" pill under the room badges; no "today",
-#           no "$39.95 every 30 days" / no per-scent line on the cards, prices 1.25rem); offer pill REMOVED; countdown
-#           "Free diffusers reserved · HH:MM:SS" on a dark blurred pill (no number); checkout redirect waits 1.6 s.
-#           Meta AddToCart: hooks sendBeacon/fetch/img in EVERY frame (the channel pixel runs in a sandbox iframe) and logs
-#           hits to localStorage so they can be read on the checkout page; one path (3S-desktop-plan) blocks the redirect to
-#           time the beacon against the /cart/add.js response.
+# run 244 — fd13 final + compact cards (2026-09-25): same checks as r244 (owner headline, mockup price cards, dark
+#           countdown, 1.6 s redirect, all-frames Meta beacon hook + one path with the redirect blocked) plus: compact card
+#           sizes (price 1.15rem phone / 1.3rem desktop, kit card <= 140 px tall on a 390 px phone, refill card <= 240 px)
+#           and an InitiateCheckout check on the checkout page.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -24,13 +21,13 @@ jobs:
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
       - name: Wait for the page cache (one-off after the fd13 publish)
-        run: sleep 120
+        run: sleep 100
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r243
-          cat > r243.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r244
+          cat > r244.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r243/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r244/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 300) });
@@ -71,7 +68,8 @@ jobs:
               ok(`${P.id} hero: NO offer pill; countdown "Free diffusers reserved · HH:MM:SS" bottom centre, dark blurred pill, white, ticking`, tm0.ok, JSON.stringify(tm0));
               const cards = await pg.$$eval('#buybox .tier', (a) => a.map((e) => { const q = (s) => e.querySelector(s); const R = (el) => el ? el.getBoundingClientRect() : null; const pr = R(q('.tier-price')), mn = R(q('.tier-main')); return { t: e.innerText.replace(/\s+/g, ' '), name: (q('.tier-name') || {}).innerText || '', rooms: [...e.querySelectorAll('.tier-room')].map((r) => r.innerText.trim().toUpperCase()).join('|'), priceB: ((q('.tier-price b') || {}).innerText || '').trim(), priceS: ((q('.tier-price s') || {}).innerText || '').trim(), then: ((q('.tier-then') || {}).innerText || '').replace(/\s+/g, ' ').trim(), save: ((q('.tier-save') || {}).innerText || '').replace(/\s+/g, ' ').trim(), saveBg: q('.tier-save') ? getComputedStyle(q('.tier-save')).backgroundColor : '', claim: !!q('.tier-claim'), req: !!q('.tier-req'), ship: !!q('.tier-ship'), right: !!(pr && mn) && pr.left >= mn.right - 1, bFont: q('.tier-price b') ? getComputedStyle(q('.tier-price b')).fontFamily : '', bSize: q('.tier-price b') ? parseFloat(getComputedStyle(q('.tier-price b')).fontSize) : 0, sColor: q('.tier-price s') ? getComputedStyle(q('.tier-price s')).color : '', ow: e.scrollWidth <= e.clientWidth + 1, tag: ((q('.kg-tag') || {}).innerText || ''), tagBg: q('.kg-tag') ? getComputedStyle(q('.kg-tag')).backgroundColor : '', on: e.classList.contains('on') }; }));
               const VAL = [129.90, 259.80, 389.70], PR = [49.95, 99.90, 149.85];
-              ok(`${P.id} 3 kit cards (mockup): "N FREE Diffusers + N Scents", room badges, YOU SAVE pill, right column = struck value (red) + serif price (1.25rem); no per-scent line / no today / no 39.95 / no claim / no pills; MOST POPULAR green; 2-kit default`, cards.length === 3 && cards[0].name.startsWith('1 FREE Diffuser + 1 Scent') && cards[1].name.startsWith('2 FREE Diffusers + 2 Scents') && cards[2].name.startsWith('3 FREE Diffusers + 3 Scents') && cards.every((c, i) => c.rooms === ROOMS[i] && c.priceB === `$${PR[i].toFixed(2)}` && c.priceS === `$${VAL[i].toFixed(2)}` && c.then === '' && Math.abs(c.bSize - 20) < 0.6 && c.save.toUpperCase() === `YOU SAVE $${(VAL[i] - PR[i]).toFixed(2)}` && c.saveBg === 'rgb(228, 243, 234)' && c.right && /Unna/.test(c.bFont) && c.sColor === 'rgb(179, 64, 44)' && c.ow && !c.claim && !c.req && !c.ship && !/today|39\.95|every 30 days|\/scent|ELIGIBLE|FREE ON|FLAT|requires/i.test(c.t)) && /MOST POPULAR/i.test(cards[1].tag) && cards[1].tagBg === 'rgb(30, 122, 70)' && /BEST VALUE/i.test(cards[2].tag) && !cards[0].tag && cards[1].on && !cards[0].on && !cards[2].on, JSON.stringify(cards).slice(0, 700));
+              ok(`${P.id} compact: kit cards <= ${P.desktop ? 130 : 140} px tall`, (await pg.$$eval('#buybox .tier', (a) => Math.max(...a.map((e) => e.getBoundingClientRect().height)))) <= (P.desktop ? 130 : 140), 'heights=' + JSON.stringify(await pg.$$eval('#buybox .tier', (a) => a.map((e) => Math.round(e.getBoundingClientRect().height)))));
+              ok(`${P.id} 3 kit cards (mockup): "N FREE Diffusers + N Scents", room badges, YOU SAVE pill, right column = struck value (red) + serif price (1.25rem); no per-scent line / no today / no 39.95 / no claim / no pills; MOST POPULAR green; 2-kit default`, cards.length === 3 && cards[0].name.startsWith('1 FREE Diffuser + 1 Scent') && cards[1].name.startsWith('2 FREE Diffusers + 2 Scents') && cards[2].name.startsWith('3 FREE Diffusers + 3 Scents') && cards.every((c, i) => c.rooms === ROOMS[i] && c.priceB === `$${PR[i].toFixed(2)}` && c.priceS === `$${VAL[i].toFixed(2)}` && c.then === '' && Math.abs(c.bSize - (innerWidth >= 600 ? 20.8 : 18.4)) < 0.6 && c.save.toUpperCase() === `YOU SAVE $${(VAL[i] - PR[i]).toFixed(2)}` && c.saveBg === 'rgb(228, 243, 234)' && c.right && /Unna/.test(c.bFont) && c.sColor === 'rgb(179, 64, 44)' && c.ow && !c.claim && !c.req && !c.ship && !/today|39\.95|every 30 days|\/scent|ELIGIBLE|FREE ON|FLAT|requires/i.test(c.t)) && /MOST POPULAR/i.test(cards[1].tag) && cards[1].tagBg === 'rgb(30, 122, 70)' && /BEST VALUE/i.test(cards[2].tag) && !cards[0].tag && cards[1].on && !cards[0].on && !cards[2].on, JSON.stringify(cards).slice(0, 700));
               await shot('s1', !P.desktop);
               await pg.click(`#buybox .tier:nth-child(${n})`); await pg.waitForTimeout(400);
               const tm1 = await timerOk(n);
@@ -98,6 +96,7 @@ jobs:
               ok(`${P.id} review: ${n} scents $49.95, diffusers struck FREE, "You only pay: $49.95/scent", saving $${P.save}`, rev.rows.filter((r) => r === '$49.95').length === n && rev.struck && new RegExp(`^\\$${$(n * 79.95)} ?FREE$`).test(rev.rows[rev.rows.length - 1]) && /You only pay: ?\$49\.95\/scent$/.test(rev.total.trim()) && new RegExp(`saving \\$${P.save} today!`).test(rev.save), JSON.stringify({ rows: rev.rows, total: rev.total, save: rev.save }));
               const shipPerk = n * 39.95 >= 75 ? 'Free shipping on refills' : 'Free shipping from $75';
               ok(`${P.id} refills section: NO scarcity strip / old options, title + explainer, Auto-refill card ON ($39.95 from day 30, 4 perks w/ green checks), "No thanks…" link, fact line`, !rev.strip && rev.popt === 0 && !rev.planTitleVis && rev.rTitle.trim() === 'How would you like your refills?' && new RegExp(`^Your ${n} scent${n > 1 ? 's' : ''} and ${n} diffuser${n > 1 ? 's' : ''} are in your kit today\\. This is only about the next scents, in 30 days\\.$`).test(rev.rSub.trim()) && rev.card && rev.card.on && rev.card.chk === 'true' && rev.card.head === 'Auto-refill & 20% OFF for life:' && /FREE SHIPPING/.test(rev.card.ship) && rev.card.price === '$49.95 $39.95 / scent from day 30' && /Nothing extra today\. Your first refill ships in 30 days\. Skip, swap or cancel anytime\./.test(rev.card.line) && rev.card.perks.join('|') === `20% off every refill|${shipPerk}|Heads-up email before each refill|Swap or pause in one tap` && rev.card.chkBg === 'rgb(30, 122, 70)' && rev.card.chkW === '16px' && /linear-gradient/.test(rev.card.bg) && rev.card.border === 'rgb(36, 28, 24)' && rev.alt === 'No thanks, I’ll re-order myself another time (make it a one-time purchase)' && !rev.altOn && /Fact: 86% of customers have stayed with us for 6\+ months/.test(rev.fact) && rev.old === 0, JSON.stringify(rev).slice(0, 600));
+              ok(`${P.id} compact: refill card <= ${P.desktop ? 200 : 240} px tall, perks ${P.desktop ? '2' : '1'} column(s)`, await pg.evaluate((d) => { const c = document.querySelector('#buybox .rf-card'); const li = [...c.querySelectorAll('.rf-perks li')]; const cols = new Set(li.map((l) => Math.round(l.getBoundingClientRect().left))).size; return c.getBoundingClientRect().height <= (d ? 200 : 240) && cols === (d ? 2 : 1); }, P.desktop), await pg.evaluate(() => { const c = document.querySelector('#buybox .rf-card'); return 'h=' + Math.round(c.getBoundingClientRect().height) + ' head=' + Math.round(c.querySelector('.rf-head').getBoundingClientRect().height) + ' price=' + getComputedStyle(c.querySelector('.rf-price b')).fontSize; }));
               ok(`${P.id} step 3 button "🔒 SECURE CHECKOUT — $${planTotal} ➔" (one button, sticky matches, no Shop Pay line, no stale step-2 nodes)`, new RegExp(`^🔒 SECURE CHECKOUT — \\$${$(planTotal)} ➔$`).test(rev.btn.trim()) && rev.btnN === 1 && new RegExp(`SECURE CHECKOUT — \\$${$(planTotal)}`).test(rev.sticky) && !rev.pay && !(await pg.$('#buybox .buybox > .pick-count')) && !(await pg.$('#buybox .buybox > .navrow:not(.back-only)')) && !(await pg.$('#buybox .buybox > .picker')), rev.btn + ' | sticky=' + rev.sticky);
               const tm3 = await timerOk(n);
               ok(`${P.id} step 3 hero: countdown still ticking, still no offer pill`, tm3.ok, JSON.stringify(tm3));
@@ -148,6 +147,9 @@ jobs:
               const money = (label) => { const m = txt.match(new RegExp(label + '\\s*(?:USD)?\\s*\\$([\\d,]+\\.\\d\\d)', 'i')); return m ? parseFloat(m[1].replace(',', '')) : null; };
               const total = money('Total'), subtotal = money('Subtotal(?: · \\d+ items?)?');
               ok(`${P.id} checkout total $${P.total}`, total === P.total, `total=${total} subtotal=${subtotal}`);
+              let lsCo = []; try { lsCo = await pg.evaluate(() => JSON.parse(localStorage.getItem('__mcFbHits') || '[]')); } catch (e) {}
+              const icHits = lsCo.filter((h) => h.ev === 'InitiateCheckout' && h.t >= tClick);
+              ok(`${P.id} Meta InitiateCheckout beacon on the checkout page (${icHits.length} hit(s))`, icHits.length >= 1, `ic=${JSON.stringify(icHits.map((h) => h.k + '@+' + (h.t - tClick) + 'ms ' + h.f))} allSinceClick=${JSON.stringify(lsCo.filter((h) => h.t >= tClick).map((h) => h.ev + '@+' + (h.t - tClick) + 'ms'))}`);
               if (P.one) {
                 ok(`${P.id} checkout: one-time, no plan, no discount, kit line "(One-Time)", no Special Kits`, !/Every 30 days/.test(txt) && !/First payment/.test(txt) && !/recurring/i.test(txt) && total === subtotal && new RegExp(`${n} Diffusers? \\+ ${n} Scents? \\(One-Time\\)`).test(txt) && /(Free|Home) Diffuser Kit/.test(txt) && !/Special Kits/.test(txt), `plan mentions=${(txt.match(/Every 30 days/g) || []).length} total=${total} subtotal=${subtotal}`);
               } else {
@@ -165,12 +167,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r243.mjs
+          node r244.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r243
-          git commit -m "r243: funnel QA fd13 final (owner title, mockup price cards, 1.6 s redirect, AddToCart timing)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r244
+          git commit -m "r244: funnel QA fd13 final + compact cards (AddToCart / InitiateCheckout timing)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

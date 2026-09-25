@@ -848,3 +848,16 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .refill-sub{margin:4px 0 10px;font-size:.98rem}
 @media (max-width:479px){#root .buybox .rf-perks{grid-template-columns:1fr;gap:3px}}
 @media (min-width:600px){#root .buybox .tier-img{width:64px;height:64px}#root .buybox .tier-name,#root .buybox .tier:not(.lite) .tier-name{font-size:.94rem}#root .buybox .tier-price b{font-size:1.3rem}#root .buybox .rf-head b{font-size:1rem}#root .buybox .rf-price b{font-size:1.35rem}}
+/* fd14a (2026-09-25, owner: make the "free with Auto-refill" rule clear on step 3) */
+#root .buybox .rf-two{display:grid;gap:10px}
+#root .buybox .rf-card.rf-one{background:#fff}
+#root .buybox .rf-card.rf-one.on{background:#FBF4EC;border-color:#241C18;box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .buybox .rf-price .rf-per{font-size:.74rem;color:#5C4F46}
+#root .buybox .rf-tag{display:inline-block;margin-left:6px;background:#E4F3EA;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 8px;vertical-align:middle;white-space:nowrap}
+#root .buybox .rf-tag.warn{background:#FBE9E5;color:#B3402C}
+#root .buybox .rf-line b{color:#241C18}
+#root .buybox .kr-pr .inc small{display:block;font-size:.58rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1E7A46;line-height:1.1}
+#root .buybox .kr-strip{margin:6px 0 2px;padding:8px 10px;border-radius:10px;background:#FBE9E5;color:#B3402C;font-size:.8rem;line-height:1.35;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+#root .buybox .kr-strip b{color:#B3402C}
+#root .buybox .kr-strip .rf-link{color:#241C18;font-weight:700;margin-left:auto}
+@media (max-width:359px){#root .buybox .rf-tag{font-size:.5rem;padding:2px 6px}}

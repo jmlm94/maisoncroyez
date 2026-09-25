@@ -812,30 +812,38 @@ function BuyBox() {
             <div class="kr-row">
               <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
               <span class="kr-tx"><b>${T.n}\u00d7 Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, maintenance-free. Lifetime warranty.</span></span>
-              <span class="kr-pr">${sel.oneTime() ? html`<s>${usd(T.n * DIFFUSER_PRICE)}</s> ${usd(T.oneTime)}` : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE</span>`}</span>
+              <span class="kr-pr">${sel.oneTime() ? html`<s>${usd(T.n * DIFFUSER_PRICE)}</s> ${usd(T.oneTime)}` : html`<s>${usd(T.n * DIFFUSER_PRICE)}</s><span class="inc">FREE <small>with Auto-refill</small></span>`}</span>
             </div>
+            ${sel.oneTime() ? html`<div class="kr-strip">Diffusers are no longer free: <b>+${usd(T.oneTime)} today</b> <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>Keep them free</button></div>` : null}
             <div class="kr-total"><span>You only pay:</span><b>${sel.oneTime() ? usd(sel.today()) : usd(SCENT_ONE) + "/scent"}</b></div>
             ${sel.savings() > 0 ? html`<div class="kr-save">You\u2019re saving ${usdR(sel.savings())} today!</div>` : null}
           </div>
-          <div class="picker-title step-title refill-title">How would you like your refills?</div>
-          <p class="refill-sub">Your ${T.scents} scent${T.scents > 1 ? "s" : ""} and ${T.n} diffuser${T.n > 1 ? "s" : ""} are in your kit today. This is only about the <b>next scents, in 30 days</b>.</p>
-          <div class=${"rf-card" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
-            <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
-            <div class="rf-body">
-              <div class="rf-head"><b>Auto-refill & 20% OFF for life:</b><span class="rf-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
-              <div class="rf-price"><s>${usd(SCENT_ONE)}</s> <b>${usd(SCENT_SUB)}</b> <span class="rf-per">/ scent</span> <i>from day 30</i></div>
-              <div class="rf-line">Nothing extra today. Your first refill ships in 30 days. Skip, swap or cancel anytime.</div>
-              <ul class="rf-perks">
-                <li>20% off every refill</li>
-                <li>${sel.renew() >= 75 ? "Free shipping on refills" : "Free shipping from $75"}</li>
-                <li>Heads-up email before each refill</li>
-                <li>Swap or pause in one tap</li>
-              </ul>
+          <div class="picker-title step-title refill-title">Your free diffusers come with Auto-refill</div>
+          <p class="refill-sub">Your ${T.scents} scent${T.scents > 1 ? "s" : ""} ship today with <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> (${usd(T.n * DIFFUSER_PRICE)} value). They\u2019re free because your next scents are on Auto-refill: <b>${usd(SCENT_SUB)} each every 30 days</b> from day 30. Skip or cancel anytime.</p>
+          <div class="rf-two">
+            <div class=${"rf-card" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("sub"); }}>
+              <span class=${"ot-dot" + (sel.oneTime() ? "" : " chk")} aria-hidden="true"></span>
+              <div class="rf-body">
+                <div class="rf-head"><b>Auto-refill & 20% OFF for life:</b><span class="rf-ship">\uD83D\uDE9A FREE SHIPPING</span></div>
+                <div class="rf-price"><b>${usd(T.price)}</b> <span class="rf-per">today</span> <span class="rf-tag">Diffusers FREE</span></div>
+                <div class="rf-line">Next scents <b>${usd(SCENT_SUB)} each</b> (was ${usd(SCENT_ONE)}) every 30 days from day 30. Skip, swap or cancel anytime.</div>
+                <ul class="rf-perks">
+                  <li>20% off every refill</li>
+                  <li>${T.scents * SCENT_SUB >= 75 ? "Free shipping on refills" : "Free shipping from $75"}</li>
+                  <li>Heads-up email before each refill</li>
+                  <li>Swap or pause in one tap</li>
+                </ul>
+              </div>
+            </div>
+            <div class=${"rf-card rf-one" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} tabindex="0" onClick=${() => sel.setPlan("one")} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") sel.setPlan("one"); }}>
+              <span class=${"ot-dot" + (sel.oneTime() ? " chk" : "")} aria-hidden="true"></span>
+              <div class="rf-body">
+                <div class="rf-head"><b>Buy once, no refills:</b></div>
+                <div class="rf-price"><b>${usd(T.price + T.oneTime)}</b> <span class="rf-per">today</span> <span class="rf-tag warn">Diffusers ${usd(T.oneTime)}, not free</span></div>
+                <div class="rf-line">No Auto-refill. Diffusers & scents at full price after.</div>
+              </div>
             </div>
           </div>
-          ${sel.oneTime()
-            ? html`<p class="rf-alt on"><b>One-time purchase selected:</b> ${usd(sel.today())} today. No refills. Diffusers & scents at full price after. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to Auto-refill)</button></p>`
-            : html`<p class="rf-alt">No thanks, I\u2019ll re-order myself another time <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>(make it a one-time purchase)</button></p>`}
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you\u2019ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment\u2026" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `\uD83D\uDD12 SECURE CHECKOUT \u2014 ${usd(sel.today())} \u2794`}</span>

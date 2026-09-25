@@ -1,9 +1,9 @@
 name: drawer-recon
-# run 250 — fd14 (owner, 2026-09-25): step 3 makes the "free with Auto-refill" rule explicit. Title "Enjoy auto-refill with
-#           your free diffusers every 30 days:", owner explainer, TWO option cards each with today's price (Auto-refill $X
-#           today · FREE DIFFUSERS / One-time payment, no refills · $Y today · $Z/DIFFUSER), diffuser row "FREE with
-#           Auto-refill", red strip "Diffusers are no longer free: +$Z today · Keep them free" when one-time is selected,
-#           perk 3 = "Cancel anytime, we'll pay for return". One-time is selected by tapping the second card (no text link).
+# run 251 — fd15 perf (2026-09-25): page-body shim holds non-essential third-party scripts (Clarity; Klaviyo onsite chunks,
+#           Postscript, Gorgias, 9gtb, Subi SDK) until the first touch/scroll/key or a timeout (6 s / 12 s); the app mounts
+#           the long-form sections on scroll-near / first interaction / 6 s. Checks: deferred scripts ABSENT 2.5 s after the
+#           buy box appears and PRESENT after the funnel clicks; Meta pixel + Shopify scripts untouched; everything else as
+#           r251 (owner step-3 rule, two cards, AddToCart x lines, InitiateCheckout).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -25,10 +25,10 @@ jobs:
         run: sleep 120
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r250
-          cat > r250.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r251
+          cat > r251.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r250/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r251/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 300) });
@@ -60,7 +60,9 @@ jobs:
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2500);
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
-              ok(`${P.id} page version fd14, buy box in ${tBuy}ms`, /^fd14-/.test(key), key);
+              ok(`${P.id} page version fd15, buy box in ${tBuy}ms`, /^fd15-/.test(key), key);
+              const tp0 = await pg.evaluate(() => { const srcs = [...document.scripts].map((x) => x.src); const has = (re) => srcs.some((u) => re.test(u)); return { clarity: has(/scripts\.clarity\.ms/), klaviyoChunks: has(/static(-tracking)?\.klaviyo\.com\/onsite\/js\/(?!UmHsGf)/), postscript: has(/sdk\.postscript\.io\/sdk\.bundle/), subi: has(/cdn\.subi\.co/), gtb: has(/content\.9gtb\.com\/script/), fbevents: has(/connect\.facebook\.net\/en_US\/fbevents/), wpm: has(/\/wpm\//), shim: !!window.__MC_TP__, sections: document.querySelectorAll('[id^=sec-]').length, sentinel: !!document.getElementById('mc-rest-sentinel') }; });
+              ok(`${P.id} fd15: 2.5 s after the buy box, deferred third parties NOT loaded yet (Clarity / Klaviyo chunks / Postscript / Subi / 9gtb), Meta + Shopify WPM loaded, only the buy box mounted${P.desktop ? ' (desktop: sections may mount at once)' : ''}`, tp0.shim && !tp0.clarity && !tp0.klaviyoChunks && !tp0.postscript && !tp0.subi && !tp0.gtb && tp0.fbevents && tp0.wpm && (P.desktop || (tp0.sections === 1 && tp0.sentinel)), JSON.stringify(tp0));
               let appSrc = 'FETCHFAIL'; try { appSrc = await pg.evaluate(async () => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? await (await fetch(s.src)).text() : ''; }); } catch (e) {}
               ok(`${P.id} no overflow s1`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
               const kids = await pg.$$eval('#buybox .buybox > *', (a) => a.slice(0, 5).map((e) => e.tagName.toLowerCase() + '.' + String(e.className).split(' ')[0]).join(' '));
@@ -113,6 +115,8 @@ jobs:
                 ok(`${P.id} one-time via the second card: card 1 off, card 2 on, red strip "Diffusers are no longer free: +$${P.oneKit} today · Keep them free", kit $${P.oneKit}, total $${P.total}, saving $${P.oneSave}, button $${P.total}, Shop Pay line shown`, !after.cardOn && after.chk === 'false' && after.oneOn && after.oneChk === 'true' && new RegExp(`^Diffusers are no longer free: \\+\\$${P.oneKit.replace('.', '\\.')}(\\.00)? today Keep them free$`).test(after.strip) && after.stripLink && after.rows.filter((r) => r === '$49.95').length === n && after.struck && new RegExp(`^\\$${$(n * 79.95)} \\$${P.oneKit.replace('.', '\\.')}$`).test(after.rows[after.rows.length - 1]) && after.total.includes('$' + P.total.toFixed(2)) && !/\/scent/.test(after.total) && new RegExp(`saving \\$${P.oneSave} today`).test(after.save) && new RegExp(`^🔒 SECURE CHECKOUT — \\$${$(P.total)} ➔$`).test(after.btn) && /4 interest-free payments of\s*\$/.test(after.pay) && new RegExp(`SECURE CHECKOUT — \\$${$(P.total)}`).test(after.sticky), JSON.stringify(after).slice(0, 400));
                 await shot('s3-onetime', !P.desktop);
               }
+              const tp1 = await pg.evaluate(() => { const srcs = [...document.scripts].map((x) => x.src); const has = (re) => srcs.some((u) => re.test(u)); return { clarity: has(/scripts\.clarity\.ms/), klaviyoChunks: has(/static(-tracking)?\.klaviyo\.com\/onsite\/js\/(?!UmHsGf)/), subi: has(/cdn\.subi\.co/), gtb: has(/content\.9gtb\.com\/script/), postscript: has(/sdk\.postscript\.io/), clarityObj: typeof window.clarity, klaviyoObj: !!(window.klaviyo || window._learnq) }; });
+              ok(`${P.id} fd15: after the funnel clicks the deferred third parties ARE loaded (Clarity, Klaviyo chunks, Subi SDK)`, tp1.clarity && tp1.klaviyoChunks && tp1.subi, JSON.stringify(tp1));
               ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
               ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
               const fbBefore = fb.length;
@@ -173,12 +177,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r250.mjs
+          node r251.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r250
-          git commit -m "r250: funnel QA fd14 (step-3 Auto-refill rule, two cards)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r251
+          git commit -m "r251: funnel QA fd15 (third-party deferral shim, deferred sections)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

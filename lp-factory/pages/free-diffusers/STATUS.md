@@ -147,3 +147,6 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   lost fbq.instance, which the channel pixel checks before tracking) and the "blocked redirect" used route.abort(), which
   swaps the document for chrome-error://. Redirect wait cut 1.6 s -> 0.8 s (~25x margin) in fd13-03f212c; r248 verifies
   3 AddToCart before the redirect + InitiateCheckout on checkout without the wrapper.
+  r248 (13:03 UTC, fd13-03f212c) = 135/135: AddToCart x(lines) 21-53 ms after the /cart/add.js response on every path
+  (kit + each scent, "sh-" event ids), redirect lands on /checkouts/ 1.9-2.6 s after the click, InitiateCheckout +
+  PageView on checkout, cart lines/totals/plans correct, compact cards (94-137 px), no JS errors, no overflow.

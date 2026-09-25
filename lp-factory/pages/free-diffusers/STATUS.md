@@ -110,19 +110,24 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   badge centred + ticking + red/white). Lighthouse fd12: mobile 46/61/64, LCP 5.9/4.9/4.8 s, TBT 1,820/730/620 ms; desktop
   97/97/97, LCP 1.1–1.2 s. Same band as fd11 (65–68 / 3.7–5.9 s); the badge costs nothing measurable. Third parties
   unchanged (Facebook 249 KB / 331 ms blocking, Clarity 320 ms, 9gtb 64 KB, Subi 58 KB, Clarity Brand Agents 280 KB).
-- 2026-09-25 fd13-e595eb8 — LIVE (app js 89371 B, css 70954 B; page updated 01:31 UTC). Owner-directed changes previewed
-  on MC LP Draft Copy v66–71 first. Owner round: "(Requires N scent)" removed; stepbar removed on all 3 steps; kit cards
-  renamed "N FREE Diffusers + N Scents 🎁" with room badges (RESTROOM/STUDIO/STORAGE · LIVING ROOM/BEDROOM/KITCHEN ·
-  LARGE SPACES/1+ ROOM/+ INTENSITY) instead of the room sentence, shipping pills removed, MOST POPULAR green (#1E7A46);
-  step 3: "LAST 100 DIFFUSERS" strip removed, "You only pay: $49.95/scent" (plan) instead of the total, new
-  "How would you like your refills?" title + explainer ("This is only about the next scents, in 30 days"), Auto-refill card
-  ("Auto-refill & 20% OFF for life:", $49.95 struck -> $39.95 / scent from day 30, 4 perks with separate green check dots)
-  and "No thanks, I'll re-order myself another time (make it a one-time purchase)" link replacing the two radio options.
-  CRO round (owner picked items 1, 2, 3, 5 of the review): (1) price on the kit cards ("$X today", struck value, "then
-  $39.95/scent every 30 days · cancel anytime", "$N of diffusers, free"); (2) offer on the first screen — h1 "Pick your
-  scents. The diffusers are on us." + price lede, offer pill at the top of the hero video; (3) dead clicks — step-2 progress
-  pill "N of N picked", dashed hint instead of a dead button, sticky bar disabled until the picks are complete, auto-advance to
-  the review 450 ms after the last pick (only on the completing pick; Back never traps), step-3 button "🔒 SECURE CHECKOUT —
-  $X ➔" that adds to cart and redirects to /checkout after 700 ms (cart drawer no longer opened from the LP); (5) countdown
-  reads "N free diffusers reserved for you · HH:MM:SS" and follows the chosen kit. QA: r242 (drawer checks replaced by
-  /cart.js + checkout; new check that the Meta AddToCart beacon leaves before the redirect); Lighthouse re-run.
+- 2026-09-25 fd13 — LIVE, final key fd13-5d7fbe3 (app js 89224 B, css 71016 B; page updated 01:59 UTC). Sequence tonight:
+  fd13-e595eb8 01:31 (owner round + CRO items 1/2/3/5 with a new headline) -> owner: "revert, you changed the main title" ->
+  fd13-c6296fb 01:47 (owner round only) -> owner: "the changes are ok, the title should be the one I had" -> fd13-c30f98f
+  01:53 (CRO items back, original headline, kit-card price row unsquashed) -> owner mockup for the cards -> fd13-5d7fbe3.
+  Owner round (previewed on MC LP Draft Copy v66-70): "(Requires N scent)" removed; stepbar removed on all 3 steps; kit
+  cards "N FREE Diffusers + N Scents 🎁" with room badges (RESTROOM/STUDIO/STORAGE · LIVING ROOM/BEDROOM/KITCHEN · LARGE
+  SPACES/1+ ROOM/+ INTENSITY), shipping pills removed, MOST POPULAR green (#1E7A46); step 3: "LAST 100 DIFFUSERS" strip
+  removed, "You only pay: $49.95/scent" (plan), "How would you like your refills?" title + explainer, Auto-refill card
+  ("Auto-refill & 20% OFF for life:", $49.95 struck -> $39.95 / scent from day 30, 4 perks with green check dots) and
+  "No thanks, I'll re-order myself another time (make it a one-time purchase)" link replacing the two radio options.
+  CRO round (owner picked 1, 2, 3, 5): (1) price on the kit cards; (2) offer on the first screen -> reduced by the owner to
+  the price lede under the ORIGINAL headline (the offer pill on the hero was removed again); (3) step-2 progress pill
+  "N of N picked", dashed hint instead of a dead button, sticky bar disabled until complete, auto-advance to the review
+  450 ms after the last pick (Back never traps), step-3 button "🔒 SECURE CHECKOUT — $X ➔" that adds to cart and redirects
+  to /checkout after 1.6 s (drawer no longer opened; 700 ms was a coin flip against fbevents' ~1 s beacon batching);
+  (5) countdown now "Free diffusers reserved · HH:MM:SS" on a dark blurred pill (owner: no number, not red).
+  Kit cards per the owner's mockup (v73-74): image | name + room badges + green "YOU SAVE $X" pill | right column struck
+  value (red) + serif price (1.25rem); no "today", no "$39.95 every 30 days", no per-scent line.
+  QA: r243 (drawer checks replaced by /cart.js + checkout; all-frames Meta beacon hook + one path with the redirect blocked
+  to time the channel pixel's AddToCart against /cart/add.js); Lighthouse re-run (fd13-e595eb8: mobile 52/67/61,
+  LCP 4.7/4.7/6.2 s, desktop unchanged — same band as fd12).

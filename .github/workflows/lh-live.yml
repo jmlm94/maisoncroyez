@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Re-run 2026-09-25 on fd15-3f17cd3 (third-party deferral shim + deferred sections), 5 repeats. Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
+# Re-run 2026-09-25 on fd16-280dce7 (inline WebP poster, Meta pixel held until first touch or 5 s), 5 repeats. Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:

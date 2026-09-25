@@ -184,6 +184,17 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   Shopify's analytics stack (WPM + trekkie + perf-kit) and the Meta pixel = an analytics trade-off, so the lh-whatif workflow
   measures it before anything ships: base / body-shim holding WPM+Meta+Subi until first touch or 5 s / 8 s / all third parties
   blocked (ceiling).
+- 2026-09-25 fd16-280dce7 — LIVE 16:35 UTC (page-body only, 28 KB; app js / css unchanged). What-if Lighthouse (whatif-20260925T1558Z.md,
+  mobile x3 per scenario): base 67/72/54 · body-shim also holding the Meta pixel until first touch or 5 s 87/90/61 (TBT 1,207 →
+  176 ms) · all third parties blocked 85/80/78 (ceiling; LCP still 4-5 s). So TBT is the Meta pixel (fbevents + config ≈ 530 ms
+  blocking) and LCP is our own hero swap: the poster only paints when its CDN request lands (observed LCP 300-840 ms vs FCP
+  ~250 ms), and Lantern pulls every request/CPU task that finished before that paint into the LCP graph (4-7 s simulated).
+  fd16: (1) the pre-hero poster is inlined as a WebP data URI (16 KB, q78, 720 px) — no request, paints with the HTML; the
+  video takes its poster from the img via a one-line script; the poster preload is gone (the app still adopts the same node,
+  verified in a local harness: LCP = the pre-hero img ~100 ms after FCP, no poster request, video poster set); (2) shim tier
+  C holds connect.facebook.net (fbevents.js) until the first touch/scroll/key or 5 s — the channel pixel queues PageView in
+  the fbq stub, AddToCart/InitiateCheckout are after a tap anyway. Trade-off to know: visitors who leave within 5 s without
+  touching the screen no longer send a Meta PageView. Revert = tier C line in page-body. QA: r253 + Lighthouse x5 below.
   Lighthouse fd14-c3e1dc7 (15:19 UTC): mobile 38/50/72 (LCP 6.4/7.2/3.1 s, TBT 4,810/880/810 ms — runner variance;
   best run 3.1 s LCP), desktop 93/97/94 (LCP 1.1-1.5 s). Our files are all in flight by 1.1 s and done by 1.2 s; the
   page is bound by third parties: Facebook 249 KB / 416 ms blocking, Clarity 145 ms, Shopify web-pixels manager 1.4 s

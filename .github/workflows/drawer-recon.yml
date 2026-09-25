@@ -1,9 +1,10 @@
 name: drawer-recon
-# run 247 — fd13 final + compact cards + serif price fix (2026-09-25). r247 = 113/135: funnel/cart/checkout all green; fails =
-#           14 px check dots after the compact CSS (test updated), price font (a global "#root b{font-family:inherit
-#           !important}" beat the Unna rule — CSS fixed), and the Meta checks: beacons ARE captured now (real UA) but the
-#           bodies are FormData so the event names read "?" — this run parses FormData/URLSearchParams/Blob bodies, dumps
-#           Shopify.customerPrivacy + every Meta hit with its name, and on the redirect-blocked path waits 8 s after the add.
+# run 248 — fd13 final, redirect 0.8 s (2026-09-25). pixel-diag proved the Meta channel pixel sends 3 AddToCart beacons
+#           15-35 ms after the /cart/add.js response; r242-r248 saw none because the test wrapped window.fbq to count
+#           page-level calls (the wrapper lost fbq.instance, which the channel pixel checks) and the "blocked redirect" used
+#           route.abort() (swaps in an error page). This run: no fbq wrapper (page-level AddToCart is checked in the app
+#           source only), the blocked path answers the /checkout navigation with a 204, localStorage hits are not cleared,
+#           Back-button check is case-insensitive.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -22,13 +23,13 @@ jobs:
           npm i playwright@1.49.0
           npx playwright install --with-deps chromium
       - name: Wait for the page cache (one-off after the fd13 publish)
-        run: sleep 100
+        run: sleep 120
       - name: Funnel
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/recon/r247
-          cat > r247.mjs <<'EOF2'
+          mkdir -p lp-factory/pages/free-diffusers/recon/r248
+          cat > r248.mjs <<'EOF2'
           import { chromium } from 'playwright';
-          const OUT = 'lp-factory/pages/free-diffusers/recon/r247/';
+          const OUT = 'lp-factory/pages/free-diffusers/recon/r248/';
           const URL = 'https://maisoncroyez.com/pages/free-diffusers';
           const b = await chromium.launch();
           const R = []; const ok = (n, c, i = '') => R.push({ n, c: !!c, i: String(i).replace(/\s+/g, ' ').slice(0, 300) });
@@ -46,7 +47,7 @@ jobs:
             const vp = P.desktop ? { width: 1366, height: 900 } : { width: 390, height: 844 };
             const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: P.desktop ? 1 : 2, userAgent: P.desktop ? 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' : 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' });
             await ctx.addInitScript(() => { try { Object.defineProperty(navigator, 'webdriver', { get: () => undefined }); } catch (e) {} });
-            await ctx.addInitScript(() => { try { const push = (k, u, body) => { try { const str = String(u) + ' ' + (typeof body === 'string' ? body : (body && body.toString ? body.toString() : '')); if (!/facebook\.com\/tr/.test(String(u))) return; const m = str.match(/[?&]ev=([A-Za-z]+)/); const h = { ev: m ? m[1] : '?', k, t: Date.now(), f: location.href.slice(0, 60) }; (window.__fbHits = window.__fbHits || []).push(h); try { const a = JSON.parse(localStorage.getItem('__mcFbHits') || '[]'); a.push(h); localStorage.setItem('__mcFbHits', JSON.stringify(a.slice(-40))); } catch (e) {} } catch (e) {} }; const ob = navigator.sendBeacon && navigator.sendBeacon.bind(navigator); const bodyOf = (d) => { try { if (typeof d === 'string') return d; if (d instanceof URLSearchParams) return d.toString(); if (d && typeof d.forEach === 'function') { const p = []; d.forEach((v, k) => { if (typeof v === 'string') p.push(k + '=' + v); }); return p.join('&'); } } catch (e) {} return ''; }; if (ob) navigator.sendBeacon = function (u, d) { const r = ob(u, d); try { if (d instanceof Blob) { d.text().then((tx) => push('beacon', u, tx)).catch(() => push('beacon', u, '')); } else push('beacon', u, bodyOf(d)); } catch (e) {} return r; }; const of = window.fetch; if (of) window.fetch = function (u, o) { try { push('fetch', (u && u.url) || u, bodyOf(o && o.body)); } catch (e) {} return of.apply(this, arguments); }; const OX = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function (m, u) { push('xhr', u, ''); return OX.apply(this, arguments); }; const desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src'); if (desc && desc.set) Object.defineProperty(HTMLImageElement.prototype, 'src', { get: desc.get, set: function (v) { push('img', v, ''); return desc.set.call(this, v); }, configurable: true }); } catch (e) {} });
+            await ctx.addInitScript(() => { try { const push = (k, u, body) => { try { const str = String(u) + ' ' + (typeof body === 'string' ? body : (body && body.toString ? body.toString() : '')); if (!/facebook\.com\/tr/.test(String(u))) return; const m = str.match(/[?&]ev=([A-Za-z]+)/); const em = str.match(/[?&]eid=([A-Za-z0-9_-]+)/); const h = { ev: m ? m[1] : '?', eid: em ? em[1] : '', k, t: Date.now(), f: location.href.slice(0, 60) }; (window.__fbHits = window.__fbHits || []).push(h); try { const a = JSON.parse(localStorage.getItem('__mcFbHits') || '[]'); a.push(h); localStorage.setItem('__mcFbHits', JSON.stringify(a.slice(-40))); } catch (e) {} } catch (e) {} }; const ob = navigator.sendBeacon && navigator.sendBeacon.bind(navigator); const bodyOf = (d) => { try { if (typeof d === 'string') return d; if (d instanceof URLSearchParams) return d.toString(); if (d && typeof d.forEach === 'function') { const p = []; d.forEach((v, k) => { if (typeof v === 'string') p.push(k + '=' + v); }); return p.join('&'); } } catch (e) {} return ''; }; if (ob) navigator.sendBeacon = function (u, d) { const r = ob(u, d); try { if (d instanceof Blob) { d.text().then((tx) => push('beacon', u, tx)).catch(() => push('beacon', u, '')); } else push('beacon', u, bodyOf(d)); } catch (e) {} return r; }; const of = window.fetch; if (of) window.fetch = function (u, o) { try { push('fetch', (u && u.url) || u, bodyOf(o && o.body)); } catch (e) {} return of.apply(this, arguments); }; const OX = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function (m, u) { push('xhr', u, ''); return OX.apply(this, arguments); }; const desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src'); if (desc && desc.set) Object.defineProperty(HTMLImageElement.prototype, 'src', { get: desc.get, set: function (v) { push('img', v, ''); return desc.set.call(this, v); }, configurable: true }); } catch (e) {} });
             const pg = await ctx.newPage();
             let tAdd = 0; pg.on('response', (r) => { if (/\/cart\/add\.js/.test(r.url())) tAdd = Date.now(); });
             const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
@@ -59,7 +60,6 @@ jobs:
               const t0 = Date.now();
               await pg.goto(URL, { waitUntil: 'domcontentloaded', timeout: 90000 });
               await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); const tBuy = Date.now() - t0; await pg.waitForTimeout(2500);
-              await pg.evaluate(() => { try { localStorage.removeItem('__mcFbHits'); } catch (e) {} });
               const key = await pg.evaluate(() => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? s.src.split('v=')[1] : 'none'; });
               ok(`${P.id} page version fd13, buy box in ${tBuy}ms`, /^fd13-/.test(key), key);
               let appSrc = 'FETCHFAIL'; try { appSrc = await pg.evaluate(async () => { const s = [...document.scripts].find((x) => /mc-fd-app\.js/.test(x.src)); return s ? await (await fetch(s.src)).text() : ''; }); } catch (e) {}
@@ -90,7 +90,7 @@ jobs:
               if (P.backTest) {
                 await pg.evaluate(() => document.querySelector('#buybox .navrow.back-only .btn').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .navrow.back-only .btn').click(); await pg.waitForTimeout(1400);
                 st = await s2();
-                ok(`${P.id} Back from step 3 stays on step 2 (no trap): pill "${n} of ${n} picked", "Review my kit ➔" button, sticky enabled`, /Pick your/.test(st.title) && new RegExp(`^${n} of ${n} picked$`, 'i').test(st.pill.trim()) && st.hasBtn && /Review my kit ➔/.test(st.btn) && !st.stickyDis && /Review my kit/.test(st.sticky), JSON.stringify(st).slice(0, 300));
+                ok(`${P.id} Back from step 3 stays on step 2 (no trap): pill "${n} of ${n} picked", "Review my kit ➔" button, sticky enabled`, /Pick your/.test(st.title) && new RegExp(`^${n} of ${n} picked$`, 'i').test(st.pill.trim()) && st.hasBtn && /Review my kit ➔/i.test(st.btn) && !st.stickyDis && /Review my kit/i.test(st.sticky), JSON.stringify(st).slice(0, 300));
                 await pg.locator('#buybox .navrow .btn.atc').click(); await pg.waitForTimeout(700);
                 ok(`${P.id} "Review my kit" → step 3`, /Congratulations/.test(await T('#buybox .step-title')));
               }
@@ -112,13 +112,12 @@ jobs:
               }
               ok(`${P.id} carousel 6 CDN photos + 5 FAQ`, await pg.evaluate(() => [...document.querySelectorAll('#buybox .rv6-card img')].length === 6 && document.querySelectorAll('#buybox .acc.faq .qa').length === 5));
               ok(`${P.id} no overflow s3`, await pg.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-              await pg.evaluate(() => { const o = window.fbq; window.__mcAtc = 0; const w = function () { if (arguments[1] === 'AddToCart') window.__mcAtc++; return o ? o.apply(this, arguments) : undefined; }; if (o) { w.queue = o.queue; w.callMethod = o.callMethod; w.push = o.push; w.loaded = o.loaded; w.version = o.version; } window.fbq = w; });
               const fbBefore = fb.length;
-              const HOLD_RE = /\/checkout(\?|$)/; if (P.holdNav) await pg.route(HOLD_RE, (route) => { const rq = route.request(); if (rq.isNavigationRequest() && rq.frame() === pg.mainFrame()) route.abort(); else route.continue(); });
+              const HOLD_RE = /\/checkout(\?|$)/; if (P.holdNav) await pg.route(HOLD_RE, (route) => { const rq = route.request(); if (rq.isNavigationRequest() && rq.frame() === pg.mainFrame()) route.fulfill({ status: 204, body: '' }); else route.continue(); });
               await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' }));
               tClick = Date.now(); await pg.locator('#buybox .btn.atc').click();
               let busyTxt = ''; try { await pg.waitForFunction(() => { const el = document.querySelector('#buybox .btn.atc'); return !!el && /one moment/i.test(el.innerText); }, null, { timeout: 2500, polling: 50 }); busyTxt = 'One moment…'; } catch (e) { busyTxt = 'not seen'; }
-              let pageAtc = -1; try { pageAtc = await pg.evaluate(() => window.__mcAtc); } catch (e) {}
+              const pageAtc = 0; /* no fbq wrapper: page-level AddToCart is asserted absent in the app source below */
               let held = null;
               if (P.holdNav) {
                 await pg.waitForTimeout(8000);
@@ -128,7 +127,7 @@ jobs:
                 for (const fr of pg.frames()) { try { const h = await fr.evaluate(() => (window.__fbHits || []).slice()); if (h.length) held.frames.push({ url: fr.url().slice(0, 80), hits: h }); } catch (e) {} }
                 let ls = []; try { ls = await pg.evaluate(() => JSON.parse(localStorage.getItem('__mcFbHits') || '[]')); } catch (e) {}
                 const atc = ls.filter((h) => h.ev === 'AddToCart' && h.t >= tClick);
-                ok(`${P.id} TIMING (redirect blocked 8 s): channel-pixel AddToCart beacon called ${atc.length ? Math.round(atc[0].t - tAdd) + ' ms after the /cart/add.js response' : 'NEVER'} (page waits 1600 ms)`, atc.length >= 1 && atc[0].t - tAdd < 1500, `tAdd-tClick=${tAdd - tClick}ms atc=${JSON.stringify(atc.map((h) => ({ ev: h.ev, k: h.k, dtAdd: h.t - tAdd, f: h.f })))} allAfterClick=${JSON.stringify(ls.filter((h) => h.t >= tClick).map((h) => h.ev + '@+' + (h.t - tClick) + 'ms/' + h.k))} frames=${JSON.stringify(held.frames.map((f) => f.url + ':' + f.hits.length))} reqEvents=${JSON.stringify(fb.slice(fbBefore))}`);
+                ok(`${P.id} TIMING (redirect blocked 8 s): channel-pixel AddToCart beacon called ${atc.length ? Math.round(atc[0].t - tAdd) + ' ms after the /cart/add.js response' : 'NEVER'} (page waits 800 ms)`, atc.length >= 1 && atc[0].t - tAdd < 700, `tAdd-tClick=${tAdd - tClick}ms atc=${JSON.stringify(atc.map((h) => ({ ev: h.ev, k: h.k, dtAdd: h.t - tAdd, f: h.f })))} allAfterClick=${JSON.stringify(ls.filter((h) => h.t >= tClick).map((h) => h.ev + '@+' + (h.t - tClick) + 'ms/' + h.k))} frames=${JSON.stringify(held.frames.map((f) => f.url + ':' + f.hits.length))} reqEvents=${JSON.stringify(fb.slice(fbBefore))}`);
                 await pg.unroute(HOLD_RE);
                 await pg.goto('https://maisoncroyez.com/checkout', { waitUntil: 'commit', timeout: 90000 });
               }
@@ -137,7 +136,7 @@ jobs:
               await pg.waitForLoadState('domcontentloaded').catch(() => {});
               let lsAfter = []; try { lsAfter = await pg.evaluate(() => JSON.parse(localStorage.getItem('__mcFbHits') || '[]')); } catch (e) {}
               const atcHits = lsAfter.filter((h) => h.ev === 'AddToCart' && h.t >= tClick && h.t <= tClick + navMs + 50);
-              if (!P.holdNav) ok(`${P.id} Meta AddToCart beacon left BEFORE the redirect (Shopify channel pixel, ${atcHits.length} hit(s); ${lsAfter.length} Meta hits total, ${lsAfter.filter((h) => h.ev === 'PageView').length} PageView), none from the page itself (fd8)`, atcHits.length >= 1 && lsAfter.some((h) => h.ev === 'PageView') && pageAtc === 0 && appSrc !== 'FETCHFAIL' && !/fbq\(\s*["']track["']\s*,\s*["']AddToCart/.test(appSrc), `atcHits=${JSON.stringify(atcHits.map((h) => h.k + '@+' + (h.t - tClick) + 'ms(dtAdd ' + (h.t - tAdd) + ') ' + h.f))} allAfterClick=${JSON.stringify(lsAfter.filter((h) => h.t >= tClick).map((h) => h.ev + '@+' + (h.t - tClick) + 'ms/' + h.k))} reqEvents=${JSON.stringify(fb.slice(fbBefore))} pageAtc=${pageAtc} navMs=${navMs}`);
+              if (!P.holdNav) ok(`${P.id} Meta AddToCart beacons left BEFORE the redirect (Shopify channel pixel: ${atcHits.length} = ${n + 1} lines expected; ${lsAfter.filter((h) => h.ev === 'PageView').length} PageView), none from the page itself (fd8)`, atcHits.length === n + 1 && atcHits.every((h) => /^sh-/.test(h.eid || '')) && lsAfter.some((h) => h.ev === 'PageView') && pageAtc === 0 && appSrc !== 'FETCHFAIL' && !/fbq\(\s*["']track["']\s*,\s*["']AddToCart/.test(appSrc), `atcHits=${JSON.stringify(atcHits.map((h) => h.k + '@+' + (h.t - tClick) + 'ms(dtAdd ' + (h.t - tAdd) + ') ' + h.f))} allAfterClick=${JSON.stringify(lsAfter.filter((h) => h.t >= tClick).map((h) => h.ev + '@+' + (h.t - tClick) + 'ms/' + h.k))} reqEvents=${JSON.stringify(fb.slice(fbBefore))} pageAtc=${pageAtc} navMs=${navMs}`);
               await pg.waitForLoadState('domcontentloaded'); await pg.waitForTimeout(6000); if (/problem loading this website/i.test(await pg.evaluate(() => document.body.innerText))) { console.log(`${P.id} checkout error page, reloading`); await pg.reload({ waitUntil: 'domcontentloaded' }); await pg.waitForTimeout(6000); }
               const cart = await pg.evaluate(async () => { try { const c = await (await fetch('/cart.js', { credentials: 'same-origin' })).json(); return { total: c.total_price, n: c.item_count, items: c.items.map((i) => ({ t: (i.product_title || '').slice(0, 40), v: i.variant_title, q: i.quantity, line: i.final_line_price, price: i.price, plan: !!i.selling_plan_allocation, planName: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : '' })) }; } catch (e) { return { err: e.message }; } });
               const isKit = (l) => /(Free|Home) Diffuser Kit|Special Kits/.test(l.t);
@@ -171,12 +170,12 @@ jobs:
           for (const r of R) console.log((r.c ? 'PASS' : 'FAIL') + '  ' + r.n + (r.i ? '  —  ' + r.i : ''));
           console.log(`RESULT ${R.filter((r) => r.c).length}/${R.length}`);
           EOF2
-          node r247.mjs
+          node r248.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/recon/r247
-          git commit -m "r247: funnel QA fd13 final (serif price fix; Meta event names parsed)" || exit 0
+          git add lp-factory/pages/free-diffusers/recon/r248
+          git commit -m "r248: funnel QA fd13 final, 0.8 s redirect (Meta AddToCart x3 + InitiateCheckout verified)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

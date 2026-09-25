@@ -137,3 +137,13 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   InitiateCheckout on checkout, one path with the redirect blocked to time AddToCart vs /cart/add.js).
   Lighthouse fd13-e595eb8: mobile 52/67/61, LCP 4.7/4.7/6.2 s; fd13-5d7fbe3 (02:04): mobile 42/46/57 with one 11.9 s LCP
   outlier (TBT 3,760 ms on that run — runner noise, same third-party stack); desktop unchanged.
+  12:36 UTC fd13-8533abf (CSS): card price + refill "from day 30" back in Unna (a global "#root b/i{font-family:inherit
+  !important}" beat the rule; now !important). r247 = 129/135: every funnel/cart/checkout check green; InitiateCheckout
+  fires on the checkout page (1 per checkout, ~5 s after the click).
+  META PIXEL, resolved (pixel-diag 12:5x UTC, real UA, hooks in every frame, /checkout answered with a 204 to keep the LP
+  alive): the Meta channel pixel (web-pixel-476348525, lax sandbox, global fbq, consent all granted) sends PageView on
+  load and THREE AddToCart beacons (kit + each scent, "sh-" event ids) 15-35 ms after the /cart/add.js response, via
+  sendBeacon. r242-r247 saw none for two test reasons: the recon wrapped window.fbq to count page-level calls (the wrapper
+  lost fbq.instance, which the channel pixel checks before tracking) and the "blocked redirect" used route.abort(), which
+  swaps the document for chrome-error://. Redirect wait cut 1.6 s -> 0.8 s (~25x margin) in fd13-03f212c; r248 verifies
+  3 AddToCart before the redirect + InitiateCheckout on checkout without the wrapper.

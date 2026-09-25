@@ -817,3 +817,34 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .pick-pill{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:#F3EBE1;color:#241C18;border-radius:999px;padding:4px 10px;white-space:nowrap}
 #root .buybox .pick-hint{margin:0;padding:12px 14px;border:1.5px dashed rgba(36,28,24,.22);border-radius:999px;text-align:center;font-size:.86rem;color:#5C4F46;flex:1}
 #root .buybox .navrow{align-items:center}
+/* fd13 compact (2026-09-25, owner: kit cards + refill card "more compact, less big") */
+#root .buybox .tier{gap:10px;padding:12px 12px 12px 10px}
+#root .buybox .tier-main{gap:2px}
+#root .buybox .tier-img{width:56px;height:56px;border-radius:10px}
+#root .buybox .tier-name,#root .buybox .tier:not(.lite) .tier-name,#root .buybox .tier.lite .tier-name{font-size:.86rem;line-height:1.2}
+#root .buybox .tier-rooms{gap:4px;margin-top:4px}
+#root .buybox .tier-room{padding:3px 7px;font-size:.54rem;letter-spacing:.06em}
+#root .buybox .tier-save{margin-top:5px;font-size:.58rem;padding:3px 8px}
+#root .buybox .tier-price b{font-size:1.15rem}
+#root .buybox .tier-price s{font-size:.68rem}
+#root .buybox .tier .tier-pics.tp-kit .kg-tag.pic-tag{top:-9px;right:10px;font-size:.5rem;padding:3px 8px}
+#root .buybox .rf-card{gap:10px;padding:12px 12px 11px;border-radius:14px}
+#root .buybox .rf-card .ot-dot{width:14px;height:14px;margin-top:2px}
+#root .buybox .rf-card .ot-dot.chk::after{inset:3px}
+#root .buybox .rf-head{gap:6px 8px}
+#root .buybox .rf-head b{font-size:.92rem}
+#root .buybox .rf-ship{padding:3px 7px;font-size:.52rem;letter-spacing:.06em}
+#root .buybox .rf-price{margin-top:4px;gap:5px}
+#root .buybox .rf-price s{font-size:.78rem}
+#root .buybox .rf-price b{font-size:1.2rem}
+#root .buybox .rf-price .rf-per{font-size:.7rem}
+#root .buybox .rf-price i{font-size:.86rem;margin-left:2px}
+#root .buybox .rf-line{margin-top:5px;font-size:.78rem;line-height:1.35}
+#root .buybox .rf-perks{margin-top:8px;padding-top:8px;gap:4px 10px}
+#root .buybox .rf-perks li{font-size:.72rem;gap:6px;line-height:1.25}
+#root .buybox .rf-perks li:before{width:14px;height:14px;line-height:14px;font-size:.56rem;margin-top:0}
+#root .buybox .rf-alt{margin-top:10px;font-size:.84rem;line-height:1.4}
+#root .buybox .refill-title{margin-top:18px}
+#root .buybox .refill-sub{margin:4px 0 10px;font-size:.98rem}
+@media (max-width:479px){#root .buybox .rf-perks{grid-template-columns:1fr;gap:3px}}
+@media (min-width:600px){#root .buybox .tier-img{width:64px;height:64px}#root .buybox .tier-name,#root .buybox .tier:not(.lite) .tier-name{font-size:.94rem}#root .buybox .tier-price b{font-size:1.3rem}#root .buybox .rf-head b{font-size:1rem}#root .buybox .rf-price b{font-size:1.35rem}}

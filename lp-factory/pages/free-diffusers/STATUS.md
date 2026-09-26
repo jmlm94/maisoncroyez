@@ -208,3 +208,11 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   best run 3.1 s LCP), desktop 93/97/94 (LCP 1.1-1.5 s). Our files are all in flight by 1.1 s and done by 1.2 s; the
   page is bound by third parties: Facebook 249 KB / 416 ms blocking, Clarity 145 ms, Shopify web-pixels manager 1.4 s
   boot. Clarity Brand Agents (azurefd, 280 KB) no longer loads.
+- 2026-09-26 ritual v1 — PREVIEW ONLY (MC LP Draft Copy 2, https://claude.ai/artifact/JJXTCPgQgYiyw35uiMEwkt). Owner's new offer,
+  "The 90-Day Manifestation Ritual": one screen (no steps), pick exactly 3 scents, ONE free diffuser ($89 value, replaces $79.95),
+  $149 today then $117 every 3 months (3 refills at $39, was $49.95), or one-time kit $179 (no refills, fragrances $49.95 after);
+  cancel within 30 days for a full refund (diffuser + scents go back, prepaid label) — guarantee copy, chips and FAQ moved from
+  90 to 30 days; guaranteed gifts at day 90/180/365 (placeholders, owner to name them); timeline strip Day 1/30/90/180·365.
+  Code: lp-factory/pages/free-diffusers/ritual/{mc-fd-app.js,mc-fd.css} (from deploy-ready + patch-ritual1.py). NOT wired to
+  the store: CART3.ritualVariants are null (needs the ritual kit product/variants + a Subi "$117 every 90 days" plan) — the
+  checkout button shows the preview toast until then. Headline, hero, picker, fonts and colours unchanged by request.

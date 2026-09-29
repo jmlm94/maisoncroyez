@@ -900,3 +900,14 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .pick.centered .pick-smells{text-align:center;padding-right:0;width:100%}
 .pick.centered .pick-foot{justify-content:center;width:100%}
 .pick.centered .pick-qty{margin:0 auto}
+
+/* ritual v4 (2026-09-29) */
+.pdp-buy h1{font-size:clamp(1.53rem,6.3vw,2.25rem) !important}
+.hd-price b{font-size:1.71rem !important}.hd-price s{font-size:.9rem}
+.pick-pill-row{margin-bottom:10px}
+.pick-pill{font-size:.86rem !important;padding:9px 18px !important;background:#F3F1EE !important;color:#241C18 !important}
+.fq-tag{position:absolute;top:-10px;right:12px;background:#241C18;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;line-height:1}
+.fq-tag.pop{background:var(--rosewood-deep,#8A4B4B)}
+.freq3{margin-top:14px}
+.pick.centered .pick-foot{display:flex !important;justify-content:center !important;width:100%}
+.pick.centered .pick-qty{margin:0 !important;flex:0 0 auto}

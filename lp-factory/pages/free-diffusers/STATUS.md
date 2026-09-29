@@ -235,3 +235,7 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   scent cards centered, image alone on top (96 px), no price line, no trophies; refills title "How often would you like to
   receive your refills?", description removed, "Every X days" bold + "$X in total, you're saving $Y" ($62.85 / $32.85 / $2.85);
   "No refills? One-Time Payment — $149"; payment-badge row removed.
+- 2026-09-29 ritual v4 — PREVIEW ONLY (MC LP Draft Copy 2 v5). Pill "3 scents + free diffuser"; "The diffuser is completely
+  free." bold; "x/3 intentions chosen" line removed, "0 of 3 picked" pill bigger + gray; badges "Best value" (30 days) and
+  "Most popular" (45 days); lock emoji off the checkout button + sticky bar; h1 and price 10% smaller; qty selector centered
+  on the scent cards; kit summary (kitrev) removed.

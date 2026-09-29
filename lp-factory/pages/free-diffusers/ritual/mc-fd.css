@@ -864,3 +864,15 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 /* ritual (2026-09-26): 90-day ritual timeline strip under the USPs */
 .rit-line{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 4px}.rit-step{background:#F7F2EC;border-radius:10px;padding:8px 9px;font-size:.72rem;line-height:1.3;color:#4b413b}.rit-step b{display:block;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:#241C18;margin-bottom:3px;font-family:inherit}@media (max-width:600px){.rit-line{grid-template-columns:repeat(2,1fr)}}
+
+/* ritual v2 (2026-09-29): intention-first picker cards + refill schedule chooser */
+.pick-name.pick-power{font-family:'Outfit',sans-serif !important;font-size:1rem;line-height:1.1;text-transform:uppercase;letter-spacing:.04em;color:#241C18}
+.pick-scent{font-size:.76rem;font-weight:600;color:#5C4F46}
+.freq3{display:grid;gap:8px}
+.fq{position:relative;display:grid;grid-template-columns:22px auto 1fr;grid-template-areas:"dot days price" "dot sub sub";column-gap:10px;row-gap:2px;align-items:center;border:1.5px solid rgba(36,28,24,.18);border-radius:14px;padding:11px 12px;background:#fff;cursor:pointer}
+.fq.on{border-color:#241C18;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%);box-shadow:0 8px 22px rgba(36,28,24,.10)}
+.fq .ot-dot{grid-area:dot;width:14px;height:14px}.fq .ot-dot.chk::after{inset:3px}
+.fq-days{grid-area:days;font-size:.92rem}.fq-price{grid-area:price;justify-self:end;font-size:.8rem;color:#5C4F46}
+.fq-price b{font-family:'Unna',serif !important;font-size:1.3rem;line-height:1;color:#241C18;margin-right:1px}.fq-price small{font-size:.72rem}
+.fq-sub{grid-area:sub;font-size:.72rem;color:#5C4F46}
+.kr-next{font-size:.78rem;color:#5C4F46;text-align:center;margin-top:6px;line-height:1.4}

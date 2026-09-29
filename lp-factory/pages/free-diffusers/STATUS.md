@@ -216,3 +216,12 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   Code: lp-factory/pages/free-diffusers/ritual/{mc-fd-app.js,mc-fd.css} (from deploy-ready + patch-ritual1.py). NOT wired to
   the store: CART3.ritualVariants are null (needs the ritual kit product/variants + a Subi "$117 every 90 days" plan) — the
   checkout button shows the preview toast until then. Headline, hero, picker, fonts and colours unchanged by request.
+- 2026-09-29 ritual v2 — PREVIEW ONLY (MC LP Draft Copy 2; MC LP Draft Backup = frozen v1 snapshot,
+  https://claude.ai/artifact/9ydc3XejAAmRgVLNSUjMJT). Owner: h1 "Transform your spaces in less than 90 days with our
+  manifestation ritual and attract what you're seeking in life, guaranteed."; lede "Pick your first 3 scents aligned with your
+  intentions and the Maison Croyez diffuser ships free. That simple."; no "90-Day" naming, timeline/gift strip removed for now;
+  picker is intention-first ("Select the three things you need in your life:", intention as the big label, scent name under it);
+  $149 today subscribe or not; the only choice is the next-scents schedule: every 30 days $29/scent ($87), 45 days $39 ($117),
+  60 days $49 ($147) — default 30 days; one-time payment is a small text link ($149, no refills). Receipt: diffuser $89 FREE with
+  3 scents, saving $90, "Next: 3 scents every N days at $X each". FAQ + toast updated. Still not wired to the store (needs the
+  $149 kit variant + three Subi plans 30/45/60 days at $29/$39/$49 per scent). Code: lp-factory/pages/free-diffusers/ritual/.

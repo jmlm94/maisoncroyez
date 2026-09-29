@@ -127,49 +127,49 @@ const CONFIG = {
   /* --- fragrances: real variant IDs + printed-box intentions --- */
   fragrances: [
     {
-      key: "love", smells2: "Warm honey over fresh-cut flowers \u2014 a sweet glow that makes any room feel loved-in.", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
+      key: "love", smells2: "Fresh flowers and a little honey. Like walking into a florist.", strength: "medium", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
       chips: ["Buttercup, Honeysuckle & Sunflower."],
       desc: "Golden **buttercup** and sun-drenched **honeysuckle** wrapped in creamy **sunflower** petals, a warm, sweet glow that makes any room feel loved-in.", smells: "Warm honey over fresh-cut flowers.",
     },
     {
-      key: "abundance", smells2: "A citrus orchard after the rain \u2014 bright, clean and full of possibility.", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
+      key: "abundance", smells2: "Fresh citrus peel and green leaves. Like a clean hotel lobby.", strength: "soft", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
       chips: ["Yuzu Leaf, Green Mandarin & Cypress."],
       desc: "Sparkling **yuzu leaf** and zesty **green mandarin** grounded in cool **cypress**, bright, clean and full of possibility.", smells: "A citrus orchard after the rain.",
     },
     {
-      key: "focus", smells2: "A spa with the windows open \u2014 calm on the surface, sharp focus underneath.", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
+      key: "focus", smells2: "Lavender and eucalyptus. Like a day spa.", strength: "soft", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
       chips: ["Chilled Lavender, Eucalyptus & White Citrus."],
       desc: "Cool **chilled lavender** softened by crisp **eucalyptus** and a twist of **white citrus**, calm on the surface, sharp focus underneath.", smells: "A spa with the windows open.",
     },
     {
-      key: "ideas", smells2: "Warm milk and honey on a slow morning \u2014 cozy warmth that gets your mind moving.", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
+      key: "ideas", smells2: "Warm milk and honey. Like a caf\u00e9 on a slow morning.", strength: "medium", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
       chips: ["Ginger Milk, White Birch & Eucalyptus Honey."],
       desc: "Silky **ginger milk** over airy **white birch**, finished with golden **eucalyptus honey**, cozy warmth that gets your mind moving.", smells: "Warm milk and honey on a slow morning.",
     },
     {
-      key: "energy", smells2: "Peach sorbet in a flower garden \u2014 an instant mood-raiser.", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
+      key: "energy", smells2: "White peach and jasmine tea. Fruity and bright, never sugary.", strength: "medium", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
       chips: ["Jasmine Tea, White Peach & Sandalwood Crème."],
       desc: "Effervescent **jasmine tea** lifted by juicy **white peach** and smoothed with **sandalwood cr\u00e8me**, an instant mood-raiser.", smells: "Peach sorbet in a flower garden.",
     },
     {
-      key: "purify", smells2: "A pine forest after the storm \u2014 green, clean and clearing.", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
+      key: "purify", smells2: "Pine and juniper. Like a walk in the woods after rain.", strength: "bold", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
       chips: ["Huckleberry, Wild Juniper & Mountain Fern."],
       desc: "Dark **huckleberry** and wild **juniper** wandering through cool **mountain fern**, green, clean and clearing.", smells: "A pine forest after the storm.",
     },
     {
-      key: "midnight", smells2: "Perfume on warm skin at midnight \u2014 soft, close and unapologetically romantic.", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
+      key: "midnight", smells2: "White flowers and soft musk. Like perfume on warm skin.", strength: "bold", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
       chips: ["Moonflower, Night Lily & Skin Musk."],
@@ -220,17 +220,23 @@ const CONFIG = {
   },
 
   enemyStack: { /* the three she already tried */
-    heading: ["Bought three of these already and hated every one?", "Same. Read this part."],
+    heading: ["Plug-ins fade in a week.", "Candles die by dessert."],
     x: [
-      "Candles: one nice hour, $30 to $40 every few weeks, dead by dessert. That habit quietly costs **over $1,000 a year**.",
-      "Plug-ins: strong for a week, then they fade into the wallpaper and you stop noticing.",
+      "Plug-ins: strong for a week, then they **fade into the wallpaper** and you stop noticing.",
+      "Candles: one nice hour, $30 to $40 every few weeks, **dead by dessert**. That habit quietly costs over $1,000 a year.",
       "Water diffusers, be honest. **When was the last time you actually cleaned the tank?**",
     ],
     v: [
       "**No water. No tank. No flame.** Nothing to spill, nothing to grow, nothing to clean.",
-      "Fills the room in **about ten minutes**. One bottle lasts **over a month**.",
+      "Fills the room in **about ten minutes**. One bottle lasts **30+ days on the everyday setting**.",
       "**Plug it in and forget it.** If it ever stops working, we replace it. For life.",
+      "**A soft glow on top that doubles as a night light.** Leave it on in the hallway or the bedroom.",
     ],
+    switchers: {
+      title: "Already have a waterless diffuser?",
+      sub: "Here\u2019s why they switched:",
+      items: ["**A heavier stream.** More scent per burst, so it travels.", "**Fills the room.** Up to 600 sq ft, not four feet around the machine.", "**No charging.** It plugs into the wall and stays on."],
+    },
   },
 
   mechanism: { /* why it works when everything else didn't */
@@ -254,7 +260,7 @@ const CONFIG = {
     stats: [
       { fill: 88, value: "<10 MIN", label: "Fills the room", desc: "Corner to corner on the highest setting. Not four feet of air around a flame." },
       { fill: 100, value: "600 SQ FT", label: "Coverage", desc: "One diffuser handles your open-plan main floor." },
-      { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle, week after week, without touching it." },
+      { fill: 72, value: "30+ DAYS", label: "Per bottle", desc: "One 100ml bottle on the everyday setting. Higher settings use it faster." },
     ],
   },
 
@@ -305,10 +311,10 @@ const CONFIG = {
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged?", a: "$149 today: your 3 scents and the diffuser. After that, your next scents ship on the schedule you pick, every 30 days at $35 each, every 60 days at $39 or every 90 days at $45, and are charged only when they ship. You get a heads-up 7 days before. Swap, pause or cancel in one tap." },
+      { q: "When am I charged?", a: "$149 today: your 3 scents and the diffuser. After that, your next scents ship on the schedule you pick, every 30 days at $35 each, every 60 days at $39 or every 90 days at $45, and are charged only when they ship. We text you 3 days before every refill, so you can skip or cancel in one tap. The diffuser is yours either way." },
       { q: "Do I have to subscribe?", a: "No. It is $149 today either way, diffuser included. Picking a refill schedule simply makes your next scents cheaper ($35 to $45 instead of $49.95) and hands-free. You can also choose one-time payment and re-order whenever you like." },
       { q: "How do I cancel a refill plan?", a: "Two clicks, from your account or any email we send. No phone calls, no chat queues, no retention offers. Within the first 30 days you can also send the kit back (diffuser and scents) for a full refund." },
-      { q: "How long does each bottle last?", a: "30+ days per 100ml bottle. Running it on low stretches a bottle even further." },
+      { q: "How long does each bottle last?", a: "30+ days per 100ml bottle on the everyday setting. The stronger settings use it faster." },
       { q: "What if I don't love it?", a: "Live with it for 30 days. If your home doesn't feel different, send the diffuser and scents back with the prepaid label for a full refund. And every diffuser is covered for life." },
     ],
   },
@@ -461,6 +467,7 @@ const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one:
 const TIERS = [
   { key: "ritual", n: 1, name: "The Manifestation Ritual", req: "", price: 149, oneTime: 0, scents: 3, tag: "", lite: false, line: "", rooms: ["Living Room", "Bedroom", "Studio"], ship: "", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" }, /* oneTime = 0: $149 either way */
 ];
+const STARTER3 = ["love", "abundance", "midnight"]; /* the three top sellers (owner 2026-09-29: "Not sure? Start with these 3") */
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
 const selStore = {
@@ -496,6 +503,7 @@ const selStore = {
   label() { return this.grouped().map(({ f, q }) => f.name + (q > 1 ? ` \u00d7${q}` : "")).join(" + "); },
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
+  setKeys(ks) { this.keys = ks.slice(0, this.tier().scents); this.emit(); },
   add(k) { const cap = this.tier().scents; if (cap > 0 && this.keys.length >= cap) return; this.keys = [...this.keys, k]; this.emit(); },
   remove(k) {
     const i = this.keys.indexOf(k);
@@ -731,12 +739,14 @@ function BuyBox() {
         <div class="buybox">
           <${Fragment} key="ritual">
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
-          <h1>Home Diffuser & Manifestation Scents: Transform your spaces in less than 90 days and attract what you\u2019re seeking in life.</h1>
+          <h1>Home Diffuser & Manifestation Scents: The diffuser you can smell from the front door. No water, no flame, nothing to clean.</h1>
           <div class="hd-price"><s>${usd(RITUAL.price + DIFFUSER_PRICE)}</s><b>${usd(RITUAL.price)}</b><span class="hd-note">3 scents + free diffuser</span></div>
+          <div class="hd-guar"><span aria-hidden="true">\uD83D\uDEE1\uFE0F</span> Don\u2019t love it in 30 days? Every dollar back.</div>
           <p class="sub-lede"><b>Three steps:</b> Pick your first 3 scents, select the delivery frequency, and relax. <b>The diffuser is completely free.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
           <${StepHead} n=${1} title="What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
+          <button type="button" class="starter3" onClick=${() => sel.setKeys(STARTER3)}>Not sure? Start with these 3 \u2794<small>${STARTER3.map((k) => (CONFIG.fragrances.find((f) => f.key === k) || {}).intention).join(" \u00b7 ")}, our best sellers</small></button>
           <div class="picker compact" role="group" aria-label="Pick your fragrances">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = sel.keys.length >= T.scents; return html`
               <div key=${f.key} class=${"pick compact centered" + (on ? " on" : "")}
@@ -746,6 +756,7 @@ function BuyBox() {
                 <span class="pick-txt">
                   <span class="pick-name pick-power">${f.intention}</span>
                   <span class="pick-introw"><span class="pick-scent">${f.name}</span><span class="pick-vol">100ml</span></span>
+                  ${f.strength ? html`<span class=${"pick-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null}
                 </span>
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
                 <span class="pick-smells"><b>SMELLS LIKE:</b> ${f.smells2 || f.smells}</span>
@@ -758,10 +769,12 @@ function BuyBox() {
                 </span>
               </div>`; })}
           </div>
+          <p class="pick-intent">Transform your spaces in less than 90 days and attract what you\u2019re seeking in life.</p>
           ${left > 0 ? html`<p class="pick-hint">Pick ${left} more above to unlock your free diffuser.</p>` : null}
 
           <div class="picker-title step-title refill-title">How often would you like to receive your refills?</div>
           <p class="refill-sub">Swap, pause or cancel anytime.</p>
+          <p class="refill-terms">We text you 3 days before every refill. Skip or cancel in one tap. <b>The diffuser is yours either way.</b></p>
           <div class="freq3" role="radiogroup" aria-label="Refill schedule">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
               <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
@@ -1005,6 +1018,11 @@ function EnemyStack() {
         <ul class="enemy-list vlist">
           ${E.v.map((t, i) => html`<li class="v" key=${"v" + i}><${Rich} s=${t}/></li>`)}
         </ul>
+        ${E.switchers ? html`<div class="switchers">
+          <div class="sw-title">${E.switchers.title}</div>
+          <p class="sw-sub">${E.switchers.sub}</p>
+          <ul class="enemy-list vlist">${E.switchers.items.map((t, i) => html`<li class="v" key=${"s" + i}><${Rich} s=${t}/></li>`)}</ul>
+        </div>` : null}
       </div>
     </section>`;
 }

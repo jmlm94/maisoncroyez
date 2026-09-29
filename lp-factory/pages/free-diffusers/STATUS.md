@@ -247,3 +247,13 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
 - 2026-09-29 ritual rt2-680198d — LIVE on /pages/manifestation-ritual 23:18 UTC. Owner: refill schedule now every 30 days
   $35/scent (Best value), 60 days $39 (Most popular), 90 days $45; FAQ copy matched. mc-rt-app.js re-uploaded (82960 B),
   page body key bumped. Preview MC LP Draft Copy 2 v8 matches.
+- 2026-09-29 ritual rt4-668e837 — LIVE on /pages/manifestation-ritual 23:59 UTC (owner's 7-point research list).
+  1 h1 "Home Diffuser & Manifestation Scents: The diffuser you can smell from the front door. No water, no flame, nothing to
+  clean."; intention line moved under the picker. 2 at the plan picker: "We text you 3 days before every refill. Skip or cancel
+  in one tap. The diffuser is yours either way." (FAQ matched; the 7-day email heads-up line replaced). 3 "Don't love it in 30
+  days? Every dollar back." under the $149. 4 strength tag (soft/medium/bold, dots) + plain "smells like" per scent + "Not
+  sure? Start with these 3" button (Love/Abundance/Love Manifestation = the 3 top sellers); free scent swap NOT added (ops
+  unconfirmed). 5 enemy heading "Plug-ins fade in a week. Candles die by dessert.", plug-ins/candles/water order, new block
+  "Already have a waterless diffuser?" (heavier stream / fills the room / no charging). 6 bottle life "30+ days on the everyday
+  setting" (brand kit: >=30 days per bottle; ops number not confirmed). 7 night light bullet in the enemy section.
+  OPEN for the owner: SMS 3-day reminder must match Subi/Postscript config; strength levels are a read of the notes; free swap.

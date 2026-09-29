@@ -1,0 +1,67 @@
+name: page-shot
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Page URL
+        default: https://maisoncroyez.com/pages/manifestation-ritual
+      out:
+        description: Output folder (repo path)
+        default: lp-factory/pages/free-diffusers/ritual/shots
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/page-shot.yml']
+permissions:
+  contents: write
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/shots' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Shoot
+        run: |
+          mkdir -p "$OUT"
+          cat > shot.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          const URL_ = process.env.URL, OUT = process.env.OUT;
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
+          const b = await chromium.launch();
+          const notes = [];
+          for (const [W, H, name, mobile] of [[390, 844, 'phone', true], [360, 740, 'small', true], [1366, 900, 'desktop', false]]) {
+            const ctx = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: mobile, hasTouch: mobile, userAgent: mobile ? 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' : undefined });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+            try { await pg.waitForSelector('#buybox .picker', { timeout: 30000 }); } catch (e) { notes.push(`${name}: buy box did not mount`); }
+            await pg.waitForTimeout(2500);
+            const d = await pg.evaluate(() => ({ key: (([...document.scripts].find((x) => /mc-rt-app\.js/.test(x.src)) || {}).src || 'none').split('v=')[1], themeHeader: [...document.querySelectorAll('.shopify-section-group-header-group')].map((e) => getComputedStyle(e).display), ownHeader: !!document.querySelector('.rit-hdr'), ann: (document.querySelector('.rit-ann') || {}).innerText, logoW: (document.querySelector('.rit-logo') || {}).naturalWidth, h1: (document.querySelector('#buybox h1') || {}).innerText, price: ((document.querySelector('.hd-price') || {}).innerText || '').replace(/\s+/g, ' '), picks: document.querySelectorAll('#buybox .pick').length, fq: document.querySelectorAll('.fq').length, hero: (() => { const v = document.querySelector('#root video'); return v ? [v.readyState, v.paused, (v.currentSrc || '').slice(-30)] : null; })(), prehero: [...document.querySelectorAll('#mc-prehero')].map((e) => getComputedStyle(e).display), title: document.title, bodyPad: getComputedStyle(document.body).paddingTop, firstTop: (() => { const e = document.querySelector('.rit-ann'); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; })() }));
+            await pg.screenshot({ path: `${OUT}/${stamp}-${name}-top.png` });
+            const picks = await pg.$$('#buybox .pick .pick-qty button[aria-label="Add one"]'); for (let i = 0; i < Math.min(3, picks.length); i++) { await picks[i].click(); await pg.waitForTimeout(150); }
+            await pg.waitForTimeout(400);
+            await pg.screenshot({ path: `${OUT}/${stamp}-${name}-full.png`, fullPage: true });
+            const after = await pg.evaluate(() => ({ btn: ((document.querySelector('#buybox .btn.atc') || {}).innerText || ''), sticky: ((document.querySelector('.sticky .btn') || {}).innerText || ''), sections: document.querySelectorAll('[id^=sec-]').length }));
+            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, ...after, errs })}`);
+            await ctx.close();
+          }
+          await b.close();
+          const fs = await import('fs'); fs.writeFileSync(`${OUT}/${stamp}-notes.txt`, notes.join('\n') + '\n'); console.log(notes.join('\n'));
+          EOF2
+          node shot.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "page-shot: $URL" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

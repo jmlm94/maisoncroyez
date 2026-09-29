@@ -239,3 +239,8 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   free." bold; "x/3 intentions chosen" line removed, "0 of 3 picked" pill bigger + gray; badges "Best value" (30 days) and
   "Most popular" (45 days); lock emoji off the checkout button + sticky bar; h1 and price 10% smaller; qty selector centered
   on the scent cards; kit summary (kitrev) removed.
+- 2026-09-29 ritual rt1-489f75a — LIVE on a NEW page, https://maisoncroyez.com/pages/manifestation-ritual (Page 161683341421,
+  published, unlinked). Files: mc-rt-app.js (GenericFile 46231878860909, 82892 B) + mc-rt.css (46231878893677, 79704 B), both
+  from raw.githubusercontent @504da9d; vendor/assets/fonts shared with the free-diffusers page. Page body = fd16 body with
+  the theme header group hidden (the app renders its own announcement bar + header). Checkout NOT wired (ritualVariants
+  null → preview toast). The free-diffusers page is untouched.

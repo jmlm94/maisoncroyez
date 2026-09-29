@@ -911,3 +911,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .freq3{margin-top:14px}
 .pick.centered .pick-foot{display:flex !important;justify-content:center !important;width:100%}
 .pick.centered .pick-qty{margin:0 !important;flex:0 0 auto}
+
+/* ritual v4b (2026-09-29): badge sits under the per-scent price */
+.fq{grid-template-columns:22px 1fr auto !important;grid-template-areas:"dot days price" "dot sub tag" !important;row-gap:4px !important}
+.fq-tag{position:static !important;grid-area:tag;justify-self:end;margin-top:1px}
+.fq-sub{align-self:center}

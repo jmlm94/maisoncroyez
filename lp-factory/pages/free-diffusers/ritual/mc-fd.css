@@ -876,3 +876,27 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 .fq-price b{font-family:'Unna',serif !important;font-size:1.3rem;line-height:1;color:#241C18;margin-right:1px}.fq-price small{font-size:.72rem}
 .fq-sub{grid-area:sub;font-size:.72rem;color:#5C4F46}
 .kr-next{font-size:.78rem;color:#5C4F46;text-align:center;margin-top:6px;line-height:1.4}
+
+/* ritual v3 (2026-09-29): own announcement bar + header, price under the h1, sober USPs, centered scent cards */
+.rit-ann{background:#000;color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.02em;line-height:1.35;padding:10px 16px;width:100vw;margin-left:calc(50% - 50vw)}
+.rit-hdr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;width:100vw;margin-left:calc(50% - 50vw);background:#fff;border-bottom:1px solid rgba(36,28,24,.08)}
+.rit-hdr .rit-logo-a{display:inline-flex;align-items:center;text-decoration:none;color:#241C18}
+.rit-hdr .rit-logo{display:block;height:30px;width:auto}
+.rit-hdr .rit-logo-tx{font-family:'Outfit',sans-serif;font-weight:800;letter-spacing:.14em;font-size:.9rem}
+.rit-hdr .rit-hdr-tx{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.02em;color:#241C18;white-space:nowrap}
+@media (min-width:900px){.rit-hdr{max-width:none;padding:14px 32px}.rit-hdr .rit-logo{height:34px}.rit-hdr .rit-hdr-tx{font-size:.82rem}}
+.hd-price{display:flex;align-items:baseline;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+.hd-price s{color:#8A6F5C;font-size:1rem}
+.hd-price b{font-family:'Unna',serif !important;font-size:1.9rem;line-height:1;color:#241C18}
+.hd-price .hd-note{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#1E7A46;background:#E4F3EA;border-radius:999px;padding:4px 9px}
+.usp3 .usp:nth-child(1),.usp3 .usp:nth-child(2),.usp3 .usp:nth-child(3){background:#F3F1EE !important}
+.usp3 .usp:nth-child(1) .usp-ic,.usp3 .usp:nth-child(2) .usp-ic,.usp3 .usp:nth-child(3) .usp-ic{background:#E4E0DA !important}
+.pick-count{color:#241C18 !important}
+.pick.centered{text-align:center;align-items:center}
+.pick.centered .ph.sq{display:block}
+.pick.centered .pick-txt{align-items:center;text-align:center;width:100%}
+.pick.centered .pick-introw{text-align:center}
+.pick.centered .pick-ingr{justify-content:center;text-align:center;width:100%}
+.pick.centered .pick-smells{text-align:center;padding-right:0;width:100%}
+.pick.centered .pick-foot{justify-content:center;width:100%}
+.pick.centered .pick-qty{margin:0 auto}

@@ -225,3 +225,13 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   60 days $49 ($147) — default 30 days; one-time payment is a small text link ($149, no refills). Receipt: diffuser $89 FREE with
   3 scents, saving $90, "Next: 3 scents every N days at $X each". FAQ + toast updated. Still not wired to the store (needs the
   $149 kit variant + three Subi plans 30/45/60 days at $29/$39/$49 per scent). Code: lp-factory/pages/free-diffusers/ritual/.
+- 2026-09-29 ritual v3 — PREVIEW ONLY (MC LP Draft Copy 2 v4). Owner list: own announcement bar ("Pick your first 3
+  transformation scents, the diffuser is free today.") + own header (logo left, "2,500+ homes transformed." right) rendered by
+  the app (RitualHeader; on deploy the theme header gets hidden from page-body CSS); h1 "Home Diffuser & Manifestation Scents:
+  Transform your spaces in less than 90 days and attract what you're seeking in life."; price row under it $229 struck → $149 +
+  pill "3 scents + the diffuser, free" (compare-at = $149 + $80 diffuser; DIFFUSER_PRICE now 80); lede "Three steps: Pick your
+  first 3 scents, select the delivery frequency, and relax. The diffuser is completely free."; USPs gray + new copy (vibe /
+  French & Organic / no water); picker title "What intentions would you like to spread in your spaces?"; pick-count black;
+  scent cards centered, image alone on top (96 px), no price line, no trophies; refills title "How often would you like to
+  receive your refills?", description removed, "Every X days" bold + "$X in total, you're saving $Y" ($62.85 / $32.85 / $2.85);
+  "No refills? One-Time Payment — $149"; payment-badge row removed.

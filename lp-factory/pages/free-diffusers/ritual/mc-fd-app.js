@@ -449,7 +449,8 @@ async function addToCart(setBusy, setToast) {
    Diffuser count (1-3) + one distinct scent per diffuser.
    First scent (Top Seller) preselected; count 1 behaves as before.
    ================================================================ */
-const DIFFUSER_PRICE = 89, SCENT_ONE = 49.95, SCENT_SUB = 29; /* ritual v2 (owner 2026-09-29): one diffuser, $89 value; refills from $29 */
+const DIFFUSER_PRICE = 80, SCENT_ONE = 49.95, SCENT_SUB = 29; /* ritual v3 (owner 2026-09-29): one diffuser, $80 value (compare-at $229 = $149 + $80); refills from $29 */
+const LOGO_SRC = A.logoLight || "https://maisoncroyez.com/cdn/shop/files/mc-kb-logo.png?v=1786479535&width=320";
 const RITUAL = { price: 149 }; /* $149 today, subscribe or not; the choice is only the refill schedule */
 const FREQS = [{ days: 30, price: 29 }, { days: 45, price: 39 }, { days: 60, price: 49 }]; /* next scents: per-scent price by cadence (owner 2026-09-29) */
 const FREQ_PRICE = (d) => (FREQS.find((o) => o.days === d) || FREQS[0]).price;
@@ -517,6 +518,12 @@ const usd = (v) => "$" + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2));
 /* ================================================================
    Sections
    ================================================================ */
+const RitualHeader = () => html`
+  <div class="rit-ann">Pick your first 3 transformation scents, the diffuser is free today.</div>
+  <header class="rit-hdr">
+    <a class="rit-logo-a" href="/" aria-label="Maison Croyez"><img class="rit-logo" src=${LOGO_SRC} alt="Maison Croyez" width="150" height="34" decoding="async" onError=${(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling.style.display = "inline"; }}/><span class="rit-logo-tx" style=${{ display: "none" }}>MAISON CROYEZ</span></a>
+    <span class="rit-hdr-tx">2,500+ homes transformed.</span>
+  </header>`;
 const Announcement = () => {
   const AN = CONFIG.announcement;
   return html`
@@ -659,9 +666,9 @@ const OFFER_SUB_FOR = (t) => "FREE DIFFUSER + NEXT SCENTS FROM $" + SCENT_SUB + 
 const ONE_SUB = "ONE-TIME PAYMENT \u00b7 NO REFILLS \u00b7 FREE SHIPPING";
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
-  { ic: "👀", tx: "Your guests will\nask what\u2019s that?" },
-  { ic: "🕯️", tx: "Replace $2,500/year\nin candles." },
-  { ic: "💧", tx: "No water, no leaks,\nand no mold." },
+  { ic: "✨", tx: "Change the vibe of\nyour space instantly." },
+  { ic: "🌿", tx: "French & Organic\nIngredients." },
+  { ic: "💧", tx: "No water, no leaks,\nno mold." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -724,28 +731,26 @@ function BuyBox() {
         <div class="buybox">
           <${Fragment} key="ritual">
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
-          <h1>Transform your spaces in less than 90 days with our manifestation ritual and attract what you\u2019re seeking in life, guaranteed.</h1>
-          <p class="sub-lede">Pick your first 3 scents aligned with your intentions and the <b>Maison Croyez diffuser ships free</b> (${usd(DIFFUSER_PRICE)} value). That simple.</p>
+          <h1>Home Diffuser & Manifestation Scents: Transform your spaces in less than 90 days and attract what you\u2019re seeking in life.</h1>
+          <div class="hd-price"><s>${usd(RITUAL.price + DIFFUSER_PRICE)}</s><b>${usd(RITUAL.price)}</b><span class="hd-note">3 scents + the diffuser, free</span></div>
+          <p class="sub-lede"><b>Three steps:</b> Pick your first 3 scents, select the delivery frequency, and relax. The diffuser is completely free.</p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
-          <${StepHead} n=${1} title="Select the three things you need in your life:" right=${`${T.scents - left} of ${T.scents} picked`}/>
+          <${StepHead} n=${1} title="What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
           <div class="pick-count">${`${sel.included()}/${T.scents} intentions chosen` + (left > 0 ? ` — pick ${left} more` : " ✓")}</div>
           <div class="picker compact" role="group" aria-label="Pick your fragrances">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = sel.keys.length >= T.scents; return html`
-              <div key=${f.key} class=${"pick compact" + (on ? " on" : "")}
+              <div key=${f.key} class=${"pick compact centered" + (on ? " on" : "")}
                 role="checkbox" aria-checked=${on} tabindex="0"
                 onClick=${() => sel.add(f.key)} style=${{ background: on ? f.grad : "" }}>
-                <span class="pick-row">
-                  <${Img} slot=${f.img} style=${{ width: "40px", flex: "0 0 40px", borderRadius: "8px", minHeight: "40px" }} alt=${f.name}/>
-                  <span class="pick-txt">
-                    <span class="pick-name pick-power">${f.intention}${f.topSeller ? " 🏆" : ""}</span>
-                    <span class="pick-introw"><span class="pick-scent">${f.name}</span><span class="pick-vol">100ml</span></span>
-                  </span>
+                <${Img} slot=${f.img} style=${{ width: "96px", height: "96px", flex: "0 0 96px", borderRadius: "14px", minHeight: "96px", margin: "0 auto" }} alt=${f.name}/>
+                <span class="pick-txt">
+                  <span class="pick-name pick-power">${f.intention}</span>
+                  <span class="pick-introw"><span class="pick-scent">${f.name}</span><span class="pick-vol">100ml</span></span>
                 </span>
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
                 <span class="pick-smells"><b>SMELLS LIKE:</b> ${f.smells2 || f.smells}</span>
                 <span class="pick-foot" onClick=${(e) => e.stopPropagation()}>
-                  <span class="pick-free"><span class="pf-price">${usd(SCENT_ONE)}</span> value · included in your ritual</span>
                   <span class="pick-qty">
                     <button aria-label="Remove one" disabled=${q === 0} onClick=${() => sel.remove(f.key)}>−</button>
                     <b>${q}</b>
@@ -756,18 +761,17 @@ function BuyBox() {
           </div>
           ${left > 0 ? html`<p class="pick-hint">Pick ${left} more above to unlock your free diffuser.</p>` : null}
 
-          <div class="picker-title step-title refill-title">How would you like your next scents?</div>
-          <p class="refill-sub"><b>${usd(RITUAL.price)} today</b> either way: your 3 scents and the diffuser, free. Refills are simply cheaper than buying scents one by one (${usd(SCENT_ONE)}). Swap, pause or cancel anytime.</p>
+          <div class="picker-title step-title refill-title">How often would you like to receive your refills?</div>
           <div class="freq3" role="radiogroup" aria-label="Refill schedule">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
               <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <span class="fq-days">Every <b>${o.days} days</b></span>
+                <span class="fq-days"><b>Every ${o.days} days</b></span>
                 <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
-                <span class="fq-sub">${usd(o.price * T.scents)} per refill of 3 \u00b7 was ${usd(SCENT_ONE)} each</span>
+                <span class="fq-sub"><b>${usd(o.price * T.scents)}</b> in total, you\u2019re saving ${usd(Math.round((SCENT_ONE - o.price) * T.scents * 100) / 100)}</span>
               </div>`; })}
           </div>
-          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`One-time payment selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`Prefer no refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>One-time payment, ${usd(RITUAL.price)}</button>`}</p>
+          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`One-time payment selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`No refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>One-Time Payment \u2014 ${usd(RITUAL.price)}</button>`}</p>
           ${sel.keys.length > 0 ? html`<div class="kitrev">
             ${rows.map((r) => html`
               <div class="kr-row" key=${r.f.key}>
@@ -794,7 +798,6 @@ function BuyBox() {
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
           </div>
-          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div>
 
           <${Reviews6}/>
           <div class="acc faq">
@@ -1090,6 +1093,7 @@ function App() {
   };
   const order = (rest && step === 1) ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
   return html`
+    <${RitualHeader} key="hdr"/>
     ${order.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     ${(!rest && step === 1) ? html`<div id="mc-rest-sentinel" key="sentinel" aria-hidden="true" style=${{ height: "1px" }}></div>` : null}
     <${StickyBar}/>`;

@@ -772,7 +772,7 @@ function BuyBox() {
                 <span class="fq-sub"><b>${usd(o.price * T.scents)}</b> in total, you\u2019re saving ${usd(Math.round((SCENT_ONE - o.price) * T.scents * 100) / 100)}</span>
               </div>`; })}
           </div>
-          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`One-time payment selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`No refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>One-Time Payment \u2014 ${usd(RITUAL.price)}</button>`}</p>
+          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`One-time payment selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`No subscription? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>One-Time Payment \u2014 ${usd(RITUAL.price)}</button>`}</p>
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `SECURE CHECKOUT — ${usd(sel.today())} ➔`}</span>

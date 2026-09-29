@@ -244,3 +244,6 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   from raw.githubusercontent @504da9d; vendor/assets/fonts shared with the free-diffusers page. Page body = fd16 body with
   the theme header group hidden (the app renders its own announcement bar + header). Checkout NOT wired (ritualVariants
   null → preview toast). The free-diffusers page is untouched.
+- 2026-09-29 ritual rt2-680198d — LIVE on /pages/manifestation-ritual 23:18 UTC. Owner: refill schedule now every 30 days
+  $35/scent (Best value), 60 days $39 (Most popular), 90 days $45; FAQ copy matched. mc-rt-app.js re-uploaded (82960 B),
+  page body key bumped. Preview MC LP Draft Copy 2 v8 matches.

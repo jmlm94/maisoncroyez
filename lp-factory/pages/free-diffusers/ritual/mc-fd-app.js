@@ -761,6 +761,7 @@ function BuyBox() {
           ${left > 0 ? html`<p class="pick-hint">Pick ${left} more above to unlock your free diffuser.</p>` : null}
 
           <div class="picker-title step-title refill-title">How often would you like to receive your refills?</div>
+          <p class="refill-sub">Swap, pause or cancel anytime.</p>
           <div class="freq3" role="radiogroup" aria-label="Refill schedule">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
               <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>

@@ -527,7 +527,7 @@ const usd = (v) => "$" + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2));
    Sections
    ================================================================ */
 const RitualHeader = () => html`
-  <div class="rit-ann">Pick your first 3 transformation scents, the diffuser is free today.</div>
+  <div class="rit-ann">Pick your first (3) scents and we\u2019ll send you the home diffuser for free.</div>
   <header class="rit-hdr">
     <a class="rit-logo-a" href="/" aria-label="Maison Croyez"><img class="rit-logo" src=${LOGO_SRC} alt="Maison Croyez" width="150" height="34" decoding="async" onError=${(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling.style.display = "inline"; }}/><span class="rit-logo-tx" style=${{ display: "none" }}>MAISON CROYEZ</span></a>
     <span class="rit-hdr-tx">2,500+ homes transformed.</span>

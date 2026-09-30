@@ -467,14 +467,14 @@ const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one:
 const TIERS = [
   { key: "ritual", n: 1, name: "The Manifestation Ritual", req: "", price: 149, oneTime: 0, scents: 3, tag: "", lite: false, line: "", rooms: ["Living Room", "Bedroom", "Studio"], ship: "", shipFree: true, tags: [], grad: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)" }, /* oneTime = 0: $149 either way */
 ];
-const STARTER3 = ["love", "abundance", "midnight"]; /* the three top sellers (owner 2026-09-29: "Not sure? Start with these 3") */
+const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselected "top three" = Chilled Citrus, Honey Nectar, Midnight Sensation */
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
 const selStore = {
   tierIdx: 0,
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 30,
-  keys: [],               /* nothing preselected — the customer picks (owner 2026-09-05) */
+  keys: STARTER3.slice(), /* owner 2026-09-30: page opens with the top three preselected; swap anytime */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
   setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
@@ -675,7 +675,7 @@ const ONE_SUB = "ONE-TIME PAYMENT \u00b7 NO REFILLS \u00b7 FREE SHIPPING";
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
   { ic: "🐾", tx: "Removes pet odor\ninstantly." },
-  { ic: "🌿", tx: "Organic Ingredients\nfrom France." },
+  { ic: "🌿🇫🇷", tx: "Organic Ingredients\nfrom France." },
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
 const StepHead = ({ n, title, right }) => html`
@@ -741,11 +741,11 @@ function BuyBox() {
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
           <div class="hd-price"><s>${usd(RITUAL.price + DIFFUSER_PRICE)}</s><b>${usd(RITUAL.price)}</b><span class="hd-note">3 scents + free diffuser</span></div>
-          <p class="sub-lede">Say goodbye to room sprays, plug-ins and candles forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
+          <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
           <${StepHead} n=${1} title="What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
-          <button type="button" class="starter3" onClick=${() => sel.setKeys(STARTER3)}>Not sure? Start with these 3 \u2794<small>${STARTER3.map((k) => (CONFIG.fragrances.find((f) => f.key === k) || {}).intention).join(" \u00b7 ")}, our best sellers</small></button>
+          <p class="presel-note">We just pre-selected our top three for you. Swap anytime.</p>
           <div class="picker compact" role="group" aria-label="Pick your fragrances">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = sel.keys.length >= T.scents; return html`
               <div key=${f.key} class=${"pick compact centered" + (on ? " on" : "")}
@@ -769,7 +769,6 @@ function BuyBox() {
               </div>`; })}
           </div>
           <p class="pick-intent">Feel your spaces completely transformed in 90 days or full refund, guaranteed.</p>
-          ${left > 0 ? html`<p class="pick-hint">Pick ${left} more above to unlock your free diffuser.</p>` : null}
 
           <div class="picker-title step-title refill-title">How often would you like to receive your refills?</div>
           <p class="refill-sub">Swap, pause or cancel anytime.</p>

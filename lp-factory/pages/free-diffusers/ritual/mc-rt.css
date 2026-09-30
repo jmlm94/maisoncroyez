@@ -941,3 +941,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* ritual v8 (2026-09-30): preselection note; two-emoji icon fits */
 .presel-note{text-align:center;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:#241C18;background:#F3F1EE;border-radius:12px;padding:9px 12px;margin:2px 0 12px}
 .usp3 .usp:nth-child(2) .usp-ic{width:auto !important;min-width:38px;padding:0 8px;font-size:17px;letter-spacing:1px}
+
+/* ritual v8b (2026-09-30): the theme underlines links inside page content and the line was drawn through the logo image */
+#root .rit-hdr .rit-logo-a,#root .rit-hdr .rit-logo-a:hover,#root .rit-hdr .rit-logo-a:focus,#root .rit-hdr .rit-logo-a:active,.prose .rit-hdr .rit-logo-a{display:inline-flex !important;text-decoration:none !important;text-decoration-line:none !important;background:none !important;background-image:none !important;box-shadow:none !important;border:0 !important;outline:0;padding:0 !important;text-underline-offset:0 !important}
+#root .rit-hdr .rit-logo-a::after,#root .rit-hdr .rit-logo-a::before{content:none !important;display:none !important}
+#root .rit-hdr .rit-logo{display:block !important;text-decoration:none !important;border:0 !important;box-shadow:none !important;vertical-align:top}

@@ -527,7 +527,7 @@ const usd = (v) => "$" + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2));
    Sections
    ================================================================ */
 const RitualHeader = () => html`
-  <div class="rit-ann">Pick your first (3) scents and we\u2019ll send you the home diffuser for free.</div>
+  <div class="rit-ann">PICK YOUR FIRST 3 SCENTS AND THE DIFFUSER IS FREE. NO SUBSCRIPTION REQUIRED.</div>
   <header class="rit-hdr">
     <a class="rit-logo-a" href="/" aria-label="Maison Croyez"><img class="rit-logo" src=${LOGO_SRC} alt="Maison Croyez" width="150" height="34" decoding="async" onError=${(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling.style.display = "inline"; }}/><span class="rit-logo-tx" style=${{ display: "none" }}>MAISON CROYEZ</span></a>
     <span class="rit-hdr-tx">2,500+ homes transformed.</span>
@@ -674,9 +674,9 @@ const OFFER_SUB_FOR = (t) => "FREE DIFFUSER + NEXT SCENTS FROM $" + SCENT_SUB + 
 const ONE_SUB = "ONE-TIME PAYMENT \u00b7 NO REFILLS \u00b7 FREE SHIPPING";
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
-  { ic: "✨", tx: "Change the vibe of\nyour space instantly." },
-  { ic: "🌿", tx: "French & Organic\nIngredients." },
-  { ic: "💧", tx: "No water, no leaks,\nno mold." },
+  { ic: "🐾", tx: "Removes pet odor\ninstantly." },
+  { ic: "🌿", tx: "Organic Ingredients\nfrom France." },
+  { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -739,10 +739,9 @@ function BuyBox() {
         <div class="buybox">
           <${Fragment} key="ritual">
           <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
-          <h1>Home Diffuser & Manifestation Scents: The diffuser you can smell from the front door. No water, no flame, nothing to clean.</h1>
+          <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
           <div class="hd-price"><s>${usd(RITUAL.price + DIFFUSER_PRICE)}</s><b>${usd(RITUAL.price)}</b><span class="hd-note">3 scents + free diffuser</span></div>
-          <div class="hd-guar"><span aria-hidden="true">\uD83D\uDEE1\uFE0F</span> Don\u2019t love it in 30 days? Every dollar back.</div>
-          <p class="sub-lede"><b>Three steps:</b> Pick your first 3 scents, select the delivery frequency, and relax. <b>The diffuser is completely free.</b></p>
+          <p class="sub-lede">Say goodbye to room sprays, plug-ins and candles forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
           <${StepHead} n=${1} title="What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
@@ -769,7 +768,7 @@ function BuyBox() {
                 </span>
               </div>`; })}
           </div>
-          <p class="pick-intent">Transform your spaces in less than 90 days and attract what you\u2019re seeking in life.</p>
+          <p class="pick-intent">Feel your spaces completely transformed in 90 days or full refund, guaranteed.</p>
           ${left > 0 ? html`<p class="pick-hint">Pick ${left} more above to unlock your free diffuser.</p>` : null}
 
           <div class="picker-title step-title refill-title">How often would you like to receive your refills?</div>
@@ -782,10 +781,10 @@ function BuyBox() {
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
                 <span class="fq-days"><b>Every ${o.days} days</b></span>
                 <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
-                <span class="fq-sub"><b>${usd(o.price * T.scents)}</b> in total, you\u2019re saving ${usd(Math.round((SCENT_ONE - o.price) * T.scents * 100) / 100)}</span>
+                <span class="fq-sub">You\u2019re saving <b>${usd(Math.ceil((SCENT_ONE - o.price) * T.scents - 1e-9))}</b></span>
               </div>`; })}
           </div>
-          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`One-time payment selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`No subscription? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>One-Time Payment \u2014 ${usd(RITUAL.price)}</button>`}</p>
+          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`No subscription selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`Don\u2019t want refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>Order with no subscription \u2014 ${usd(RITUAL.price)}</button>`}</p>
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `SECURE CHECKOUT — ${usd(sel.today())} ➔`}</span>

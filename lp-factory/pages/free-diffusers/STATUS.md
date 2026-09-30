@@ -257,3 +257,4 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
   "Already have a waterless diffuser?" (heavier stream / fills the room / no charging). 6 bottle life "30+ days on the everyday
   setting" (brand kit: >=30 days per bottle; ops number not confirmed). 7 night light bullet in the enemy section.
   OPEN for the owner: SMS 3-day reminder must match Subi/Postscript config; strength levels are a read of the notes; free swap.
+- 2026-09-30 ritual rt5-2024d80 — LIVE 00:36 UTC: announcement bar "Pick your first (3) scents and we'll send you the home diffuser for free."

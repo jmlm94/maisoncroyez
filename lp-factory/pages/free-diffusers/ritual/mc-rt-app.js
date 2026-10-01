@@ -77,7 +77,7 @@ const CONFIG = {
   sectionOrder: [ /* rt9 (2026-10-01): rebuilt on the Sept survey */
     "buybox",
     "goodbye", "enemyStack", "howTo",
-    "guarantee", "reviews", "faq", "patricia",
+    "guarantee", "faq", "patricia", "reviews",
   ],
 
   /* --- gallery: EXACT product media, in the product's own order --- */
@@ -195,11 +195,12 @@ const CONFIG = {
     dog:     { file: "hf gen — dog asleep by diffuser", src: A.dog || "" },
     product: { file: "diseno-87", src: A.product || "" },
     nightstand: { file: "diseno-88", src: A.nightstand || "" },
-    frag1: { file: "frag1", src: A.frag1 ? A.frag1 + "&width=120" : "" }, frag2: { file: "frag2", src: A.frag2 ? A.frag2 + "&width=120" : "" },
-    frag3: { file: "frag3", src: A.frag3 ? A.frag3 + "&width=120" : "" }, frag4: { file: "frag4", src: A.frag4 ? A.frag4 + "&width=120" : "" },
-    frag5: { file: "frag5", src: A.frag5 ? A.frag5 + "&width=120" : "" }, frag6: { file: "frag6", src: A.frag6 ? A.frag6 + "&width=120" : "" },
-    frag7: { file: "frag7", src: A.frag7 ? A.frag7 + "&width=120" : "" },
+    frag1: { file: "mc-rt-frag1-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag1-240.webp?v=1790887658" }, frag2: { file: "mc-rt-frag2-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag2-240.webp?v=1790887658" },
+    frag3: { file: "mc-rt-frag3-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag3-240.webp?v=1790887658" }, frag4: { file: "mc-rt-frag4-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag4-240.webp?v=1790887658" },
+    frag5: { file: "mc-rt-frag5-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag5-240.webp?v=1790887658" }, frag6: { file: "mc-rt-frag6-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag6-240.webp?v=1790887658" },
+    frag7: { file: "mc-rt-frag7-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag7-240.webp?v=1790887658" },
     kit1: { file: "mc-kb-kit1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg?v=1786479536&width=240" }, kit2: { file: "mc-kb-kit2", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg?v=1786479536&width=240" }, kit3: { file: "mc-kb-kit3", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg?v=1786479536&width=240" },
+    step1: { file: "mc-rt-step1-540", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-step1-540.webp?v=1790887657" }, step2: { file: "mc-rt-step2-540", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-step2-540.webp?v=1790887658" }, step3: { file: "mc-rt-step3-540", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-step3-540.webp?v=1790887657" },
     gif1: { file: "www1", src: A.gif1 || "", srcWebm: A.gif1w || "" },
     gif2: { file: "www2", src: A.gif2 || "", srcWebm: A.gif2w || "" },
     gif3: { file: "www3", src: A.gif3 || "", srcWebm: A.gif3w || "" },
@@ -269,9 +270,9 @@ const CONFIG = {
     intro: "A candle burns wax, a plug-in heats a cartridge, a reed stick wicks oil. All three evaporate the scent right next to the device, which is why you smell them from four feet away and nowhere else. This one turns pure fragrance oil into a **fine, dry mist** and pushes it through the whole room, corner to corner. **No heat, no water, nothing diluted.**",
     bullets: null,
     steps: [
-      { gif: "gif1", title: "Pour it in", body: "Your 100ml bottle of fragrance. No water, no measuring." },
-      { gif: "gif2", title: "Press once", body: "One button, three strengths. Soft for every day, full for company." },
-      { gif: "gif3", title: "Walk away", body: "About ten minutes to fill the room. Weeks before you think about it again." },
+      { gif: "step1", title: "Pour it in", body: "Your 100ml bottle of fragrance. No water, no measuring." },
+      { gif: "step2", title: "Press once", body: "One button, three strengths. Soft for every day, full for company." },
+      { gif: "step3", title: "Walk away", body: "About ten minutes to fill the room. Weeks before you think about it again." },
     ],
   },
 
@@ -646,6 +647,8 @@ function HeroVideo({ poster }) {
       if (p && p.catch) p.catch((e) => { if (e && e.name === "AbortError") return; if (!armed) { armed = true; armGesture(); } });
     };
     const onVis = () => { if (!document.hidden) tryPlay(); };
+    const onEnded = () => { try { el.currentTime = 0; } catch (e) {} const p = el.play(); if (p && p.catch) p.catch(() => {}); };
+    el.addEventListener("ended", onEnded);
     el.addEventListener("playing", onPlaying);
     el.addEventListener("canplay", tryPlay);
     el.addEventListener("loadeddata", tryPlay);
@@ -659,7 +662,7 @@ function HeroVideo({ poster }) {
     else raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(() => { startT = setTimeout(() => { const im = pw.current && pw.current.querySelector("img"); if (im && !im.complete) { im.addEventListener("load", start, { once: true }); im.addEventListener("error", start, { once: true }); } else start(); }, 200); }); });
     return () => {
       cancelAnimationFrame(raf1); cancelAnimationFrame(raf2); clearTimeout(startT);
-      el.removeEventListener("playing", onPlaying); el.removeEventListener("canplay", tryPlay); el.removeEventListener("loadeddata", tryPlay);
+      el.removeEventListener("ended", onEnded); el.removeEventListener("playing", onPlaying); el.removeEventListener("canplay", tryPlay); el.removeEventListener("loadeddata", tryPlay);
       document.removeEventListener("visibilitychange", onVis); window.removeEventListener("pageshow", tryPlay);
       EVS.forEach((ev) => document.removeEventListener(ev, onGesture, true));
     };
@@ -771,6 +774,7 @@ function BuyBox() {
   const left = sel.left();
   const step = sel.step || 1;
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "long", day: "numeric" });
+  const goReviews = () => { let n = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (n++ < 40) setTimeout(f, 50); }; f(); };
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
   /* fd13 (owner, 2026-09-25): no auto-advance after the last pick — people should choose carefully and tap "Review my kit". */
@@ -782,7 +786,7 @@ function BuyBox() {
         <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
           <${Fragment} key="ritual">
-          <div class="tb-rating" aria-label="Rated 4.7 out of 5 from 124 reviews"><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></div>
+          <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
           <div class="hd-price"><s>${usd(RITUAL.price + DIFFUSER_PRICE)}</s><b>${usd(RITUAL.price)}</b><span class="hd-note">3 scents + free diffuser</span></div>
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
@@ -1050,9 +1054,11 @@ function GoodbyeSec() {
     <section class="section goodbye">
       <div class="wrap narrow">
         <div class="section-head"><${SerifHead} pre=${G.heading[0]} em=${G.heading[1]}/></div>
-        <${Img} slot=${G.img} alt="A Maison Croyez diffuser in a living room"/>
-        <div class="gb-list">
-          ${G.items.map((it) => html`<div class="gb-item" key=${it.k}><span class="gb-k caps">${it.k}</span><p>${it.t}</p></div>`)}
+        <div class="gb-grid">
+          <${Img} slot=${G.img} alt="A Maison Croyez diffuser in a living room"/>
+          <div class="gb-list">
+            ${G.items.map((it) => html`<div class="gb-item" key=${it.k}><span class="gb-k caps">${it.k}</span><p>${it.t}</p></div>`)}
+          </div>
         </div>
       </div>
     </section>`;

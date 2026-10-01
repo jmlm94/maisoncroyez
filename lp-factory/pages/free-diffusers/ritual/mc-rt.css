@@ -1102,3 +1102,29 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .rv-check{display:inline-flex;width:14px;height:14px;border-radius:99px;background:#1F7A3A;color:#fff;font-size:.56rem;align-items:center;justify-content:center;flex:0 0 14px}
 #root .rv-az{color:#141414;margin:-4px auto 14px}
 #root .rv-az .stars{color:#E0A526}
+
+/* ===== ritual v11 (2026-10-01): spacing, uniform scent thumbs, clickable rating, desktop ===== */
+#root #sec-buybox .section.pdp-buy{padding-top:0 !important}
+@media(min-width:860px){#root #sec-buybox .section.pdp-buy{padding-top:28px !important}}
+@media(max-width:859px){#root .buybox .tb-rating{margin-top:18px}}
+#root .pick.compact.row > .ph.sq{background:#fff;border:1px solid #ECE9E4}
+#root .pick.compact.row > .ph.sq img{width:100% !important;height:100% !important;object-fit:contain !important;background:#fff}
+#root .tb-rating-btn{background:none;border:0;padding:0;margin:0;cursor:pointer;color:inherit;font:inherit;display:inline-flex;align-items:center;gap:8px;text-align:left}
+#root .tb-rating-btn b{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#C9C4BC}
+#root .tb-rating-btn:hover b{text-decoration-color:#141414}
+#root .hstep .ph img{object-fit:cover}
+@media(min-width:900px){
+  #root .pdp-buy .wrap{grid-template-columns:minmax(0,46fr) minmax(0,54fr) !important;gap:44px}
+  #root .gal-col{position:sticky;top:16px}
+  #root .goodbye .wrap.narrow{max-width:980px}
+  #root .gb-grid{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:40px;align-items:center}
+  #root .gb-list{margin-top:0}
+  #root .gb-item:first-child{border-top:0;padding-top:0}
+  #root .cmp{font-size:.9rem}
+  #root .cmp th,#root .cmp td{padding:12px 12px}
+  #root .faq .wrap.narrow{max-width:760px}
+  #root .faq .qa{max-width:760px}
+  #root .reviews .wrap.narrow{max-width:1080px}
+  #root .rv-list{grid-template-columns:1fr 1fr 1fr}
+  #root .pat-card{max-width:640px}
+}

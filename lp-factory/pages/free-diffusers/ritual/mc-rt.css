@@ -1064,3 +1064,41 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .pick.compact.row .pick-ingr b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:0;color:#141414;text-transform:none}
 #root .pick.compact.row .pick-smells{grid-row:3}
 #root .sc-ingr{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;margin-top:2px}
+
+/* ===== ritual v10 (2026-10-01): owner round — table, FAQ, reviews with colour, bigger headlines ===== */
+#root [id^="sec-"] .section h2,#root .guarantee h2{font-size:clamp(1.86rem,6.5vw,2.52rem) !important}
+#root [id^="sec-"] .section-head{margin-bottom:20px}
+/* comparison table */
+#root .cmp{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0 0;font-size:.82rem;line-height:1.4;border:1px solid #E6E3DE;border-radius:12px;overflow:hidden;background:#fff}
+#root .cmp th,#root .cmp td{padding:9px 8px;vertical-align:top;text-align:left;border-top:1px solid #ECE9E4}
+#root .cmp thead th{border-top:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#5C5C5C;background:#FAFAF8;padding:10px 8px}
+#root .cmp thead th.cv{color:#141414}
+#root .cmp tbody th{font-family:'Outfit',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:#141414;width:26%;background:#FAFAF8}
+#root .cmp td.cx{color:#5C5C5C;width:37%}
+#root .cmp td.cv{color:#141414;font-weight:600;width:37%;background:#F6F5F2}
+#root .cmp .mk{display:inline-block;width:14px;font-weight:700;margin-right:2px}
+#root .cmp td.cx .mk{color:#9A9A9A}
+#root .cmp td.cv .mk{color:#141414}
+@media(max-width:420px){#root .cmp{font-size:.76rem}#root .cmp th,#root .cmp td{padding:8px 6px}#root .cmp tbody th{font-size:.6rem;width:24%}}
+/* faq ingredients list */
+#root .faq .qa.open .ans{max-height:900px}
+#root .faq-list{list-style:none;padding:0 30px 18px 2px;margin:-8px 0 0;display:flex;flex-direction:column;gap:6px}
+#root .faq-list li{font-size:.88rem;line-height:1.45;color:#4A4A4A;padding-left:14px;position:relative}
+#root .faq-list li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:99px;background:#141414}
+/* reviews, with colour */
+#root .rv-list{gap:10px}
+#root .rv{padding:12px 14px 11px;border-radius:14px;border:1px solid #E6E3DE;background:#fff}
+#root .rv.src-amazon{border-color:#F0DDB0;background:#FFFCF5}
+#root .rv-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+#root .rv-av{width:34px;height:34px;border-radius:99px;display:inline-flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;flex:0 0 34px}
+#root .rv-av.av0{background:#F3D9CF}#root .rv-av.av1{background:#DCE8D4}#root .rv-av.av2{background:#F6E7B8}#root .rv-av.av3{background:#D7E3F2}#root .rv-av.av4{background:#EBDCF2}#root .rv-av.av5{background:#F8D7DC}
+#root .rv-meta{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+#root .rv-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:.74rem;color:#141414}
+#root .rv-stars{color:#E0A526;font-size:.68rem;letter-spacing:1px;line-height:1}
+#root .rv-chip{font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:#E8F1EA;color:#1F5A33;flex:0 0 auto}
+#root .rv.src-amazon .rv-chip{background:#FDEBC2;color:#7A4B00}
+#root .rv-q{font-family:'Unna',serif;font-size:.96rem;line-height:1.35;color:#141414;margin:0 0 8px}
+#root .rv-tag{font-family:'Outfit',sans-serif;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#5C5C5C;display:flex;align-items:center;gap:6px}
+#root .rv-check{display:inline-flex;width:14px;height:14px;border-radius:99px;background:#1F7A3A;color:#fff;font-size:.56rem;align-items:center;justify-content:center;flex:0 0 14px}
+#root .rv-az{color:#141414;margin:-4px auto 14px}
+#root .rv-az .stars{color:#E0A526}

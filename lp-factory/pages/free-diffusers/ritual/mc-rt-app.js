@@ -76,8 +76,8 @@ const CONFIG = {
 
   sectionOrder: [ /* rt9 (2026-10-01): rebuilt on the Sept survey */
     "buybox",
-    "goodbye", "enemyStack", "howTo", "scents",
-    "guarantee", "faq", "patricia", "reviews",
+    "goodbye", "enemyStack", "howTo",
+    "guarantee", "reviews", "faq", "patricia",
   ],
 
   /* --- gallery: EXACT product media, in the product's own order --- */
@@ -179,6 +179,7 @@ const CONFIG = {
   images: {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
+    tried:   { file: "hf gen — plug-in, candle, room spray", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-tried-800.webp?v=1790878061" },
     intentionHero: { file: "anadir-subtitulo-1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-intentions-v2.jpg?v=1785962123" },
     photo_love: { file: "scent-love", src: A.photo_love || "" },
     photo_abundance: { file: "scent-abundance", src: A.photo_abundance || "" },
@@ -220,20 +221,19 @@ const CONFIG = {
 
   enemyStack: { /* the three she already tried */
     heading: ["Plug-ins fade in a week.", "Candles die by dessert."],
-    x: [
-      "Plug-ins: strong for a week, then they **fade into the wallpaper** and you stop noticing.",
-      "Candles: one nice hour, $30 to $40 every few weeks, **dead by dessert**. That habit quietly costs over $1,000 a year.",
-      "Water diffusers, be honest. **When was the last time you actually cleaned the tank?**",
-    ],
-    v: [
-      "**No water. No tank. No flame.** Nothing to spill, nothing to grow, nothing to clean.",
-      "Fills the room in **about ten minutes**. One bottle lasts **30+ days on the everyday setting**.",
-      "**Plug it in and forget it.** If it ever stops working, we replace it. For life.",
-      "**A soft glow on top that doubles as a night light.** Leave it on in the hallway or the bedroom.",
+    cols: ["What you’ve tried", "Maison Croyez"],
+    rows: [
+      { k: "How long the scent lasts", x: "Plug-ins: strong for a week, then they fade into the wallpaper.", v: "30+ days per bottle on the everyday setting." },
+      { k: "How far it reaches", x: "Candles: the four feet around the flame, for about an hour.", v: "Fills the whole room in about ten minutes. Up to 600 sq ft." },
+      { k: "Water, tanks, mold", x: "Water diffusers: a tank you never actually clean.", v: "No water. No tank. Nothing to grow, nothing to clean." },
+      { k: "Flame and soot", x: "An open flame you can’t leave alone, and soot on the ceiling.", v: "No flame. Safe to leave on overnight, in a kid’s room or near pets." },
+      { k: "Upkeep", x: "Refills, wicks, cartridges, batteries, charging.", v: "Plug it in and forget it. If it ever stops working, we replace it for life." },
+      { k: "What it costs you", x: "$30 to $40 every few weeks. Over $1,000 a year.", v: "$35 to $45 per refill, every 30 to 90 days." },
+      { k: "At night", x: "Nothing.", v: "A soft glow on top that doubles as a night light." },
     ],
     switchers: {
       title: "Already have a waterless diffuser?",
-      sub: "Here\u2019s why they switched:",
+      sub: "Here’s why they switched:",
       items: ["**A heavier stream.** More scent per burst, so it travels.", "**Fills the room.** Up to 600 sq ft, not four feet around the machine.", "**No charging.** It plugs into the wall and stays on."],
     },
   },
@@ -310,12 +310,12 @@ const CONFIG = {
   faq: {
     heading: ["Questions?", "We've got answers."],
     items: [
-      { q: "When am I charged?", a: "$149 today: your 3 scents and the diffuser. After that, your next scents ship on the schedule you pick, every 30 days at $35 each, every 60 days at $39 or every 90 days at $45, and are charged only when they ship. We text you 3 days before every refill, so you can skip or cancel in one tap. The diffuser is yours either way." },
-      { q: "Do I have to subscribe?", a: "No. It is $149 today either way, diffuser included. Picking a refill schedule simply makes your next scents cheaper ($35 to $45 instead of $49.95) and hands-free. You can also choose one-time payment and re-order whenever you like." },
-      { q: "How do I cancel a refill plan?", a: "Two clicks, from your account or any email we send. No phone calls, no chat queues, no retention offers. Within the first 30 days you can also send the kit back (diffuser and scents) for a full refund." },
-      { q: "What if I don’t like a scent?", a: "Tell us and we swap it for another one, free. In our last customer survey the diffuser was the favourite part for almost everyone; the scent is personal, so we make it easy to change." },
-      { q: "How long does each bottle last?", a: "Most customers told us a bottle lasts them more than a month on the everyday setting. The stronger settings use it faster." },
-      { q: "What if I don't love it?", a: "Live with it for 30 days. If your home doesn't feel different, send the diffuser and scents back with the prepaid label for a full refund. And every diffuser is covered for life." },
+      { q: "Is this a better alternative than plug-ins, candles & room sprays?", a: "Yes, and that is the whole reason it exists. Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, a spray masks a smell for a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day. One bottle lasts 30+ days on the everyday setting." },
+      { q: "Will this diffuser grow mold or would it leak like my last one?", a: "No. There is no water in it: no tank, no standing water, nothing that can grow. The bottle locks into the diffuser, so you can tip it, move it room to room or pack it for a trip. Nothing spills and there is nothing to clean, ever." },
+      { q: "Do the scents eliminate pet and food odors?", a: "Yes. A spray sits on top of a smell for a few minutes. A dry mist fills the whole room and keeps going, so pet, kitchen and closed-up-house odors stop coming back. In our last customer survey, dog smell was the first thing one customer said it fixed." },
+      { q: "What are the ingredients for the scents?", a: "Each 100ml bottle is pure fragrance oil built on notes you can actually name:", list: ["Love, Golden Blossom Harmony: buttercup, honeysuckle & sunflower.", "Abundance, Crisp Citrus Scape: yuzu leaf, green mandarin & cypress.", "Relaxation & Concentration, Chilled Citrus: chilled lavender, eucalyptus & white citrus.", "Turn Ideas Into Reality, Honey Nectar: ginger milk, white birch & eucalyptus honey.", "Raise Energy, Euphoric Bloom: jasmine tea, white peach & sandalwood crème.", "Purification, Wildwood Mystique: huckleberry, wild juniper & mountain fern.", "Love Manifestation, Midnight Sensation: moonflower, night lily & skin musk."] },
+      { q: "How many diffusers do I need in total?", a: "One covers up to 600 square feet: an open-plan main floor or a large bedroom. For a two-storey home most customers run two, one near the entrance and one upstairs. Several told us they bought a second one for the other side of the house." },
+      { q: "What happens if I don’t like it?", a: "Live with it for 30 days. If your home doesn’t feel different, send the diffuser and the scents back with our prepaid label and we refund everything, even if you’ve tried them. Don’t love one scent but love the diffuser? We swap the scent free. And the diffuser itself is covered for life." },
     ],
   },
 
@@ -338,22 +338,28 @@ const CONFIG = {
   },
   reviews: {
     heading: ["What customers told us.", ""],
-    sub: "From our September 2026 customer survey. Verified buyers, lightly trimmed for length.",
+    sub: "Verified buyers, from our customer survey and our Amazon listing. Lightly trimmed for length.",
+    amazon: "4.5 out of 5 on Amazon · 44 ratings",
     items: [
-      { q: "Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that. I can’t believe how they make every room smell fresh without changing wax, cans and refills.", tag: "Switched from reed sticks" },
-      { q: "I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.", tag: "Bought it for safety and no mold" },
-      { q: "Much heavier stream than my Scentify and my Nebu, and no charging every 8 hours. It’s always ready to go. This is my favorite out of the three.", tag: "Already owned two waterless diffusers" },
-      { q: "Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.", tag: "Switched from sprays, plug-ins and candles" },
-      { q: "The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.", tag: "Lives in an apartment" },
-      { q: "Clean, easy to use and lasts longer. I liked the look of the diffuser with the light.", tag: "Switched from a water diffuser and candles" },
-      { q: "That my house smelled amazing. Fantastic.", tag: "Bought it for dog smell" },
-      { q: "It was better than I expected. Awesome experience.", tag: "Switched from sprays and plug-ins" },
-      { q: "They fill your room with a great scent and they last a long time. I love the night light.", tag: "Switched from a water diffuser and candles" },
-      { q: "Only need one deodorizer now. It felt nice, it was easy and it smelled good. Awesome.", tag: "Bought on the guarantee and the comments" },
-      { q: "Everything. The relaxing and the amazing smells. Love it.", tag: "Switched from a water diffuser, sprays, plug-ins and candles" },
-      { q: "You answered me and that was personal to me. Good smells all in my house. Wonderful.", tag: "Switched from a water diffuser, sprays, plug-ins and candles" },
-      { q: "It solved everything. Fresh. Wonderful.", tag: "Almost didn\u2019t buy because of the price" },
-      { q: "Not really any problems, just nice to have to make my house smell good. I like the diffuser a lot.", tag: "Already owned another waterless diffuser" },
+      { q: "Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that. I can’t believe how they make every room smell fresh without changing wax, cans and refills.", src: "survey", tag: "Switched from reed sticks" },
+      { q: "Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells. I highly recommend this item!", who: "Michael C.", src: "amazon", tag: "Verified purchase" },
+      { q: "I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.", src: "survey", tag: "Bought it for safety and no mold" },
+      { q: "Absolutely amazing. Just purchase and let this fill your home with comforting smells! Trust me, I bought it for my mom, and she simply loves it!", who: "Simon F.", src: "amazon", tag: "Verified purchase" },
+      { q: "Much heavier stream than my Scentify and my Nebu, and no charging every 8 hours. It’s always ready to go. This is my favorite out of the three.", src: "survey", tag: "Already owned two waterless diffusers" },
+      { q: "It does not need water, which means no spills, no damp residue, no constantly refilling it like I am caring for a very needy plant. I just attach the oil bottle and that is pretty much it. It does a good job reaching beyond just the corner where it is sitting.", who: "Amazon customer", src: "amazon", tag: "Amazon review" },
+      { q: "Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.", src: "survey", tag: "Switched from sprays, plug-ins and candles" },
+      { q: "I love it. The oil lasts a very long time and you set it for as long as you want. Super great.", who: "Kayrelys", src: "amazon", tag: "Verified purchase · translated from Spanish" },
+      { q: "The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.", src: "survey", tag: "Lives in an apartment" },
+      { q: "The best purchase. It smells delicious and the scent lingers.", who: "Isa Q.", src: "amazon", tag: "Verified purchase · translated from Spanish" },
+      { q: "Clean, easy to use and lasts longer. I liked the look of the diffuser with the light.", src: "survey", tag: "Switched from a water diffuser and candles" },
+      { q: "That my house smelled amazing. Fantastic.", src: "survey", tag: "Bought it for dog smell" },
+      { q: "It was better than I expected. Awesome experience.", src: "survey", tag: "Switched from sprays and plug-ins" },
+      { q: "They fill your room with a great scent and they last a long time. I love the night light.", src: "survey", tag: "Switched from a water diffuser and candles" },
+      { q: "Only need one deodorizer now. It felt nice, it was easy and it smelled good. Awesome.", src: "survey", tag: "Bought on the guarantee and the comments" },
+      { q: "Everything. The relaxing and the amazing smells. Love it.", src: "survey", tag: "Switched from a water diffuser, sprays, plug-ins and candles" },
+      { q: "You answered me and that was personal to me. Good smells all in my house. Wonderful.", src: "survey", tag: "Switched from a water diffuser, sprays, plug-ins and candles" },
+      { q: "It solved everything. Fresh. Wonderful.", src: "survey", tag: "Almost didn’t buy because of the price" },
+      { q: "Not really any problems, just nice to have to make my house smell good. I like the diffuser a lot.", src: "survey", tag: "Already owned another waterless diffuser" },
     ],
   },
 
@@ -987,7 +993,7 @@ function Faq() {
             <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
               ${f.q}<span class="plus">+</span>
             </button>
-            <div class="ans"><p>${f.a}</p></div>
+            <div class="ans"><p>${f.a}</p>${f.list ? html`<ul class="faq-list">${f.list.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}</div>
           </div>`)}
       </div>
     </section>`;
@@ -1088,12 +1094,17 @@ function ReviewsSec() {
       <div class="wrap narrow">
         <div class="section-head"><${SerifHead} pre=${R.heading[0]} em=${R.heading[1]}/></div>
         <p class="sc-sub">${R.sub}</p>
+        ${R.amazon && html`<p class="rv-az"><span class="stars" aria-hidden="true">\u2605\u2605\u2605\u2605\u2605</span> ${R.amazon}</p>`}
         <div class="rv-list">
           ${R.items.map((r, i) => html`
-            <div class="rv" key=${i}>
-              <${Stars}/>
+            <div class=${"rv src-" + (r.src || "survey")} key=${i}>
+              <div class="rv-top">
+                <span class=${"rv-av av" + (i % 6)} aria-hidden="true">${(r.who || "VB").replace(/[^A-Za-z ]/g, "").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}</span>
+                <span class="rv-meta"><b class="rv-name">${r.who || "Verified buyer"}</b><span class="rv-stars" aria-label="5 out of 5 stars">★★★★★</span></span>
+                <span class="rv-chip">${r.src === "amazon" ? "Amazon" : "Survey"}</span>
+              </div>
               <p class="rv-q">“${r.q}”</p>
-              <div class="rv-who"><b>Verified buyer</b>${r.tag ? html` · ${r.tag}` : null}</div>
+              ${r.tag ? html`<div class="rv-tag"><span class="rv-check" aria-hidden="true">✓</span>${r.tag}</div>` : null}
             </div>`)}
         </div>
       </div>
@@ -1110,15 +1121,15 @@ function EnemyStack() {
           <${SerifHead} pre=${E.heading[0]} em=${E.heading[1]}/>
         </div>
         <div class="split-grid">
-          <div class="split-half"><${Img} slot="soot" alt="The candles and diffusers you already tried"/><span class="split-badge" aria-hidden="true">\u2715</span><div class="split-cap caps">The three you already tried</div></div>
-          <div class="split-half"><${Img} slot="nightstand" alt="Maison Croyez waterless diffuser"/><span class="split-badge good" aria-hidden="true">\u2713</span><div class="split-cap caps">Waterless. Nothing to babysit</div></div>
+          <div class="split-half"><${Img} slot="tried" alt="A plug-in, a candle and a room spray"/><span class="split-badge" aria-hidden="true">✕</span><div class="split-cap caps">The three you already tried</div></div>
+          <div class="split-half"><${Img} slot="nightstand" alt="Maison Croyez waterless diffuser"/><span class="split-badge good" aria-hidden="true">✓</span><div class="split-cap caps">The one you’ll keep forever</div></div>
         </div>
-        <ul class="enemy-list">
-          ${E.x.map((t, i) => html`<li class="x" key=${"x" + i}><${Rich} s=${t}/></li>`)}
-        </ul>
-        <ul class="enemy-list vlist">
-          ${E.v.map((t, i) => html`<li class="v" key=${"v" + i}><${Rich} s=${t}/></li>`)}
-        </ul>
+        <table class="cmp">
+          <thead><tr><th></th><th class="cx">${E.cols[0]}</th><th class="cv">${E.cols[1]}</th></tr></thead>
+          <tbody>
+            ${E.rows.map((r) => html`<tr key=${r.k}><th scope="row">${r.k}</th><td class="cx"><span class="mk" aria-hidden="true">✕</span>${r.x}</td><td class="cv"><span class="mk" aria-hidden="true">✓</span>${r.v}</td></tr>`)}
+          </tbody>
+        </table>
         ${E.switchers ? html`<div class="switchers">
           <div class="sw-title">${E.switchers.title}</div>
           <p class="sw-sub">${E.switchers.sub}</p>

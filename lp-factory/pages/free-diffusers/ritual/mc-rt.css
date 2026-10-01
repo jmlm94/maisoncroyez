@@ -1054,3 +1054,13 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .pick.compact.row .pick-qty{padding:1px 2px;gap:2px;border-width:1px}
 #root .pick.compact.row .pick-qty button{width:28px;height:28px;font-size:.95rem}
 #root .pick.compact.row .pick-qty b{min-width:12px;font-size:.84rem}
+
+/* ritual v9c: ingredients back on the picker rows + on the scent list */
+#root .pick.compact.row{grid-template-rows:auto auto auto}
+#root .pick.compact.row > .ph.sq{grid-row:1/4}
+#root .pick.compact.row .pick-foot{grid-row:1/4}
+#root .pick.compact.row .pick-ingr{display:flex !important;grid-column:2;grid-row:2;align-items:baseline;gap:5px;margin:1px 0 0;font-size:.7rem;line-height:1.3;color:#141414}
+#root .pick.compact.row .pick-ingr .pick-emoji{font-size:.8rem;line-height:1}
+#root .pick.compact.row .pick-ingr b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:0;color:#141414;text-transform:none}
+#root .pick.compact.row .pick-smells{grid-row:3}
+#root .sc-ingr{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;margin-top:2px}

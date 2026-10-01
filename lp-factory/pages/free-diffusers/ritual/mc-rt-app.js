@@ -1062,6 +1062,7 @@ function ScentsSec() {
               <div class="sc-txt">
                 <div class="sc-top"><span class="sc-int">${f.intention}</span>${f.strength ? html`<span class=${"pick-str s-" + f.strength}><i></i><i></i><i></i>${f.strength}</span>` : null}</div>
                 <div class="sc-name">${f.name}</div>
+                <div class="sc-ingr">${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</div>
                 <div class="sc-smells">${f.smells2 || f.smells}</div>
               </div>
             </div>`)}

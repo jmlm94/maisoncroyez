@@ -1,5 +1,5 @@
 name: video-probe
-# Measures the product-page gallery video: Shopify rendition sizes + what the live theme actually loads. Edit this line and push to run. Run 1.
+# Measures the product-page gallery video: Shopify rendition sizes + what the live theme actually loads. Edit this line and push to run. Run 2: gallery DOM dump.
 on:
   workflow_dispatch:
   push:
@@ -52,7 +52,8 @@ jobs:
               return { vids, media, res, lcp, totalTransferKB: Math.round(total / 1024), theme: (document.documentElement.outerHTML.match(/Shopify\.theme\s*=\s*(\{[^}]+\})/) || [])[1] || null };
             });
             await pg.screenshot({ path: `${OUT}/${S}-${name}-top.png` });
-            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, reqs })}`);
+            const x = await pg.evaluate(() => { const h = document.documentElement.outerHTML; const gal = document.querySelector('product-gallery, .product-gallery, .product__media-list, [class*="product-gallery"]'); const items = gal ? [...gal.querySelectorAll('[data-media-type], [data-media-id], .product-gallery__media')].slice(0, 10) : []; return { videoMediaTags: document.querySelectorAll('video-media, native-video, [is="video-media"]').length, templates: document.querySelectorAll('template').length, videosCUrls: [...new Set((h.match(/videos\/c\/[^"'\s\\]+/g) || []))].slice(0, 8), mediaIdInHtml: /29921673248877/.test(h), galTag: gal ? gal.tagName + '.' + (gal.className || '').toString().slice(0, 60) : null, galItems: items.map((c) => c.tagName + '.' + (c.className || '').toString().slice(0, 50) + ' type=' + (c.getAttribute('data-media-type') || '') + ' id=' + (c.getAttribute('data-media-id') || '') + ' first=' + (c.firstElementChild ? c.firstElementChild.tagName : '')), firstItem: items[0] ? items[0].outerHTML.slice(0, 1200) : (gal && gal.firstElementChild ? gal.firstElementChild.outerHTML.slice(0, 1200) : null), mediaCount: /"media":\s*\[/.test(h) }; });
+            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, ...x, reqs })}`);
             await ctx.close();
           }
           await b.close();

@@ -946,3 +946,111 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .rit-hdr .rit-logo-a,#root .rit-hdr .rit-logo-a:hover,#root .rit-hdr .rit-logo-a:focus,#root .rit-hdr .rit-logo-a:active,.prose .rit-hdr .rit-logo-a{display:inline-flex !important;text-decoration:none !important;text-decoration-line:none !important;background:none !important;background-image:none !important;box-shadow:none !important;border:0 !important;outline:0;padding:0 !important;text-underline-offset:0 !important}
 #root .rit-hdr .rit-logo-a::after,#root .rit-hdr .rit-logo-a::before{content:none !important;display:none !important}
 #root .rit-hdr .rit-logo{display:block !important;text-decoration:none !important;border:0 !important;box-shadow:none !important;vertical-align:top}
+
+/* ===== ritual v9 (2026-10-01): sober below-the-fold + one-per-row picker ===== */
+#root .pick.compact.row{display:grid !important;grid-template-columns:64px minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:12px;row-gap:2px;align-items:center;text-align:left !important;padding:10px 12px !important;border:1.5px solid #E6E3DE !important;border-radius:12px !important;background:#fff !important;box-shadow:none !important;margin:0}
+#root .pick.compact.row.on{border-color:#141414 !important;background:#F6F5F2 !important}
+#root .pick.compact.row > .ph.sq{grid-column:1;grid-row:1/3;width:64px !important;height:64px !important;min-height:64px !important;flex:none !important;margin:0 !important;border-radius:10px !important}
+#root .pick.compact.row .pick-txt{grid-column:2;grid-row:1;display:flex !important;flex-direction:column;align-items:flex-start !important;text-align:left !important;width:auto;gap:1px}
+#root .pick.compact.row .pick-introw{display:flex;align-items:baseline;gap:6px;text-align:left}
+#root .pick.compact.row .pick-name.pick-power{font-size:.84rem;letter-spacing:.03em}
+#root .pick.compact.row .pick-scent{font-size:.74rem}
+#root .pick.compact.row .pick-vol{font-size:.62rem;color:#8A8A8A}
+#root .pick.compact.row .pick-str{margin-top:1px}
+#root .pick.compact.row .pick-ingr{display:none !important}
+#root .pick.compact.row .pick-smells{grid-column:2;grid-row:2;display:block !important;text-align:left !important;font-size:.74rem !important;line-height:1.35;color:#4A4A4A;padding:0 !important;width:auto !important}
+#root .pick.compact.row .pick-smells b{display:none}
+#root .pick.compact.row .pick-foot{grid-column:3;grid-row:1/3;display:flex !important;justify-content:flex-end !important;align-items:center;margin:0 !important;width:auto !important}
+#root .pick.compact.row .pick-qty{margin:0 !important;border:1.5px solid #D9D5CF;background:#fff;padding:2px 4px;gap:4px}
+#root .pick.compact.row .pick-qty button{width:30px;height:30px;font-size:1rem;color:#141414}
+#root .pick.compact.row .pick-qty b{min-width:14px;font-size:.9rem}
+#root .picker.compact{grid-template-columns:1fr !important;gap:8px !important}
+@media(min-width:900px){#root .picker.compact{grid-template-columns:1fr !important}}
+#root .pick-intent{font-size:1rem;color:#141414}
+
+/* sober palette below the fold: white / warm grey, ink headings, no gradients */
+#root [id^="sec-"] .section{background:#fff !important;padding:44px 0}
+#root #sec-enemyStack .section,#root #sec-scents .section,#root #sec-faq .section,#root #sec-reviews .section{background:#FAFAF8 !important}
+#root [id^="sec-"] .section h2{color:#141414 !important;font-size:clamp(1.55rem,5.4vw,2.1rem);line-height:1.04;letter-spacing:-.03em}
+#root [id^="sec-"] .section h2 em{background:none !important;-webkit-background-clip:unset !important;background-clip:unset !important;color:#141414 !important;-webkit-text-fill-color:#141414 !important;font-style:italic}
+#root [id^="sec-"] .section-head{margin-bottom:18px}
+#root [id^="sec-"] .angle-bullets li{font-size:1rem;line-height:1.6;color:#242424}
+#root [id^="sec-"] .angle-bullets li::before{background:#141414 !important;width:7px;height:7px;top:.65em}
+#root [id^="sec-"] .angle-bullets strong,#root [id^="sec-"] .mech-p strong{font-style:normal}
+#root [id^="sec-"] .ph,#root [id^="sec-"] .ph.sq{border-radius:12px !important;box-shadow:none !important}
+#root [id^="sec-"] .btn{background:#141414 !important;background-image:none !important;color:#fff !important;border-radius:999px;box-shadow:none !important}
+
+/* goodbye */
+#root .gb-list{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+#root .gb-item{border-top:1px solid #E6E3DE;padding-top:12px}
+#root .gb-item .gb-k{display:block;font-size:.66rem;letter-spacing:.16em;color:#141414;margin-bottom:4px}
+#root .gb-item p{font-size:1rem;line-height:1.6;color:#242424;margin:0}
+
+/* enemy stack */
+#root .split-badge{background:#8A8A8A !important;box-shadow:none !important}
+#root .split-badge.good{background:#141414 !important}
+#root .split-cap{color:#5C5C5C}
+#root .enemy-list li{font-size:.96rem;line-height:1.55;color:#242424}
+#root .switchers{background:#fff !important;border:1px solid #E6E3DE;border-radius:12px}
+#root .switchers .sw-title{color:#141414}
+
+/* how it works (merged with the mechanism copy) */
+#root .howto{background:#fff !important}
+#root .howto .section-head h2,#root .howto h2 em{color:#141414 !important;-webkit-text-fill-color:#141414 !important}
+#root .howto-intro{text-align:left;color:#242424;margin:4px auto 18px;font-size:.98rem;line-height:1.7}
+#root .hstep{background:#fff !important;border:1px solid #E6E3DE;border-radius:12px !important;box-shadow:none !important;padding:14px 14px 18px}
+#root .hstep .hnum{background:#141414 !important;background-image:none !important;color:#fff !important;width:30px;height:30px;font-size:.9rem}
+#root .hstep h3{color:#141414 !important;font-size:1.3rem}
+#root .hstep p{color:#4A4A4A !important}
+
+/* scents, one per row */
+#root .sc-sub{text-align:center;color:#4A4A4A;font-size:.94rem;margin:-6px auto 16px;max-width:30em}
+#root .sc-list{border-top:1px solid #E6E3DE}
+#root .sc-row{display:grid;grid-template-columns:56px minmax(0,1fr);column-gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #E6E3DE}
+#root .sc-row .ph.sq{width:56px !important;height:56px !important;min-height:56px !important;margin:0 !important;border-radius:8px !important}
+#root .sc-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#root .sc-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:#141414}
+#root .sc-name{font-size:.78rem;font-weight:600;color:#5C5C5C;margin-top:1px}
+#root .sc-smells{font-size:.8rem;line-height:1.4;color:#3A3A3A;margin-top:2px}
+#root .sc-swap{text-align:center;font-size:1rem;color:#141414;margin:16px auto 4px}
+#root .sc-starter{text-align:center;font-size:.86rem;color:#5C5C5C;margin:0 auto 14px}
+#root .sc-btn{max-width:320px;margin:0 auto;display:block}
+
+/* guarantee */
+#root .guarantee{background:#fff !important}
+#root .gbadge{background:none !important;background-image:none !important;border:1.5px solid #141414;color:#141414 !important;box-shadow:none !important;width:150px;height:150px;margin-bottom:18px}
+#root .gbadge .gb1,#root .gbadge .gb2{color:#141414 !important}
+#root .gbadge .gb3{color:#5C5C5C !important}
+#root .guarantee h2{font-size:clamp(1.55rem,5.4vw,2.1rem) !important}
+
+/* faq */
+#root .faq .qa{border-bottom:1px solid #E6E3DE}
+#root .faq .qbtn{color:#141414;font-size:.96rem}
+#root .faq .qbtn .plus{border-color:#141414}
+#root .faq .ans p{color:#4A4A4A}
+
+/* patricia */
+#root .pat-card{background:#fff !important;border:1px solid #E6E3DE !important;border-radius:12px !important;padding:22px 22px 18px}
+#root .pat-card p{color:#242424 !important;font-size:1.06rem}
+
+/* reviews */
+#root .rv-list{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:720px){#root .rv-list{grid-template-columns:1fr 1fr}}
+#root .rv{background:#fff;border:1px solid #E6E3DE;border-radius:12px;padding:14px 16px 12px}
+#root .rv .stars{color:#141414;letter-spacing:1px;font-size:.72rem}
+#root .rv-q{font-family:'Unna',serif;font-size:1.06rem;line-height:1.35;color:#141414;margin:6px 0 8px}
+#root .rv-who{font-family:'Outfit',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#6B6B6B}
+#root .rv-who b{color:#141414}
+
+/* ritual v9b: tighter picker rows */
+#root .pick.compact.row{grid-template-columns:60px minmax(0,1fr) auto;column-gap:10px;padding:8px 10px !important}
+#root .pick.compact.row > .ph.sq{width:60px !important;height:60px !important;min-height:60px !important}
+#root .pick.compact.row .pick-vol{display:none !important}
+#root .pick.compact.row .pick-introw{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px}
+#root .pick.compact.row .pick-name.pick-power{font-size:.8rem;line-height:1.15}
+#root .pick.compact.row .pick-scent{font-size:.72rem;white-space:nowrap}
+#root .pick.compact.row .pick-str{font-size:.52rem;margin-top:0}
+#root .pick.compact.row .pick-smells{font-size:.72rem !important;line-height:1.3;margin-top:1px}
+#root .pick.compact.row .pick-qty{padding:1px 2px;gap:2px;border-width:1px}
+#root .pick.compact.row .pick-qty button{width:28px;height:28px;font-size:.95rem}
+#root .pick.compact.row .pick-qty b{min-width:12px;font-size:.84rem}

@@ -1,5 +1,5 @@
 name: template-preview
-# Screenshots of live products rendered with alternate theme templates via ?view=. Edit this line and push to run. Run 1.
+# Screenshots of live products rendered with alternate theme templates via ?view=. Edit this line and push to run. Run 2: unpublished theme 186692370541 via preview_theme_id.
 on:
   workflow_dispatch:
   push:
@@ -29,11 +29,9 @@ jobs:
           const OUT = process.env.OUT;
           const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
           const D = 'https://maisoncroyez.com/products/maison-croyez-home-scent-diffuser', S = 'https://maisoncroyez.com/products/chilled-citrus-for-relaxation-and-concentration-100ml', K = 'https://maisoncroyez.com/products/diffuser-scents', C = 'https://maisoncroyez.com/collections/all';
+          const PT = '?preview_theme_id=186692370541&_ab=0&_fd=0&_sc=1';
           const targets = [
-            ['diffuser-live', D], ['diffuser-backup', D + '?view=instant-backup-product'], ['diffuser-2026-mcdiffuser', D + '?view=2026-mcdiffuser'], ['diffuser-diffuser-new', D + '?view=diffuser-new'], ['diffuser-diffuser', D + '?view=diffuser'],
-            ['scent-live', S], ['scent-backup', S + '?view=instant-backup-product'], ['scent-fragrances_template', S + '?view=fragrances_template'], ['scent-2025-template', S + '?view=2025-template'], ['scent-fragrances-offer', S + '?view=fragrances-offer'],
-            ['kits-live', K], ['kits-backup', K + '?view=instant-backup-product'],
-            ['collection-live', C], ['collection-backup', C + '?view=instant-backup-collection'],
+            ['new-diffuser', D + PT], ['new-scent', S + PT], ['new-kits', K + PT], ['new-collection', C + PT], ['new-home', 'https://maisoncroyez.com/' + PT], ['new-ritual', 'https://maisoncroyez.com/pages/manifestation-ritual' + PT], ['new-free-diffusers', 'https://maisoncroyez.com/pages/free-diffusers' + PT], ['new-cart', 'https://maisoncroyez.com/cart' + PT],
           ];
           const b = await chromium.launch(); const notes = [];
           for (const [name, url] of targets) {
@@ -42,7 +40,7 @@ jobs:
               const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message.slice(0, 80)));
               let status = 0; try { const r = await pg.goto(url, { waitUntil: 'load', timeout: 60000 }); status = r ? r.status() : 0; } catch (e) { notes.push(`${name} ${dev}: goto failed ${e.message.slice(0, 80)}`); await ctx.close(); continue; }
               await pg.waitForTimeout(3000);
-              const d = await pg.evaluate(() => ({ title: document.title, instant: document.querySelectorAll('[class*="instant"], .__instant').length, sections: [...document.querySelectorAll('main .shopify-section, #main .shopify-section, .shopify-section')].map((s) => (s.id || '').replace(/^shopify-section-/, '').replace(/^template--\d+__/, '').slice(0, 40)).slice(0, 20), h1: ((document.querySelector('h1') || {}).innerText || '').slice(0, 80), price: ((document.querySelector('.price, [class*="price"]') || {}).innerText || '').replace(/\s+/g, ' ').slice(0, 60), atc: [...document.querySelectorAll('button[name="add"], button[type="submit"]')].map((e) => e.innerText.replace(/\s+/g, ' ').slice(0, 40)).slice(0, 3), video: document.querySelectorAll('video').length, forms: document.querySelectorAll('form[action*="/cart/add"]').length, subi: !!document.querySelector('[class*="subify"], [class*="subi"], [id*="subify"]'), bodyH: document.body.scrollHeight }));
+              const d = await pg.evaluate(() => ({ themeId: ((document.documentElement.outerHTML.match(/Shopify\.theme\s*=\s*\{[^}]*"id":(\d+)/) || [])[1]) || null, finalUrl: location.href.slice(0, 120), title: document.title, instant: document.querySelectorAll('[class*="instant"], .__instant').length, sections: [...document.querySelectorAll('main .shopify-section, #main .shopify-section, .shopify-section')].map((s) => (s.id || '').replace(/^shopify-section-/, '').replace(/^template--\d+__/, '').slice(0, 40)).slice(0, 20), h1: ((document.querySelector('h1') || {}).innerText || '').slice(0, 80), price: ((document.querySelector('.price, [class*="price"]') || {}).innerText || '').replace(/\s+/g, ' ').slice(0, 60), atc: [...document.querySelectorAll('button[name="add"], button[type="submit"]')].map((e) => e.innerText.replace(/\s+/g, ' ').slice(0, 40)).slice(0, 3), video: document.querySelectorAll('video').length, forms: document.querySelectorAll('form[action*="/cart/add"]').length, subi: !!document.querySelector('[class*="subify"], [class*="subi"], [id*="subify"]'), bodyH: document.body.scrollHeight }));
               await pg.screenshot({ path: `${OUT}/${stamp}-${name}-${dev}-top.png` });
               if (dev === 'phone') await pg.screenshot({ path: `${OUT}/${stamp}-${name}-${dev}-full.png`, fullPage: true });
               notes.push(`${name} ${dev} [${status}] ${url}: ${JSON.stringify({ ...d, errs })}`);

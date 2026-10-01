@@ -1128,3 +1128,9 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
   #root .rv-list{grid-template-columns:1fr 1fr 1fr}
   #root .pat-card{max-width:640px}
 }
+
+/* ritual v11c: the store theme's prose styles add margins between the header and the gallery on the live page */
+#root .rit-ann,#root .rit-hdr,.prose #root .rit-hdr{margin:0 !important}
+#root #sec-buybox,#root #sec-buybox .section.pdp-buy,#root .pdp-buy > .wrap,#root .gal-col,#root .gal,#root .gal-track,#root .gal-slide,#root .hv-pwrap,#root .hv-host{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}
+#root .gal-col > *:first-child{margin-top:0 !important}
+@media(min-width:860px){#root #sec-buybox .section.pdp-buy{padding-top:24px !important}}

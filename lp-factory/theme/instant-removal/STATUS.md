@@ -26,7 +26,13 @@ Live theme: "MaisonCroyez — Sitewide Drawer (Claude)" id 149076607085 (MAIN). 
 - themeFilesDelete is refused even on unpublished themes. The 74 files (instant-files.txt) are still in the copy. They are unreferenced after publish and never shipped to visitors; deleting them is housekeeping (theme storage only).
 - Options: Online Store > Themes > copy > Edit code > delete each file; or Shopify CLI: `shopify theme pull --theme 186692370541`, delete the files listed in instant-files.txt locally, `shopify theme push --theme 186692370541` (push without --nodelete removes remote files missing locally).
 
-## To finish (owner)
+## Published 2026-10-01 ~17:10 UTC
+- Theme 186692370541 "MaisonCroyez — Instant removed (Claude)" is MAIN. Old live theme 149076607085 remains unpublished as rollback.
+- Diffuser PDP (Product 8153621921901) templateSuffix set to "" (was instant-lf6ljdl1MtYsbmA3).
+- Live check previews/20261001T1719-*: themeId 186692370541 on every page; zero Instant nodes on the diffuser PDP, Chilled Citrus, kits product, /collections/all, home, /pages/manifestation-ritual, /pages/free-diffusers; no JS errors. All 16 products/pages that used Instant are now on theme templates.
+- Remaining housekeeping (owner): delete the 74 files in instant-files.txt from theme 186692370541 (CLI pull/push or code editor). Nothing references them.
+
+## To finish (owner) — original plan
 1. Preview theme 186692370541 in admin (Customize / Preview) — product pages, /collections/all, home, cart, /pages/manifestation-ritual, /pages/free-diffusers.
 2. Publish it.
 3. Then (API, me): set the diffuser PDP templateSuffix "" (cosmetic; the copy already renders it on the default).

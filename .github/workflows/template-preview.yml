@@ -1,5 +1,5 @@
 name: template-preview
-# Screenshots of live products rendered with alternate theme templates via ?view=. Edit this line and push to run. Run 3: diffuser PDP on the copy after its Instant template was overwritten.
+# Screenshots of live products rendered with alternate theme templates via ?view=. Edit this line and push to run. Run 4: live store after publishing the Instant-free theme.
 on:
   workflow_dispatch:
   push:
@@ -31,7 +31,7 @@ jobs:
           const D = 'https://maisoncroyez.com/products/maison-croyez-home-scent-diffuser', S = 'https://maisoncroyez.com/products/chilled-citrus-for-relaxation-and-concentration-100ml', K = 'https://maisoncroyez.com/products/diffuser-scents', C = 'https://maisoncroyez.com/collections/all';
           const PT = '?preview_theme_id=186692370541&_ab=0&_fd=0&_sc=1';
           const targets = [
-            ['new2-diffuser', D + PT], ['new2-kits', K + PT], ['new2-collection', C + PT],
+            ['live-diffuser', D], ['live-scent', S], ['live-kits', K], ['live-collection', C], ['live-home', 'https://maisoncroyez.com/'], ['live-ritual', 'https://maisoncroyez.com/pages/manifestation-ritual'], ['live-free-diffusers', 'https://maisoncroyez.com/pages/free-diffusers'],
           ];
           const b = await chromium.launch(); const notes = [];
           for (const [name, url] of targets) {

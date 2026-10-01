@@ -1,5 +1,5 @@
 name: fetch-asset
-# Fetches a public file into the repo (the container's proxy blocks cdn.shopify.com). Edit this line and push to run. Run 1: old PDP video original.
+# Fetches a public file into the repo (the container's proxy blocks cdn.shopify.com). Edit this line and push to run. Run 2: generated 'three you tried' images.
 on:
   workflow_dispatch:
   push:
@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      URL: https://cdn.shopify.com/videos/c/o/v/857a82e5b2b149e58db0a51b29549cb2.mp4
-      OUT: lp-factory/pages/pdp-diffuser/video/old-pdp-video-857a82e5.mp4
+      URLS: "https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261001_180311_d4586456-e818-4e88-b6a8-d9a653eb6e6d.png https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261001_180311_72b46f62-d89a-4c70-ba7b-a310c9f0f40b.png"
+      OUTDIR: lp-factory/pages/free-diffusers/ritual/img
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
       - run: |
-          code=$(curl -sS -L -o "$OUT" -w "%{http_code}" "$URL"); echo "status $code size $(stat -c %s "$OUT")"; echo "$code $(stat -c %s "$OUT") $URL" > "$OUT.status.txt"
-          if [ "$code" != "200" ]; then rm -f "$OUT"; fi
+          mkdir -p "$OUTDIR"; i=0
+          for u in $URLS; do code=$(curl -sS -L -o "$OUTDIR/tried-$i.png" -w "%{http_code}" "$u"); echo "$i $code $(stat -c %s "$OUTDIR/tried-$i.png")"; [ "$code" = "200" ] || rm -f "$OUTDIR/tried-$i.png"; i=$((i+1)); done
           git config user.name mc-recon; git config user.email actions@users.noreply.github.com
-          git add -A lp-factory/pages/pdp-diffuser/video && git commit -m "fetch-asset: old PDP video original" || exit 0
+          git add -A "$OUTDIR" && git commit -m "fetch-asset: generated images" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true; git push

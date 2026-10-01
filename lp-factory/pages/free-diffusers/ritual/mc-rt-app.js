@@ -626,7 +626,7 @@ function HeroVideo({ poster }) {
     const hst = host.current; if (!hst) return;
     let el = document.getElementById("mc-hero-v");
     if (el) { el.removeAttribute("id"); el.removeAttribute("style"); }
-    else { el = document.createElement("video"); el.autoplay = true; el.loop = true; el.poster = poster; }
+    else { el = document.createElement("video"); el.autoplay = true; el.loop = true; el.poster = posterSrc; }
     el.className = "simg"; el.setAttribute("aria-label", "Maison Croyez diffuser video");
     el.muted = true; el.defaultMuted = true;
     el.setAttribute("muted", ""); el.setAttribute("playsinline", ""); el.setAttribute("webkit-playsinline", ""); el.setAttribute("loop", "");

@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-01 01:12 UTC: ritual rt8-085c115 (logo underline fix).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-01 18:40 UTC: ritual rt10-be064ee (survey rebuild deploy).
 on:
   workflow_dispatch:
     inputs:
@@ -49,8 +49,9 @@ jobs:
             try { const hb = await pg.locator('.rit-hdr').boundingBox(); if (hb) await pg.screenshot({ path: `${OUT}/${stamp}-${name}-header.png`, clip: hb }); } catch (e) {}
             const picks = await pg.$$('#buybox .pick .pick-qty button[aria-label="Add one"]:not([disabled])'); for (let i = 0; i < Math.min(3, picks.length); i++) { if (await picks[i].isDisabled()) break; await picks[i].click({ timeout: 3000 }).catch(() => {}); await pg.waitForTimeout(150); }
             await pg.waitForTimeout(400);
+            await pg.mouse.wheel(0, 400); await pg.waitForTimeout(1500); await pg.waitForSelector('#sec-patricia', { timeout: 15000 }).catch(() => {}); await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(300);
             await pg.screenshot({ path: `${OUT}/${stamp}-${name}-full.png`, fullPage: true });
-            const after = await pg.evaluate(() => ({ pill: ((document.querySelector('.pick-pill') || {}).innerText || ''), preselected: [...document.querySelectorAll('#buybox .pick.on .pick-scent')].map((e) => e.innerText), btn: ((document.querySelector('#buybox .btn.atc') || {}).innerText || ''), sticky: ((document.querySelector('.sticky .btn') || {}).innerText || ''), sections: document.querySelectorAll('[id^=sec-]').length }));
+            const after = await pg.evaluate(() => ({ pill: ((document.querySelector('.pick-pill') || {}).innerText || ''), preselected: [...document.querySelectorAll('#buybox .pick.on .pick-scent')].map((e) => e.innerText), btn: ((document.querySelector('#buybox .btn.atc') || {}).innerText || ''), sticky: ((document.querySelector('.sticky .btn') || {}).innerText || ''), sections: [...document.querySelectorAll('[id^=sec-]')].map((e) => e.id.slice(4)), heroSrc: (() => { const v = document.querySelector('#root video, #mc-hero-v'); return v ? (v.currentSrc || v.getAttribute('data-src') || v.src || '').slice(-40) : null; })(), cmpRows: document.querySelectorAll('.cmp tbody tr').length, rvs: document.querySelectorAll('.rv').length, faq: document.querySelectorAll('#sec-faq .qa').length, tried: (() => { const im = document.querySelector('#sec-enemyStack .split-half img'); return im ? [im.naturalWidth, (im.currentSrc || '').slice(-28)] : null; })(), h2px: (() => { const h = document.querySelector('#sec-goodbye h2'); return h ? getComputedStyle(h).fontSize : null; })() }));
             notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, ...after, errs })}`);
             await ctx.close();
           }

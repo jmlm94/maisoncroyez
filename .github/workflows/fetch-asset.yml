@@ -1,0 +1,26 @@
+name: fetch-asset
+# Fetches a public file into the repo (the container's proxy blocks cdn.shopify.com). Edit this line and push to run. Run 1: old PDP video original.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-asset.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      URL: https://cdn.shopify.com/videos/c/o/v/857a82e5b2b149e58db0a51b29549cb2.mp4
+      OUT: lp-factory/pages/pdp-diffuser/video/old-pdp-video-857a82e5.mp4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - run: |
+          code=$(curl -sS -L -o "$OUT" -w "%{http_code}" "$URL"); echo "status $code size $(stat -c %s "$OUT")"; echo "$code $(stat -c %s "$OUT") $URL" > "$OUT.status.txt"
+          if [ "$code" != "200" ]; then rm -f "$OUT"; fi
+          git config user.name mc-recon; git config user.email actions@users.noreply.github.com
+          git add -A lp-factory/pages/pdp-diffuser/video && git commit -m "fetch-asset: old PDP video original" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true; git push

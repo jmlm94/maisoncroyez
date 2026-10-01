@@ -348,6 +348,12 @@ const CONFIG = {
       { q: "Clean, easy to use and lasts longer. I liked the look of the diffuser with the light.", tag: "Switched from a water diffuser and candles" },
       { q: "That my house smelled amazing. Fantastic.", tag: "Bought it for dog smell" },
       { q: "It was better than I expected. Awesome experience.", tag: "Switched from sprays and plug-ins" },
+      { q: "They fill your room with a great scent and they last a long time. I love the night light.", tag: "Switched from a water diffuser and candles" },
+      { q: "Only need one deodorizer now. It felt nice, it was easy and it smelled good. Awesome.", tag: "Bought on the guarantee and the comments" },
+      { q: "Everything. The relaxing and the amazing smells. Love it.", tag: "Switched from a water diffuser, sprays, plug-ins and candles" },
+      { q: "You answered me and that was personal to me. Good smells all in my house. Wonderful.", tag: "Switched from a water diffuser, sprays, plug-ins and candles" },
+      { q: "It solved everything. Fresh. Wonderful.", tag: "Almost didn\u2019t buy because of the price" },
+      { q: "Not really any problems, just nice to have to make my house smell good. I like the diffuser a lot.", tag: "Already owned another waterless diffuser" },
     ],
   },
 

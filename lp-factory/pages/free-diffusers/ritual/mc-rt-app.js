@@ -1,8 +1,8 @@
 (function(){
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
-var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-loop-720.mp4?v=s1";
-var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-hero-poster.jpg?v=1788533350";
+var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-720.mp4?v=1790870731";
+var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-poster.webp?v=1790870731";
 /* FB pixel: loaded by Shopify's Facebook channel through the Web Pixels Manager (no page-level loader). */
 /* product-page host: mount #root inside #mc-kits-root; hide the theme product
    template around it (header/footer stay; cart drawer and modals untouched). */

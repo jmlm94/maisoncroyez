@@ -1,0 +1,46 @@
+name: fetch-amazon
+# Fetches the Amazon listing + reviews pages into the repo (the container cannot reach amazon.com). Edit this line and push to run. Run 1.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-amazon.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OUT: lp-factory/pages/free-diffusers/ritual/amazon
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Fetch
+        run: |
+          mkdir -p "$OUT"
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+          for u in "dp|https://www.amazon.com/dp/B0GGMLW22K" "reviews|https://www.amazon.com/product-reviews/B0GGMLW22K/?reviewerType=all_reviews&pageNumber=1" "reviews2|https://www.amazon.com/product-reviews/B0GGMLW22K/?reviewerType=all_reviews&pageNumber=2"; do
+            n="${u%%|*}"; url="${u#*|}"; code=$(curl -sS -L -A "$UA" -H 'Accept-Language: en-US,en;q=0.9' -H 'Accept: text/html' -o "$OUT/curl-$n.html" -w "%{http_code}" "$url" || echo 000); echo "curl $n $code $(stat -c %s "$OUT/curl-$n.html")"; done
+          cat > az.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          const OUT = process.env.OUT; const fs = await import('fs');
+          const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1366, height: 900 }, locale: 'en-US', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' });
+          const pg = await ctx.newPage();
+          for (const [n, url] of [['dp', 'https://www.amazon.com/dp/B0GGMLW22K'], ['reviews', 'https://www.amazon.com/product-reviews/B0GGMLW22K/?reviewerType=all_reviews&pageNumber=1']]) {
+            try { const r = await pg.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }); await pg.waitForTimeout(3000); const html = await pg.content(); fs.writeFileSync(`${OUT}/pw-${n}.html`, html); await pg.screenshot({ path: `${OUT}/pw-${n}.png`, fullPage: n === 'dp' ? false : true }); console.log(n, r && r.status(), html.length, pg.url()); } catch (e) { console.log(n, 'ERR', e.message.slice(0, 120)); }
+          }
+          await b.close();
+          EOF2
+          node az.mjs
+          ls -la "$OUT"
+      - name: Commit
+        run: |
+          git config user.name mc-recon; git config user.email actions@users.noreply.github.com
+          git add -A "$OUT" && git commit -m "fetch-amazon: listing + reviews pages" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true; git push

@@ -1,0 +1,69 @@
+name: video-probe
+# Measures the product-page gallery video: Shopify rendition sizes + what the live theme actually loads. Edit this line and push to run. Run 1.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/video-probe.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      URL: https://maisoncroyez.com/products/maison-croyez-home-scent-diffuser
+      OUT: lp-factory/pages/pdp-diffuser/video-probe
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Rendition sizes
+        run: |
+          mkdir -p "$OUT"; S=$(date -u +%Y%m%dT%H%M); echo "$S" > stamp.txt
+          B=https://cdn.shopify.com/videos/c; ID=857a82e5b2b149e58db0a51b29549cb2
+          { for u in "o/v/$ID.mp4" "vp/$ID/$ID.SD-480p-0.9Mbps-93599732.mp4" "vp/$ID/$ID.HD-720p-1.6Mbps-93599732.mp4" "vp/$ID/$ID.m3u8"; do
+              echo "== $u"; curl -sI "$B/$u" | grep -iE "^HTTP|content-length|content-type|cache-control" | tr -d '\r'; done
+            echo "== m3u8 body"; curl -s "$B/vp/$ID/$ID.m3u8"; echo; } > "$OUT/$S-renditions.txt"; cat "$OUT/$S-renditions.txt"
+      - name: Live page
+        run: |
+          S=$(cat stamp.txt)
+          cat > probe.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          const URL_ = process.env.URL, OUT = process.env.OUT, S = process.env.S;
+          const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
+          const notes = [];
+          for (const [W, H, name, mobile] of [[390, 844, 'phone', true], [1366, 900, 'desktop', false]]) {
+            const ctx = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: mobile, hasTouch: mobile, userAgent: mobile ? 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' : undefined });
+            const pg = await ctx.newPage(); const reqs = [];
+            pg.on('response', async (r) => { try { const h = r.headers(); const ct = h['content-type'] || ''; const u = r.url(); if (/video|mpegurl|\.mp4|\.m3u8|\.ts\b|\.webm/i.test(ct + ' ' + u)) reqs.push({ u: u.replace(/^https:\/\/cdn\.shopify\.com\/videos\/c\//, '').slice(0, 120), st: r.status(), ct, len: h['content-length'] || null, range: h['content-range'] || null }); } catch (e) {} });
+            await pg.goto(URL_, { waitUntil: 'load' });
+            await pg.waitForTimeout(6000);
+            const d = await pg.evaluate(() => {
+              const vids = [...document.querySelectorAll('video')].map((v) => { const r = v.getBoundingClientRect(); return { cls: (v.className || '').toString().slice(0, 60), parent: (v.parentElement && (v.parentElement.className || v.parentElement.tagName).toString()).slice(0, 60), autoplay: v.autoplay, loop: v.loop, muted: v.muted, playsinline: v.hasAttribute('playsinline'), controls: v.controls, preload: v.preload, poster: (v.poster || '').slice(-80), sources: [...v.querySelectorAll('source')].map((s) => (s.src || '').replace(/^https:\/\/cdn\.shopify\.com\/videos\/c\//, '').slice(0, 110) + ' | ' + s.type), src: (v.getAttribute('src') || '').slice(-80), currentSrc: (v.currentSrc || '').replace(/^https:\/\/cdn\.shopify\.com\/videos\/c\//, '').slice(0, 110), readyState: v.readyState, paused: v.paused, currentTime: Math.round(v.currentTime * 10) / 10, networkState: v.networkState, box: [Math.round(r.top + scrollY), Math.round(r.width), Math.round(r.height)], visible: r.width > 0 && getComputedStyle(v).display !== 'none' }; });
+              const media = [...document.querySelectorAll('.product__media-item, .product__media-wrapper, [data-media-id]')].slice(0, 6).map((e) => ({ tag: e.tagName, cls: (e.className || '').toString().slice(0, 80), mediaId: e.getAttribute('data-media-id'), first: e.querySelector('video,img') ? e.querySelector('video,img').tagName : null }));
+              const res = performance.getEntriesByType('resource').filter((e) => /videos\/c\//.test(e.name)).map((e) => ({ n: e.name.replace(/^https:\/\/cdn\.shopify\.com\/videos\/c\//, '').slice(0, 110), transfer: e.transferSize, enc: e.encodedBodySize, dur: Math.round(e.duration), start: Math.round(e.startTime) }));
+              const lcp = (performance.getEntriesByType('largest-contentful-paint') || []).slice(-1).map((e) => ({ el: e.element ? e.element.tagName + '.' + (e.element.className || '').toString().slice(0, 40) : null, t: Math.round(e.startTime), url: (e.url || '').slice(-60) }));
+              const total = performance.getEntriesByType('resource').reduce((a, e) => a + (e.transferSize || 0), 0);
+              return { vids, media, res, lcp, totalTransferKB: Math.round(total / 1024), theme: (document.documentElement.outerHTML.match(/Shopify\.theme\s*=\s*(\{[^}]+\})/) || [])[1] || null };
+            });
+            await pg.screenshot({ path: `${OUT}/${S}-${name}-top.png` });
+            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, reqs })}`);
+            await ctx.close();
+          }
+          await b.close();
+          const fs = await import('fs'); fs.writeFileSync(`${OUT}/${S}-live.txt`, notes.join('\n') + '\n'); console.log(notes.join('\n'));
+          EOF2
+          S=$S node probe.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "video-probe: $URL" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

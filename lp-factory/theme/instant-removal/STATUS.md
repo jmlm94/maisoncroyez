@@ -18,7 +18,9 @@ Live theme: "MaisonCroyez — Sitewide Drawer (Claude)" id 149076607085 (MAIN). 
   - templates/collection.json <- templates/collection.instant-backup-collection.json (collection-banner + main-collection)
   - layout/theme.liquid: Instant cart-event listener removed (layout__theme.liquid.new, md5 8b4295091d6cf5563f5b54df64ec29fc)
   - config/settings_data.json: instant_core app-embed entry removed (config__settings_data.json.new); verified round-trip.
+- Because theme files cannot be deleted through the connector, the three Instant templates that products/collections could still point at were overwritten in the copy with the restored defaults: templates/product.instant-lf6ljdl1MtYsbmA3.json and product.instant-SNQqz8AewZQLLRRB.json = product.json, collection.instant-FivQPNePBDqFaeAf.json = collection.json. So the copy renders every product on the Impact default no matter which suffix a product still carries.
 - Previews of the theme's own templates on live products: previews/20261001T1619-*.png (?view=...).
+- Verification of the copy through ?preview_theme_id=186692370541 (previews/20261001T1649-* and 20261001T1653-*): themeId 186692370541 confirmed in the HTML; zero Instant nodes on the diffuser PDP, a scent, the kits product, /collections/all, home, cart, /pages/manifestation-ritual and /pages/free-diffusers; product pages show h1, price, ATC and Subi; no JS errors. (One desktop /collections/all shot hit Shopify's bot challenge, 403, unrelated.)
 
 ## Blocked for the API (connector policy): deleting theme files, publishing themes
 - themeFilesDelete is refused even on unpublished themes. The 74 files (instant-files.txt) are still in the copy. They are unreferenced after publish and never shipped to visitors; deleting them is housekeeping (theme storage only).
@@ -27,7 +29,7 @@ Live theme: "MaisonCroyez — Sitewide Drawer (Claude)" id 149076607085 (MAIN). 
 ## To finish (owner)
 1. Preview theme 186692370541 in admin (Customize / Preview) — product pages, /collections/all, home, cart, /pages/manifestation-ritual, /pages/free-diffusers.
 2. Publish it.
-3. Then (API, me): set the diffuser PDP templateSuffix "" (it points at instant-lf6ljdl1MtYsbmA3; Shopify already falls back to product.json when the suffix template is missing).
+3. Then (API, me): set the diffuser PDP templateSuffix "" (cosmetic; the copy already renders it on the default).
 4. Delete the 74 Instant files (see above) and the old live theme can be kept as a rollback copy.
 
 ## Notes

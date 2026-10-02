@@ -483,7 +483,14 @@ const CART3 = {
   sellingPlan: 2661875821,      /* Subi Plan 4 — unused since v3s5 (1D is one-time only); kept for reference */
   sellingPlanFree: 2747695213,  /* Subi Plan 5 "Every 30 days" — included scents on 2D/3D ($0 today) */
   cartUrl: "/cart",
-  ritualVariants: { sub: null, one: null },  /* TODO (owner): 90-Day Ritual kit variants + Subi plan "$117 every 90 days" — not connected yet */
+  /* rt15 (2026-10-02, owner): ritual connected, no new objects. Kit line = the existing "1 FREE Diffuser + 1 Scent" variant
+     ($79.95, unlisted Home Diffuser Kit product), zeroed by the live automatic BXGY "FREE DIFFUSER — 1 scent subscription"
+     (buy 1+ scents → that variant 100% off, one-time line, combines with everything). The 3 scents carry today's price
+     ($49.95 each = $149.85) and ride the Subi group "02/10 Official Plan (30, 45, 60)": Monthly $15 off after the first
+     payment ($34.95), every 60 days $10 off ($39.95), every 90 days $5 off ($44.95). One-time = same kit variant + scents
+     without a plan (same BXGY, same $149.85). */
+  ritualVariants: { sub: 45900240257133, one: 45900240257133 },
+  ritualPlans: { 30: 7876575341, 60: 7876608109, 90: 7876640877 },
 };
 async function addToCart(setBusy, setToast) {
   const left = selStore.left();
@@ -495,10 +502,10 @@ async function addToCart(setBusy, setToast) {
   const sub = T.scents > 0 && selStore.plan === "sub" && selStore.keys.length > 0;
   const kitId = sub ? CART3.ritualVariants.sub : CART3.ritualVariants.one;
   const items = [{ id: kitId, quantity: 1 }];
-  const planId = CART3.sellingPlanFree;
+  const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30];
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
   if (!onStore() || !kitId) {
-    setToast("Preview mode. On the live store this adds " + T.name + " (" + selStore.keys.length + " scents + 1 free diffuser" + (sub ? ", next scents every " + selStore.freq + " days at $" + FREQ_PRICE(selStore.freq) + " each" : ", one-time") + ", " + usd(selStore.today()) + " today) and opens secure checkout.");
+    setToast("Preview mode. On the live store this adds " + T.name + " (" + selStore.keys.length + " scents + 1 free diffuser" + (sub ? ", next scents every " + selStore.freq + " days at $" + FREQ_PRICE(selStore.freq) + " each" : ", one-time") + ", " + usd(selStore.today()) + " today) and opens the cart.");
     return;
   }
   /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line

@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Re-run 2026-09-25 on fd16-280dce7 (inline WebP poster, Meta pixel held until first touch or 5 s), 5 repeats. Default target: the /pages/free-diffusers page. Dispatch with another url/out to test other pages.
+# Run 2026-10-02 22:42 UTC on the ritual page, rt14-da37f4d, 5 repeats. Default target: /pages/manifestation-ritual (was /pages/free-diffusers until 2026-10-02). Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/free-diffusers' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/perf' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/perf' }}
       RUNS: ${{ github.event.inputs.runs || '5' }}
     steps:
       - uses: actions/checkout@v4

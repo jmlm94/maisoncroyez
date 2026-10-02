@@ -1190,3 +1190,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 /* v13: hero video/poster square-cornered (the v9 sober rule rounded every .ph inside a section, incl. the gallery slide) */
 #root .gal-slide.ph,#root .gal-slide.ph.sq,#root .gal-slide .simg{border-radius:0 !important}
+
+/* rt14: header +5px top/bottom, italic founder title, grey goodbye section */
+#root .rit-hdr{padding:18px 18px}
+#root .pat-head{font-style:italic}
+#root #sec-goodbye .section{background:#F3F3F1 !important}

@@ -517,7 +517,8 @@ async function addToCart(setBusy, setToast) {
        The 800 ms wait is a ~25x margin before the page unloads. The cart icon / drawer still work for anyone who wants
        to add more. */
     document.dispatchEvent(new CustomEvent("cart:refresh"));
-    setTimeout(() => { window.location.href = "/checkout"; }, 800);
+    /* rt14 (2026-10-02, owner): "Add to cart" and go through the cart page instead of straight to checkout. */
+    setTimeout(() => { window.location.href = CART3.cartUrl || "/cart"; }, 800);
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");
@@ -630,7 +631,7 @@ function HoldTimer() {
   const [ms, setMs] = useState(left());
   useEffect(() => { const t = setInterval(() => setMs(left()), 1000); return () => clearInterval(t); }, []);
   const s = Math.floor(ms / 1000), pad = (n) => String(n).padStart(2, "0");
-  return html`<div class="hv-timer" role="timer" aria-live="off">\u23F3 Free diffuser reserved \u00b7 <b>${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}</b></div>`;
+  return html`<div class="hv-timer" role="timer" aria-live="off">Free diffuser reserved: <b>${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}</b></div>`;
 }
 function HeroVideo({ poster }) {
   /* The page HTML ships a real <video id="mc-hero-v"> inside #mc-prehero so the
@@ -821,7 +822,7 @@ function BuyBox() {
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
-          <${StepHead} n=${1} title="Step 1: What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
+          <${StepHead} n=${1} title="Step 1: What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} scents picked`}/>
           <p class="presel-note">We just pre-selected our top three for you. Swap anytime.</p>
           <div class="picker compact" role="group" aria-label="Pick your fragrances">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = sel.keys.length >= T.scents; return html`
@@ -863,7 +864,7 @@ function BuyBox() {
           <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`No subscription selected: <b>${usd(RITUAL.price)} today</b>, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`Don\u2019t want refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>Order with no subscription \u2014 ${usd(RITUAL.price)}</button>`}</p>
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `SECURE CHECKOUT — ${usd(sel.today())} ➔`}</span>
+            <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>
           ${sel.oneTime() ? html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>` : null}
           <div class="atc-chips">
@@ -1054,7 +1055,7 @@ function StickyBar() {
   const left = sel.left();
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : (busy ? "One moment\u2026" : `SECURE CHECKOUT \u2014 ${usd(sel.today())} \u2794`);
+  const label = left > 0 ? `${T.scents - left} of ${T.scents} scents picked \u00b7 ${left} more` : (busy ? "One moment\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`);
   const sub = T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 30-day money-back";
   const act = () => left > 0 ? goPick() : addToCart(setBusy, setToast);
   return html`
@@ -1186,9 +1187,6 @@ function ScentsStorySec() {
           <div class="sp-txt">
             ${C.paras.map((t, i) => html`<p class="mech-p" key=${i}><${Rich} s=${t}/></p>`)}
           </div>
-        </div>
-        <div class="sc2-list">
-          ${CONFIG.fragrances.map((f) => html`<div class="sc2-row" key=${f.key}><span class="sc2-int">${f.intention}</span><span class="sc2-name">${f.name}</span>${f.strength ? html`<span class=${"pick-str s-" + f.strength}><i></i><i></i><i></i>${f.strength}</span>` : null}<span class="sc2-ingr">${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</span></div>`)}
         </div>
         <p class="sc-swap"><${Rich} s=${C.swap}/></p>
       </div>

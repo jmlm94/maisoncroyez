@@ -76,8 +76,8 @@ const CONFIG = {
 
   sectionOrder: [ /* rt9 (2026-10-01): rebuilt on the Sept survey */
     "buybox",
-    "goodbye", "enemyStack", "howTo",
-    "guarantee", "faq", "patricia", "reviews",
+    "goodbye", "enemyStack", "howTo", "spaces", "scentsStory",
+    "guarantee", "reviews",
   ],
 
   /* --- gallery: EXACT product media, in the product's own order --- */
@@ -115,11 +115,12 @@ const CONFIG = {
     trustStrip: [
     ],
     accordions: [
-      { q: "Will it grow mold like my last diffuser?", a: "No. There is no water in it. No tank, no standing water, nothing that can grow. You pour the oil in and that is it. There is nothing to clean, ever." },
-      { q: "Does it leak?", a: "No. The bottle locks into the diffuser and the oil never sits in an open tank. Tip it, move it from room to room, pack it for a trip. Nothing spills." },
-      { q: "What if it breaks?", a: "It is covered for life. If it ever stops working, we replace it. You also get 30 days to live with it. If you do not love it, send it back with the prepaid label and we refund every dollar." },
-      { q: "Do the scents smell chemical?", a: "No. They are soft, clean scents, closer to a hotel lobby than a car freshener. Every one is built from notes you can actually name, like buttercup, yuzu leaf or lavender. If anyone in your house complains, you have 30 days to send it back." },
-      { q: "Is it hard to use?", a: "No. Pour the fragrance in, press the button once, walk away. No water to measure, no app to pair, no wick to trim. It fills the room in about ten minutes." },
+      { q: "Is this a better alternative than plug-ins, candles & room sprays?", a: "Yes, and that is the whole reason it exists. Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, a spray masks a smell for a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day. One bottle lasts 30+ days on the everyday setting." },
+      { q: "Will this diffuser grow mold or would it leak like my last one?", a: "No. There is no water in it: no tank, no standing water, nothing that can grow. The bottle locks into the diffuser, so you can tip it, move it room to room or pack it for a trip. Nothing spills and there is nothing to clean, ever." },
+      { q: "Do the scents eliminate pet and food odors?", a: "Yes. A spray sits on top of a smell for a few minutes. A dry mist fills the whole room and keeps going, so pet, kitchen and closed-up-house odors stop coming back. In our last customer survey, dog smell was the first thing one customer said it fixed." },
+      { q: "What are the ingredients for the scents?", a: "Each 100ml bottle is pure fragrance oil built on notes you can actually name:", list: ["Love, Golden Blossom Harmony: buttercup, honeysuckle & sunflower.", "Abundance, Crisp Citrus Scape: yuzu leaf, green mandarin & cypress.", "Relaxation & Concentration, Chilled Citrus: chilled lavender, eucalyptus & white citrus.", "Turn Ideas Into Reality, Honey Nectar: ginger milk, white birch & eucalyptus honey.", "Raise Energy, Euphoric Bloom: jasmine tea, white peach & sandalwood crème.", "Purification, Wildwood Mystique: huckleberry, wild juniper & mountain fern.", "Love Manifestation, Midnight Sensation: moonflower, night lily & skin musk."] },
+      { q: "How many diffusers do I need in total?", a: "One covers up to 600 square feet: an open-plan main floor or a large bedroom. For a two-storey home most customers run two, one near the entrance and one upstairs. Several told us they bought a second one for the other side of the house." },
+      { q: "What happens if I don’t like it?", a: "Live with it for 30 days. If your home doesn’t feel different, send the diffuser and the scents back with our prepaid label and we refund everything, even if you’ve tried them. Don’t love one scent but love the diffuser? We swap the scent free. And the diffuser itself is covered for life." },
     ],
   },
 
@@ -180,6 +181,13 @@ const CONFIG = {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
     tried:   { file: "hf gen — plug-in, candle, room spray", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-tried-800.webp?v=1790878061" },
+    patricia1: { file: "owner patricia1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/9_1_6aa98675-dedd-467c-9458-4794ab7e13c3.png?v=1790973646" },
+    goodbye1: { file: "owner goodbye1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/1_3.png?v=1790973646" },
+    compare1: { file: "owner compare1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/10_d0bd8853-eb83-4c2b-8dcd-6b2f8cb80e75.png?v=1790973647" },
+    spaces1: { file: "owner spaces1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/8_1_b6dcf934-45c5-4fb3-87f0-5a83f0ed8737.png?v=1790973647" },
+    scents1: { file: "owner scents1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/7_2.png?v=1790973646" },
+    badge1: { file: "owner badge1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/3_2.png?v=1790973647" },
+
     intentionHero: { file: "anadir-subtitulo-1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-intentions-v2.jpg?v=1785962123" },
     photo_love: { file: "scent-love", src: A.photo_love || "" },
     photo_abundance: { file: "scent-abundance", src: A.photo_abundance || "" },
@@ -323,7 +331,7 @@ const CONFIG = {
   /* ---- rt9 (2026-10-01): below the fold rebuilt on the Sept survey ---- */
   goodbye: {
     heading: ["Say goodbye to room sprays, plug-ins and candles.", ""],
-    img: "intentionHero",
+    img: "goodbye1",
     items: [
       { k: "Easy", t: "Plug it in, press once, walk away. No water to measure, no flame to watch, no app, nothing to refill every week." },
       { k: "Power", t: "Pure fragrance oil as a fine, dry mist that reaches the whole room, not the four feet around the device. You smell it from the front door." },
@@ -362,6 +370,27 @@ const CONFIG = {
       { q: "It solved everything. Fresh. Wonderful.", src: "survey", tag: "Almost didn’t buy because of the price" },
       { q: "Not really any problems, just nice to have to make my house smell good. I like the diffuser a lot.", src: "survey", tag: "Already owned another waterless diffuser" },
     ],
+  },
+
+  /* ---- rt12 (2026-10-02): owner round, two new sections ---- */
+  spaces: {
+    heading: ["Living room, bedroom, hallway.", "Filled in minutes. Pets included."],
+    img: "spaces1",
+    paras: [
+      "One diffuser reaches up to 600 square feet, so the living room smells like something the moment you walk in and the bedroom is ready by the time you are.",
+      "It takes pet, kitchen and closed-up-house odors out of the air instead of layering perfume on top. Dog on the bed, cat on the sofa, welcome.",
+    ],
+    bullets: ["**Fills the room in about ten minutes**, corner to corner.", "**Pet and food odors gone**, not covered.", "**Safe to leave on overnight.** No flame, no water, no heat."],
+  },
+  scentsStory: {
+    heading: ["Seven scents.", "Each one tied to an intention."],
+    img: "scents1",
+    paras: [
+      "Every bottle is 100 ml of pure fragrance oil made with organic ingredients from France, built on notes you can actually name. Soft, medium or bold tells you how far it carries.",
+      "Pick by the feeling you want in the room, or by the smell you already love. Three come with the diffuser today, and you can change them any time.",
+    ],
+    swap: "Don’t love one? **We swap it free.**",
+    cta: "Pick my 3",
   },
 
   sticky: {},
@@ -792,7 +821,7 @@ function BuyBox() {
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
-          <${StepHead} n=${1} title="What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
+          <${StepHead} n=${1} title="Step 1: What intentions would you like to spread in your spaces?" right=${`${T.scents - left} of ${T.scents} picked`}/>
           <p class="presel-note">We just pre-selected our top three for you. Swap anytime.</p>
           <div class="picker compact" role="group" aria-label="Pick your fragrances">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = sel.keys.length >= T.scents; return html`
@@ -816,10 +845,10 @@ function BuyBox() {
                 </span>
               </div>`; })}
           </div>
-          <p class="pick-intent">Feel your spaces completely transformed in 30 days or full refund, guaranteed.</p>
 
-          <div class="picker-title step-title refill-title">How often would you like to receive your refills?</div>
+          <div class="picker-title step-title refill-title">Step 2: How often would you like to receive your refills?</div>
           <p class="refill-sub">Swap, pause or cancel anytime.</p>
+          <p class="refill-why">Today you pay about <b>$49 per scent</b> for your first three, and <b>the diffuser is on us</b>. Below is how your next scents arrive. The more often you refill, the less each one costs.</p>
           <p class="refill-terms">We text you 3 days before every refill. Skip or cancel in one tap. <b>The diffuser is yours either way.</b></p>
           <div class="freq3" role="radiogroup" aria-label="Refill schedule">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
@@ -850,9 +879,10 @@ function BuyBox() {
                 <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
                   ${f.q}<span class="plus">+</span>
                 </button>
-                <div class="ans"><p>${f.a}</p></div>
+                <div class="ans"><p>${f.a}</p>${f.list ? html`<ul class="faq-list">${f.list.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}</div>
               </div>`)}
           </div>
+          <${PatriciaCard}/>
           <//>
         </div>
       </div>
@@ -969,11 +999,7 @@ function GuaranteeSec() {
   return html`
     <section class="section guarantee">
       <div class="wrap">
-        <div class="gbadge" role="img" aria-label="30 day money-back, lifetime diffuser warranty">
-          <span class="gb1">${CONFIG.guarantee.badge.big}</span>
-          <span class="gb2">${CONFIG.guarantee.badge.mid}</span>
-          <span class="gb3">${CONFIG.guarantee.badge.small}</span>
-        </div>
+        <div class="gbadge gbadge-img"><${Img} slot="badge1" alt=""/></div>
         <h2>${CONFIG.guarantee.heading[0]} <em>${CONFIG.guarantee.heading[1]}</em></h2>
         <${AngleBullets} items=${CONFIG.guarantee.bullets}/>
         <button class="btn" disabled=${busy} onClick=${() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }}>
@@ -1117,6 +1143,64 @@ function ReviewsSec() {
     </section>`;
 }
 
+
+/* ---------- rt12: Patricia card inside the buy box, under the FAQ ---------- */
+function PatriciaCard() {
+  return html`
+    <div class="pat-wrap">
+      <div class="pat-head caps">A note from the founder</div>
+      <div class="pat-grid">
+        <${Img} slot="patricia1" alt="Patricia at home with her dog"/>
+        <div class="pat-card">
+          <p>“I didn't set out to do any of this. I wanted my own home to smell like something intentional, couldn't find it anywhere, and ended up making it. Every scent is tied to one intention and tested in my own living room first.”</p>
+          <p>“My only ask: plug it in before you take your shoes off. You'll understand.”</p>
+          <div class="pat-sig">— Patricia</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ---------- rt12: rooms + pets ---------- */
+function SpacesSec() {
+  const C = CONFIG.spaces;
+  return html`
+    <section class="section spaces">
+      <div class="wrap narrow">
+        <div class="section-head"><${SerifHead} pre=${C.heading[0]} em=${C.heading[1]}/></div>
+        <div class="sp-grid">
+          <${Img} slot=${C.img} alt="A woman in bed with her dog, the diffuser on the nightstand"/>
+          <div class="sp-txt">
+            ${C.paras.map((t, i) => html`<p class="mech-p" key=${i}><${Rich} s=${t}/></p>`)}
+            <${AngleBullets} items=${C.bullets}/>
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+
+/* ---------- rt12: the scents ---------- */
+function ScentsStorySec() {
+  const C = CONFIG.scentsStory;
+  const go = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  return html`
+    <section class="section scents2">
+      <div class="wrap narrow">
+        <div class="section-head"><${SerifHead} pre=${C.heading[0]} em=${C.heading[1]}/></div>
+        <div class="sp-grid">
+          <${Img} slot=${C.img} alt="Maison Croyez scent boxes"/>
+          <div class="sp-txt">
+            ${C.paras.map((t, i) => html`<p class="mech-p" key=${i}><${Rich} s=${t}/></p>`)}
+          </div>
+        </div>
+        <div class="sc2-list">
+          ${CONFIG.fragrances.map((f) => html`<div class="sc2-row" key=${f.key}><span class="sc2-int">${f.intention}</span><span class="sc2-name">${f.name}</span>${f.strength ? html`<span class=${"pick-str s-" + f.strength}><i></i><i></i><i></i>${f.strength}</span>` : null}<span class="sc2-ingr">${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</span></div>`)}
+        </div>
+        <p class="sc-swap"><${Rich} s=${C.swap}/></p>
+        <button class="btn sc-btn" onClick=${go}><span>${C.cta + " ➔"}</span></button>
+      </div>
+    </section>`;
+}
+
 /* ---------- NEW: the enemy stack (candles / plug-ins / water) ---------- */
 function EnemyStack() {
   const E = CONFIG.enemyStack;
@@ -1126,10 +1210,7 @@ function EnemyStack() {
         <div class="section-head">
           <${SerifHead} pre=${E.heading[0]} em=${E.heading[1]}/>
         </div>
-        <div class="split-grid">
-          <div class="split-half"><${Img} slot="tried" alt="A plug-in, a candle and a room spray"/><span class="split-badge" aria-hidden="true">✕</span><div class="split-cap caps">The three you already tried</div></div>
-          <div class="split-half"><${Img} slot="nightstand" alt="Maison Croyez waterless diffuser"/><span class="split-badge good" aria-hidden="true">✓</span><div class="split-cap caps">The one you’ll keep forever</div></div>
-        </div>
+        <div class="cmp-img"><${Img} slot="compare1" alt="Friends in a living room with the Maison Croyez diffuser"/></div>
         <table class="cmp">
           <thead><tr><th></th><th class="cx">${E.cols[0]}</th><th class="cv">${E.cols[1]}</th></tr></thead>
           <tbody>
@@ -1205,6 +1286,8 @@ function App() {
     goodbye: () => html`<${GoodbyeSec} key="gb"/>`,
     scents: () => html`<${ScentsSec} key="sc"/>`,
     reviews: () => html`<${ReviewsSec} key="rv"/>`,
+    spaces: () => html`<${SpacesSec} key="sp"/>`,
+    scentsStory: () => html`<${ScentsStorySec} key="ss"/>`,
     angleIntention: () => html`<${AngleIntention} key="a1"/>`,
     angleFill: () => html`<${AngleFill} key="a7"/>`,
     howTo: () => html`<${HowTo} key="ht"/>`,

@@ -1134,3 +1134,48 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root #sec-buybox,#root #sec-buybox .section.pdp-buy,#root .pdp-buy > .wrap,#root .gal-col,#root .gal,#root .gal-track,#root .gal-slide,#root .hv-pwrap,#root .hv-host{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}
 #root .gal-col > *:first-child{margin-top:0 !important}
 @media(min-width:860px){#root #sec-buybox .section.pdp-buy{padding-top:24px !important}}
+
+/* ===== ritual v12 (2026-10-02): owner round ===== */
+#root .rit-ann{font-size:.88rem;padding:11px 16px}
+#root .rit-hdr{padding:13px 18px}
+#root .rit-hdr .rit-logo{height:33px !important}
+#root .rit-hdr .rit-hdr-tx{font-size:.8rem}
+#root .hd-price{align-items:center}
+#root .hd-price s{align-self:center}
+#root .hd-price .hd-note{align-self:center;line-height:1.1}
+#root .presel-note{background:linear-gradient(90deg,#FFE3C4 0%,#FFC9D6 50%,#CFE0FF 100%) !important;color:#141414;font-weight:700;border:1px solid rgba(0,0,0,.06)}
+#root .refill-why{text-align:center;font-size:.86rem;line-height:1.5;color:#3A3A3A;margin:-4px auto 12px;max-width:34em}
+#root .refill-why b{color:#141414}
+#root .rv-q{font-size:.88rem}
+/* buy-box FAQ: ingredients list */
+#root .acc.faq .qa.open .ans{max-height:900px}
+#root .acc.faq .faq-list{list-style:none;padding:0 30px 18px 2px;margin:-8px 0 0;display:flex;flex-direction:column;gap:6px}
+#root .acc.faq .faq-list li{font-size:.88rem;line-height:1.45;color:#4A4A4A;padding-left:14px;position:relative}
+#root .acc.faq .faq-list li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:99px;background:#141414}
+/* Patricia in the buy box */
+#root .pat-wrap{margin-top:22px}
+#root .pat-head{font-size:.66rem;letter-spacing:.16em;color:#5C5C5C;margin-bottom:10px;text-align:center}
+#root .pat-grid{display:grid;grid-template-columns:1fr;gap:12px}
+#root .pat-grid .ph.sq{border-radius:12px !important}
+#root .pat-grid .pat-card{margin:0;max-width:none;background:#FAFAF8 !important;border:1px solid #E6E3DE !important;border-radius:12px !important;padding:18px 18px 14px}
+#root .pat-grid .pat-card p{font-size:1rem;line-height:1.55}
+@media(min-width:860px){#root .pat-grid{grid-template-columns:220px minmax(0,1fr);align-items:start}}
+/* comparison image */
+#root .cmp-img{margin:0 auto 18px;max-width:640px}
+#root .cmp-img .ph.sq{border-radius:12px !important}
+/* rooms + pets, scents story */
+#root .sp-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:center}
+#root .sp-txt .mech-p{margin:0 0 12px;text-align:left}
+#root .sp-txt .angle-bullets{margin-top:6px}
+@media(min-width:900px){#root .spaces .wrap.narrow,#root .scents2 .wrap.narrow{max-width:980px}#root .sp-grid{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:40px}}
+#root .sc2-list{border-top:1px solid #E6E3DE;margin-top:18px}
+#root .sc2-row{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:10px;row-gap:2px;padding:9px 0;border-bottom:1px solid #E6E3DE;align-items:center}
+#root .sc2-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:#141414}
+#root .sc2-name{grid-column:1;font-size:.8rem;color:#5C5C5C}
+#root .sc2-row .pick-str{grid-column:2;grid-row:1;margin:0}
+#root .sc2-ingr{grid-column:1 / -1;font-size:.78rem;color:#3A3A3A}
+@media(min-width:900px){#root .sc2-list{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;border-top:0}#root .sc2-row:nth-child(-n+2){border-top:1px solid #E6E3DE}}
+/* guarantee: round photo instead of the badge */
+#root .gbadge.gbadge-img{width:150px;height:150px;border:0 !important;padding:0;overflow:hidden;border-radius:50% !important;background:none !important;display:block !important}
+#root .gbadge.gbadge-img .ph.sq{width:150px !important;height:150px !important;min-height:150px !important;border-radius:50% !important;margin:0 !important}
+#root .gbadge.gbadge-img img{width:100%;height:100%;object-fit:cover}

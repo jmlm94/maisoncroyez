@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-02 22:41 UTC: ritual rt14-da37f4d (square hero, header padding, timer, scents pill, add-to-cart via cart, italic founder title, grey goodbye, scent rows removed) + body check.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-02 22:41 UTC: ritual rt14-da37f4d (square hero, header padding, timer, scents pill, add-to-cart via cart, italic founder title, grey goodbye, scent rows removed) + body check, newline-insensitive.
 on:
   workflow_dispatch:
     inputs:
@@ -39,8 +39,8 @@ jobs:
             const i=live.indexOf(head), j=live.indexOf(tail,i); const seg=i>=0&&j>=0?live.slice(i,j+tail.length):"";
             const md5=(x)=>c.createHash("md5").update(x).digest("hex");
             const key=(seg.match(/var v=\x27([^\x27]+)\x27/)||[])[1];
-            const out=`bodyMatch: ${seg===repo} liveLen: ${seg.length} repoLen: ${repo.length} liveMd5: ${md5(seg)} repoMd5: ${md5(repo)} key: ${key}`;
-            if(seg!==repo){let k=0;while(k<seg.length&&k<repo.length&&seg[k]===repo[k])k++;console.log("first diff at",k,JSON.stringify(seg.slice(k-20,k+40)),"vs",JSON.stringify(repo.slice(k-20,k+40)));}
+            const nl=(x)=>x.replace(/\n/g,""); const out=`bodyMatch: ${seg===repo} bodyMatchIgnoringNewlines: ${nl(seg)===nl(repo)} liveLen: ${seg.length} repoLen: ${repo.length} liveNoNl: ${nl(seg).length} repoNoNl: ${nl(repo).length} liveMd5: ${md5(seg)} repoMd5: ${md5(repo)} key: ${key}`;
+            if(nl(seg)!==nl(repo)){const a=nl(seg),b=nl(repo);let k=0;while(k<a.length&&k<b.length&&a[k]===b[k])k++;console.log("first diff (newlines ignored) at",k,JSON.stringify(a.slice(k-20,k+40)),"vs",JSON.stringify(b.slice(k-20,k+40)));}
             console.log(out); fs.mkdirSync(process.env.OUT,{recursive:true}); fs.writeFileSync(process.env.OUT+"/body-check-latest.txt",out+"\n");
           '
       - name: Shoot

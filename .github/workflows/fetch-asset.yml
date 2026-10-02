@@ -1,5 +1,5 @@
 name: fetch-asset
-# Fetches a public file into the repo (the container's proxy blocks cdn.shopify.com). Edit this line and push to run. Run 2: generated 'three you tried' images.
+# Fetches a public file into the repo (the container's proxy blocks cdn.shopify.com). Edit this line and push to run. Run 3: owner images for the ritual page.
 on:
   workflow_dispatch:
   push:
@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      URLS: "https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261001_180311_d4586456-e818-4e88-b6a8-d9a653eb6e6d.png https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261001_180311_72b46f62-d89a-4c70-ba7b-a310c9f0f40b.png"
-      OUTDIR: lp-factory/pages/free-diffusers/ritual/img
+      URLS: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/9_1_6aa98675-dedd-467c-9458-4794ab7e13c3.png?v=1790973646 https://cdn.shopify.com/s/files/1/0020/3636/7469/files/1_3.png?v=1790973646 https://cdn.shopify.com/s/files/1/0020/3636/7469/files/10_d0bd8853-eb83-4c2b-8dcd-6b2f8cb80e75.png?v=1790973647 https://cdn.shopify.com/s/files/1/0020/3636/7469/files/8_1_b6dcf934-45c5-4fb3-87f0-5a83f0ed8737.png?v=1790973647 https://cdn.shopify.com/s/files/1/0020/3636/7469/files/7_2.png?v=1790973646 https://cdn.shopify.com/s/files/1/0020/3636/7469/files/3_2.png?v=1790973647"
+      OUTDIR: lp-factory/pages/free-diffusers/ritual/img/owner
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
       - run: |
           mkdir -p "$OUTDIR"; i=0
-          for u in $URLS; do code=$(curl -sS -L -o "$OUTDIR/tried-$i.png" -w "%{http_code}" "$u"); echo "$i $code $(stat -c %s "$OUTDIR/tried-$i.png")"; [ "$code" = "200" ] || rm -f "$OUTDIR/tried-$i.png"; i=$((i+1)); done
+          for u in $URLS; do code=$(curl -sS -L -o "$OUTDIR/owner-$i.png" -w "%{http_code}" "$u"); echo "$i $code $(stat -c %s "$OUTDIR/owner-$i.png")"; [ "$code" = "200" ] || rm -f "$OUTDIR/owner-$i.png"; i=$((i+1)); done
           git config user.name mc-recon; git config user.email actions@users.noreply.github.com
           git add -A "$OUTDIR" && git commit -m "fetch-asset: generated images" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true; git push

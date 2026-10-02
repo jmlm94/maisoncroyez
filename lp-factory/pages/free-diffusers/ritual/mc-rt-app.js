@@ -1148,7 +1148,7 @@ function PatriciaCard() {
       <div class="pat-grid">
         <${Img} slot="patricia1" alt="Patricia at home with her dog"/>
         <div class="pat-card">
-          <p>\u201cI wanted my home to look and smell great, something I couldn't find anywhere and ended up making it. Every diffuser and scent we offer is an invitation to receive countless compliments, positive energies and many \u201cokay what's this on your living room?\u201d\u201d</p>
+          <p>\u201cI wanted my home to look and smell great, something I couldn't find anywhere and ended up making it. Every diffuser and scent we offer is an invitation to receive countless compliments, positive energies and many \u2018okay what's this on your living room?\u2019\u201d</p>
           <div class="pat-sig">Patricia T.<span class="pat-role">Founder & Creative Director</span></div>
         </div>
       </div>

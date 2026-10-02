@@ -1002,9 +1002,6 @@ function GuaranteeSec() {
         <div class="gbadge gbadge-img"><${Img} slot="badge1" alt=""/></div>
         <h2>${CONFIG.guarantee.heading[0]} <em>${CONFIG.guarantee.heading[1]}</em></h2>
         <${AngleBullets} items=${CONFIG.guarantee.bullets}/>
-        <button class="btn" disabled=${busy} onClick=${() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }}>
-          <span>${CONFIG.guarantee.cta.label + " ➔"}</span>
-        </button>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
     </section>`;
@@ -1113,7 +1110,6 @@ function ScentsSec() {
         </div>
         <p class="sc-swap"><${Rich} s=${C.swap}/></p>
         <p class="sc-starter">${C.starter}</p>
-        <button class="btn sc-btn" onClick=${go}><span>${C.cta + " ➔"}</span></button>
       </div>
     </section>`;
 }
@@ -1148,13 +1144,12 @@ function ReviewsSec() {
 function PatriciaCard() {
   return html`
     <div class="pat-wrap">
-      <div class="pat-head caps">A note from the founder</div>
+      <div class="pat-head">A note from the founder:</div>
       <div class="pat-grid">
         <${Img} slot="patricia1" alt="Patricia at home with her dog"/>
         <div class="pat-card">
-          <p>“I didn't set out to do any of this. I wanted my own home to smell like something intentional, couldn't find it anywhere, and ended up making it. Every scent is tied to one intention and tested in my own living room first.”</p>
-          <p>“My only ask: plug it in before you take your shoes off. You'll understand.”</p>
-          <div class="pat-sig">— Patricia</div>
+          <p>\u201cI wanted my home to look and smell great, something I couldn't find anywhere and ended up making it. Every diffuser and scent we offer is an invitation to receive countless compliments, positive energies and many \u201cokay what's this on your living room?\u201d\u201d</p>
+          <div class="pat-sig">Patricia T.<span class="pat-role">Founder & Creative Director</span></div>
         </div>
       </div>
     </div>`;
@@ -1196,7 +1191,6 @@ function ScentsStorySec() {
           ${CONFIG.fragrances.map((f) => html`<div class="sc2-row" key=${f.key}><span class="sc2-int">${f.intention}</span><span class="sc2-name">${f.name}</span>${f.strength ? html`<span class=${"pick-str s-" + f.strength}><i></i><i></i><i></i>${f.strength}</span>` : null}<span class="sc2-ingr">${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</span></div>`)}
         </div>
         <p class="sc-swap"><${Rich} s=${C.swap}/></p>
-        <button class="btn sc-btn" onClick=${go}><span>${C.cta + " ➔"}</span></button>
       </div>
     </section>`;
 }

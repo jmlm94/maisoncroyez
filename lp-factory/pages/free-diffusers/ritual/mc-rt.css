@@ -1179,3 +1179,11 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .gbadge.gbadge-img{width:150px;height:150px;border:0 !important;padding:0;overflow:hidden;border-radius:50% !important;background:none !important;display:block !important}
 #root .gbadge.gbadge-img .ph.sq{width:150px !important;height:150px !important;min-height:150px !important;border-radius:50% !important;margin:0 !important}
 #root .gbadge.gbadge-img img{width:100%;height:100%;object-fit:cover}
+
+/* ritual v12b: founder card */
+#root .pat-head{font-family:'Unna',serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;text-transform:none;color:#141414;text-align:center;margin-bottom:12px}
+#root .pat-grid .ph.sq{width:70%;margin:0 auto !important}
+#root .pat-sig{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;color:#141414;display:flex;flex-direction:column;gap:2px}
+#root .pat-sig .pat-role{font-weight:400;font-size:.76rem;color:#5C5C5C;letter-spacing:.02em}
+@media(min-width:860px){#root .pat-grid{grid-template-columns:200px minmax(0,1fr)}#root .pat-grid .ph.sq{width:100%}}
+#root .guarantee .angle-bullets{margin-bottom:0}

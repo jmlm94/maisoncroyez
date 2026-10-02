@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-02 21:26 UTC: ritual rt12-75b0794 (owner round: header, steps, buy-box FAQ + founder card, owner images, two new sections).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-02 22:41 UTC: ritual rt14-da37f4d (square hero, header padding, timer, scents pill, add-to-cart via cart, italic founder title, grey goodbye, scent rows removed) + body check.
 on:
   workflow_dispatch:
     inputs:
@@ -29,6 +29,20 @@ jobs:
         with:
           node-version: 20
       - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Body check (live page body vs repo page-body.html, byte for byte)
+        run: |
+          curl -sSL -A "Mozilla/5.0" "$URL" -o live.html
+          node -e '
+            const fs=require("fs"),c=require("crypto");
+            const live=fs.readFileSync("live.html","utf8"), repo=fs.readFileSync("lp-factory/pages/free-diffusers/ritual/page-body.html","utf8");
+            const head="<style>.shopify-section--main-page", tail="hide();})();\n</script>";
+            const i=live.indexOf(head), j=live.indexOf(tail,i); const seg=i>=0&&j>=0?live.slice(i,j+tail.length):"";
+            const md5=(x)=>c.createHash("md5").update(x).digest("hex");
+            const key=(seg.match(/var v=\x27([^\x27]+)\x27/)||[])[1];
+            const out=`bodyMatch: ${seg===repo} liveLen: ${seg.length} repoLen: ${repo.length} liveMd5: ${md5(seg)} repoMd5: ${md5(repo)} key: ${key}`;
+            if(seg!==repo){let k=0;while(k<seg.length&&k<repo.length&&seg[k]===repo[k])k++;console.log("first diff at",k,JSON.stringify(seg.slice(k-20,k+40)),"vs",JSON.stringify(repo.slice(k-20,k+40)));}
+            console.log(out); fs.mkdirSync(process.env.OUT,{recursive:true}); fs.writeFileSync(process.env.OUT+"/body-check-latest.txt",out+"\n");
+          '
       - name: Shoot
         run: |
           mkdir -p "$OUT"

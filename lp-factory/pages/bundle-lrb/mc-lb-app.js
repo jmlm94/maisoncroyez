@@ -501,6 +501,7 @@ async function addToCart(setBusy, setToast) {
   const items = [{ id: kitId, quantity: 1 }];
   const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30];
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
+  if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; } /* live page, cart not wired yet (owner 2026-10-03: logic to be defined after deploy) */
   if (!onStore() || !kitId) {
     setToast("Preview mode. On the live store this adds the " + T.name + " (2 diffusers + " + selStore.label() + "), " + usd(selStore.today()) + " today, and opens the cart.");
     return;

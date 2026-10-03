@@ -1305,3 +1305,24 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* lb1 (2026-10-03, owner): Living Room + Bedroom Bundle — two-scent picker, no kit or refill steps */
 #root .pick.compact.cell[aria-checked="true"] .cell-dot.chk::after{inset:2.5px}
 #root .hd-price s{font-size:.95rem}
+
+/* lb2 (2026-10-03, owner): fixed-pack block (two-diffuser photo + floor plan + gifting line) and quantity controls on the scent cells */
+#root .pack{margin:4px 0 18px;padding:12px 12px 10px;border:1px solid #E6E3DE;border-radius:14px;background:#FAFAF8}
+#root .pack-head{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#7A6A5F;margin-bottom:10px;text-align:center}
+#root .pack-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:10px;align-items:start}
+#root .pack-col > .ph.sq{width:100% !important;height:auto !important;min-height:0 !important;aspect-ratio:1/1;margin:0 !important;border-radius:10px !important;background:#fff;border:1px solid #ECE9E4}
+#root .pack-col > .ph.sq img{object-fit:cover}
+#root .plan{background:#fff;border:1px solid #ECE9E4;border-radius:10px;padding:6px;aspect-ratio:320/210}
+#root .plan svg{display:block;width:100%;height:100%}
+#root .pack-cap{margin:7px 0 0;font-size:.72rem;line-height:1.35;color:#5C4F46}
+#root .pack-cap b{color:#141414}
+#root .pack-gift{display:flex;gap:8px;align-items:flex-start;margin:10px 0 0;padding:9px 11px;border-radius:10px;background:#fff;border:1px dashed #C9A25C;font-size:.74rem;line-height:1.4;color:#5C4F46}
+#root .pack-gift b{color:#141414}
+#root .pack-gift-ic{font-size:1rem;line-height:1.1}
+#root .pick.compact.cell{grid-template-areas:"img txt" "img ingr" "qty qty" !important}
+#root .pick.compact.cell .cell-qty{grid-area:qty;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:4px;padding-top:6px;border-top:1px solid rgba(36,28,24,.08)}
+#root .pick.compact.cell .cell-qty button{width:26px;height:26px;border-radius:50%;border:1.5px solid #241C18;background:#fff;color:#241C18;font-size:1rem;line-height:1;padding:0;cursor:pointer}
+#root .pick.compact.cell .cell-qty button:disabled{opacity:.3;cursor:default}
+#root .pick.compact.cell .cell-qty b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;min-width:12px;text-align:center}
+#root .pick.compact.cell.two .cell-dot.chk{background:#141414}
+@media(min-width:900px){#root .pack-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}}

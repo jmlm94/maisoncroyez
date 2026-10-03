@@ -588,7 +588,7 @@ const selStore = {
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
   setKeys(ks) { this.keys = ks.slice(0, this.tier().scents); this.emit(); },
-  add(k) { const cap = this.tier().scents; if (this.keys.includes(k)) { if (this.keys.length > 1) { this.keys = this.keys.filter((x) => x !== k); this.emit(); } return; } /* lb1: tap = toggle; a 3rd pick replaces the oldest */ if (cap > 0 && this.keys.length >= cap) { this.keys = [...this.keys.slice(1), k]; this.emit(); return; } this.keys = [...this.keys, k]; this.emit(); },
+  add(k) { const cap = this.tier().scents; /* lb2b: quantities allowed (two of the same); when full, a new pick replaces the oldest *other* scent */ if (cap > 0 && this.keys.length >= cap) { const i = this.keys.findIndex((x) => x !== k); if (i < 0) return; this.keys = this.keys.filter((_, j) => j !== i).concat(k); this.emit(); return; } this.keys = [...this.keys, k]; this.emit(); },
   remove(k) {
     const i = this.keys.indexOf(k);
     if (i < 0) return;
@@ -764,6 +764,8 @@ const USP3 = [
   { ic: "🌿🇫🇷", tx: "Organic Ingredients\nfrom France." },
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
+const PLAN_SVG = '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: one diffuser in the living room, one in the bedroom"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="196" y1="8" x2="196" y2="88" stroke="#241C18" stroke-width="3"/><line x1="196" y1="124" x2="196" y2="202" stroke="#241C18" stroke-width="3"/><path d="M196 88 a36 36 0 0 1 36 36" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="196" y1="88" x2="232" y2="88" stroke="#241C18" stroke-width="1.4"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="62" width="60" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="150" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="166" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="150" cy="78" r="58" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="9" fill="#141414"/><circle cx="150" cy="78" r="3.5" fill="#fff"/><circle cx="254" cy="118" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="254" cy="118" r="9" fill="#141414"/><circle cx="254" cy="118" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="208" y="196" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">BEDROOM</text></svg>';
+/* lb2 (2026-10-03, owner): fixed-pack block (photo + floor plan) above the scent picker */
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
 const RV_IMG = [
@@ -826,16 +828,25 @@ function BuyBox() {
         <div class="buybox">
           <${Fragment} key="ritual">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
+          <h1>Maison Croyez Living Room + Bedroom Bundle: Make your spaces look and feel great effortlessly.</h1>
           <div class="hd-price"><s>${usd(T.n * DIFF_LIST + T.scents * SCENT_ONE)}</s><b>${usd(sel.today())}</b><span class="hd-note">2 diffusers + 2 scents</span></div> <!-- lb1b: compare-at is the full bundle value ($359.80), not the current pick count --> <!-- dk3 (2026-10-03, owner): entry price + free-scent badge -->
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
+
+          <div class="pack">
+            <div class="pack-head">What\u2019s in the bundle</div>
+            <div class="pack-grid">
+              <div class="pack-col pack-photo"><${Img} slot="kit2" alt="Two Maison Croyez diffusers"/><p class="pack-cap"><b>2 diffusers + 2 scents.</b> One fixed pack, $169, ships free.</p></div>
+              <div class="pack-col pack-plan"><div class="plan" dangerouslySetInnerHTML=${{ __html: PLAN_SVG }}></div><p class="pack-cap"><b>One in the living room, one in the bedroom.</b> Each fills its room in about ten minutes.</p></div>
+            </div>
+            <p class="pack-gift"><span class="pack-gift-ic" aria-hidden="true">\ud83c\udf81</span><b>Or keep one and gift one.</b> The second diffuser and its scent arrive gift-ready in the same box.</p>
+          </div>
 
           <${StepHead} n=${1} title="Pick your 2 scents: one for each room, or one to gift." right=${`${sel.keys.length} of 2 scents picked`}/>
           <p class="presel-note">We pre-selected our two most popular scents. Tap any scent to swap it in.</p>
           <div class="picker compact grid2" role="radiogroup" aria-label="Pick your free scent">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
-              <div key=${f.key} class=${"pick compact cell" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
+              <div key=${f.key} class=${"pick compact cell" + (on ? " on" : "") + (sel.qty(f.key) > 1 ? " two" : "")} role="checkbox" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
                 <${Img} slot=${f.img} alt=${f.name}/>
                 <span class="pick-txt">
@@ -844,6 +855,11 @@ function BuyBox() {
                   ${f.strength ? html`<span class=${"pick-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null}
                 </span>
                 <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
+                <span class="cell-qty" onClick=${(e) => e.stopPropagation()}>
+                  <button type="button" aria-label="Remove one" disabled=${sel.qty(f.key) === 0} onClick=${() => sel.remove(f.key)}>\u2212</button>
+                  <b>${sel.qty(f.key)}</b>
+                  <button type="button" aria-label="Add one" onClick=${() => sel.add(f.key)}>+</button>
+                </span>
               </div>`; })}
           </div>
 

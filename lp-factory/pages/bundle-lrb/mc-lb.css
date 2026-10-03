@@ -1342,3 +1342,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .pack-gift{display:block}
 #root .pack-gift-ic{font-size:1em;vertical-align:-1px}
 #root .pick.compact.cell.on{padding-top:9px}
+
+/* lb5 (2026-10-03, owner): price 20% smaller (was 1.71rem = 27.4 px on phone) */
+#root .hd-price b{font-size:1.37rem !important}
+#root .hd-price s{font-size:.8rem}

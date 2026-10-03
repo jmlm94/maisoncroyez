@@ -1280,3 +1280,24 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 /* dk5c: the step pills may wrap (the free-scent pill carries the $49.95 value now) */
 #root .pick-pill{white-space:normal !important;max-width:100%;line-height:1.35;text-align:center;display:inline-block}
+
+/* dk6 (2026-10-03, owner): kit card = photo | name + room + tag | price + per-diffuser + saving; step pills half height */
+#root .fq.dkt{grid-template-columns:58px minmax(0,1fr) auto !important;grid-template-areas:"img days price" "img room each" "img tag save" !important;row-gap:3px !important}
+#root .fq.dkt .fq-days{grid-area:days;align-self:end}
+#root .fq.dkt .dkt-room{grid-area:room;align-self:center}
+#root .fq.dkt .fq-tag{grid-area:tag;align-self:center;margin-top:0}
+#root .fq.dkt .fq-price{grid-area:price;align-self:end}
+#root .fq.dkt .dkt-each{grid-area:each;justify-self:end;align-self:center;text-align:right;white-space:nowrap}
+#root .fq.dkt .fq-sub.dkt-save{grid-area:save;align-self:center}
+#root .pick-pill{font-size:.62rem !important;padding:4px 11px !important;letter-spacing:.08em}
+#root .pick-pill-row{margin-bottom:8px}
+
+/* dk6b: "+ 1 Free Scent" wraps as one unit; tighter right column so the left column gets room */
+#root .fq.dkt{grid-template-columns:52px minmax(0,1fr) auto !important;column-gap:9px}
+#root .fq.dkt > .ph.sq{width:52px !important;height:52px !important}
+#root .fq.dkt .fq-days b{font-size:.9rem;line-height:1.2}
+#root .fq.dkt .dkt-plus{white-space:nowrap}
+#root .fq.dkt .dkt-room{font-size:.66rem}
+#root .fq.dkt .dkt-each{font-size:.66rem}
+#root .fq.dkt .fq-sub.dkt-save{font-size:.62rem;padding:3px 8px}
+#root .fq.dkt .fq-price b{font-size:1.05rem}

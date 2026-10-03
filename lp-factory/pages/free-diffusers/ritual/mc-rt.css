@@ -1195,3 +1195,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .rit-hdr{padding:18px 18px}
 #root .pat-head{font-style:italic}
 #root #sec-goodbye .section{background:#F3F3F1 !important}
+
+/* rt17 (2026-10-03, owner): smaller prices on the refill option cards (was 1.3rem Unna) */
+#root .fq-price b{font-size:1.02rem}
+#root .fq-price small{font-size:.66rem}

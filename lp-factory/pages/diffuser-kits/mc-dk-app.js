@@ -547,9 +547,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [
-  { key: "one", n: 1, name: "1 Diffuser", sub: "One space", price: 129.95, oneTime: 0, scents: 1, tag: "", pop: false },
-  { key: "two", n: 2, name: "2 Diffusers", sub: "Living room + bedroom", price: 149.95, oneTime: 0, scents: 1, tag: "Most popular", pop: true },
-  { key: "three", n: 3, name: "3 Diffusers", sub: "The whole home", price: 199.95, oneTime: 0, scents: 1, tag: "Best value", pop: false },
+  { key: "one", n: 1, name: "1 Diffuser", sub: "Studio, storage, bathroom", price: 129.95, oneTime: 0, scents: 1, tag: "", pop: false },
+  { key: "two", n: 2, name: "2 Diffusers", sub: "Living room or bedroom", price: 149.95, oneTime: 0, scents: 1, tag: "Most popular", pop: true },
+  { key: "three", n: 3, name: "3 Diffusers", sub: "Large spaces, 1+ rooms", price: 199.95, oneTime: 0, scents: 1, tag: "Best value", pop: false },
 ];
 const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying each diffuser at $129.95 + the scent */
 const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselected "top three" = Chilled Citrus, Honey Nectar, Midnight Sensation */
@@ -837,16 +837,16 @@ function BuyBox() {
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const pick = () => sel.setTier(i); return html`
               <div key=${t.key} class=${"fq dkt" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 ${t.tag ? html`<span class=${"fq-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
-                <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <${Img} slot=${"kit" + t.n} alt=${t.name}/>
+                <${Img} slot=${"kit" + t.n} alt=${t.name}/> <!-- dk5 (2026-10-03, owner): no radio dot, the card is the selector -->
                 <span class="fq-days"><b>${t.name}</b></span>
                 <span class="dkt-each">${usd(Math.round(t.price / t.n * 100) / 100)}/diffuser + 1 free scent</span>
+                <span class="dkt-room">${t.sub}</span>
                 <span class="fq-price"><b>${usd(t.price)}</b></span>
                 <span class="fq-sub dkt-save">You save <b>${usd(Math.round(TIER_SAVE(t) * 100) / 100)}</b></span>
               </div>`; })}
           </div>
 
-          <${StepHead} n=${2} title="Step 2: Pick your free scent" right=${sel.keys.length ? `Free scent: ${sel.label()}` : "Pick 1 scent"}/>
+          <${StepHead} n=${2} title="Step 2: Pick your free scent" right=${sel.keys.length ? `Free scent: ${sel.label()} \u00b7 $49.95 value` : "Pick 1 scent"}/>
           <p class="presel-note">We pre-selected our most popular scent for you. Tap another to swap.</p>
           <div class="picker compact grid2" role="radiogroup" aria-label="Pick your free scent">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
@@ -864,7 +864,7 @@ function BuyBox() {
 
           <div class="picker-title step-title refill-title">Step 3: How often would you like your scent refilled?</div>
           <p class="refill-sub">Swap, pause or cancel anytime.</p>
-          <p class="refill-why">Your first scent bottle is <b>free today</b>, you pay nothing for it. If you subscribe, your next bottles arrive on the schedule you pick below and you pay <b>$34.95, $39.95 or $44.95</b> each, depending on the frequency. The more often you refill, the less each one costs.</p>
+          <p class="refill-why"><b class="why-lead">Your first scent bottle is free today, you pay nothing for it.</b><br/>If you subscribe, your next bottles arrive on the schedule you pick below and you pay <b>$34.95, $39.95 or $44.95</b> each, depending on the frequency. The more often you refill, the less each one costs.</p>
           <p class="refill-terms">We text you 3 days before every refill. Skip or cancel in one tap. <b>The diffusers and the first scent are yours either way.</b></p>
           <div class="freq3" role="radiogroup" aria-label="Refill schedule">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
@@ -878,6 +878,7 @@ function BuyBox() {
           </div>
           <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`No subscription selected: <b>${usd(sel.today())} today</b>, your free scent included, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`Don\u2019t want refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>Order with no subscription \u2014 ${usd(sel.today())}</button>`}</p>
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
+          <p class="order-sum"><b>${T.name} + ${sel.label() || "your free scent"}</b> <span class="os-free">(free, $49.95 value)</span><br/><b>${usd(sel.today())} today</b>${sel.oneTime() ? ", nothing after." : html`, then <b>${usd(FREQ_PRICE(sel.freq))}</b> every ${sel.freq} days for your scent. Cancel anytime.`}</p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>

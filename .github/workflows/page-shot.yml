@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-03 13:40 UTC: ritual rt18-c30b8d4 (smaller image testimonials, headlines +10%, 5-row table, white step rings) + body check + cart check.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-03 15:05 UTC: kits page dk1-9d41e1a (first live check after pageCreate) + body check against its own page-body.html; cart check skipped (offer not wired yet).
 on:
   workflow_dispatch:
     inputs:
@@ -9,6 +9,12 @@ on:
       out:
         description: Output folder (repo path)
         default: lp-factory/pages/free-diffusers/ritual/shots
+      body:
+        description: Repo path of the page body to compare the live page against
+        default: lp-factory/pages/free-diffusers/ritual/page-body.html
+      cart:
+        description: Run the live add-to-cart check (yes/no)
+        default: 'yes'
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
     paths: ['.github/workflows/page-shot.yml']
@@ -19,8 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/shots' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
+      CART: ${{ github.event.inputs.cart || 'no' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +42,7 @@ jobs:
           curl -sSL -A "Mozilla/5.0" "$URL" -o live.html
           node -e '
             const fs=require("fs"),c=require("crypto");
-            const live=fs.readFileSync("live.html","utf8"), repo=fs.readFileSync("lp-factory/pages/free-diffusers/ritual/page-body.html","utf8");
+            const live=fs.readFileSync("live.html","utf8"), repo=fs.readFileSync(process.env.BODY,"utf8");
             const head="<style>.shopify-section--main-page", tail="hide();})();\n</script>";
             const i=live.indexOf(head), j=live.indexOf(tail,i); const seg=i>=0&&j>=0?live.slice(i,j+tail.length):"";
             const md5=(x)=>c.createHash("md5").update(x).digest("hex");
@@ -58,7 +66,7 @@ jobs:
             await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
             try { await pg.waitForSelector('#buybox .picker', { timeout: 30000 }); } catch (e) { notes.push(`${name}: buy box did not mount`); }
             await pg.waitForTimeout(2500);
-            const d = await pg.evaluate(() => ({ logoDeco: (() => { const a = document.querySelector('.rit-logo-a'); if (!a) return null; const c = getComputedStyle(a); return [c.textDecorationLine, c.backgroundImage.slice(0, 30), c.boxShadow.slice(0, 30), getComputedStyle(a, '::after').content]; })(), key: (([...document.scripts].find((x) => /mc-rt-app\.js/.test(x.src)) || {}).src || 'none').split('v=')[1], themeHeader: [...document.querySelectorAll('.shopify-section-group-header-group')].map((e) => getComputedStyle(e).display), ownHeader: !!document.querySelector('.rit-hdr'), ann: (document.querySelector('.rit-ann') || {}).innerText, logoW: (document.querySelector('.rit-logo') || {}).naturalWidth, h1: (document.querySelector('#buybox h1') || {}).innerText, price: ((document.querySelector('.hd-price') || {}).innerText || '').replace(/\s+/g, ' '), picks: document.querySelectorAll('#buybox .pick').length, fq: document.querySelectorAll('.fq').length, hero: (() => { const v = document.querySelector('#root video'); return v ? [v.readyState, v.paused, (v.currentSrc || '').slice(-30)] : null; })(), prehero: [...document.querySelectorAll('#mc-prehero')].map((e) => getComputedStyle(e).display), title: document.title, bodyPad: getComputedStyle(document.body).paddingTop, firstTop: (() => { const e = document.querySelector('.rit-ann'); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; })() }));
+            const d = await pg.evaluate(() => ({ logoDeco: (() => { const a = document.querySelector('.rit-logo-a'); if (!a) return null; const c = getComputedStyle(a); return [c.textDecorationLine, c.backgroundImage.slice(0, 30), c.boxShadow.slice(0, 30), getComputedStyle(a, '::after').content]; })(), key: (([...document.scripts].find((x) => /mc-(rt|dk|lb)-app\.js/.test(x.src)) || {}).src || 'none').split('v=')[1], themeHeader: [...document.querySelectorAll('.shopify-section-group-header-group')].map((e) => getComputedStyle(e).display), ownHeader: !!document.querySelector('.rit-hdr'), ann: (document.querySelector('.rit-ann') || {}).innerText, logoW: (document.querySelector('.rit-logo') || {}).naturalWidth, h1: (document.querySelector('#buybox h1') || {}).innerText, price: ((document.querySelector('.hd-price') || {}).innerText || '').replace(/\s+/g, ' '), picks: document.querySelectorAll('#buybox .pick').length, fq: document.querySelectorAll('.fq').length, hero: (() => { const v = document.querySelector('#root video'); return v ? [v.readyState, v.paused, (v.currentSrc || '').slice(-30)] : null; })(), prehero: [...document.querySelectorAll('#mc-prehero')].map((e) => getComputedStyle(e).display), title: document.title, bodyPad: getComputedStyle(document.body).paddingTop, firstTop: (() => { const e = document.querySelector('.rit-ann'); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; })() }));
             await pg.screenshot({ path: `${OUT}/${stamp}-${name}-top.png` });
             try { const hb = await pg.locator('.rit-hdr').boundingBox(); if (hb) await pg.screenshot({ path: `${OUT}/${stamp}-${name}-header.png`, clip: hb }); } catch (e) {}
             const picks = await pg.$$('#buybox .pick .pick-qty button[aria-label="Add one"]:not([disabled])'); for (let i = 0; i < Math.min(3, picks.length); i++) { if (await picks[i].isDisabled()) break; await picks[i].click({ timeout: 3000 }).catch(() => {}); await pg.waitForTimeout(150); }
@@ -74,6 +82,7 @@ jobs:
           EOF2
           node shot.mjs
       - name: Cart check (click the live Add to cart at 30 days / 90 days / one-time, read /cart.js)
+        if: env.CART == 'yes'
         run: |
           cat > cart.mjs <<'EOF3'
           import { chromium } from 'playwright';
@@ -100,6 +109,29 @@ jobs:
           fs.writeFileSync(`${OUT}/cart-check-latest.txt`, out.join('\n') + '\n');
           EOF3
           node cart.mjs
+      - name: Button check (pages whose offer is not wired yet: tap Add to cart, expect the "not open yet" toast and no navigation)
+        if: env.CART != 'yes'
+        run: |
+          cat > btn.mjs <<'EOF4'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL_ = process.env.URL, OUT = process.env.OUT;
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' });
+          const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+          await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+          await pg.waitForSelector('#buybox .btn.atc', { timeout: 30000 }); await pg.waitForTimeout(1500);
+          const before = await pg.evaluate(() => ({ btn: (document.querySelector('#buybox .btn.atc') || {}).innerText, pill: (document.querySelector('.pick-pill') || {}).innerText || null, tiers: [...document.querySelectorAll('.fq.dkt')].map((e) => e.innerText.replace(/\s+/g, ' ')), pack: !!document.querySelector('.pack'), qty: document.querySelectorAll('.cell-qty').length }));
+          await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
+          await pg.waitForTimeout(2500);
+          const toast = await pg.evaluate(() => { const els = [...document.querySelectorAll('body *')].filter((e) => !/^(SCRIPT|STYLE)$/.test(e.tagName) && e.children.length === 0 && /Preview mode|hiccuped|isn't open|not open/.test(e.textContent || '')); return els.length ? els[els.length - 1].textContent : null; });
+          const cart = await pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { n: c.item_count, total: c.total_price / 100 }; });
+          const line = JSON.stringify({ before, landed: pg.url(), toast, cart, errs }); console.log(line);
+          await pg.screenshot({ path: `${OUT}/btn-check.png` }).catch(() => {});
+          fs.writeFileSync(`${OUT}/btn-check-latest.txt`, line + '\n');
+          await b.close();
+          EOF4
+          node btn.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"

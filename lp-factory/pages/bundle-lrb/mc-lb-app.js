@@ -503,7 +503,7 @@ async function addToCart(setBusy, setToast) {
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
   if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; } /* live page, cart not wired yet (owner 2026-10-03: logic to be defined after deploy) */
   if (!onStore() || !kitId) {
-    setToast("Preview mode. On the live store this adds the " + T.name + " (2 diffusers + " + selStore.label() + "), " + usd(selStore.today()) + " today, and opens the cart.");
+    setToast("Preview mode. On the live store this adds the " + T.name + " (2 diffusers + " + selStore.label() + ")" + (sub ? ", refills every " + selStore.freq + " days at $" + FREQ_PRICE(selStore.freq) + " per scent" : ", no subscription") + ", " + usd(selStore.today()) + " today, and opens the cart.");
     return;
   }
   /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line
@@ -557,7 +557,7 @@ const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ide
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
 const selStore = {
   tierIdx: 0,
-  plan: "one",            /* lb1: one-time bundle, no refill step */
+  plan: "sub",            /* lb6 (2026-10-03, owner): refill step like the kits page; both scents on the picked cadence, "no subscription" link keeps the bundle one-time */
   freq: 30,
   keys: ["focus", "midnight"], /* lb4: Chilled Citrus + Midnight Sensation preselected */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
@@ -757,7 +757,7 @@ function Toast({ msg, onClose }) {
 }
 
 const offerPct = (t) => Math.round((1 - t.price / (t.n * DIFFUSER_PRICE + t.scents * SCENT_ONE)) * 100); /* % off the scents+diffusers value; diffusers are the free part (owner 2026-09-19) */
-const OFFER_SUB_FOR = (t) => "FREE SCENT TODAY + REFILLS FROM $" + SCENT_SUB + " APPLIED!";
+const OFFER_SUB_FOR = (t) => "2 DIFFUSERS + 2 SCENTS \u00b7 REFILLS FROM $" + SCENT_SUB + " \u00b7 GIFT-READY"; /* lb6 */
 const ONE_SUB = "2 DIFFUSERS + 2 SCENTS \u00b7 FREE SHIPPING \u00b7 GIFT-READY";
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
@@ -864,6 +864,21 @@ function BuyBox() {
                 </span>
               </div>`; })}
           </div>
+
+          <div class="picker-title step-title refill-title">Step 2: How often would you like your scents refilled?</div>
+          <p class="refill-sub">Swap, pause or cancel anytime.</p>
+          <p class="refill-why"><b class="why-lead">Both scents are included today, you pay nothing extra for them.</b><br/>If you subscribe, your next two bottles arrive on the schedule you pick below and you pay <b>$34.95, $39.95 or $44.95</b> each, depending on the frequency. The more often you refill, the less each one costs.</p>
+          <div class="freq3" role="radiogroup" aria-label="Refill schedule">
+            ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
+              <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
+                ${o.tag ? html`<span class=${"fq-tag" + (o.pop ? " pop" : "")}>${o.tag}</span>` : null}
+                <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
+                <span class="fq-days"><b>Every ${o.days} days</b></span>
+                <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
+                <span class="fq-sub">You\u2019re saving <b>${usd(Math.round((SCENT_ONE - o.price) * 100) / 100)}</b> per bottle</span>
+              </div>`; })}
+          </div>
+          <p class=${"rf-alt" + (sel.oneTime() ? " on" : "")}>${sel.oneTime() ? html`No subscription selected: <b>${usd(sel.today())} today</b>, both scents included, no refills. <button type="button" class="rf-link" onClick=${() => sel.setPlan("sub")}>(switch back to refills)</button>` : html`Don\u2019t want refills? <button type="button" class="rf-link" onClick=${() => sel.setPlan("one")}>Order with no subscription \u2014 ${usd(sel.today())}</button>`}</p>
 
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>

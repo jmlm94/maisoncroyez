@@ -548,7 +548,7 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [ /* lb1 (2026-10-03, owner): one offer, no decisions besides the two scents */
-  { key: "bundle", n: 2, name: "Living Room + Bedroom Bundle", sub: "2 diffusers + 2 scents", price: 169, oneTime: 0, scents: 2, tag: "", pop: false },
+  { key: "bundle", n: 2, name: "Living Room + Bedroom Bundle", sub: "2 diffusers + 2 scents", price: 169.95, /* lb4 (2026-10-03, owner) */ oneTime: 0, scents: 2, tag: "", pop: false },
 ];
 const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying each diffuser at $129.95 + the scent */
 const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselected "top three" = Chilled Citrus, Honey Nectar, Midnight Sensation */
@@ -558,7 +558,7 @@ const selStore = {
   tierIdx: 0,
   plan: "one",            /* lb1: one-time bundle, no refill step */
   freq: 30,
-  keys: ["ideas", "focus"], /* lb3: slot 1 = living room (Honey Nectar), slot 2 = bedroom (Chilled Citrus) */
+  keys: ["focus", "midnight"], /* lb4: Chilled Citrus + Midnight Sensation preselected */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
   setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
@@ -837,19 +837,18 @@ function BuyBox() {
           <div class="pack">
             <div class="pack-head">What\u2019s in the bundle:</div>
             <div class="pack-grid">
-              <div class="pack-col pack-photo"><${Img} slot="kit2" alt="Two Maison Croyez diffusers"/><p class="pack-cap"><b>2 diffusers + 2 scents, fixed.</b><br/>$169, ships free.</p></div>
+              <div class="pack-col pack-photo"><${Img} slot="kit2" alt="Two Maison Croyez diffusers"/><p class="pack-cap"><b>2 diffusers + 2 scents, fixed.</b><br/>$169.95, ships free.</p></div>
               <div class="pack-col pack-plan"><div class="plan" dangerouslySetInnerHTML=${{ __html: PLAN_SVG }}></div><p class="pack-cap"><b>One in the living room, one in the bedroom.</b> Each fills its room in about ten minutes.</p></div>
             </div>
-            <p class="pack-gift"><span class="pack-gift-ic" aria-hidden="true">\ud83c\udf81</span><span><b>OR KEEP ONE AND GIFT ONE.</b> The second diffuser and its scent arrive gift-ready in the same box.</span></p>
+            <p class="pack-gift"><span><b><span class="pack-gift-ic" aria-hidden="true">\ud83c\udf81</span> OR KEEP ONE AND GIFT ONE.</b> The second diffuser and its scent arrive gift-ready in the same box.</span></p>
           </div>
 
           <${StepHead} n=${1} title="Pick your 2 scents: one for each room, or one to gift." right=${`${sel.keys.length} of 2 scents picked`}/>
-          <p class="presel-note">Most pairs: <b>Honey Nectar</b> for the living room, <b>Chilled Citrus</b> for the bedroom. Tap + on any scent to swap.</p>
+          <p class="presel-note">We pre-selected our two most popular scents. Tap any scent to swap it in.</p>
           <div class="picker compact grid2" role="radiogroup" aria-label="Pick your free scent">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
               <div key=${f.key} class=${"pick compact cell" + (on ? " on" : "") + (sel.qty(f.key) > 1 ? " two" : "")} role="checkbox" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                ${on ? html`<span class="cell-room">${sel.qty(f.key) > 1 ? "Both rooms" : sel.keys.indexOf(f.key) === 0 ? "Living room" : "Bedroom"}</span>` : null}
                 <${Img} slot=${f.img} alt=${f.name}/>
                 <span class="pick-txt">
                   <span class="pick-name pick-power">${f.intention}</span>
@@ -866,7 +865,6 @@ function BuyBox() {
           </div>
 
           <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
-          <p class="order-sum"><b>${T.name}</b>: 2 diffusers + ${sel.label() || "your 2 scents"}${sel.left() > 0 ? html` + <i>pick ${sel.left()} more scent</i>` : ""}<br/><b>${usd(sel.today())} today</b>, nothing after. <span class="os-free">Ships free, gift-ready.</span></p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>

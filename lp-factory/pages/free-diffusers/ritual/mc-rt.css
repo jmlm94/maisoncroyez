@@ -1199,3 +1199,12 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* rt17 (2026-10-03, owner): smaller prices on the refill option cards (was 1.3rem Unna) */
 #root .fq-price b{font-size:1.02rem}
 #root .fq-price small{font-size:.66rem}
+
+/* rt18 (2026-10-03, owner): buy-box image testimonials 20% smaller (cards, photos, text); section headlines +10%; white ring on the how-to step numbers */
+#root .rv6-card{flex:0 0 62.4%;max-width:240px;padding:8px 10px 11px}
+@media(min-width:900px){#root .rv6-card{flex-basis:25.6%}}
+#root .rv6-q{font-size:.8rem}
+#root .rv6-who{font-size:.6rem}
+#root .rv6-stars{font-size:.68rem}
+#root [id^="sec-"] .section h2,#root .guarantee h2{font-size:clamp(2.05rem,7.15vw,2.77rem) !important}
+#root .howto .hstep .hnum,#root .hstep .hnum{border-color:#fff !important}

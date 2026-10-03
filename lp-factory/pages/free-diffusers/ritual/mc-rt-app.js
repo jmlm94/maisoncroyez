@@ -237,14 +237,9 @@ const CONFIG = {
       { k: "Water, tanks, mold", x: "Water diffusers: a tank you never actually clean.", v: "No water. No tank. Nothing to grow, nothing to clean." },
       { k: "Flame and soot", x: "An open flame you can’t leave alone, and soot on the ceiling.", v: "No flame. Safe to leave on overnight, in a kid’s room or near pets." },
       { k: "Upkeep", x: "Refills, wicks, cartridges, batteries, charging.", v: "Plug it in and forget it. If it ever stops working, we replace it for life." },
-      { k: "What it costs you", x: "$30 to $40 every few weeks. Over $1,000 a year.", v: "$34.95 to $44.95 per refill, every 30 to 90 days." },
-      { k: "At night", x: "Nothing.", v: "A soft glow on top that doubles as a night light." },
+    ], /* rt18 (2026-10-03, owner): "What it costs you" and "At night" rows removed; switchers block removed */
+    _removed: [
     ],
-    switchers: {
-      title: "Already have a waterless diffuser?",
-      sub: "Here’s why they switched:",
-      items: ["**A heavier stream.** More scent per burst, so it travels.", "**Fills the room.** Up to 600 sq ft, not four feet around the machine.", "**No charging.** It plugs into the wall and stays on."],
-    },
   },
 
   mechanism: { /* why it works when everything else didn't */

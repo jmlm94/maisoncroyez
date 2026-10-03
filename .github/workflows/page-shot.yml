@@ -109,7 +109,7 @@ jobs:
           fs.writeFileSync(`${OUT}/cart-check-latest.txt`, out.join('\n') + '\n');
           EOF3
           node cart.mjs
-      - name: Button check (pages whose offer is not wired yet: tap Add to cart, expect the "not open yet" toast and no navigation)
+      - name: Button check (pages whose offer is not wired yet - tap Add to cart, expect the not-open-yet toast and no navigation)
         if: env.CART != 'yes'
         run: |
           cat > btn.mjs <<'EOF4'

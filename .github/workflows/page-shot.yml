@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-03 15:05 UTC: kits page dk1-9d41e1a (first live check after pageCreate) + body check against its own page-body.html; cart check skipped (offer not wired yet).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-03 18:50 UTC: bundle page lb1-9d41e1a (first live check after pageCreate) + body check against its own page-body.html; cart check skipped (offer not wired yet).
 on:
   workflow_dispatch:
     inputs:
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
-      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/living-room-bedroom-bundle' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/bundle-lrb/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/bundle-lrb/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'no' }}
     steps:
       - uses: actions/checkout@v4
@@ -124,7 +124,7 @@ jobs:
           const before = await pg.evaluate(() => ({ btn: (document.querySelector('#buybox .btn.atc') || {}).innerText, pill: (document.querySelector('.pick-pill') || {}).innerText || null, tiers: [...document.querySelectorAll('.fq.dkt')].map((e) => e.innerText.replace(/\s+/g, ' ')), pack: !!document.querySelector('.pack'), qty: document.querySelectorAll('.cell-qty').length }));
           await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
           await pg.waitForTimeout(2500);
-          const toast = await pg.evaluate(() => { const els = [...document.querySelectorAll('body *')].filter((e) => !/^(SCRIPT|STYLE)$/.test(e.tagName) && e.children.length === 0 && /Preview mode|hiccuped|isn't open|not open/.test(e.textContent || '')); return els.length ? els[els.length - 1].textContent : null; });
+          const toast = await pg.evaluate(() => { const els = [...document.querySelectorAll('body *')].filter((e) => !/^(SCRIPT|STYLE)$/.test(e.tagName) && e.children.length === 0 && /Preview mode|hiccuped|isn.t open|not open/.test(e.textContent || '')); return els.length ? els[els.length - 1].textContent : null; });
           const cart = await pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { n: c.item_count, total: c.total_price / 100 }; });
           const line = JSON.stringify({ before, landed: pg.url(), toast, cart, errs }); console.log(line);
           await pg.screenshot({ path: `${OUT}/btn-check.png` }).catch(() => {});

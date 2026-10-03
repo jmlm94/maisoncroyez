@@ -828,7 +828,7 @@ function BuyBox() {
           <${Fragment} key="ritual">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
-          <div class="hd-price"><s>${usd(sel.value())}</s><b>${usd(sel.today())}</b><span class="hd-note">${T.n} diffuser${T.n > 1 ? "s" : ""} + 1 free scent</span></div>
+          <div class="hd-price hd-from"><b>From ${usd(TIERS[0].price)}</b><span class="hd-note">100ml free scent included</span></div> <!-- dk3 (2026-10-03, owner): entry price + free-scent badge -->
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
@@ -838,8 +838,9 @@ function BuyBox() {
               <div key=${t.key} class=${"fq dkt" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 ${t.tag ? html`<span class=${"fq-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
+                <${Img} slot=${"kit" + t.n} alt=${t.name}/>
                 <span class="fq-days"><b>${t.name}</b></span>
-                <span class="dkt-each">${usd(Math.round(t.price / t.n * 100) / 100)} per diffuser + 1 free scent</span>
+                <span class="dkt-each">${usd(Math.round(t.price / t.n * 100) / 100)}/diffuser + 1 free scent</span>
                 <span class="fq-price"><b>${usd(t.price)}</b></span>
                 <span class="fq-sub dkt-save">You save <b>${usd(Math.round(TIER_SAVE(t) * 100) / 100)}</b></span>
               </div>`; })}
@@ -863,7 +864,7 @@ function BuyBox() {
 
           <div class="picker-title step-title refill-title">Step 3: How often would you like your scent refilled?</div>
           <p class="refill-sub">Swap, pause or cancel anytime.</p>
-          <p class="refill-why">Your first bottle of <b>${sel.label()}</b> is <b>free today</b>, you pay nothing for it. If you subscribe, your next bottles arrive on the schedule you pick below and you pay <b>$34.95, $39.95 or $44.95</b> each, depending on the frequency. The more often you refill, the less each one costs.</p>
+          <p class="refill-why">Your first scent bottle is <b>free today</b>, you pay nothing for it. If you subscribe, your next bottles arrive on the schedule you pick below and you pay <b>$34.95, $39.95 or $44.95</b> each, depending on the frequency. The more often you refill, the less each one costs.</p>
           <p class="refill-terms">We text you 3 days before every refill. Skip or cancel in one tap. <b>The diffusers and the first scent are yours either way.</b></p>
           <div class="freq3" role="radiogroup" aria-label="Refill schedule">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`

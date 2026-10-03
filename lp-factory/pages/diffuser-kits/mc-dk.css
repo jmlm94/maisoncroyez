@@ -1240,3 +1240,27 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .fq.dkt .fq-tag{grid-area:tag;justify-self:start;margin-top:4px}
 #root .fq.dkt .ot-dot{grid-area:dot;align-self:center}
 #root .pick.compact.cell .pick-vol{display:none}
+
+/* dk3 (2026-10-03, owner): kit photo on the left of each diffuser card, "/diffuser", scent photos 70% smaller (row cells), "From $129.95" price row */
+#root .hd-price.hd-from b{font-size:1.9rem}
+#root .fq.dkt{grid-template-columns:22px 58px minmax(0,1fr) auto !important;grid-template-areas:"dot img days price" "dot img each save" "dot img tag tag" !important;column-gap:10px}
+#root .fq.dkt > .ph.sq{grid-area:img;width:58px !important;height:58px !important;min-height:0 !important;margin:0 !important;border-radius:10px !important;background:#fff;border:1px solid #ECE9E4;align-self:center}
+#root .fq.dkt > .ph.sq img{object-fit:cover}
+#root .pick.compact.cell{flex-direction:row;align-items:center;gap:9px;padding:9px 10px 9px 9px}
+#root .pick.compact.cell > .ph.sq{width:46px !important;height:46px !important;flex:0 0 46px !important;aspect-ratio:auto;border-radius:8px !important}
+#root .pick.compact.cell .cell-dot{position:absolute;top:7px;right:7px;left:auto;width:13px;height:13px}
+#root .pick.compact.cell .cell-dot.chk::after{inset:2.5px}
+#root .pick.compact.cell .pick-txt{flex:1 1 auto;padding-right:14px}
+#root .pick.compact.cell .pick-name.pick-power{font-size:.7rem}
+#root .pick.compact.cell .pick-scent{font-size:.68rem}
+#root .pick.compact.cell .pick-ingr{font-size:.6rem;margin-top:1px}
+#root .pick.compact.cell .pick-ingr b{font-size:.6rem}
+#root .pick.compact.cell .pick-str{margin-top:0;font-size:.5rem}
+#root .pick.compact.cell .pick-txt{display:flex;flex-direction:column;gap:1px}
+
+/* dk4: scent cell = photo column + text column (name, scent, strength, ingredients under each other) */
+#root .pick.compact.cell{display:grid !important;grid-template-columns:46px minmax(0,1fr);grid-template-areas:"img txt" "img ingr";column-gap:9px;row-gap:3px;align-items:start}
+#root .pick.compact.cell > .ph.sq{grid-area:img;align-self:start;margin-top:2px !important}
+#root .pick.compact.cell .pick-txt{grid-area:txt;padding-right:16px}
+#root .pick.compact.cell .pick-ingr{grid-area:ingr;padding-right:4px}
+#root .pick.compact.cell .pick-name.pick-power{font-size:.68rem;letter-spacing:.02em}

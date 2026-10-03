@@ -1,0 +1,1307 @@
+@font-face{font-family:'Unna';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-400.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Unna';font-style:italic;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-400i.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Unna';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-700.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Unna';font-style:italic;font-weight:700;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-unna-700i.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-outfit-400.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-outfit-700.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'BVP Fallback';src:local('Arial'),local('Helvetica Neue'),local('Roboto');size-adjust:106%;ascent-override:96%;descent-override:26%;line-gap-override:0%}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-400.woff2?v=1784231284) format('woff2');}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url(https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-f-bvp-600.woff2?v=1784231284) format('woff2');}
+:root{--blush:#ECDFDE;
+  --blush-soft:#F3EAE8;
+  --rosewood:#C4A59F;
+  --rosewood-deep:#8A5B52;
+  --rosewood-tint:#E7D6D2;
+  --cream:#F9F5F0;
+  --ivory:#FFFFFF;
+  --cta:#0A9400;
+  --ink:#241C18;
+  --ink-soft:#5C4F48;
+  --footer:#1E1613;
+  --gold:#D9B08C;
+  --star:#F5B301;
+  --grad-em:linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%);
+  --grad-hero:linear-gradient(168deg,#F3E7E3 0%,#ECDFDE 34%,#E6CDBB 72%,#DCB99F 100%);
+  --grad-values:linear-gradient(160deg,#F6ECE6 0%,#ECDFDE 45%,#E9D3BE 100%);
+  --grad-badge:linear-gradient(145deg,#D9A98F 0%,#C4A59F 55%,#E3C1A4 100%);
+  --grad-cta:linear-gradient(135deg,#8A5B52 0%,#3A2721 90%);
+  --radius:22px;
+  --shadow:0 10px 34px rgba(60,38,30,.12);
+  --maxw:1080px;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+*,*::before,*::after{animation:none!important;transition:none!important}}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;
+  background:var(--ivory);
+  color:var(--ink);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  /* clip (not hidden): overflow-x:hidden breaks position:fixed on iOS Safari */
+  overflow-x:clip;
+  padding-bottom:88px; /* clearance for the sticky CTA bar (no footer) */}
+img,svg{max-width:100%;display:block}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--rosewood-deep);outline-offset:2px}
+h1,h2,h3{font-family:'Unna',serif;font-weight:700;line-height:.92;letter-spacing:-.05em;text-wrap:balance}
+h1 em,h2 em,h3 em{font-style:italic;font-weight:700;
+  background:var(--grad-em);-webkit-background-clip:text;background-clip:text;
+  color:transparent;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.narrow{max-width:640px;margin:0 auto}
+.caps{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.section{padding:64px 0}
+.section-head{display:flex;flex-direction:column;gap:12px;text-align:center;align-items:center;margin-bottom:36px}
+.section-head h2{font-size:clamp(1.9rem,6.4vw,2.7rem)}
+.btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  width:100%;padding:17px 26px;border-radius:999px;
+  background:var(--cta);color:#FFFFFF;text-decoration:none;
+  font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  font-size:.86rem;box-shadow:0 12px 28px rgba(0,0,0,.28);
+  transition:transform .15s ease,box-shadow .15s ease;text-align:center;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(0,0,0,.36)}
+.btn .btn-sub{font-size:.62rem;letter-spacing:.18em;opacity:.85;font-weight:700}
+.btn[disabled]{background:#B7ABA6;box-shadow:none;cursor:not-allowed;transform:none}
+.ph{/* image placeholder */
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  display:flex;align-items:flex-end;min-height:200px;
+  background:linear-gradient(150deg,#E9D8D2 0%,#D9BBAC 48%,#C4A59F 100%);}
+.ph.warm{background:linear-gradient(150deg,#F1E3D8 0%,#DFC0A5 55%,#C99F82 100%)}
+.ph.dusk{background:linear-gradient(155deg,#D8C4C6 0%,#B79598 50%,#8F6E6B 100%)}
+.ph.linen{background:linear-gradient(150deg,#F4EEE5 0%,#E5D6C3 55%,#D0B99E 100%)}
+.ph .ph-cap{margin:12px;padding:8px 12px;border-radius:10px;
+  background:rgba(30,20,16,.55);color:#F6EDE7;backdrop-filter:blur(3px);
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;line-height:1.6;}
+.emoji{line-height:1;display:inline-block;font-style:normal}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
+  background:var(--blush-soft);border:1px solid var(--rosewood-tint);
+  font-size:.78rem;font-weight:500;}
+.announce{background:var(--grad-cta);color:#FBEFE8;text-align:center;
+  padding:9px 16px;font-family:'Outfit',sans-serif;font-weight:700;
+  font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;line-height:1.5;
+  position:relative;z-index:60;}
+.ph img.simg,video.simg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.sq{aspect-ratio:1/1;min-height:0;height:auto}
+.tl{position:relative;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px;padding-left:34px}
+.tl::before{content:"";position:absolute;left:11px;top:10px;bottom:10px;width:2px;background:var(--rosewood-tint)}
+.tl h3{font-size:1.3rem;margin-bottom:6px;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;line-height:1.3}
+.tl p{color:var(--ink-soft);font-size:.92rem}
+.howto{background:var(--cream)}
+.howsteps{display:flex;flex-direction:column;gap:26px;max-width:480px;margin:0 auto}
+@media(min-width:960px){.howsteps{flex-direction:row;max-width:none;gap:22px;align-items:stretch}
+.howsteps>*{flex:1}}
+.hstep{background:var(--ivory);border-radius:var(--radius);padding:16px 16px 22px;box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;gap:10px;height:100%}
+.hstep .ph{border-radius:14px}
+.hstep .hnum{width:34px;height:34px;border-radius:99px;background:var(--grad-cta);color:#FFF3EC;
+  display:flex;align-items:center;justify-content:center;margin:-28px auto 0;position:relative;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;border:3px solid var(--ivory);}
+.hstep h3{font-size:1.4rem}
+.hstep p{color:var(--ink-soft);font-size:.9rem;max-width:26em;margin:0 auto}
+.imap{background:var(--blush)}
+.stats{background:var(--ivory)}
+.stat{max-width:560px;margin:0 auto 26px}
+.stat .bar{height:46px;border-radius:999px;background:var(--blush-soft);overflow:hidden;position:relative}
+.stat .fill{height:100%;border-radius:999px;background:var(--grad-em);
+  display:flex;align-items:center;padding:0 20px;color:#FFF4ED;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:.04em;white-space:nowrap;
+  width:0;transition:width 1.1s cubic-bezier(.2,.7,.2,1);}
+.stat .slabel{font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;color:var(--rosewood-deep);margin:10px 0 2px}
+.stat .sdesc{color:var(--ink-soft);font-size:.9rem}
+.buybox{display:flex;flex-direction:column;gap:16px}
+.buybox h2{font-size:clamp(1.9rem,7vw,2.5rem)}
+.guarantee{background:var(--blush);text-align:center}
+.gbadge{width:170px;height:170px;border-radius:99px;background:var(--grad-badge);margin:0 auto 26px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:var(--shadow);
+  border:5px solid rgba(253,251,248,.6);}
+.gbadge .gb1{font-family:'Unna',serif;font-weight:700;font-size:2.4rem;line-height:1}
+.gbadge .gb2{font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase}
+.gbadge .gb3{font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosewood-deep);margin-top:4px}
+.guarantee h2{font-size:clamp(1.9rem,6.6vw,2.6rem);max-width:15em;margin:0 auto}
+.guarantee .btn{max-width:400px;margin:0 auto}
+.ugc{background:var(--ivory)}
+.ugcstack{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.utest{background:var(--cream);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:8px;}
+.utest .stars{color:var(--star);letter-spacing:2px;font-size:.85rem}
+.utest .uquote{font-family:'Unna',serif;font-size:1.18rem;line-height:1.2}
+.utest .uwho{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.modes{background:var(--cream)}
+.mode{background:var(--ivory);border-radius:18px;padding:20px;box-shadow:var(--shadow);flex:1;display:flex;flex-direction:column;gap:8px}
+.mode h3{font-size:1.35rem}
+.mode p{color:var(--ink-soft);font-size:.88rem}
+.faq{background:var(--cream)}
+.faq .qa{max-width:640px;margin:0 auto;border-bottom:1px solid var(--rosewood-tint)}
+.faq .qbtn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 2px;text-align:left;font-weight:600;font-size:.98rem}
+.faq .qbtn .plus{flex:0 0 auto;width:24px;height:24px;border-radius:99px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;transition:transform .2s ease}
+.faq .qa.open .plus{transform:rotate(45deg)}
+.faq .ans{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq .qa.open .ans{max-height:400px}
+.faq .ans p{padding:0 30px 18px 2px;color:var(--ink-soft);font-size:.9rem}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(253,251,248,.96);
+  border-top:1px solid var(--rosewood-tint);box-shadow:0 -8px 30px rgba(60,38,30,.14);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:12px;
+  transform:translateY(110%);transition:transform .3s ease;}
+.sticky.show{transform:none}
+.sticky .btn{flex:1;padding:15px 18px;font-size:.8rem;width:auto;
+  background:var(--grad-em);}
+.adv-announce{padding:10px 14px}
+.adv-announce-in{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:var(--maxw);margin:0 auto}
+.adv-announce .urgpill{background:#FFFFFF;color:var(--rosewood-deep);border-radius:999px;padding:3px 10px;font-size:.6rem;letter-spacing:.16em}
+.adv-announce .atext{opacity:.95}
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.split-half{position:relative}
+.split-half .ph{border-radius:16px}
+.split-badge{position:absolute;top:10px;left:10px;width:34px;height:34px;border-radius:50%;
+  background:#B23A3A;color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:1.05rem;box-shadow:0 6px 16px rgba(0,0,0,.25);z-index:2;}
+.split-badge.good{background:#3E7C4F}
+.split-cap{margin-top:8px;text-align:center;
+  color:var(--ink);font-size:.6rem;letter-spacing:.14em;}
+.tl{margin:6px 0 22px;display:flex;flex-direction:column;gap:18px}
+@media(min-width:720px){.split-grid{gap:14px}
+.split-cap{font-size:.62rem}}
+h1 em,h2 em,h3 em{background:none;-webkit-background-clip:unset;background-clip:unset;
+  color:#D0342C;-webkit-text-fill-color:#D0342C;}
+.adv-announce{background:#000000;color:#FFFFFF}
+.adv-announce .atext{opacity:1}
+.sticky .btn{background:var(--cta);color:#FFFFFF}
+.adv-announce{font-size:.75rem;padding:11px 15px}
+.pdp-hdr{display:flex;justify-content:center;padding:14px 0 4px;background:var(--ivory)}
+.pdp-hdr img{height:24px;width:auto}
+.pdp-buy{padding-top:18px}
+.pdp-buy .buybox{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.pdp-buy h1{font-size:clamp(1.7rem,7vw,2.5rem);line-height:.95;text-align:left}
+.picker{display:flex;flex-direction:column;gap:8px}
+.pick{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  border:1.5px solid var(--blush);border-radius:14px;padding:9px 12px;background:var(--ivory);
+  transition:border-color .15s ease;}
+.pick.on{border-color:var(--ink)}
+.pick-txt{flex:1;display:flex;flex-direction:column;gap:1px}
+.pick-name{font-weight:700;font-size:.92rem}
+.pick-int{font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.6rem;color:var(--rosewood-deep)}
+.atc{margin-top:4px}
+.acc{margin-top:10px}
+.toast{position:fixed;left:14px;right:14px;bottom:96px;z-index:90;
+  background:var(--ink);color:#fff;border-radius:14px;padding:13px 16px;
+  font-size:.86rem;line-height:1.5;box-shadow:0 14px 40px rgba(0,0,0,.35);}
+.angle .ph{border-radius:18px}
+.badge-band{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.chip.big{font-size:.86rem;padding:9px 16px}
+.tinted-band{background:var(--blush-soft)}
+@media(min-width:860px){.pdp-buy .wrap{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+.pdp-buy .buybox{margin-top:0}}
+.acc.faq{margin-top:12px}
+.acc.faq .qa{max-width:none}
+.pick{flex-direction:column;align-items:stretch;gap:8px;padding:11px 12px}
+.pick-row{display:flex;align-items:center;gap:12px}
+.atc span:first-child{font-size:1.05rem;letter-spacing:.1em}
+h1 em,h2 em,h3 em{background:var(--grad-em);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;}
+.angle-desc{max-width:36em;margin:20px auto 0;text-align:center;
+  font-size:1.05rem;line-height:1.75;color:var(--ink);}
+.picker-title{font-family:'Unna',serif;font-weight:700;letter-spacing:-.03em;line-height:1;
+  font-size:clamp(1.71rem,6.3vw,2.16rem);text-align:center;margin-top:14px;text-wrap:balance;}
+.angle-desc{font-size:1.18rem;line-height:1.7}
+.angle-desc strong{font-weight:700;font-style:italic}
+.pick{position:relative}
+.pick{margin-top:4px}
+.howsteps .ph{max-width:50%;margin:0 auto}
+.angle-bullets{list-style:none;max-width:640px;margin:20px auto 0;padding:0;
+  display:flex;flex-direction:column;gap:15px;text-align:left;}
+.angle-bullets li{position:relative;padding-left:27px;font-size:1.18rem;line-height:1.65;color:var(--ink)}
+.angle-bullets li::before{content:"";position:absolute;left:2px;top:.6em;width:10px;height:10px;
+  border-radius:50%;background:var(--grad-em);}
+.angle-bullets strong{font-weight:700;font-style:italic}
+.guarantee .angle-bullets{margin-bottom:26px}
+section.faq{background:#FFFFFF}
+.acc.faq{background:transparent}
+.howsteps .ph{max-width:100%}
+.hstep h3{font-size:1.5rem}
+.imap{background:#FFFFFF}
+.howto{background:#241C18}
+.howto .section-head h2{color:#F6E8DF}
+.howto .angle-bullets li{color:#EFE3D8}
+#sec-angleCandles .section{padding-bottom:20px}
+#sec-angleLasts .section{padding-top:20px}
+h1 em,h2 em,h3 em{background:none;-webkit-background-clip:unset;background-clip:unset;
+  color:#7C3AED;-webkit-text-fill-color:#7C3AED;}
+.section{padding:38px 0}
+.section-head{margin-bottom:22px}
+.angle-bullets{margin-top:14px}
+.pdp-buy{padding-top:6px}
+.pdp-buy .buybox{gap:10px}
+.pdp-buy .buybox h1{margin:0}
+.gal{position:relative}
+.gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-slide{flex:0 0 100%;scroll-snap-align:center;border-radius:0}
+@media(max-width:899px){.pdp-buy{padding-top:0}
+.gal{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+.gal-slide{border-radius:0}}
+.pick-qty{display:flex;align-items:center;gap:8px;margin-left:auto;flex:0 0 auto}
+.pdp-buy .gal{margin-bottom:15px}
+:root{--grad-em:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);}
+h1 em,h2 em,h3 em{color:#A67C3D;-webkit-text-fill-color:#A67C3D}
+.howto{background:#141414}
+.howto .section-head h2{color:#FFFFFF}
+.howto h2 em{color:#C9A25C;-webkit-text-fill-color:#C9A25C}
+.howto .angle-bullets li{color:#FFFFFF}
+.howto .hstep h3{color:var(--ink)}
+.howto .hstep p{color:var(--ink-soft)}
+.btn.atc span:first-child{font-size:1.02rem}
+.btn.atc{background:#111}
+.sticky .btn{background:#111}
+.btn.atc .btn-sub{font-weight:700;opacity:1}
+.pick-count{text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.79rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rosewood-deep);margin:4px 0 8px}
+.pick-qty{margin-left:auto;display:flex;align-items:center;gap:6px;border:1.5px solid var(--rosewood-tint);border-radius:999px;padding:3px 6px;background:rgba(255,255,255,.7)}
+.pick-qty button{width:26px;height:26px;border-radius:99px;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.pick-qty button:disabled{opacity:.3;cursor:not-allowed}
+.pick-qty b{min-width:16px;text-align:center;font-family:'Outfit',sans-serif;font-size:.9rem}
+.booklet-obj{display:flex;gap:12px;align-items:center;background:var(--blush-soft);border:1px solid var(--rosewood-tint);border-radius:16px;padding:12px 14px;margin:10px 0 12px;text-align:left}
+.booklet-img{width:110px;height:auto;flex:0 0 110px;border-radius:10px}
+.booklet-ph{width:110px;height:82px;flex:0 0 110px;border-radius:10px;background:linear-gradient(150deg,#F4EEE5,#E5D6C3);display:flex;align-items:center;justify-content:center;font-size:34px}
+.booklet-txt{display:flex;flex-direction:column;gap:3px}
+.booklet-txt b{font-family:'Unna',serif;font-size:1.08rem;line-height:1.12;letter-spacing:-.02em}
+.booklet-txt span{font-size:.85rem;color:var(--ink-soft);line-height:1.45}
+.plansel-title{margin-bottom:10px}
+.modes{display:flex;flex-direction:column;gap:8px;margin:12px 0 4px}
+.mode{display:flex;gap:10px;align-items:flex-start;border:1.5px solid #E8E0D5;border-radius:12px;padding:10px 12px;cursor:pointer;background:#fff}
+.mode.on{border-color:#241C18;background:#FDFBF8}
+.mode-dot{flex:none;width:16px;height:16px;border-radius:50%;border:2px solid #B9AA9C;margin-top:2px}
+.mode.on .mode-dot{border-color:#241C18;background:radial-gradient(circle at center,#241C18 0 55%,transparent 60%)}
+.mode-tx b{display:block;font-size:.85rem}
+.mode-tx span{display:block;font-size:.72rem;color:#6E5B4F;margin-top:1px}
+.mode-note{font-size:.7rem;color:#8A6F5C;margin:6px 0 14px;text-align:center}
+.receipt{background:#FDFBF8;border:1px solid #E8E0D5;border-radius:14px;padding:14px 16px;margin:14px 0 4px;font-variant-numeric:tabular-nums}
+.rrow{display:flex;justify-content:space-between;gap:14px;padding:3px 0;font-size:.82rem}
+.rrow.rtotal{border-top:1px solid #E8E0D5;margin-top:5px;padding-top:8px;font-weight:700}
+.rrow.rtotal span:last-child{text-decoration:line-through;color:#B3402C}
+.rrow.rpay{color:#0A7A00;font-weight:800;font-size:.95rem}
+.program .chapters{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.chapter{display:flex;align-items:center;gap:12px;background:#FDFBF8;border:1px solid #E8E0D5;border-radius:12px;padding:10px 14px;position:relative}
+.ch-n{flex:none;width:28px;height:28px;border-radius:50%;background:#241C18;color:#F5EFE6;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem}
+.ch-tx b{display:block;font-size:.82rem}
+.ch-tx span{display:block;font-size:.68rem;color:#8A6F5C}
+.ch-badge{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#0A7A00;color:#fff;border-radius:999px;padding:2px 8px;font-size:.5rem;font-weight:700;letter-spacing:.08em}
+.renewal .renew-box{background:#FDFBF8;border:1px solid #E8E0D5;border-left:4px solid #241C18;border-radius:12px;padding:16px 18px}
+.renewal h3{margin:0 0 8px;font-size:1rem}
+.renewal p{font-size:.85rem;margin:0 0 8px}
+.renewal .renew-sub{color:#6E5B4F;font-size:.78rem;margin:0}
+.gate-note{background:#FFF6E3;border:1px solid #F0D9A6;border-radius:10px;padding:10px 14px;font-size:.75rem;color:#7A5A12;margin:0 0 14px}
+.utest.sample{border-style:dashed;opacity:.85;position:relative}
+.sample-tag{display:inline-block;background:#B3402C;color:#fff;border-radius:999px;padding:2px 9px;font-size:.52rem;font-weight:700;letter-spacing:.1em;margin-bottom:6px}
+html,body{overflow-x:clip}
+.gal{overflow:hidden}
+.pick-qty button{width:40px;height:40px}
+.adv-announce .atext{text-transform:none;letter-spacing:.03em;font-size:.94rem;font-weight:600}
+.pick-free{color:#0A7A00;font-weight:800;font-size:.78rem}
+.pick-free s{color:#8A6F5C;font-weight:500;margin-right:4px}
+.pick-smells{display:block;font-size:.82rem;color:var(--ink);margin-top:2px;padding-right:58px}
+.pick-smells b{font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.08em;font-size:.62rem;color:#8A6F5C;margin-right:4px}
+h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--ink);-webkit-text-fill-color:var(--ink);font-style:italic}
+.modes .mode{flex-direction:row;align-items:flex-start}
+.modes .mode-tx b{font-family:'Unna',serif;font-style:italic;font-size:1.05rem;text-transform:none;letter-spacing:0}
+.modes .mode-dot{margin-top:3px}
+.gal-col{min-width:0}
+.gal-col .adv-announce{margin-top:0}
+@media(max-width:899px){.pdp-buy .gal-col .gal{margin-bottom:0}
+.gal-col .adv-announce{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-bottom:10px}}
+@media(min-width:860px){.gal-col .adv-announce{margin-top:12px;border-radius:10px}}
+.gal-col .adv-announce{padding:11px 15px;margin-bottom:10px}
+.adv-announce-in{flex-wrap:nowrap}
+.adv-announce .atext{white-space:nowrap;font-size:clamp(.72rem,3.5vw,.9rem);letter-spacing:.02em}
+.plansel-title{margin-bottom:12px}
+#root{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif}
+.gal-col .adv-announce{margin-bottom:16px}
+.kg-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#111;color:#fff;border-radius:999px;padding:3px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+#root img{display:block !important}
+#root svg{display:block !important}
+#root .section-head{display:flex !important}
+#root .btn{display:flex !important}
+#root .ph{display:flex !important}
+#root .emoji{display:inline-block !important}
+#root .chip{display:inline-flex !important}
+#root .tl{display:flex !important}
+#root .howsteps{display:flex !important}
+#root .hstep{display:flex !important}
+#root .hstep .hnum{display:flex !important}
+#root .stat .fill{display:flex !important}
+#root .buybox{display:flex !important}
+#root .gbadge{display:flex !important}
+#root .ugcstack{display:flex !important}
+#root .utest{display:flex !important}
+#root .mode{display:flex !important}
+#root .faq .qbtn{display:flex !important}
+#root .faq .qbtn .plus{display:flex !important}
+#root .sticky{display:flex !important}
+#root .adv-announce-in{display:flex !important}
+#root .split-grid{display:grid !important}
+#root .split-badge{display:flex !important}
+#root .tl{display:flex !important}
+#root .pdp-hdr{display:flex !important}
+#root .pdp-buy .buybox{display:flex !important}
+#root .picker{display:flex !important}
+#root .pick{display:flex !important}
+#root .pick-txt{display:flex !important}
+#root .badge-band{display:flex !important}
+#root .pick-row{display:flex !important}
+#root .angle-bullets{display:flex !important}
+#root .gal-track{display:flex !important}
+#root .gal-track::-webkit-scrollbar{display:none !important}
+#root .pick-qty{display:flex !important}
+#root .pick-qty{display:flex !important}
+#root .pick-qty button{display:flex !important}
+#root .booklet-obj{display:flex !important}
+#root .booklet-ph{display:flex !important}
+#root .booklet-txt{display:flex !important}
+#root .modes{display:flex !important}
+#root .mode{display:flex !important}
+#root .mode-tx b{display:block !important}
+#root .mode-tx span{display:block !important}
+#root .rrow{display:flex !important}
+#root .program .chapters{display:flex !important}
+#root .chapter{display:flex !important}
+#root .ch-n{display:flex !important}
+#root .ch-tx b{display:block !important}
+#root .ch-tx span{display:block !important}
+#root .sample-tag{display:inline-block !important}
+#root .pick-smells{display:block !important}
+@media(min-width:860px){#root .pdp-buy .wrap{display:grid !important}}
+#root ul,#root ol{list-style:none !important;padding-left:0 !important;margin-left:0 !important}
+#root li{list-style:none !important}
+#root li::marker{content:'' !important}
+#root p,#root span,#root div,#root li,#root ul,#root ol,#root a,#root b,#root i,#root em,#root s,#root u,#root small,#root strong,#root cite,#root blockquote,#root button,#root input,#root section,#root h4,#root h5,#root h6{font-family:inherit !important}
+#root{font-family:'Be Vietnam Pro','BVP Fallback',system-ui,sans-serif !important;line-height:1.6 !important}
+#root h1{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.05em !important;line-height:.92 !important}
+#root h2{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.05em !important;line-height:.92 !important}
+#root h3{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.05em !important;line-height:.92 !important}
+#root .caps{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .btn{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .ph .ph-cap{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.13em !important;line-height:1.6 !important;text-transform:uppercase !important}
+#root .announce{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.13em !important;line-height:1.5 !important;text-transform:uppercase !important}
+#root .tl h3{font-family:'Be Vietnam Pro',sans-serif !important;font-weight:600 !important;line-height:1.3 !important}
+#root .hstep .hnum{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .stat .fill{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.04em !important}
+#root .stat .slabel{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .gbadge .gb1{font-family:'Unna',serif !important;font-weight:700 !important;line-height:1 !important}
+#root .gbadge .gb2{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.22em !important;text-transform:uppercase !important}
+#root .gbadge .gb3{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.14em !important;text-transform:uppercase !important}
+#root .utest .uquote{font-family:'Unna',serif !important;line-height:1.2 !important}
+#root .utest .uwho{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#root .pick-int{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .picker-title{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.03em !important;line-height:1 !important}
+#root .pick-count{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.1em !important;text-transform:uppercase !important}
+#root .pick-qty b{font-family:'Outfit',sans-serif !important}
+#root .booklet-txt b{font-family:'Unna',serif !important;letter-spacing:-.02em !important;line-height:1.12 !important}
+#root .ch-n{font-family:'Outfit',sans-serif !important;font-weight:700 !important}
+#root .pick-smells b{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.08em !important}
+#root .modes .mode-tx b{font-family:'Unna',serif !important;font-style:italic !important;letter-spacing:0 !important;text-transform:none !important}
+#root{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif !important}
+#root .kg-tag{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.06em !important;text-transform:uppercase !important}
+.pick-count{font-size:1.02rem;margin:6px 0 10px}
+.featbs{display:flex;flex-wrap:wrap;gap:7px;margin-top:-6px}
+.featb{background:#fff;border:1px solid rgba(36,28,24,.22);border-radius:999px;padding:4px 12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.07em}
+.hw-dash-t{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;margin-top:14px;text-align:center}
+.off-badge{background:#fff;border:1px solid rgba(36,28,24,.18);border-radius:999px;padding:3px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.04em}
+.portal{margin-top:11px;background:#fff;border:1px solid rgba(36,28,24,.16);border-radius:12px;padding:12px 13px;box-shadow:0 4px 12px rgba(36,28,24,.06);text-align:left}
+.portal-top{display:flex;justify-content:space-between;align-items:center;font-size:.68rem;color:#6E5B4F;border-bottom:1px solid #EFE8DC;padding-bottom:7px;margin-bottom:8px}
+.portal-brand{font-family:'Outfit',sans-serif;font-weight:800;letter-spacing:.08em;color:var(--ink)}
+.portal-next{font-family:'Outfit',sans-serif;font-size:.86rem;font-weight:700}
+.portal-sub{font-size:.72rem;color:#6E5B4F;margin-top:1px}
+.portal-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.portal-btn{border:1px solid rgba(36,28,24,.25);border-radius:8px;background:#FBF8F3;padding:6px 10px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.72rem;color:var(--ink)}
+.portal-btn.danger{color:#B0402F;border-color:rgba(176,64,47,.4)}
+.portal-cap{font-size:.7rem;color:#6E5B4F;margin-top:8px;font-style:italic;text-align:center}
+.tl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px;position:relative}
+.tl:before{content:"";position:absolute;top:5px;left:16%;right:16%;height:2px;background:#DECBA0}
+.tl-step{text-align:center;font-size:.66rem;line-height:1.35;color:var(--ink);position:relative;padding-top:15px}
+.tl-step:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#C9A96A;border:2px solid #FBF8F3}
+.tl-step b{display:block;font-family:'Outfit',sans-serif;font-size:.68rem}
+.howworks{margin-top:46px;background:#F5EEDD;border:1px solid #DECBA0;border-radius:14px;padding:16px 16px 13px;text-align:left}
+.howworks h3{margin:4px 0 16px;font-family:'Outfit',sans-serif;font-size:1.17rem;text-align:center}
+.hw-emoji{margin-right:9px}
+.hw-step{display:flex;gap:13px;margin:9px 0;font-size:.9rem;line-height:1.5}
+.hw-ico{flex:0 0 auto;font-size:1.05rem}
+.howworks + .picker-title{margin-top:38px}
+#root .portal-top{display:flex !important}
+#root .portal-btns{display:flex !important}
+#root .tl{display:grid !important}
+#root .tl-step b{display:block !important}
+#root .hw-step{display:flex !important}
+#root .buybox h1{margin:0 !important;padding:0 !important}
+#root .buybox h1 + .featbs{margin-top:0 !important}
+#root .pick-count{font-size:1.02rem;margin:6px 0 10px}
+#root .featbs{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+#root .featb{background:#fff;border:1px solid rgba(36,28,24,.22);border-radius:999px;padding:4px 12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.07em}
+#root .hw-dash-t{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;margin-top:14px;text-align:center}
+#root .off-badge{background:#fff;border:1px solid rgba(36,28,24,.18);border-radius:999px;padding:3px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.04em}
+#root .portal{margin-top:11px;background:#fff;border:1px solid rgba(36,28,24,.16);border-radius:12px;padding:12px 13px;box-shadow:0 4px 12px rgba(36,28,24,.06);text-align:left}
+#root .portal-top{display:flex;justify-content:space-between;align-items:center;font-size:.68rem;color:#6E5B4F;border-bottom:1px solid #EFE8DC;padding-bottom:7px;margin-bottom:8px}
+#root .portal-brand{font-family:'Outfit',sans-serif;font-weight:800;letter-spacing:.08em;color:var(--ink)}
+#root .portal-next{font-family:'Outfit',sans-serif;font-size:.86rem;font-weight:700}
+#root .portal-sub{font-size:.72rem;color:#6E5B4F;margin-top:1px}
+#root .portal-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+#root .portal-btn{border:1px solid rgba(36,28,24,.25);border-radius:8px;background:#FBF8F3;padding:6px 10px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.72rem;color:var(--ink)}
+#root .portal-btn.danger{color:#B0402F;border-color:rgba(176,64,47,.4)}
+#root .portal-cap{font-size:.7rem;color:#6E5B4F;margin-top:8px;font-style:italic;text-align:center}
+#root .tl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px;position:relative}
+#root .tl:before{content:"";position:absolute;top:5px;left:16%;right:16%;height:2px;background:#DECBA0}
+#root .tl-step{text-align:center;font-size:.66rem;line-height:1.35;color:var(--ink);position:relative;padding-top:15px}
+#root .tl-step:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#C9A96A;border:2px solid #FBF8F3}
+#root .tl-step b{display:block;font-family:'Outfit',sans-serif;font-size:.68rem}
+#root .howworks{margin-top:46px;background:#F5EEDD;border:1px solid #DECBA0;border-radius:14px;padding:16px 16px 13px;text-align:left}
+#root .howworks h3{margin:4px 0 16px;font-family:'Outfit',sans-serif;font-size:1.17rem;text-align:center}
+#root .hw-emoji{margin-right:9px}
+#root .hw-step{display:flex;gap:13px;margin:9px 0;font-size:.9rem;line-height:1.5}
+#root .hw-ico{flex:0 0 auto;font-size:1.05rem}
+#root .howworks + .picker-title{margin-top:38px}
+#root .enemy-list{list-style:none;margin:20px auto 0;padding:0;max-width:560px;display:flex;flex-direction:column;gap:12px;text-align:left}
+#root .enemy-list li{position:relative;padding-left:30px;font-size:.95rem;line-height:1.65;color:var(--ink,#241C18)}
+#root .enemy-list li.x::before{content:"\2715";position:absolute;left:2px;top:1px;color:#B3432B;font-weight:700}
+#root .enemy-list li.v::before{content:"\2713";position:absolute;left:2px;top:1px;color:#2E7D4F;font-weight:800}
+#root .enemy-list.vlist{margin-top:16px;padding-top:16px;border-top:1px dashed rgba(36,28,24,.28)}
+#root .mech-p{max-width:560px;margin:16px auto 0;font-size:.98rem;line-height:1.75;text-align:left}
+#root .mech .section-head{margin-bottom:18px}
+#root .mech-btn{margin-top:26px}
+#root .pat-card{background:#F7F4EF;border:1px solid #E4DCD0;border-radius:14px;padding:26px 26px 22px;max-width:560px;margin:10px auto 0;text-align:left}
+#root .pat-card p{font-family:'Unna',serif;font-style:italic;font-size:1.12rem;line-height:1.6;margin:0 0 14px;color:#241C18}
+#root .pat-sig{font-family:'Unna',serif;font-weight:700;font-size:1.15rem;color:#241C18}
+#root .tiers{display:flex;flex-direction:column;gap:12px;margin:10px 0 6px}
+#root .tier{position:relative;display:flex;gap:12px;align-items:center;border:1.5px solid #E8E0D5;border-radius:14px;padding:16px 14px 14px;background:#fff;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+#root .tier.on{border-color:#241C18;background:#FDFBF8;box-shadow:0 6px 18px rgba(36,28,24,.08)}
+#root .tier-dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #B9AA9C;background:#fff}
+#root .tier.on .tier-dot{border-color:#241C18;background:radial-gradient(circle at center,#241C18 0 55%,transparent 60%)}
+#root .tier-main{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+#root .tier-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:.92rem;letter-spacing:.01em;color:#241C18}
+#root .dkt-save{display:inline-block;margin-top:5px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:#0A7A00;background:#E3F0E8;border-radius:999px;padding:2px 8px;align-self:flex-start}
+#root .tier-price{flex:none;text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+#root .tier-price s{font-size:.74rem;color:#B3402C}
+#root .tier-price b{font-family:'Unna',serif;font-size:1.5rem;font-weight:700;color:#241C18}
+#root .tier-per{font-size:.64rem;color:#6E5B4F;margin-top:3px;white-space:nowrap}
+#root .tier .kg-tag{left:44px;transform:none}
+#root .howworks.one .hw-step{margin-top:8px}
+#root .picker.compact{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;width:100%}
+#root .pick.compact{padding:10px 10px 8px;display:flex;flex-direction:column;gap:6px;min-width:0;max-width:100%;box-sizing:border-box}
+#root .pick.compact .pick-row{align-items:flex-start}
+#root .pick.compact .pick-name{font-size:.82rem;line-height:1.2}
+#root .pick.compact .pick-int{font-size:.62rem}
+#root .pick.compact .pick-free{font-size:.72rem}
+#root .pick.compact .pick-txt{min-width:0}
+#root .pick-foot{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap;row-gap:4px}
+#root .pick.compact .pick-qty{margin:0;gap:4px;padding:2px 4px}
+#root .pick.compact .pick-qty button{width:30px;height:30px;font-size:.95rem}
+#root .pick.compact .pick-qty b{min-width:14px;text-align:center;font-size:.9rem}
+#root .pick.compact .pick-smells{font-size:.76rem;line-height:1.45}
+@media(max-width:360px){.picker.compact{grid-template-columns:1fr}}
+#root .tb-rating{display:flex;align-items:center;gap:8px;font-size:.86rem;color:#241C18;margin-bottom:-6px}
+#root .tb-rating b{font-weight:800}
+#root .stars5{position:relative;display:inline-block;font-size:1.05rem;line-height:1;color:#D9CFC2;letter-spacing:1px}
+#root .stars-fill{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:#E0A11B}
+#root .tier{align-items:center;gap:10px;padding:14px 12px 14px 12px;transition:background .2s,border-color .2s}
+#root .tier.on{border-color:#241C18;box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .tier-pics{flex:none;display:flex;align-items:center}
+#root .tier-pics.n3{width:64px}
+.tier-pics.n2{width:64px}
+.tier-pics.n1{width:64px;justify-content:center}
+#root .tier-per.big{font-family:'Outfit',sans-serif;font-weight:800;font-size:.86rem;color:#241C18;margin-top:3px;white-space:nowrap}
+#root .buybox .mode-tx b{font-style:normal !important;font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.01em}
+#root .mode{position:relative;padding-right:12px}
+#root .mode-price{display:block;font-family:'Unna',serif;font-size:1.05rem;color:#241C18;margin-top:2px}
+#root .mode-price s{color:#B3402C;font-size:.9rem;margin-right:2px}
+#root .mode-price b{font-size:1.25rem;font-weight:700;font-style:normal}
+#root .mode-note{display:block;font-size:.7rem;color:#6E5B4F;margin-top:2px}
+#root .mode-badge{position:absolute;right:12px;top:12px;background:#fff}
+#root .pick.compact{gap:5px}
+#root .pick-ingr,#root .pick.compact .pick-smells{display:block;font-size:.68rem;line-height:1.4;color:#3F332C}
+#root .pick-ingr b,#root .pick.compact .pick-smells b{font-family:'Outfit',sans-serif;font-size:.58rem;letter-spacing:.08em;color:#6E5B4F;font-weight:700}
+#root .pick.compact .pick-foot{justify-content:space-between;margin-top:4px}
+#root .tier-dot{display:none}
+#root .tier{gap:12px;padding:14px 12px}
+#root .tier-pics{flex:none;display:flex;align-items:center;overflow:visible}
+#root .tier-pics.n1{width:36px;justify-content:flex-start}
+.tier-pics.n2{width:52px}
+.tier-pics.n3{width:68px}
+#root .tier-main{flex:1;min-width:0}
+#root .tier-name{font-size:.86rem;line-height:1.25}
+#root .tier-price{flex:none;max-width:118px}
+#root .tier-per.big{font-size:.8rem}
+#root .buybox .mode-tx{padding-right:112px;text-align:left}
+#root .buybox .mode-tx b{display:block}
+#root .mode-price b,#root .mode-price s{display:inline !important}
+#root .mode-price{font-size:1rem}
+#root .mode-note{text-align:left}
+#root .mode-badge{top:10px;right:10px;font-size:.58rem}
+#root .mode.on .mode-badge{border-color:#241C18}
+#root .adv-announce .adv-announce-in,#root .adv-announce .atext{white-space:normal !important;overflow:visible !important;text-overflow:clip !important;line-height:1.35;display:block}
+#root .adv-announce .atext{font-size:.78rem;padding:2px 8px}
+#root .pick.compact .pick-smells,#root .pick.compact .pick-ingr{display:block !important;width:100% !important;max-width:none !important;white-space:normal !important;flex:none;margin:0}
+#root .pick.compact .pick-smells b{display:inline;margin-right:3px}
+#root .pick.compact .pick-smells{padding-right:0 !important}
+#root .tier-pics.tp-kit{flex:none;display:flex;align-items:center;position:relative}
+#root .tier-pics.tp-kit .kg-tag.pic-tag{top:-8px;left:50%;transform:translateX(-50%);font-size:.48rem;letter-spacing:.05em;padding:2px 7px;box-shadow:0 2px 6px rgba(36,28,24,.25);z-index:1}
+#root .tier-img{display:block;width:64px;height:64px;object-fit:cover;border-radius:12px;border:1.5px solid rgba(36,28,24,.10);box-shadow:0 2px 8px rgba(36,28,24,.10);background:#EFEFEF}
+#root .tier.on .tier-img{border-color:rgba(36,28,24,.35)}
+#root .buybox .tier-name{font-size:1.06rem;line-height:1.2;letter-spacing:0}
+#root .buybox .tier-main{gap:4px}
+#root .buybox .tier{gap:12px;padding:14px 12px}
+#root .tier-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+#root .tier-tag{display:inline-block;background:#fff;border:1px solid rgba(36,28,24,.18);border-radius:999px;padding:2px 7px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.05em;text-transform:uppercase;color:#241C18;white-space:nowrap;line-height:1.4}
+#root .tier.on .tier-tag{border-color:rgba(36,28,24,.3)}
+#root .buybox .dkt-save{margin-top:2px}
+@media(min-width:600px){.tier-img{width:78px;height:78px}
+.tier-pics.tp-kit .kg-tag.pic-tag{font-size:.54rem;padding:3px 8px}
+.buybox .tier-name{font-size:1.22rem}
+.tier-tag{font-size:.6rem;padding:3px 9px}
+.buybox .tier{gap:16px;padding:16px 16px}}
+#root .tier-note{display:flex;flex-direction:column;align-items:center;gap:4px;margin:16px 6px 2px}
+#root .tier-note p{margin:0;font-family:'Unna',serif;font-size:1.14rem;line-height:1.45;color:#241C18;text-align:center;text-wrap:balance}
+#root .tier-note p b{font-weight:700}
+#root .tier-note p i{font-style:italic;color:#6E5B4F}
+#root .buybox .mode,#root .buybox .mode-tx,#root .buybox .mode-tx span,#root .buybox .mode-note,#root .buybox .mode-price,#root .buybox .mode-price s,#root .buybox .mode-price b{color:#241C18 !important}
+#root .buybox .mode-price s{text-decoration-color:#241C18;opacity:.55}
+#root .buybox .mode{transition:background .2s,border-color .2s}
+#root .buybox .mode.on{box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .mode-perks{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 10px;margin-top:9px;padding-top:9px;border-top:1px solid rgba(36,28,24,.14)}
+#root .mode-perks span{display:block;font-size:.68rem;line-height:1.3;font-weight:600;font-family:'Outfit',sans-serif;letter-spacing:0}
+#root .buybox .mode .mode-tx{padding-right:0 !important}
+#root .buybox .mode.sub .mode-tx > b{padding-right:122px;font-size:.99rem;line-height:1.25}
+#root .mode.on .mode-badge{background:#fff}
+#root .pick-ingr{display:flex !important;align-items:flex-start;gap:9px}
+#root .pick-emoji{flex:none;font-size:.9rem;line-height:1.2;margin-right:2px}
+#root .pick.compact .pick-ingr b{font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:0;color:#241C18;font-weight:800;line-height:1.35;text-transform:none}
+#root .atc-pay{text-align:center;font-size:.8rem;color:#241C18;margin-top:10px}
+#root .atc-pay b{font-weight:800}
+#root .atc-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+#root .atc-chip{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;background:#FDFBF8;border:1.5px solid #E8E0D5;border-radius:14px;padding:12px 6px 11px}
+#root .atc-chip-ic{font-size:1.5rem;line-height:1}
+#root .atc-chip b{display:block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.74rem;line-height:1.2;color:#241C18;letter-spacing:.01em}
+#root .atc-chip small{display:block;font-size:.68rem;color:#6E5B4F;line-height:1.25;margin-top:2px}
+#root .atc-secure{display:flex;flex-direction:column;align-items:center;gap:7px;margin-top:14px;font-size:.72rem;color:#6E5B4F}
+#root .atc-secure-t{font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.62rem;color:#6E5B4F}
+#root .paylogos{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+#root .paylogo-svg{display:block;width:50px;height:32px;border-radius:5px;box-shadow:0 1px 3px rgba(36,28,24,.12)}
+#root .shoppay-wrap{display:inline-flex;vertical-align:middle}
+#root .shoppay-lock{display:inline-flex;align-items:center;gap:3px;vertical-align:middle;margin-left:4px}
+#root .shoppay-lock b{font-family:'Outfit',sans-serif;font-weight:800;font-size:.92rem;color:#241C18;letter-spacing:-.01em}
+#root .shoppay-svg{display:block;width:44px;height:28px;border-radius:5px}
+#root .atc-pay{font-size:.8rem;margin-top:12px;display:flex;justify-content:center;align-items:center;gap:4px;white-space:nowrap;flex-wrap:wrap}
+#root .picker-sub{text-align:center;font-family:'Unna',serif;font-size:.98rem;line-height:1.4;color:#3F332C;margin:6px 8px 2px}
+#root .picker-sub b{color:#0A7A00;font-weight:700}
+#root .picker-title + .picker-sub + .modes{margin-top:12px}
+#root .modes.dim{opacity:.5;pointer-events:none;filter:grayscale(.4)}
+#root .mode-from{display:inline !important;font-style:italic;font-family:'Unna',serif;font-size:.86rem;color:#241C18 !important;margin-left:4px}
+#root .buybox .mode.sub .mode-tx > b{padding-right:116px}
+#root .howto .howsteps{display:flex;flex-direction:column;gap:0;max-width:520px;margin:0 auto;position:relative;padding:4px 0 0}
+#root .howto .howsteps::before{content:"";position:absolute;left:23px;top:44px;bottom:44px;width:2px;background:linear-gradient(180deg,rgba(201,162,92,.15),rgba(201,162,92,.7) 20%,rgba(201,162,92,.7) 80%,rgba(201,162,92,.15))}
+#root .howto .hstep{position:relative;display:grid !important;grid-template-columns:48px minmax(0,1fr) 92px;grid-template-areas:"num title img" "num body img";column-gap:14px;row-gap:4px;align-items:center;background:transparent;box-shadow:none;border-radius:0;padding:18px 0;text-align:left;height:auto}
+#root .howto .hstep .hnum{grid-area:num;align-self:center;margin:0;width:48px;height:48px;border:2px solid #C9A25C;background:#141414;color:#F6E8DF;font-family:'Unna',serif;font-weight:700;font-size:1.45rem;box-shadow:0 0 0 6px #141414}
+#root .howto .hstep h3{grid-area:title;align-self:end;margin:0;color:#FFFFFF;font-size:1.32rem;line-height:1.15}
+#root .howto .hstep p{grid-area:body;align-self:start;margin:0;color:#D9CCC0;font-size:.9rem;line-height:1.45;max-width:none}
+#root .howto .hstep .ph{grid-area:img;width:92px;height:92px;max-width:none;margin:0;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
+#root .howto .angle-bullets{margin-bottom:10px}
+@media(min-width:760px){#root .howto .howsteps{flex-direction:row;max-width:none;gap:22px;align-items:stretch;padding:0}
+#root .howto .howsteps::before{display:none}
+#root .howto .hstep{flex:1;display:flex !important;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:0 8px}
+#root .howto .hstep .ph{width:100%;height:auto;aspect-ratio:1/1;max-width:300px;border-radius:18px}
+#root .howto .hstep .hnum{margin:-26px auto 0;width:52px;height:52px;font-size:1.55rem}
+#root .howto .hstep h3{font-size:1.5rem;align-self:center}
+#root .howto .hstep p{max-width:24em;font-size:.95rem;align-self:center}}
+/* 2026-09-05 sizes: tier price -10%, retention note -15% */
+#root .buybox .tier-price b{font-size:1.15rem}
+#root .buybox .tier-price s{font-size:.57rem}
+#root .tier-note p{font-size:.97rem}
+
+#root .hv-play{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border:0;border-radius:50%;background:rgba(255,255,255,.88);box-shadow:0 6px 24px rgba(0,0,0,.22);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;padding:0}#root .hv-play span{display:block;width:0;height:0;margin-left:5px;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #1a1a1a}#root .hv-play:active{transform:scale(.96)}
+
+#root .decline{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:.86rem;line-height:1.35;color:#5C4F48;cursor:pointer;text-align:center;background:transparent;border:1px dashed transparent}#root .decline u{text-decoration:underline;text-underline-offset:2px}#root .decline:hover{color:#241C18}#root .decline.on{background:#F4EEE8;border-color:#D9CCC0;color:#241C18;text-align:left;justify-content:flex-start}#root .decline b{font-weight:700}#root .decline-ic{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:#241C18;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+#root .hv-host{display:contents}
+#root .buybox .tier-name{font-size:.83rem}#root .buybox .tier-price b{font-size:1.21rem}#root .buybox .tier-price s{font-size:.6rem}
+#root .tier .tier-pics.tp-kit{position:static}
+#root .tier .tier-pics.tp-kit .kg-tag.pic-tag{top:-10px;left:auto;right:12px;transform:none;font-size:.56rem;padding:3px 9px}
+#root .buybox .tier-name{font-size:.9rem}
+#root .pick-introw{display:block;min-width:0;line-height:1.35}
+#root .pick-vol{display:inline-block;vertical-align:middle;margin-left:5px;position:relative;top:-1px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.52rem;letter-spacing:.04em;line-height:1;padding:3px 6px;border-radius:999px;border:1px solid rgba(36,28,24,.28);color:#241C18;background:#fff}
+/* ===== v3s20: three-step buy box (2026-09-14) ===== */
+#root .usp3{display:flex;gap:8px;margin:12px 0 4px}
+#root .usp3 .usp{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:12px;padding:11px 6px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;line-height:1.3;letter-spacing:.01em;text-transform:none;text-align:center;color:#241C18}
+#root .usp3 .usp-ic{width:38px;height:38px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:19px}
+#root .usp3 .usp-tx{white-space:pre-line}
+#root .usp3 .usp:nth-child(1){background:rgba(183,217,232,.16)}#root .usp3 .usp:nth-child(1) .usp-ic{background:linear-gradient(145deg,#D8ECF3 0%,#B7D9E8 100%)}
+#root .usp3 .usp:nth-child(2){background:rgba(246,201,155,.16)}#root .usp3 .usp:nth-child(2) .usp-ic{background:linear-gradient(145deg,#FBE3C9 0%,#F6C99B 100%)}
+#root .usp3 .usp:nth-child(3){background:rgba(188,228,192,.16)}#root .usp3 .usp:nth-child(3) .usp-ic{background:linear-gradient(145deg,#DFF3D8 0%,#BCE4C0 100%)}
+#root .stepbar{margin:20px 0 2px}
+#root .prog{height:6px;border-radius:99px;background:rgba(36,28,24,.10);overflow:hidden}#root .prog i{display:block;height:100%;background:#241C18;border-radius:99px;transition:width .3s}
+#root .pstep{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A5F;margin-top:6px}
+#root .step-title{margin-top:8px}
+#root .tier-line{display:block;font-size:.74rem;line-height:1.35;color:#5B4B42;margin-top:3px}
+#root .tier-line.strong{font-size:.8rem;font-weight:700;color:#241C18}
+#root .btn.step-next{margin-top:14px}
+#root .navrow{display:flex;gap:10px;margin-top:16px}#root .navrow .btn{flex:1;margin:0}#root .navrow .btn.atc{margin-top:0}
+#root .navrow .btn.secondary{flex:0 0 56px;background:#fff;color:#241C18;border:1.5px solid #241C18;box-shadow:none}
+#root .navrow .btn.secondary.wide{flex:1}
+#root .kitrev{border:1.5px solid rgba(36,28,24,.16);border-radius:14px;background:#fff;box-shadow:0 6px 16px rgba(36,28,24,.06);padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin:12px 0 14px}
+#root .kr-row{display:flex;align-items:center;gap:10px;font-size:.88rem}
+#root .kr-row .kr-img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:0 0 44px;background:#fff}
+#root .kr-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}#root .kr-tx b{font-weight:700}
+#root .kr-sub{font-size:.7rem;line-height:1.3;color:#7A6A5F}
+#root .kr-pr{white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;font-size:.85rem;text-align:right}
+#root .kr-pr s{color:#9A8B80;font-weight:600;margin-right:4px}#root .kr-pr .inc{color:#1F7A3A}
+#root .kr-total{display:flex;justify-content:space-between;border-top:1.5px dashed rgba(36,28,24,.18);padding-top:10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem}
+#root .kr-save{text-align:center;font-size:.82rem;color:#1F7A3A;font-weight:700}
+#root .gift-obj{margin-top:12px}
+#root .gift-art{flex:0 0 110px;width:110px;height:83px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px}
+#root .rv6{margin:18px 0 6px}
+#root .rv6-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#root .rv6-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A5F}
+#root .rv6-nav{display:flex;gap:6px}#root .rv6-nav button{width:32px;height:32px;border-radius:50%;border:1.5px solid #241C18;background:#fff;color:#241C18;font-size:1rem;line-height:1;cursor:pointer;padding:0}
+#root .rv6-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px}#root .rv6-track::-webkit-scrollbar{display:none}
+#root .rv6-card{flex:0 0 78%;max-width:300px;scroll-snap-align:start;background:linear-gradient(160deg,#FFFFFF 0%,#FBF5EC 100%);border:1.5px solid #DECBA0;border-radius:14px;padding:10px 12px 14px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box}
+@media(min-width:900px){#root .rv6-card{flex-basis:32%}}
+#root .rv6-img{position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:#EFE7DF}#root .rv6-img img{width:100%;height:100%;object-fit:cover;display:block}
+#root .rv6-stars{color:#E0A526;font-size:.85rem;letter-spacing:2px;margin-top:4px}
+#root .rv6-q{font-family:'Unna',serif;font-style:italic;font-size:1rem;line-height:1.4;margin:0;color:#241C18}
+#root .rv6-who{font-family:'Outfit',sans-serif;font-size:.74rem;color:#7A6A5F}#root .rv6-who b{color:#241C18}
+#root .rv6-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}#root .rv6-dot{width:6px;height:6px;border-radius:50%;background:rgba(36,28,24,.18)}#root .rv6-dot.on{background:#241C18}
+#root .plan-sub{font-size:1rem;line-height:1.45;color:#241C18}
+#root .mode.sub .mode-tx > b{font-size:1.15rem}
+#root .mode-from{font-style:normal;font-family:'Outfit',sans-serif;font-weight:600;font-size:.9rem}
+#root .mode-note{font-size:.92rem;line-height:1.45;color:#241C18}
+#root .mode-perks span{font-size:.82rem}
+#root .modes .decline,#root .decline,#root .decline.on{background:transparent !important;border-color:transparent !important;box-shadow:none !important}
+#root .modes,#root .modes.dim{background:transparent !important;box-shadow:none !important}
+#root .mode.sub,#root .mode.sub.on{box-shadow:none !important}
+
+/* ===== v3s21: refill plan is part of the offer (no opt-out) 2026-09-16 ===== */
+#root .plan-card{position:relative;border:1.5px solid #241C18;border-radius:14px;padding:14px 14px 12px;margin-top:12px;box-shadow:none}
+#root .plan-head{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding-right:0}
+#root .plan-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:#241C18}
+#root .plan-incl{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#1F7A3A;background:#E4F0E4;border-radius:999px;padding:3px 9px}
+#root .plan-ship{margin-left:auto}
+#root .plan-price{font-family:'Unna',serif;font-size:1.15rem;color:#241C18;margin-top:8px}#root .plan-price s{color:#9A8B80;margin-right:4px}#root .plan-price b{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem}#root .plan-per{font-size:.85rem;color:#6E5B4F}
+#root .plan-why{font-size:.92rem;line-height:1.5;color:#241C18;margin-top:10px}#root .plan-why b{font-weight:700}#root .plan-wink{color:#5B4B42}
+#root .plan-perks{border-top:1px solid rgba(36,28,24,.14);margin-top:12px;padding-top:10px}
+@media (max-width:640px){#root .plan-name{font-size:1.05rem}#root .plan-ship{margin-left:0}}
+/* v3s24: step-3 plan card as selectable option + one-time choice (owner 2026-09-17) */
+.plan-q{font-family:'Unna',serif;font-weight:700;font-size:1.4rem;line-height:1.05;letter-spacing:-.02em;color:#241C18}
+.plan-card.plan-v1 .plan-why{margin-top:9px}.plan-card.plan-v1 .plan-exit{padding-top:9px;border-top:1px solid rgba(36,28,24,.14)}
+.plan-card.plan-v1.dim{border-color:rgba(36,28,24,.28)}
+.ot-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid #241C18;flex:0 0 auto;margin-top:2px;position:relative;background:#fff}
+.ot-dot.chk::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#241C18}
+.plan-card.plan-v1{cursor:pointer}.plan-opt{display:flex;align-items:center;gap:8px;margin-bottom:10px}.plan-opt-l{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:0;text-transform:none;color:#241C18;line-height:1.2}.plan-opt .plan-incl{margin-left:auto;white-space:nowrap;flex:0 0 auto}.plan-opt .ot-dot{margin-top:0}
+.plan-q{text-align:left}
+.plan-card.plan-v1 .plan-day{font-size:.8rem;color:#5C4F48;margin-top:6px}
+/* v3s26: one-time choice as plain text (owner 2026-09-17) */
+.onetime{display:block;width:100%;background:none;border:0;padding:12px 8px 2px;margin:0;font:inherit;font-size:.9rem;line-height:1.45;color:#241C18;text-align:center;cursor:pointer}
+.onetime u{text-decoration-thickness:1px;text-underline-offset:3px}
+.onetime.on{color:#241C18}.onetime.on b{color:#1F7A3A}
+.onetime:focus-visible{outline:2px solid #241C18;outline-offset:2px;border-radius:8px}
+/* ===== free-diffusers page (2026-09-19): draft delta ===== */
+.plan-q{font-family:'Unna',serif;font-weight:700;font-size:1.4rem;line-height:1.05;letter-spacing:-.02em;color:#241C18}
+.plan-card.plan-v1 .plan-why{margin-top:9px}.plan-card.plan-v1 .plan-exit{padding-top:9px;border-top:1px solid rgba(36,28,24,.14)}
+.plan-card.plan-v1.dim{border-color:rgba(36,28,24,.28)}
+.ot-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid #241C18;flex:0 0 auto;margin-top:2px;position:relative;background:#fff}
+.ot-dot.chk::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#241C18}
+.plan-card.plan-v1{cursor:pointer}.plan-opt{display:flex;align-items:center;gap:8px;margin-bottom:10px}.plan-opt-l{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:0;text-transform:none;color:#241C18;line-height:1.2}.plan-opt .plan-incl{margin-left:auto;white-space:nowrap;flex:0 0 auto}.plan-opt .ot-dot{margin-top:0}
+.plan-q{text-align:left}
+.onetime{display:block;width:100%;background:none;border:0;padding:12px 8px 2px;margin:0;font:inherit;font-size:.9rem;line-height:1.45;color:#241C18;text-align:center;cursor:pointer}
+.onetime u{text-decoration-thickness:1px;text-underline-offset:3px}
+.onetime.on{color:#241C18}.onetime.on b{color:#1F7A3A}
+.onetime:focus-visible{outline:2px solid #241C18;outline-offset:2px;border-radius:8px}
+.plan-card.plan-v1 .plan-day{font-size:.8rem;color:#5C4F48;margin-top:6px}
+.promo-strip{background:#111;color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 12px;line-height:1.35}
+@media (max-width:899px){.promo-strip{width:100vw;margin-left:calc(50% - 50vw)}}
+.dealbox{border:1.5px solid #241C18;border-radius:14px;padding:12px 14px;margin:12px 0 4px;background:#fff}
+.deal-t{font-family:'Unna',serif;font-weight:700;font-size:1.25rem;line-height:1.1;margin-bottom:8px}
+.deal-row{display:flex;gap:9px;align-items:flex-start;font-size:.92rem;line-height:1.45;padding:4px 0}
+.deal-ic{flex:0 0 auto;font-size:1rem;line-height:1.4}
+.tier-name{font-size:1.18rem;line-height:1.2}.tier.lite .tier-name{font-size:1.08rem}
+.tier-req{display:block;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#8A5B52;margin-top:1px}
+.tier-claim{display:block;font-size:.82rem;color:#1F7A3A;margin-top:5px}.tier-claim b{font-weight:800}
+.tier-ship{display:inline-block;width:auto;max-width:100%;align-self:flex-start;flex:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.01em;text-transform:none;color:#5C4F48;background:#F3EAE8;border-radius:999px;padding:5px 11px;margin-top:8px;line-height:1.3}
+.tier-ship.free{color:#fff;background:#0A9400}
+.tier.lite .tier-ship{font-size:.66rem;white-space:nowrap;padding:5px 10px}
+.tier.lite{border-color:rgba(36,28,24,.14)}.tier.lite .tier-name{color:#5C4F48;font-size:.98rem}.tier.lite .tier-line{color:#8A7F78;font-size:.82rem}.tier.lite .tier-img{opacity:.85}
+.scarcity-strip{background:#B3261E;color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;padding:14px 12px;border-radius:12px;margin:14px 0}
+.siren{display:inline-block;animation:mc-blink 1.4s ease-in-out infinite;will-change:opacity}
+@keyframes mc-blink{0%,100%{opacity:1}50%{opacity:.2}}
+@media (prefers-reduced-motion:reduce){.siren{animation:none}}
+.popt-sub.big{font-size:.95rem;font-weight:700;color:#241C18}
+.plan-fact{font-size:.9rem;line-height:1.5;color:#241C18;text-align:center;margin:12px 4px 4px;padding:10px 12px;background:#F7F3EE;border-radius:12px}
+.plan-opts{display:flex;flex-direction:column;gap:10px;margin:0 0 4px}
+.popt{display:flex;gap:10px;align-items:flex-start;border:1.5px solid rgba(36,28,24,.25);border-radius:14px;padding:13px 14px;background:#fff;cursor:pointer;position:relative}
+.popt.on{border-color:#241C18;box-shadow:inset 0 0 0 1px #241C18;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
+.popt .ot-dot{margin-top:2px}
+.popt-tx{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}.popt-tx > b{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;line-height:1.25;padding-right:74px}
+.popt-line{font-size:.9rem;line-height:1.45;color:#241C18}.popt-sub{font-size:.8rem;color:#5C4F48}
+.popt .plan-incl{position:absolute;top:12px;right:12px}
+.plan-card.plan-v1 .plan-math{background:rgba(255,255,255,.55);border-radius:10px;padding:8px 10px;margin-top:10px}
+.tier-ship{display:block;font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.04em;color:#5C4F48;margin-top:4px}
+.pick-free .pf-price{color:#241C18;font-weight:800;margin-right:4px}
+.onetime small{display:block;font-size:.76rem;color:#5C4F48}
+
+/* ===== fd5 (2026-09-19) owner adjustments: deal box -20%, kit titles 2+3 +10% bold, red strip -20%,
+   Selected pill no longer overlaps the option title (flex column instead of absolute) ===== */
+#root .buybox .dealbox{padding:10px 11px}
+#root .buybox .dealbox > :first-child:not(.deal-row){font-size:1rem}
+#root .buybox .deal-row{font-size:.736rem;padding:3px 0;gap:7px}
+#root .buybox .deal-ic{font-size:.8rem}
+#root .buybox .tier:not(.lite) .tier-name{font-size:.99rem;font-weight:800}
+#root .buybox .scarcity-strip{font-size:.84rem;padding:11px 10px;letter-spacing:.1em}
+#root .popt .plan-incl{position:static;margin-left:auto;flex:0 0 auto;align-self:flex-start;white-space:nowrap;margin-top:2px}
+
+/* ===== fd7 (2026-09-19) owner: auto-refill option lines 10% smaller, one line each; Selected pill back to the corner,
+   title padded so it never runs under the pill ===== */
+#root .popt .plan-incl{position:absolute;top:12px;right:12px;margin:0}
+#root .popt.on .popt-tx > b{display:block;padding-right:96px}
+#root .popt-line{font-size:.81rem;line-height:1.4;white-space:nowrap}
+#root .popt-sub.big{font-size:.855rem;white-space:nowrap}
+@media (max-width:359px){#root .popt-line,#root .popt-sub.big{white-space:normal}}
+/* fd9 (2026-09-20): wrapper for the adopted pre-hero poster; transparent to layout so .simg positions against the slide */
+.hv-pwrap{display:contents}
+/* fd12 (2026-09-23, owner): the one-time option line wraps (longer copy) */
+#root .popt-line.wrap{white-space:normal}
+/* fd12 (2026-09-24, owner): hold countdown badge on the hero video */
+#root .gal-slide{position:relative}
+#root .hv-timer{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;background:rgba(36,28,24,.82);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;border-radius:999px;padding:8px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
+#root .hv-timer b{font-variant-numeric:tabular-nums;font-size:.86rem;margin-left:2px}
+@media (max-width:359px){#root .hv-timer{font-size:.64rem;padding:7px 11px}}
+/* fd13 (2026-09-25, owner): title above the payment options; step bar and scarcity strip removed in the app */
+#root .buybox .plan-title{font-family:'Unna',serif;font-weight:700;font-size:1.25rem;line-height:1.15;margin:16px 0 8px;color:#241C18}
+#root .buybox .plan-opts{margin-top:0}
+/* fd13 (2026-09-25, owner): refill section — title, explainer, one Auto-refill card, one-time as a text link */
+#root .buybox .plan-title{display:none}
+#root .buybox .refill-title{margin-top:22px}
+#root .buybox .refill-sub{margin:6px 0 12px;text-align:center;font-family:'Unna',serif;font-size:1.05rem;line-height:1.35;color:#5C4F46}
+#root .buybox .refill-sub b{color:#1E7A46;font-weight:700}
+#root .buybox .rf-card{position:relative;display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;border:1.5px solid rgba(36,28,24,.18);border-radius:18px;padding:16px 16px 14px;background:#fff;cursor:pointer}
+#root .buybox .rf-card.on{border-color:#241C18;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%);box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .buybox .rf-card .ot-dot{margin-top:3px}
+#root .buybox .rf-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#root .buybox .rf-head b{font-size:1.08rem;letter-spacing:-.01em}
+#root .buybox .rf-ship{border:1.5px solid #241C18;background:#fff;border-radius:999px;padding:5px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+#root .buybox .rf-price{display:flex;align-items:baseline;gap:6px;margin-top:6px;flex-wrap:wrap}
+#root .buybox .rf-price s{color:#8C7D72;font-size:.95rem}
+#root .buybox .rf-price b{font-size:1.5rem;letter-spacing:-.01em;line-height:1}
+#root .buybox .rf-price .rf-per{font-size:.8rem;color:#5C4F46}
+#root .buybox .rf-price i{font-family:'Unna',serif !important;font-size:1rem;color:#241C18;margin-left:4px}
+#root .buybox .rf-line{margin-top:8px;font-size:.86rem;line-height:1.4;color:#241C18}
+#root .buybox .rf-perks{list-style:none;margin:12px 0 0;padding:12px 0 0;border-top:1px solid rgba(36,28,24,.14);display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+#root .buybox .rf-perks li{font-size:.8rem;font-weight:700;line-height:1.3}
+#root .buybox .rf-perks li:before{content:"\2713 ";font-weight:700}
+#root .buybox .rf-alt{margin:14px 0 0;text-align:center;font-size:.95rem;line-height:1.45;color:#5C4F46}
+#root .buybox .rf-alt.on{color:#241C18;background:#F3EBE1;border-radius:14px;padding:10px 12px;font-size:.88rem}
+#root .buybox .rf-link{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:359px){#root .buybox .rf-perks{grid-template-columns:1fr}}
+/* fd13 (2026-09-25, owner): free-shipping pills black */
+#root .buybox .tier-ship.free{background:#111;color:#fff;border-color:#111}
+/* fd13 (2026-09-25, owner): room badges instead of the room sentence; MOST POPULAR green; no shipping pill */
+#root .buybox .tier-rooms{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+#root .buybox .tier-room{display:inline-block;background:#fff;border:1px solid rgba(36,28,24,.16);border-radius:999px;padding:4px 9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#241C18;white-space:nowrap}
+#root .buybox .tier-claim{margin-top:8px}
+#root .buybox .kg-tag.pic-tag.pop{background:#1E7A46;color:#fff;border-color:#1E7A46}
+/* fd13 (2026-09-25, owner): perk check marks separated from the text */
+#root .buybox .rf-perks li{display:flex;align-items:flex-start;gap:8px}
+#root .buybox .rf-perks li:before{content:"\2713";flex:0 0 auto;width:16px;height:16px;border-radius:50%;background:#1E7A46;color:#fff;font-size:.62rem;line-height:16px;text-align:center;margin-top:1px}
+/* fd13 (2026-09-25, owner: CRO items 1, 2, 3, 5) */
+#root .buybox .sub-lede{margin:8px 0 0;font-size:.95rem;line-height:1.45;color:#5C4F46}
+#root .buybox .sub-lede b{color:#241C18}
+#root .buybox .usp3{margin-top:10px}
+#root .buybox .tier-price{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:0;margin:0 0 0 4px;max-width:none;line-height:1.05;align-self:center}
+#root .buybox .tier-price s{font-size:.74rem;color:#B3402C;font-weight:500;line-height:1.2}
+#root .buybox .tier-price b{font-family:'Unna',serif !important;font-size:1.25rem;font-weight:700;color:#241C18;letter-spacing:0;line-height:1.1}
+#root .buybox .dkt-save{display:inline-block;align-self:flex-start;margin-top:8px;background:#E4F3EA;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 10px;line-height:1.2}
+#root .buybox .tier .tier-name{padding-right:0}
+@media (max-width:359px){#root .buybox .tier-price b{font-size:1.1rem}}
+#root .buybox .pick-pill-row{display:flex;justify-content:center;margin:-4px 0 10px}
+#root .buybox .pick-pill{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:#F3EBE1;color:#241C18;border-radius:999px;padding:4px 10px;white-space:nowrap}
+#root .buybox .pick-hint{margin:0;padding:12px 14px;border:1.5px dashed rgba(36,28,24,.22);border-radius:999px;text-align:center;font-size:.86rem;color:#5C4F46;flex:1}
+#root .buybox .navrow{align-items:center}
+/* fd13 compact (2026-09-25, owner: kit cards + refill card "more compact, less big") */
+#root .buybox .tier{gap:10px;padding:12px 12px 12px 10px}
+#root .buybox .tier-main{gap:2px}
+#root .buybox .tier-img{width:56px;height:56px;border-radius:10px}
+#root .buybox .tier-name,#root .buybox .tier:not(.lite) .tier-name,#root .buybox .tier.lite .tier-name{font-size:.86rem;line-height:1.2}
+#root .buybox .tier-rooms{gap:4px;margin-top:4px}
+#root .buybox .tier-room{padding:3px 7px;font-size:.54rem;letter-spacing:.06em}
+#root .buybox .dkt-save{margin-top:5px;font-size:.58rem;padding:3px 8px}
+#root .buybox .tier-price b{font-size:1.15rem}
+#root .buybox .tier-price s{font-size:.68rem}
+#root .buybox .tier .tier-pics.tp-kit .kg-tag.pic-tag{top:-9px;right:10px;font-size:.5rem;padding:3px 8px}
+#root .buybox .rf-card{gap:10px;padding:12px 12px 11px;border-radius:14px}
+#root .buybox .rf-card .ot-dot{width:14px;height:14px;margin-top:2px}
+#root .buybox .rf-card .ot-dot.chk::after{inset:3px}
+#root .buybox .rf-head{gap:6px 8px}
+#root .buybox .rf-head b{font-size:.92rem}
+#root .buybox .rf-ship{padding:3px 7px;font-size:.52rem;letter-spacing:.06em}
+#root .buybox .rf-price{margin-top:4px;gap:5px}
+#root .buybox .rf-price s{font-size:.78rem}
+#root .buybox .rf-price b{font-size:1.2rem}
+#root .buybox .rf-price .rf-per{font-size:.7rem}
+#root .buybox .rf-price i{font-size:.86rem;margin-left:2px}
+#root .buybox .rf-line{margin-top:5px;font-size:.78rem;line-height:1.35}
+#root .buybox .rf-perks{margin-top:8px;padding-top:8px;gap:4px 10px}
+#root .buybox .rf-perks li{font-size:.72rem;gap:6px;line-height:1.25}
+#root .buybox .rf-perks li:before{width:14px;height:14px;line-height:14px;font-size:.56rem;margin-top:0}
+#root .buybox .rf-alt{margin-top:10px;font-size:.84rem;line-height:1.4}
+#root .buybox .refill-title{margin-top:18px}
+#root .buybox .refill-sub{margin:4px 0 10px;font-size:.98rem}
+@media (max-width:479px){#root .buybox .rf-perks{grid-template-columns:1fr;gap:3px}}
+@media (min-width:600px){#root .buybox .tier-img{width:64px;height:64px}#root .buybox .tier-name,#root .buybox .tier:not(.lite) .tier-name{font-size:.94rem}#root .buybox .tier-price b{font-size:1.3rem}#root .buybox .rf-head b{font-size:1rem}#root .buybox .rf-price b{font-size:1.35rem}}
+/* fd14a (2026-09-25, owner: make the "free with Auto-refill" rule clear on step 3) */
+#root .buybox .rf-two{display:grid;gap:10px}
+#root .buybox .rf-card.rf-one{background:#fff}
+#root .buybox .rf-card.rf-one.on{background:#FBF4EC;border-color:#241C18;box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .buybox .rf-price .rf-per{font-size:.74rem;color:#5C4F46}
+#root .buybox .rf-tag{display:inline-block;margin-left:6px;background:#E4F3EA;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 8px;vertical-align:middle;white-space:nowrap}
+#root .buybox .rf-tag.warn{background:#FBE9E5;color:#B3402C}
+#root .buybox .rf-line b{color:#241C18}
+#root .buybox .kr-pr .inc small{display:block;font-size:.58rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1E7A46;line-height:1.1}
+#root .buybox .kr-strip{margin:6px 0 2px;padding:8px 10px;border-radius:10px;background:#FBE9E5;color:#B3402C;font-size:.8rem;line-height:1.35;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+#root .buybox .kr-strip b{color:#B3402C}
+#root .buybox .kr-strip .rf-link{color:#241C18;font-weight:700;margin-left:auto}
+@media (max-width:359px){#root .buybox .rf-tag{font-size:.5rem;padding:2px 6px}}
+
+/* ritual (2026-09-26): 90-day ritual timeline strip under the USPs */
+.rit-line{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 4px}.rit-step{background:#F7F2EC;border-radius:10px;padding:8px 9px;font-size:.72rem;line-height:1.3;color:#4b413b}.rit-step b{display:block;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:#241C18;margin-bottom:3px;font-family:inherit}@media (max-width:600px){.rit-line{grid-template-columns:repeat(2,1fr)}}
+
+/* ritual v2 (2026-09-29): intention-first picker cards + refill schedule chooser */
+.pick-name.pick-power{font-family:'Outfit',sans-serif !important;font-size:1rem;line-height:1.1;text-transform:uppercase;letter-spacing:.04em;color:#241C18}
+.pick-scent{font-size:.76rem;font-weight:600;color:#5C4F46}
+.freq3{display:grid;gap:8px}
+.fq{position:relative;display:grid;grid-template-columns:22px auto 1fr;grid-template-areas:"dot days price" "dot sub sub";column-gap:10px;row-gap:2px;align-items:center;border:1.5px solid rgba(36,28,24,.18);border-radius:14px;padding:11px 12px;background:#fff;cursor:pointer}
+.fq.on{border-color:#241C18;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%);box-shadow:0 8px 22px rgba(36,28,24,.10)}
+.fq .ot-dot{grid-area:dot;width:14px;height:14px}.fq .ot-dot.chk::after{inset:3px}
+.fq-days{grid-area:days;font-size:.92rem}.fq-price{grid-area:price;justify-self:end;font-size:.8rem;color:#5C4F46}
+.fq-price b{font-family:'Unna',serif !important;font-size:1.3rem;line-height:1;color:#241C18;margin-right:1px}.fq-price small{font-size:.72rem}
+.fq-sub{grid-area:sub;font-size:.72rem;color:#5C4F46}
+.kr-next{font-size:.78rem;color:#5C4F46;text-align:center;margin-top:6px;line-height:1.4}
+
+/* ritual v3 (2026-09-29): own announcement bar + header, price under the h1, sober USPs, centered scent cards */
+.rit-ann{background:#000;color:#fff;text-align:center;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.02em;line-height:1.35;padding:10px 16px;width:100vw;margin-left:calc(50% - 50vw)}
+.rit-hdr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;width:100vw;margin-left:calc(50% - 50vw);background:#fff;border-bottom:1px solid rgba(36,28,24,.08)}
+.rit-hdr .rit-logo-a{display:inline-flex;align-items:center;text-decoration:none;color:#241C18}
+.rit-hdr .rit-logo{display:block;height:30px;width:auto}
+.rit-hdr .rit-logo-tx{font-family:'Outfit',sans-serif;font-weight:800;letter-spacing:.14em;font-size:.9rem}
+.rit-hdr .rit-hdr-tx{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.02em;color:#241C18;white-space:nowrap}
+@media (min-width:900px){.rit-hdr{max-width:none;padding:14px 32px}.rit-hdr .rit-logo{height:34px}.rit-hdr .rit-hdr-tx{font-size:.82rem}}
+.hd-price{display:flex;align-items:baseline;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+.hd-price s{color:#8A6F5C;font-size:1rem}
+.hd-price b{font-family:'Unna',serif !important;font-size:1.9rem;line-height:1;color:#241C18}
+.hd-price .hd-note{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#1E7A46;background:#E4F3EA;border-radius:999px;padding:4px 9px}
+.usp3 .usp:nth-child(1),.usp3 .usp:nth-child(2),.usp3 .usp:nth-child(3){background:#F3F1EE !important}
+.usp3 .usp:nth-child(1) .usp-ic,.usp3 .usp:nth-child(2) .usp-ic,.usp3 .usp:nth-child(3) .usp-ic{background:#E4E0DA !important}
+.pick-count{color:#241C18 !important}
+.pick.centered{text-align:center;align-items:center}
+.pick.centered .ph.sq{display:block}
+.pick.centered .pick-txt{align-items:center;text-align:center;width:100%}
+.pick.centered .pick-introw{text-align:center}
+.pick.centered .pick-ingr{justify-content:center;text-align:center;width:100%}
+.pick.centered .pick-smells{text-align:center;padding-right:0;width:100%}
+.pick.centered .pick-foot{justify-content:center;width:100%}
+.pick.centered .pick-qty{margin:0 auto}
+
+/* ritual v4 (2026-09-29) */
+.pdp-buy h1{font-size:clamp(1.53rem,6.3vw,2.25rem) !important}
+.hd-price b{font-size:1.71rem !important}.hd-price s{font-size:.9rem}
+.pick-pill-row{margin-bottom:10px}
+.pick-pill{font-size:.86rem !important;padding:9px 18px !important;background:#F3F1EE !important;color:#241C18 !important}
+.fq-tag{position:absolute;top:-10px;right:12px;background:#241C18;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;line-height:1}
+.fq-tag.pop{background:var(--rosewood-deep,#8A4B4B)}
+.freq3{margin-top:14px}
+.pick.centered .pick-foot{display:flex !important;justify-content:center !important;width:100%}
+.pick.centered .pick-qty{margin:0 !important;flex:0 0 auto}
+
+/* ritual v4b (2026-09-29): badge sits under the per-scent price */
+.fq{grid-template-columns:22px 1fr auto !important;grid-template-areas:"dot days price" "dot sub tag" !important;row-gap:4px !important}
+.fq-tag{position:static !important;grid-area:tag;justify-self:end;margin-top:1px}
+.fq-sub{align-self:center}
+
+/* ritual v4c */
+.refill-sub{margin:-2px 0 0}
+.freq3{margin-top:12px}
+
+/* ritual v6 (2026-09-29): guarantee under price, refill terms, strength tag, starter button, intention line, switchers block */
+.hd-guar{font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;color:#1E7A46;margin:4px 0 2px}
+.refill-terms{margin:6px auto 0;max-width:30em;text-align:center;font-size:.82rem;line-height:1.45;color:#241C18;background:#F3F1EE;border-radius:12px;padding:9px 12px}
+.pick-str{display:inline-flex;align-items:center;gap:3px;margin-top:4px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#5C4F46}
+.pick-str i{display:inline-block;width:6px;height:6px;border-radius:99px;background:#D9D3CC}
+.pick-str.s-soft i:nth-child(1),.pick-str.s-medium i:nth-child(-n+2),.pick-str.s-bold i{background:#241C18}
+.pick-str i:nth-child(3){margin-right:3px}
+.starter3{display:block;width:100%;margin:2px 0 12px;padding:11px 14px;border:1.5px dashed rgba(36,28,24,.35);border-radius:14px;background:#fff;color:#241C18;font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.04em;text-align:center;cursor:pointer}
+.starter3 small{display:block;margin-top:3px;font-weight:600;font-size:.66rem;letter-spacing:.02em;color:#5C4F46;text-transform:none}
+.pick-intent{text-align:center;font-family:'Unna',serif;font-style:italic;font-size:1.05rem;line-height:1.3;color:#241C18;margin:14px auto 4px;max-width:26em}
+.switchers{margin-top:18px;border-radius:16px;background:#F3F1EE;padding:14px 16px}
+.switchers .sw-title{font-family:'Unna',serif;font-weight:700;font-size:1.2rem;color:#241C18}
+.switchers .sw-sub{margin:2px 0 6px;font-size:.86rem;color:#5C4F46}
+
+/* ritual v7 (2026-09-30): no-subscription line bold for visibility */
+.rf-alt{font-weight:700 !important;color:#241C18 !important}.rf-alt .rf-link{font-weight:700 !important}
+
+/* ritual v8 (2026-09-30): preselection note; two-emoji icon fits */
+.presel-note{text-align:center;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:#241C18;background:#F3F1EE;border-radius:12px;padding:9px 12px;margin:2px 0 12px}
+.usp3 .usp:nth-child(2) .usp-ic{width:auto !important;min-width:38px;padding:0 8px;font-size:17px;letter-spacing:1px}
+
+/* ritual v8b (2026-09-30): the theme underlines links inside page content and the line was drawn through the logo image */
+#root .rit-hdr .rit-logo-a,#root .rit-hdr .rit-logo-a:hover,#root .rit-hdr .rit-logo-a:focus,#root .rit-hdr .rit-logo-a:active,.prose .rit-hdr .rit-logo-a{display:inline-flex !important;text-decoration:none !important;text-decoration-line:none !important;background:none !important;background-image:none !important;box-shadow:none !important;border:0 !important;outline:0;padding:0 !important;text-underline-offset:0 !important}
+#root .rit-hdr .rit-logo-a::after,#root .rit-hdr .rit-logo-a::before{content:none !important;display:none !important}
+#root .rit-hdr .rit-logo{display:block !important;text-decoration:none !important;border:0 !important;box-shadow:none !important;vertical-align:top}
+
+/* ===== ritual v9 (2026-10-01): sober below-the-fold + one-per-row picker ===== */
+#root .pick.compact.row{display:grid !important;grid-template-columns:64px minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:12px;row-gap:2px;align-items:center;text-align:left !important;padding:10px 12px !important;border:1.5px solid #E6E3DE !important;border-radius:12px !important;background:#fff !important;box-shadow:none !important;margin:0}
+#root .pick.compact.row.on{border-color:#141414 !important;background:#F6F5F2 !important}
+#root .pick.compact.row > .ph.sq{grid-column:1;grid-row:1/3;width:64px !important;height:64px !important;min-height:64px !important;flex:none !important;margin:0 !important;border-radius:10px !important}
+#root .pick.compact.row .pick-txt{grid-column:2;grid-row:1;display:flex !important;flex-direction:column;align-items:flex-start !important;text-align:left !important;width:auto;gap:1px}
+#root .pick.compact.row .pick-introw{display:flex;align-items:baseline;gap:6px;text-align:left}
+#root .pick.compact.row .pick-name.pick-power{font-size:.84rem;letter-spacing:.03em}
+#root .pick.compact.row .pick-scent{font-size:.74rem}
+#root .pick.compact.row .pick-vol{font-size:.62rem;color:#8A8A8A}
+#root .pick.compact.row .pick-str{margin-top:1px}
+#root .pick.compact.row .pick-ingr{display:none !important}
+#root .pick.compact.row .pick-smells{grid-column:2;grid-row:2;display:block !important;text-align:left !important;font-size:.74rem !important;line-height:1.35;color:#4A4A4A;padding:0 !important;width:auto !important}
+#root .pick.compact.row .pick-smells b{display:none}
+#root .pick.compact.row .pick-foot{grid-column:3;grid-row:1/3;display:flex !important;justify-content:flex-end !important;align-items:center;margin:0 !important;width:auto !important}
+#root .pick.compact.row .pick-qty{margin:0 !important;border:1.5px solid #D9D5CF;background:#fff;padding:2px 4px;gap:4px}
+#root .pick.compact.row .pick-qty button{width:30px;height:30px;font-size:1rem;color:#141414}
+#root .pick.compact.row .pick-qty b{min-width:14px;font-size:.9rem}
+#root .picker.compact{grid-template-columns:1fr !important;gap:8px !important}
+@media(min-width:900px){#root .picker.compact{grid-template-columns:1fr !important}}
+#root .pick-intent{font-size:1rem;color:#141414}
+
+/* sober palette below the fold: white / warm grey, ink headings, no gradients */
+#root [id^="sec-"] .section{background:#fff !important;padding:44px 0}
+#root #sec-enemyStack .section,#root #sec-scents .section,#root #sec-faq .section,#root #sec-reviews .section{background:#FAFAF8 !important}
+#root [id^="sec-"] .section h2{color:#141414 !important;font-size:clamp(1.55rem,5.4vw,2.1rem);line-height:1.04;letter-spacing:-.03em}
+#root [id^="sec-"] .section h2 em{background:none !important;-webkit-background-clip:unset !important;background-clip:unset !important;color:#141414 !important;-webkit-text-fill-color:#141414 !important;font-style:italic}
+#root [id^="sec-"] .section-head{margin-bottom:18px}
+#root [id^="sec-"] .angle-bullets li{font-size:1rem;line-height:1.6;color:#242424}
+#root [id^="sec-"] .angle-bullets li::before{background:#141414 !important;width:7px;height:7px;top:.65em}
+#root [id^="sec-"] .angle-bullets strong,#root [id^="sec-"] .mech-p strong{font-style:normal}
+#root [id^="sec-"] .ph,#root [id^="sec-"] .ph.sq{border-radius:12px !important;box-shadow:none !important}
+#root [id^="sec-"] .btn{background:#141414 !important;background-image:none !important;color:#fff !important;border-radius:999px;box-shadow:none !important}
+
+/* goodbye */
+#root .gb-list{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+#root .gb-item{border-top:1px solid #E6E3DE;padding-top:12px}
+#root .gb-item .gb-k{display:block;font-size:.66rem;letter-spacing:.16em;color:#141414;margin-bottom:4px}
+#root .gb-item p{font-size:1rem;line-height:1.6;color:#242424;margin:0}
+
+/* enemy stack */
+#root .split-badge{background:#8A8A8A !important;box-shadow:none !important}
+#root .split-badge.good{background:#141414 !important}
+#root .split-cap{color:#5C5C5C}
+#root .enemy-list li{font-size:.96rem;line-height:1.55;color:#242424}
+#root .switchers{background:#fff !important;border:1px solid #E6E3DE;border-radius:12px}
+#root .switchers .sw-title{color:#141414}
+
+/* how it works (merged with the mechanism copy) */
+#root .howto{background:#fff !important}
+#root .howto .section-head h2,#root .howto h2 em{color:#141414 !important;-webkit-text-fill-color:#141414 !important}
+#root .howto-intro{text-align:left;color:#242424;margin:4px auto 18px;font-size:.98rem;line-height:1.7}
+#root .hstep{background:#fff !important;border:1px solid #E6E3DE;border-radius:12px !important;box-shadow:none !important;padding:14px 14px 18px}
+#root .hstep .hnum{background:#141414 !important;background-image:none !important;color:#fff !important;width:30px;height:30px;font-size:.9rem}
+#root .hstep h3{color:#141414 !important;font-size:1.3rem}
+#root .hstep p{color:#4A4A4A !important}
+
+/* scents, one per row */
+#root .sc-sub{text-align:center;color:#4A4A4A;font-size:.94rem;margin:-6px auto 16px;max-width:30em}
+#root .sc-list{border-top:1px solid #E6E3DE}
+#root .sc-row{display:grid;grid-template-columns:56px minmax(0,1fr);column-gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #E6E3DE}
+#root .sc-row .ph.sq{width:56px !important;height:56px !important;min-height:56px !important;margin:0 !important;border-radius:8px !important}
+#root .sc-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#root .sc-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:#141414}
+#root .sc-name{font-size:.78rem;font-weight:600;color:#5C5C5C;margin-top:1px}
+#root .sc-smells{font-size:.8rem;line-height:1.4;color:#3A3A3A;margin-top:2px}
+#root .sc-swap{text-align:center;font-size:1rem;color:#141414;margin:16px auto 4px}
+#root .sc-starter{text-align:center;font-size:.86rem;color:#5C5C5C;margin:0 auto 14px}
+#root .sc-btn{max-width:320px;margin:0 auto;display:block}
+
+/* guarantee */
+#root .guarantee{background:#fff !important}
+#root .gbadge{background:none !important;background-image:none !important;border:1.5px solid #141414;color:#141414 !important;box-shadow:none !important;width:150px;height:150px;margin-bottom:18px}
+#root .gbadge .gb1,#root .gbadge .gb2{color:#141414 !important}
+#root .gbadge .gb3{color:#5C5C5C !important}
+#root .guarantee h2{font-size:clamp(1.55rem,5.4vw,2.1rem) !important}
+
+/* faq */
+#root .faq .qa{border-bottom:1px solid #E6E3DE}
+#root .faq .qbtn{color:#141414;font-size:.96rem}
+#root .faq .qbtn .plus{border-color:#141414}
+#root .faq .ans p{color:#4A4A4A}
+
+/* patricia */
+#root .pat-card{background:#fff !important;border:1px solid #E6E3DE !important;border-radius:12px !important;padding:22px 22px 18px}
+#root .pat-card p{color:#242424 !important;font-size:1.06rem}
+
+/* reviews */
+#root .rv-list{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:720px){#root .rv-list{grid-template-columns:1fr 1fr}}
+#root .rv{background:#fff;border:1px solid #E6E3DE;border-radius:12px;padding:14px 16px 12px}
+#root .rv .stars{color:#141414;letter-spacing:1px;font-size:.72rem}
+#root .rv-q{font-family:'Unna',serif;font-size:1.06rem;line-height:1.35;color:#141414;margin:6px 0 8px}
+#root .rv-who{font-family:'Outfit',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#6B6B6B}
+#root .rv-who b{color:#141414}
+
+/* ritual v9b: tighter picker rows */
+#root .pick.compact.row{grid-template-columns:60px minmax(0,1fr) auto;column-gap:10px;padding:8px 10px !important}
+#root .pick.compact.row > .ph.sq{width:60px !important;height:60px !important;min-height:60px !important}
+#root .pick.compact.row .pick-vol{display:none !important}
+#root .pick.compact.row .pick-introw{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px}
+#root .pick.compact.row .pick-name.pick-power{font-size:.8rem;line-height:1.15}
+#root .pick.compact.row .pick-scent{font-size:.72rem;white-space:nowrap}
+#root .pick.compact.row .pick-str{font-size:.52rem;margin-top:0}
+#root .pick.compact.row .pick-smells{font-size:.72rem !important;line-height:1.3;margin-top:1px}
+#root .pick.compact.row .pick-qty{padding:1px 2px;gap:2px;border-width:1px}
+#root .pick.compact.row .pick-qty button{width:28px;height:28px;font-size:.95rem}
+#root .pick.compact.row .pick-qty b{min-width:12px;font-size:.84rem}
+
+/* ritual v9c: ingredients back on the picker rows + on the scent list */
+#root .pick.compact.row{grid-template-rows:auto auto auto}
+#root .pick.compact.row > .ph.sq{grid-row:1/4}
+#root .pick.compact.row .pick-foot{grid-row:1/4}
+#root .pick.compact.row .pick-ingr{display:flex !important;grid-column:2;grid-row:2;align-items:baseline;gap:5px;margin:1px 0 0;font-size:.7rem;line-height:1.3;color:#141414}
+#root .pick.compact.row .pick-ingr .pick-emoji{font-size:.8rem;line-height:1}
+#root .pick.compact.row .pick-ingr b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:0;color:#141414;text-transform:none}
+#root .pick.compact.row .pick-smells{grid-row:3}
+#root .sc-ingr{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;margin-top:2px}
+
+/* ===== ritual v10 (2026-10-01): owner round — table, FAQ, reviews with colour, bigger headlines ===== */
+#root [id^="sec-"] .section h2,#root .guarantee h2{font-size:clamp(1.86rem,6.5vw,2.52rem) !important}
+#root [id^="sec-"] .section-head{margin-bottom:20px}
+/* comparison table */
+#root .cmp{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0 0;font-size:.82rem;line-height:1.4;border:1px solid #E6E3DE;border-radius:12px;overflow:hidden;background:#fff}
+#root .cmp th,#root .cmp td{padding:9px 8px;vertical-align:top;text-align:left;border-top:1px solid #ECE9E4}
+#root .cmp thead th{border-top:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#5C5C5C;background:#FAFAF8;padding:10px 8px}
+#root .cmp thead th.cv{color:#141414}
+#root .cmp tbody th{font-family:'Outfit',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:#141414;width:26%;background:#FAFAF8}
+#root .cmp td.cx{color:#5C5C5C;width:37%}
+#root .cmp td.cv{color:#141414;font-weight:600;width:37%;background:#F6F5F2}
+#root .cmp .mk{display:inline-block;width:14px;font-weight:700;margin-right:2px}
+#root .cmp td.cx .mk{color:#9A9A9A}
+#root .cmp td.cv .mk{color:#141414}
+@media(max-width:420px){#root .cmp{font-size:.76rem}#root .cmp th,#root .cmp td{padding:8px 6px}#root .cmp tbody th{font-size:.6rem;width:24%}}
+/* faq ingredients list */
+#root .faq .qa.open .ans{max-height:900px}
+#root .faq-list{list-style:none;padding:0 30px 18px 2px;margin:-8px 0 0;display:flex;flex-direction:column;gap:6px}
+#root .faq-list li{font-size:.88rem;line-height:1.45;color:#4A4A4A;padding-left:14px;position:relative}
+#root .faq-list li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:99px;background:#141414}
+/* reviews, with colour */
+#root .rv-list{gap:10px}
+#root .rv{padding:12px 14px 11px;border-radius:14px;border:1px solid #E6E3DE;background:#fff}
+#root .rv.src-amazon{border-color:#F0DDB0;background:#FFFCF5}
+#root .rv-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+#root .rv-av{width:34px;height:34px;border-radius:99px;display:inline-flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;flex:0 0 34px}
+#root .rv-av.av0{background:#F3D9CF}#root .rv-av.av1{background:#DCE8D4}#root .rv-av.av2{background:#F6E7B8}#root .rv-av.av3{background:#D7E3F2}#root .rv-av.av4{background:#EBDCF2}#root .rv-av.av5{background:#F8D7DC}
+#root .rv-meta{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+#root .rv-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:.74rem;color:#141414}
+#root .rv-stars{color:#E0A526;font-size:.68rem;letter-spacing:1px;line-height:1}
+#root .rv-chip{font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:#E8F1EA;color:#1F5A33;flex:0 0 auto}
+#root .rv.src-amazon .rv-chip{background:#FDEBC2;color:#7A4B00}
+#root .rv-q{font-family:'Unna',serif;font-size:.96rem;line-height:1.35;color:#141414;margin:0 0 8px}
+#root .rv-tag{font-family:'Outfit',sans-serif;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#5C5C5C;display:flex;align-items:center;gap:6px}
+#root .rv-check{display:inline-flex;width:14px;height:14px;border-radius:99px;background:#1F7A3A;color:#fff;font-size:.56rem;align-items:center;justify-content:center;flex:0 0 14px}
+#root .rv-az{color:#141414;margin:-4px auto 14px}
+#root .rv-az .stars{color:#E0A526}
+
+/* ===== ritual v11 (2026-10-01): spacing, uniform scent thumbs, clickable rating, desktop ===== */
+#root #sec-buybox .section.pdp-buy{padding-top:0 !important}
+@media(min-width:860px){#root #sec-buybox .section.pdp-buy{padding-top:28px !important}}
+@media(max-width:859px){#root .buybox .tb-rating{margin-top:18px}}
+#root .pick.compact.row > .ph.sq{background:#fff;border:1px solid #ECE9E4}
+#root .pick.compact.row > .ph.sq img{width:100% !important;height:100% !important;object-fit:contain !important;background:#fff}
+#root .tb-rating-btn{background:none;border:0;padding:0;margin:0;cursor:pointer;color:inherit;font:inherit;display:inline-flex;align-items:center;gap:8px;text-align:left}
+#root .tb-rating-btn b{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#C9C4BC}
+#root .tb-rating-btn:hover b{text-decoration-color:#141414}
+#root .hstep .ph img{object-fit:cover}
+@media(min-width:900px){
+  #root .pdp-buy .wrap{grid-template-columns:minmax(0,46fr) minmax(0,54fr) !important;gap:44px}
+  #root .gal-col{position:sticky;top:16px}
+  #root .goodbye .wrap.narrow{max-width:980px}
+  #root .gb-grid{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:40px;align-items:center}
+  #root .gb-list{margin-top:0}
+  #root .gb-item:first-child{border-top:0;padding-top:0}
+  #root .cmp{font-size:.9rem}
+  #root .cmp th,#root .cmp td{padding:12px 12px}
+  #root .faq .wrap.narrow{max-width:760px}
+  #root .faq .qa{max-width:760px}
+  #root .reviews .wrap.narrow{max-width:1080px}
+  #root .rv-list{grid-template-columns:1fr 1fr 1fr}
+  #root .pat-card{max-width:640px}
+}
+
+/* ritual v11c: the store theme's prose styles add margins between the header and the gallery on the live page */
+#root .rit-ann,#root .rit-hdr,.prose #root .rit-hdr{margin:0 !important}
+#root #sec-buybox,#root #sec-buybox .section.pdp-buy,#root .pdp-buy > .wrap,#root .gal-col,#root .gal,#root .gal-track,#root .gal-slide,#root .hv-pwrap,#root .hv-host{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}
+#root .gal-col > *:first-child{margin-top:0 !important}
+@media(min-width:860px){#root #sec-buybox .section.pdp-buy{padding-top:24px !important}}
+
+/* ===== ritual v12 (2026-10-02): owner round ===== */
+#root .rit-ann{font-size:.88rem;padding:11px 16px}
+#root .rit-hdr{padding:13px 18px}
+#root .rit-hdr .rit-logo{height:33px !important}
+#root .rit-hdr .rit-hdr-tx{font-size:.8rem}
+#root .hd-price{align-items:center}
+#root .hd-price s{align-self:center}
+#root .hd-price .hd-note{align-self:center;line-height:1.1}
+#root .presel-note{background:linear-gradient(90deg,#FFE3C4 0%,#FFC9D6 50%,#CFE0FF 100%) !important;color:#141414;font-weight:700;border:1px solid rgba(0,0,0,.06)}
+#root .refill-why{text-align:center;font-size:.86rem;line-height:1.5;color:#3A3A3A;margin:-4px auto 12px;max-width:34em}
+#root .refill-why b{color:#141414}
+#root .rv-q{font-size:.88rem}
+/* buy-box FAQ: ingredients list */
+#root .acc.faq .qa.open .ans{max-height:900px}
+#root .acc.faq .faq-list{list-style:none;padding:0 30px 18px 2px;margin:-8px 0 0;display:flex;flex-direction:column;gap:6px}
+#root .acc.faq .faq-list li{font-size:.88rem;line-height:1.45;color:#4A4A4A;padding-left:14px;position:relative}
+#root .acc.faq .faq-list li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:99px;background:#141414}
+/* Patricia in the buy box */
+#root .pat-wrap{margin-top:22px}
+#root .pat-head{font-size:.66rem;letter-spacing:.16em;color:#5C5C5C;margin-bottom:10px;text-align:center}
+#root .pat-grid{display:grid;grid-template-columns:1fr;gap:12px}
+#root .pat-grid .ph.sq{border-radius:12px !important}
+#root .pat-grid .pat-card{margin:0;max-width:none;background:#FAFAF8 !important;border:1px solid #E6E3DE !important;border-radius:12px !important;padding:18px 18px 14px}
+#root .pat-grid .pat-card p{font-size:1rem;line-height:1.55}
+@media(min-width:860px){#root .pat-grid{grid-template-columns:220px minmax(0,1fr);align-items:start}}
+/* comparison image */
+#root .cmp-img{margin:0 auto 18px;max-width:640px}
+#root .cmp-img .ph.sq{border-radius:12px !important}
+/* rooms + pets, scents story */
+#root .sp-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:center}
+#root .sp-txt .mech-p{margin:0 0 12px;text-align:left}
+#root .sp-txt .angle-bullets{margin-top:6px}
+@media(min-width:900px){#root .spaces .wrap.narrow,#root .scents2 .wrap.narrow{max-width:980px}#root .sp-grid{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:40px}}
+#root .sc2-list{border-top:1px solid #E6E3DE;margin-top:18px}
+#root .sc2-row{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:10px;row-gap:2px;padding:9px 0;border-bottom:1px solid #E6E3DE;align-items:center}
+#root .sc2-int{font-family:'Outfit',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:#141414}
+#root .sc2-name{grid-column:1;font-size:.8rem;color:#5C5C5C}
+#root .sc2-row .pick-str{grid-column:2;grid-row:1;margin:0}
+#root .sc2-ingr{grid-column:1 / -1;font-size:.78rem;color:#3A3A3A}
+@media(min-width:900px){#root .sc2-list{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;border-top:0}#root .sc2-row:nth-child(-n+2){border-top:1px solid #E6E3DE}}
+/* guarantee: round photo instead of the badge */
+#root .gbadge.gbadge-img{width:150px;height:150px;border:0 !important;padding:0;overflow:hidden;border-radius:50% !important;background:none !important;display:block !important}
+#root .gbadge.gbadge-img .ph.sq{width:150px !important;height:150px !important;min-height:150px !important;border-radius:50% !important;margin:0 !important}
+#root .gbadge.gbadge-img img{width:100%;height:100%;object-fit:cover}
+
+/* ritual v12b: founder card */
+#root .pat-head{font-family:'Unna',serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;text-transform:none;color:#141414;text-align:center;margin-bottom:12px}
+#root .pat-grid .ph.sq{width:70%;margin:0 auto !important}
+#root .pat-sig{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;color:#141414;display:flex;flex-direction:column;gap:2px}
+#root .pat-sig .pat-role{font-weight:400;font-size:.76rem;color:#5C5C5C;letter-spacing:.02em}
+@media(min-width:860px){#root .pat-grid{grid-template-columns:200px minmax(0,1fr)}#root .pat-grid .ph.sq{width:100%}}
+#root .guarantee .angle-bullets{margin-bottom:0}
+
+/* v13: hero video/poster square-cornered (the v9 sober rule rounded every .ph inside a section, incl. the gallery slide) */
+#root .gal-slide.ph,#root .gal-slide.ph.sq,#root .gal-slide .simg{border-radius:0 !important}
+
+/* rt14: header +5px top/bottom, italic founder title, grey goodbye section */
+#root .rit-hdr{padding:18px 18px}
+#root .pat-head{font-style:italic}
+#root #sec-goodbye .section{background:#F3F3F1 !important}
+
+/* rt17 (2026-10-03, owner): smaller prices on the refill option cards (was 1.3rem Unna) */
+#root .fq-price b{font-size:1.02rem}
+#root .fq-price small{font-size:.66rem}
+
+/* rt18 (2026-10-03, owner): buy-box image testimonials 20% smaller (cards, photos, text); section headlines +10%; white ring on the how-to step numbers */
+#root .rv6-card{flex:0 0 62.4%;max-width:240px;padding:8px 10px 11px}
+@media(min-width:900px){#root .rv6-card{flex-basis:25.6%}}
+#root .rv6-q{font-size:.8rem}
+#root .rv6-who{font-size:.6rem}
+#root .rv6-stars{font-size:.68rem}
+#root [id^="sec-"] .section h2,#root .guarantee h2{font-size:clamp(2.05rem,7.15vw,2.77rem) !important}
+#root .howto .hstep .hnum,#root .hstep .hnum{border-color:#fff !important}
+
+/* dk1 (2026-10-03, owner): diffuser-count cards (reuse the refill-card look) + 2-per-row scent grid, single select */
+#root .dkt3{margin-bottom:18px}
+#root .fq.dkt .fq-days small.dkt-each{display:block;font-family:'Outfit',sans-serif;font-weight:500;font-size:.68rem;color:#5C4F46;margin-top:2px;letter-spacing:0}
+#root .fq.dkt .fq-price b{font-size:1.1rem}
+#root .picker.compact.grid2{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;gap:10px}
+#root .pick.compact.cell{display:flex !important;flex-direction:column;align-items:stretch;gap:5px;padding:9px 9px 10px;margin:0;border:1.5px solid #E6E3DE;border-radius:14px;background:#fff;cursor:pointer;position:relative;grid-template-columns:none}
+#root .pick.compact.cell.on{border-color:#241C18;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%);box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#root .pick.compact.cell .cell-dot{position:absolute;top:9px;left:9px;z-index:2;margin:0}
+#root .pick.compact.cell > .ph.sq{width:100% !important;height:auto !important;min-height:0 !important;aspect-ratio:1/1;flex:none !important;margin:0 !important;border-radius:10px !important;background:#fff;border:1px solid #ECE9E4}
+#root .pick.compact.cell > .ph.sq img{width:100% !important;height:100% !important;object-fit:contain !important;background:#fff}
+#root .pick.compact.cell .pick-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+#root .pick.compact.cell .pick-name.pick-power{font-size:.78rem;line-height:1.15}
+#root .pick.compact.cell .pick-introw{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+#root .pick.compact.cell .pick-scent{font-size:.74rem}
+#root .pick.compact.cell .pick-vol{font-size:.62rem;color:#7A6A5F}
+#root .pick.compact.cell .pick-str{margin-top:1px}
+#root .pick.compact.cell .pick-ingr{display:flex !important;align-items:baseline;gap:4px;margin:0;font-size:.66rem;line-height:1.3;color:#141414}
+#root .pick.compact.cell .pick-ingr b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:0;color:#141414;text-transform:none}
+#root .pick.compact.cell .pick-ingr .pick-emoji{font-size:.78rem;line-height:1}
+@media(min-width:900px){#root .picker.compact.grid2{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
+
+/* dk2: tier card layout — name / per-diffuser line left, price / saving right, tag on its own row; no 100ml chip in the scent cells */
+#root .fq.dkt{display:grid !important;grid-template-columns:22px minmax(0,1fr) auto !important;grid-template-areas:"dot days price" "dot each save" "dot tag tag" !important;row-gap:3px !important;align-items:center}
+#root .fq.dkt .fq-days{grid-area:days}
+#root .fq.dkt .dkt-each{grid-area:each;font-family:'Outfit',sans-serif;font-weight:500;font-size:.7rem;color:#5C4F46;line-height:1.3}
+#root .fq.dkt .fq-price{grid-area:price;justify-self:end;align-self:end}
+#root .fq.dkt .fq-sub.dkt-save{grid-area:save;justify-self:end;white-space:nowrap;font-size:.7rem}
+#root .fq.dkt .fq-sub.dkt-save b{color:#1F6B3A}
+#root .fq.dkt .fq-tag{grid-area:tag;justify-self:start;margin-top:4px}
+#root .fq.dkt .ot-dot{grid-area:dot;align-self:center}
+#root .pick.compact.cell .pick-vol{display:none}
+
+/* dk3 (2026-10-03, owner): kit photo on the left of each diffuser card, "/diffuser", scent photos 70% smaller (row cells), "From $129.95" price row */
+#root .hd-price.hd-from b{font-size:1.9rem}
+#root .fq.dkt{grid-template-columns:22px 58px minmax(0,1fr) auto !important;grid-template-areas:"dot img days price" "dot img each save" "dot img tag tag" !important;column-gap:10px}
+#root .fq.dkt > .ph.sq{grid-area:img;width:58px !important;height:58px !important;min-height:0 !important;margin:0 !important;border-radius:10px !important;background:#fff;border:1px solid #ECE9E4;align-self:center}
+#root .fq.dkt > .ph.sq img{object-fit:cover}
+#root .pick.compact.cell{flex-direction:row;align-items:center;gap:9px;padding:9px 10px 9px 9px}
+#root .pick.compact.cell > .ph.sq{width:46px !important;height:46px !important;flex:0 0 46px !important;aspect-ratio:auto;border-radius:8px !important}
+#root .pick.compact.cell .cell-dot{position:absolute;top:7px;right:7px;left:auto;width:13px;height:13px}
+#root .pick.compact.cell .cell-dot.chk::after{inset:2.5px}
+#root .pick.compact.cell .pick-txt{flex:1 1 auto;padding-right:14px}
+#root .pick.compact.cell .pick-name.pick-power{font-size:.7rem}
+#root .pick.compact.cell .pick-scent{font-size:.68rem}
+#root .pick.compact.cell .pick-ingr{font-size:.6rem;margin-top:1px}
+#root .pick.compact.cell .pick-ingr b{font-size:.6rem}
+#root .pick.compact.cell .pick-str{margin-top:0;font-size:.5rem}
+#root .pick.compact.cell .pick-txt{display:flex;flex-direction:column;gap:1px}
+
+/* dk4: scent cell = photo column + text column (name, scent, strength, ingredients under each other) */
+#root .pick.compact.cell{display:grid !important;grid-template-columns:46px minmax(0,1fr);grid-template-areas:"img txt" "img ingr";column-gap:9px;row-gap:3px;align-items:start}
+#root .pick.compact.cell > .ph.sq{grid-area:img;align-self:start;margin-top:2px !important}
+#root .pick.compact.cell .pick-txt{grid-area:txt;padding-right:16px}
+#root .pick.compact.cell .pick-ingr{grid-area:ingr;padding-right:4px}
+#root .pick.compact.cell .pick-name.pick-power{font-size:.68rem;letter-spacing:.02em}
+
+/* dk5 (2026-10-03, owner): 'From' price 30% smaller; kit cards without the radio dot + a room line; bold lead in step 3; order summary above the button */
+#root .hd-price.hd-from b{font-size:1.33rem}
+#root .fq.dkt{grid-template-columns:58px minmax(0,1fr) auto !important;grid-template-areas:"img days price" "img each save" "img room room" "img tag tag" !important;padding-left:12px}
+#root .fq.dkt .dkt-room{grid-area:room;font-family:'Outfit',sans-serif;font-weight:600;font-size:.7rem;color:#241C18;line-height:1.3}
+#root .fq.dkt .fq-tag{margin-top:2px}
+#root .refill-why .why-lead{display:block;font-weight:700;color:#141414;margin-bottom:4px}
+#root .order-sum{margin:12px 0 10px;padding:12px 14px;border:1px solid #E6E3DE;border-radius:12px;background:#FAFAF8;font-size:.86rem;line-height:1.5;color:#241C18;text-align:center}
+#root .order-sum b{color:#141414}
+#root .order-sum .os-free{color:#1F6B3A;font-weight:600}
+
+/* dk5b: the From price was 27.4 px (1.71rem) on phone; 30% smaller = 1.2rem */
+#root .hd-price.hd-from b{font-size:1.2rem !important}
+
+/* dk5c: the step pills may wrap (the free-scent pill carries the $49.95 value now) */
+#root .pick-pill{white-space:normal !important;max-width:100%;line-height:1.35;text-align:center;display:inline-block}
+
+/* dk6 (2026-10-03, owner): kit card = photo | name + room + tag | price + per-diffuser + saving; step pills half height */
+#root .fq.dkt{grid-template-columns:58px minmax(0,1fr) auto !important;grid-template-areas:"img days price" "img room each" "img tag save" !important;row-gap:3px !important}
+#root .fq.dkt .fq-days{grid-area:days;align-self:end}
+#root .fq.dkt .dkt-room{grid-area:room;align-self:center}
+#root .fq.dkt .fq-tag{grid-area:tag;align-self:center;margin-top:0}
+#root .fq.dkt .fq-price{grid-area:price;align-self:end}
+#root .fq.dkt .dkt-each{grid-area:each;justify-self:end;align-self:center;text-align:right;white-space:nowrap}
+#root .fq.dkt .fq-sub.dkt-save{grid-area:save;align-self:center}
+#root .pick-pill{font-size:.62rem !important;padding:4px 11px !important;letter-spacing:.08em}
+#root .pick-pill-row{margin-bottom:8px}
+
+/* dk6b: "+ 1 Free Scent" wraps as one unit; tighter right column so the left column gets room */
+#root .fq.dkt{grid-template-columns:52px minmax(0,1fr) auto !important;column-gap:9px}
+#root .fq.dkt > .ph.sq{width:52px !important;height:52px !important}
+#root .fq.dkt .fq-days b{font-size:.9rem;line-height:1.2}
+#root .fq.dkt .dkt-plus{white-space:nowrap}
+#root .fq.dkt .dkt-room{font-size:.66rem}
+#root .fq.dkt .dkt-each{font-size:.66rem}
+#root .fq.dkt .fq-sub.dkt-save{font-size:.62rem;padding:3px 8px}
+#root .fq.dkt .fq-price b{font-size:1.05rem}
+
+/* lb1 (2026-10-03, owner): Living Room + Bedroom Bundle — two-scent picker, no kit or refill steps */
+#root .pick.compact.cell[aria-checked="true"] .cell-dot.chk::after{inset:2.5px}
+#root .hd-price s{font-size:.95rem}

@@ -1326,3 +1326,13 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .pick.compact.cell .cell-qty b{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;min-width:12px;text-align:center}
 #root .pick.compact.cell.two .cell-dot.chk{background:#141414}
 @media(min-width:900px){#root .pack-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}}
+
+/* lb3 (2026-10-03, owner): saving line under the price; pack block centered, colon, gift line in caps with a solid border; room tags on the picked scents */
+#root .hd-save{margin:-4px 0 10px;font-size:.8rem;line-height:1.4;color:#5C4F46}
+#root .hd-save b{color:#1F6B3A}
+#root .pack-head,#root .pack-cap{text-align:center}
+#root .pack-gift{border:1px solid #E6E3DE;border-style:solid;align-items:center;justify-content:center;text-align:center}
+#root .pack-gift b{letter-spacing:.06em}
+#root .pick.compact.cell .cell-room{grid-area:txt;justify-self:start;align-self:start;margin:-4px 0 0 0;position:relative;z-index:2;font-family:'Outfit',sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:#241C18;border-radius:999px;padding:2px 7px;transform:translateY(-14px)}
+#root .pick.compact.cell.on{padding-top:18px}
+#root .pick.compact.cell.on .cell-dot{top:7px}

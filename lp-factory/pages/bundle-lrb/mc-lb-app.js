@@ -558,7 +558,7 @@ const selStore = {
   tierIdx: 0,
   plan: "one",            /* lb1: one-time bundle, no refill step */
   freq: 30,
-  keys: ["focus", "ideas"], /* lb1: the two most popular scents preselected (Chilled Citrus + Honey Nectar); tap to swap */
+  keys: ["ideas", "focus"], /* lb3: slot 1 = living room (Honey Nectar), slot 2 = bedroom (Chilled Citrus) */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
   setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
@@ -829,25 +829,27 @@ function BuyBox() {
           <${Fragment} key="ritual">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Maison Croyez Living Room + Bedroom Bundle: Make your spaces look and feel great effortlessly.</h1>
-          <div class="hd-price"><s>${usd(T.n * DIFF_LIST + T.scents * SCENT_ONE)}</s><b>${usd(sel.today())}</b><span class="hd-note">2 diffusers + 2 scents</span></div> <!-- lb1b: compare-at is the full bundle value ($359.80), not the current pick count --> <!-- dk3 (2026-10-03, owner): entry price + free-scent badge -->
+          <div class="hd-price"><s>${usd(T.n * DIFF_LIST + T.scents * SCENT_ONE)}</s><b>${usd(sel.today())}</b><span class="hd-note">2 diffusers + 2 scents</span></div>
+          <p class="hd-save"><b>You save ${usd(Math.round((T.n * DIFF_LIST + T.scents * SCENT_ONE - sel.today()) * 100) / 100)}.</b> Second diffuser free, and both scents for less than the price of one.</p> <!-- lb3 (2026-10-03, owner): vs $129.95 per diffuser + $49.95 per scent --> <!-- lb1b: compare-at is the full bundle value ($359.80), not the current pick count --> <!-- dk3 (2026-10-03, owner): entry price + free-scent badge -->
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
           <div class="pack">
-            <div class="pack-head">What\u2019s in the bundle</div>
+            <div class="pack-head">What\u2019s in the bundle:</div>
             <div class="pack-grid">
-              <div class="pack-col pack-photo"><${Img} slot="kit2" alt="Two Maison Croyez diffusers"/><p class="pack-cap"><b>2 diffusers + 2 scents.</b> One fixed pack, $169, ships free.</p></div>
+              <div class="pack-col pack-photo"><${Img} slot="kit2" alt="Two Maison Croyez diffusers"/><p class="pack-cap"><b>2 diffusers + 2 scents, fixed.</b><br/>$169, ships free.</p></div>
               <div class="pack-col pack-plan"><div class="plan" dangerouslySetInnerHTML=${{ __html: PLAN_SVG }}></div><p class="pack-cap"><b>One in the living room, one in the bedroom.</b> Each fills its room in about ten minutes.</p></div>
             </div>
-            <p class="pack-gift"><span class="pack-gift-ic" aria-hidden="true">\ud83c\udf81</span><b>Or keep one and gift one.</b> The second diffuser and its scent arrive gift-ready in the same box.</p>
+            <p class="pack-gift"><span class="pack-gift-ic" aria-hidden="true">\ud83c\udf81</span><span><b>OR KEEP ONE AND GIFT ONE.</b> The second diffuser and its scent arrive gift-ready in the same box.</span></p>
           </div>
 
           <${StepHead} n=${1} title="Pick your 2 scents: one for each room, or one to gift." right=${`${sel.keys.length} of 2 scents picked`}/>
-          <p class="presel-note">We pre-selected our two most popular scents. Tap any scent to swap it in.</p>
+          <p class="presel-note">Most pairs: <b>Honey Nectar</b> for the living room, <b>Chilled Citrus</b> for the bedroom. Tap + on any scent to swap.</p>
           <div class="picker compact grid2" role="radiogroup" aria-label="Pick your free scent">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
               <div key=${f.key} class=${"pick compact cell" + (on ? " on" : "") + (sel.qty(f.key) > 1 ? " two" : "")} role="checkbox" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
+                ${on ? html`<span class="cell-room">${sel.qty(f.key) > 1 ? "Both rooms" : sel.keys.indexOf(f.key) === 0 ? "Living room" : "Bedroom"}</span>` : null}
                 <${Img} slot=${f.img} alt=${f.name}/>
                 <span class="pick-txt">
                   <span class="pick-name pick-power">${f.intention}</span>

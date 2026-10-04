@@ -1,17 +1,17 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-04 23:45 UTC: ritual page after rt19 (Add to cart opens the theme cart drawer), cart check now asserts the drawer.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-04 23:50 UTC: kits page after dk5 (Add to cart opens the theme cart drawer).
 on:
   workflow_dispatch:
     inputs:
       url:
         description: Page URL
-        default: https://maisoncroyez.com/pages/manifestation-ritual
+        default: https://maisoncroyez.com/pages/diffuser-kits
       out:
         description: Output folder (repo path)
-        default: lp-factory/pages/free-diffusers/ritual/shots
+        default: lp-factory/pages/diffuser-kits/shots
       body:
         description: Repo path of the page body to compare the live page against
-        default: lp-factory/pages/free-diffusers/ritual/page-body.html
+        default: lp-factory/pages/diffuser-kits/page-body.html
       cart:
         description: Run the live add-to-cart check (yes/no)
         default: 'yes'
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/shots' }}
-      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/free-diffusers/ritual/page-body.html' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:
       - uses: actions/checkout@v4

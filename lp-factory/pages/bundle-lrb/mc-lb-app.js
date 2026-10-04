@@ -382,7 +382,7 @@ const CONFIG = {
     img: "scents1",
     paras: [
       "Every bottle is 100 ml of pure fragrance oil made with organic ingredients from France, built on notes you can actually name. Soft, medium or bold tells you how far it carries.",
-      "Pick by the feeling you want in the room, or by the smell you already love. Three come with the diffuser today, and you can change them any time.",
+      "Pick by the feeling you want in the room, or by the smell you already love. Two come with the bundle today, and you can change them any time.",
     ],
     swap: "Don’t love one? **We swap it free.**",
     cta: "Pick my 3",
@@ -616,7 +616,7 @@ const usd = (v) => "$" + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2));
    Sections
    ================================================================ */
 const RitualHeader = () => html`
-  <div class="rit-ann">LIVING ROOM + BEDROOM BUNDLE: 2 DIFFUSERS + 2 SCENTS FOR $169. ONE TO KEEP, ONE TO GIFT.</div>
+  <div class="rit-ann">LIVING ROOM + BEDROOM BUNDLE: 2 DIFFUSERS + 2 SCENTS FOR $169.95. ONE TO KEEP, ONE TO GIFT.</div>
   <header class="rit-hdr">
     <a class="rit-logo-a" href="/" aria-label="Maison Croyez"><img class="rit-logo" src=${LOGO_SRC} alt="Maison Croyez" width="150" height="34" decoding="async" onError=${(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling.style.display = "inline"; }}/><span class="rit-logo-tx" style=${{ display: "none" }}>MAISON CROYEZ</span></a>
     <span class="rit-hdr-tx">2,500+ homes transformed.</span>

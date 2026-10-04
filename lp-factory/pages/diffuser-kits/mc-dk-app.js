@@ -382,7 +382,7 @@ const CONFIG = {
     img: "scents1",
     paras: [
       "Every bottle is 100 ml of pure fragrance oil made with organic ingredients from France, built on notes you can actually name. Soft, medium or bold tells you how far it carries.",
-      "Pick by the feeling you want in the room, or by the smell you already love. Three come with the diffuser today, and you can change them any time.",
+      "Pick by the feeling you want in the room, or by the smell you already love. One comes free with your diffusers today, and you can change it any time.",
     ],
     swap: "Don’t love one? **We swap it free.**",
     cta: "Pick my 3",

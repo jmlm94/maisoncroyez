@@ -518,9 +518,18 @@ async function addToCart(setBusy, setToast) {
        2026-09-25 (pixel-diag): the beacons leave 15-35 ms after the add response, via sendBeacon (survives unload).
        The 800 ms wait is a ~25x margin before the page unloads. The cart icon / drawer still work for anyone who wants
        to add more. */
-    document.dispatchEvent(new CustomEvent("cart:refresh"));
-    /* rt14 (2026-10-02, owner): "Add to cart" and go through the cart page instead of straight to checkout. */
-    setTimeout(() => { window.location.href = CART3.cartUrl || "/cart"; }, 800);
+    /* rt19 (2026-10-04, owner): open the theme's cart drawer instead of leaving for /cart. The live theme (Impact) renders
+       <cart-drawer id="cart-drawer"> in the overlay group with cart type "drawer"; its show() opens it and the theme re-renders
+       the drawer on the cart:refresh event (same mechanism the page used before fd13). Falls back to /cart if the drawer is
+       missing. rt14 history: "Add to cart" went to the cart page; fd13 before that went straight to checkout. */
+    const drawer = document.getElementById("cart-drawer");
+    if (drawer && typeof drawer.show === "function") {
+      document.documentElement.dispatchEvent(new CustomEvent("cart:refresh", { bubbles: true, detail: { open: true } }));
+      setTimeout(() => { try { drawer.show(); } catch (e) {} setBusy(false); }, 150);
+    } else {
+      document.dispatchEvent(new CustomEvent("cart:refresh"));
+      setTimeout(() => { window.location.href = CART3.cartUrl || "/cart"; }, 800);
+    }
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");

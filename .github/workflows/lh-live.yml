@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Run 2026-10-04 16:00 UTC: defaults back on the ritual page after the three-page speed round (ritual 15:39, kits 15:48, bundle 15:53 UTC), 5 repeats. Default target: /pages/manifestation-ritual (was /pages/free-diffusers until 2026-10-02). Dispatch with another url/out to test other pages.
+# Run 2026-10-04 18:10 UTC on the ritual page, rt18-c30b8d4 (QA + speed round 2 after option B, 1/3: ritual, then kits, then bundle), 5 repeats. Default target: /pages/manifestation-ritual (was /pages/free-diffusers until 2026-10-02). Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:

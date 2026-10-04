@@ -492,6 +492,11 @@ const CART3 = {
      No discounts involved (a BXGY cannot zero a subscription line; the owner's plan charges the first bottle in full). */
   kitsFreeScent: { one: 45784228429933, two: 45784228462701, three: 45784228495469 },
   ritualPlans: { 30: 7876575341, 60: 7876608109, 90: 7876640877 },
+  /* dk4 (2026-10-04, owner): option B. Kit variants back at the advertised price ($129.95 / $149.95 / $199.95); the free scent
+     rides on the owner's Subi group "04/10 Sub for Offer #2 and #3" (5188911213): first payment $49.95 off (= $0 today),
+     then $15 / $10 / $5 off every 30 / 60 / 90 days ($34.95 / $39.95 / $44.95). No-subscription path: automatic BXGY
+     "FREE SCENT — Diffuser Kits (no subscription)" zeroes one one-time scent when a kits variant is in the cart. */
+  kitsPlans: { 30: 7883817069, 60: 7883849837, 90: 7883882605 },
 };
 async function addToCart(setBusy, setToast) {
   const left = selStore.left();
@@ -503,7 +508,7 @@ async function addToCart(setBusy, setToast) {
   const sub = T.scents > 0 && selStore.plan === "sub" && selStore.keys.length > 0;
   const kitId = CART3.kitsFreeScent && CART3.kitsFreeScent[T.key]; /* dk1 */
   const items = [{ id: kitId, quantity: 1 }];
-  const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30];
+  const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk4: free-first-bottle plan */
   selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
   if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; } /* live page, cart not wired yet (owner 2026-10-03: logic to be defined after deploy) */
   if (!onStore() || !kitId) {

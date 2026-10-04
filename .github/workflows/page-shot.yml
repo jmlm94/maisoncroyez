@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-04 18:10 UTC: QA round 2 (after option B), 1/3 ritual page rt18-c30b8d4: body, images, console, cart check.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-04 18:20 UTC: QA round 2 (after option B), 2/3 kits page dk4-8c794b7: body, images, console, cart check.
 on:
   workflow_dispatch:
     inputs:
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/shots' }}
-      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/free-diffusers/ritual/page-body.html' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:
       - uses: actions/checkout@v4

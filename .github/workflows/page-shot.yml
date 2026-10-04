@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-04 15:55 UTC: QA round 3/3 on the bundle page (lb2-41bbbed) with the scroll-through, image-load, console-error and cart checks.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-04 16:00 UTC: defaults back on the ritual page after the three-page QA round (ritual 15:44, kits 15:48, bundle 15:52 UTC).
 on:
   workflow_dispatch:
     inputs:
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/living-room-bedroom-bundle' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/bundle-lrb/shots' }}
-      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/bundle-lrb/page-body.html' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/free-diffusers/ritual/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:
       - uses: actions/checkout@v4

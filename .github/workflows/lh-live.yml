@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Run 2026-10-04 15:50 UTC on the kits page, dk2-41bbbed (QA + speed round 2/3), 5 repeats. Previous: 2026-10-04 15:39 UTC ritual rt18-c30b8d4. Default target: /pages/manifestation-ritual (was /pages/free-diffusers until 2026-10-02). Dispatch with another url/out to test other pages.
+# Run 2026-10-04 15:55 UTC on the bundle page, lb2-41bbbed (QA + speed round 3/3), 5 repeats. Previous: 2026-10-04 15:48 UTC kits dk2-41bbbed. Default target: /pages/manifestation-ritual (was /pages/free-diffusers until 2026-10-02). Dispatch with another url/out to test other pages.
 name: lh-live
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/perf' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/living-room-bedroom-bundle' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/bundle-lrb/perf' }}
       RUNS: ${{ github.event.inputs.runs || '5' }}
     steps:
       - uses: actions/checkout@v4

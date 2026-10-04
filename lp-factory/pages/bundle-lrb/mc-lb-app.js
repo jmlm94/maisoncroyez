@@ -486,7 +486,11 @@ const CART3 = {
      without a plan (same BXGY, same $149.85). */
   ritualVariants: { sub: 45900240257133, one: 45900240257133 },
   kitsFreeScent: { one: null, two: null, three: null },
-  bundleVariant: null,  /* lb1: TODO "Living Room + Bedroom Bundle" variant ($169) — preview toast until set */  /* dk1: TODO 1 / 2 / 3 diffusers + 1 FREE scent variants ($129.95 / $149.95 / $199.95) — preview toast until set */
+  /* lb7 (2026-10-04, owner, option A): bundle line = "Maison Croyez Living Room + Bedroom Bundle" product 8215141417069,
+     single variant "2 Diffusers + 2 Scents" at $70.05 (= $169.95 minus two scents); the two scents ride as their own lines
+     at $49.95 each (one line, quantity 2, when both are the same) on the owner's Subi group (ritualPlans) or one-time,
+     so today's total is $169.95 and renewals are 2 x $34.95 / $39.95 / $44.95. */
+  bundleVariant: 45728132202605,
   ritualPlans: { 30: 7876575341, 60: 7876608109, 90: 7876640877 },
 };
 async function addToCart(setBusy, setToast) {

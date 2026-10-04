@@ -485,7 +485,12 @@ const CART3 = {
      payment ($34.95), every 60 days $10 off ($39.95), every 90 days $5 off ($44.95). One-time = same kit variant + scents
      without a plan (same BXGY, same $149.85). */
   ritualVariants: { sub: 45900240257133, one: 45900240257133 },
-  kitsFreeScent: { one: null, two: null, three: null },  /* dk1: TODO 1 / 2 / 3 diffusers + 1 FREE scent variants ($129.95 / $149.95 / $199.95) — preview toast until set */
+  /* dk2 (2026-10-04, owner, option A): kit line = "Maison Croyez Diffuser Kits" product 8245945434221, variants renamed
+     "1 / 2 / 3 Diffusers + 1 Free Scent" and priced at the offer minus the scent ($80.00 / $100.00 / $150.00); the free scent
+     rides as its own line at $49.95 on the owner's Subi group "02/10 Official Plan (30, 45, 60)" (ritualPlans below) or
+     one-time, so today's total is the advertised $129.95 / $149.95 / $199.95 and renewals are $34.95 / $39.95 / $44.95.
+     No discounts involved (a BXGY cannot zero a subscription line; the owner's plan charges the first bottle in full). */
+  kitsFreeScent: { one: 45784228429933, two: 45784228462701, three: 45784228495469 },
   ritualPlans: { 30: 7876575341, 60: 7876608109, 90: 7876640877 },
 };
 async function addToCart(setBusy, setToast) {

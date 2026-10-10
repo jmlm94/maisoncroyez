@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-10: ritual page, cart check now also saves the drawer HTML (drawer-html-<path>.txt) to see who renders the variant title + the upsell prices.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-10 01:08 UTC: ritual page, drawer check after the dr1 hour key rolled over (mc-drawer.js build dr-2026101001: no variant title on the free diffuser line, upsells $39.95).
 on:
   workflow_dispatch:
     inputs:

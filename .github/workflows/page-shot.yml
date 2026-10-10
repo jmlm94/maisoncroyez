@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-09 23:45 UTC: defaults back on the ritual page after the price round (ritual 23:30, kits 23:33, bundle 23:38 UTC).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-10: ritual page, cart check now also saves the drawer HTML (drawer-html-<path>.txt) to see who renders the variant title + the upsell prices.
 on:
   workflow_dispatch:
     inputs:
@@ -106,6 +106,8 @@ jobs:
             const drawer = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; const r = d.getBoundingClientRect(); const cs = getComputedStyle(d); return { open: d.hasAttribute('open') || !!d.open, visible: r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none', box: [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height)], text: (d.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 400) }; });
             const cart = await pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { total: c.total_price / 100, itemsSubtotal: c.items_subtotal_price / 100, original: c.original_total_price / 100, discount: c.total_discount / 100, n: c.item_count, cartDiscounts: (c.cart_level_discount_applications || []).map((d) => d.title), items: c.items.map((i) => ({ t: i.product_title + (i.variant_title && i.variant_title !== 'Default Title' ? ' / ' + i.variant_title : ''), q: i.quantity, price: i.price / 100, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? { name: i.selling_plan_allocation.selling_plan.name, now: i.selling_plan_allocation.price / 100, perDelivery: i.selling_plan_allocation.per_delivery_price / 100 } : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
             const toast = await pg.evaluate(() => { const els = [...document.querySelectorAll('body *')].filter((e) => !/^(SCRIPT|STYLE)$/.test(e.tagName) && e.children.length === 0 && /Preview mode|hiccuped/.test(e.textContent || '')); return els.length ? els[els.length - 1].textContent : null; });
+            const drawerHtml = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? d.outerHTML.slice(0, 150000) : ''; });
+            fs.writeFileSync(`${OUT}/drawer-html-${name}.txt`, drawerHtml);
             out.push(`${name}: ${JSON.stringify({ before, landed, drawer, toast, cart, errs })}`); console.log(out[out.length - 1]);
             await pg.screenshot({ path: `${OUT}/cart-${name}.png` }).catch(() => {});
             await ctx.close();

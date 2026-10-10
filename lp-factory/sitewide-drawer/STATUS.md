@@ -63,3 +63,12 @@ buttons left-aligned white. Cause: the theme drawer body is a grid; the horizont
 intrinsic width. Fix (raw@066b335): .mc-fa{min-width:0;max-width:100%;contain:inline-size}, row width/max-width 100%,
 cards flex-column with the button pinned to the bottom, button black #111 / white, flex-centered. Reproduced + verified
 with a grid-body stub (pw/drawer-grid.mjs: scrollWidth == clientWidth).
+
+## 2026-10-10 — scent price + free-diffuser variant title (GenericFile 29651366445165 <- raw@b82425d, 13,319B, build dr-2026101001)
+Owner: "remove the variant title from the drawer" (the ritual's free diffuser line read "1 FREE Diffuser + 1 Scent", the kit
+product's variant name from the old 1/2/3-diffuser offer) and "the frequently added scents still say $49.95". Changes:
+SCENT_PRICE 49.95 -> 39.95 (the "+ Add · $…" labels and the free-shipping "N more scents" math; the add itself always used the
+live Shopify price, so only the label was stale); the per-line variant title (mc-var) is skipped when the cart item's handle is
+free-diffuser-kit — kits ("2 Diffusers + 1 Free Scent") and bundle ("2 Diffusers + 2 Scents") keep theirs. The theme's own
+variant/plan line under each item stays hidden by the existing `.line-item__info>p.text-sm{display:none}` rule. Loader key is
+dr1-<UTC hour>, so the live drawer picks this up at the next hour boundary (01:00 UTC); verify with a page-shot cart check after.

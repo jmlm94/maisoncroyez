@@ -72,3 +72,4 @@ live Shopify price, so only the label was stale); the per-line variant title (mc
 free-diffuser-kit — kits ("2 Diffusers + 1 Free Scent") and bundle ("2 Diffusers + 2 Scents") keep theirs. The theme's own
 variant/plan line under each item stays hidden by the existing `.line-item__info>p.text-sm{display:none}` rule. Loader key is
 dr1-<UTC hour>, so the live drawer picks this up at the next hour boundary (01:00 UTC); verify with a page-shot cart check after.
+Verified 01:10 UTC (page-shot ritual cart check, key dr1-2026101001): free diffuser line reads "Maison Croyez — Home Diffuser Kit ×1 · $0.00 (was $79.95)" with no variant title, FREQUENTLY ADDED TOGETHER cards "+ Add · $39.95", total $119.85, no JS errors.

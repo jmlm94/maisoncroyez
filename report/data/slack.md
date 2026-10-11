@@ -1,30 +1,30 @@
-*Maison Croyez — Daily Report · Friday, October 9, 2026*
+*Maison Croyez — Daily Report · Saturday, October 10, 2026*
 
-:white_check_mark: *Shopify is reconnected and Oct 5–8 are backfilled.* Those 4 days added $844 in net sales across 5 orders, against $1,183 of Meta spend, for −$716 contribution profit. Every window below now includes them.
+:white_check_mark: *Subi renewals are flowing again:* 5 renewal orders on Oct 10 and 2 more early this morning, after only 1 renewal between Oct 3 and Oct 9. One of yesterday's renewals (#MC27080, $40) was cancelled the same day and its refund is still pending, so yesterday's sales drop to about $739 once the refund posts.
 
-:warning: *Subi renewals nearly stopped Oct 3–9:* only 1 renewal order in 7 days (Oct 7, $340), against about 4 a day over the prior 4 weeks. Billing looks to be running again, with 4 renewals charged early this morning (Oct 10, $280). Please check Subi for skipped or failed charges between Oct 3 and Oct 9.
+:warning: *Meta spend fell to $221 yesterday*, down from about $360 a day. All 3 LP Test ad sets dropped evenly (to about $72–78 each), which looks like a budget change. If nobody lowered budgets, check the ad sets for delivery limits.
 
-Hello Jose — yesterday we sold *$420* on Shopify across *3 orders* (*$320* subscription · *$100* one-time). COGS were *$202*, shipping ≈*$23*, processing fees *$12.84*, handling *$3.00*, and Meta ad spend *$363* (CPM $162.84 · CPC $3.59 · CTR 4.54%).
+Hello Jose — yesterday we sold *$779* on Shopify across *9 orders* (*$779* subscription · *$0* one-time). COGS were *$371*, shipping ≈*$68*, processing fees *$24.36*, handling *$9.00*, and Meta ad spend *$221* (CPM $158.52 · CPC $2.38 · CTR 6.66%).
 
-:red_circle: *Contribution profit yesterday: −$183* · Blended ROAS *1.16×*
+:large_green_circle: *Contribution profit yesterday: $86* · Blended ROAS *3.52×*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $420 | $363 | −$183 (+30.9%) | 1.16× |
-| 7 days | $1,264 | $1,545 | −$899 (−19.7%) | 0.82× |
-| 14 days | $4,031 | $3,462 | −$1,650 (+62.7%) | 1.16× |
-| 28 days | $15,436 | $12,535 | −$6,076 (+36.6%) | 1.23× |
-| 45 days | $24,831 | $20,240 | −$10,251  | 1.23× |
-| 90 days | $40,652 | $46,495 | −$34,355  | 0.87× |
+| Yesterday | $779 | $221 | $86 (+146.5%) | 3.52× |
+| 7 days | $2,043 | $1,768 | −$815 (−55.6%) | 1.16× |
+| 14 days | $3,986 | $3,166 | −$1,338 (+66.4%) | 1.26× |
+| 28 days | $15,241 | $11,896 | −$5,324 (+45.5%) | 1.28× |
+| 45 days | $24,891 | $19,884 | −$9,838  | 1.25× |
+| 90 days | $41,431 | $46,717 | −$34,271  | 0.89× |
 
-:seedling: *Subscriptions:* 291 acquired · est. MRR *$16,806* (ceiling — cancels not visible via API) · 2 new yesterday · 115 renewal orders in 28d
-:vs: *Meta vs day before:* CPM +19.9% · CPC +10.8% · CTR +8.2% · spend +4.6%
-:scales: *Worth it yet?* Almost — each sub costs $246, returns ~$165 in 180d (0.67×). Break-even CAC: $165.
+:seedling: *Subscriptions:* 295 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 4 new yesterday · 118 renewal orders in 28d
+:vs: *Meta vs day before:* CPM −2.8% · CPC −34.0% · CTR +47.1% · spend −39.2%
+:scales: *Worth it yet?* Almost — each sub costs $229, returns ~$165 in 180d (0.72×). Break-even CAC: $165.
 
-:test_tube: *LP Test, first 5 days (Meta-attributed):* $1,545 spent · 5 purchases ($510) · $309 per purchase.
-• LP Bundle: $513 · 36 add-to-carts · 16 checkouts · 1 purchase ($50)
-• LP Kits: $515 · 19 add-to-carts · 9 checkouts · 2 purchases ($300)
-• LP Ritual: $518 · 29 add-to-carts · 6 checkouts · 2 purchases ($160)
-Bundle gets the most people to checkout but turns the fewest into buyers. Kits is leading on revenue.
+:test_tube: *LP Test, first 6 days (Meta-attributed):* $1,768 spent · 9 purchases ($860) · $196 per purchase. Oct 10 was its best day yet, with 4 purchases ($350) on $221.
+• LP Bundle: $591 · 51 add-to-carts · 19 checkouts · 3 purchases ($270)
+• LP Kits: $587 · 31 add-to-carts · 14 checkouts · 4 purchases ($430)
+• LP Ritual: $591 · 41 add-to-carts · 7 checkouts · 2 purchases ($160)
+Kits leads on revenue. Ritual trails on checkouts and revenue.
 
 :bar_chart: Full interactive report: https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039

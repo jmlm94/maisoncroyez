@@ -59023,7 +59023,7 @@
   "name": "#MC27080",
   "createdAt": "2026-10-10T08:05:29Z",
   "cancelledAt": "2026-10-10T11:15:41Z",
-  "displayFinancialStatus": "PAID",
+  "displayFinancialStatus": "REFUNDED",
   "tags": [
    "Recurring Order #2",
    "Subi Subscription"
@@ -59058,7 +59058,7 @@
   },
   "totalRefundedSet": {
    "shopMoney": {
-    "amount": "0.0"
+    "amount": "39.95"
    }
   },
   "refunds": [
@@ -59066,7 +59066,7 @@
     "createdAt": "2026-10-10T11:15:40Z",
     "totalRefundedSet": {
      "shopMoney": {
-      "amount": "0.0"
+      "amount": "39.95"
      }
     }
    }
@@ -59085,7 +59085,7 @@
    },
    {
     "kind": "REFUND",
-    "status": "PENDING",
+    "status": "SUCCESS",
     "fees": []
    }
   ],
@@ -59919,6 +59919,191 @@
       "title": "Maison Croyez - Manifestation Scents (100ml)",
       "quantity": 1,
       "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC27088",
+  "createdAt": "2026-10-11T08:05:47Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #2",
+   "Subi Subscription"
+  ],
+  "customer": {
+   "id": "gid://shopify/Customer/8700238495853"
+  },
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "79.9"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "79.9"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.46"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Euphoric Bloom – Energy Raise (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC27089",
+  "createdAt": "2026-10-11T08:05:47Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #3",
+   "Subi Subscription"
+  ],
+  "customer": {
+   "id": "gid://shopify/Customer/8695372578925"
+  },
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.38"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Delivered every 30 days ✨"
+      },
       "originalUnitPriceSet": {
        "shopMoney": {
         "amount": "39.95"

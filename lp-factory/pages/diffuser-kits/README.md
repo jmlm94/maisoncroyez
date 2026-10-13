@@ -30,3 +30,5 @@ No automatic refill, scents at $39.95 each."; refill-why trimmed to the free-fir
 dk7c (owner round 3, preview v11): placement logic corrected — 2 diffusers = two coverage zones in ONE bigger room (plan: one large living
 room with two diffusers, "or the bedroom, or the kitchen"); 3 diffusers = two in the living room + one in the bedroom (bundle drawing with a
 second living-room zone). Captions updated to match.
+dk7d (owner round 4, preview v12): refill card = one bold sentence "Yes, refill every 30 days with $15 OFF on my scent." + $24.95/scent;
+one-time card grayer (title + sub) with no price on the right, "No automatic refill, scents at $39.95 each." stays below.

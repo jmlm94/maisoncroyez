@@ -903,15 +903,13 @@ function BuyBox() {
               <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 ${o.tag ? html`<span class=${"fq-tag" + (o.pop ? " pop" : "")}>${o.tag}</span>` : null}
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <span class="fq-days"><b>Yes, refill every ${o.days} days</b></span>
+                <span class="fq-days"><b>Yes, refill every ${o.days} days with ${usd(Math.round((SCENT_ONE - o.price) * 100) / 100)} OFF on my scent.</b></span>
                 <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
-                <span class="fq-sub">with <b>${usd(Math.round((SCENT_ONE - o.price) * 100) / 100)} OFF</b> on my scent</span>
               </div>`; })}
             ${(() => { const on = sel.oneTime(); const pick = () => sel.setPlan("one"); return html`
               <div key="one" class=${"fq fq-one" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
                 <span class="fq-days"><b>One-Time Payment</b></span>
-                <span class="fq-price"><b>${usd(SCENT_ONE)}</b><small>/scent</small></span>
                 <span class="fq-sub">No automatic refill, scents at ${usd(SCENT_ONE)} each.</span>
               </div>`; })()}
           </div>

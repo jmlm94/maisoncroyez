@@ -896,7 +896,7 @@ function BuyBox() {
           </div>
 
           <div class="picker-title step-title refill-title">Step 3: Want your scent refilled every 30 days?</div>
-          <p class="refill-sub">Skip, swap, pause or cancel anytime.</p>
+          <p class="refill-sub"><strong>Skip, swap, pause or cancel anytime.</strong></p>
           <p class="refill-why"><b class="why-lead">Your first scent bottle is free today, you pay nothing for it.</b></p>
           <div class="freq3 rf2" role="radiogroup" aria-label="Refills">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
@@ -905,7 +905,7 @@ function BuyBox() {
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
                 <span class="fq-days"><b>Yes, refill every ${o.days} days with ${usd(Math.round((SCENT_ONE - o.price) * 100) / 100)} OFF on my scent.</b></span>
                 <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
-                <span class="fq-sub">Free Shipping, right at your doorstep. Swap, pause or cancel anytime.</span>
+                <span class="fq-sub">Free Shipping, right at your doorstep. <strong>Swap, pause or cancel anytime.</strong></span>
               </div>`; })}
             ${(() => { const on = sel.oneTime(); const pick = () => sel.setPlan("one"); return html`
               <div key="one" class=${"fq fq-one" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>

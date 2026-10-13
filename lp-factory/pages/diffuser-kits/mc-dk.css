@@ -1318,7 +1318,5 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* dk7d (owner): refill card = one bold sentence; one-time card grayer, no price on the right */
 #root .rf2 .fq-days b{font-size:.9rem;line-height:1.25}
 @media (max-width:420px){#root .rf2 .fq-days b{font-size:.84rem}#root .rf2 .fq{column-gap:8px}}
-#root .rf2 .fq-one .fq-days b{color:#7A6A5F;font-weight:700}
-#root .rf2 .fq-one .fq-sub{color:#8A7A70}
-#root .rf2 .fq-one.on .fq-days b{color:#5C4F46}
-#root .rf2 .fq-one.on .fq-sub{color:#6E5B4F}
+/* dk7f (owner): one-time card in the same black as the refill card; 'Swap, pause or cancel anytime' bold */
+#root .rf2 .fq-sub strong,#root .refill-sub strong{font-weight:700;color:inherit}

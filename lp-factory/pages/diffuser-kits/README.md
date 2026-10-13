@@ -33,3 +33,5 @@ second living-room zone). Captions updated to match.
 dk7d (owner round 4, preview v12): refill card = one bold sentence "Yes, refill every 30 days with $15 OFF on my scent." + $24.95/scent;
 one-time card grayer (title + sub) with no price on the right, "No automatic refill, scents at $39.95 each." stays below.
 dk7e (owner round 5, preview v13): refill card gets a second line "Free Shipping, right at your doorstep. Swap, pause or cancel anytime."
+dk7f (owner round 6, preview v14): one-time card back to the same black as the refill card; "Swap, pause or cancel anytime." bold on the
+refill card and in the Step 3 subtitle ("Skip, swap, pause or cancel anytime.").

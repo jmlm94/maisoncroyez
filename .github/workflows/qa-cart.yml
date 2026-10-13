@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-13 17:1x UTC: all 23 scenarios after the kits dk7 deploy (two-card Step 3, one-time = .rf2 .fq-one).
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-13 21:2x UTC: all 23 scenarios on the three live pages right after the owner published the speed round 3 theme (theme.css off the critical path on the LP pages, app mounted by the layout).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

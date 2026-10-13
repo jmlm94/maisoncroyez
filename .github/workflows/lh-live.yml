@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Run 2026-10-13 21:0x UTC: kits page on the PREVIEW theme 187241169005 (speed round 3) vs the 17:41 baseline — perf-preview folder. Default target /pages/diffuser-kits (was /pages/manifestation-ritual).
+# Run 2026-10-13 21:2x UTC: kits page LIVE after the owner published the speed round 3 theme — perf folder, compare with the 17:41 baseline. Default target /pages/diffuser-kits (was /pages/manifestation-ritual).
 name: lh-live
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits?preview_theme_id=187241169005' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/perf-preview' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/perf' }}
       RUNS: ${{ github.event.inputs.runs || '5' }}
     steps:
       - uses: actions/checkout@v4

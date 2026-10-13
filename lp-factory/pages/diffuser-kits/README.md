@@ -27,3 +27,6 @@ dk7b (owner round 2, preview v10): kit lines "Perfect for: Studio, Bathroom, Ent
 "Perfect for: 1+ Rooms, Large Spaces."; panel heading "WHERE IT GOES:" bigger + black; chips Title Case per the same lists (3D: 🏠 1+ Rooms,
 📏 Large Spaces); Step 3 cards "Yes, refill every 30 days — $24.95/scent — with $15 OFF on my scent" and "One-Time Payment — $39.95/scent —
 No automatic refill, scents at $39.95 each."; refill-why trimmed to the free-first-bottle line.
+dk7c (owner round 3, preview v11): placement logic corrected — 2 diffusers = two coverage zones in ONE bigger room (plan: one large living
+room with two diffusers, "or the bedroom, or the kitchen"); 3 diffusers = two in the living room + one in the bedroom (bundle drawing with a
+second living-room zone). Captions updated to match.

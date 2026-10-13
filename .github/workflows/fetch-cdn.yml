@@ -1,0 +1,32 @@
+name: fetch-cdn
+# Copies the shared runtime files the offer pages load from the Shopify CDN into lp-factory/assets/cdn/ (the session container cannot reach the CDN). Edit this line and push to refresh. Run 2026-10-13: for the kits-page preview build.
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-cdn.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch
+        run: |
+          mkdir -p lp-factory/assets/cdn
+          B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
+          for f in mc-lp-vendor.js mc-lp-diffuser-assets.js mc-dk.css mc-dk-app.js; do
+            curl -sSL -A "Mozilla/5.0" "$B/$f?v=$(date +%s)" -o "lp-factory/assets/cdn/$f" && echo "$f $(wc -c < lp-factory/assets/cdn/$f) bytes $(md5sum lp-factory/assets/cdn/$f | cut -c1-8)"
+          done
+          date -u > lp-factory/assets/cdn/FETCHED.txt
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/assets/cdn
+          git commit -m "assets/cdn: refresh from the Shopify CDN" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

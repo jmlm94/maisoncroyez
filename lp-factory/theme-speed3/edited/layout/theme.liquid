@@ -14,7 +14,7 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="{{ settings.header_background }}">
-
+    
     <title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>
 
     {%- if page_description -%}
@@ -55,8 +55,9 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
       MC speed round 3 (2026-10-13): on the three Maison Croyez landing pages theme.css is loaded off the critical
       path. Those pages paint their own hero from the page body; the theme header stays hidden (the pages render
       their own), the overlay / footer groups and the skip link stay hidden until theme.css has applied, and the
-      page's own loader waits for the mc:tcss event before mounting the app. Every other page keeps the
-      render-blocking stylesheet exactly as before.
+      page app (CSS + scripts declared by the page body's preload links) is mounted from here only after theme.css
+      has applied, so it never lays out without the theme's base styles. The page body's own loader exits because
+      window.__MC_FD_LOADER__ is already set. Every other page keeps the render-blocking stylesheet exactly as before.
     {%- endcomment -%}
     {%- assign mc_lp = false -%}
     {%- if request.page_type == 'page' -%}
@@ -69,7 +70,25 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
       {{ 'theme.css' | asset_url | preload_tag: as: 'style' }}
       <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" media="print" data-mc-tcss onload="this.onload=null;this.media='all';document.documentElement.classList.add('mc-tcss');document.dispatchEvent(new Event('mc:tcss'))">
       <noscript><link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"></noscript>
-      <script>setTimeout(function(){var l=document.querySelector('link[data-mc-tcss]');if(l&&l.media!=='all'){l.media='all';document.documentElement.classList.add('mc-tcss');document.dispatchEvent(new Event('mc:tcss'))}},4000)</script>
+      <script>
+      (function(){
+        window.__MC_FD_LOADER__=1;
+        var H=document.documentElement,done=false;
+        function links(){return Array.prototype.slice.call(document.querySelectorAll('link[rel="preload"][href*="/files/mc-"]'));}
+        function mount(){
+          if(done)return;
+          var L=links(),css=L.filter(function(l){return l.getAttribute('as')==='style';}),js=L.filter(function(l){return l.getAttribute('as')==='script';});
+          if(!js.length){if(document.readyState==='complete'){done=true;return;}setTimeout(mount,50);return;}
+          done=true;
+          css.forEach(function(l){var s=document.createElement('link');s.rel='stylesheet';s.href=l.href;document.head.appendChild(s);});
+          js.forEach(function(l){var s=document.createElement('script');s.src=l.href;s.async=false;document.body.appendChild(s);});
+        }
+        function go(){if(H.classList.contains('mc-tcss'))mount();}
+        document.addEventListener('mc:tcss',go);
+        setTimeout(function(){var l=document.querySelector('link[data-mc-tcss]');if(l&&l.media!=='all'){l.media='all';H.classList.add('mc-tcss');document.dispatchEvent(new Event('mc:tcss'));}},4000);
+        go();
+      })();
+      </script>
     {%- else -%}
       {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
     {%- endif -%}
@@ -251,5 +270,5 @@ document.body.appendChild(s);})();
   </body>
 
 
-
+  
 </html>

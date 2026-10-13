@@ -1,5 +1,5 @@
 name: fetch-cdn
-# Copies the shared runtime files the offer pages load from the Shopify CDN into lp-factory/assets/cdn/ (the session container cannot reach the CDN). Edit this line and push to refresh. Run 2026-10-13: for the kits-page preview build.
+# Copies the shared runtime files the offer pages load from the Shopify CDN into lp-factory/assets/cdn/ (the session container cannot reach the CDN). Edit this line and push to refresh. Run 2026-10-13 00:20 UTC: + the 8 brand font files for the kits-page preview build.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p lp-factory/assets/cdn
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for f in mc-lp-vendor.js mc-lp-diffuser-assets.js mc-dk.css mc-dk-app.js; do
+          for f in mc-lp-vendor.js mc-lp-diffuser-assets.js mc-lp-f-bvp-400.woff2 mc-lp-f-bvp-600.woff2 mc-lp-f-outfit-400.woff2 mc-lp-f-outfit-700.woff2 mc-lp-f-unna-400.woff2 mc-lp-f-unna-400i.woff2 mc-lp-f-unna-700.woff2 mc-lp-f-unna-700i.woff2; do
             curl -sSL -A "Mozilla/5.0" "$B/$f?v=$(date +%s)" -o "lp-factory/assets/cdn/$f" && echo "$f $(wc -c < lp-factory/assets/cdn/$f) bytes $(md5sum lp-factory/assets/cdn/$f | cut -c1-8)"
           done
           date -u > lp-factory/assets/cdn/FETCHED.txt

@@ -5,13 +5,13 @@ on:
     inputs:
       url:
         description: Page URL
-        default: https://maisoncroyez.com/pages/manifestation-ritual
+        default: https://maisoncroyez.com/pages/diffuser-kits
       out:
         description: Output folder (repo path)
-        default: lp-factory/pages/free-diffusers/ritual/shots
+        default: lp-factory/pages/diffuser-kits/shots
       body:
         description: Repo path of the page body to compare the live page against
-        default: lp-factory/pages/free-diffusers/ritual/page-body.html
+        default: lp-factory/pages/diffuser-kits/page-body.html
       cart:
         description: Run the live add-to-cart check (yes/no)
         default: 'yes'
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/manifestation-ritual' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/free-diffusers/ritual/shots' }}
-      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/free-diffusers/ritual/page-body.html' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:
       - uses: actions/checkout@v4
@@ -93,12 +93,12 @@ jobs:
           import fs from 'fs';
           const URL_ = process.env.URL, OUT = process.env.OUT;
           const b = await chromium.launch(); const out = [];
-          for (const [name, prep] of [['sub-30', null], ['sub-90', '.fq:not(.dkt):nth-child(3)'], ['one-time', '.rf-link']]) {
+          for (const [name, prep] of [['sub-30', null], ['sub-90', '.fq:not(.dkt):nth-child(3)'], ['one-time', '.rf-link, .rf2 .fq-one']]) {
             const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' });
             const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
             await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
             await pg.waitForSelector('#buybox .btn.atc', { timeout: 30000 }); await pg.waitForTimeout(1500);
-            if (prep) { await pg.evaluate((q) => { const e = document.querySelector(q); if (e) { e.scrollIntoView({ block: 'center' }); e.click(); } }, prep); await pg.waitForTimeout(400); }
+            if (prep) { const hit = await pg.evaluate((q) => { const e = document.querySelector(q); if (e) { e.scrollIntoView({ block: 'center' }); e.click(); return true; } return false; }, prep); await pg.waitForTimeout(400); if (!hit && name === 'sub-90') { out.push(`${name}: n/a (no 90-day option on this page)`); console.log(out[out.length - 1]); await ctx.close(); continue; } }
             const before = await pg.evaluate(() => ({ btn: (document.querySelector('#buybox .btn.atc') || {}).innerText, alt: (document.querySelector('.rf-alt') || {}).innerText || null, freqOn: (document.querySelector('.fq.on:not(.dkt)') || {}).innerText || null }));
             await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
             await pg.waitForTimeout(4000);

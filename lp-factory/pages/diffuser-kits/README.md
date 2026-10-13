@@ -23,3 +23,7 @@ App: FREQS = [30 days $24.95] only; Step 3 is now two cards ("Yes, refill every 
 tier, swaps with the selected kit); tier subtitles now name the rooms ("Studio, bathroom or entry" / "Living room + bedroom" /
 "Living room, bedroom + kitchen"). CSS: .place* / .rf2 rules appended. Preview: artifact TK1GvMvzMi69pP4wiLMfyN v8, built by
 inlining lp-factory/assets/cdn/{mc-lp-vendor.js,mc-lp-diffuser-assets.js} + the app + css into one HTML (fonts inlined as data URIs).
+dk7b (owner round 2, preview v10): kit lines "Perfect for: Studio, Bathroom, Entry." / "Perfect for: Living Room, Bedroom, Kitchen." /
+"Perfect for: 1+ Rooms, Large Spaces."; panel heading "WHERE IT GOES:" bigger + black; chips Title Case per the same lists (3D: 🏠 1+ Rooms,
+📏 Large Spaces); Step 3 cards "Yes, refill every 30 days — $24.95/scent — with $15 OFF on my scent" and "One-Time Payment — $39.95/scent —
+No automatic refill, scents at $39.95 each."; refill-why trimmed to the free-first-bottle line.

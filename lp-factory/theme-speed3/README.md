@@ -1,5 +1,11 @@
 # Theme speed round 3 (2026-10-13)
 
+**LIVE since 2026-10-13 21:20 UTC** — the owner published theme 187241169005; the previous live theme
+186692370541 "MaisonCroyez — Instant removed (Claude)" is still in the library for a one-click rollback.
+Live checks (STATUS.md entry "speed round 3"): kits / ritual / bundle page-shot green, qa-cart 23/23, the hero is
+the first paint on all three pages (fast phone LCP 459 ms, 4x CPU 633 ms), homepage unchanged apart from the two
+site-wide font tweaks.
+
 Owner request: fix the PageSpeed Insights findings on /pages/diffuser-kits (font-display 150 ms, render-blocking
 requests 280 ms, LCP element render delay 2.5 s, "more than 4 preconnect" warning).
 

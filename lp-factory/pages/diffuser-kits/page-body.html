@@ -41,7 +41,9 @@ document.head.appendChild(l);
 var add=function(){['mc-lp-vendor.js','mc-lp-diffuser-assets.js','mc-dk-app.js'].forEach(function(f){
 var s=document.createElement('script');s.src=B+f+'?v='+v;s.async=false;document.body.appendChild(s);});};
 var fired=false;var go=function(){if(!fired){fired=true;add();}};
-if(window.requestAnimationFrame){requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,250);}
+var L=document.querySelector('link[data-mc-tcss]'),H=document.documentElement; /* speed round 3: when the theme loads theme.css off the critical path (LP pages), mount after it has applied (or 4 s) */
+if(L&&!H.classList.contains('mc-tcss')){var t=setTimeout(go,4000);document.addEventListener('mc:tcss',function(){clearTimeout(t);go();},{once:true});}
+else if(window.requestAnimationFrame){requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,250);}
 else{setTimeout(go,0);}})();
 </script>
 <script>

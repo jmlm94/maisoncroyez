@@ -14,7 +14,7 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
-## 2026-10-13 — dk7 (PREVIEW ONLY, not deployed): one refill choice + "Where it goes"
+## 2026-10-13 — dk7 (LIVE as dk7-14579ac, 17:01 UTC; the notes below are the preview rounds): one refill choice + "Where it goes"
 Owner: drop the 60 / 90-day options (every 30 days or no subscription) and teach placement per kit, like the bundle page's floor plan.
 App: FREQS = [30 days $24.95] only; Step 3 is now two cards ("Yes, refill every 30 days — $X today, then $24.95 per scent…" and
 "No subscription — $X today, nothing after"), the "Don't want refills?" link is gone (page-shot's cart check still clicks .rf-link /

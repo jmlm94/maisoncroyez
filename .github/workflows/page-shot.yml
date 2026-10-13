@@ -1,17 +1,17 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-13: kits page after dk7 (every 30 days or one-time, Where it goes panel per kit); one-time click = .rf-link or .rf2 .fq-one, sub-90 skipped where the page has no 90-day card.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-13 17:1x UTC: defaults back on the ritual page after the kits dk7 deploy (kits run 20261013T1706 was green).
 on:
   workflow_dispatch:
     inputs:
       url:
         description: Page URL
-        default: https://maisoncroyez.com/pages/diffuser-kits
+        default: https://maisoncroyez.com/pages/manifestation-ritual
       out:
         description: Output folder (repo path)
-        default: lp-factory/pages/diffuser-kits/shots
+        default: lp-factory/pages/free-diffusers/ritual/shots
       body:
         description: Repo path of the page body to compare the live page against
-        default: lp-factory/pages/diffuser-kits/page-body.html
+        default: lp-factory/pages/free-diffusers/ritual/page-body.html
       cart:
         description: Run the live add-to-cart check (yes/no)
         default: 'yes'

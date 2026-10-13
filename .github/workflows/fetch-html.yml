@@ -1,0 +1,43 @@
+name: fetch-html
+# Saves the raw HTML of a live page (phone UA) into lp-factory/assets/live/<name>.html so the head / section-group markup can be inspected from the repo (the dev container cannot reach maisoncroyez.com). Edit this line and push, or dispatch. Run 2026-10-13: kits page, speed round 3 baseline.
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-html.yml']
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Page URL
+        default: https://maisoncroyez.com/pages/diffuser-kits
+      name:
+        description: Output file name (without .html)
+        default: diffuser-kits
+permissions:
+  contents: write
+concurrency: fetch-html
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      NAME: ${{ github.event.inputs.name || 'diffuser-kits' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
+      - name: Fetch
+        run: |
+          mkdir -p lp-factory/assets/live
+          curl -sSL --compressed -A "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1" -D lp-factory/assets/live/$NAME.headers.txt -o lp-factory/assets/live/$NAME.html "$URL"
+          wc -c lp-factory/assets/live/$NAME.html
+          grep -o '<link[^>]*rel="\(preconnect\|dns-prefetch\|preload\|stylesheet\)"[^>]*>' lp-factory/assets/live/$NAME.html | head -40 > lp-factory/assets/live/$NAME.links.txt || true
+          grep -o '<div id="shopify-section[^>]*>' lp-factory/assets/live/$NAME.html > lp-factory/assets/live/$NAME.sections.txt || true
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lp-factory/assets/live
+          git commit -m "fetch-html: $NAME" || echo "nothing to commit"
+          for i in 1 2 3 4; do git pull --rebase origin ${{ github.ref_name }} && git push origin HEAD:${{ github.ref_name }} && break || sleep $((i*5)); done

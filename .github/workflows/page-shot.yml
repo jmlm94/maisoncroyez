@@ -1,17 +1,17 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-13 17:1x UTC: defaults back on the ritual page after the kits dk7 deploy (kits run 20261013T1706 was green).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-13 21:0x UTC: kits page on the PREVIEW theme 187241169005 (speed round 3: theme.css off the critical path, app mounted by the layout after it applies, font-display swap) — shots-preview folder.
 on:
   workflow_dispatch:
     inputs:
       url:
         description: Page URL
-        default: https://maisoncroyez.com/pages/manifestation-ritual
+        default: https://maisoncroyez.com/pages/diffuser-kits?preview_theme_id=187241169005
       out:
         description: Output folder (repo path)
-        default: lp-factory/pages/free-diffusers/ritual/shots
+        default: lp-factory/pages/diffuser-kits/shots-preview
       body:
         description: Repo path of the page body to compare the live page against
-        default: lp-factory/pages/free-diffusers/ritual/page-body.html
+        default: lp-factory/pages/diffuser-kits/page-body.html
       cart:
         description: Run the live add-to-cart check (yes/no)
         default: 'yes'
@@ -25,8 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits?preview_theme_id=187241169005' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots-preview' }}
       BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:

@@ -32,3 +32,4 @@ room with two diffusers, "or the bedroom, or the kitchen"); 3 diffusers = two in
 second living-room zone). Captions updated to match.
 dk7d (owner round 4, preview v12): refill card = one bold sentence "Yes, refill every 30 days with $15 OFF on my scent." + $24.95/scent;
 one-time card grayer (title + sub) with no price on the right, "No automatic refill, scents at $39.95 each." stays below.
+dk7e (owner round 5, preview v13): refill card gets a second line "Free Shipping, right at your doorstep. Swap, pause or cancel anytime."

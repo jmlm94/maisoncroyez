@@ -905,6 +905,7 @@ function BuyBox() {
                 <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
                 <span class="fq-days"><b>Yes, refill every ${o.days} days with ${usd(Math.round((SCENT_ONE - o.price) * 100) / 100)} OFF on my scent.</b></span>
                 <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
+                <span class="fq-sub">Free Shipping, right at your doorstep. Swap, pause or cancel anytime.</span>
               </div>`; })}
             ${(() => { const on = sel.oneTime(); const pick = () => sel.setPlan("one"); return html`
               <div key="one" class=${"fq fq-one" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>

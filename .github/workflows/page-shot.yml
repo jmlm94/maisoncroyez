@@ -1,17 +1,17 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-13 21:3x UTC b: bundle page LIVE on the speed round 3 theme (kits 20261013T2123 and ritual 21:28 runs were green).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-14: kits page after the dk8 deploy (nothing pre-selected, picker E with the smells-like bar, leaner buy box) — expect key dk8-6ab424e, body match, drawer open on sub-30 and one-time.
 on:
   workflow_dispatch:
     inputs:
       url:
         description: Page URL
-        default: https://maisoncroyez.com/pages/living-room-bedroom-bundle
+        default: https://maisoncroyez.com/pages/diffuser-kits
       out:
         description: Output folder (repo path)
-        default: lp-factory/pages/bundle-lrb/shots
+        default: lp-factory/pages/diffuser-kits/shots
       body:
         description: Repo path of the page body to compare the live page against
-        default: lp-factory/pages/bundle-lrb/page-body.html
+        default: lp-factory/pages/diffuser-kits/page-body.html
       cart:
         description: Run the live add-to-cart check (yes/no)
         default: 'yes'
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/living-room-bedroom-bundle' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/bundle-lrb/shots' }}
-      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/bundle-lrb/page-body.html' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
       CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:
       - uses: actions/checkout@v4
@@ -98,6 +98,8 @@ jobs:
             const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
             await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
             await pg.waitForSelector('#buybox .btn.atc', { timeout: 30000 }); await pg.waitForTimeout(1500);
+            // dk8: nothing is pre-selected on the kits page any more — pick the third scent (Chilled Citrus) when no scent is on; pages with pre-selected scents are left alone
+            await pg.evaluate(() => { if (!document.querySelector('#buybox .pick.on')) { const p = document.querySelector('#buybox .picker .pick:nth-child(3)'); if (p) { p.scrollIntoView({ block: 'center' }); p.click(); } } }); await pg.waitForTimeout(400);
             if (prep) { const hit = await pg.evaluate((q) => { const e = document.querySelector(q); if (e) { e.scrollIntoView({ block: 'center' }); e.click(); return true; } return false; }, prep); await pg.waitForTimeout(400); if (!hit && name === 'sub-90') { out.push(`${name}: n/a (no 90-day option on this page)`); console.log(out[out.length - 1]); await ctx.close(); continue; } }
             const before = await pg.evaluate(() => ({ btn: (document.querySelector('#buybox .btn.atc') || {}).innerText, alt: (document.querySelector('.rf-alt') || {}).innerText || null, freqOn: (document.querySelector('.fq.on:not(.dkt)') || {}).innerText || null }));
             await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });

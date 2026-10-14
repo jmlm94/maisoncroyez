@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-13 21:2x UTC: all 23 scenarios on the three live pages right after the owner published the speed round 3 theme (theme.css off the critical path on the LP pages, app mounted by the layout).
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-14: all 23 scenarios after the kits dk8 deploy (no scent pre-selected on the kits page: the K scenarios' scent step picks a tile in the new 4-per-row picker; the default scenarios K1 / K4 / K6 need a scent click first — see the kits scenario list).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -42,7 +42,7 @@ jobs:
           const KIT = { 0: { v: 45784228429933, p: 109.95 }, 1: { v: 45784228462701, p: 129.95 }, 2: { v: 45784228495469, p: 189.95 } };
           const PAGES = {
             ritual: { url: 'https://maisoncroyez.com/pages/manifestation-ritual', pick: '.picker .pick', qtyWrap: '.pick-qty' },
-            kits: { url: 'https://maisoncroyez.com/pages/diffuser-kits', pick: '.pick.cell', qtyWrap: '.cell-qty' },
+            kits: { url: 'https://maisoncroyez.com/pages/diffuser-kits', pick: '.picker .pick', qtyWrap: '.cell-qty' }, /* dk8: tiles are .pick.e4t, no .cell */
             bundle: { url: 'https://maisoncroyez.com/pages/living-room-bedroom-bundle', pick: '.pick.cell', qtyWrap: '.cell-qty' },
           };
           const r2 = (x) => Math.round(x * 100) / 100;
@@ -59,13 +59,13 @@ jobs:
             { page: 'ritual', name: 'R7 default, then "+ Add" on the first drawer upsell card', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85', upsell: { lines: [...expRitual({ 2: 1, 3: 1, 6: 1 }, 30).lines, { v: 41212020457581, q: 1, price: SP, plan: null, line: SP }], total: 159.80 } },
             { page: 'ritual', name: 'R8 default, then Secure checkout', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85', checkout: true },
             { page: 'ritual', name: 'R9 desktop, default', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85', vp: 'desktop' },
-            { page: 'kits', name: 'K1 default 2 diffusers + Chilled Citrus, every 30 days', acts: [], exp: expKits(1, 2, 30), btn: '$129.95' },
-            { page: 'kits', name: 'K2 1 diffuser, every 30 days', acts: [['tier', 0]], exp: expKits(0, 2, 30), btn: '$109.95' },
-            { page: 'kits', name: 'K3 3 diffusers, every 30 days', acts: [['tier', 2]], exp: expKits(2, 2, 30), btn: '$189.95' },
-            { page: 'kits', name: 'K4 2 diffusers, no subscription', acts: [['one']], exp: expKits(1, 2, 0), btn: '$129.95' },
+            { page: 'kits', name: 'K1 default 2 diffusers, pick Chilled Citrus, every 30 days', acts: [['scent', 2]], exp: expKits(1, 2, 30), btn: '$129.95' },
+            { page: 'kits', name: 'K2 1 diffuser, Chilled Citrus, every 30 days', acts: [['tier', 0], ['scent', 2]], exp: expKits(0, 2, 30), btn: '$109.95' },
+            { page: 'kits', name: 'K3 3 diffusers, Chilled Citrus, every 30 days', acts: [['tier', 2], ['scent', 2]], exp: expKits(2, 2, 30), btn: '$189.95' },
+            { page: 'kits', name: 'K4 2 diffusers, Chilled Citrus, no subscription', acts: [['scent', 2], ['one']], exp: expKits(1, 2, 0), btn: '$129.95' },
             { page: 'kits', name: 'K5 2 diffusers, scent swapped to Wildwood Mystique, every 30 days', acts: [['scent', 5]], exp: expKits(1, 5, 30), btn: '$129.95' },
-            { page: 'kits', name: 'K6 1 diffuser, no subscription, then Secure checkout', acts: [['tier', 0], ['one']], exp: expKits(0, 2, 0), btn: '$109.95', checkout: true },
-            { page: 'kits', name: 'K7 desktop, 3 diffusers, one-time, back to refills, every 30 days', acts: [['tier', 2], ['one'], ['freq', 0]], exp: expKits(2, 2, 30), btn: '$189.95', vp: 'desktop' },
+            { page: 'kits', name: 'K6 1 diffuser, Chilled Citrus, no subscription, then Secure checkout', acts: [['tier', 0], ['scent', 2], ['one']], exp: expKits(0, 2, 0), btn: '$109.95', checkout: true },
+            { page: 'kits', name: 'K7 desktop, 3 diffusers, Chilled Citrus, one-time, back to refills, every 30 days', acts: [['tier', 2], ['scent', 2], ['one'], ['freq', 0]], exp: expKits(2, 2, 30), btn: '$189.95', vp: 'desktop' },
             { page: 'bundle', name: 'B1 default (Chilled Citrus + Midnight), every 30 days', acts: [], exp: expBundle({ 2: 1, 6: 1 }, 30), btn: '$139.95' },
             { page: 'bundle', name: 'B2 every 60 days', acts: [['freq', 1]], exp: expBundle({ 2: 1, 6: 1 }, 60), btn: '$139.95' },
             { page: 'bundle', name: 'B3 no subscription', acts: [['one']], exp: expBundle({ 2: 1, 6: 1 }, 0), btn: '$139.95' },

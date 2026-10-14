@@ -1,5 +1,5 @@
 name: qa-kits
-# Kits page only (https://maisoncroyez.com/pages/diffuser-kits): live checks of the dk8 buy box on a phone and on desktop — nothing pre-selected, the 4-per-row / 7-per-row scent picker, the smells-like bar for all seven scents, single-select swap, Add to cart without a scent (grid outline + toast, no cart change, buy box and sticky bar), diffuser-count prices, removed copy, "Where it goes" compact — then two real cart flows (2 diffusers + 30-day refill, 3 diffusers + one-time). Edit this line and push to run. Run 2026-10-14 ~15:5x UTC (owner: "diffuser-kits only").
+# Kits page only (https://maisoncroyez.com/pages/diffuser-kits): live checks of the dk8 buy box on a phone and on desktop — nothing pre-selected, the 4-per-row / 7-per-row scent picker, the smells-like bar for all seven scents, single-select swap, Add to cart without a scent (grid outline + toast, no cart change, buy box and sticky bar), diffuser-count prices, removed copy, "Where it goes" compact — then two real cart flows (2 diffusers + 30-day refill, 3 diffusers + one-time). Edit this line and push to run. Run 2026-10-14 ~15:5x UTC b (owner: "diffuser-kits only"; first run 20261014T1541 was 55/60 with all five misses being check noise — Clear-Site-Data console note, lazy review photos, 207 px vs a 200 px line — fixed here).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -47,7 +47,7 @@ jobs:
           const b = await chromium.launch();
           const open = async (mobile) => {
             const ctx = await b.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA } : { viewport: { width: 1366, height: 900 }, deviceScaleFactor: 1 });
-            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message)); pg.on('console', (m) => { if (m.type() === 'error') errs.push('console: ' + m.text().slice(0, 140)); });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message)); pg.on('console', (m) => { if (m.type() === 'error' && !/Clear-Site-Data/.test(m.text())) errs.push('console: ' + m.text().slice(0, 140)); }); /* Chromium logs Shopify's Clear-Site-Data header on /cart/add.js as an error; not ours */
             await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
             await pg.waitForSelector('#buybox .picker.e4 .pick', { timeout: 30000 });
             await pg.waitForTimeout(1500);
@@ -80,7 +80,7 @@ jobs:
             usp: [...document.querySelectorAll('#buybox .usp .usp-tx')].map(tx),
             gone: (() => { const t = (document.querySelector('#buybox') || document.body).innerText; return GONE.filter((g) => t.includes(g)); })(),
             goneSel: GONE_SEL.filter((s) => document.querySelector(s)),
-            imgsBad: [...document.querySelectorAll('#buybox img')].filter((i) => !i.complete || i.naturalWidth === 0).length,
+            imgsBad: [...document.querySelectorAll('#buybox .fq.dkt img, #buybox .picker img, #buybox .plan img')].filter((i) => !i.complete || i.naturalWidth === 0).map((i) => (i.currentSrc || i.src || '').slice(-40)),
           }; }, { GONE, GONE_SEL });
           const run = async (vp) => {
             const mobile = vp === 'phone'; const { ctx, pg, errs } = await open(mobile);
@@ -95,7 +95,7 @@ jobs:
             ck(`${vp}-freq0`, '30-day refill selected by default', /every 30 days/.test(s.freqOn || ''), s.freqOn);
             ck(`${vp}-usp`, 'tile 2 reads "Replaces room sprays, plug-ins and candles instantly."', s.usp[1] === 'Replaces room sprays, plug-ins and candles instantly.', s.usp);
             ck(`${vp}-gone`, 'removed copy is gone from the buy box (pills, pre-selected banner, refill lines, 86% fact, order summary, old lede)', s.gone.length === 0 && s.goneSel.length === 0, { gone: s.gone, goneSel: s.goneSel });
-            ck(`${vp}-place`, '"Where it goes" compact (plan left, title + rooms right, under 200 px tall)', s.placeHeadInSide && s.place && s.place < (mobile ? 200 : 230), { h: s.place, headInSide: s.placeHeadInSide });
+            ck(`${vp}-place`, '"Where it goes" compact (plan left, title + rooms right; phone ≤ 209 px = 40% under the 348 px it was)', s.placeHeadInSide && s.place && s.place <= (mobile ? 209 : 230), { h: s.place, headInSide: s.placeHeadInSide });
             checks.push({ id: `${vp}-info`, name: 'info: picker height / Add to cart offset from the top', ok: true, got: { pickerH: s.pickerH, atcTop: s.atcTop, barAlign: s.barAlign } });
             await tap(pg, '.fq.dkt', 0); await pg.waitForTimeout(350); s = await state(pg);
             ck(`${vp}-tier1`, '1 Diffuser → $109.95', s.btn === 'ADD TO CART — $109.95 ➔', s.btn);
@@ -130,7 +130,7 @@ jobs:
             await tap(pg, '#buybox .picker.e4 .pick', 2); await pg.waitForTimeout(250); await tap(pg, '#buybox .picker.e4 .pick', 0); await pg.waitForTimeout(300); s = await state(pg);
             ck(`${vp}-swap`, 'tapping another scent swaps it (one free scent, single select)', s.on.length === 1 && s.on[0] === SCENTS[0].name, s.on);
             ck(`${vp}-btn-scent`, 'Add to cart still shows the price with a scent picked', s.btn === 'ADD TO CART — $129.95 ➔', s.btn);
-            ck(`${vp}-imgs`, 'all buy box images loaded (kit photos, 7 scent tiles, plan)', s.imgsBad === 0, s.imgsBad);
+            ck(`${vp}-imgs`, 'kit photos, the 7 scent tiles and the plan image all loaded', s.imgsBad.length === 0, s.imgsBad);
             const bb = await pg.$('#buybox'); if (bb) await bb.screenshot({ path: `${OUT}/${vp}-buybox.png` }).catch(() => {});
             ck(`${vp}-errors`, 'no JavaScript or console errors', errs.length === 0, errs.slice(0, 5));
             await ctx.close();

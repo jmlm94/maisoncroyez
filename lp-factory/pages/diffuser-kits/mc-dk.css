@@ -1364,6 +1364,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .e4-bar b{color:#141414;font-weight:600}
 #root .e4-bar .e4-emoji{font-size:18px;line-height:1.2}
 #root .e4-bar .pick-str{display:inline-flex;align-items:center;gap:2px;vertical-align:middle;font-size:9px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+#root .e4-bar{justify-content:center;align-items:center;text-align:center} /* dk8d (2026-10-14, owner): centre the smells-like bar */
 @media (min-width:700px){#root .picker.e4{grid-template-columns:repeat(7,minmax(0,1fr)) !important;gap:8px}#root .picker.e4 .e4-name{font-size:10.5px}}
 #root .picker.nudge{outline:2px solid #141414;outline-offset:5px;border-radius:14px;animation:mcNudge 1.6s ease-out forwards}
 @keyframes mcNudge{0%{outline-color:#141414}70%{outline-color:#141414}100%{outline-color:transparent}}

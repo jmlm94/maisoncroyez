@@ -1352,5 +1352,18 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .rf2 .fq{padding-top:9px;padding-bottom:9px}
 #root .buybox .btn.atc{margin-top:8px}
 #root .place{margin-bottom:8px}
+/* dk8c (2026-10-14, owner): scent picker = option E, four photo tiles per row + a bar for the picked scent (intention, strength, smells like, notes) */
+#root .picker.e4{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:6px}
+#root .picker.e4 .pick{display:block !important;position:relative;padding:4px 4px 6px;border:1.5px solid #E6E3DE;border-radius:11px;background:#fff;text-align:center;cursor:pointer;min-height:0;margin:0}
+#root .picker.e4 .pick.on{border-color:#141414;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
+#root .picker.e4 .pick .ph{width:100% !important;max-width:none !important;height:auto !important;aspect-ratio:1/1;margin:0 !important;border-radius:8px;overflow:hidden;background:#F7F3EE}
+#root .picker.e4 .pick .ph img{width:100%;height:100%;object-fit:cover}
+#root .picker.e4 .pick .ot-dot{position:absolute;top:5px;right:5px;margin:0;z-index:1;width:16px;height:16px}
+#root .picker.e4 .e4-name{display:block;font-family:'Be Vietnam Pro','BVP Fallback',system-ui,sans-serif;font-weight:600;font-size:10px;line-height:1.15;margin-top:5px;min-height:23px;color:#141414;overflow-wrap:anywhere}
+#root .e4-bar{margin-top:7px;font-size:11px;line-height:1.4;color:#5C4F46;background:#F7F3EE;border:1px solid #E6E3DE;border-radius:10px;padding:8px 10px;min-height:38px;display:flex;align-items:flex-start;gap:8px;text-align:left}
+#root .e4-bar b{color:#141414;font-weight:600}
+#root .e4-bar .e4-emoji{font-size:18px;line-height:1.2}
+#root .e4-bar .pick-str{display:inline-flex;align-items:center;gap:2px;vertical-align:middle;font-size:9px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+@media (min-width:700px){#root .picker.e4{grid-template-columns:repeat(7,minmax(0,1fr)) !important;gap:8px}#root .picker.e4 .e4-name{font-size:10.5px}}
 #root .picker.nudge{outline:2px solid #141414;outline-offset:5px;border-radius:14px;animation:mcNudge 1.6s ease-out forwards}
 @keyframes mcNudge{0%{outline-color:#141414}70%{outline-color:#141414}100%{outline-color:transparent}}

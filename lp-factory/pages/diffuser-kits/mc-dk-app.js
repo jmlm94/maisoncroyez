@@ -882,19 +882,17 @@ function BuyBox() {
           </div>
 
           <${StepHead} n=${2} title="Step 2: Pick your free scent"/> <!-- dk8 (owner): no free-scent pill, no pre-selected note -->
-          <div class="picker compact grid2" role="radiogroup" aria-label="Pick your free scent">
+          <div class="picker e4" role="radiogroup" aria-label="Pick your free scent"> <!-- dk8c (2026-10-14, owner): option E — four photo tiles per row, name under each; the bar below describes the picked scent (intention, strength, smells like, notes) -->
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
-              <div key=${f.key} class=${"pick compact cell" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
+              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
                 <${Img} slot=${f.img} alt=${f.name}/>
-                <span class="pick-txt">
-                  <span class="pick-name pick-power">${f.intention}</span>
-                  <span class="pick-introw"><span class="pick-scent">${f.name}</span><span class="pick-vol">100ml</span></span>
-                  ${f.strength ? html`<span class=${"pick-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null}
-                </span>
-                <span class="pick-ingr"><span class="pick-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><b>${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</b></span>
+                <span class="pick-scent e4-name">${f.name}</span>
               </div>`; })}
           </div>
+          ${(() => { const f = sel.scents()[0]; return html`<div class="e4-bar" aria-live="polite">${f
+            ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><span class="e4-txt"><b>${f.name}</b> · ${f.intention} · <span class=${"pick-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span><br/><b>Smells like:</b> ${f.smells2}<br/><b>Notes:</b> ${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</span>`
+            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt">Tap a scent to see what it smells like.</span>`}</div>`; })()}
 
           <div class="picker-title step-title refill-title">Step 3: Want your scent refilled every 30 days?</div> <!-- dk8 (owner): the two lines under the title are gone -->
           <div class="freq3 rf2" role="radiogroup" aria-label="Refills">

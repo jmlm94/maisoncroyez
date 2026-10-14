@@ -127,49 +127,49 @@ const CONFIG = {
   /* --- fragrances: real variant IDs + printed-box intentions --- */
   fragrances: [
     {
-      key: "love", smells2: "Fresh flowers and a little honey. Like walking into a florist.", strength: "medium", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
+      key: "love", pimg: "pick_love", smells2: "Fresh flowers and a little honey. Like walking into a florist.", strength: "medium", photo: "photo_love", name: "Golden Blossom Harmony", intention: "Love", img: "frag2", variant: 41212020457581, topSeller: true,
       grad: "linear-gradient(160deg,#F9D2B2 0%,#FBE9A9 100%)",
       line: "For homes that hold people together.",
       chips: ["Buttercup, Honeysuckle & Sunflower."],
       desc: "Golden **buttercup** and sun-drenched **honeysuckle** wrapped in creamy **sunflower** petals, a warm, sweet glow that makes any room feel loved-in.", smells: "Warm honey over fresh-cut flowers.",
     },
     {
-      key: "abundance", smells2: "Fresh citrus peel and green leaves. Like a clean hotel lobby.", strength: "soft", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
+      key: "abundance", pimg: "pick_abundance", smells2: "Fresh citrus peel and green leaves. Like a clean hotel lobby.", strength: "soft", photo: "photo_abundance", name: "Crisp Citrus Scape", intention: "Abundance", img: "frag4", variant: 41212018655341, topSeller: true,
       grad: "linear-gradient(160deg,#FAF3BC 0%,#C3E8F5 100%)",
       line: "For making space for more of everything.",
       chips: ["Yuzu Leaf, Green Mandarin & Cypress."],
       desc: "Sparkling **yuzu leaf** and zesty **green mandarin** grounded in cool **cypress**, bright, clean and full of possibility.", smells: "A citrus orchard after the rain.",
     },
     {
-      key: "focus", smells2: "Lavender and eucalyptus. Like a day spa.", strength: "soft", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
+      key: "focus", pimg: "pick_focus", smells2: "Lavender and eucalyptus. Like a day spa.", strength: "soft", photo: "photo_focus", name: "Chilled Citrus", intention: "Relaxation & Concentration", img: "frag6", variant: 41212021506157,
       grad: "linear-gradient(160deg,#F5CDE5 0%,#DCC8F0 100%)",
       line: "For mornings that need stillness before they need speed.",
       chips: ["Chilled Lavender, Eucalyptus & White Citrus."],
       desc: "Cool **chilled lavender** softened by crisp **eucalyptus** and a twist of **white citrus**, calm on the surface, sharp focus underneath.", smells: "A spa with the windows open.",
     },
     {
-      key: "ideas", smells2: "Warm milk and honey. Like a caf\u00e9 on a slow morning.", strength: "medium", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
+      key: "ideas", pimg: "pick_ideas", smells2: "Warm milk and honey. Like a caf\u00e9 on a slow morning.", strength: "medium", photo: "photo_ideas", name: "Honey Nectar", intention: "Turn Ideas Into Reality", img: "frag1", variant: 41212021342317,
       grad: "linear-gradient(160deg,#D9F1EA 0%,#F7C7DA 100%)",
       line: "For the ideas that deserve more than a notebook.",
       chips: ["Ginger Milk, White Birch & Eucalyptus Honey."],
       desc: "Silky **ginger milk** over airy **white birch**, finished with golden **eucalyptus honey**, cozy warmth that gets your mind moving.", smells: "Warm milk and honey on a slow morning.",
     },
     {
-      key: "energy", smells2: "White peach and jasmine tea. Fruity and bright, never sugary.", strength: "medium", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
+      key: "energy", pimg: "pick_energy", smells2: "White peach and jasmine tea. Fruity and bright, never sugary.", strength: "medium", photo: "photo_energy", name: "Euphoric Bloom", intention: "Raise Energy", img: "frag3", variant: 41212020752493,
       grad: "linear-gradient(160deg,#E4D9F2 0%,#F8C9B8 100%)",
       line: "For the days that need a higher frequency.",
       chips: ["Jasmine Tea, White Peach & Sandalwood Crème."],
       desc: "Effervescent **jasmine tea** lifted by juicy **white peach** and smoothed with **sandalwood cr\u00e8me**, an instant mood-raiser.", smells: "Peach sorbet in a flower garden.",
     },
     {
-      key: "purify", smells2: "Pine and juniper. Like a walk in the woods after rain.", strength: "bold", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
+      key: "purify", pimg: "pick_purify", smells2: "Pine and juniper. Like a walk in the woods after rain.", strength: "bold", photo: "photo_purify", name: "Wildwood Mystique", intention: "Purification", img: "frag5", variant: 41212021669997,
       grad: "linear-gradient(160deg,#EEF3C2 0%,#F3C3E0 100%)",
       line: "For the days when you need everything out.",
       chips: ["Huckleberry, Wild Juniper & Mountain Fern."],
       desc: "Dark **huckleberry** and wild **juniper** wandering through cool **mountain fern**, green, clean and clearing.", smells: "A pine forest after the storm.",
     },
     {
-      key: "midnight", smells2: "White flowers and soft musk. Like perfume on warm skin.", strength: "bold", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
+      key: "midnight", pimg: "pick_midnight", smells2: "White flowers and soft musk. Like perfume on warm skin.", strength: "bold", photo: "photo_midnight", name: "Midnight Sensation", intention: "Love Manifestation", img: "frag7", variant: 41212019933293, topSeller: true,
       grad: "linear-gradient(160deg,#C8EEE9 0%,#F6C6DF 100%)",
       line: "For evenings that deserve a different ending.",
       chips: ["Moonflower, Night Lily & Skin Musk."],
@@ -207,6 +207,14 @@ const CONFIG = {
     frag3: { file: "mc-rt-frag3-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag3-240.webp?v=1790887658" }, frag4: { file: "mc-rt-frag4-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag4-240.webp?v=1790887658" },
     frag5: { file: "mc-rt-frag5-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag5-240.webp?v=1790887658" }, frag6: { file: "mc-rt-frag6-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag6-240.webp?v=1790887658" },
     frag7: { file: "mc-rt-frag7-240", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-frag7-240.webp?v=1790887658" },
+    /* dk8e (2026-10-14, owner): botanical photos for the Step 2 scent picker only; the story cards keep frag1-7 */
+    pick_love: { file: "golden_blossom", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/golden_blossom.png?v=1791993010&width=320" },
+    pick_abundance: { file: "crisp_citruss", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/crisp_citruss.png?v=1791993011&width=320" },
+    pick_focus: { file: "chilled_citrusss", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/chilled_citrusss.png?v=1791993010&width=320" },
+    pick_ideas: { file: "honey_nectarr", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/honey_nectarr.png?v=1791993011&width=320" },
+    pick_energy: { file: "euphoric_bloom", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/euphoric_bloom.png?v=1791993010&width=320" },
+    pick_purify: { file: "wilwood_mistiqye", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/wilwood_mistiqye.png?v=1791993011&width=320" },
+    pick_midnight: { file: "midnight_sensation", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/midnight_sensation.png?v=1791993011&width=320" },
     kit1: { file: "mc-kb-kit1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg?v=1786479536&width=240" }, kit2: { file: "mc-kb-kit2", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg?v=1786479536&width=240" }, kit3: { file: "mc-kb-kit3", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg?v=1786479536&width=240" },
     step1: { file: "mc-rt-step1-540", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-step1-540.webp?v=1790887657" }, step2: { file: "mc-rt-step2-540", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-step2-540.webp?v=1790887658" }, step3: { file: "mc-rt-step3-540", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-step3-540.webp?v=1790887657" },
     gif1: { file: "www1", src: A.gif1 || "", srcWebm: A.gif1w || "" },
@@ -886,7 +894,7 @@ function BuyBox() {
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
                 <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <${Img} slot=${f.img} alt=${f.name}/>
+                <${Img} slot=${f.pimg || f.img} alt=${f.name}/> <!-- dk8e (owner): botanical picker photos -->
                 <span class="pick-scent e4-name">${f.name}</span>
               </div>`; })}
           </div>

@@ -1,5 +1,5 @@
 name: fetch-html
-# Loads a live page in real Chromium (phone viewport), saves its raw HTML into lp-factory/assets/live/<name>.html plus the head links / section-group wrappers, and logs the Largest Contentful Paint candidates + the prehero/app mount timeline (the dev container cannot reach maisoncroyez.com; curl gets a Cloudflare challenge). Edit this line and push, or dispatch. Run 2026-10-13 e: homepage LIVE on the speed round 3 theme (site-wide sanity: font-display swap, font preconnect gone, theme.css still render-blocking there), saved as home.
+# Loads a live page in real Chromium (phone viewport), saves its raw HTML into lp-factory/assets/live/<name>.html plus the head links / section-group wrappers, and logs the Largest Contentful Paint candidates + the prehero/app mount timeline (the dev container cannot reach maisoncroyez.com; curl gets a Cloudflare challenge). Edit this line and push, or dispatch. Run 2026-10-14 morning: kits page LIVE, next-day check that the page still paints the hero first and mounts the app on the speed round 3 theme, saved as diffuser-kits-live.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/' }}
-      NAME: ${{ github.event.inputs.name || 'home' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
+      NAME: ${{ github.event.inputs.name || 'diffuser-kits-live' }}
     steps:
       - uses: actions/checkout@v4
         with:

@@ -1,0 +1,68 @@
+# Kits page QA 20261014T1709
+
+https://maisoncroyez.com/pages/diffuser-kits
+
+60/60 checks passed.
+
+| # | check | result | details |
+|---|---|---|---|
+| phone-mount | buy box mounted with the 7-tile scent picker | PASS | 7 |
+| phone-cols | 4 tiles per row on a phone | PASS | 4 |
+| phone-nopre | no scent pre-selected on load | PASS | [] |
+| phone-bar0 | bar shows "Tap a scent to see what it smells like." | PASS | "👆 Tap a scent to see what it smells like." |
+| phone-btn0 | Add to cart shows the 2-diffuser price on load | PASS | "ADD TO CART — $129.95 ➔" |
+| phone-tier0 | 2 Diffusers selected by default | PASS | "2 Diffusers + 1 Free Scent" |
+| phone-freq0 | 30-day refill selected by default | PASS | "Yes, refill every 30 days with $15 OFF on my scent." |
+| phone-usp | tile 2 reads "Replaces room sprays, plug-ins and candles instantly." | PASS | ["Removes pet odor instantly.","Replaces room sprays, plug-ins and candles instantly.","No more leaks, mold or maintenance."] |
+| phone-gone | removed copy is gone from the buy box (pills, pre-selected banner, refill lines, 86% fact, order summary, old lede) | PASS | {"gone":[],"goneSel":[]} |
+| phone-place | "Where it goes" compact (plan left, title + rooms right; phone ≤ 209 px = 40% under the 348 px it was) | PASS | {"h":207,"headInSide":true} |
+| phone-info | info: picker height / Add to cart offset from the top | PASS | {"pickerH":244,"atcTop":2251,"barAlign":"center / center"} |
+| phone-tier1 | 1 Diffuser → $109.95 | PASS | "ADD TO CART — $109.95 ➔" |
+| phone-tier3 | 3 Diffusers → $189.95 | PASS | "ADD TO CART — $189.95 ➔" |
+| phone-tier2 | back to 2 Diffusers → $129.95 | PASS | "ADD TO CART — $129.95 ➔" |
+| phone-noscent | Add to cart with no scent: picker outlined + toast "Pick your free scent first. It’s included.", nothing added, no drawer | PASS | {"nudge":true,"toast":["Pick your free scent first. It’s included."],"toastVisible":true,"cartN":0,"drawer":false} |
+| phone-noscent-scroll | and the picker is scrolled into view | PASS | true |
+| phone-sticky-label | sticky bar shows the price | PASS | "ADD TO CART — $129.95 ➔" |
+| phone-sticky-noscent | sticky bar with no scent: scrolls to the picker, outlines it, toast, nothing added | PASS | {"nudge":true,"toast":["Pick your free scent first. It’s included.","Pick your free scent first. It’s included."],"toastVisible":true,"inView":true,"cartN":0} |
+| phone-scent-1 | tile 1 Golden Blossom Harmony: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Golden Blossom Harmony"],"checked":1,"bar":"🌻 Golden Blossom Harmony · Love · MEDIUM Smells like: Fresh flowers and a little honey. Like walking into a florist. Notes: Buttercup, Honeysuckle & Sunflower","emoji":"🌻"} |
+| phone-scent-2 | tile 2 Crisp Citrus Scape: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Crisp Citrus Scape"],"checked":1,"bar":"🍊 Crisp Citrus Scape · Abundance · SOFT Smells like: Fresh citrus peel and green leaves. Like a clean hotel lobby. Notes: Yuzu Leaf, Green Mandarin & Cypress","emoji":"🍊"} |
+| phone-scent-3 | tile 3 Chilled Citrus: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Chilled Citrus"],"checked":1,"bar":"🌿 Chilled Citrus · Relaxation & Concentration · SOFT Smells like: Lavender and eucalyptus. Like a day spa. Notes: Chilled Lavender, Eucalyptus & White Citrus","emoji":"🌿"} |
+| phone-scent-4 | tile 4 Honey Nectar: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Honey Nectar"],"checked":1,"bar":"🍯 Honey Nectar · Turn Ideas Into Reality · MEDIUM Smells like: Warm milk and honey. Like a café on a slow morning. Notes: Ginger Milk, White Birch & Eucalyptus Honey","emoji":"🍯"} |
+| phone-scent-5 | tile 5 Euphoric Bloom: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Euphoric Bloom"],"checked":1,"bar":"🍑 Euphoric Bloom · Raise Energy · MEDIUM Smells like: White peach and jasmine tea. Fruity and bright, never sugary. Notes: Jasmine Tea, White Peach & Sandalwood Crème","emoji":"🍑"} |
+| phone-scent-6 | tile 6 Wildwood Mystique: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Wildwood Mystique"],"checked":1,"bar":"🌲 Wildwood Mystique · Purification · BOLD Smells like: Pine and juniper. Like a walk in the woods after rain. Notes: Huckleberry, Wild Juniper & Mountain Fern","emoji":"🌲"} |
+| phone-scent-7 | tile 7 Midnight Sensation: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Midnight Sensation"],"checked":1,"bar":"🌙 Midnight Sensation · Love Manifestation · BOLD Smells like: White flowers and soft musk. Like perfume on warm skin. Notes: Moonflower, Night Lily & Skin Musk","emoji":"🌙"} |
+| phone-swap | tapping another scent swaps it (one free scent, single select) | PASS | ["Golden Blossom Harmony"] |
+| phone-btn-scent | Add to cart still shows the price with a scent picked | PASS | "ADD TO CART — $129.95 ➔" |
+| phone-imgs | kit photos, the 7 scent tiles and the plan image all loaded | PASS | [] |
+| phone-errors | no JavaScript or console errors | PASS | [] |
+| desktop-mount | buy box mounted with the 7-tile scent picker | PASS | 7 |
+| desktop-cols | 7 tiles in a row on desktop | PASS | 7 |
+| desktop-nopre | no scent pre-selected on load | PASS | [] |
+| desktop-bar0 | bar shows "Tap a scent to see what it smells like." | PASS | "👆 Tap a scent to see what it smells like." |
+| desktop-btn0 | Add to cart shows the 2-diffuser price on load | PASS | "ADD TO CART — $129.95 ➔" |
+| desktop-tier0 | 2 Diffusers selected by default | PASS | "2 Diffusers + 1 Free Scent" |
+| desktop-freq0 | 30-day refill selected by default | PASS | "Yes, refill every 30 days with $15 OFF on my scent." |
+| desktop-usp | tile 2 reads "Replaces room sprays, plug-ins and candles instantly." | PASS | ["Removes pet odor instantly.","Replaces room sprays, plug-ins and candles instantly.","No more leaks, mold or maintenance."] |
+| desktop-gone | removed copy is gone from the buy box (pills, pre-selected banner, refill lines, 86% fact, order summary, old lede) | PASS | {"gone":[],"goneSel":[]} |
+| desktop-place | "Where it goes" compact (plan left, title + rooms right; phone ≤ 209 px = 40% under the 348 px it was) | PASS | {"h":144,"headInSide":true} |
+| desktop-info | info: picker height / Add to cart offset from the top | PASS | {"pickerH":113,"atcTop":1571,"barAlign":"center / center"} |
+| desktop-tier1 | 1 Diffuser → $109.95 | PASS | "ADD TO CART — $109.95 ➔" |
+| desktop-tier3 | 3 Diffusers → $189.95 | PASS | "ADD TO CART — $189.95 ➔" |
+| desktop-tier2 | back to 2 Diffusers → $129.95 | PASS | "ADD TO CART — $129.95 ➔" |
+| desktop-noscent | Add to cart with no scent: picker outlined + toast "Pick your free scent first. It’s included.", nothing added, no drawer | PASS | {"nudge":true,"toast":["Pick your free scent first. It’s included."],"toastVisible":true,"cartN":0,"drawer":false} |
+| desktop-noscent-scroll | and the picker is scrolled into view | PASS | true |
+| desktop-sticky-label | sticky bar shows the price | PASS | "ADD TO CART — $129.95 ➔" |
+| desktop-sticky-noscent | sticky bar with no scent: scrolls to the picker, outlines it, toast, nothing added | PASS | {"nudge":true,"toast":["Pick your free scent first. It’s included.","Pick your free scent first. It’s included."],"toastVisible":true,"inView":true,"cartN":0} |
+| desktop-scent-1 | tile 1 Golden Blossom Harmony: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Golden Blossom Harmony"],"checked":1,"bar":"🌻 Golden Blossom Harmony · Love · MEDIUM Smells like: Fresh flowers and a little honey. Like walking into a florist. Notes: Buttercup, Honeysuckle & Sunflower","emoji":"🌻"} |
+| desktop-scent-2 | tile 2 Crisp Citrus Scape: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Crisp Citrus Scape"],"checked":1,"bar":"🍊 Crisp Citrus Scape · Abundance · SOFT Smells like: Fresh citrus peel and green leaves. Like a clean hotel lobby. Notes: Yuzu Leaf, Green Mandarin & Cypress","emoji":"🍊"} |
+| desktop-scent-3 | tile 3 Chilled Citrus: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Chilled Citrus"],"checked":1,"bar":"🌿 Chilled Citrus · Relaxation & Concentration · SOFT Smells like: Lavender and eucalyptus. Like a day spa. Notes: Chilled Lavender, Eucalyptus & White Citrus","emoji":"🌿"} |
+| desktop-scent-4 | tile 4 Honey Nectar: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Honey Nectar"],"checked":1,"bar":"🍯 Honey Nectar · Turn Ideas Into Reality · MEDIUM Smells like: Warm milk and honey. Like a café on a slow morning. Notes: Ginger Milk, White Birch & Eucalyptus Honey","emoji":"🍯"} |
+| desktop-scent-5 | tile 5 Euphoric Bloom: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Euphoric Bloom"],"checked":1,"bar":"🍑 Euphoric Bloom · Raise Energy · MEDIUM Smells like: White peach and jasmine tea. Fruity and bright, never sugary. Notes: Jasmine Tea, White Peach & Sandalwood Crème","emoji":"🍑"} |
+| desktop-scent-6 | tile 6 Wildwood Mystique: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Wildwood Mystique"],"checked":1,"bar":"🌲 Wildwood Mystique · Purification · BOLD Smells like: Pine and juniper. Like a walk in the woods after rain. Notes: Huckleberry, Wild Juniper & Mountain Fern","emoji":"🌲"} |
+| desktop-scent-7 | tile 7 Midnight Sensation: selected alone, bar = name · intention · strength, smells like, notes | PASS | {"on":["Midnight Sensation"],"checked":1,"bar":"🌙 Midnight Sensation · Love Manifestation · BOLD Smells like: White flowers and soft musk. Like perfume on warm skin. Notes: Moonflower, Night Lily & Skin Musk","emoji":"🌙"} |
+| desktop-swap | tapping another scent swaps it (one free scent, single select) | PASS | ["Golden Blossom Harmony"] |
+| desktop-btn-scent | Add to cart still shows the price with a scent picked | PASS | "ADD TO CART — $129.95 ➔" |
+| desktop-imgs | kit photos, the 7 scent tiles and the plan image all loaded | PASS | [] |
+| desktop-errors | no JavaScript or console errors | PASS | [] |
+| cart-sub30-2d | cart: 2 diffusers + Chilled Citrus on the 30-day refill → drawer opens, kit $129.95 + scent $0.00 on "Every 30 days", total $129.95 | PASS | {"btn":"ADD TO CART — $129.95 ➔","landed":"https://maisoncroyez.com/pages/diffuser-kits","drawer":true,"total":129.95,"lines":[{"v":41212021506157,"t":"Chilled Citrus – Relaxation & Concentration (100ml)","q":1,"price":0,"line":0,"plan":"Every 30 days","disc":[]},{"v":45784228462701,"t":"Maison Croyez Diffuser Kits","q":1,"price":129.95,"line":129.95,"plan":null,"disc":[]}],"drawerText":"Congrats, |
+| cart-one-3d | cart: 3 diffusers + Wildwood Mystique, no subscription → drawer opens, kit $189.95 + scent $39.95 made free by the kits discount, total $189.95 | PASS | {"btn":"ADD TO CART — $189.95 ➔","landed":"https://maisoncroyez.com/pages/diffuser-kits","drawer":true,"total":189.95,"lines":[{"v":41212021669997,"t":"Wildwood Mystique – Purification (100ml)","q":1,"price":39.95,"line":0,"plan":null,"disc":["FREE SCENT — Diffuser Kits (no subscription) -39.95"]},{"v":45784228495469,"t":"Maison Croyez Diffuser Kits","q":1,"price":189.95,"line":189.95,"plan":null, |

@@ -14,6 +14,19 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-14 — dk8 (key dk8-6ab424e): leaner buy box, nothing pre-selected, picker E, smells-like bar
+Owner (artifact rounds v15–v17, then "Deploy!"): remove the "N diffusers picked" pill, the "Free scent: … · $39.95 value" pill, the
+"We pre-selected…" banner, the two lines under the Step 3 title, the "Fact: 86%…" box and the order summary; no scent pre-selected
+(keys: []); tighter spacing from the rating line to Add to cart; "Where it goes" 50% shorter (small plan left, title + chips + caption
+right); tile 2 reads "Replaces room sprays, plug-ins and candles instantly." (candle icon) and the "Say goodbye…" lede is gone; the
+scent picker is option E from the scent-picker options artifact (LDmEDN43FTgwNydH4zrQAa): four photo tiles per row on a phone,
+seven in a row on desktop, name under each, and a bar below that says "Tap a scent to see what it smells like." until a tap, then
+name · intention · strength, "Smells like: <smells2>", "Notes: <chips[0]>". Add to cart always shows the price; tapped with no scent
+it scrolls to Step 2, outlines the grid for 1.6 s (.picker.nudge) and toasts "Pick your free scent first. It's included." (buy box and
+sticky bar). Cart logic, prices, plans and discounts unchanged. Measured on the dk8 preview (phone 390): Add to cart 3,296 → 2,169 px
+from the top (−34%), picker 579 → 244 px + 38 px bar, "Where it goes" 348 → 173 px. QA selectors kept: `.picker .pick`,
+`.pick.on .pick-scent`, `#buybox .picker`.
+
 ## 2026-10-13 — dk7 (LIVE as dk7-14579ac, 17:01 UTC; the notes below are the preview rounds): one refill choice + "Where it goes"
 Owner: drop the 60 / 90-day options (every 30 days or no subscription) and teach placement per kit, like the bundle page's floor plan.
 App: FREQS = [30 days $24.95] only; Step 3 is now two cards ("Yes, refill every 30 days — $X today, then $24.95 per scent…" and

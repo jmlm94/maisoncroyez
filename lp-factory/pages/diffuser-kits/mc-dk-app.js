@@ -581,7 +581,7 @@ const selStore = {
   tierIdx: 1,            /* dk1: 2 diffusers preselected (most popular) */
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 30,
-  keys: ["focus"],        /* dk1: the free scent, Chilled Citrus preselected; one scent per kit */
+  keys: [],               /* dk8 (2026-10-14, owner): nothing pre-selected, the customer picks the free scent (was Chilled Citrus since dk1) */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
   setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
@@ -826,6 +826,8 @@ function Reviews6() {
     </div>`;
 }
 
+/* dk8 (2026-10-14): nothing is pre-selected any more, so a tap on Add to cart without a scent scrolls to Step 2 and outlines the grid for a moment */
+const nudgePicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); setTimeout(() => el.classList.remove("nudge"), 1700); };
 function BuyBox() {
   const B = CONFIG.buybox;
   const sel = useSelection();
@@ -839,6 +841,7 @@ function BuyBox() {
   const goReviews = () => { let n = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (n++ < 40) setTimeout(f, 50); }; f(); };
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  const needScent = () => { goPick(); nudgePicker(); setToast("Pick your free scent first. It’s included."); }; /* dk8: Add to cart before a scent is picked */
   /* fd13 (owner, 2026-09-25): no auto-advance after the last pick — people should choose carefully and tap "Review my kit". */
   /* kit review rows: the first T.scents picks are included, the rest are extras */
   const rows = (() => { const m = new Map(); sel.keys.forEach((k) => m.set(k, (m.get(k) || 0) + 1)); let incLeft = T.scents; return [...m.entries()].map(([k, q]) => { const f = CONFIG.fragrances.find((x) => x.key === k); const inc = Math.min(q, incLeft); incLeft -= inc; return { f, q, inc, extra: q - inc }; }); })();
@@ -854,7 +857,7 @@ function BuyBox() {
           <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
-          <${StepHead} n=${1} title="Step 1: How many diffusers do you need?" right=${`${T.n} diffuser${T.n > 1 ? "s" : ""} picked`}/>
+          <${StepHead} n=${1} title="Step 1: How many diffusers do you need?"/> <!-- dk8 (owner): no "N diffusers picked" pill -->
           <div class="freq3 dkt3" role="radiogroup" aria-label="How many diffusers">
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const pick = () => sel.setTier(i); return html`
               <div key=${t.key} class=${"fq dkt" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
@@ -868,19 +871,18 @@ function BuyBox() {
               </div>`; })}
           </div>
 
-          <div class="place" key=${T.key}>
-            <div class="place-head">Where it goes:</div>
+          <div class="place" key=${T.key}> <!-- dk8 (owner): compact \u2014 small plan on the left, title + rooms + caption on the right -->
             <div class="place-grid">
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
               <div class="place-side">
+                <div class="place-head">Where it goes:</div>
                 <div class="place-rooms">${T.rooms.map((r) => html`<span key=${r} class="place-room">${r}</span>`)}</div>
                 <p class="place-cap" dangerouslySetInnerHTML=${{ __html: T.where }}></p>
               </div>
             </div>
           </div>
 
-          <${StepHead} n=${2} title="Step 2: Pick your free scent" right=${sel.keys.length ? `Free scent: ${sel.label()} \u00b7 $39.95 value` : "Pick 1 scent"}/>
-          <p class="presel-note">We pre-selected our most popular scent for you. Tap another to swap.</p>
+          <${StepHead} n=${2} title="Step 2: Pick your free scent"/> <!-- dk8 (owner): no free-scent pill, no pre-selected note -->
           <div class="picker compact grid2" role="radiogroup" aria-label="Pick your free scent">
             ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
               <div key=${f.key} class=${"pick compact cell" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
@@ -895,9 +897,7 @@ function BuyBox() {
               </div>`; })}
           </div>
 
-          <div class="picker-title step-title refill-title">Step 3: Want your scent refilled every 30 days?</div>
-          <p class="refill-sub"><strong>Skip, swap, pause or cancel anytime.</strong></p>
-          <p class="refill-why"><b class="why-lead">Your first scent bottle is free today, you pay nothing for it.</b></p>
+          <div class="picker-title step-title refill-title">Step 3: Want your scent refilled every 30 days?</div> <!-- dk8 (owner): the two lines under the title are gone -->
           <div class="freq3 rf2" role="radiogroup" aria-label="Refills">
             ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
               <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
@@ -914,10 +914,9 @@ function BuyBox() {
                 <span class="fq-sub">No automatic refill, scents at ${usd(SCENT_ONE)} each.</span>
               </div>`; })()}
           </div>
-          <p class="plan-fact"><b>Fact:</b> 86% of customers have stayed with us for 6+ months. We guarantee you’ll fall in love with Maison, or your money back. <b>Try us out.</b></p>
-          <p class="order-sum"><b>${T.name} + ${sel.label() || "your free scent"}</b> <span class="os-free">(free, $39.95 value)</span><br/><b>${usd(sel.today())} today</b>${sel.oneTime() ? ", nothing after." : html`, then <b>${usd(FREQ_PRICE(sel.freq))}</b> every ${sel.freq} days for your scent. Cancel anytime.`}</p>
-          <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : left > 0 ? `Pick ${left} more scent${left > 1 ? "s" : ""}` : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
+          <!-- dk8 (owner): "Fact: 86%..." and the order summary are gone; the button always shows the price and, with no scent picked yet, scrolls to Step 2 -->
+          <button class="btn atc" disabled=${busy} onClick=${() => left > 0 ? needScent() : addToCart(setBusy, setToast)}>
+            <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>
           ${sel.oneTime() ? html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>` : null}
           <div class="atc-chips">
@@ -1108,12 +1107,12 @@ function StickyBar() {
   const left = sel.left();
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = left > 0 ? `${T.scents - left} of ${T.scents} scents picked \u00b7 ${left} more` : (busy ? "One moment\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`);
+  const label = busy ? "One moment\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`; /* dk8: always the price; a tap without a scent scrolls to Step 2 */
   const sub = T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 30-day money-back";
-  const act = () => left > 0 ? goPick() : addToCart(setBusy, setToast);
+  const act = () => { if (left > 0) { goPick(); nudgePicker(); setToast("Pick your free scent first. It\u2019s included."); return; } addToCart(setBusy, setToast); };
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy || left > 0} onClick=${act}>
+      <button class="btn" disabled=${busy} onClick=${act}>
         <span>${label}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>

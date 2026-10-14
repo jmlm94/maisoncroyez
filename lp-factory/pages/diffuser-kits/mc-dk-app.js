@@ -784,7 +784,7 @@ const ONE_SUB = "ONE-TIME PAYMENT \u00b7 NO REFILLS \u00b7 FREE SHIPPING";
 const usdR = (n) => "$" + Math.round(n / 10) * 10; /* savings shown rounded to the nearest $10 (owner 2026-09-14) */
 const USP3 = [
   { ic: "🐾", tx: "Removes pet odor\ninstantly." },
-  { ic: "🌿🇫🇷", tx: "Organic Ingredients\nfrom France." },
+  { ic: "🕯️", tx: "Replaces room sprays, plug-ins and candles instantly." }, /* dk8b (2026-10-14, owner): was "Organic Ingredients from France." */
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
 const StepHead = ({ n, title, right }) => html`
@@ -854,7 +854,6 @@ function BuyBox() {
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
           <div class="hd-price hd-from"><b>From ${usd(TIERS[0].price)}</b><span class="hd-note">100ml free scent included</span></div> <!-- dk3 (2026-10-03, owner): entry price + free-scent badge -->
-          <p class="sub-lede">Say goodbye to <b>room sprays, plug-ins and candles</b> forever. Fill every room within minutes. <b>Just plug it in and go.</b></p>
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
           <${StepHead} n=${1} title="Step 1: How many diffusers do you need?"/> <!-- dk8 (owner): no "N diffusers picked" pill -->

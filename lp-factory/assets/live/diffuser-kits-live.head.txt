@@ -1,5 +1,4 @@
-<head><script data-source-attribution="shopify.event_observer.bootstrap">/* 1171 chars */</script>
-
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="#ffffff">
@@ -378,7 +377,7 @@
 <script>
   window.ShopifyPay = window.ShopifyPay || {};
   window.ShopifyPay.apiHost = "shop.app\/pay";
-  window.ShopifyPay.redirectState = "pending";
+  window.ShopifyPay.redirectState = null;
 </script>
 <script>
   window.Shopify = window.Shopify || {};
@@ -396,7 +395,7 @@
 </script>
 <script>/* 1724 chars */</script>
 <script>/* 908 chars */</script>
-<script id="__st">var __st={"a":2036367469,"offset":-14400,"reqid":"564fa282-8f63-4c60-8fad-a0f551f92be0-1791926632","pageurl":"maisoncroyez.com\/pages\/diffuser-kits","s":"pages-161846919277","u":"a59c9b1a302b","p":"page","rtyp":"page","rid":161846919277};</script>
+<script id="__st">var __st={"a":2036367469,"offset":-14400,"reqid":"6080b134-457b-4729-bf3a-4680460ae477-1791926696","pageurl":"maisoncroyez.com\/pages\/diffuser-kits","s":"pages-161846919277","u":"8680e7fdac97","p":"page","rtyp":"page","rid":161846919277};</script>
 <script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
 <script id="form-persister">/* 2371 chars */</script>
 <script integrity="sha256-JjoPp5ZfB1sSAs5SQaol1x1GgvveM+BgmRzyDexInEQ=" data-source-attribution="shopify.loadfeatures" defer="defer" src="//maisoncroyez.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-1bd60354.js" crossorigin="anonymous"></script>
@@ -439,27 +438,7 @@
       <link href="//maisoncroyez.com/cdn/shop/t/49/assets/theme.css?v=175585479270227651431791924167" as="style" rel="preload">
       <link rel="stylesheet" href="//maisoncroyez.com/cdn/shop/t/49/assets/theme.css?v=175585479270227651431791924167" media="print" data-mc-tcss onload="this.onload=null;this.media='all';document.documentElement.classList.add('mc-tcss');document.dispatchEvent(new Event('mc:tcss'))">
       <noscript><link rel="stylesheet" href="//maisoncroyez.com/cdn/shop/t/49/assets/theme.css?v=175585479270227651431791924167"></noscript>
-      <script>/* 1221 chars */</script><!-- BEGIN app block: shopify://apps/gorgias-live-chat-helpdesk/blocks/gorgias/a66db725-7b96-4e3f-916e-6c8e6f87aaaa -->
-<script defer data-gorgias-loader-chat src="https://config.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com"></script>
-
-
-<script defer data-gorgias-loader-convert  src="https://content.9gtb.com/loader.js"></script>
-
-
-<script defer data-gorgias-loader-mailto-replace  src="https://config.gorgias.help/api/contact-forms/replace-mailto-script.js?shopName=patshion"></script>
-
-
-<!-- END app block --><!-- BEGIN app block: shopify://apps/postscript-sms-marketing/blocks/sdk/019be67b-1a2f-7589-97a3-72f1751f443e -->
-<script id="embedded-sdk">
-    window.ps_extension_shop_id = 5063;
-</script>
-
-<!-- END app block --><!-- BEGIN app block: shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea -->
-<script type="text/javascript">/* 1123 chars */</script>
-
-
-
-<!-- END app block --><!-- BEGIN app block: shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507 -->
+      <script>/* 1221 chars */</script><!-- BEGIN app block: shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507 -->
 
 
 
@@ -492,6 +471,26 @@
 
 
 
+<!-- END app block --><!-- BEGIN app block: shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea -->
+<script type="text/javascript">/* 1123 chars */</script>
+
+
+
+<!-- END app block --><!-- BEGIN app block: shopify://apps/gorgias-live-chat-helpdesk/blocks/gorgias/a66db725-7b96-4e3f-916e-6c8e6f87aaaa -->
+<script defer data-gorgias-loader-chat src="https://config.gorgias.chat/bundle-loader/shopify/patshion.myshopify.com"></script>
+
+
+<script defer data-gorgias-loader-convert  src="https://content.9gtb.com/loader.js"></script>
+
+
+<script defer data-gorgias-loader-mailto-replace  src="https://config.gorgias.help/api/contact-forms/replace-mailto-script.js?shopName=patshion"></script>
+
+
+<!-- END app block --><!-- BEGIN app block: shopify://apps/postscript-sms-marketing/blocks/sdk/019be67b-1a2f-7589-97a3-72f1751f443e -->
+<script id="embedded-sdk">
+    window.ps_extension_shop_id = 5063;
+</script>
+
 <!-- END app block --><script src="https://cdn.shopify.com/extensions/01a111ff-2bc4-794b-b8ec-9c2712d49b5d/test-sms-55/assets/sdk-embed-script-loader.js" type="text/javascript" defer="defer"></script>
 <link href="https://monorail-edge.shopifysvc.com" rel="dns-prefetch">
 <script>/* 1353 chars */</script>
@@ -505,7 +504,7 @@
   src="https://maisoncroyez.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.10.1.min.js"
   data-application="storefront-renderer"
   data-shop-id="2036367469"
-  data-render-region="gcp-us-west1"
+  data-render-region="gcp-us-central1"
   data-page-type="page"
   data-theme-instance-id="187241169005"
   data-theme-name="Impact"
@@ -517,6 +516,6 @@
   data-shs-export-with-fetch="true"
   data-shs-logs-sample-rate="1"
   data-shs-beacon-endpoint="https://maisoncroyez.com/api/collect"
->/* 597 chars */</script>
-<meta name="shopify-y" content="f4f434d6-a995-4b7a-b46a-04cbcc9c235d" data-expiration="1823484224000"><meta name="shopify-s" content="6549f04b-221b-4aae-81fd-4152bad78eaa" data-expiration="1791928424000">
+>/* 600 chars */</script>
+<meta name="shopify-y" content="8f1716c2-a1cb-44da-accc-6550979ccbf0" data-expiration="1823494037000"><meta name="shopify-s" content="8ee98ae2-dc32-4ebe-96c3-82972eac4d0f" data-expiration="1791938237000">
 </head>

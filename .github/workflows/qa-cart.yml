@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-14 15:0x UTC (b, after the Shopify writes): all 23 scenarios after the kits dk8 deploy (no scent pre-selected on the kits page: the K scenarios' scent step picks a tile in the new 4-per-row picker; the default scenarios K1 / K4 / K6 need a scent click first — see the kits scenario list).
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-14 ~16:1x UTC (owner-requested QA pass): all 23 scenarios on the live pages as they stand (kits on dk8; the dk8d centred smells-like bar is preview-only and not expected live).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

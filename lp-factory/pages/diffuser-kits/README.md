@@ -14,6 +14,16 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-14 — dk8e (key dk8e-b55025a, LIVE 17:07 UTC): botanical picker photos + centred smells-like bar
+Owner uploaded seven 400×400 PNGs to Shopify Files (15:50 UTC: golden_blossom, crisp_citruss, chilled_citrusss, honey_nectarr,
+euphoric_bloom, wilwood_mistiqye, midnight_sensation) and asked for them on the Step 2 picker. The picker and the "seven scents"
+story cards shared the frag1–7 slots, so the picker got its own: CONFIG.images.pick_<key> (served at `&width=320`, the CDN resizes
+and converts), each fragrance has `pimg: "pick_<key>"`, and the picker tile renders `slot=${f.pimg || f.img}`. The story cards keep
+the bottle images. Also live with this key: dk8d, `#root .e4-bar{justify-content:center;align-items:center;text-align:center}`
+(owner: "Could you center this?", previewed as artifact v18). Deploy: fileUpdate 46262619439213 (116,261 B) + 46262619471981
+(116,949 B) from raw @ 98d8529, pageUpdate 161846919277 with the dk8e-b55025a body. Checks: page-shot + qa-kits runs after the deploy
+(see STATUS.md). Rollback = key dk8-6ab424e (the previous files are the ones at commit ceb1500).
+
 ## 2026-10-14 — dk8 (key dk8-6ab424e): leaner buy box, nothing pre-selected, picker E, smells-like bar
 Owner (artifact rounds v15–v17, then "Deploy!"): remove the "N diffusers picked" pill, the "Free scent: … · $39.95 value" pill, the
 "We pre-selected…" banner, the two lines under the Step 3 title, the "Fact: 86%…" box and the order summary; no scent pre-selected

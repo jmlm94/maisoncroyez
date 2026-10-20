@@ -1368,3 +1368,70 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 @media (min-width:700px){#root .picker.e4{grid-template-columns:repeat(7,minmax(0,1fr)) !important;gap:8px}#root .picker.e4 .e4-name{font-size:10.5px}}
 #root .picker.nudge{outline:2px solid #141414;outline-offset:5px;border-radius:14px;animation:mcNudge 1.6s ease-out forwards}
 @keyframes mcNudge{0%{outline-color:#141414}70%{outline-color:#141414}100%{outline-color:transparent}}
+/* dk9 (2026-10-20, owner): three-step buy box — free diffusers with a scent subscription. Step 1 = diffusers (no prices), 2 = scents, 3 = confirmation + refill frequency. */
+#root .step-eyebrow{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#A3874A;text-align:center;margin:6px 0 2px}
+#root .buybox .s9-title{text-align:center;font-size:1.7rem;line-height:1.1;margin:0 0 12px !important}
+#root .buybox .s9-title em{font-style:italic;font-weight:700}
+#root .tiers.t9{gap:12px;margin:4px 0 10px}
+#root .tier.t9c{align-items:flex-start;gap:14px;padding:16px 14px;border:1.5px solid #E6E0D8;border-radius:16px;background:#fff;box-shadow:none}
+#root .tier.t9c.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset;background:#F3E9E6}
+#root .tier.t9c > .ph.sq{width:88px !important;height:88px !important;min-height:0 !important;flex:0 0 88px;margin:0 !important;border-radius:12px !important;background:#fff;border:1px solid #ECE9E4;overflow:hidden}
+#root .tier.t9c > .ph.sq img{object-fit:cover}
+#root .tier.t9c .tier-main{gap:4px}
+#root .tier.t9c .tier-name{font-size:1.2rem;font-weight:800;line-height:1.15;letter-spacing:0}
+#root .t9-val{font-family:'Outfit',sans-serif;font-size:1rem;line-height:1.2}#root .t9-val s{color:#9A8B80;font-weight:600;margin-right:6px}#root .t9-val b{color:#1E7A1E;font-weight:800;letter-spacing:.02em}
+#root .tier.t9c .tier-claim{margin-top:0;font-size:.86rem;font-weight:600;color:#1E7A1E}#root .tier.t9c .tier-claim b{font-weight:800}
+#root .t9-bul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
+#root .t9-bul li{position:relative;padding-left:14px;font-size:.9rem;line-height:1.35;color:#241C18;text-align:left}
+#root .t9-bul li::before{content:"";position:absolute;left:0;top:.5em;width:6px;height:6px;border-radius:50%;background:#A3874A}
+#root .tier.t9c .kg-tag.t9-tag,#root .tier.t9c .kg-tag.t9-tag.pop{top:-11px;left:16px;transform:none;background:#A3874A;font-size:.6rem;padding:4px 12px}
+#root .btn.step-next{margin-top:14px}
+#root .s9-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px}
+#root .buybox .s9-head .s9-title{margin:0 !important;text-align:left;font-size:1.45rem}
+#root .s9-head .pick-pill{flex:none;white-space:nowrap !important}
+#root .picker.e4 .pick.full{opacity:.45}
+#root .picker.e4 .e4-qty{position:absolute;top:5px;left:5px;z-index:1;background:#141414;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;line-height:1;padding:3px 5px;border-radius:999px}
+#root .picker.e4 .e4-plus{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:2;border:0;border-radius:999px;background:#141414;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:10px;line-height:1;padding:4px 8px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+@media (max-width:699px){#root #buybox.step-2 .gal-col,#root #buybox.step-3 .gal-col{display:none}} /* steps 2 + 3 fit under the header on a phone; the hero stays on desktop (left column) */
+#root #buybox.step-2 .buybox,#root #buybox.step-3 .buybox{padding-top:8px}
+#root .navrow{margin-top:12px}
+#root .kitrev.k9{margin:4px 0 10px;padding:10px 12px;gap:7px}
+#root .kitrev.k9 .kr-row{font-size:.84rem}
+#root .kitrev.k9 .kr-row > .ph.sq{flex:0 0 36px;width:36px !important;height:36px !important;min-height:0 !important;margin:0 !important;border-radius:8px !important;overflow:hidden}
+#root .kitrev.k9 .kr-row .kr-img{width:36px;height:36px;flex-basis:36px}
+#root .kitrev.k9 .kr-sub{font-size:.66rem}
+#root .kitrev.k9 .kr-total{padding-top:8px;font-size:.95rem}
+#root .s9-freq-head{font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.02em;color:#241C18;margin:2px 0 6px}
+#root .rf3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#root .rf3-opt{position:relative;border:1.5px solid #E6E0D8;border-radius:12px;background:#fff;padding:10px 6px;text-align:center;cursor:pointer;font-family:'Outfit',sans-serif;color:#241C18;display:flex;flex-direction:column;align-items:center;gap:2px;margin:0}
+#root .rf3-opt b{font-weight:800;font-size:.95rem}
+#root .rf3-opt small{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#8A4B4B;font-weight:700}
+#root .rf3-opt.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
+#root .s9-freq-note{margin:8px 0 0;font-size:.82rem;line-height:1.4;color:#5C4F46;text-align:center}#root .s9-freq-note b{color:#241C18;font-weight:700}
+#root #buybox.step-3 .btn.atc{margin-top:10px}
+#root .navrow.back-only{margin-top:10px}
+@media (min-width:700px){#root .buybox .s9-title{font-size:2rem}#root .buybox .s9-head .s9-title{font-size:1.6rem}}
+/* dk9b: steps 2 + 3 under the fold on a phone — tighter title, review rows without the sub line, compact chips */
+#root .buybox .s9-title{font-size:1.45rem}
+#root #buybox.step-3 .s9-title{font-size:1.32rem;margin-bottom:8px !important}
+#root .step-eyebrow{margin:4px 0 2px}
+#root .s9-head{margin-bottom:6px}
+#root #buybox.step-2 .picker.e4{gap:5px}
+#root #buybox.step-2 .picker.e4 .e4-name{min-height:20px;margin-top:4px}
+#root #buybox.step-2 .e4-bar{padding:6px 10px;margin-top:6px;font-size:10.5px}
+#root #buybox.step-2 .navrow{margin-top:8px}
+#root .kitrev.k9{gap:6px;padding:8px 12px}
+#root .kitrev.k9 .kr-sub{display:none}
+#root .kitrev.k9 .kr-row{font-size:.86rem}
+#root .kitrev.k9 .kr-total{padding-top:6px}
+#root .s9-freq-head{margin:0 0 6px}
+#root .rf3-opt{padding:8px 6px}
+#root .s9-freq-note{margin-top:6px;font-size:.78rem}
+#root #buybox.step-3 .btn.atc{margin-top:8px}
+#root #buybox.step-2 .atc-chips,#root #buybox.step-3 .atc-chips{margin-top:10px}
+#root #buybox.step-2 .atc-chip,#root #buybox.step-3 .atc-chip{padding:8px 4px 7px}
+#root #buybox.step-2 .atc-chip small,#root #buybox.step-3 .atc-chip small{line-height:1.2}
+#root .kitrev.k9{gap:4px}
+#root .rf3-opt{padding:7px 6px}
+#root #buybox.step-2 .atc-chip,#root #buybox.step-3 .atc-chip{padding:7px 4px 6px;gap:4px}
+@media (max-height:780px){#root #buybox.step-2 .atc-chip small,#root #buybox.step-3 .atc-chip small{display:none}#root #buybox.step-3 .s9-title{font-size:1.2rem}} /* the smallest phones: the guarantee sub-lines go, the labels stay */

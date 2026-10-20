@@ -3,6 +3,7 @@
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
 var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-720.mp4?v=1790870731";
 var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-poster.webp?v=1790870731";
+var MC_HERO_STILL = true; /* dk9 (2026-10-20, owner): a picture instead of the hero video (the poster frame; swap MC_HERO_POSTER for another file) */
 /* FB pixel: loaded by Shopify's Facebook channel through the Web Pixels Manager (no page-level loader). */
 /* product-page host: mount #root inside #mc-kits-root; hide the theme product
    template around it (header/footer stay; cart drawer and modals untouched). */
@@ -513,14 +514,16 @@ async function addToCart(setBusy, setToast) {
     return;
   }
   const T = selStore.tier();
-  const sub = T.scents > 0 && selStore.plan === "sub" && selStore.keys.length > 0;
-  const kitId = CART3.kitsFreeScent && CART3.kitsFreeScent[T.key]; /* dk1 */
+  /* dk9 (2026-10-20, owner): kit line = the unlisted Free Diffuser Kit variant for 1 / 2 / 3 diffusers, made free by the
+     automatic "FREE DIFFUSER(S) — N scent subscription" BXGYs; the scents ride on the owner's Subi group "02/10 Official Plan"
+     at the picked frequency (same price at 30 / 60 / 90). No one-time path. */
+  const kitId = CART3.kitVariants && CART3.kitVariants[T.key];
+  const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30];
   const items = [{ id: kitId, quantity: 1 }];
-  const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk4: free-first-bottle plan */
-  selStore.grouped().forEach(({ f, q }) => items.push(sub ? { id: f.variant, quantity: q, selling_plan: planId } : { id: f.variant, quantity: q }));
-  if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; } /* live page, cart not wired yet (owner 2026-10-03: logic to be defined after deploy) */
+  selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId }));
+  if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; }
   if (!onStore() || !kitId) {
-    setToast("Preview mode. On the live store this adds " + T.name.toLowerCase() + " + 1 free scent (" + selStore.label() + ")" + (sub ? ", refills every " + selStore.freq + " days at $" + FREQ_PRICE(selStore.freq) + " each" : ", no subscription") + ", " + usd(selStore.today()) + " today, and opens the cart.");
+    setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + " on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) + " today, and opens the cart.");
     return;
   }
   /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line
@@ -567,17 +570,18 @@ const LOGO_SRC = A.logoLight || "https://maisoncroyez.com/cdn/shop/files/mc-kb-l
    today on every kit; refills (optional) at the Subi prices below. Savings are shown against $129.95 per diffuser (the
    single-diffuser price) plus the $49.95 scent. */
 const DIFF_LIST = 129.95;
+const DIFF_VALUE = 89.95; /* dk9 (2026-10-20, owner): diffuser value shown on the page and claimed free ($89.95 / $179.90 / $269.85) */
 const RITUAL = { price: 129.95 }; /* default kit = 2 diffusers (dk6, 2026-10-09: $109.95 / $129.95 / $189.95) */
-const FREQS = [{ days: 30, price: 24.95, tag: "Most popular", pop: true }]; /* dk7 (2026-10-13, owner): one refill option, every 30 days at $24.95 (Subi "04/10" 30-day plan: $39.95 less $15 after the free first bottle), or no subscription */ /* owner 2026-10-03 (rt16): 30/60/90 days at $34.95/$39.95/$44.95 per scent = Subi plan prices ($49.95 less $15/$10/$5 after the first payment) */ /* next scents: per-scent price by cadence (owner 2026-09-29) */
-const FREQ_PRICE = (d) => (FREQS.find((o) => o.days === d) || FREQS[0]).price;
+const FREQS = [{ days: 30, tag: "Most popular", pop: true }, { days: 60 }, { days: 90 }]; /* dk9 (2026-10-20, owner): 30 / 60 / 90 days, same price at every frequency, no one-time option */
+const FREQ_PRICE = () => SCENT_ONE; /* dk9: same price at every frequency */
 const scentNames = (keys) => { const c = {}; keys.forEach((k) => { c[k] = (c[k] || 0) + 1; }); return Object.keys(c).map((k) => { const f = CONFIG.fragrances.find((x) => x.key === k); return (f ? f.name : k) + (c[k] > 1 ? " \u00d7" + c[k] : ""); }).join(" \u00b7 "); };
 const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" fill=\"none\" aria-labelledby=\"pi-visa\"><title id=\"pi-visa\">Visa</title><rect x=\".5\" y=\".5\" width=\"37\" height=\"23\" rx=\"2.5\" stroke=\"#000\" stroke-opacity=\".07\" fill=\"none\"/><path d=\"M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z\" fill=\"#142FBD\" style=\"fill:#142FBD;fill:color(display-p3 0.0784 0.1843 0.7412);fill-opacity:1;\"/><path d=\"M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z\" fill=\"#1532CB\" style=\"fill:#1532CB;fill:color(display-p3 0.0824 0.1961 0.7961);fill-opacity:1;\"/><path d=\"M29.5944 10.2167H29.2778C28.8556 11.2722 28.5389 11.8 28.2222 13.3833H30.2278C29.9111 11.8 29.9111 11.0611 29.5944 10.2167V10.2167ZM32.6556 16.4444H30.8611C30.7556 16.4444 30.7556 16.4444 30.65 16.3389L30.4389 15.3889L30.3333 15.1778H27.8C27.6944 15.1778 27.5889 15.1778 27.5889 15.3889L27.2722 16.3389C27.2722 16.4444 27.1667 16.4444 27.1667 16.4444H24.95L25.1611 15.9167L28.2222 8.73889C28.2222 8.21111 28.5389 8 29.0667 8H30.65C30.7556 8 30.8611 8 30.8611 8.21111L32.3389 15.0722C32.4444 15.4944 32.55 15.8111 32.55 16.2333C32.6556 16.3389 32.6556 16.3389 32.6556 16.4444V16.4444ZM18.5111 16.1278L18.9333 14.2278C19.0389 14.2278 19.1444 14.3333 19.1444 14.3333C19.8833 14.65 20.6222 14.8611 21.3611 14.7556C21.5722 14.7556 21.8889 14.65 22.1 14.5444C22.6278 14.3333 22.6278 13.8056 22.2056 13.3833C21.9944 13.1722 21.6778 13.0667 21.3611 12.8556C20.9389 12.6444 20.5167 12.4333 20.2 12.1167C18.9333 11.0611 19.3556 9.58333 20.0944 8.84444C20.7278 8.42222 21.0444 8 21.8889 8C23.1556 8 24.5278 8 25.1611 8.21111H25.2667C25.1611 8.84444 25.0556 9.37222 24.8444 10.0056C24.3167 9.79444 23.7889 9.58333 23.2611 9.58333C22.9444 9.58333 22.6278 9.58333 22.3111 9.68889C22.1 9.68889 21.9944 9.79444 21.8889 9.9C21.6778 10.1111 21.6778 10.4278 21.8889 10.6389L22.4167 11.0611C22.8389 11.2722 23.2611 11.4833 23.5778 11.6944C24.1056 12.0111 24.6333 12.5389 24.7389 13.1722C24.95 14.1222 24.6333 14.9667 23.7889 15.6C23.2611 16.0222 23.05 16.2333 22.3111 16.2333C20.8333 16.2333 19.6722 16.3389 18.7222 16.0222C18.6167 16.2333 18.6167 16.2333 18.5111 16.1278V16.1278ZM14.8167 16.4444C14.9222 15.7056 14.9222 15.7056 15.0278 15.3889C15.5556 13.0667 16.0833 10.6389 16.5056 8.31667C16.6111 8.10556 16.6111 8 16.8222 8H18.7222C18.5111 9.26667 18.3 10.2167 17.9833 11.3778C17.6667 12.9611 17.35 14.5444 16.9278 16.1278C16.9278 16.3389 16.8222 16.3389 16.6111 16.3389L14.8167 16.4444ZM5 8.21111C5 8.10556 5.21111 8 5.31667 8H8.90556C9.43333 8 9.85556 8.31667 9.96111 8.84444L10.9111 13.4889C10.9111 13.5944 10.9111 13.5944 11.0167 13.7C11.0167 13.5944 11.1222 13.5944 11.1222 13.5944L13.3389 8.21111C13.2333 8.10556 13.3389 8 13.4444 8H15.6611C15.6611 8.10556 15.6611 8.10556 15.5556 8.21111L12.2833 15.9167C12.1778 16.1278 12.1778 16.2333 12.0722 16.3389C11.9667 16.4444 11.7556 16.3389 11.5444 16.3389H9.96111C9.85556 16.3389 9.75 16.3389 9.75 16.1278L8.06111 9.58333C7.85 9.37222 7.53333 9.05556 7.11111 8.95C6.47778 8.63333 5.31667 8.42222 5.10556 8.42222L5 8.21111Z\" fill=\"white\" style=\"fill:white;fill-opacity:1;\"/></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" fill=\"none\" aria-labelledby=\"pi-master\"><title id=\"pi-master\">Mastercard</title><rect x=\".5\" y=\".5\" width=\"37\" height=\"23\" rx=\"2.5\" stroke=\"#000\" stroke-opacity=\".07\" fill=\"none\"/><path d=\"M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z\" fill=\"#1C1C1C\" style=\"fill:#1C1C1C;fill:color(display-p3 0.1098 0.1098 0.1098);fill-opacity:1;\"/><path d=\"M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z\" fill=\"#232323\" style=\"fill:#232323;fill:color(display-p3 0.1373 0.1373 0.1373);fill-opacity:1;\"/><path d=\"M14.6364 19.2727C18.8538 19.2727 22.2727 15.8538 22.2727 11.6364C22.2727 7.41892 18.8538 4 14.6364 4C10.4189 4 7 7.41892 7 11.6364C7 15.8538 10.4189 19.2727 14.6364 19.2727Z\" fill=\"#EB001B\" style=\"fill:#EB001B;fill:color(display-p3 0.9216 0.0000 0.1059);fill-opacity:1;\"/><path d=\"M23.3637 19.2727C27.5811 19.2727 31 15.8538 31 11.6364C31 7.41892 27.5811 4 23.3637 4C19.1462 4 15.7273 7.41892 15.7273 11.6364C15.7273 15.8538 19.1462 19.2727 23.3637 19.2727Z\" fill=\"#F79E1B\" style=\"fill:#F79E1B;fill:color(display-p3 0.9686 0.6196 0.1059);fill-opacity:1;\"/><path d=\"M22.2727 11.6362C22.2727 9.01797 20.9637 6.72706 19 5.41797C17.0364 6.83615 15.7273 9.12706 15.7273 11.6362C15.7273 14.1452 17.0364 16.5452 19 17.8543C20.9637 16.5452 22.2727 14.2543 22.2727 11.6362Z\" fill=\"#FF5F00\" style=\"fill:#FF5F00;fill:color(display-p3 1.0000 0.3725 0.0000);fill-opacity:1;\"/></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" fill=\"none\" aria-labelledby=\"pi-american_express\"><title id=\"pi-american_express\">American Express</title><rect x=\".5\" y=\".5\" width=\"37\" height=\"23\" rx=\"2.5\" stroke=\"#000\" stroke-opacity=\".07\" fill=\"none\"/><path d=\"M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z\" fill=\"#0071CE\" style=\"fill:#0071CE;fill:color(display-p3 0.0000 0.4431 0.8078);fill-opacity:1;\"/><path d=\"M3 0.5H35C36.3348 0.5 37.5 1.58692 37.5 3V21C37.5 22.4239 36.4239 23.5 35 23.5H3C1.66524 23.5 0.5 22.4131 0.5 21V3C0.5 1.57614 1.57614 0.5 3 0.5Z\" stroke=\"black\" stroke-opacity=\"0.07\" style=\"stroke:black;stroke-opacity:0.07;\"/><path d=\"M25.8662 6.33203V3H31L31.8662 5.5332L32.7334 3H37V14.2002H36.7998L34.8672 16.2656L36.7998 18.3594H37V21.2666H33.5996L31.9336 19.3994L30.2002 21.2666H19.4668V12.666H16L20.2666 3H24.4004L25.8662 6.33203ZM20.5996 20.2656H27V18.5322H22.666V17.3994H26.8662V15.666H22.666V14.5322H27V12.7988H20.5996V20.2656ZM30.5332 16.5322L27 20.2656H29.5996L31.8662 17.8662L34.0664 20.2656H36.7324L33.1992 16.4658L36.7324 12.7988H34.1328L31.8662 15.1992L29.7324 12.7988H27L30.5332 16.5322ZM17.666 11.7324H19.9326L20.5332 10.1992H23.999L24.666 11.7324H26.999L23.666 4.19922H20.999L17.666 11.7324ZM33.5996 4.19922L31.9326 8.86621L30.1992 4.19922H27V11.666H29.0664V6.39941L31 11.666H32.7998L34.7324 6.39941V11.666H36.7324V4.13281L33.5996 4.19922ZM23.2656 8.46582H21.2656L22.2656 5.99902L23.2656 8.46582Z\" fill=\"white\" style=\"fill:white;fill-opacity:1;\"/></svg><svg class=\"paylogo-svg\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" x=\"0\" y=\"0\" viewBox=\"0 0 165.521 105.965\" xml:space=\"preserve\" aria-labelledby=\"pi-apple_pay\"><title id=\"pi-apple_pay\">Apple Pay</title><path fill=\"#000\" d=\"M150.698 0H14.823c-.566 0-1.133 0-1.698.003-.477.004-.953.009-1.43.022-1.039.028-2.087.09-3.113.274a10.51 10.51 0 0 0-2.958.975 9.932 9.932 0 0 0-4.35 4.35 10.463 10.463 0 0 0-.975 2.96C.113 9.611.052 10.658.024 11.696a70.22 70.22 0 0 0-.022 1.43C0 13.69 0 14.256 0 14.823v76.318c0 .567 0 1.132.002 1.699.003.476.009.953.022 1.43.028 1.036.09 2.084.275 3.11a10.46 10.46 0 0 0 .974 2.96 9.897 9.897 0 0 0 1.83 2.52 9.874 9.874 0 0 0 2.52 1.83c.947.483 1.917.79 2.96.977 1.025.183 2.073.245 3.112.273.477.011.953.017 1.43.02.565.004 1.132.004 1.698.004h135.875c.565 0 1.132 0 1.697-.004.476-.002.952-.009 1.431-.02 1.037-.028 2.085-.09 3.113-.273a10.478 10.478 0 0 0 2.958-.977 9.955 9.955 0 0 0 4.35-4.35c.483-.947.789-1.917.974-2.96.186-1.026.246-2.074.274-3.11.013-.477.02-.954.022-1.43.004-.567.004-1.132.004-1.699V14.824c0-.567 0-1.133-.004-1.699a63.067 63.067 0 0 0-.022-1.429c-.028-1.038-.088-2.085-.274-3.112a10.4 10.4 0 0 0-.974-2.96 9.94 9.94 0 0 0-4.35-4.35A10.52 10.52 0 0 0 156.939.3c-1.028-.185-2.076-.246-3.113-.274a71.417 71.417 0 0 0-1.431-.022C151.83 0 151.263 0 150.698 0z\" /><path fill=\"#FFF\" d=\"M150.698 3.532l1.672.003c.452.003.905.008 1.36.02.793.022 1.719.065 2.583.22.75.135 1.38.34 1.984.648a6.392 6.392 0 0 1 2.804 2.807c.306.6.51 1.226.645 1.983.154.854.197 1.783.218 2.58.013.45.019.9.02 1.36.005.557.005 1.113.005 1.671v76.318c0 .558 0 1.114-.004 1.682-.002.45-.008.9-.02 1.35-.022.796-.065 1.725-.221 2.589a6.855 6.855 0 0 1-.645 1.975 6.397 6.397 0 0 1-2.808 2.807c-.6.306-1.228.511-1.971.645-.881.157-1.847.2-2.574.22-.457.01-.912.017-1.379.019-.555.004-1.113.004-1.669.004H14.801c-.55 0-1.1 0-1.66-.004a74.993 74.993 0 0 1-1.35-.018c-.744-.02-1.71-.064-2.584-.22a6.938 6.938 0 0 1-1.986-.65 6.337 6.337 0 0 1-1.622-1.18 6.355 6.355 0 0 1-1.178-1.623 6.935 6.935 0 0 1-.646-1.985c-.156-.863-.2-1.788-.22-2.578a66.088 66.088 0 0 1-.02-1.355l-.003-1.327V14.474l.002-1.325a66.7 66.7 0 0 1 .02-1.357c.022-.792.065-1.717.222-2.587a6.924 6.924 0 0 1 .646-1.981c.304-.598.7-1.144 1.18-1.623a6.386 6.386 0 0 1 1.624-1.18 6.96 6.96 0 0 1 1.98-.646c.865-.155 1.792-.198 2.586-.22.452-.012.905-.017 1.354-.02l1.677-.003h135.875\" /><g><g><path fill=\"#000\" d=\"M43.508 35.77c1.404-1.755 2.356-4.112 2.105-6.52-2.054.102-4.56 1.355-6.012 3.112-1.303 1.504-2.456 3.959-2.156 6.266 2.306.2 4.61-1.152 6.063-2.858\" /><path fill=\"#000\" d=\"M45.587 39.079c-3.35-.2-6.196 1.9-7.795 1.9-1.6 0-4.049-1.8-6.698-1.751-3.447.05-6.645 2-8.395 5.1-3.598 6.2-.95 15.4 2.55 20.45 1.699 2.5 3.747 5.25 6.445 5.151 2.55-.1 3.549-1.65 6.647-1.65 3.097 0 3.997 1.65 6.696 1.6 2.798-.05 4.548-2.5 6.247-5 1.95-2.85 2.747-5.6 2.797-5.75-.05-.05-5.396-2.101-5.446-8.251-.05-5.15 4.198-7.6 4.398-7.751-2.399-3.548-6.147-3.948-7.447-4.048\" /></g><g><path fill=\"#000\" d=\"M78.973 32.11c7.278 0 12.347 5.017 12.347 12.321 0 7.33-5.173 12.373-12.529 12.373h-8.058V69.62h-5.822V32.11h14.062zm-8.24 19.807h6.68c5.07 0 7.954-2.729 7.954-7.46 0-4.73-2.885-7.434-7.928-7.434h-6.706v14.894z\" /><path fill=\"#000\" d=\"M92.764 61.847c0-4.809 3.665-7.564 10.423-7.98l7.252-.442v-2.08c0-3.04-2.001-4.704-5.562-4.704-2.938 0-5.07 1.507-5.51 3.82h-5.252c.157-4.86 4.731-8.395 10.918-8.395 6.654 0 10.995 3.483 10.995 8.89v18.663h-5.38v-4.497h-.13c-1.534 2.937-4.914 4.782-8.579 4.782-5.406 0-9.175-3.222-9.175-8.057zm17.675-2.417v-2.106l-6.472.416c-3.64.234-5.536 1.585-5.536 3.95 0 2.288 1.975 3.77 5.068 3.77 3.95 0 6.94-2.522 6.94-6.03z\" /><path fill=\"#000\" d=\"M120.975 79.652v-4.496c.364.051 1.247.103 1.715.103 2.573 0 4.029-1.09 4.913-3.899l.52-1.663-9.852-27.293h6.082l6.863 22.146h.13l6.862-22.146h5.927l-10.216 28.67c-2.34 6.577-5.017 8.735-10.683 8.735-.442 0-1.872-.052-2.261-.157z\" /></g></g></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" aria-labelledby=\"pi-google_pay\"><title id=\"pi-google_pay\">Google Pay</title><path d=\"M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z\" fill=\"#000\" opacity=\".07\"/><path d=\"M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32\" fill=\"#FFF\"/><path d=\"M18.093 11.976v3.2h-1.018v-7.9h2.691a2.447 2.447 0 0 1 1.747.692 2.28 2.28 0 0 1 .11 3.224l-.11.116c-.47.447-1.098.69-1.747.674l-1.673-.006zm0-3.732v2.788h1.698c.377.012.741-.135 1.005-.404a1.391 1.391 0 0 0-1.005-2.354l-1.698-.03zm6.484 1.348c.65-.03 1.286.188 1.778.613.445.43.682 1.03.65 1.649v3.334h-.969v-.766h-.049a1.93 1.93 0 0 1-1.673.931 2.17 2.17 0 0 1-1.496-.533 1.667 1.667 0 0 1-.613-1.324 1.606 1.606 0 0 1 .613-1.336 2.746 2.746 0 0 1 1.698-.515c.517-.02 1.03.093 1.49.331v-.208a1.134 1.134 0 0 0-.417-.901 1.416 1.416 0 0 0-.98-.368 1.545 1.545 0 0 0-1.319.717l-.895-.564a2.488 2.488 0 0 1 2.182-1.06zM23.29 13.52a.79.79 0 0 0 .337.662c.223.176.5.269.785.263.429-.001.84-.17 1.146-.472.305-.286.478-.685.478-1.103a2.047 2.047 0 0 0-1.324-.374 1.716 1.716 0 0 0-1.03.294.883.883 0 0 0-.392.73zm9.286-3.75l-3.39 7.79h-1.048l1.281-2.728-2.224-5.062h1.103l1.612 3.885 1.569-3.885h1.097z\" fill=\"#5F6368\"/><path d=\"M13.986 11.284c0-.308-.024-.616-.073-.92h-4.29v1.747h2.451a2.096 2.096 0 0 1-.9 1.373v1.134h1.464a4.433 4.433 0 0 0 1.348-3.334z\" fill=\"#4285F4\"/><path d=\"M9.629 15.721a4.352 4.352 0 0 0 3.01-1.097l-1.466-1.14a2.752 2.752 0 0 1-4.094-1.44H5.577v1.17a4.53 4.53 0 0 0 4.052 2.507z\" fill=\"#34A853\"/><path d=\"M7.079 12.05a2.709 2.709 0 0 1 0-1.735v-1.17H5.577a4.505 4.505 0 0 0 0 4.075l1.502-1.17z\" fill=\"#FBBC04\"/><path d=\"M9.629 8.44a2.452 2.452 0 0 1 1.74.68l1.3-1.293a4.37 4.37 0 0 0-3.065-1.183 4.53 4.53 0 0 0-4.027 2.5l1.502 1.171a2.715 2.715 0 0 1 2.55-1.875z\" fill=\"#EA4335\"/></svg><svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" aria-labelledby=\"pi-shopify_pay\"><title id=\"pi-shopify_pay\">Shop Pay</title><path opacity=\".07\" d=\"M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z\" fill=\"#000\"/><path d=\"M35.889 0C37.05 0 38 .982 38 2.182v19.636c0 1.2-.95 2.182-2.111 2.182H2.11C.95 24 0 23.018 0 21.818V2.182C0 .982.95 0 2.111 0H35.89z\" fill=\"#5A31F4\"/><path d=\"M9.35 11.368c-1.017-.223-1.47-.31-1.47-.705 0-.372.306-.558.92-.558.54 0 .934.238 1.225.704a.079.079 0 00.104.03l1.146-.584a.082.082 0 00.032-.114c-.475-.831-1.353-1.286-2.51-1.286-1.52 0-2.464.755-2.464 1.956 0 1.275 1.15 1.597 2.17 1.82 1.02.222 1.474.31 1.474.705 0 .396-.332.582-.993.582-.612 0-1.065-.282-1.34-.83a.08.08 0 00-.107-.035l-1.143.57a.083.083 0 00-.036.111c.454.92 1.384 1.437 2.627 1.437 1.583 0 2.539-.742 2.539-1.98s-1.155-1.598-2.173-1.82v-.003zM15.49 8.855c-.65 0-1.224.232-1.636.646a.04.04 0 01-.069-.03v-2.64a.08.08 0 00-.08-.081H12.27a.08.08 0 00-.08.082v8.194a.08.08 0 00.08.082h1.433a.08.08 0 00.081-.082v-3.594c0-.695.528-1.227 1.239-1.227.71 0 1.226.521 1.226 1.227v3.594a.08.08 0 00.081.082h1.433a.08.08 0 00.081-.082v-3.594c0-1.51-.981-2.577-2.355-2.577zM20.753 8.62c-.778 0-1.507.24-2.03.588a.082.082 0 00-.027.109l.632 1.088a.08.08 0 00.11.03 2.5 2.5 0 011.318-.366c1.25 0 2.17.891 2.17 2.068 0 1.003-.736 1.745-1.669 1.745-.76 0-1.288-.446-1.288-1.077 0-.361.152-.657.548-.866a.08.08 0 00.032-.113l-.596-1.018a.08.08 0 00-.098-.035c-.799.299-1.359 1.018-1.359 1.984 0 1.46 1.152 2.55 2.76 2.55 1.877 0 3.227-1.313 3.227-3.195 0-2.018-1.57-3.492-3.73-3.492zM28.675 8.843c-.724 0-1.373.27-1.845.746-.026.027-.069.007-.069-.029v-.572a.08.08 0 00-.08-.082h-1.397a.08.08 0 00-.08.082v8.182a.08.08 0 00.08.081h1.433a.08.08 0 00.081-.081v-2.683c0-.036.043-.054.069-.03a2.6 2.6 0 001.808.7c1.682 0 2.993-1.373 2.993-3.157s-1.313-3.157-2.993-3.157zm-.271 4.929c-.956 0-1.681-.768-1.681-1.783s.723-1.783 1.681-1.783c.958 0 1.68.755 1.68 1.783 0 1.027-.713 1.783-1.681 1.783h.001z\" fill=\"#fff\"/></svg>", shop: "<svg class=\"shoppay-svg\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" viewBox=\"0 0 38 24\" aria-labelledby=\"pi-shopify_pay\"><title id=\"pi-shopify_pay\">Shop Pay</title><path opacity=\".07\" d=\"M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z\" fill=\"#000\"/><path d=\"M35.889 0C37.05 0 38 .982 38 2.182v19.636c0 1.2-.95 2.182-2.111 2.182H2.11C.95 24 0 23.018 0 21.818V2.182C0 .982.95 0 2.111 0H35.89z\" fill=\"#5A31F4\"/><path d=\"M9.35 11.368c-1.017-.223-1.47-.31-1.47-.705 0-.372.306-.558.92-.558.54 0 .934.238 1.225.704a.079.079 0 00.104.03l1.146-.584a.082.082 0 00.032-.114c-.475-.831-1.353-1.286-2.51-1.286-1.52 0-2.464.755-2.464 1.956 0 1.275 1.15 1.597 2.17 1.82 1.02.222 1.474.31 1.474.705 0 .396-.332.582-.993.582-.612 0-1.065-.282-1.34-.83a.08.08 0 00-.107-.035l-1.143.57a.083.083 0 00-.036.111c.454.92 1.384 1.437 2.627 1.437 1.583 0 2.539-.742 2.539-1.98s-1.155-1.598-2.173-1.82v-.003zM15.49 8.855c-.65 0-1.224.232-1.636.646a.04.04 0 01-.069-.03v-2.64a.08.08 0 00-.08-.081H12.27a.08.08 0 00-.08.082v8.194a.08.08 0 00.08.082h1.433a.08.08 0 00.081-.082v-3.594c0-.695.528-1.227 1.239-1.227.71 0 1.226.521 1.226 1.227v3.594a.08.08 0 00.081.082h1.433a.08.08 0 00.081-.082v-3.594c0-1.51-.981-2.577-2.355-2.577zM20.753 8.62c-.778 0-1.507.24-2.03.588a.082.082 0 00-.027.109l.632 1.088a.08.08 0 00.11.03 2.5 2.5 0 011.318-.366c1.25 0 2.17.891 2.17 2.068 0 1.003-.736 1.745-1.669 1.745-.76 0-1.288-.446-1.288-1.077 0-.361.152-.657.548-.866a.08.08 0 00.032-.113l-.596-1.018a.08.08 0 00-.098-.035c-.799.299-1.359 1.018-1.359 1.984 0 1.46 1.152 2.55 2.76 2.55 1.877 0 3.227-1.313 3.227-3.195 0-2.018-1.57-3.492-3.73-3.492zM28.675 8.843c-.724 0-1.373.27-1.845.746-.026.027-.069.007-.069-.029v-.572a.08.08 0 00-.08-.082h-1.397a.08.08 0 00-.08.082v8.182a.08.08 0 00.08.081h1.433a.08.08 0 00.081-.081v-2.683c0-.036.043-.054.069-.03a2.6 2.6 0 001.808.7c1.682 0 2.993-1.373 2.993-3.157s-1.313-3.157-2.993-3.157zm-.271 4.929c-.956 0-1.681-.768-1.681-1.783s.723-1.783 1.681-1.783c.958 0 1.68.755 1.68 1.783 0 1.027-.713 1.783-1.681 1.783h.001z\" fill=\"#fff\"/></svg>" };
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
-const TIERS = [
-  { key: "one", n: 1, name: "1 Diffuser", sub: "Perfect for: Studio, Bathroom, Entry.", rooms: ["\ud83d\udecb\ufe0f Studio", "\ud83d\udec1 Bathroom", "\ud83d\udeaa Entry"], where: "<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand, anywhere with a plug.", price: 109.95, oneTime: 0, scents: 1, tag: "", pop: false },
-  { key: "two", n: 2, name: "2 Diffusers", sub: "Perfect for: Living Room, Bedroom, Kitchen.", rooms: ["\ud83d\udecb\ufe0f Living Room", "\ud83d\udecf\ufe0f Bedroom", "\ud83c\udf73 Kitchen"], where: "<b>Two diffusers for one bigger room:</b> the living room, the bedroom or the kitchen. Two coverage zones, so the far corners smell as good as the middle.", price: 129.95, oneTime: 0, scents: 1, tag: "Most popular", pop: true },
-  { key: "three", n: 3, name: "3 Diffusers", sub: "Perfect for: 1+ Rooms, Large Spaces.", rooms: ["\ud83c\udfe0 1+ Rooms", "\ud83d\udccf Large Spaces"], where: "<b>Two in the living room, one in the bedroom.</b> Or any split you like: large spaces, more than one room, the whole floor.", price: 189.95, oneTime: 0, scents: 1, tag: "Best value", pop: false },
+const TIERS = [ /* dk9 (2026-10-20, owner): free diffusers with a scent subscription — 1 diffuser for 2 scents, 2 for 3, 3 for 5. Step 1 shows no prices; the card copy is the owner's reference card. */
+  { key: "one", n: 1, name: "Living Room", scents: 2, price: 79.90, oneTime: 0, tag: "", pop: false, bul: ["1 free diffuser, your signature space, covered.", "Up to 600 sq ft covered \u00b7 2,500+ homes scented."], rooms: ["\ud83d\udecb\ufe0f Studio", "\ud83d\udec1 Bathroom", "\ud83d\udeaa Entry"], where: "<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand, anywhere with a plug." },
+  { key: "two", n: 2, name: "Living Room & Bedroom", scents: 3, price: 119.85, oneTime: 0, tag: "Most popular", pop: true, bul: ["2 free diffusers, where you host and where you rest.", "Up to 1,200 sq ft of total coverage."], rooms: ["\ud83d\udecb\ufe0f Living Room", "\ud83d\udecf\ufe0f Bedroom", "\ud83c\udf73 Kitchen"], where: "<b>Two diffusers for one bigger room:</b> the living room, the bedroom or the kitchen. Two coverage zones, so the far corners smell as good as the middle." },
+  { key: "three", n: 3, name: "Living Room, Bedroom & Kitchen", scents: 5, price: 199.75, oneTime: 0, tag: "", pop: false, bul: ["3 free diffusers, your whole home holds the scent.", "Up to 1,800 sq ft, whole-home coverage."], rooms: ["\ud83c\udfe0 1+ Rooms", "\ud83d\udccf Large Spaces"], where: "<b>Two in the living room, one in the bedroom.</b> Or any split you like: large spaces, more than one room, the whole floor." },
 ];
 /* dk7 (2026-10-13, owner): one refill option (every 30 days, $15 off) or one-time; "Where it goes" floor plans per kit: 1 = one room, 2 = two zones in one bigger room, 3 = two in the living room + one in the bedroom */
 const PLANS = { one: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: one diffuser in a studio"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="120" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="160" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="170" cy="100" r="86" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="170" cy="100" r="9" fill="#141414"/><circle cx="170" cy="100" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">STUDIO</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">ONE ROOM, UP TO 600 SQ FT</text></svg>', two: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in one large room"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="26" y="24" width="130" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="64" width="60" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="212" y="78" width="72" height="44" rx="6" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="222" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="262" y="160" width="36" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="98" cy="80" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="98" cy="80" r="9" fill="#141414"/><circle cx="98" cy="80" r="3.5" fill="#fff"/><circle cx="226" cy="124" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="226" cy="124" r="9" fill="#141414"/><circle cx="226" cy="124" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">OR THE BEDROOM, OR THE KITCHEN</text></svg>', three: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in the living room, one in the bedroom"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="196" y1="8" x2="196" y2="88" stroke="#241C18" stroke-width="3"/><line x1="196" y1="124" x2="196" y2="202" stroke="#241C18" stroke-width="3"/><path d="M196 88 a36 36 0 0 1 36 36" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="196" y1="88" x2="232" y2="88" stroke="#241C18" stroke-width="1.4"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="62" width="60" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="150" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="166" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="100" cy="64" r="52" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="100" cy="64" r="9" fill="#141414"/><circle cx="100" cy="64" r="3.5" fill="#fff"/><circle cx="150" cy="150" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="150" cy="150" r="9" fill="#141414"/><circle cx="150" cy="150" r="3.5" fill="#fff"/><circle cx="254" cy="118" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="254" cy="118" r="9" fill="#141414"/><circle cx="254" cy="118" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="208" y="196" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">BEDROOM</text></svg>' };
@@ -590,22 +594,23 @@ const selStore = {
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 30,
   keys: [],               /* dk8 (2026-10-14, owner): nothing pre-selected, the customer picks the free scent (was Chilled Citrus since dk1) */
+  last: null,             /* dk9: the scent tapped last (the smells-like bar describes it) */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
   setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
   tier() { return TIERS[this.tierIdx]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
-  setTier(i) { this.tierIdx = i; this.emit(); }, /* dk1: the scent and the refill choice survive a diffuser-count change */
+  setTier(i) { this.tierIdx = i; this.keys = this.keys.slice(0, TIERS[i].scents); this.emit(); }, /* dk9: picks survive a kit change, trimmed to the new count */
   setPlan(p) { this.plan = p; this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return SCENT_ONE; }, /* extras only exist on 1D, which is one-time only */
   included() { return Math.min(this.keys.length, this.tier().scents); },
   extras() { return Math.max(0, this.keys.length - this.tier().scents); },
   left() { return Math.max(0, this.tier().scents - this.keys.length); },
-  oneTime() { return this.plan === "one" && this.tier().scents > 0; },
-  today() { return this.tier().price + this.extras() * this.scentPrice() + (this.oneTime() ? this.tier().oneTime : 0); }, /* fd4: one-time = kit price + one-time kit variant (80.00 / 90.05 / 140.10) => $129.95 / $189.95 / $289.95 */
-  value() { return this.tier().n * DIFF_LIST + this.keys.length * SCENT_ONE; }, /* dk1: compare-at = $129.95 per diffuser + the scent */
+  oneTime() { return false; }, /* dk9: subscription only */
+  today() { return this.keys.length * SCENT_ONE; }, /* dk9: the scents are the order ($39.95 each); the diffusers ride free */
+  value() { return this.tier().n * DIFF_VALUE + this.keys.length * SCENT_ONE; },
   savings() { return Math.max(0, this.value() - this.today()); },
   renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * FREQ_PRICE(this.freq) : 0; },
   scents() { return this.keys.map((k) => CONFIG.fragrances.find((f) => f.key === k)); },
@@ -619,7 +624,8 @@ const selStore = {
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
   setKeys(ks) { this.keys = ks.slice(0, this.tier().scents); this.emit(); },
-  add(k) { const cap = this.tier().scents; if (cap === 1) { this.keys = [k]; this.emit(); return; } /* dk1: single free scent, tapping another swaps it */ if (cap > 0 && this.keys.length >= cap) return; this.keys = [...this.keys, k]; this.emit(); },
+  add(k) { const cap = this.tier().scents; if (this.keys.length >= cap) return false; this.keys = [...this.keys, k]; this.last = k; this.emit(); return true; }, /* dk9: up to the kit's count, duplicates allowed */
+  toggle(k) { this.last = k; if (this.qty(k) > 0) { this.remove(k); return; } this.add(k); }, /* dk9: a tap on a picked tile removes one bottle */
   remove(k) {
     const i = this.keys.indexOf(k);
     if (i < 0) return;
@@ -642,7 +648,7 @@ const usd = (v) => "$" + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2));
    Sections
    ================================================================ */
 const RitualHeader = () => html`
-  <div class="rit-ann">PICK YOUR DIFFUSERS AND YOUR FIRST SCENT IS FREE. NO SUBSCRIPTION REQUIRED.</div>
+  <div class="rit-ann">FREE DIFFUSERS WITH YOUR SCENT SUBSCRIPTION. PAUSE OR CANCEL ANYTIME.</div> <!-- dk9 (2026-10-20): proposed copy for the new offer, owner to confirm -->
   <header class="rit-hdr">
     <a class="rit-logo-a" href="/" aria-label="Maison Croyez"><img class="rit-logo" src=${LOGO_SRC} alt="Maison Croyez" width="150" height="34" decoding="async" onError=${(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling.style.display = "inline"; }}/><span class="rit-logo-tx" style=${{ display: "none" }}>MAISON CROYEZ</span></a>
     <span class="rit-hdr-tx">2,500+ homes transformed.</span>
@@ -671,7 +677,7 @@ function HoldTimer() {
   const [ms, setMs] = useState(left());
   useEffect(() => { const t = setInterval(() => setMs(left()), 1000); return () => clearInterval(t); }, []);
   const s = Math.floor(ms / 1000), pad = (n) => String(n).padStart(2, "0");
-  return html`<div class="hv-timer" role="timer" aria-live="off">Free scent reserved: <b>${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}</b></div>`;
+  return html`<div class="hv-timer" role="timer" aria-live="off">Free diffusers reserved: <b>${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}</b></div>`;
 }
 function HeroVideo({ poster }) {
   /* The page HTML ships a real <video id="mc-hero-v"> inside #mc-prehero so the
@@ -745,6 +751,21 @@ function HeroVideo({ poster }) {
   return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><div class="hv-host" ref=${host} key="host"></div>${blocked ? html`<button type="button" class="hv-play" key="play" aria-label="Play video" onClick=${tap}>\u25B6</button>` : null}<${HoldTimer} key="timer"/>`;
 }
 
+/* dk9 (2026-10-20, owner): still hero. Adopts the page body's pre-hero poster <img> (same node, no second fetch) and drops the
+   pre-hero <video> if a page body still ships one; in the preview it creates the <img> from MC_HERO_POSTER. */
+function HeroStill({ poster }) {
+  const pw = useRef(null);
+  const posterSrc = (typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : poster;
+  useLayoutEffect(() => {
+    const w = pw.current; if (!w) return;
+    let im = document.getElementById("mc-hero-p");
+    if (im) { im.removeAttribute("id"); im.removeAttribute("style"); }
+    else { im = document.createElement("img"); im.src = posterSrc; im.width = 720; im.height = 720; im.alt = "Maison Croyez diffuser"; im.decoding = "sync"; im.setAttribute("fetchpriority", "high"); }
+    im.className = "simg hv-poster"; w.appendChild(im);
+    const v = document.getElementById("mc-hero-v"); if (v && v.parentNode) { try { v.pause(); } catch (e) {} v.parentNode.removeChild(v); }
+  }, []);
+  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><${HoldTimer} key="timer"/>`;
+}
 function Gallery() {
   const [idx, setIdx] = useState(0);
   /* live page loads straight from the store CDN; preview embeds copies */
@@ -770,7 +791,7 @@ function Gallery() {
     <div class="gal">
       <div class="gal-track">
         <div class="gal-slide ph sq">
-          ${(typeof MC_HERO_VIDEO !== "undefined") ? html`<${HeroVideo} poster=${urls[0]}/>` : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
+          ${(typeof MC_HERO_STILL !== "undefined" && MC_HERO_STILL) ? html`<${HeroStill} poster=${urls[0]}/>` : (typeof MC_HERO_VIDEO !== "undefined") ? html`<${HeroVideo} poster=${urls[0]}/>` : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
         </div>
       </div>
     </div>`;
@@ -837,6 +858,8 @@ function Reviews6() {
 /* dk8 (2026-10-14): nothing is pre-selected any more, so a tap on Add to cart without a scent scrolls to Step 2 and outlines the grid for a moment */
 const nudgePicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); setTimeout(() => el.classList.remove("nudge"), 1700); };
 function BuyBox() {
+  /* dk9 (2026-10-20, owner): three steps again (as the free-diffusers page): 1 diffusers (no prices), 2 scents, 3 confirmation.
+     Steps 2 and 3 fit under the announcement bar + header on a phone (the hero stays on desktop, left column). */
   const B = CONFIG.buybox;
   const sel = useSelection();
   const [busy, setBusy] = useState(false);
@@ -845,40 +868,46 @@ function BuyBox() {
   const T = sel.tier();
   const left = sel.left();
   const step = sel.step || 1;
-  const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "long", day: "numeric" });
   const goReviews = () => { let n = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (n++ < 40) setTimeout(f, 50); }; f(); };
-  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
+  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* steps start at the top: announcement bar, header, then the step */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const needScent = () => { goPick(); nudgePicker(); setToast("Pick your free scent first. It’s included."); }; /* dk8: Add to cart before a scent is picked */
-  /* fd13 (owner, 2026-09-25): no auto-advance after the last pick — people should choose carefully and tap "Review my kit". */
-  /* kit review rows: the first T.scents picks are included, the rest are extras */
-  const rows = (() => { const m = new Map(); sel.keys.forEach((k) => m.set(k, (m.get(k) || 0) + 1)); let incLeft = T.scents; return [...m.entries()].map(([k, q]) => { const f = CONFIG.fragrances.find((x) => x.key === k); const inc = Math.min(q, incLeft); incLeft -= inc; return { f, q, inc, extra: q - inc }; }); })();
+  const rows = sel.grouped();
+  const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
+  const chips = html`
+          <div class="atc-chips">
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
+            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
+          </div>`;
+  const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
   return html`
-    <section class="section pdp-buy" id="buybox">
+    <section class=${"section pdp-buy step-" + step} id="buybox">
       <div class="wrap">
         <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
-          <${Fragment} key="ritual">
+          ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
-          <div class="hd-price hd-from"><b>From ${usd(TIERS[0].price)}</b><span class="hd-note">100ml free scent included</span></div> <!-- dk3 (2026-10-03, owner): entry price + free-scent badge -->
+          <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone -->
           <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
 
-          <${StepHead} n=${1} title="Step 1: How many diffusers do you need?"/> <!-- dk8 (owner): no "N diffusers picked" pill -->
-          <div class="freq3 dkt3" role="radiogroup" aria-label="How many diffusers">
-            ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"fq dkt" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
-                ${t.tag ? html`<span class=${"fq-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
-                <${Img} slot=${"kit" + t.n} alt=${t.name}/> <!-- dk5 (2026-10-03, owner): no radio dot, the card is the selector -->
-                <span class="fq-days"><b>${t.name} <span class="dkt-plus">+ 1 Free Scent</span></b></span> <!-- dk6 (2026-10-03, owner): free scent in the title, per-diffuser price on the right between price and saving -->
-                <span class="dkt-room">${t.sub}</span>
-                <span class="dkt-each">${usd(Math.round(t.price / t.n * 100) / 100)}/diffuser</span>
-                <span class="fq-price"><b>${usd(t.price)}</b></span>
-                <span class="fq-sub dkt-save">You save <b>${usd(Math.round(TIER_SAVE(t) * 100) / 100)}</b></span>
+          <div class="step-eyebrow">Step #1</div>
+          <div class="picker-title step-title s9-title">How many spaces deserve to have the <em>intention you’re seeking?</em></div>
+          <div class="tiers t9" role="radiogroup" aria-label="How many free diffusers">
+            ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
+              <div key=${t.key} class=${"tier t9c" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+                ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
+                <${Img} slot=${"kit" + t.n} alt=${t.name}/>
+                <span class="tier-main">
+                  <span class="tier-name">${t.name}</span>
+                  <span class="t9-val"><s>${usd(val)}</s> <b>FREE</b></span>
+                  <span class="tier-claim">You’re claiming <b>${usd(val)}</b> of diffusers, free</span>
+                  <ul class="t9-bul">${t.bul.map((b) => html`<li key=${b}>${b}</li>`)}</ul>
+                </span>
               </div>`; })}
           </div>
 
-          <div class="place" key=${T.key}> <!-- dk8 (owner): compact \u2014 small plan on the left, title + rooms + caption on the right -->
+          <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right -->
             <div class="place-grid">
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
               <div class="place-side">
@@ -889,46 +918,8 @@ function BuyBox() {
             </div>
           </div>
 
-          <${StepHead} n=${2} title="Step 2: Pick your free scent"/> <!-- dk8 (owner): no free-scent pill, no pre-selected note -->
-          <div class="picker e4" role="radiogroup" aria-label="Pick your free scent"> <!-- dk8c (2026-10-14, owner): option E — four photo tiles per row, name under each; the bar below describes the picked scent (intention, strength, smells like, notes) -->
-            ${CONFIG.fragrances.map((f) => { const on = sel.qty(f.key) > 0; const pick = () => sel.add(f.key); return html`
-              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
-                <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <${Img} slot=${f.pimg || f.img} alt=${f.name}/> <!-- dk8e (owner): botanical picker photos -->
-                <span class="pick-scent e4-name">${f.name}</span>
-              </div>`; })}
-          </div>
-          ${(() => { const f = sel.scents()[0]; return html`<div class="e4-bar" aria-live="polite">${f
-            ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[f.key] || "🌿"}</span><span class="e4-txt"><b>${f.name}</b> · ${f.intention} · <span class=${"pick-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span><br/><b>Smells like:</b> ${f.smells2}<br/><b>Notes:</b> ${(f.chips && f.chips[0] ? f.chips[0] : "").replace(/\.$/, "")}</span>`
-            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt">Tap a scent to see what it smells like.</span>`}</div>`; })()}
-
-          <div class="picker-title step-title refill-title">Step 3: Want your scent refilled every 30 days?</div> <!-- dk8 (owner): the two lines under the title are gone -->
-          <div class="freq3 rf2" role="radiogroup" aria-label="Refills">
-            ${FREQS.map((o) => { const on = !sel.oneTime() && sel.freq === o.days; const pick = () => { sel.setPlan("sub"); sel.setFreq(o.days); }; return html`
-              <div key=${o.days} class=${"fq" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
-                ${o.tag ? html`<span class=${"fq-tag" + (o.pop ? " pop" : "")}>${o.tag}</span>` : null}
-                <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <span class="fq-days"><b>Yes, refill every ${o.days} days with ${usd(Math.round((SCENT_ONE - o.price) * 100) / 100)} OFF on my scent.</b></span>
-                <span class="fq-price"><b>${usd(o.price)}</b><small>/scent</small></span>
-                <span class="fq-sub">Free Shipping, right at your doorstep. <strong>Swap, pause or cancel anytime.</strong></span>
-              </div>`; })}
-            ${(() => { const on = sel.oneTime(); const pick = () => sel.setPlan("one"); return html`
-              <div key="one" class=${"fq fq-one" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => { if (e.key === "Enter" || e.key === " ") pick(); }}>
-                <span class=${"ot-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                <span class="fq-days"><b>One-Time Payment</b></span>
-                <span class="fq-sub">No automatic refill, scents at ${usd(SCENT_ONE)} each.</span>
-              </div>`; })()}
-          </div>
-          <!-- dk8 (owner): "Fact: 86%..." and the order summary are gone; the button always shows the price and, with no scent picked yet, scrolls to Step 2 -->
-          <button class="btn atc" disabled=${busy} onClick=${() => left > 0 ? needScent() : addToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
-          </button>
-          ${sel.oneTime() ? html`<div class="atc-pay">or 4 interest-free payments of <b>${usd(Math.ceil(sel.today() / 4 * 100) / 100)}</b> with <span class="shoppay-lock" aria-label="Shop Pay"><span class="shoppay-wrap" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span><b>Pay</b></span></div>` : null}
-          <div class="atc-chips">
-            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
-            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
-            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
-          </div>
+          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your ${T.scents} scents ➔</span></button>
+          ${chips}
 
           <${Reviews6}/>
           <div class="acc faq">
@@ -941,7 +932,55 @@ function BuyBox() {
               </div>`)}
           </div>
           <${PatriciaCard}/>
-          <//>
+          <//>` : step === 2 ? html`<${Fragment} key="step2">
+          <div class="step-eyebrow">Step #2</div>
+          <div class="s9-head"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div>
+          <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
+            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const tap = () => sel.toggle(f.key); return html`
+              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "")} role="checkbox" aria-checked=${on} tabindex="0" onClick=${tap} onKeyDown=${(e) => key(e, tap)}>
+                <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
+                ${q > 1 ? html`<span class="e4-qty">×${q}</span>` : null}
+                ${on && !full ? html`<button type="button" class="e4-plus" aria-label=${"Add another " + f.name} onClick=${(e) => { e.stopPropagation(); sel.add(f.key); }}>+1</button>` : null}
+                <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
+                <span class="pick-scent e4-name">${f.name}</span>
+              </div>`; })}
+          </div>
+          <div class="e4-bar" aria-live="polite">${lastF
+            ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span><span class="e4-txt"><b>${lastF.name}</b> · ${lastF.intention} · <span class=${"pick-str s-" + lastF.strength} title="Scent strength"><i></i><i></i><i></i>${lastF.strength}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
+            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt">Tap a scent to see what it smells like. Tap it again to remove it.</span>`}</div>
+          <div class="navrow">
+            <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
+            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}
+          </div>
+          ${chips}
+          <//>` : html`<${Fragment} key="step3">
+          <div class="step-eyebrow">Step #3</div>
+          <div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>
+          <div class="kitrev k9">
+            ${rows.map(({ f, q }) => html`
+              <div class="kr-row" key=${f.key}>
+                <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
+                <span class="kr-tx"><b>${q}× ${f.name}</b><span class="kr-sub">${f.intention} · 100ml</span></span>
+                <span class="kr-pr">${usd(q * SCENT_ONE)}</span>
+              </div>`)}
+            <div class="kr-row kr-kit">
+              <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
+              <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
+              <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
+            </div>
+            <div class="kr-total"><span>You pay today:</span><b>${usd(sel.today())}</b></div>
+          </div>
+          <div class="s9-freq-head">Refill my ${T.scents} scents every:</div>
+          <div class="rf3" role="radiogroup" aria-label="Refill frequency">
+            ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small>${o.tag}</small>` : null}</button>`; })}
+          </div>
+          <p class="s9-freq-note">Same price every time. <b>Pause, cancel or swap anytime.</b></p>
+          <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
+            <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
+          </button>
+          ${chips}
+          <div class="navrow back-only"><button class="btn secondary wide" onClick=${() => go(2)}>← Change my scents</button></div>
+          <//>`}
         </div>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
@@ -1095,7 +1134,7 @@ function StickyBar() {
     let raf = 0;
     const calc = () => {
       raf = 0;
-      const t = document.querySelector("#buybox .picker");
+      const t = document.querySelector("#buybox .tiers, #buybox .picker, #buybox .kitrev"); /* dk9: the step's main block */
       const a = document.querySelector("#buybox .step-next, #buybox .navrow .btn:not(.secondary), #buybox .btn.atc");
       if (!t || !a) return setShow(false);
       const tr = t.getBoundingClientRect(), ar = a.getBoundingClientRect();
@@ -1110,14 +1149,13 @@ function StickyBar() {
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, [step]);
   const left = sel.left();
-  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { const el = document.getElementById("buybox"); if (el) el.scrollIntoView({ block: "start" }); }); };
+  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = busy ? "One moment\u2026" : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`; /* dk8: always the price; a tap without a scent scrolls to Step 2 */
-  const sub = T.scents > 0 ? (sel.oneTime() ? ONE_SUB : OFFER_SUB_FOR(T)) : "Free shipping \u00b7 30-day money-back";
-  const act = () => { if (left > 0) { goPick(); nudgePicker(); setToast("Pick your free scent first. It\u2019s included."); return; } addToCart(setBusy, setToast); };
+  const label = busy ? "One moment\u2026" : step === 1 ? `Pick your ${T.scents} scents \u2794` : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`; /* dk9: step-aware */
+  const act = () => { if (step === 1) return go(2); if (step === 2) return left > 0 ? goPick() : go(3); addToCart(setBusy, setToast); };
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy} onClick=${act}>
+      <button class="btn" disabled=${busy || (step === 2 && left > 0)} onClick=${act}>
         <span>${label}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>

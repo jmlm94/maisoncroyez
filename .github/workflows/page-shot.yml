@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-14 ~17:1x UTC (after the dk8e deploy): kits page — expect key dk8e-b55025a, body match, the seven botanical picker photos, drawer open on sub-30 and one-time with Chilled Citrus picked by the check.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-20: reference capture of /pages/build-your-kit (the owner says it converted well) for the kits dk9 rebuild — defaults temporarily point at it.
 on:
   workflow_dispatch:
     inputs:
@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/shots' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/build-your-kit' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/kit-builder/shots-live' }}
       BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits/page-body.html' }}
-      CART: ${{ github.event.inputs.cart || 'yes' }}
+      CART: ${{ github.event.inputs.cart || 'no' }}
     steps:
       - uses: actions/checkout@v4
         with:

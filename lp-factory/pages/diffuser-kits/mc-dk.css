@@ -1482,3 +1482,29 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root #buybox.step-2 .atc-chips,#root #buybox.step-3 .atc-chips{margin-top:4px}
 #root #buybox.step-3 .btn.atc{margin-top:2px}
 #root .kitrev.k9{margin:0 0 4px}
+/* dk9c-c: step 1 on a phone — thinner rows, smaller step title, guarantees as one line */
+@media (max-width:699px){
+#root #buybox.step-1 .buybox{gap:8px}
+#root #buybox.step-1 .tb-rating{margin-bottom:-4px}
+#root #buybox.step-1 .s9-title{font-size:1.2rem;margin-bottom:2px !important}
+#root .tier.t9r{padding:7px 10px;gap:10px}
+#root .tier.t9r > .ph.sq{width:44px !important;height:44px !important;flex-basis:44px}
+#root .tier.t9r .tier-name{font-size:.95rem}
+#root .t9-line{font-size:.72rem}
+#root .tiers.t9{gap:8px;margin-bottom:2px}
+#root #buybox.step-1 .hs3 .hs{padding:6px 4px;font-size:.6rem}
+#root #buybox.step-1 .atc-chips{display:flex;gap:4px;margin-top:6px}
+#root #buybox.step-1 .atc-chip{flex:1;flex-direction:row;gap:4px;padding:6px 4px;border-radius:999px;justify-content:center}
+#root #buybox.step-1 .atc-chip .atc-chip-ic{font-size:13px;line-height:1}
+#root #buybox.step-1 .atc-chip b{font-size:.6rem;line-height:1.1;white-space:nowrap}
+#root #buybox.step-1 .atc-chip small{display:none}
+#root #buybox.step-1 .btn.step-next{margin-top:2px}
+}
+/* dk9c-d: on a phone the three health badges sit on the bottom edge of the hero picture (step 1) */
+@media (max-width:699px){
+#root #buybox.step-1 .gal{position:relative}
+#root #buybox.step-1 .hs3{position:absolute;left:12px;right:12px;bottom:10px;z-index:3;margin:0;gap:5px}
+#root #buybox.step-1 .hs3 .hs{background:rgba(255,255,255,.94);box-shadow:0 2px 8px rgba(0,0,0,.14);padding:6px 3px;font-size:.58rem}
+}
+#root .gal-col{position:relative}
+@media (min-width:700px){#root .gal-col .hs3{margin-top:10px}}

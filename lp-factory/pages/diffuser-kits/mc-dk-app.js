@@ -893,13 +893,12 @@ function BuyBox() {
   return html`
     <section class=${"section pdp-buy step-" + step} id="buybox">
       <div class="wrap">
-        <div class="gal-col"><${Gallery}/></div>
+        <div class="gal-col"><${Gallery}/>${step === 1 ? html`<div class="hs3">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div>` : null}</div> <!-- dk9c: health badges, on the hero's bottom edge on a phone, under it on desktop -->
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
-          <div class="hs3">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div>
 
           <div class="step-eyebrow">Step 1 of 3</div>
           <div class="picker-title step-title s9-title">How many spaces deserve to have the <em>intention you’re seeking?</em></div>

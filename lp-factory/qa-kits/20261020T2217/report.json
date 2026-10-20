@@ -1,0 +1,580 @@
+{
+ "stamp": "20261020T2217",
+ "url": "https://maisoncroyez.com/pages/diffuser-kits",
+ "pass": 40,
+ "total": 45,
+ "checks": [
+  {
+   "id": "phone-s1-mount",
+   "name": "step 1 mounts: \"Step 1 of 3\", three option cards, 2 diffusers selected",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "tiers": 3,
+    "on": "Living Room & Bedroom"
+   }
+  },
+  {
+   "id": "phone-s1-hero",
+   "name": "hero is the square picture, no video, no countdown",
+   "ok": false,
+   "got": {
+    "w": 720,
+    "loaded": true,
+    "src": "LuC3lyGsaJxtr52+6uwYCwKmxQ5RxEhQucfAAAA="
+   }
+  },
+  {
+   "id": "phone-s1-copy",
+   "name": "title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price",
+   "ok": true,
+   "got": {
+    "h1": "Maison Croyez: Your home deserves to look and feel great and safe. Protect your loved ones with our waterless diffuser & 100% organic scents.",
+    "badges": [
+     "🫁 NO SMOKE, NO AEROSOL, NO HARM.",
+     "💧 NO WATER, NO MOLD, YOUR FAMILY SAFE.",
+     "🧘 REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY."
+    ],
+    "tiers": [
+     "Living Room 1 diffuser $89.95 FREE",
+     "MOST POPULAR Living Room & Bedroom 2 diffusers $179.90 FREE",
+     "Living Room, Bedroom & Kitchen 3 diffusers $269.85 FREE"
+    ],
+    "prices": [
+     "$89.95",
+     "$179.90",
+     "$269.85"
+    ]
+   }
+  },
+  {
+   "id": "phone-s1-place",
+   "name": "\"Where it goes\" under the options, button \"Pick your 3 scents\"",
+   "ok": true,
+   "got": {
+    "place": "WHERE IT GOES:",
+    "btn": "PICK YOUR 3 SCENTS ➔"
+   }
+  },
+  {
+   "id": "phone-s1-sticky",
+   "name": "sticky bar shows at load on step 1",
+   "ok": true,
+   "got": {
+    "shown": true,
+    "sticky": "PICK YOUR 3 SCENTS ➔"
+   }
+  },
+  {
+   "id": "phone-s1-tier1",
+   "name": "1 diffuser → \"Pick your 2 scents\"",
+   "ok": true,
+   "got": {
+    "btn": "PICK YOUR 2 SCENTS ➔",
+    "on": "Living Room"
+   }
+  },
+  {
+   "id": "phone-s2-mount",
+   "name": "step 2: \"Step 2 of 3\", title with colon, reserved card with struck value + FREE!, 7 tiles, no Popular badges, 0 of 3 picked",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "title": "Pick your 3 scents:",
+    "res": "2 FREE DIFFUSERS RESERVED Living Room & Bedroom · $179.90 FREE!",
+    "tiles": 7,
+    "popular": 0,
+    "pill": "0 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "phone-s2-fold",
+   "name": "step 2 fits the phone screen through the guarantees",
+   "ok": true,
+   "got": {
+    "chipsBottom": 779,
+    "vh": 844
+   }
+  },
+  {
+   "id": "phone-s2-bar0",
+   "name": "bar: \"Tap a scent to read…\" + Ingredients link",
+   "ok": true,
+   "got": {
+    "bar": "👆 Tap a scent to read what it smells like. + adds it, − takes it out. Ingredients ↓"
+   }
+  },
+  {
+   "id": "phone-s2-peek",
+   "name": "a tap on a tile only reads it (Wildwood Mystique in the bar, nothing added)",
+   "ok": true,
+   "got": {
+    "on": [],
+    "bar": "🌲 Wildwood Mystique · Purification · BOLD Smells like: Pine",
+    "hint": "Pick 3 more scents above to review your kit."
+   }
+  },
+  {
+   "id": "phone-s2-ingr",
+   "name": "Ingredients link opens the seven-line list",
+   "ok": true,
+   "got": 7
+  },
+  {
+   "id": "phone-s2-plus",
+   "name": "+ twice on Chilled Citrus → x2, \"1 more\"",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x2"
+    ],
+    "hint": "Pick 1 more scent above to review your kit.",
+    "pill": "2 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "phone-s2-full",
+   "name": "− then + on two others → 3 of 3, \"Review my kit\", + disabled",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "hint": null,
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "phone-s2-cap",
+   "name": "no fourth scent can be added",
+   "ok": true,
+   "got": true
+  },
+  {
+   "id": "phone-s3-mount",
+   "name": "step 3: picture, \"Step 3 of 3\", congratulations title, 3 scent rows + 2 diffusers struck FREE",
+   "ok": true,
+   "got": {
+    "banner": {
+     "loaded": true,
+     "w": 1600,
+     "src": "files/mc-dk-step3-1600x900.webp?v=1792532870"
+    },
+    "step": "STEP 3 OF 3",
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Golden Blossom Harmony $39.95",
+     "2× Maison Croyez Diffuser $179.90FREE"
+    ]
+   }
+  },
+  {
+   "id": "phone-s3-due",
+   "name": "value line + DUE TODAY $119.85",
+   "ok": true,
+   "got": {
+    "value": "That’s $299.75 of value, you pay $119.85 today.",
+    "due": "DUE TODAY: $119.85"
+   }
+  },
+  {
+   "id": "phone-s3-freq",
+   "name": "60 / 30 (Most popular, selected) / 90, fixed note, no payment logos, button $119.85",
+   "ok": true,
+   "got": {
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR",
+    "note": "Swap, pause and cancel anytime. If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.",
+    "paylogos": false,
+    "btn": "ADD TO CART — $119.85 ➔"
+   }
+  },
+  {
+   "id": "phone-s3-fold",
+   "name": "Add to cart ends inside the phone screen",
+   "ok": false,
+   "got": {
+    "atcBottom": 887,
+    "vh": 844
+   }
+  },
+  {
+   "id": "phone-s3-below",
+   "name": "guarantees, testimonials and FAQ under the button",
+   "ok": true,
+   "got": {
+    "chips": true,
+    "reviews": true,
+    "faq": 10
+   }
+  },
+  {
+   "id": "phone-s3-90",
+   "name": "90 days selects, note unchanged",
+   "ok": true,
+   "got": {
+    "on": "90 days",
+    "note": "Swap, pause and cancel anytime. If your "
+   }
+  },
+  {
+   "id": "phone-back",
+   "name": "\"Change my scents\" returns to step 2 with the picks kept",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ]
+   }
+  },
+  {
+   "id": "phone-errors",
+   "name": "no JavaScript or console errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "desktop-s1-mount",
+   "name": "step 1 mounts: \"Step 1 of 3\", three option cards, 2 diffusers selected",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "tiers": 3,
+    "on": "Living Room & Bedroom"
+   }
+  },
+  {
+   "id": "desktop-s1-hero",
+   "name": "hero is the square picture, no video, no countdown",
+   "ok": false,
+   "got": {
+    "w": 720,
+    "loaded": true,
+    "src": "LuC3lyGsaJxtr52+6uwYCwKmxQ5RxEhQucfAAAA="
+   }
+  },
+  {
+   "id": "desktop-s1-copy",
+   "name": "title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price",
+   "ok": true,
+   "got": {
+    "h1": "Maison Croyez: Your home deserves to look and feel great and safe. Protect your loved ones with our waterless diffuser & 100% organic scents.",
+    "badges": [
+     "🫁 NO SMOKE, NO AEROSOL, NO HARM.",
+     "💧 NO WATER, NO MOLD, YOUR FAMILY SAFE.",
+     "🧘 REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY."
+    ],
+    "tiers": [
+     "Living Room 1 diffuser $89.95 FREE",
+     "MOST POPULAR Living Room & Bedroom 2 diffusers $179.90 FREE",
+     "Living Room, Bedroom & Kitchen 3 diffusers $269.85 FREE"
+    ],
+    "prices": [
+     "$89.95",
+     "$179.90",
+     "$269.85"
+    ]
+   }
+  },
+  {
+   "id": "desktop-s1-place",
+   "name": "\"Where it goes\" under the options, button \"Pick your 3 scents\"",
+   "ok": true,
+   "got": {
+    "place": "WHERE IT GOES:",
+    "btn": "PICK YOUR 3 SCENTS ➔"
+   }
+  },
+  {
+   "id": "desktop-s1-tier1",
+   "name": "1 diffuser → \"Pick your 2 scents\"",
+   "ok": true,
+   "got": {
+    "btn": "PICK YOUR 2 SCENTS ➔",
+    "on": "Living Room"
+   }
+  },
+  {
+   "id": "desktop-s2-mount",
+   "name": "step 2: \"Step 2 of 3\", title with colon, reserved card with struck value + FREE!, 7 tiles, no Popular badges, 0 of 3 picked",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "title": "Pick your 3 scents:",
+    "res": "2 FREE DIFFUSERS RESERVED Living Room & Bedroom · $179.90 FREE!",
+    "tiles": 7,
+    "popular": 0,
+    "pill": "0 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "desktop-s2-fold",
+   "name": "step 2 fits the desktop window",
+   "ok": true,
+   "got": {
+    "chipsBottom": 592,
+    "vh": 900
+   }
+  },
+  {
+   "id": "desktop-s2-bar0",
+   "name": "bar: \"Tap a scent to read…\" + Ingredients link",
+   "ok": true,
+   "got": {
+    "bar": "👆 Tap a scent to read what it smells like. + adds it, − takes it out. Ingredients ↓"
+   }
+  },
+  {
+   "id": "desktop-s2-peek",
+   "name": "a tap on a tile only reads it (Wildwood Mystique in the bar, nothing added)",
+   "ok": true,
+   "got": {
+    "on": [],
+    "bar": "🌲 Wildwood Mystique · Purification · BOLD Smells like: Pine",
+    "hint": "Pick 3 more scents above to review your kit."
+   }
+  },
+  {
+   "id": "desktop-s2-ingr",
+   "name": "Ingredients link opens the seven-line list",
+   "ok": true,
+   "got": 7
+  },
+  {
+   "id": "desktop-s2-plus",
+   "name": "+ twice on Chilled Citrus → x2, \"1 more\"",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x2"
+    ],
+    "hint": "Pick 1 more scent above to review your kit.",
+    "pill": "2 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "desktop-s2-full",
+   "name": "− then + on two others → 3 of 3, \"Review my kit\", + disabled",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "hint": null,
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "desktop-s2-cap",
+   "name": "no fourth scent can be added",
+   "ok": true,
+   "got": true
+  },
+  {
+   "id": "desktop-s3-mount",
+   "name": "step 3: picture, \"Step 3 of 3\", congratulations title, 3 scent rows + 2 diffusers struck FREE",
+   "ok": true,
+   "got": {
+    "banner": {
+     "loaded": true,
+     "w": 1600,
+     "src": "files/mc-dk-step3-1600x900.webp?v=1792532870"
+    },
+    "step": "STEP 3 OF 3",
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Golden Blossom Harmony $39.95",
+     "2× Maison Croyez Diffuser $179.90FREE"
+    ]
+   }
+  },
+  {
+   "id": "desktop-s3-due",
+   "name": "value line + DUE TODAY $119.85",
+   "ok": true,
+   "got": {
+    "value": "That’s $299.75 of value, you pay $119.85 today.",
+    "due": "DUE TODAY: $119.85"
+   }
+  },
+  {
+   "id": "desktop-s3-freq",
+   "name": "60 / 30 (Most popular, selected) / 90, fixed note, no payment logos, button $119.85",
+   "ok": true,
+   "got": {
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR",
+    "note": "Swap, pause and cancel anytime. If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.",
+    "paylogos": false,
+    "btn": "ADD TO CART — $119.85 ➔"
+   }
+  },
+  {
+   "id": "desktop-s3-fold",
+   "name": "Add to cart ends inside the desktop window",
+   "ok": false,
+   "got": {
+    "atcBottom": 959,
+    "vh": 900
+   }
+  },
+  {
+   "id": "desktop-s3-below",
+   "name": "guarantees, testimonials and FAQ under the button",
+   "ok": true,
+   "got": {
+    "chips": true,
+    "reviews": true,
+    "faq": 10
+   }
+  },
+  {
+   "id": "desktop-s3-90",
+   "name": "90 days selects, note unchanged",
+   "ok": true,
+   "got": {
+    "on": "90 days",
+    "note": "Swap, pause and cancel anytime. If your "
+   }
+  },
+  {
+   "id": "desktop-back",
+   "name": "\"Change my scents\" returns to step 2 with the picks kept",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ]
+   }
+  },
+  {
+   "id": "desktop-errors",
+   "name": "no JavaScript or console errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "cart-2d-30",
+   "name": "cart: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days → drawer opens, three scents $39.95 on Monthly, kit line $159.90 → $0.00, total $119.85",
+   "ok": true,
+   "got": {
+    "btn": "ADD TO CART — $119.85 ➔",
+    "landed": "https://maisoncroyez.com/pages/diffuser-kits",
+    "drawer": true,
+    "total": 119.85,
+    "lines": [
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Monthly",
+      "disc": [
+       "FREE DIFFUSERS — 2 scent subscription -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Monthly",
+      "disc": [
+       "FREE DIFFUSERS — 2 scent subscription -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Monthly",
+      "disc": []
+     },
+     {
+      "v": 45900240289901,
+      "t": "Maison Croyez — Home Diffuser Kit / 2 FREE Diffusers + 2 Scents",
+      "q": 1,
+      "price": 159.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "FREE DIFFUSERS — 2 scent subscription -159.9"
+      ]
+     }
+    ],
+    "drawerText": "Congrats, your order is reserved! ✓ 4 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Golden Blossom Harmony – Love (100ml) ×1 Sale price $39.95 ✕ Wildwood Mystique – Purification (100ml) ×1 Sale price $39.95 ✕ Chilled Citrus – Relaxation & Concentration (100ml) ×1 Sale price $39.95 ✕ Maison Croyez — ",
+    "errs": []
+   }
+  },
+  {
+   "id": "cart-1d-90",
+   "name": "cart: 1 diffuser + Chilled Citrus x2 every 90 days → drawer opens, scent x2 $79.90 on Every 90 days, kit line $79.95 → $0.00, total $79.90",
+   "ok": false,
+   "got": {
+    "btn": "ADD TO CART — $79.90 ➔",
+    "landed": "https://maisoncroyez.com/pages/diffuser-kits",
+    "drawer": true,
+    "total": 79.9,
+    "lines": [
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 90 days",
+      "disc": []
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 90 days",
+      "disc": [
+       "FREE DIFFUSER -0"
+      ]
+     },
+     {
+      "v": 45900240257133,
+      "t": "Maison Croyez — Home Diffuser Kit / 1 FREE Diffuser + 1 Scent",
+      "q": 1,
+      "price": 79.95,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "FREE DIFFUSER -79.95"
+      ]
+     }
+    ],
+    "drawerText": "Congrats, your order is reserved! ✓ 3 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Chilled Citrus – Relaxation & Concentration (100ml) ×1 Sale price $39.95 ✕ Chilled Citrus – Relaxation & Concentration (100ml) ×1 Sale price $39.95 ✕ Maison Croyez — Home Diffuser Kit ×1 Sale price $0.00 Regular pric",
+    "errs": []
+   }
+  }
+ ]
+}

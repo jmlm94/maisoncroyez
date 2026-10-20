@@ -918,7 +918,6 @@ function BuyBox() {
               </div>`; })}
           </div>
 
-          <p class="s9-price">You pay <b>${usd(SCENT_ONE)} per scent</b> today. <b>The diffusers are free.</b></p> <!-- dk9f (CRO #1): the price before step 3 -->
           <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right; dk9d: back under the options -->
             <div class="place-grid">
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
@@ -946,7 +945,7 @@ function BuyBox() {
           <${PatriciaCard}/>
           <//>` : step === 2 ? html`<${Fragment} key="step2">
           <div class="step-eyebrow">Step 2 of 3</div>
-          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span><button type="button" class="s9-top" onClick=${() => { const ks = fillKeys(T.scents); sel.setKeys(ks); sel.last = ks[0]; sel.emit(); }}>\u2728 Top ${T.scents} for me</button></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name}</small><small>You pay <b>${usd(SCENT_ONE)}/scent</b> today</small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
+          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \u00b7 ${usd(T.n * DIFF_VALUE)} value</small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->

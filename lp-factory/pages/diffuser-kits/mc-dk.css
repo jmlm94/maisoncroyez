@@ -1591,3 +1591,6 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root #buybox.step-2 .e4-bar{flex-wrap:nowrap}
 #root .e4-bar .s9-ingr-link{display:inline;flex-basis:auto;padding:0;margin-left:4px;font-size:.68rem;vertical-align:baseline}
 @media (max-width:699px){#root .buybox .s9-head2 .s9-title{font-size:1.3rem}#root .s9-res{max-width:172px;padding:6px 8px 6px 6px}}
+/* dk9g (2026-10-20, owner): price line and top-picks shortcut removed; "Most popular" on the 30-day option as a coloured pill */
+#root .rf3-opt small{background:#A3874A;color:#fff;border-radius:999px;padding:3px 8px;font-size:.54rem;letter-spacing:.08em;line-height:1.2;margin-top:2px}
+#root .rf3-opt.on small{background:#8A4B4B}

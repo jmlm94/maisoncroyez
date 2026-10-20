@@ -945,7 +945,7 @@ function BuyBox() {
           <${PatriciaCard}/>
           <//>` : step === 2 ? html`<${Fragment} key="step2">
           <div class="step-eyebrow">Step 2 of 3</div>
-          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \u00b7 ${usd(T.n * DIFF_VALUE)} value</small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
+          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
@@ -991,13 +991,13 @@ function BuyBox() {
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small>${o.tag}</small>` : null}</button>`; })}
           </div>
           ${sel.freq === 30
-            ? html`<p class="s9-freq-note">Same price every time. Next box: <b>${T.scents} scent${T.scents > 1 ? "s" : ""} \u00b7 ${usd(sel.today())}</b> around <b>${nextDate(30)}</b>. <b>Pause, cancel or swap anytime.</b></p>`
-            : html`<p class="s9-freq-note s9-warn">\u26a0\ufe0f A bottle lasts about 30 days: every ${sel.freq} days leaves your rooms <b>${sel.freq === 60 ? "a month" : "two months"} without scent</b> between boxes. Most customers pick 30. Next box around <b>${nextDate(sel.freq)}</b>, same price.</p>`} <!-- dk9f (owner): less often = gaps; CRO #4: next box with a date computed at view time -->
+            ? html`<p class="s9-freq-note"><b>Pause, cancel or swap anytime.</b> 86% of customers stay with us after 6+ months.</p>`
+            : html`<p class="s9-freq-note s9-warn">\u26a0\ufe0f A bottle lasts about 30 days: every ${sel.freq} days leaves your rooms <b>${sel.freq === 60 ? "a month" : "two months"} without scent</b> between boxes. Most customers pick 30.</p>`} <!-- dk9h (owner comments): the owner's line for 30 days; the 60/90 warning stays, no dates -->
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>
-          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div> <!-- dk9f (CRO #4) -->
           ${chips}
+          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div> <!-- dk9f (CRO #4); dk9h (owner): below the badges -->
           <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`

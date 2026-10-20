@@ -1594,3 +1594,12 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* dk9g (2026-10-20, owner): price line and top-picks shortcut removed; "Most popular" on the 30-day option as a coloured pill */
 #root .rf3-opt small{background:#A3874A;color:#fff;border-radius:999px;padding:3px 8px;font-size:.54rem;letter-spacing:.08em;line-height:1.2;margin-top:2px}
 #root .rf3-opt.on small{background:#8A4B4B}
+/* dk9h (2026-10-20, owner comments on v25): centred 60/90 options, black Most popular pill, bigger step-3 title, FREE! in the reserved card, secure row under the badges */
+#root .rf3-opt{justify-content:center;text-align:center;min-height:60px}
+#root .rf3-opt b{width:100%;text-align:center}
+#root .rf3-opt small,#root .rf3-opt.on small{background:#141414;color:#fff}
+@media (max-width:699px){#root #buybox.step-3 .s9-title{font-size:1.4rem}}
+@media (min-width:700px){#root #buybox.step-3 .s9-title{font-size:1.75rem}}
+#root .s9-res-tx small s{color:#141414}
+#root .s9-res-tx small .s9-free{color:#1E7A1E;font-weight:800}
+#root .atc-secure{margin-top:10px}

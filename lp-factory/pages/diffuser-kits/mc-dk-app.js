@@ -115,7 +115,11 @@ const CONFIG = {
     booklet: "",
     trustStrip: [
     ],
-    accordions: [
+    accordions: [ /* dk9c (2026-10-20): the four subscription questions from /pages/build-your-kit first (owner to confirm the policies) */
+      { q: "When am I charged?", a: "Today you pay only for your scents. Then your scents renew at the frequency you picked (every 30, 60 or 90 days) as each new box ships. You get an email reminder before every renewal." },
+      { q: "Are the diffusers really free?", a: "Yes. Today you pay only for your scents, the diffusers ship free with your first box, and on your third delivery they\u2019re permanently yours. Cancel in the first 30 days and we refund every dollar and send a prepaid return label for the diffusers." },
+      { q: "Can I swap scents?", a: "Yes, swap any of your intentions before any delivery, right from your delivery email. No calls, no forms." },
+      { q: "What if I cancel?", a: "Cancel anytime from any delivery email. Within the first 30 days we refund every dollar and send a prepaid label for the diffusers, the scents stay with you." },
       { q: "Is this a better alternative than plug-ins, candles & room sprays?", a: "Yes, and that is the whole reason it exists. Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, a spray masks a smell for a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day. One bottle lasts 30+ days on the everyday setting." },
       { q: "Will this diffuser grow mold or would it leak like my last one?", a: "No. There is no water in it: no tank, no standing water, nothing that can grow. The bottle locks into the diffuser, so you can tip it, move it room to room or pack it for a trip. Nothing spills and there is nothing to clean, ever." },
       { q: "Do the scents eliminate pet and food odors?", a: "Yes. A spray sits on top of a smell for a few minutes. A dry mist fills the whole room and keeps going, so pet, kitchen and closed-up-house odors stop coming back. In our last customer survey, dog smell was the first thing one customer said it fixed." },
@@ -579,9 +583,9 @@ const PAY_ICONS = { row: "<svg class=\"paylogo-svg\" xmlns=\"http://www.w3.org/2
 const SCENT_EMOJI = { love: "🌻", abundance: "🍊", focus: "🌿", ideas: "🍯", energy: "🍑", purify: "🌲", midnight: "🌙" };
 const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one: "linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)" };
 const TIERS = [ /* dk9 (2026-10-20, owner): free diffusers with a scent subscription — 1 diffuser for 2 scents, 2 for 3, 3 for 5. Step 1 shows no prices; the card copy is the owner's reference card. */
-  { key: "one", n: 1, name: "Living Room", scents: 2, price: 79.90, oneTime: 0, tag: "", pop: false, bul: ["1 free diffuser, your signature space, covered.", "Up to 600 sq ft covered \u00b7 2,500+ homes scented."], rooms: ["\ud83d\udecb\ufe0f Studio", "\ud83d\udec1 Bathroom", "\ud83d\udeaa Entry"], where: "<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand, anywhere with a plug." },
-  { key: "two", n: 2, name: "Living Room & Bedroom", scents: 3, price: 119.85, oneTime: 0, tag: "Most popular", pop: true, bul: ["2 free diffusers, where you host and where you rest.", "Up to 1,200 sq ft of total coverage."], rooms: ["\ud83d\udecb\ufe0f Living Room", "\ud83d\udecf\ufe0f Bedroom", "\ud83c\udf73 Kitchen"], where: "<b>Two diffusers for one bigger room:</b> the living room, the bedroom or the kitchen. Two coverage zones, so the far corners smell as good as the middle." },
-  { key: "three", n: 3, name: "Living Room, Bedroom & Kitchen", scents: 5, price: 199.75, oneTime: 0, tag: "", pop: false, bul: ["3 free diffusers, your whole home holds the scent.", "Up to 1,800 sq ft, whole-home coverage."], rooms: ["\ud83c\udfe0 1+ Rooms", "\ud83d\udccf Large Spaces"], where: "<b>Two in the living room, one in the bedroom.</b> Or any split you like: large spaces, more than one room, the whole floor." },
+  { key: "one", n: 1, name: "Living Room", line: "1 free diffuser \u00b7 up to 600 sq ft", scents: 2, price: 79.90, oneTime: 0, tag: "", pop: false, bul: ["1 free diffuser, your signature space, covered.", "Up to 600 sq ft covered \u00b7 2,500+ homes scented."], rooms: ["\ud83d\udecb\ufe0f Studio", "\ud83d\udec1 Bathroom", "\ud83d\udeaa Entry"], where: "<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand, anywhere with a plug." },
+  { key: "two", n: 2, name: "Living Room & Bedroom", line: "2 free diffusers \u00b7 up to 1,200 sq ft", scents: 3, price: 119.85, oneTime: 0, tag: "Most popular", pop: true, bul: ["2 free diffusers, where you host and where you rest.", "Up to 1,200 sq ft of total coverage."], rooms: ["\ud83d\udecb\ufe0f Living Room", "\ud83d\udecf\ufe0f Bedroom", "\ud83c\udf73 Kitchen"], where: "<b>Two diffusers for one bigger room:</b> the living room, the bedroom or the kitchen. Two coverage zones, so the far corners smell as good as the middle." },
+  { key: "three", n: 3, name: "Living Room, Bedroom & Kitchen", line: "3 free diffusers \u00b7 up to 1,800 sq ft", scents: 5, price: 199.75, oneTime: 0, tag: "", pop: false, bul: ["3 free diffusers, your whole home holds the scent.", "Up to 1,800 sq ft, whole-home coverage."], rooms: ["\ud83c\udfe0 1+ Rooms", "\ud83d\udccf Large Spaces"], where: "<b>Two in the living room, one in the bedroom.</b> Or any split you like: large spaces, more than one room, the whole floor." },
 ];
 /* dk7 (2026-10-13, owner): one refill option (every 30 days, $15 off) or one-time; "Where it goes" floor plans per kit: 1 = one room, 2 = two zones in one bigger room, 3 = two in the living room + one in the bedroom */
 const PLANS = { one: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: one diffuser in a studio"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="120" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="160" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="170" cy="100" r="86" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="170" cy="100" r="9" fill="#141414"/><circle cx="170" cy="100" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">STUDIO</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">ONE ROOM, UP TO 600 SQ FT</text></svg>', two: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in one large room"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="26" y="24" width="130" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="64" width="60" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="212" y="78" width="72" height="44" rx="6" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="222" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="262" y="160" width="36" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="98" cy="80" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="98" cy="80" r="9" fill="#141414"/><circle cx="98" cy="80" r="3.5" fill="#fff"/><circle cx="226" cy="124" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="226" cy="124" r="9" fill="#141414"/><circle cx="226" cy="124" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">OR THE BEDROOM, OR THE KITCHEN</text></svg>', three: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in the living room, one in the bedroom"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="196" y1="8" x2="196" y2="88" stroke="#241C18" stroke-width="3"/><line x1="196" y1="124" x2="196" y2="202" stroke="#241C18" stroke-width="3"/><path d="M196 88 a36 36 0 0 1 36 36" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="196" y1="88" x2="232" y2="88" stroke="#241C18" stroke-width="1.4"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="62" width="60" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="150" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="166" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="100" cy="64" r="52" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="100" cy="64" r="9" fill="#141414"/><circle cx="100" cy="64" r="3.5" fill="#fff"/><circle cx="150" cy="150" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="150" cy="150" r="9" fill="#141414"/><circle cx="150" cy="150" r="3.5" fill="#fff"/><circle cx="254" cy="118" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="254" cy="118" r="9" fill="#141414"/><circle cx="254" cy="118" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="208" y="196" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">BEDROOM</text></svg>' };
@@ -764,7 +768,7 @@ function HeroStill({ poster }) {
     im.className = "simg hv-poster"; w.appendChild(im);
     const v = document.getElementById("mc-hero-v"); if (v && v.parentNode) { try { v.pause(); } catch (e) {} v.parentNode.removeChild(v); }
   }, []);
-  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div><${HoldTimer} key="timer"/>`;
+  return html`<div class="hv-pwrap" ref=${pw} key="poster"></div>`; /* dk9c (owner): no countdown badge */
 }
 function Gallery() {
   const [idx, setIdx] = useState(0);
@@ -815,6 +819,12 @@ const USP3 = [
   { ic: "🐾", tx: "Removes pet odor\ninstantly." },
   { ic: "🕯️", tx: "Replaces room sprays, plug-ins and candles instantly." }, /* dk8b (2026-10-14, owner): was "Organic Ingredients from France." */
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
+];
+/* dk9c (2026-10-20, owner): the health / emotion angles — above the fold on every step */
+const HEALTH3 = [
+  { ic: "\ud83e\udec1", short: "No smoke, no aerosol", tx: "No smoke, soot or aerosol. Easier on lungs and allergies." },
+  { ic: "\ud83d\udca7", short: "No water, no mold", tx: "Waterless: no tank, no mold. Safe around kids and pets." },
+  { ic: "\ud83e\uddd8", short: "Calms stress", tx: "Lavender, citrus and wood notes that lower stress and quiet a racing mind." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -888,24 +898,26 @@ function BuyBox() {
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1>Home Diffuser & Manifestation Scents: Make your spaces look and feel great, effortlessly.</h1>
-          <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone -->
-          <div class="usp3">${USP3.map((u) => html`<span class="usp" key=${u.tx}><span class="usp-ic" aria-hidden="true">${u.ic}</span><span class="usp-tx">${u.tx}</span></span>`)}</div>
+          <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
+          <div class="hs3">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div>
 
-          <div class="step-eyebrow">Step #1</div>
+          <div class="step-eyebrow">Step 1 of 3</div>
           <div class="picker-title step-title s9-title">How many spaces deserve to have the <em>intention you’re seeking?</em></div>
-          <div class="tiers t9" role="radiogroup" aria-label="How many free diffusers">
+          <div class="tiers t9" role="radiogroup" aria-label="How many free diffusers"> <!-- dk9c (owner): three compact rows, the card copy was redundant -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+              <div key=${t.key} class=${"tier t9r" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <${Img} slot=${"kit" + t.n} alt=${t.name}/>
                 <span class="tier-main">
                   <span class="tier-name">${t.name}</span>
-                  <span class="t9-val"><s>${usd(val)}</s> <b>FREE</b></span>
-                  <span class="tier-claim">You’re claiming <b>${usd(val)}</b> of diffusers, free</span>
-                  <ul class="t9-bul">${t.bul.map((b) => html`<li key=${b}>${b}</li>`)}</ul>
+                  <span class="t9-line">${t.line}</span>
                 </span>
+                <span class="t9-val"><s>${usd(val)}</s><b>FREE</b></span>
               </div>`; })}
           </div>
+
+          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your ${T.scents} scents ➔</span></button>
+          ${chips}
 
           <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right -->
             <div class="place-grid">
@@ -917,9 +929,6 @@ function BuyBox() {
               </div>
             </div>
           </div>
-
-          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your ${T.scents} scents ➔</span></button>
-          ${chips}
 
           <${Reviews6}/>
           <div class="acc faq">
@@ -933,28 +942,32 @@ function BuyBox() {
           </div>
           <${PatriciaCard}/>
           <//>` : step === 2 ? html`<${Fragment} key="step2">
-          <div class="step-eyebrow">Step #2</div>
+          <div class="step-eyebrow">Step 2 of 3</div>
           <div class="s9-head"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div>
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
-            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const tap = () => sel.toggle(f.key); return html`
-              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "")} role="checkbox" aria-checked=${on} tabindex="0" onClick=${tap} onKeyDown=${(e) => key(e, tap)}>
-                <span class=${"ot-dot cell-dot" + (on ? " chk" : "")} aria-hidden="true"></span>
-                ${q > 1 ? html`<span class="e4-qty">×${q}</span>` : null}
-                ${on && !full ? html`<button type="button" class="e4-plus" aria-label=${"Add another " + f.name} onClick=${(e) => { e.stopPropagation(); sel.add(f.key); }}>+1</button>` : null}
+            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; return html`
+              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${more} onKeyDown=${(e) => key(e, more)}>
                 <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
                 <span class="pick-scent e4-name">${f.name}</span>
+                <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector -->
+                  <button type="button" aria-label=${"Remove one " + f.name} disabled=${q === 0} onClick=${() => { sel.last = f.key; sel.remove(f.key); }}>\u2212</button>
+                  <b>${q}</b>
+                  <button type="button" aria-label=${"Add one " + f.name} disabled=${full} onClick=${more}>+</button>
+                </span>
               </div>`; })}
           </div>
           <div class="e4-bar" aria-live="polite">${lastF
             ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span><span class="e4-txt"><b>${lastF.name}</b> · ${lastF.intention} · <span class=${"pick-str s-" + lastF.strength} title="Scent strength"><i></i><i></i><i></i>${lastF.strength}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
-            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt">Tap a scent to see what it smells like. Tap it again to remove it.</span>`}</div>
+            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt">Tap a scent to add it, or use \u2212 and +. Each one tells you what it smells like.</span>`}</div>
+          <ul class="hb3">${HEALTH3.map((h) => html`<li key=${h.short}><span class="hb-ic" aria-hidden="true">${h.ic}</span><span>${h.tx}</span></li>`)}</ul>
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}
           </div>
           ${chips}
+          <div class="booklet"><b>Worried you can\u2019t smell them all? You will.</b> Every kit ships with a sample booklet of our 7 intention scents, swap yours anytime if needed.</div> <!-- dk9c: objection card from /pages/build-your-kit -->
           <//>` : html`<${Fragment} key="step3">
-          <div class="step-eyebrow">Step #3</div>
+          <div class="step-eyebrow">Step 3 of 3</div>
           <div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>
           <div class="kitrev k9">
             ${rows.map(({ f, q }) => html`
@@ -979,6 +992,16 @@ function BuyBox() {
             <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>
           ${chips}
+          <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
+          <div class="acc faq">
+            ${B.accordions.map((f, i) => html`
+              <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
+                <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
+                  ${f.q}<span class="plus">+</span>
+                </button>
+                <div class="ans"><p>${f.a}</p>${f.list ? html`<ul class="faq-list">${f.list.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}</div>
+              </div>`)}
+          </div>
           <div class="navrow back-only"><button class="btn secondary wide" onClick=${() => go(2)}>← Change my scents</button></div>
           <//>`}
         </div>

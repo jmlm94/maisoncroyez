@@ -14,6 +14,59 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-20 — dk9 (key dk9-4f3f77f, LIVE 22:11 UTC): three-step page, free diffusers for a scent subscription
+Owner brief (2026-10-20): turn the page into the three-step flow again (diffusers → scents → confirmation) keeping the branding;
+new offer: 1 free diffuser for 2 scents ($79.90), 2 for 3 ($119.85), 3 for 5 ($199.75), the scents at $39.95 each; no prices on
+step 1 (each option shows the diffusers' value struck + a green FREE pill, as the owner's reference card); step 3 picks the refill
+frequency (60 / 30 / 90, 30 in the middle with the black "Most popular" pill) at the same price, no one-time option; everything
+from the announcement bar to the guarantees above the fold on steps 2 and 3; hero video replaced by a picture; health angles
+(chemical scents vs lungs / allergies, mold in water diffusers, stress / anxiety) as three all-caps badges under the title.
+Eleven preview rounds on the artifact (v20–v30; the dk8e page is backed up at https://claude.ai/artifact/VJUTCewJHhvRbYBK3t1YMp).
+
+What the page does now (`mc-dk-app.js`, `MC_HERO_STILL = true`, `TIERS`, `FREQS`, `HEALTH3`, `selStore`, `BuyBox`, `StickyBar`):
+- Step 1: announcement "THE DIFFUSERS ARE 100% ON US, JUST PICK YOUR SCENTS.", square hero picture (`mc-dk-hero-800.jpg`,
+  Shopify Files 46489007161453; the page body carries a 720×720 WebP pre-hero so nothing jumps before the app mounts), rating
+  and title centred, badges, "Step 1 of 3", "How many spaces would you like to transform today?", three option cards
+  (`.tier.t9c3`: picture, name, "N diffuser(s)", struck value, FREE), "Where it goes" panel with the coverage, "Pick your N
+  scents ➔". Sticky bar visible from load on this step.
+- Step 2: "Pick your N scents:" + "k of N picked" pill + the reserved card (kit picture, "N FREE DIFFUSERS RESERVED", struck
+  value, green FREE!). Tapping a tile only shows the scent in the smells-like bar; + adds, − removes (duplicates allowed, cap =
+  N). Inline "See the ingredients of every scent" toggle. "Review my kit ➔" appears when the kit is full.
+- Step 3: 16:9 picture (`mc-dk-step3-1600x900.webp`, Files 46489007194221), "Congratulations, your free diffusers have been
+  reserved.", kit review (scents + diffusers struck / FREE), "That's $X of value, you pay $Y today." + "Due today: $Y",
+  "Refill my N scents every:" 60 / 30 / 90, the fixed note "Swap, pause and cancel anytime. If your home doesn't feel different
+  within 30 days, full refund, and we pay the return shipping. No questions asked.", "ADD TO CART — $Y ➔", guarantees,
+  testimonials, FAQ (four subscription FAQs from /pages/build-your-kit first), "← Change my scents".
+- Cart: `CART3.kitVariants[T.key]` (Free Diffuser Kit 8277082341485, variants one 45900240257133 / two 45900240289901 / three
+  45900240322669) + the scents on `CART3.ritualPlans[freq]` (Subi group 5181898861 "02/10 Official Plan": Monthly 7876575341,
+  Every 60 days 7876608109, Every 90 days 7876640877). The kit line goes to $0 through the three automatic BXGYs "FREE DIFFUSER"
+  (1389794623597), "FREE DIFFUSERS — 2 scent subscription" (1389794852973), "FREE DIFFUSERS — 3 scent subscription"
+  (1389794951277), all verified ACTIVE on 2026-10-20.
+
+Deploy: fileUpdate 46262619439213 mc-dk-app.js (122,877 B) + 46262619471981 mc-dk.css (141,271 B) from raw @ 4f3f77f, both READY;
+pageUpdate 161846919277 with the dk9-4f3f77f body (33,215 B; updatedAt 22:11:41Z). Checks after the deploy: page-shot, qa-kits
+(rewritten for the three steps, 45 checks + two carts, gated on the live key starting with dk9) and qa-cart (K1–K7 scenarios
+added, same gate) — see STATUS.md for the results. Rollback = key dk8e-b55025a with the files at commit 98d8529.
+
+dk9j (same day, 22:55 UTC, key dk9j-b9e8578): the first live run found two things the local preview could not show. (1) The
+theme's prose rule `.prose * + :is(p, div, ul, ol){margin-block-start:var(--spacing-3)}` (12 px phones / 16 px desktop) pushed
+the step-3 review rows apart and the Add to cart button ended 43 / 59 px below the first phone / desktop screen; the pill
+"MOST POPULAR" also wrapped on a 390 px phone. Fix in mc-dk.css: `#root .kitrev > * + *{margin-block-start:0 !important}`,
+the pill `white-space:nowrap`, desktop banner 164 px and review-card padding 6 px. (2) HeroStill adopted the page body's 720 px
+inline frame and never loaded the 800 px file; it now swaps `src` to MC_HERO_POSTER once that file has loaded (same 1:1 box).
+Also: Shopify splits a doubled scent (Chilled Citrus ×2) into two ×1 lines when the automatic BXGY marks only one unit as the
+"buy" item — the total and the free kit are right; both QA scripts now compare lines merged by variant + plan + unit price.
+The local preview builder (scratchpad pw/build.mjs) now emulates the theme's prose spacing so fold numbers match live.
+Files: mc-dk-app.js 123,253 B, mc-dk.css 142,184 B from raw @ b9e8578 (READY 22:40:09Z), page body 33,220 B (updatedAt
+22:55:46Z). Rollback = key dk9-4f3f77f with the files at commit 4f3f77f (or dk8e-b55025a / 98d8529 for the two-step page).
+
+Known trade-offs (owner not yet decided): the cart shows the kit variant titles "N FREE Diffuser(s) + N Scent(s)" struck at
+$79.95 / $159.90 / $239.85 while the page shows $89.95 / $179.90 / $269.85 (rename / reprice needs the owner's go-ahead); the
+02/10 plans take $15 / $10 / $5 off from the second box while the page only promises the same $39.95 (a pleasant surprise, but
+the FAQ copy says "same price"); the four FAQ policy lines are copied from build-your-kit and not confirmed; small phones
+(360×740) scroll a little on steps 2 and 3; the automatic discount "FREE SCENT — Diffuser Kits (no subscription)" is still active
+(it targets product 8245945434221, which this page no longer adds).
+
 ## 2026-10-14 — dk8e (key dk8e-b55025a, LIVE 17:07 UTC): botanical picker photos + centred smells-like bar
 Owner uploaded seven 400×400 PNGs to Shopify Files (15:50 UTC: golden_blossom, crisp_citruss, chilled_citrusss, honey_nectarr,
 euphoric_bloom, wilwood_mistiqye, midnight_sensation) and asked for them on the Step 2 picker. The picker and the "seven scents"

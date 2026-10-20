@@ -630,6 +630,7 @@ const selStore = {
   setKeys(ks) { this.keys = ks.slice(0, this.tier().scents); this.emit(); },
   add(k) { const cap = this.tier().scents; if (this.keys.length >= cap) return false; this.keys = [...this.keys, k]; this.last = k; this.emit(); return true; }, /* dk9: up to the kit's count, duplicates allowed */
   toggle(k) { this.last = k; if (this.qty(k) > 0) { this.remove(k); return; } this.add(k); }, /* dk9: a tap on a picked tile removes one bottle */
+  peek(k) { this.last = k; this.emit(); }, /* dk9f (owner): a tap on a tile only shows the scent; + adds */
   remove(k) {
     const i = this.keys.indexOf(k);
     if (i < 0) return;
@@ -883,6 +884,9 @@ function BuyBox() {
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
   const rows = sel.grouped();
   const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
+  const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "short", day: "numeric" }); /* dk9f: computed at view time, so always current */
+  const ingr = (B.accordions.find((f) => f.list) || {}).list || [];
+  const [showIngr, setShowIngr] = useState(false);
   const chips = html`
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
@@ -893,11 +897,12 @@ function BuyBox() {
   return html`
     <section class=${"section pdp-buy step-" + step} id="buybox">
       <div class="wrap">
-        <div class="gal-col"><${Gallery}/>${step === 1 ? html`<div class="hs3">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div>` : null}</div> <!-- dk9c: health badges, on the hero's bottom edge on a phone, under it on desktop -->
+        <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <h1 class="h1-9e">Maison Croyez: Your home deserves to look and feel great and safe. Protect your loved ones with our waterless diffuser & 100% organic scents.</h1> <!-- dk9e (2026-10-20, owner) -->
+          <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
           <div class="step-eyebrow">Step 1 of 3</div>
@@ -913,6 +918,7 @@ function BuyBox() {
               </div>`; })}
           </div>
 
+          <p class="s9-price">You pay <b>${usd(SCENT_ONE)} per scent</b> today. <b>The diffusers are free.</b></p> <!-- dk9f (CRO #1): the price before step 3 -->
           <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right; dk9d: back under the options -->
             <div class="place-grid">
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
@@ -940,10 +946,11 @@ function BuyBox() {
           <${PatriciaCard}/>
           <//>` : step === 2 ? html`<${Fragment} key="step2">
           <div class="step-eyebrow">Step 2 of 3</div>
-          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \u00b7 ${usd(T.n * DIFF_VALUE)} value</small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
+          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span><button type="button" class="s9-top" onClick=${() => { const ks = fillKeys(T.scents); sel.setKeys(ks); sel.last = ks[0]; sel.emit(); }}>\u2728 Top ${T.scents} for me</button></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name}</small><small>You pay <b>${usd(SCENT_ONE)}/scent</b> today</small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
-            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; return html`
-              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${more} onKeyDown=${(e) => key(e, more)}>
+            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
+              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
+                ${f.topSeller ? html`<span class="e4-pop">Popular</span>` : null}
                 <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
                 <span class="pick-scent e4-name">${f.name}</span>
                 <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector -->
@@ -954,8 +961,9 @@ function BuyBox() {
               </div>`; })}
           </div>
           <div class="e4-bar" aria-live="polite">${lastF
-            ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span><span class="e4-txt"><b>${lastF.name}</b> · ${lastF.intention} · <span class=${"pick-str s-" + lastF.strength} title="Scent strength"><i></i><i></i><i></i>${lastF.strength}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
-            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt"><b>Tap a scent</b> to add it to your kit. Use <b>\u2212</b> and <b>+</b> if you want two of the same. Each one shows you <b>what it smells like</b>.</span>`}</div>
+            ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span><span class="e4-txt"><b>${lastF.name}</b> · ${lastF.intention} · <span class=${"pick-str s-" + lastF.strength} title="Scent strength"><i></i><i></i><i></i>${lastF.strength}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")} <button type="button" class="s9-ingr-link" aria-expanded=${showIngr} onClick=${(e) => { e.stopPropagation(); setShowIngr(!showIngr); }}>${showIngr ? "Hide ingredients \u2191" : "Ingredients \u2193"}</button></span>`
+            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt"><b>Tap a scent</b> to read what it smells like. <b>+</b> adds it, <b>\u2212</b> takes it out. <button type="button" class="s9-ingr-link" aria-expanded=${showIngr} onClick=${(e) => { e.stopPropagation(); setShowIngr(!showIngr); }}>${showIngr ? "Hide ingredients \u2191" : "Ingredients \u2193"}</button></span>`}</div> <!-- dk9f (CRO #7): the ingredient list one tap away -->
+          ${showIngr ? html`<ul class="s9-ingr-list">${ingr.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}
@@ -983,10 +991,13 @@ function BuyBox() {
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small>${o.tag}</small>` : null}</button>`; })}
           </div>
-          <p class="s9-freq-note">Same price every time. <b>Pause, cancel or swap anytime.</b></p>
+          ${sel.freq === 30
+            ? html`<p class="s9-freq-note">Same price every time. Next box: <b>${T.scents} scent${T.scents > 1 ? "s" : ""} \u00b7 ${usd(sel.today())}</b> around <b>${nextDate(30)}</b>. <b>Pause, cancel or swap anytime.</b></p>`
+            : html`<p class="s9-freq-note s9-warn">\u26a0\ufe0f A bottle lasts about 30 days: every ${sel.freq} days leaves your rooms <b>${sel.freq === 60 ? "a month" : "two months"} without scent</b> between boxes. Most customers pick 30. Next box around <b>${nextDate(sel.freq)}</b>, same price.</p>`} <!-- dk9f (owner): less often = gaps; CRO #4: next box with a date computed at view time -->
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>
+          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div> <!-- dk9f (CRO #4) -->
           ${chips}
           <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
           <div class="acc faq">
@@ -1157,7 +1168,7 @@ function StickyBar() {
       const a = document.querySelector("#buybox .step-next, #buybox .navrow .btn:not(.secondary), #buybox .btn.atc");
       if (!t || !a) return setShow(false);
       const tr = t.getBoundingClientRect(), ar = a.getBoundingClientRect();
-      const past = tr.bottom < 0;
+      const past = step === 1 ? true : tr.bottom < 0; /* dk9f (owner, CRO #2): step 1 shows the bar right away */
       const btnVisible = ar.bottom > 0 && ar.top < window.innerHeight;
       setShow(past && !btnVisible);
     };

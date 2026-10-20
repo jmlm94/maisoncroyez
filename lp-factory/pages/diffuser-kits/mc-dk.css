@@ -1558,3 +1558,36 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .s9-banner{margin:0 0 2px;border-radius:14px;overflow:hidden;background:#F7F3EE;aspect-ratio:2/1}
 #root .s9-banner img{display:block;width:100%;height:100%;object-fit:cover}
 @media (max-width:699px){#root #buybox.step-3 .s9-title{font-size:1.2rem;margin-bottom:6px !important}#root .kitrev.k9{padding:6px 10px;gap:3px}#root .s9-freq-note{font-size:.76rem;margin-top:4px}}
+/* dk9f (2026-10-20, owner + CRO round): bigger title with the badges under it, price line on steps 1-2, top-picks shortcut, Popular badges, tap = read / + = add, ingredients link, 60/90 warning, next-box line, secure checkout row, more air on steps 2-3 */
+#root .buybox h1.h1-9e{font-size:1.5rem !important;line-height:1.14 !important}
+@media (min-width:700px){#root .buybox h1.h1-9e{font-size:1.9rem !important}}
+#root .hs3.hs3-under{margin:2px 0 0}
+@media (max-width:699px){#root #buybox.step-1 .hs3{position:static;left:auto;right:auto;bottom:auto;margin:0}#root #buybox.step-1 .hs3 .hs{background:#F3F1EE;box-shadow:none;font-size:.56rem;padding:7px 4px}}
+#root .s9-price{margin:0;font-size:.82rem;line-height:1.35;color:#141414;text-align:center}
+#root #buybox.step-1 .s9-price{margin:-2px 0 2px}
+#root .s9-row2{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#root .s9-row2 .s9-price{text-align:left;flex:1;min-width:170px}
+#root .s9-top{flex:none;border:1.5px solid #141414;background:#fff;color:#141414;border-radius:999px;padding:7px 12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.02em;cursor:pointer;margin:0}
+#root .picker.e4 .e4-pop{position:absolute;top:5px;left:5px;z-index:2;background:#A3874A;color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:999px;line-height:1}
+#root .picker.e4 .pick.peek{box-shadow:0 0 0 2px #141414 inset}
+#root .s9-ingr{text-align:center}
+#root .s9-ingr-link{background:none;border:0;padding:2px 0;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;text-decoration:underline;cursor:pointer;margin:0}
+#root .s9-ingr-list{list-style:none;margin:6px 0 0;padding:8px 10px;border:1px solid #E6E3DE;border-radius:10px;background:#fff;text-align:left;font-size:.74rem;line-height:1.4;color:#141414;display:flex;flex-direction:column;gap:3px}
+#root .s9-warn{background:#FBF1E6;border:1px solid #F0D9B8;border-radius:10px;padding:7px 10px;text-align:left}
+#root .s9-next{margin:4px 0 0;font-size:.78rem;line-height:1.35;text-align:center;color:#141414}
+#root .atc-secure{margin-top:8px;color:#141414}#root .atc-secure-t{color:#141414}
+#root #buybox.step-2 .buybox{gap:12px}
+#root #buybox.step-3 .buybox{gap:10px}
+/* dk9f-b: back under the fold on steps 2 + 3 */
+#root #buybox.step-2 .buybox{gap:8px}
+#root #buybox.step-3 .buybox{gap:8px}
+#root #buybox.step-2 .e4-bar{flex-wrap:wrap}
+#root .e4-bar .s9-ingr-link{flex-basis:100%;padding:2px 0 0;font-size:.68rem}
+#root .s9-ingr-list{margin:0}
+#root #buybox.step-3 .step-eyebrow{margin:0}
+#root .s9-freq-head{margin-bottom:4px}
+#root .s9-head-tx .s9-top{align-self:flex-start;padding:6px 10px;font-size:.66rem}
+#root .s9-res-tx small b{font-weight:800;color:#141414}
+#root #buybox.step-2 .e4-bar{flex-wrap:nowrap}
+#root .e4-bar .s9-ingr-link{display:inline;flex-basis:auto;padding:0;margin-left:4px;font-size:.68rem;vertical-align:baseline}
+@media (max-width:699px){#root .buybox .s9-head2 .s9-title{font-size:1.3rem}#root .s9-res{max-width:172px;padding:6px 8px 6px 6px}}

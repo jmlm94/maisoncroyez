@@ -2,7 +2,8 @@
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
 var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-720.mp4?v=1790870731";
-var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-poster.webp?v=1790870731";
+var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-hero-800.jpg?v=0"; /* dk9i (2026-10-20, owner): the square living-room picture */
+var MC_STEP3_IMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-step3-1600x900.webp?v=0"; /* dk9i (owner): the 16:9 picture on step 3 */
 var MC_HERO_STILL = true; /* dk9 (2026-10-20, owner): a picture instead of the hero video (the poster frame; swap MC_HERO_POSTER for another file) */
 /* FB pixel: loaded by Shopify's Facebook channel through the Web Pixels Manager (no page-level loader). */
 /* product-page host: mount #root inside #mc-kits-root; hide the theme product
@@ -949,7 +950,6 @@ function BuyBox() {
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
-                ${f.topSeller ? html`<span class="e4-pop">Popular</span>` : null}
                 <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
                 <span class="pick-scent e4-name">${f.name}</span>
                 <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector -->
@@ -969,7 +969,7 @@ function BuyBox() {
           </div>
           ${chips}
           <//>` : html`<${Fragment} key="step3">
-          <div class="s9-banner"><img src=${(typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : ""} alt="" width="900" height="450" decoding="async"/></div> <!-- dk9e (owner): 900x450 branding image slot; the poster frame stands in until the file arrives -->
+          <div class="s9-banner"><img src=${(typeof MC_STEP3_IMG !== "undefined") ? MC_STEP3_IMG : ""} alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"/></div> <!-- dk9i (owner): the 16:9 picture, shown 2:1 (centre crop) so Add to cart stays in the first screen -->
           <div class="step-eyebrow">Step 3 of 3</div>
           <div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>
           <div class="kitrev k9">
@@ -984,20 +984,18 @@ function BuyBox() {
               <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
               <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
             </div>
-            <div class="kr-total"><span>You pay today:</span><b>${usd(sel.today())}</b></div>
           </div>
+          <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
+          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
           <div class="s9-freq-head">Refill my ${T.scents} scents every:</div>
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small>${o.tag}</small>` : null}</button>`; })}
           </div>
-          ${sel.freq === 30
-            ? html`<p class="s9-freq-note"><b>Pause, cancel or swap anytime.</b> 86% of customers stay with us after 6+ months.</p>`
-            : html`<p class="s9-freq-note s9-warn">\u26a0\ufe0f A bottle lasts about 30 days: every ${sel.freq} days leaves your rooms <b>${sel.freq === 60 ? "a month" : "two months"} without scent</b> between boxes. Most customers pick 30.</p>`} <!-- dk9h (owner comments): the owner's line for 30 days; the 60/90 warning stays, no dates -->
+          <p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p> <!-- dk9i (owner): fixed, whatever the frequency -->
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
           </button>
           ${chips}
-          <div class="atc-secure"><span class="atc-secure-t"><span aria-hidden="true">🔒</span> Secure checkout</span><span class="paylogos" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.row }}></span></div> <!-- dk9f (CRO #4); dk9h (owner): below the badges -->
           <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`

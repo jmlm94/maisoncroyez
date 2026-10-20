@@ -1605,3 +1605,25 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .atc-secure{margin-top:10px}
 #root .rf3-opt small,#root .rf3-opt.on small{color:#fff !important}
 #root .s9-res-tx small .s9-free{color:#1E7A1E !important}
+/* dk9i (2026-10-20, owner): no Popular badges, fixed note under the frequencies, no payment logos, value line + DUE TODAY block, the owner's pictures */
+#root .s9-value{margin:2px 0 0;text-align:center;font-size:.9rem;line-height:1.35;color:#141414}
+#root .s9-value .s9-val-green{color:#1E7A1E !important;font-weight:800}
+#root .s9-due{display:flex;flex-direction:column;align-items:center;gap:0;margin:2px 0 0}
+#root .s9-due-l{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#7A4B3A}
+#root .s9-due-n{font-family:'Unna',serif;font-weight:700;font-size:2.4rem;line-height:1.05;color:#141414;letter-spacing:-.02em}
+#root .s9-due-n sup{font-size:.5em;vertical-align:top;margin-right:1px;line-height:1.6}
+#root .kitrev.k9{margin-bottom:0}
+#root #buybox.step-3 .s9-freq-note{text-align:center}
+/* dk9i-b: keep Add to cart in the first screen on phones with the due-today block */
+@media (max-width:699px){
+#root .kitrev.k9{gap:2px;padding:6px 10px}
+#root .kitrev.k9 .kr-row{font-size:.8rem;gap:8px}
+#root .kitrev.k9 .kr-row > .ph.sq{flex-basis:28px;width:28px !important;height:28px !important}
+#root .kitrev.k9 .kr-row .kr-img{width:28px;height:28px;flex-basis:28px}
+#root .s9-value{font-size:.84rem}
+#root .s9-due-n{font-size:2.1rem}
+#root .s9-due-l{font-size:.6rem}
+#root #buybox.step-3 .s9-freq-note{font-size:.74rem;line-height:1.3;margin-top:2px}
+#root #buybox.step-3 .s9-freq-head{margin:0 0 3px}
+#root #buybox.step-3 .rf3-opt{min-height:52px;padding:6px 6px}
+}

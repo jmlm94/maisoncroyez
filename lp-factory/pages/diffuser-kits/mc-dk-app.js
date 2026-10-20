@@ -768,6 +768,7 @@ function HeroStill({ poster }) {
     if (im) { im.removeAttribute("id"); im.removeAttribute("style"); }
     else { im = document.createElement("img"); im.src = posterSrc; im.width = 720; im.height = 720; im.alt = "Maison Croyez diffuser"; im.decoding = "sync"; im.setAttribute("fetchpriority", "high"); }
     im.className = "simg hv-poster"; w.appendChild(im);
+    if (posterSrc && im.src !== posterSrc) { const up = new Image(); up.decoding = "async"; up.onload = () => { im.src = posterSrc; }; up.src = posterSrc; } /* dk9j (2026-10-20): the page body's 720 px inline frame paints first; the 800 px file from Shopify Files replaces it once loaded (same 1:1 box, no shift). The 22:17 live check found the inline frame still showing. */
     const v = document.getElementById("mc-hero-v"); if (v && v.parentNode) { try { v.pause(); } catch (e) {} v.parentNode.removeChild(v); }
   }, []);
   return html`<div class="hv-pwrap" ref=${pw} key="poster"></div>`; /* dk9c (owner): no countdown badge */

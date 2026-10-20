@@ -1634,3 +1634,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .s9-value,#root .s9-due{margin:0}
 @media (max-width:699px){#root #buybox.step-3 .s9-title{margin-bottom:4px !important}}
 @media (min-width:700px){#root .s9-banner{height:176px}}
+/* dk9j (2026-10-20, after the first live checks of dk9): the store theme's prose rule ".prose * + :is(p, div, ul, ol){margin-block-start:var(--spacing-3)}" (12 px on phones, 16 px on desktop) pushed the kit-review rows apart on the live page (rows 42 px apart instead of the 30 px of the approved preview) and the Add to cart button ended 43 / 59 px below the first phone / desktop screen. Rows back to the stylesheet's own gap; the "Most popular" pill on one line (it wrapped on a 390 px phone); desktop banner 164 px and the review card a little tighter so the button ends inside the first screen. */
+#root .kitrev > * + *,#root .kitrev .kr-row{margin-block-start:0 !important;margin-top:0 !important}
+#root .rf3-opt small,#root .rf3-opt.on small{white-space:nowrap;padding:3px 6px;letter-spacing:.06em;max-width:100%}
+@media (min-width:700px){#root .s9-banner{height:164px}#root .kitrev.k9{padding:6px 12px}}

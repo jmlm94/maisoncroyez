@@ -1,5 +1,5 @@
 name: qa-kits
-# Kits page only (https://maisoncroyez.com/pages/diffuser-kits): live checks of the dk8 buy box on a phone and on desktop — nothing pre-selected, the 4-per-row / 7-per-row scent picker, the smells-like bar for all seven scents, single-select swap, Add to cart without a scent (grid outline + toast, no cart change, buy box and sticky bar), diffuser-count prices, removed copy, "Where it goes" compact — then two real cart flows (2 diffusers + 30-day refill, 3 diffusers + one-time). Edit this line and push to run. Run 2026-10-14 ~17:1x UTC (after the dk8e deploy: botanical picker photos + centred smells-like bar; expect the tile-image check to cover the new PNGs and barAlign center).
+# Kits page only (https://maisoncroyez.com/pages/diffuser-kits), dk9 three-step version: step 1 (hero picture, no video, no countdown, badges under the title, three option cards with struck value + FREE, no offer price, sticky bar from load), step 2 (reserved card, tap = read / + adds / − removes, smells-like bar with the ingredients link, "Review my kit" only when the kit is full), step 3 (16:9 picture, review, value line + DUE TODAY, 60/30/90 with the black Most popular pill, the fixed note, Add to cart in the first phone screen), then two real carts (2 diffusers + 3 scents every 30 days; 1 diffuser + 2 scents every 90 days). Edit this line and push to run. Run 2026-10-20 (dk9 deploy).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -21,7 +21,15 @@ jobs:
         with:
           node-version: 20
       - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Gate (the live kits page must already be on the dk9 three-step build; otherwise this run skips)
+        id: gate
+        run: |
+          curl -sSL -A "Mozilla/5.0" https://maisoncroyez.com/pages/diffuser-kits -o live.html || true
+          KEY=$(grep -o "var v='[^']*'" live.html | head -1 | cut -d"'" -f2)
+          echo "live key: $KEY"
+          if [[ "$KEY" == dk9-* ]]; then echo "run=yes" >> "$GITHUB_OUTPUT"; else echo "run=no" >> "$GITHUB_OUTPUT"; echo "live page is not on dk9 yet — skipping"; fi
       - name: Kits QA
+        if: steps.gate.outputs.run == 'yes'
         run: |
           cat > qa.mjs <<'EOF'
           import { chromium } from 'playwright';
@@ -29,119 +37,93 @@ jobs:
           const URL_ = process.env.URL, stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13), OUT = `${process.env.OUT}/${stamp}`;
           fs.mkdirSync(OUT, { recursive: true });
           const SCENTS = [
-            { key: 'love', name: 'Golden Blossom Harmony', intention: 'Love', strength: 'medium', emoji: '🌻', smells: 'Fresh flowers and a little honey. Like walking into a florist.', notes: 'Buttercup, Honeysuckle & Sunflower', v: 41212020457581 },
-            { key: 'abundance', name: 'Crisp Citrus Scape', intention: 'Abundance', strength: 'soft', emoji: '🍊', smells: 'Fresh citrus peel and green leaves. Like a clean hotel lobby.', notes: 'Yuzu Leaf, Green Mandarin & Cypress', v: 41212018655341 },
-            { key: 'focus', name: 'Chilled Citrus', intention: 'Relaxation & Concentration', strength: 'soft', emoji: '🌿', smells: 'Lavender and eucalyptus. Like a day spa.', notes: 'Chilled Lavender, Eucalyptus & White Citrus', v: 41212021506157 },
-            { key: 'ideas', name: 'Honey Nectar', intention: 'Turn Ideas Into Reality', strength: 'medium', emoji: '🍯', smells: 'Warm milk and honey. Like a café on a slow morning.', notes: 'Ginger Milk, White Birch & Eucalyptus Honey', v: 41212021342317 },
-            { key: 'energy', name: 'Euphoric Bloom', intention: 'Raise Energy', strength: 'medium', emoji: '🍑', smells: 'White peach and jasmine tea. Fruity and bright, never sugary.', notes: 'Jasmine Tea, White Peach & Sandalwood Crème', v: 41212020752493 },
-            { key: 'purify', name: 'Wildwood Mystique', intention: 'Purification', strength: 'bold', emoji: '🌲', smells: 'Pine and juniper. Like a walk in the woods after rain.', notes: 'Huckleberry, Wild Juniper & Mountain Fern', v: 41212021669997 },
-            { key: 'midnight', name: 'Midnight Sensation', intention: 'Love Manifestation', strength: 'bold', emoji: '🌙', smells: 'White flowers and soft musk. Like perfume on warm skin.', notes: 'Moonflower, Night Lily & Skin Musk', v: 41212019933293 },
+            { key: 'love', name: 'Golden Blossom Harmony', v: 41212020457581 }, { key: 'abundance', name: 'Crisp Citrus Scape', v: 41212018655341 }, { key: 'focus', name: 'Chilled Citrus', v: 41212021506157 },
+            { key: 'ideas', name: 'Honey Nectar', v: 41212021342317 }, { key: 'energy', name: 'Euphoric Bloom', v: 41212020752493 }, { key: 'purify', name: 'Wildwood Mystique', v: 41212021669997 }, { key: 'midnight', name: 'Midnight Sensation', v: 41212019933293 },
           ];
-          const TIERS = [{ n: 1, v: 45784228429933, p: 109.95 }, { n: 2, v: 45784228462701, p: 129.95 }, { n: 3, v: 45784228495469, p: 189.95 }];
-          /* copy the owner had removed in dk8 (buy box only — the "Say goodbye…" section heading further down the page stays) */
-          const GONE = ['diffusers picked', '$39.95 value', 'We pre-selected', 'Skip, swap, pause', 'first scent bottle is free', 'Fact: 86%', 'candles forever', 'Fill every room within minutes', 'Organic Ingredients'];
-          const GONE_SEL = ['#buybox .pick-pill', '#buybox .presel-note', '#buybox .refill-sub', '#buybox .refill-why', '#buybox .plan-fact', '#buybox .order-sum', '#buybox .sub-lede'];
+          const KITS = [{ n: 1, s: 2, v: 45900240257133, p: 79.95, name: 'Living Room' }, { n: 2, s: 3, v: 45900240289901, p: 159.90, name: 'Living Room & Bedroom' }, { n: 3, s: 5, v: 45900240322669, p: 239.85, name: 'Living Room, Bedroom & Kitchen' }];
+          const SP = 39.95, DV = 89.95;
           const checks = [];
           const ck = (id, name, ok, got) => { checks.push({ id, name, ok: !!ok, got }); console.log((ok ? 'PASS' : 'FAIL') + ' ' + id + ' — ' + name + (ok ? '' : ' => ' + JSON.stringify(got))); };
           const UA = 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36';
           const b = await chromium.launch();
           const open = async (mobile) => {
             const ctx = await b.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA } : { viewport: { width: 1366, height: 900 }, deviceScaleFactor: 1 });
-            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message)); pg.on('console', (m) => { if (m.type() === 'error' && !/Clear-Site-Data/.test(m.text())) errs.push('console: ' + m.text().slice(0, 140)); }); /* Chromium logs Shopify's Clear-Site-Data header on /cart/add.js as an error; not ours */
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message)); pg.on('console', (m) => { if (m.type() === 'error' && !/Clear-Site-Data/.test(m.text())) errs.push('console: ' + m.text().slice(0, 140)); });
             await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
-            await pg.waitForSelector('#buybox .picker.e4 .pick', { timeout: 30000 });
+            await pg.waitForSelector('#buybox .tiers .tier', { timeout: 30000 });
             await pg.waitForTimeout(1500);
             return { ctx, pg, errs };
           };
           const tap = (pg, q, i = 0) => pg.evaluate(([q, i]) => { const e = document.querySelectorAll(q)[i]; if (!e) return false; e.scrollIntoView({ block: 'center' }); e.click(); return true; }, [q, i]);
-          const cartJs = (pg) => pg.evaluate(async () => { let c; try { c = await (await fetch('/cart.js')).json(); } catch (e) { return { n: null, total: null, items: [], err: String(e).slice(0, 80) }; } return { n: c.item_count, total: c.total_price / 100, items: c.items.map((i) => ({ v: i.variant_id, t: i.product_title, q: i.quantity, price: i.price / 100, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
-          const state = (pg) => pg.evaluate(({ GONE, GONE_SEL }) => { const tx = (e) => e ? (e.innerText || '').replace(/\s+/g, ' ').trim() : null; const vis = (e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < innerHeight && getComputedStyle(e).visibility !== 'hidden'; }; return {
-            tiles: document.querySelectorAll('#buybox .picker.e4 .pick').length,
-            on: [...document.querySelectorAll('#buybox .picker .pick.on')].map((e) => tx(e.querySelector('.e4-name'))),
-            checked: document.querySelectorAll('#buybox .picker .pick[aria-checked="true"]').length,
-            bar: tx(document.querySelector('#buybox .e4-bar')),
-            emoji: tx(document.querySelector('#buybox .e4-bar .e4-emoji')),
-            barAlign: (() => { const e = document.querySelector('#buybox .e4-bar'); return e ? getComputedStyle(e).textAlign + ' / ' + getComputedStyle(e).justifyContent : null; })(),
-            btn: tx(document.querySelector('#buybox .btn.atc')),
-            sticky: tx(document.querySelector('.sticky .btn')),
-            stickyShown: (() => { const e = document.querySelector('.sticky'); return e ? e.classList.contains('show') && getComputedStyle(e).display !== 'none' : null; })(),
-            tierOn: tx(document.querySelector('.fq.dkt.on .fq-days')),
-            freqOn: tx(document.querySelector('.fq.on:not(.dkt) .fq-days')),
-            nudge: !!document.querySelector('#buybox .picker.nudge'),
-            toast: [...document.querySelectorAll('.toast')].map((e) => tx(e)),
-            toastVisible: [...document.querySelectorAll('.toast')].some(vis),
-            drawerOpen: (() => { const d = document.getElementById('cart-drawer'); return d ? (d.hasAttribute('open') || !!d.open) : null; })(),
-            pickerInView: (() => { const e = document.querySelector('#buybox .picker'); if (!e) return null; const r = e.getBoundingClientRect(); return r.top >= -10 && r.bottom <= innerHeight + 10; })(),
-            cols: (() => { const e = document.querySelector('#buybox .picker.e4'); return e ? getComputedStyle(e).gridTemplateColumns.split(' ').length : null; })(),
-            pickerH: (() => { const e = document.querySelector('#buybox .picker.e4'); return e ? Math.round(e.getBoundingClientRect().height) : null; })(),
-            place: (() => { const e = document.querySelector('#buybox .place'); return e ? Math.round(e.getBoundingClientRect().height) : null; })(),
-            placeHeadInSide: !!document.querySelector('#buybox .place-side .place-head'),
-            atcTop: (() => { const e = document.querySelector('#buybox .btn.atc'); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; })(),
-            usp: [...document.querySelectorAll('#buybox .usp .usp-tx')].map(tx),
-            gone: (() => { const t = (document.querySelector('#buybox') || document.body).innerText; return GONE.filter((g) => t.includes(g)); })(),
-            goneSel: GONE_SEL.filter((s) => document.querySelector(s)),
-            imgsBad: [...document.querySelectorAll('#buybox .fq.dkt img, #buybox .picker img, #buybox .plan img')].filter((i) => !i.complete || i.naturalWidth === 0).map((i) => (i.currentSrc || i.src || '').slice(-40)),
-          }; }, { GONE, GONE_SEL });
+          const plus = (pg, i) => tap(pg, `#buybox .picker .pick:nth-child(${i + 1}) .e4-step button[aria-label^="Add one"]`);
+          const minus = (pg, i) => tap(pg, `#buybox .picker .pick:nth-child(${i + 1}) .e4-step button[aria-label^="Remove one"]`);
+          const cartJs = (pg) => pg.evaluate(async () => { let c; try { c = await (await fetch('/cart.js')).json(); } catch (e) { return { n: null, total: null, items: [], err: String(e).slice(0, 80) }; } return { n: c.item_count, total: c.total_price / 100, items: c.items.map((i) => ({ v: i.variant_id, t: i.product_title + (i.variant_title && i.variant_title !== 'Default Title' ? ' / ' + i.variant_title : ''), q: i.quantity, price: i.price / 100, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
+          const state = (pg) => pg.evaluate(() => { const tx = (e) => e ? (e.innerText || '').replace(/\s+/g, ' ').trim() : null; const r = (q) => { const e = document.querySelector(q); if (!e) return null; const b = e.getBoundingClientRect(); return { top: Math.round(b.top), bottom: Math.round(b.bottom), h: Math.round(b.height) }; }; return {
+            vh: innerHeight, step: tx(document.querySelector('#buybox .step-eyebrow')), title: tx(document.querySelector('#buybox .s9-title')), h1: tx(document.querySelector('#buybox h1')),
+            video: !!document.querySelector('#buybox video, #mc-prehero video'), hero: (() => { const im = document.querySelector('#buybox .hv-poster'); return im ? { w: im.naturalWidth, loaded: im.complete && im.naturalWidth > 0, src: (im.currentSrc || im.src || '').slice(-40) } : null; })(), timer: !!document.querySelector('.hv-timer'),
+            badges: [...document.querySelectorAll('#buybox .hs3 .hs')].map(tx), badgesAfterH1: (() => { const h = document.querySelector('#buybox h1'), s = document.querySelector('#buybox .hs3'); return h && s ? (h.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING) > 0 : null; })(),
+            tiers: [...document.querySelectorAll('#buybox .tier')].map(tx), tierOn: tx(document.querySelector('#buybox .tier.on .tier-name')), prices: ((document.querySelector('#buybox .buybox') || {}).innerText || '').match(/\$\d[\d.,]*/g) || [],
+            place: tx(document.querySelector('#buybox .place-head')), btn: tx(document.querySelector('#buybox .btn.atc')), sticky: tx(document.querySelector('.sticky .btn')), stickyShown: (() => { const e = document.querySelector('.sticky'); return e ? e.classList.contains('show') : null; })(),
+            res: tx(document.querySelector('#buybox .s9-res')), pill: tx(document.querySelector('#buybox .pick-pill')), tiles: document.querySelectorAll('#buybox .picker .pick').length, popular: document.querySelectorAll('#buybox .e4-pop').length,
+            on: [...document.querySelectorAll('#buybox .picker .pick.on')].map((e) => tx(e.querySelector('.e4-name')) + ' x' + tx(e.querySelector('.e4-step b'))), peek: tx((document.querySelector('#buybox .picker .pick.peek') || {}).querySelector ? document.querySelector('#buybox .picker .pick.peek .e4-name') : null),
+            bar: tx(document.querySelector('#buybox .e4-bar')), ingrLink: tx(document.querySelector('#buybox .s9-ingr-link')), ingrList: document.querySelectorAll('#buybox .s9-ingr-list li').length, hint: tx(document.querySelector('#buybox .pick-hint')), review: tx(document.querySelector('#buybox .navrow .btn.atc')),
+            banner: (() => { const im = document.querySelector('#buybox .s9-banner img'); return im ? { loaded: im.complete && im.naturalWidth > 0, w: im.naturalWidth, src: (im.currentSrc || im.src || '').slice(-44) } : null; })(),
+            rows: [...document.querySelectorAll('#buybox .kitrev .kr-row')].map(tx), value: tx(document.querySelector('#buybox .s9-value')), due: tx(document.querySelector('#buybox .s9-due')), freqs: [...document.querySelectorAll('#buybox .rf3-opt')].map(tx), freqOn: tx(document.querySelector('#buybox .rf3-opt.on')), note: tx(document.querySelector('#buybox .s9-freq-note')), paylogos: !!document.querySelector('#buybox .atc-secure'),
+            atc: r('#buybox .btn.atc'), chips: r('#buybox .atc-chips'), reviews: !!document.querySelector('#buybox .rv6'), faq: document.querySelectorAll('#buybox .qa').length, drawerOpen: (() => { const d = document.getElementById('cart-drawer'); return d ? (d.hasAttribute('open') || !!d.open) : null; })(), errsNote: null,
+          }; });
           const run = async (vp) => {
             const mobile = vp === 'phone'; const { ctx, pg, errs } = await open(mobile);
-            const cart0 = await cartJs(pg);
             let s = await state(pg);
-            ck(`${vp}-mount`, 'buy box mounted with the 7-tile scent picker', s.tiles === 7, s.tiles);
-            ck(`${vp}-cols`, mobile ? '4 tiles per row on a phone' : '7 tiles in a row on desktop', s.cols === (mobile ? 4 : 7), s.cols);
-            ck(`${vp}-nopre`, 'no scent pre-selected on load', s.on.length === 0 && s.checked === 0, s.on);
-            ck(`${vp}-bar0`, 'bar shows "Tap a scent to see what it smells like."', /Tap a scent to see what it smells like/.test(s.bar || ''), s.bar);
-            ck(`${vp}-btn0`, 'Add to cart shows the 2-diffuser price on load', s.btn === 'ADD TO CART — $129.95 ➔', s.btn);
-            ck(`${vp}-tier0`, '2 Diffusers selected by default', /^2 Diffusers/.test(s.tierOn || ''), s.tierOn);
-            ck(`${vp}-freq0`, '30-day refill selected by default', /every 30 days/.test(s.freqOn || ''), s.freqOn);
-            ck(`${vp}-usp`, 'tile 2 reads "Replaces room sprays, plug-ins and candles instantly."', s.usp[1] === 'Replaces room sprays, plug-ins and candles instantly.', s.usp);
-            ck(`${vp}-gone`, 'removed copy is gone from the buy box (pills, pre-selected banner, refill lines, 86% fact, order summary, old lede)', s.gone.length === 0 && s.goneSel.length === 0, { gone: s.gone, goneSel: s.goneSel });
-            ck(`${vp}-place`, '"Where it goes" compact (plan left, title + rooms right; phone ≤ 209 px = 40% under the 348 px it was)', s.placeHeadInSide && s.place && s.place <= (mobile ? 209 : 230), { h: s.place, headInSide: s.placeHeadInSide });
-            checks.push({ id: `${vp}-info`, name: 'info: picker height / Add to cart offset from the top', ok: true, got: { pickerH: s.pickerH, atcTop: s.atcTop, barAlign: s.barAlign } });
-            await tap(pg, '.fq.dkt', 0); await pg.waitForTimeout(350); s = await state(pg);
-            ck(`${vp}-tier1`, '1 Diffuser → $109.95', s.btn === 'ADD TO CART — $109.95 ➔', s.btn);
-            await tap(pg, '.fq.dkt', 2); await pg.waitForTimeout(350); s = await state(pg);
-            ck(`${vp}-tier3`, '3 Diffusers → $189.95', s.btn === 'ADD TO CART — $189.95 ➔', s.btn);
-            await tap(pg, '.fq.dkt', 1); await pg.waitForTimeout(350); s = await state(pg);
-            ck(`${vp}-tier2`, 'back to 2 Diffusers → $129.95', s.btn === 'ADD TO CART — $129.95 ➔', s.btn);
-            /* Add to cart with no scent picked */
-            await tap(pg, '#buybox .btn.atc'); await pg.waitForTimeout(900); s = await state(pg);
-            await pg.screenshot({ path: `${OUT}/${vp}-noscent-tap.png` }).catch(() => {});
-            const cart1 = await cartJs(pg);
-            ck(`${vp}-noscent`, 'Add to cart with no scent: picker outlined + toast "Pick your free scent first. It’s included.", nothing added, no drawer', s.nudge && s.toast.some((t) => /Pick your free scent first/.test(t)) && s.toastVisible && cart1.n === cart0.n && !s.drawerOpen, { nudge: s.nudge, toast: s.toast, toastVisible: s.toastVisible, cartN: cart1.n, drawer: s.drawerOpen });
-            ck(`${vp}-noscent-scroll`, 'and the picker is scrolled into view', s.pickerInView, s.pickerInView);
-            await pg.waitForTimeout(2500);
-            /* sticky bar with no scent picked */
-            await pg.evaluate(() => { const bb = document.querySelector('#buybox'); window.scrollTo(0, bb.getBoundingClientRect().bottom + scrollY + 700); }); await pg.waitForTimeout(1000); s = await state(pg);
-            if (s.stickyShown) {
-              ck(`${vp}-sticky-label`, 'sticky bar shows the price', s.sticky === 'ADD TO CART — $129.95 ➔', s.sticky);
-              await pg.evaluate(() => document.querySelector('.sticky .btn').click()); await pg.waitForTimeout(900); s = await state(pg); const c = await cartJs(pg);
-              await pg.screenshot({ path: `${OUT}/${vp}-sticky-noscent-tap.png` }).catch(() => {});
-              ck(`${vp}-sticky-noscent`, 'sticky bar with no scent: scrolls to the picker, outlines it, toast, nothing added', s.nudge && s.toast.some((t) => /Pick your free scent first/.test(t)) && s.pickerInView && c.n === cart0.n && !s.drawerOpen, { nudge: s.nudge, toast: s.toast, toastVisible: s.toastVisible, inView: s.pickerInView, cartN: c.n });
-              await pg.waitForTimeout(2500);
-            } else ck(`${vp}-sticky-noscent`, 'sticky bar appears after scrolling past the buy box', false, s.stickyShown);
-            /* every scent */
-            for (let i = 0; i < 7; i++) {
-              const f = SCENTS[i]; await tap(pg, '#buybox .picker.e4 .pick', i); await pg.waitForTimeout(300); s = await state(pg);
-              const bar = s.bar || '';
-              const ok = s.on.length === 1 && s.on[0] === f.name && s.checked === 1 && bar.includes(f.name + ' · ' + f.intention) && bar.toLowerCase().includes(f.strength) && bar.includes('Smells like: ' + f.smells) && bar.includes('Notes: ' + f.notes) && s.emoji === f.emoji;
-              ck(`${vp}-scent-${i + 1}`, `tile ${i + 1} ${f.name}: selected alone, bar = name · intention · strength, smells like, notes`, ok, { on: s.on, checked: s.checked, bar, emoji: s.emoji });
-              if (i === 5) { const el = await pg.$('#buybox .e4-bar'); if (el) await el.screenshot({ path: `${OUT}/${vp}-bar-wildwood.png` }).catch(() => {}); }
-            }
-            await tap(pg, '#buybox .picker.e4 .pick', 2); await pg.waitForTimeout(250); await tap(pg, '#buybox .picker.e4 .pick', 0); await pg.waitForTimeout(300); s = await state(pg);
-            ck(`${vp}-swap`, 'tapping another scent swaps it (one free scent, single select)', s.on.length === 1 && s.on[0] === SCENTS[0].name, s.on);
-            ck(`${vp}-btn-scent`, 'Add to cart still shows the price with a scent picked', s.btn === 'ADD TO CART — $129.95 ➔', s.btn);
-            ck(`${vp}-imgs`, 'kit photos, the 7 scent tiles and the plan image all loaded', s.imgsBad.length === 0, s.imgsBad);
-            const bb = await pg.$('#buybox'); if (bb) await bb.screenshot({ path: `${OUT}/${vp}-buybox.png` }).catch(() => {});
+            ck(`${vp}-s1-mount`, 'step 1 mounts: "Step 1 of 3", three option cards, 2 diffusers selected', /Step 1 of 3/i.test(s.step || '') && s.tiers.length === 3 && /Living Room & Bedroom/.test(s.tierOn || ''), { step: s.step, tiers: s.tiers.length, on: s.tierOn });
+            ck(`${vp}-s1-hero`, 'hero is the square picture, no video, no countdown', s.hero && s.hero.loaded && /mc-dk-hero-800/.test(s.hero.src) && !s.video && !s.timer, s.hero);
+            ck(`${vp}-s1-copy`, 'title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price', /Your home deserves to look and feel great and safe/.test(s.h1 || '') && s.badgesAfterH1 && s.badges.length === 3 && /NO SMOKE/.test(s.badges[0]) && s.tiers.every((t) => /FREE/.test(t)) && /How many spaces would you like to transform today/.test(s.title || '') && s.prices.every((p) => ['$89.95', '$179.90', '$269.85'].includes(p)), { h1: s.h1, badges: s.badges, tiers: s.tiers, prices: s.prices });
+            ck(`${vp}-s1-place`, '"Where it goes" under the options, button "Pick your 3 scents"', s.place === 'WHERE IT GOES:' && /Pick your 3 scents/i.test(s.btn || ''), { place: s.place, btn: s.btn });
+            if (mobile) ck(`${vp}-s1-sticky`, 'sticky bar shows at load on step 1', s.stickyShown && /Pick your 3 scents/i.test(s.sticky || ''), { shown: s.stickyShown, sticky: s.sticky });
+            await tap(pg, '#buybox .tier', 0); await pg.waitForTimeout(300); s = await state(pg);
+            ck(`${vp}-s1-tier1`, '1 diffuser → "Pick your 2 scents"', /Pick your 2 scents/i.test(s.btn || '') && /^Living Room$/.test(s.tierOn || ''), { btn: s.btn, on: s.tierOn });
+            await tap(pg, '#buybox .tier', 1); await pg.waitForTimeout(300);
+            await pg.screenshot({ path: `${OUT}/${vp}-step1.png` });
+            await tap(pg, '#buybox .btn.step-next'); await pg.waitForTimeout(700); s = await state(pg);
+            ck(`${vp}-s2-mount`, 'step 2: "Step 2 of 3", title with colon, reserved card with struck value + FREE!, 7 tiles, no Popular badges, 0 of 3 picked', /Step 2 of 3/i.test(s.step || '') && /Pick your 3 scents:/.test(s.title || '') && /2 FREE DIFFUSERS RESERVED/.test(s.res || '') && /\$179\.90/.test(s.res || '') && /FREE!/.test(s.res || '') && s.tiles === 7 && s.popular === 0 && /0 of 3 picked/i.test(s.pill || ''), { step: s.step, title: s.title, res: s.res, tiles: s.tiles, popular: s.popular, pill: s.pill });
+            ck(`${vp}-s2-fold`, mobile ? 'step 2 fits the phone screen through the guarantees' : 'step 2 fits the desktop window', s.chips && s.chips.bottom <= s.vh, { chipsBottom: s.chips && s.chips.bottom, vh: s.vh });
+            ck(`${vp}-s2-bar0`, 'bar: "Tap a scent to read…" + Ingredients link', /Tap a scent to read what it smells like/.test(s.bar || '') && /Ingredients/.test(s.ingrLink || ''), { bar: s.bar });
+            await tap(pg, '#buybox .picker .pick', 5); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s2-peek`, 'a tap on a tile only reads it (Wildwood Mystique in the bar, nothing added)', s.on.length === 0 && /Wildwood Mystique/.test(s.bar || '') && /Smells like/.test(s.bar || '') && /Pick 3 more/.test(s.hint || ''), { on: s.on, bar: (s.bar || '').slice(0, 60), hint: s.hint });
+            await tap(pg, '#buybox .s9-ingr-link'); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s2-ingr`, 'Ingredients link opens the seven-line list', s.ingrList === 7, s.ingrList);
+            await tap(pg, '#buybox .s9-ingr-link'); await pg.waitForTimeout(150);
+            await plus(pg, 2); await plus(pg, 2); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s2-plus`, '+ twice on Chilled Citrus → x2, "1 more"', s.on.length === 1 && /Chilled Citrus x2/.test(s.on[0]) && /Pick 1 more/.test(s.hint || '') && /2 of 3 picked/i.test(s.pill || ''), { on: s.on, hint: s.hint, pill: s.pill });
+            await minus(pg, 2); await plus(pg, 5); await plus(pg, 0); await pg.waitForTimeout(300); s = await state(pg);
+            ck(`${vp}-s2-full`, '− then + on two others → 3 of 3, "Review my kit", + disabled', s.on.length === 3 && !s.hint && /Review my kit/i.test(s.review || '') && /3 of 3 picked/i.test(s.pill || ''), { on: s.on, hint: s.hint, review: s.review });
+            const plusDisabled = await pg.evaluate(() => [...document.querySelectorAll('#buybox .picker .pick:not(.on) .e4-step button[aria-label^="Add one"]')].every((b) => b.disabled));
+            ck(`${vp}-s2-cap`, 'no fourth scent can be added', plusDisabled, plusDisabled);
+            await pg.screenshot({ path: `${OUT}/${vp}-step2.png` });
+            await tap(pg, '#buybox .navrow .btn.atc'); await pg.waitForTimeout(800); s = await state(pg);
+            ck(`${vp}-s3-mount`, 'step 3: picture, "Step 3 of 3", congratulations title, 3 scent rows + 2 diffusers struck FREE', s.banner && s.banner.loaded && /mc-dk-step3/.test(s.banner.src) && /Step 3 of 3/i.test(s.step || '') && /Congratulations, your free diffusers have been reserved/.test(s.title || '') && s.rows.length === 4 && /2× Maison Croyez Diffuser.*\$179\.90.*FREE/.test(s.rows[3] || ''), { banner: s.banner, step: s.step, rows: s.rows });
+            ck(`${vp}-s3-due`, 'value line + DUE TODAY $119.85', /\$299\.75 of value, you pay \$119\.85 today/.test(s.value || '') && /Due today:\s*\$119\.85/i.test(s.due || ''), { value: s.value, due: s.due });
+            ck(`${vp}-s3-freq`, '60 / 30 (Most popular, selected) / 90, fixed note, no payment logos, button $119.85', s.freqs.length === 3 && /^60 days/.test(s.freqs[0]) && /^30 days/.test(s.freqs[1]) && /MOST POPULAR/i.test(s.freqs[1]) && /^90 days/.test(s.freqs[2]) && /^30 days/.test(s.freqOn || '') && /Swap, pause and cancel anytime\. If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping\. No questions asked\./.test(s.note || '') && !s.paylogos && /ADD TO CART — \$119\.85/.test(s.btn || ''), { freqs: s.freqs, on: s.freqOn, note: s.note, paylogos: s.paylogos, btn: s.btn });
+            ck(`${vp}-s3-fold`, mobile ? 'Add to cart ends inside the phone screen' : 'Add to cart ends inside the desktop window', s.atc && s.atc.bottom <= s.vh, { atcBottom: s.atc && s.atc.bottom, vh: s.vh });
+            ck(`${vp}-s3-below`, 'guarantees, testimonials and FAQ under the button', s.chips && s.reviews && s.faq >= 10, { chips: !!s.chips, reviews: s.reviews, faq: s.faq });
+            await tap(pg, '#buybox .rf3-opt', 2); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s3-90`, '90 days selects, note unchanged', /^90 days/.test(s.freqOn || '') && /Swap, pause and cancel anytime/.test(s.note || ''), { on: s.freqOn, note: (s.note || '').slice(0, 40) });
+            await pg.screenshot({ path: `${OUT}/${vp}-step3.png` });
+            await tap(pg, '#buybox .navrow.back-only .btn'); await pg.waitForTimeout(400); s = await state(pg);
+            ck(`${vp}-back`, '"Change my scents" returns to step 2 with the picks kept', /Step 2 of 3/i.test(s.step || '') && s.on.length === 3, { step: s.step, on: s.on });
             ck(`${vp}-errors`, 'no JavaScript or console errors', errs.length === 0, errs.slice(0, 5));
             await ctx.close();
           };
-          const cartFlow = async (name, acts, exp) => {
+          const cartFlow = async (name, tier, picks, freqIdx, exp) => {
             const { ctx, pg, errs } = await open(true);
-            for (const [t, i] of acts) { if (t === 'tier') await tap(pg, '.fq.dkt', i); else if (t === 'scent') await tap(pg, '#buybox .picker.e4 .pick', i); else if (t === 'one') await tap(pg, '.rf2 .fq-one'); else if (t === 'freq') await tap(pg, '.fq:not(.dkt)', i); await pg.waitForTimeout(400); }
+            await tap(pg, '#buybox .tier', tier); await pg.waitForTimeout(250);
+            await tap(pg, '#buybox .btn.step-next'); await pg.waitForTimeout(700);
+            for (const i of picks) { await plus(pg, i); await pg.waitForTimeout(200); }
+            await tap(pg, '#buybox .navrow .btn.atc'); await pg.waitForTimeout(700);
+            if (freqIdx !== 1) { await tap(pg, '#buybox .rf3-opt', freqIdx); await pg.waitForTimeout(250); }
             const before = await state(pg);
             await tap(pg, '#buybox .btn.atc'); await pg.waitForTimeout(4500);
             const s = await state(pg); const c = await cartJs(pg);
-            const dtext = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? (d.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 260) : null; });
+            const dtext = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? (d.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 300) : null; });
             await pg.screenshot({ path: `${OUT}/cart-${name}.png` }).catch(() => {});
             const match = c.items.length === exp.lines.length && c.total === exp.total && exp.lines.every((e) => c.items.some((l) => l.v === e.v && l.q === e.q && l.price === e.price && l.line === e.line && l.plan === e.plan));
             ck(`cart-${name}`, exp.name, before.btn === exp.btn && s.drawerOpen && pg.url().startsWith(URL_) && match && errs.length === 0, { btn: before.btn, landed: pg.url(), drawer: s.drawerOpen, total: c.total, lines: c.items, drawerText: dtext, errs });
@@ -149,17 +131,17 @@ jobs:
           };
           await run('phone');
           await run('desktop');
-          await cartFlow('sub30-2d', [['scent', 2]], { btn: 'ADD TO CART — $129.95 ➔', total: 129.95, name: 'cart: 2 diffusers + Chilled Citrus on the 30-day refill → drawer opens, kit $129.95 + scent $0.00 on "Every 30 days", total $129.95', lines: [{ v: TIERS[1].v, q: 1, price: 129.95, line: 129.95, plan: null }, { v: SCENTS[2].v, q: 1, price: 0, line: 0, plan: 'Every 30 days' }] });
-          await cartFlow('one-3d', [['tier', 2], ['scent', 5], ['one']], { btn: 'ADD TO CART — $189.95 ➔', total: 189.95, name: 'cart: 3 diffusers + Wildwood Mystique, no subscription → drawer opens, kit $189.95 + scent $39.95 made free by the kits discount, total $189.95', lines: [{ v: TIERS[2].v, q: 1, price: 189.95, line: 189.95, plan: null }, { v: SCENTS[5].v, q: 1, price: 39.95, line: 0, plan: null }] });
+          await cartFlow('2d-30', 1, [2, 5, 0], 1, { btn: 'ADD TO CART — $119.85 ➔', total: 119.85, name: 'cart: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days → drawer opens, three scents $39.95 on Monthly, kit line $159.90 → $0.00, total $119.85', lines: [{ v: SCENTS[2].v, q: 1, price: SP, line: SP, plan: 'Monthly' }, { v: SCENTS[5].v, q: 1, price: SP, line: SP, plan: 'Monthly' }, { v: SCENTS[0].v, q: 1, price: SP, line: SP, plan: 'Monthly' }, { v: KITS[1].v, q: 1, price: KITS[1].p, line: 0, plan: null }] });
+          await cartFlow('1d-90', 0, [2, 2], 2, { btn: 'ADD TO CART — $79.90 ➔', total: 79.90, name: 'cart: 1 diffuser + Chilled Citrus x2 every 90 days → drawer opens, scent x2 $79.90 on Every 90 days, kit line $79.95 → $0.00, total $79.90', lines: [{ v: SCENTS[2].v, q: 2, price: SP, line: 79.90, plan: 'Every 90 days' }, { v: KITS[0].v, q: 1, price: KITS[0].p, line: 0, plan: null }] });
           await b.close();
           const pass = checks.filter((c) => c.ok).length;
-          const md = [`# Kits page QA ${stamp}`, '', `${URL_}`, '', `${pass}/${checks.length} checks passed.`, '', '| # | check | result | details |', '|---|---|---|---|', ...checks.map((c) => `| ${c.id} | ${c.name} | ${c.ok ? 'PASS' : 'FAIL'} | ${JSON.stringify(c.got).replace(/\|/g, '\\|').slice(0, 400)} |`)].join('\n') + '\n';
+          const md = [`# Kits page QA ${stamp} (dk9, three steps)`, '', `${URL_}`, '', `${pass}/${checks.length} checks passed.`, '', '| # | check | result | details |', '|---|---|---|---|', ...checks.map((c) => `| ${c.id} | ${c.name} | ${c.ok ? 'PASS' : 'FAIL'} | ${JSON.stringify(c.got).replace(/\|/g, '\\|').slice(0, 400)} |`)].join('\n') + '\n';
           fs.writeFileSync(`${OUT}/report.md`, md); fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ stamp, url: URL_, pass, total: checks.length, checks }, null, 1));
           console.log(`\n${pass}/${checks.length} checks passed → ${OUT}/report.md`);
           EOF
           node qa.mjs
       - name: Commit
-        if: always()
+        if: always() && steps.gate.outputs.run == 'yes'
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"

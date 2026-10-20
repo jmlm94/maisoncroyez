@@ -652,7 +652,7 @@ const usd = (v) => "$" + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2));
    Sections
    ================================================================ */
 const RitualHeader = () => html`
-  <div class="rit-ann">FREE DIFFUSERS WITH YOUR SCENT SUBSCRIPTION. PAUSE OR CANCEL ANYTIME.</div> <!-- dk9 (2026-10-20): proposed copy for the new offer, owner to confirm -->
+  <div class="rit-ann">THE DIFFUSERS ARE 100% ON US, JUST PICK YOUR SCENTS.</div> <!-- dk9d (2026-10-20, owner) -->
   <header class="rit-hdr">
     <a class="rit-logo-a" href="/" aria-label="Maison Croyez"><img class="rit-logo" src=${LOGO_SRC} alt="Maison Croyez" width="150" height="34" decoding="async" onError=${(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling.style.display = "inline"; }}/><span class="rit-logo-tx" style=${{ display: "none" }}>MAISON CROYEZ</span></a>
     <span class="rit-hdr-tx">2,500+ homes transformed.</span>
@@ -821,10 +821,10 @@ const USP3 = [
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
 /* dk9c (2026-10-20, owner): the health / emotion angles — above the fold on every step */
-const HEALTH3 = [
-  { ic: "\ud83e\udec1", short: "No smoke, no aerosol", tx: "No smoke, soot or aerosol. Easier on lungs and allergies." },
-  { ic: "\ud83d\udca7", short: "No water, no mold", tx: "Waterless: no tank, no mold. Safe around kids and pets." },
-  { ic: "\ud83e\uddd8", short: "Calms stress", tx: "Lavender, citrus and wood notes that lower stress and quiet a racing mind." },
+const HEALTH3 = [ /* dk9d (owner's words, all caps) */
+  { ic: "\ud83e\udec1", short: "NO SMOKE, NO AEROSOL, NO HARM." },
+  { ic: "\ud83d\udca7", short: "NO WATER, NO MOLD, YOUR FAMILY SAFE." },
+  { ic: "\ud83e\uddd8", short: "REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -902,23 +902,19 @@ function BuyBox() {
 
           <div class="step-eyebrow">Step 1 of 3</div>
           <div class="picker-title step-title s9-title">How many spaces deserve to have the <em>intention you’re seeking?</em></div>
-          <div class="tiers t9" role="radiogroup" aria-label="How many free diffusers"> <!-- dk9c (owner): three compact rows, the card copy was redundant -->
+          <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many free diffusers"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9r" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+              <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <${Img} slot=${"kit" + t.n} alt=${t.name}/>
-                <span class="tier-main">
-                  <span class="tier-name">${t.name}</span>
-                  <span class="t9-line">${t.line}</span>
-                </span>
+                <span class="tier-name">${t.name}</span>
+                <span class="t9-n">${t.n} diffuser${t.n > 1 ? "s" : ""}</span>
+                <span class="t9-cov">Up to ${(t.n * 600).toLocaleString("en-US")} sq ft</span>
                 <span class="t9-val"><s>${usd(val)}</s><b>FREE</b></span>
               </div>`; })}
           </div>
 
-          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your ${T.scents} scents ➔</span></button>
-          ${chips}
-
-          <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right -->
+          <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right; dk9d: back under the options -->
             <div class="place-grid">
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
               <div class="place-side">
@@ -928,6 +924,9 @@ function BuyBox() {
               </div>
             </div>
           </div>
+
+          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your ${T.scents} scents ➔</span></button>
+          ${chips}
 
           <${Reviews6}/>
           <div class="acc faq">
@@ -942,7 +941,7 @@ function BuyBox() {
           <${PatriciaCard}/>
           <//>` : step === 2 ? html`<${Fragment} key="step2">
           <div class="step-eyebrow">Step 2 of 3</div>
-          <div class="s9-head"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div>
+          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><img class="s9-thumb" src=${(typeof MC_HERO_POSTER !== "undefined") ? MC_HERO_POSTER : ""} width="96" height="96" alt="" decoding="async"/></div> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${more} onKeyDown=${(e) => key(e, more)}>
@@ -958,7 +957,6 @@ function BuyBox() {
           <div class="e4-bar" aria-live="polite">${lastF
             ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span><span class="e4-txt"><b>${lastF.name}</b> · ${lastF.intention} · <span class=${"pick-str s-" + lastF.strength} title="Scent strength"><i></i><i></i><i></i>${lastF.strength}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
             : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt">Tap a scent to add it, or use \u2212 and +. Each one tells you what it smells like.</span>`}</div>
-          <ul class="hb3">${HEALTH3.map((h) => html`<li key=${h.short}><span class="hb-ic" aria-hidden="true">${h.ic}</span><span>${h.tx}</span></li>`)}</ul>
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}

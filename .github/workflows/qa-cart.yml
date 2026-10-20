@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-14 ~16:1x UTC (owner-requested QA pass): all 23 scenarios on the live pages as they stand (kits on dk8; the dk8d centred smells-like bar is preview-only and not expected live).
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-20 ~22:2x UTC right after the dk9 deploy: all 23 scenarios, kits on dk9-4f3f77f (K1–K7 expect the kit line at $0 and the scents on Monthly / Every 60 days / Every 90 days).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

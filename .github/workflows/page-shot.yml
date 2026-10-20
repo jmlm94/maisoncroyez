@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Defaults restored to the kits page after the 2026-10-20 build-your-kit reference capture (that run failed at the button-check step: no #buybox .btn.atc on that page; the fetch-html capture has its text).
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-20 ~22:2x UTC right after the dk9 deploy: expect key dk9-4f3f77f, body match, no video, hero mc-dk-hero-800 loaded, the three-step cart check (step-next → + on the tiles → Review my kit → sub-90).
 on:
   workflow_dispatch:
     inputs:

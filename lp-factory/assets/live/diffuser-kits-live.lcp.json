@@ -1,10 +1,10 @@
 [
  {
   "label": "phone-fast",
-  "ms": 8179,
+  "ms": 8285,
   "lcp": [
    {
-    "t": 607,
+    "t": 572,
     "size": 152100,
     "tag": "IMG",
     "id": "",
@@ -15,16 +15,16 @@
   "paints": [
    {
     "n": "first-paint",
-    "t": 607
+    "t": 408
    },
    {
     "n": "first-contentful-paint",
-    "t": 607
+    "t": 408
    }
   ],
   "tl": [
    {
-    "t": 377,
+    "t": 260,
     "pre": null,
     "vposter": null,
     "rootKids": -1,
@@ -32,14 +32,14 @@
     "themecss": false
    },
    {
-    "t": 430,
+    "t": 349,
     "pre": [
      "block",
      "fixed",
      "1",
      "visible",
      [
-      113,
+      101,
       390,
       390
      ]
@@ -50,7 +50,7 @@
     "themecss": true
    },
    {
-    "t": 535,
+    "t": 453,
     "pre": [
      "none",
      "fixed",
@@ -74,38 +74,38 @@
   ],
   "title": "Diffuser Kits — Maison Croyez",
   "nav": {
-   "ttfb": 370,
-   "dcl": 816,
-   "load": 1171,
-   "size": 59463
+   "ttfb": 250,
+   "dcl": 855,
+   "load": 1272,
+   "size": 59621
   }
  },
  {
   "label": "phone-cpu4x",
-  "ms": 9307,
+  "ms": 10070,
   "lcp": [
    {
-    "t": 1062,
+    "t": 748,
     "size": 169744,
     "tag": "IMG",
-    "id": "",
-    "cls": "simg hv-poster",
+    "id": "mc-hero-p",
+    "cls": "",
     "url": "data:image/webp;base64,UklGRsxeAABXRUJQVlA4IMBeA"
    }
   ],
   "paints": [
    {
     "n": "first-paint",
-    "t": 450
+    "t": 748
    },
    {
     "n": "first-contentful-paint",
-    "t": 768
+    "t": 748
    }
   ],
   "tl": [
    {
-    "t": 215,
+    "t": 261,
     "pre": null,
     "vposter": null,
     "rootKids": -1,
@@ -113,7 +113,7 @@
     "themecss": false
    },
    {
-    "t": 335,
+    "t": 435,
     "pre": null,
     "vposter": null,
     "rootKids": -1,
@@ -121,7 +121,43 @@
     "themecss": true
    },
    {
-    "t": 1055,
+    "t": 749,
+    "pre": [
+     "block",
+     "fixed",
+     "1",
+     "visible",
+     [
+      113,
+      412,
+      412
+     ]
+    ],
+    "vposter": "",
+    "rootKids": -1,
+    "poster": null,
+    "themecss": true
+   },
+   {
+    "t": 1393,
+    "pre": [
+     "block",
+     "fixed",
+     "1",
+     "visible",
+     [
+      113,
+      412,
+      412
+     ]
+    ],
+    "vposter": "data:image/webp;base",
+    "rootKids": 0,
+    "poster": null,
+    "themecss": true
+   },
+   {
+    "t": 1923,
     "pre": [
      "none",
      "fixed",
@@ -145,10 +181,10 @@
   ],
   "title": "Diffuser Kits — Maison Croyez",
   "nav": {
-   "ttfb": 193,
-   "dcl": 1728,
-   "load": 2291,
-   "size": 59459
+   "ttfb": 230,
+   "dcl": 2564,
+   "load": 3053,
+   "size": 59572
   }
  }
 ]

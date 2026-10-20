@@ -1627,3 +1627,10 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root #buybox.step-3 .s9-freq-head{margin:0 0 3px}
 #root #buybox.step-3 .rf3-opt{min-height:52px;padding:6px 6px}
 }
+@media (min-width:700px){#root .s9-banner{aspect-ratio:auto;height:210px}} /* dk9i: desktop keeps Add to cart near the first screen */
+/* dk9i-c: a little margin for the first-screen check on step 3 */
+#root #buybox.step-3 .buybox{gap:7px}
+#root .s9-banner{margin:0}
+#root .s9-value,#root .s9-due{margin:0}
+@media (max-width:699px){#root #buybox.step-3 .s9-title{margin-bottom:4px !important}}
+@media (min-width:700px){#root .s9-banner{height:176px}}

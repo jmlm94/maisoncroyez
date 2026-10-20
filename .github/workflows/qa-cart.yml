@@ -20,7 +20,15 @@ jobs:
         with:
           node-version: 20
       - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Gate (the live kits page must already be on the dk9 three-step build; otherwise this run skips)
+        id: gate
+        run: |
+          curl -sSL -A "Mozilla/5.0" https://maisoncroyez.com/pages/diffuser-kits -o live.html || true
+          KEY=$(grep -o "var v='[^']*'" live.html | head -1 | cut -d"'" -f2)
+          echo "live key: $KEY"
+          if [[ "$KEY" == dk9-* ]]; then echo "run=yes" >> "$GITHUB_OUTPUT"; else echo "run=no" >> "$GITHUB_OUTPUT"; echo "live page is not on dk9 yet — skipping"; fi
       - name: Run the cart scenarios
+        if: steps.gate.outputs.run == 'yes'
         run: |
           cat > qa.mjs <<'EOF'
           import { chromium } from 'playwright';
@@ -123,7 +131,7 @@ jobs:
           EOF
           node qa.mjs
       - name: Commit
-        if: always()
+        if: always() && steps.gate.outputs.run == 'yes'
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"

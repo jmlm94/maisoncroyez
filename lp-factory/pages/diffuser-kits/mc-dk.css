@@ -1537,3 +1537,24 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .e4-bar,#root .e4-bar .e4-txt{color:#141414}
 #root .buybox p,#root .buybox small,#root .buybox s,#root .pick-hint,#root .booklet,#root .s9-freq-note,#root .atc-chip small,#root .rv6-title,#root .rv6-who,#root .place-cap,#root .kr-sub,#root .kr-pr s,#root .qa .ans,#root .qa .ans p,#root .faq-list li,#root .t9-line{color:#141414 !important}
 #root .stars5{color:#D9CFC2}
+/* dk9e (2026-10-20, owner): centred rating + smaller title, roomier option cards with green FREE badges, reserved-diffusers card on step 2, step-3 banner, buttons a touch smaller */
+#root #buybox.step-1 .tb-rating{justify-content:center;align-self:center;width:100%}
+#root .buybox h1.h1-9e{text-align:center;font-size:1.18rem !important;line-height:1.18 !important;font-weight:700}
+@media (min-width:700px){#root .buybox h1.h1-9e{font-size:1.5rem !important;line-height:1.15 !important}}
+#root .tiers.t9cols{gap:10px;margin:6px 0 10px}
+#root .tier.t9c3{gap:5px;padding:16px 8px 14px}
+#root .tier.t9c3 > .ph.sq{margin:0 0 6px !important}
+#root .tier.t9c3 .tier-name{min-height:0}
+#root .tier.t9c3 .t9-val{margin-top:5px;gap:4px}
+#root .tier.t9c3 .t9-val s{font-size:.72rem}
+#root .tier.t9c3 .t9-val b{background:#1E7A1E;color:#fff;border-radius:999px;padding:3px 9px;font-family:'Outfit',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.08em;line-height:1.2}
+#root .buybox .btn.atc,#root .buybox .navrow .btn,#root .sticky .btn{padding:10px 20px;font-size:.86rem !important}
+#root .s9-res{flex:none;display:flex;align-items:center;gap:8px;border:1.5px solid #141414;border-radius:12px;padding:6px 10px 6px 6px;background:#F3E9E6;max-width:190px}
+#root .s9-res > .ph.sq{width:44px !important;height:44px !important;min-height:0 !important;flex:0 0 44px;margin:0 !important;border-radius:8px !important;background:#fff;border:1px solid #ECE9E4;overflow:hidden}
+#root .s9-res-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+#root .s9-res-tx b{font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.06em;line-height:1.2;color:#141414}
+#root .s9-res-tx small{font-size:.6rem;line-height:1.2;color:#141414}
+@media (min-width:700px){#root .s9-res{max-width:220px}}
+#root .s9-banner{margin:0 0 2px;border-radius:14px;overflow:hidden;background:#F7F3EE;aspect-ratio:2/1}
+#root .s9-banner img{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:699px){#root #buybox.step-3 .s9-title{font-size:1.2rem;margin-bottom:6px !important}#root .kitrev.k9{padding:6px 10px;gap:3px}#root .s9-freq-note{font-size:.76rem;margin-top:4px}}

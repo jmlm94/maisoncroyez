@@ -528,7 +528,7 @@ async function addToCart(setBusy, setToast) {
   selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId }));
   if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; }
   if (!onStore() || !kitId) {
-    setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + " on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) + " today, and opens the cart.");
+    setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + " on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) + " today, and goes straight to checkout.");
     return;
   }
   /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line

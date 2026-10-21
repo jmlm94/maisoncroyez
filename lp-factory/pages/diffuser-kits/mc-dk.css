@@ -1697,3 +1697,6 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .rf3-opt b{font-size:1rem}
 #root #buybox.step-3 .rf3-opt,#root .rf3-opt{min-height:50px;padding:10px 6px;overflow:visible}
 #root .rf3-opt small.rf3-tag,#root .rf3-opt.on small.rf3-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);margin:0}
+/* dk9m (2026-10-21, owner): the three option cards the same height (the theme's prose rule gave the 2nd and 3rd card a 12-16 px top margin inside the grid row, so the first looked taller); step-3 refill heading centred and 15% bigger. */
+#root .tiers.t9cols > .tier{margin:0 !important}
+#root .s9-freq-head,#root #buybox.step-3 .s9-freq-head{text-align:center;font-size:.92rem;margin:2px 0 8px}

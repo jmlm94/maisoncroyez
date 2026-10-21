@@ -512,6 +512,31 @@ const CART3 = {
      "FREE SCENT — Diffuser Kits (no subscription)" zeroes one one-time scent when a kits variant is in the cart. */
   kitsPlans: { 30: 7883817069, 60: 7883849837, 90: 7883882605 },
 };
+/* dk9m (2026-10-21, owner): the kit goes into the cart the moment the scents are complete ("Review my kit"), so Shopify's
+   Facebook & Instagram channel fires AddToCart (one per line, from /cart/add.js) at that moment; "Secure checkout" then only
+   leaves for /checkout, where checkout_started fires InitiateCheckout. A changed kit or frequency is removed and re-added
+   (the removal targets this page's variants by id, so a line the cart split for a discount is covered too). */
+const KITCART = { sig: null, pending: null, addedAt: 0 };
+const kitItems = () => { const T = selStore.tier(); const kitId = CART3.kitVariants && CART3.kitVariants[T.key]; const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30]; const items = [{ id: kitId, quantity: 1 }]; selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId })); return { T, kitId, planId, items }; };
+const kitSig = () => selStore.tier().key + "|" + [...selStore.keys].sort().join(",") + "|" + selStore.freq;
+const cartPost = (url, body) => fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) }).then((r) => { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); });
+async function syncKitCart() {
+  if (!onStore() || selStore.left() > 0) return false;
+  const { kitId, items } = kitItems(); if (!kitId) return false;
+  const sig = kitSig();
+  if (KITCART.pending) { try { await KITCART.pending; } catch (e) {} }
+  if (KITCART.sig === sig) return false; /* already in the cart as picked */
+  KITCART.pending = (async () => {
+    const ids = Object.values(CART3.kitVariants).concat(CONFIG.fragrances.map((f) => f.variant));
+    /* clear this page's variants first (also covers a reload after a review, so the cart never holds two kits) */
+    const cart = await (await fetch("/cart.js", { headers: { "Accept": "application/json" } })).json(); const updates = {}; (cart.items || []).forEach((i) => { if (ids.includes(i.variant_id)) updates[i.key] = 0; }); if (Object.keys(updates).length) await cartPost("/cart/update.js", { updates }); KITCART.sig = null;
+    await cartPost("/cart/add.js", { items });
+    KITCART.sig = sig; KITCART.addedAt = Date.now();
+    document.dispatchEvent(new CustomEvent("cart:refresh"));
+    return true;
+  })();
+  try { return await KITCART.pending; } finally { KITCART.pending = null; }
+}
 async function addToCart(setBusy, setToast) {
   const left = selStore.left();
   if (left > 0) {
@@ -535,12 +560,8 @@ async function addToCart(setBusy, setToast) {
      from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */
   try {
     setBusy(true);
-    const r = await fetch("/cart/add.js", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ items }),
-    });
-    if (!r.ok) throw new Error("cart " + r.status);
+    const added = await syncKitCart(); /* dk9m: usually already done at "Review my kit"; a changed frequency re-adds here */
+    const wait = added ? 800 : Math.max(0, 800 - (Date.now() - KITCART.addedAt));
     /* fd13 (2026-09-25, owner): straight to checkout — the drawer was an extra screen where 42% of add-to-carts stopped.
        Shopify's Meta channel pixel fires one AddToCart per cart line from the /cart/add.js call above; measured
        2026-09-25 (pixel-diag): the beacons leave 15-35 ms after the add response, via sendBeacon (survives unload).
@@ -552,8 +573,7 @@ async function addToCart(setBusy, setToast) {
        missing. rt14 history: "Add to cart" went to the cart page; fd13 before that went straight to checkout. */
     /* dk9l (2026-10-21, owner): straight to checkout again ("Secure checkout"); the 800 ms wait keeps the fd13 margin for the
        channel pixel's AddToCart beacons. The drawer path above is history. */
-    document.dispatchEvent(new CustomEvent("cart:refresh"));
-    setTimeout(() => { window.location.href = (CART3.checkoutUrl || "/checkout"); }, 800);
+    setTimeout(() => { window.location.href = (CART3.checkoutUrl || "/checkout"); }, wait);
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");
@@ -909,7 +929,7 @@ function BuyBox() {
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <${Img} slot=${"kit" + t.n} alt=${t.name}/>
                 <span class="t9-n">${t.n} Diffuser${t.n > 1 ? "s" : ""}</span>
-                <span class="t9-req">Requires ${t.scents} scents</span>
+                <span class="t9-req">(Requires ${t.scents} scents)</span>
                 <span class="t9-val"><s>${usd(val)}</s><b>FREE</b></span>
               </div>`; })}
           </div>
@@ -960,7 +980,7 @@ function BuyBox() {
             : html`<span class="e4-txt"><b class="e4-l1"><span class="e4-emoji" aria-hidden="true">☝🏻</span> Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
-            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}
+            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => { syncKitCart().catch(() => {}); go(3); }}><span>Review my kit ➔</span></button>`} <!-- dk9m: the kit goes into the cart here (AddToCart fires now) -->
           </div>
           ${chips}
           <//>` : html`<${Fragment} key="step3">
@@ -982,7 +1002,7 @@ function BuyBox() {
           </div>
           <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
-          <div class="s9-freq-head">Refill my ${T.scents} scents every:</div>
+          <div class="s9-freq-head">How frequently would you like your refills?</div> <!-- dk9m (owner) -->
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
           </div>
@@ -1174,7 +1194,7 @@ function StickyBar() {
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
   const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "\ud83d\udd12 SECURE CHECKOUT \u2794"; /* dk9: step-aware; dk9l: straight to checkout */
-  const act = () => { if (step === 1) return go(2); if (step === 2) return left > 0 ? goPick() : go(3); addToCart(setBusy, setToast); };
+  const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); syncKitCart().catch(() => {}); return go(3); } addToCart(setBusy, setToast); }; /* dk9m: review = cart add */
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy || (step === 2 && left > 0)} onClick=${act}>

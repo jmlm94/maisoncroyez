@@ -14,6 +14,22 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-21 — dk9l (key dk9l-852ab84, LIVE 16:05 UTC): new title, same-size cards, Secure checkout straight to checkout
+Second owner round of the day (artifact v33, "Deploy!"): title "Waterless Diffuser & Organic Scents: Protect your loved ones
+while making your spaces look and feel great."; hero 90% wide (corners kept; the page body's pre-hero frame follows at 90vw,
+fixed 16:19 UTC); option cards all the same size again, "1 / 2 / 3 Diffusers", a "Requires 2 / 3 / 5 scents" line, Best value
+tag on the third (Most popular stays on the middle one); step-1 guarantees styled like step 2's cards; the step-1 button and
+sticky bar fixed as "Pick your scents ➔"; step 2 tiles ordered photo → name → strength → quantity selector; the smells-like bar
+empty state is one bold line "☝🏻 Tap a scent to read more about it." and the scent line carries "· $39.95"; step 3 frequency
+buttons the same height with the MOST POPULAR pill on top of the 30-day one; the button reads "🔒 SECURE CHECKOUT ➔" and
+`addToCart` goes straight to /checkout after the add (800 ms pixel margin kept; the drawer path is gone on this page, so the
+drawer's "Frequently added together" upsell no longer shows here). Fold (emulated preview, accepted): phone 390×844 step 2
+guarantees 934, step 3 button 899; desktop 1366×900 step 3 button 925. Deploy: fileUpdate 46262619439213 (123,088 B) +
+46262619471981 (147,651 B) from raw @ 852ab84 (READY 15:51:26Z), pageUpdate 161846919277 (16:05:12Z, then 16:19:18Z with the
+90vw pre-hero). QA: qa-kits and qa-cart read the cart from the checkout page and count page errors up to the navigation only;
+kits scenarios expect the Secure checkout label; qa-kits checks the fixed label, the new bar prompt and the aria-label tiers.
+Rollback = key dk9k-3d43fe7 with the files at commit 3d43fe7.
+
 ## 2026-10-21 — dk9k (key dk9k-3d43fe7, LIVE 10:16 UTC): the owner's sizing round, deployed as is
 Owner round on the dk9j page (artifact v32, "Deploy as is"): hero 20% smaller with rounded corners and white space around it
 (`.gal-slide.ph.sq` at 80% on step 1; the page body's pre-hero frame matches: 80vw, radius 16 px, 6 px above, fixed at 131 px

@@ -14,6 +14,28 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-21 — dk9q (key dk9q-5d84bf3, LIVE 20:46 UTC): the 04/10 Subi plans, readable checkout lines
+Owner: the checkout for 2 diffusers + 3 scents was confusing ("First payment $119.85, then $74.85 every month" on every scent
+line, a scent line split in two, a kit line called "2 FREE Diffusers + 2 Scents" with a $159.90 strike-through) and the
+kits page should ride the Subi group "04/10 Sub for Offer #2 and #3".
+- App: `kitItems()` now takes the selling plan from `CART3.kitsPlans` (04/10 group: Every 30 / 60 / 90 days, 0% policy =
+  $39.95 every cycle) instead of `CART3.ritualPlans` (02/10 group with $15 / $10 / $5 off after the first payment). Nothing
+  else changed; the key is the only visible change in the page body.
+- Shopify: unlisted product 8277082341485 renamed "Maison Croyez Home Diffuser"; the three subscription variants are now
+  "1 Diffuser" / "2 Diffusers" / "3 Diffusers" at $89.95 / $179.90 / $269.85 (= the page's value line, so "Total savings" in
+  checkout matches); the three automatic BXGYs read "1 FREE DIFFUSER — SCENT SUBSCRIPTION" / "2 FREE DIFFUSERS — …" /
+  "3 FREE DIFFUSERS — …" and require 2 / 3 / 5 scents (the page's own requirement), so every scent unit is inside the
+  discount and the line no longer splits.
+- Checkout now reads: scent lines "$39.95 · Every 30 days" with the discount tag, kit line "Maison Croyez Home Diffuser /
+  2 Diffusers  ~~$179.90~~ FREE  2 FREE DIFFUSERS — SCENT SUBSCRIPTION (−$179.90)", recurring subtotal "$119.85 every 30 days".
+- Incident during the change (20:3x–21:06 UTC): the first discount update omitted `customerBuys.isSubscription`, the API
+  reset it to false, and subscription scents stopped qualifying — the diffusers were charged in full on the kits and ritual
+  pages for about half an hour. Restored with `customerBuys { isSubscription: true, isOneTimePurchase: true }`. The
+  `cart-probe.yml` workflow (Ajax cart from a fresh session) is the fast way to check discount allocation without a browser.
+- Still shared with the ritual page: variant 45900240257133 (now "1 Diffuser", $89.95) and the 1-diffuser BXGY; the ritual
+  page copy still says the diffuser is worth $80 — flagged, not changed. The "(One-Time)" variants of the product are unused.
+Rollback = key dk9p-9efc817 with the app at 9efc817 (02/10 plans); the product / discount edits are independent.
+
 ## 2026-10-21 — dk9p (key dk9p-9efc817, LIVE 19:03 UTC): cart at Review my kit, the website's header, ?kit= deep link
 Third owner round of the day (artifact v36). Four preview builds went out together:
 - dk9m — `syncKitCart()` runs at "Review my kit" (button and sticky bar), so the kit variant and the scents on the chosen plan

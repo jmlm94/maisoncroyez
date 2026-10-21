@@ -1,0 +1,53 @@
+name: home-shot
+# Phone + desktop screenshots of the live home page (top of page and full page) plus a text outline of its sections. Edit this line and push to run. Run 2026-10-21 (owner asked what to change on the home page).
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/home-shot.yml']
+permissions:
+  contents: write
+env:
+  URL: https://maisoncroyez.com/
+  OUT: lp-factory/pages/home/shots
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Shoot
+        run: |
+          mkdir -p "$OUT"
+          cat > shot.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL0 = process.env.URL, OUT = process.env.OUT; const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
+          const b = await chromium.launch(); const notes = [];
+          for (const [vp, W, H, mobile] of [['phone', 390, 844, true], ['desktop', 1366, 900, false]]) {
+            const ctx = await b.newContext(mobile ? { viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' } : { viewport: { width: W, height: H } });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message.slice(0, 120)));
+            await pg.goto(URL0, { waitUntil: 'load', timeout: 90000 }); await pg.waitForTimeout(6000);
+            await pg.screenshot({ path: `${OUT}/${stamp}-${vp}-top.png` });
+            for (let y = 0; y < 12000; y += 600) { await pg.evaluate((y) => window.scrollTo(0, y), y); await pg.waitForTimeout(120); }
+            await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(800);
+            await pg.screenshot({ path: `${OUT}/${stamp}-${vp}-full.png`, fullPage: true });
+            const d = await pg.evaluate(() => { const tx = (e) => (e.innerText || '').replace(/\s+/g, ' ').trim(); const secs = [...document.querySelectorAll('#root > *, #root section, #root [id^="sec-"], main section, .shopify-section')].filter((e) => e.getBoundingClientRect().height > 40).slice(0, 60).map((e) => { const r = e.getBoundingClientRect(); return { tag: e.tagName.toLowerCase(), id: e.id, cls: (e.className || '').toString().slice(0, 60), top: Math.round(r.top + scrollY), h: Math.round(r.height), head: tx(e.querySelector('h1,h2,h3') || e).slice(0, 90) }; }); return { title: document.title, h1: [...document.querySelectorAll('h1')].map(tx), h2: [...document.querySelectorAll('h2')].map(tx).slice(0, 30), ctas: [...document.querySelectorAll('a.btn, button.btn, a[class*="btn"], button[class*="btn"]')].map((e) => tx(e) + ' → ' + (e.getAttribute('href') || '')).slice(0, 30), links: [...document.querySelectorAll('#root a[href]')].map((a) => a.getAttribute('href')).filter((h, i, arr) => arr.indexOf(h) === i).slice(0, 40), pageH: document.documentElement.scrollHeight, secs }; });
+            notes.push(`${vp} ${W}x${H}: ${JSON.stringify({ ...d, errs })}`); console.log(notes[notes.length - 1].slice(0, 4000));
+            await ctx.close();
+          }
+          await b.close(); fs.writeFileSync(`${OUT}/${stamp}-notes.txt`, notes.join('\n'));
+          EOF2
+          node shot.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "home-shot: live home page screenshots" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

@@ -396,3 +396,28 @@ html{scroll-behavior:smooth}
   #root .hbadges span{font-size:.56rem;padding:8px 4px}
   #root .faqs summary{font-size:.95rem}
 }
+/* hm4 round 2 (owner): tighter hero, smaller "Why" heading, uniform square scent tiles */
+#root .hero .wrap{padding-top:14px;padding-bottom:18px}
+#root .hrating{margin-bottom:6px}
+#root .hero h1{margin-bottom:8px;font-size:clamp(1.8rem,3.6vw,2.7rem)}
+#root .hbadges{margin:0 auto 8px;gap:6px}
+#root .hsub{margin:0 auto 10px;font-size:.98rem}
+#root .hero .hcta{margin-bottom:10px}
+#root .why h2{font-size:clamp(1.6rem,2.8vw,2.2rem)}
+#root .why .wrap{gap:30px}
+#root .wrow{padding:12px 0}
+#root .wrow b{font-size:.98rem}
+#root .wrow p{font-size:.9rem}
+#root .frow{gap:12px;align-items:start}
+#root .ftile img{aspect-ratio:1/1;width:100%;height:auto;object-fit:cover;border-radius:14px;box-shadow:0 6px 18px rgba(60,38,30,.14);margin-bottom:8px;background:#F7F3EE}
+#root .ftile b{font-size:.98rem;min-height:2.2em;display:flex;align-items:flex-start;justify-content:center}
+#root .ftile span{display:block;margin-top:2px;font-size:.56rem;letter-spacing:.12em;line-height:1.3}
+#root .pbody .btn.dark{box-shadow:none}
+@media (max-width:880px){
+  #root .hero .wrap{padding-top:10px;padding-bottom:14px}
+  #root .hero h1{font-size:1.75rem}
+  #root .frow{grid-template-columns:repeat(4,1fr);gap:8px}
+  #root .ftile b{font-size:.8rem;min-height:2.4em}
+  #root .ftile span{font-size:.5rem;letter-spacing:.08em}
+  #root .why h2{font-size:1.6rem}
+}

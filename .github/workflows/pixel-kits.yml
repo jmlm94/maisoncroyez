@@ -2,7 +2,7 @@ name: pixel-kits
 # 2026-10-21 — what the Meta channel pixel sends from /pages/diffuser-kits (dk9 three-step page): PageView on load, AddToCart after
 # "Review my kit" and/or after "Secure checkout" (the /checkout navigation is answered with a 204 so the page stays alive and the
 # beacons can be counted), InitiateCheckout on the checkout page. Real UA, navigator.webdriver hidden, hooks in every frame
-# (fbevents sends nothing from a webdriver browser). Owner: "I don't see Add to cart or checkout even firing". Edit this line and push to run.
+# (fbevents sends nothing from a webdriver browser). Owner: "I don't see Add to cart or checkout even firing". Edit this line and push to run. Run 2026-10-21 after dk9p: AddToCart expected right after Review my kit, nothing new at Secure checkout, InitiateCheckout on the checkout page.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

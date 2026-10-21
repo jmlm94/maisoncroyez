@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-21 after the dk9p deploy (key dk9p-9efc817): theme header and announcement bar above the page, body match, three-step check lands on /checkout.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-21 after the dk9p header fix (page body re-pushed 19:56 UTC: the theme header group is revealed once theme.css applies; key dk9p-9efc817 unchanged).
 on:
   workflow_dispatch:
     inputs:

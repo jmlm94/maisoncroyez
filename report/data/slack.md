@@ -1,30 +1,30 @@
-*Maison Croyez — Daily Report · Monday, October 19, 2026*
+*Maison Croyez — Daily Report · Tuesday, October 20, 2026*
 
-:warning: *Partial report (6th day): Shopify orders NOT refreshed.* The Shopify connector still needs to be signed in again, so I couldn't pull orders (last good pull: Oct 13). No orders are on file for Oct 14–19, so yesterday's $0 sales and −$399 profit are not real. The 7-day and longer windows are understated too. Meta numbers are complete. Please re-connect Shopify to *Maison Croyez* (not Carbinox Co.) and reply "Run again" so I can backfill.
+:white_check_mark: *Shopify is reconnected and Oct 14–19 is backfilled.* I added the 40 missing orders, so every window below is complete again. The backfilled days: $2,612 in sales and −$990 contribution profit over 6 days (best day Oct 15: +$136; worst Oct 18: −$482, when ad spend hit $698).
+:mag: *Checking Meta against Shopify, Oct 14–20:* Meta claimed 10 purchases; Shopify shows 7 new-customer orders, and 1 of those (#MC27123, $35, Oct 16) was cancelled and refunded. The 2 W2 Dante-Malu "purchases" Meta logged at $0 on Oct 16 don't match any real order that stuck. W2's $130 purchase on Oct 19 does match a real order (#MC27138).
 
-:mag: *Ads yesterday:* spend dropped back to $399 (from $698). Meta counted 1 purchase ($130), from W2 Dante-Malu Videos ($77 spend, 10 add-to-carts), its first purchase with a value. LP Kits spent $142 (12 add-to-carts, 5 checkouts, no purchase). Malu IMG ($71) and Semana 8 Videos ($109) had no add-to-carts.
+Hello Jose — yesterday we sold *$440* on Shopify across *6 orders* (*$440* subscription · *$0* one-time). COGS were *$107*, shipping ≈*$45*, processing fees *$13.68*, handling *$6.00*, and Meta ad spend *$346* (CPM $186.67 · CPC $3.24 · CTR 5.77%).
 
-Hello Jose — yesterday we sold *$0* on Shopify across *0 orders* (*$0* subscription · *$0* one-time). COGS were *$0*, shipping ≈*$0*, processing fees *$0.00*, handling *$0.00*, and Meta ad spend *$399* (CPM $175.59 · CPC $3.19 · CTR 5.50%).
-
-:red_circle: *Contribution profit yesterday: −$399* · Blended ROAS *—*
+:red_circle: *Contribution profit yesterday: −$78* · Blended ROAS *1.27×*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $0 | $399 | −$399 (+42.8%) | — |
-| 7 days | $799 | $2,626 | −$2,106 (−115.5%) | 0.30× |
-| 14 days | $3,547 | $4,892 | −$3,083 (−32.9%) | 0.73× |
-| 28 days | $8,506 | $9,400 | −$5,404 (+29.5%) | 0.90× |
-| 45 days | $23,260 | $20,017 | −$10,723 (+49.6%) | 1.16× |
-| 90 days | $42,455 | $45,330 | −$32,011  | 0.94× |
+| Yesterday | $440 | $346 | −$78 (+66.0%) | 1.27× |
+| 7 days | $3,052 | $2,673 | −$1,068 (−83.0%) | 1.14× |
+| 14 days | $6,498 | $4,996 | −$1,652 (+9.7%) | 1.30× |
+| 28 days | $11,258 | $8,968 | −$3,482 (+56.2%) | 1.26× |
+| 45 days | $26,272 | $20,366 | −$9,488 (+55.1%) | 1.29× |
+| 90 days | $45,507 | $45,546 | −$30,622  | 1.00× |
 
-:seedling: *Subscriptions:* 298 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 0 new yesterday · 63 renewal orders in 28d
-:vs: *Meta vs day before:* CPM −16.8% · CPC −30.9% · CTR +20.4% · spend −42.8%
-:scales: *Worth it yet?* Almost — each sub costs $294, returns ~$165 in 180d (0.56×). Break-even CAC: $165.
+:seedling: *Subscriptions:* 301 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 1 new yesterday · 93 renewal orders in 28d
+:vs: *Meta vs day before:* CPM +5.8% · CPC +0.6% · CTR +5.2% · spend −13.9%
+:scales: *Worth it yet?* Almost — each sub costs $272, returns ~$165 in 180d (0.61×). Break-even CAC: $165.
 
-:test_tube: *LP Test, first 15 days (Meta-attributed):* $5,202 spent · 23 purchases ($2,189) · $226 per purchase.
-• LP Kits: $2,367 · 121 add-to-carts · 43 checkouts · 14 purchases ($1,499) · $169 per purchase · still running
+:dart: *Ads yesterday:* $346 spent, 1 purchase ($110) from LP Kits ($140 spend), matching Shopify order #MC27144 (Diffuser Kit + subscription). Malu IMG $80 (6 add-to-carts, 2 checkouts), Semana 8 Videos $61 (no add-to-carts), W2 Dante-Malu $65 (3 add-to-carts).
+:test_tube: *LP Test, first 16 days (Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase.
+• LP Kits: $2,510 · 129 add-to-carts · 45 checkouts · 15 purchases ($1,609) · $167 per purchase · still running
 • LP Bundle: $996 · 78 add-to-carts · 28 checkouts · 4 purchases ($400) · $0 since Oct 14
 • LP Ritual: $694 · 41 add-to-carts · 7 checkouts · 2 purchases ($160) · $0 since Oct 12
-• New since Oct 16 (4 days, $1,145 together, 1 purchase with value): Malu IMG $357 · 2 add-to-carts · 0 checkouts | Semana 8 Videos $410 · 9 add-to-carts · 4 checkouts · 0 purchases | W2 Dante-Malu Videos $378 · 12 add-to-carts · 3 checkouts · 3 purchases ($130; 2 of them $0 value)
+• New since Oct 16 (5 days, $1,352 together, 1 real purchase): Malu IMG $438 · 8 add-to-carts · 2 checkouts · 0 purchases | Semana 8 Videos $471 · 9 add-to-carts · 4 checkouts · 0 purchases | W2 Dante-Malu Videos $443 · 15 add-to-carts · 3 checkouts · 1 real purchase ($130)
 
 :bar_chart: Full interactive report: https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039

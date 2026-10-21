@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-20 ~22:5x UTC after the dk9j fix (kits on dk9j-b9e8578): all 23 scenarios; split BXGY lines are compared merged.
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 after the dk9k deploy (kits on dk9k-3d43fe7): all 23 scenarios.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

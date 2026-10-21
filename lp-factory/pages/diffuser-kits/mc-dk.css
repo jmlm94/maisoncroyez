@@ -1682,3 +1682,18 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .s9-freq-head{margin:2px 0 8px}
 #root .rf3{gap:10px}
 #root #buybox.step-3 .s9-freq-note,#root .s9-freq-note{font-size:.81rem;line-height:1.38;margin-top:5px}
+/* dk9l (2026-10-21, owner round on dk9k): hero 90% (a little bigger, corners kept); option cards all the same size with "X Diffusers", "Requires N scents" and a Best value tag on the third; step-1 guarantees like step 2's; step-2 quantity selector under the strength label; step-3 frequency buttons the same height with the Most popular pill on top; Secure checkout button. */
+#root #buybox.step-1 .gal-slide.ph.sq{flex-basis:90% !important;width:90% !important}
+#root .t9-req{font-family:'Outfit',sans-serif;font-weight:600;font-size:.62rem;line-height:1.2;color:#141414;margin-top:-1px}
+@media (min-width:700px){#root .t9-req{font-size:.7rem}}
+#root #buybox.step-1 .atc-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+#root #buybox.step-1 .atc-chip{flex-direction:column;gap:4px;padding:7px 4px 6px;border-radius:14px}
+#root #buybox.step-1 .atc-chip .atc-chip-ic{font-size:1.5rem;line-height:1}
+#root #buybox.step-1 .atc-chip b{font-size:.74rem;line-height:1.2;white-space:normal}
+#root #buybox.step-1 .atc-chip small{display:block;line-height:1.2}
+#root .picker.e4 .e4-step,#root .picker.e4 .e4-ph .e4-step{position:static;left:auto;bottom:auto;transform:none;margin:5px auto 0;width:max-content;background:transparent;box-shadow:none;padding:0;gap:7px}
+#root .picker.e4 .pick{padding-bottom:8px}
+#root .rf3{padding-top:8px}
+#root .rf3-opt b{font-size:1rem}
+#root #buybox.step-3 .rf3-opt,#root .rf3-opt{min-height:50px;padding:10px 6px;overflow:visible}
+#root .rf3-opt small.rf3-tag,#root .rf3-opt.on small.rf3-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);margin:0}

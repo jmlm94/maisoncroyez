@@ -550,14 +550,10 @@ async function addToCart(setBusy, setToast) {
        <cart-drawer id="cart-drawer"> in the overlay group with cart type "drawer"; its show() opens it and the theme re-renders
        the drawer on the cart:refresh event (same mechanism the page used before fd13). Falls back to /cart if the drawer is
        missing. rt14 history: "Add to cart" went to the cart page; fd13 before that went straight to checkout. */
-    const drawer = document.getElementById("cart-drawer");
-    if (drawer && typeof drawer.show === "function") {
-      document.documentElement.dispatchEvent(new CustomEvent("cart:refresh", { bubbles: true, detail: { open: true } }));
-      setTimeout(() => { try { drawer.show(); } catch (e) {} setBusy(false); }, 150);
-    } else {
-      document.dispatchEvent(new CustomEvent("cart:refresh"));
-      setTimeout(() => { window.location.href = CART3.cartUrl || "/cart"; }, 800);
-    }
+    /* dk9l (2026-10-21, owner): straight to checkout again ("Secure checkout"); the 800 ms wait keeps the fd13 margin for the
+       channel pixel's AddToCart beacons. The drawer path above is history. */
+    document.dispatchEvent(new CustomEvent("cart:refresh"));
+    setTimeout(() => { window.location.href = (CART3.checkoutUrl || "/checkout"); }, 800);
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");
@@ -586,7 +582,7 @@ const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one:
 const TIERS = [ /* dk9 (2026-10-20, owner): free diffusers with a scent subscription — 1 diffuser for 2 scents, 2 for 3, 3 for 5. Step 1 shows no prices; the card copy is the owner's reference card. */
   { key: "one", n: 1, name: "Living Room", line: "1 free diffuser \u00b7 up to 600 sq ft", scents: 2, price: 79.90, oneTime: 0, tag: "", pop: false, bul: ["1 free diffuser, your signature space, covered.", "Up to 600 sq ft covered \u00b7 2,500+ homes scented."], rooms: ["\ud83d\udecb\ufe0f Studio", "\ud83d\udec1 Bathroom", "\ud83d\udeaa Entry"], where: "<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand." },
   { key: "two", n: 2, name: "Living Room & Bedroom", line: "2 free diffusers \u00b7 up to 1,200 sq ft", scents: 3, price: 119.85, oneTime: 0, tag: "Most popular", pop: true, bul: ["2 free diffusers, where you host and where you rest.", "Up to 1,200 sq ft of total coverage."], rooms: ["\ud83d\udecb\ufe0f Living Room", "\ud83d\udecf\ufe0f Bedroom", "\ud83c\udf73 Kitchen"], where: "<b>Two diffusers for one bigger room</b>, up to 1,200 sq ft: the living room, the bedroom or the kitchen." },
-  { key: "three", n: 3, name: "Living Room, Bedroom & Kitchen", line: "3 free diffusers \u00b7 up to 1,800 sq ft", scents: 5, price: 199.75, oneTime: 0, tag: "", pop: false, bul: ["3 free diffusers, your whole home holds the scent.", "Up to 1,800 sq ft, whole-home coverage."], rooms: ["\ud83c\udfe0 1+ Rooms", "\ud83d\udccf Large Spaces"], where: "<b>Three diffusers, up to 1,800 sq ft:</b> two in the living room, one in the bedroom, or any split you like." },
+  { key: "three", n: 3, name: "Living Room, Bedroom & Kitchen", line: "3 free diffusers \u00b7 up to 1,800 sq ft", scents: 5, price: 199.75, oneTime: 0, tag: "Best value", pop: false, bul: ["3 free diffusers, your whole home holds the scent.", "Up to 1,800 sq ft, whole-home coverage."], rooms: ["\ud83c\udfe0 1+ Rooms", "\ud83d\udccf Large Spaces"], where: "<b>Three diffusers, up to 1,800 sq ft:</b> two in the living room, one in the bedroom, or any split you like." },
 ];
 /* dk7 (2026-10-13, owner): one refill option (every 30 days, $15 off) or one-time; "Where it goes" floor plans per kit: 1 = one room, 2 = two zones in one bigger room, 3 = two in the living room + one in the bedroom */
 const PLANS = { one: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: one diffuser in a studio"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="120" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="160" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="170" cy="100" r="86" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="170" cy="100" r="9" fill="#141414"/><circle cx="170" cy="100" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">STUDIO</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">ONE ROOM, UP TO 600 SQ FT</text></svg>', two: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in one large room"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="26" y="24" width="130" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="64" width="60" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="212" y="78" width="72" height="44" rx="6" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="222" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="262" y="160" width="36" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="98" cy="80" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="98" cy="80" r="9" fill="#141414"/><circle cx="98" cy="80" r="3.5" fill="#fff"/><circle cx="226" cy="124" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="226" cy="124" r="9" fill="#141414"/><circle cx="226" cy="124" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">OR THE BEDROOM, OR THE KITCHEN</text></svg>', three: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in the living room, one in the bedroom"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="196" y1="8" x2="196" y2="88" stroke="#241C18" stroke-width="3"/><line x1="196" y1="124" x2="196" y2="202" stroke="#241C18" stroke-width="3"/><path d="M196 88 a36 36 0 0 1 36 36" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="196" y1="88" x2="232" y2="88" stroke="#241C18" stroke-width="1.4"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="62" width="60" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="150" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="166" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="100" cy="64" r="52" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="100" cy="64" r="9" fill="#141414"/><circle cx="100" cy="64" r="3.5" fill="#fff"/><circle cx="150" cy="150" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="150" cy="150" r="9" fill="#141414"/><circle cx="150" cy="150" r="3.5" fill="#fff"/><circle cx="254" cy="118" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="254" cy="118" r="9" fill="#141414"/><circle cx="254" cy="118" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="208" y="196" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">BEDROOM</text></svg>' };
@@ -901,7 +897,7 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <h1 class="h1-9e">Maison Croyez: Your home deserves to look and feel great and safe. Protect your loved ones with our waterless diffuser & 100% organic scents.</h1> <!-- dk9e (2026-10-20, owner) -->
+          <h1 class="h1-9e">Waterless Diffuser & Organic Scents: Protect your loved ones while making your spaces look and feel great.</h1> <!-- dk9l (2026-10-21, owner) -->
           <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
@@ -909,10 +905,11 @@ function BuyBox() {
           <div class="picker-title step-title s9-title">How many spaces would you like to <em>transform today?</em></div>
           <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many free diffusers"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3" + (i === 1 ? " t9-mid" : "") + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.name + ": " + t.n + " diffuser" + (t.n > 1 ? "s" : "")} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"), the middle card a little bigger -->
+              <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.name + ": " + t.n + " diffuser" + (t.n > 1 ? "s" : "") + ", requires " + t.scents + " scents"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <${Img} slot=${"kit" + t.n} alt=${t.name}/>
-                <span class="t9-n">${t.n} diffuser${t.n > 1 ? "s" : ""}</span>
+                <span class="t9-n">${t.n} Diffuser${t.n > 1 ? "s" : ""}</span>
+                <span class="t9-req">Requires ${t.scents} scents</span>
                 <span class="t9-val"><s>${usd(val)}</s><b>FREE</b></span>
               </div>`; })}
           </div>
@@ -928,7 +925,7 @@ function BuyBox() {
             </div>
           </div>
 
-          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your ${T.scents} scents ➔</span></button>
+          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your scents ➔</span></button> <!-- dk9l (owner): fixed label -->
           ${chips}
 
           <${Reviews6}/>
@@ -948,21 +945,19 @@ function BuyBox() {
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
-                <div class="e4-ph"> <!-- dk9k: the stepper lives on the photo, so it never covers the name -->
-                <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
-                <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector -->
+                <div class="e4-ph"><${Img} slot=${f.pimg || f.img} alt=${f.name}/></div>
+                <span class="pick-scent e4-name">${f.name}</span>
+                ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null} <!-- dk9k (owner): strength on the tile, not in the bar -->
+                <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector; dk9l (owner): under the strength label -->
                   <button type="button" aria-label=${"Remove one " + f.name} disabled=${q === 0} onClick=${() => { sel.last = f.key; sel.remove(f.key); }}>\u2212</button>
                   <b>${q}</b>
                   <button type="button" aria-label=${"Add one " + f.name} disabled=${full} onClick=${more}>+</button>
                 </span>
-                </div>
-                <span class="pick-scent e4-name">${f.name}</span>
-                ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null} <!-- dk9k (owner): strength on the tile, not in the bar -->
               </div>`; })}
           </div>
           <div class="e4-bar" aria-live="polite">${lastF
-            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
-            : html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">👆</span> <b>Tap a scent</b> to read what it smells like.</span><br/><b>+</b> adds it, <b>\u2212</b> takes it out.</span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
+            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span> <b>${lastF.name}</b> · ${lastF.intention} · <b>${usd(SCENT_ONE)}</b></span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
+            : html`<span class="e4-txt"><b class="e4-l1"><span class="e4-emoji" aria-hidden="true">☝🏻</span> Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}
@@ -989,11 +984,11 @@ function BuyBox() {
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
           <div class="s9-freq-head">Refill my ${T.scents} scents every:</div>
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
-            ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small>${o.tag}</small>` : null}</button>`; })}
+            ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
           </div>
           <p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p> <!-- dk9i (owner): fixed, whatever the frequency -->
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : `ADD TO CART — ${usd(sel.today())} ➔`}</span>
+            <span>${busy ? "One moment…" : "🔒 SECURE CHECKOUT ➔"}</span> <!-- dk9l (owner): straight to checkout -->
           </button>
           ${chips}
           <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
@@ -1178,7 +1173,7 @@ function StickyBar() {
   const left = sel.left();
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = busy ? "One moment\u2026" : step === 1 ? `Pick your ${T.scents} scents \u2794` : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : `ADD TO CART \u2014 ${usd(sel.today())} \u2794`; /* dk9: step-aware */
+  const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "\ud83d\udd12 SECURE CHECKOUT \u2794"; /* dk9: step-aware; dk9l: straight to checkout */
   const act = () => { if (step === 1) return go(2); if (step === 2) return left > 0 ? goPick() : go(3); addToCart(setBusy, setToast); };
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>

@@ -1,5 +1,5 @@
 name: home-shot
-# Phone + desktop screenshots of the live home page (top of page and full page) plus a text outline of its sections. Edit this line and push to run. Run 2026-10-21 after the hm4 deploy (files on the CDN 19:13 UTC, live at the 20:00 UTC hm3 flip): hero, badges, promise, cards, scent tiles, links.
+# Phone + desktop screenshots of the live home page (top of page and full page) plus a text outline of its sections. Edit this line and push to run. Run 2026-10-21 after the hm4 deploy (files on the CDN 19:13 UTC, live at the 20:00 UTC hm3 flip): hero, badges, promise, cards, scent tiles, links. Rerun 21:24 UTC after the 21:00 flip: the Diffusers card must link to /products/diffuser-scents.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

@@ -1,5 +1,5 @@
 name: cart-probe
-# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5).
+# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5). Rerun 20:57 UTC after setting appliesOnSubscription=true on the three BXGYs.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -16,7 +16,9 @@ jobs:
           probe() {
             name="$1"; body="$2"; J=$(mktemp)
             curl -s -A "$UA" -c "$J" -b "$J" -o /dev/null -w "$name add.js HTTP %{http_code}\n" -H 'Content-Type: application/json' -X POST https://maisoncroyez.com/cart/add.js -d "$body"
-            curl -s -A "$UA" -b "$J" https://maisoncroyez.com/cart.js | jq -c '{total: (.total_price/100), items: [.items[] | {v: .variant_id, q: .quantity, title: .product_title, variant: .variant_title, price: (.price/100), line: (.final_line_price/100), plan: (.selling_plan_allocation.selling_plan.name // null), disc: [.line_level_discount_allocations[] | {t: .discount_application.title, a: (.amount/100)}]}], cart_disc: [.cart_level_discount_applications[]? | .title]}'
+            R=$(curl -s -A "$UA" -b "$J" -H 'Accept: application/json' https://maisoncroyez.com/cart.js)
+            echo "$R" | jq -c '{total: (.total_price/100), items: [.items[] | {v: .variant_id, q: .quantity, title: .product_title, variant: .variant_title, price: (.price/100), line: (.final_line_price/100), plan: (.selling_plan_allocation.selling_plan.name // null), disc: [.line_level_discount_allocations[] | {t: .discount_application.title, a: (.amount/100)}]}], cart_disc: [.cart_level_discount_applications[]? | .title]}' 2>/dev/null || echo "RAW: ${R:0:300}"
+            sleep 2
             echo
           }
           K2=45900240289901; K1=45900240257133; G=41212020457581; W=41212021669997; C=41212021506157

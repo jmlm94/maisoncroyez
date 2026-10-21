@@ -1,0 +1,29 @@
+name: cart-probe
+# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5).
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/cart-probe.yml']
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: probe
+        run: |
+          UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
+          probe() {
+            name="$1"; body="$2"; J=$(mktemp)
+            curl -s -A "$UA" -c "$J" -b "$J" -o /dev/null -w "$name add.js HTTP %{http_code}\n" -H 'Content-Type: application/json' -X POST https://maisoncroyez.com/cart/add.js -d "$body"
+            curl -s -A "$UA" -b "$J" https://maisoncroyez.com/cart.js | jq -c '{total: (.total_price/100), items: [.items[] | {v: .variant_id, q: .quantity, title: .product_title, variant: .variant_title, price: (.price/100), line: (.final_line_price/100), plan: (.selling_plan_allocation.selling_plan.name // null), disc: [.line_level_discount_allocations[] | {t: .discount_application.title, a: (.amount/100)}]}], cart_disc: [.cart_level_discount_applications[]? | .title]}'
+            echo
+          }
+          K2=45900240289901; K1=45900240257133; G=41212020457581; W=41212021669997; C=41212021506157
+          P30N=7883817069; P90N=7883882605; P30O=7876575341; P90O=7876640877
+          probe "S1 kit2 + 3 scents on 04/10 Every 30 days" "{\"items\":[{\"id\":$K2,\"quantity\":1},{\"id\":$G,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$W,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$C,\"quantity\":1,\"selling_plan\":$P30N}]}"
+          probe "S2 kit2 + 3 scents on 02/10 Monthly" "{\"items\":[{\"id\":$K2,\"quantity\":1},{\"id\":$G,\"quantity\":1,\"selling_plan\":$P30O},{\"id\":$W,\"quantity\":1,\"selling_plan\":$P30O},{\"id\":$C,\"quantity\":1,\"selling_plan\":$P30O}]}"
+          probe "S3 kit2 + 3 scents one-time" "{\"items\":[{\"id\":$K2,\"quantity\":1},{\"id\":$G,\"quantity\":1},{\"id\":$W,\"quantity\":1},{\"id\":$C,\"quantity\":1}]}"
+          probe "S4 kit1 + Chilled x2 on 04/10 Every 90 days" "{\"items\":[{\"id\":$K1,\"quantity\":1},{\"id\":$C,\"quantity\":2,\"selling_plan\":$P90N}]}"
+          probe "S5 kit1 + Chilled x2 on 02/10 Every 90 days" "{\"items\":[{\"id\":$K1,\"quantity\":1},{\"id\":$C,\"quantity\":2,\"selling_plan\":$P90O}]}"
+          probe "S6 kit2 + 4 scents on 04/10 Every 30 days (one above the minimum)" "{\"items\":[{\"id\":$K2,\"quantity\":1},{\"id\":$G,\"quantity\":2,\"selling_plan\":$P30N},{\"id\":$W,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$C,\"quantity\":1,\"selling_plan\":$P30N}]}"

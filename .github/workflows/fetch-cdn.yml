@@ -1,5 +1,5 @@
 name: fetch-cdn
-# Copies the shared runtime files the offer pages load from the Shopify CDN into lp-factory/assets/cdn/ (the session container cannot reach the CDN). Edit this line and push to refresh. Run 2026-10-21 (home page preview needs the kit, review, fragrance and logo images).
+# Copies the shared runtime files the offer pages load from the Shopify CDN into lp-factory/assets/cdn/ (the session container cannot reach the CDN). Edit this line and push to refresh. Run 2026-10-21 (second: the seven botanical scent images + the medium body font for the home preview).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p lp-factory/assets/cdn
           B="https://cdn.shopify.com/s/files/1/0020/3636/7469/files"
-          for f in mc-lp-vendor.js mc-lp-diffuser-assets.js mc-lp-f-bvp-400.woff2 mc-lp-f-bvp-600.woff2 mc-lp-f-outfit-400.woff2 mc-lp-f-outfit-700.woff2 mc-lp-f-unna-400.woff2 mc-lp-f-unna-400i.woff2 mc-lp-f-unna-700.woff2 mc-lp-f-unna-700i.woff2 mc-kb-kit1.jpg mc-kb-kit2.jpg mc-kb-kit3.jpg mc-review-1.jpg mc-review-2.jpg mc-review-3.jpg mc-review-4.jpg mc-review-5.jpg mc-review-6.jpg mc-kb-frag1.jpg mc-kb-frag2.jpg mc-kb-frag3.jpg mc-kb-frag4.jpg mc-kb-frag5.jpg mc-kb-frag6.jpg mc-kb-frag7.jpg mc-kb-logo.png mc-kb-hero.jpg; do
+          for f in mc-lp-vendor.js mc-lp-diffuser-assets.js mc-lp-f-bvp-400.woff2 mc-lp-f-bvp-600.woff2 mc-lp-f-outfit-400.woff2 mc-lp-f-outfit-700.woff2 mc-lp-f-unna-400.woff2 mc-lp-f-unna-400i.woff2 mc-lp-f-unna-700.woff2 mc-lp-f-unna-700i.woff2 mc-kb-kit1.jpg mc-kb-kit2.jpg mc-kb-kit3.jpg mc-review-1.jpg mc-review-2.jpg mc-review-3.jpg mc-review-4.jpg mc-review-5.jpg mc-review-6.jpg mc-kb-frag1.jpg mc-kb-frag2.jpg mc-kb-frag3.jpg mc-kb-frag4.jpg mc-kb-frag5.jpg mc-kb-frag6.jpg mc-kb-frag7.jpg mc-kb-logo.png mc-kb-hero.jpg golden_blossom.png crisp_citruss.png chilled_citrusss.png honey_nectarr.png euphoric_bloom.png wilwood_mistiqye.png midnight_sensation.png mc-lp-f-bvp-500.woff2; do
             curl -sSL -A "Mozilla/5.0" "$B/$f?v=$(date +%s)" -o "lp-factory/assets/cdn/$f" && echo "$f $(wc -c < lp-factory/assets/cdn/$f) bytes $(md5sum lp-factory/assets/cdn/$f | cut -c1-8)"
           done
           date -u > lp-factory/assets/cdn/FETCHED.txt

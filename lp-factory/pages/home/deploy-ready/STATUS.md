@@ -99,3 +99,6 @@ Deploy (Maison Croyez verified): fileUpdate 29644413796461 (mc-home-app.js) + 29
 both READY 19:13:40Z, sizes 14,504 / 22,228 on re-query (the mutation echoes the previous sizes). Hour-keyed (hm3-): live at the
 20:00 UTC flip. Verify: home-shot after the flip. Flag to owner: the "Diffusers" card target; "banner" was read as the hero
 picture (the sitewide announcement bar is unchanged).
+Verified after the flip: home-shot 20261021T2002 — phone and desktop show hm4 (new hero, badges, promise, CTA, three cards,
+botanical scent tiles, FAQ, closing band), 0 JS errors, CTAs → /pages/diffuser-kits ×4, /products/maison-croyez-home-scent-diffuser,
+/collections/power-fragrances; the theme announcement bar + header sit above the hero (phone 62 + 57 px, desktop 49 + 99 px).

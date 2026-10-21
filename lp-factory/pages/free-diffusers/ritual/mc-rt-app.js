@@ -541,7 +541,7 @@ async function addToCart(setBusy, setToast) {
    Diffuser count (1-3) + one distinct scent per diffuser.
    First scent (Top Seller) preselected; count 1 behaves as before.
    ================================================================ */
-const DIFFUSER_PRICE = 80, SCENT_ONE = 39.95, SCENT_SUB = 24.95; /* 2026-10-09 (owner): scent $49.95 -> $39.95 store-wide, refills $10 less */ /* ritual v3 (owner 2026-09-29): one diffuser, $80 value (compare-at $229 = $149 + $80); refills from $29 */
+const DIFFUSER_PRICE = 89.95, SCENT_ONE = 39.95, SCENT_SUB = 24.95; /* rt21 (2026-10-21, owner): the diffuser is $89.95 everywhere (was 80) — struck price $209.80, value and % off follow */ /* 2026-10-09 (owner): scent $49.95 -> $39.95 store-wide, refills $10 less */ /* ritual v3 (owner 2026-09-29): one diffuser, $80 value (compare-at $229 = $149 + $80); refills from $29 */
 const LOGO_SRC = A.logoLight || "https://maisoncroyez.com/cdn/shop/files/mc-kb-logo.png?v=1786479535&width=320";
 const RITUAL = { price: 119.85 }; /* rt20 (2026-10-09, owner): $119.85 today = 3 x $39.95 */ /* rt16 (2026-10-03, owner): $149.85 today = 3 x $49.95, what the cart charges; subscribe or not, the choice is only the refill schedule */
 const FREQS = [{ days: 30, price: 24.95, tag: "Best value" }, { days: 60, price: 29.95, tag: "Most popular", pop: true }, { days: 90, price: 34.95 }]; /* 2026-10-09 (owner): scent $39.95, refills $24.95/$29.95/$34.95 = Subi plan prices ($39.95 less $15/$10/$5 after the first payment) */ /* owner 2026-10-03 (rt16): 30/60/90 days at $34.95/$39.95/$44.95 per scent = Subi plan prices ($49.95 less $15/$10/$5 after the first payment) */ /* next scents: per-scent price by cadence (owner 2026-09-29) */

@@ -1,0 +1,1206 @@
+{
+ "stamp": "20261021T1018",
+ "url": "https://maisoncroyez.com/pages/diffuser-kits",
+ "pass": 42,
+ "total": 45,
+ "checks": [
+  {
+   "id": "phone-s1-mount",
+   "name": "step 1 mounts: \"Step 1 of 3\", three option cards, 2 diffusers selected",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "tiers": 3,
+    "on": "Living Room & Bedroom: 2 diffusers"
+   }
+  },
+  {
+   "id": "phone-s1-hero",
+   "name": "hero is the square picture, no video, no countdown",
+   "ok": true,
+   "got": {
+    "w": 800,
+    "loaded": true,
+    "src": "69/files/mc-dk-hero-800.jpg?v=1792532870"
+   }
+  },
+  {
+   "id": "phone-s1-copy",
+   "name": "title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price",
+   "ok": true,
+   "got": {
+    "h1": "Maison Croyez: Your home deserves to look and feel great and safe. Protect your loved ones with our waterless diffuser & 100% organic scents.",
+    "badges": [
+     "🫁 NO SMOKE, NO AEROSOL, NO HARM.",
+     "💧 NO WATER, NO MOLD, YOUR FAMILY SAFE.",
+     "🧘 REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY."
+    ],
+    "tiers": [
+     "1 diffuser $89.95 FREE",
+     "MOST POPULAR 2 diffusers $179.90 FREE",
+     "3 diffusers $269.85 FREE"
+    ],
+    "prices": [
+     "$89.95",
+     "$179.90",
+     "$269.85"
+    ]
+   }
+  },
+  {
+   "id": "phone-s1-place",
+   "name": "\"Where it goes\" under the options, button \"Pick your 3 scents\"",
+   "ok": true,
+   "got": {
+    "place": "WHERE IT GOES:",
+    "btn": "PICK YOUR 3 SCENTS ➔"
+   }
+  },
+  {
+   "id": "phone-s1-sticky",
+   "name": "sticky bar shows at load on step 1",
+   "ok": true,
+   "got": {
+    "shown": true,
+    "sticky": "PICK YOUR 3 SCENTS ➔"
+   }
+  },
+  {
+   "id": "phone-s1-tier1",
+   "name": "1 diffuser → \"Pick your 2 scents\"",
+   "ok": true,
+   "got": {
+    "btn": "PICK YOUR 2 SCENTS ➔",
+    "on": "Living Room: 1 diffuser"
+   }
+  },
+  {
+   "id": "phone-s2-mount",
+   "name": "step 2: \"Step 2 of 3\", title with colon, reserved card with struck value + FREE!, 7 tiles, no Popular badges, 0 of 3 picked",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "title": "Pick your 3 scents:",
+    "res": "2 FREE DIFFUSERS RESERVED Living Room & Bedroom · $179.90 FREE!",
+    "tiles": 7,
+    "popular": 0,
+    "pill": "0 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "phone-s2-fold",
+   "name": "step 2 fits the phone screen through the guarantees",
+   "ok": false,
+   "got": {
+    "chipsBottom": 857,
+    "vh": 844,
+    "fold": {
+     "scrollY": 0,
+     "ann": {
+      "top": 12,
+      "bottom": 61,
+      "h": 49
+     },
+     "hdr": {
+      "top": 61,
+      "bottom": 131,
+      "h": 70
+     },
+     "buybox": {
+      "top": 139,
+      "bottom": 857,
+      "h": 718
+     },
+     "bbGap": "8px",
+     "banner": null,
+     "eyebrow": {
+      "top": 151,
+      "bottom": 167,
+      "h": 16
+     },
+     "title": {
+      "top": 195,
+      "bottom": 218,
+      "h": 23
+     },
+     "kitrev": null,
+     "krGap": null,
+     "krPad": null,
+     "row": null,
+     "rowPad": null,
+     "rowLh": null,
+     "ph": null,
+     "krImg": null,
+     "krPr": null,
+     "value": null,
+     "due": null,
+     "freqHead": null,
+     "rf3": null,
+     "opt": null,
+     "optPad": null,
+     "note": null,
+     "atc": null,
+     "chips": {
+      "top": 757,
+      "bottom": 857,
+      "h": 100
+     },
+     "fonts": [
+      true,
+      true
+     ]
+    }
+   }
+  },
+  {
+   "id": "phone-s2-bar0",
+   "name": "bar: \"Tap a scent to read…\" with the emoji inline on the first line, no ingredients link, strength label on all 7 tiles",
+   "ok": true,
+   "got": {
+    "bar": "👆 Tap a scent to read what it smells like. + adds it, − takes it out.",
+    "emojiInline": true,
+    "strengths": 7
+   }
+  },
+  {
+   "id": "phone-s2-peek",
+   "name": "a tap on a tile only reads it (Wildwood Mystique in the bar, nothing added)",
+   "ok": true,
+   "got": {
+    "on": [],
+    "bar": "🌲 Wildwood Mystique · Purification Smells like: Pine and ju",
+    "hint": "Pick 3 more scents above to review your kit."
+   }
+  },
+  {
+   "id": "phone-s2-plus",
+   "name": "+ twice on Chilled Citrus → x2, \"1 more\"",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x2"
+    ],
+    "hint": "Pick 1 more scent above to review your kit.",
+    "pill": "2 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "phone-s2-full",
+   "name": "− then + on two others → 3 of 3, \"Review my kit\", + disabled",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "hint": null,
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "phone-s2-cap",
+   "name": "no fourth scent can be added",
+   "ok": true,
+   "got": true
+  },
+  {
+   "id": "phone-s3-mount",
+   "name": "step 3: picture, \"Step 3 of 3\", congratulations title, 3 scent rows + 2 diffusers struck FREE",
+   "ok": true,
+   "got": {
+    "banner": {
+     "loaded": true,
+     "w": 1600,
+     "src": "files/mc-dk-step3-1600x900.webp?v=1792532870"
+    },
+    "step": "STEP 3 OF 3",
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Golden Blossom Harmony $39.95",
+     "2× Maison Croyez Diffuser $179.90FREE"
+    ]
+   }
+  },
+  {
+   "id": "phone-s3-due",
+   "name": "value line + DUE TODAY $119.85",
+   "ok": true,
+   "got": {
+    "value": "That’s $299.75 of value, you pay $119.85 today.",
+    "due": "DUE TODAY: $119.85"
+   }
+  },
+  {
+   "id": "phone-s3-freq",
+   "name": "60 / 30 (Most popular, selected) / 90, fixed note, no payment logos, button $119.85",
+   "ok": true,
+   "got": {
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR",
+    "note": "Swap, pause and cancel anytime. If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.",
+    "paylogos": false,
+    "btn": "ADD TO CART — $119.85 ➔"
+   }
+  },
+  {
+   "id": "phone-s3-fold",
+   "name": "Add to cart ends inside the phone screen",
+   "ok": false,
+   "got": {
+    "atcBottom": 899,
+    "vh": 844,
+    "fold": {
+     "scrollY": 0,
+     "ann": {
+      "top": 12,
+      "bottom": 61,
+      "h": 49
+     },
+     "hdr": {
+      "top": 61,
+      "bottom": 131,
+      "h": 70
+     },
+     "buybox": {
+      "top": 139,
+      "bottom": 2375,
+      "h": 2236
+     },
+     "bbGap": "10px",
+     "banner": {
+      "top": 147,
+      "bottom": 322,
+      "h": 175
+     },
+     "eyebrow": {
+      "top": 332,
+      "bottom": 348,
+      "h": 16
+     },
+     "title": {
+      "top": 358,
+      "bottom": 407,
+      "h": 49
+     },
+     "kitrev": {
+      "top": 421,
+      "bottom": 563,
+      "h": 142
+     },
+     "krGap": "4px",
+     "krPad": "8px 10px",
+     "row": {
+      "top": 430,
+      "bottom": 458,
+      "h": 28
+     },
+     "rowPad": "0px",
+     "rowLh": "20.48px",
+     "ph": {
+      "top": 430,
+      "bottom": 458,
+      "h": 28
+     },
+     "krImg": {
+      "top": 430,
+      "bottom": 458,
+      "h": 28
+     },
+     "krPr": {
+      "top": 433,
+      "bottom": 455,
+      "h": 22
+     },
+     "value": {
+      "top": 575,
+      "bottom": 593,
+      "h": 18
+     },
+     "due": {
+      "top": 605,
+      "bottom": 656,
+      "h": 51
+     },
+     "freqHead": {
+      "top": 668,
+      "bottom": 689,
+      "h": 20
+     },
+     "rf3": {
+      "top": 714,
+      "bottom": 772,
+      "h": 59
+     },
+     "opt": {
+      "top": 714,
+      "bottom": 772,
+      "h": 59
+     },
+     "optPad": "6px",
+     "note": {
+      "top": 787,
+      "bottom": 841,
+      "h": 54
+     },
+     "atc": {
+      "top": 853,
+      "bottom": 899,
+      "h": 46
+     },
+     "chips": {
+      "top": 913,
+      "bottom": 1012,
+      "h": 100
+     },
+     "fonts": [
+      true,
+      true
+     ]
+    }
+   }
+  },
+  {
+   "id": "phone-s3-below",
+   "name": "guarantees, testimonials and FAQ under the button",
+   "ok": true,
+   "got": {
+    "chips": true,
+    "reviews": true,
+    "faq": 10
+   }
+  },
+  {
+   "id": "phone-s3-probe",
+   "name": "probe: live margins inside the kit review and the frequency buttons (informational)",
+   "ok": true,
+   "got": {
+    "rows": [
+     {
+      "h": 28,
+      "top": 430,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "20.48px",
+      "d": "flex"
+     },
+     {
+      "h": 28,
+      "top": 462,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "20.48px",
+      "d": "flex"
+     },
+     {
+      "h": 28,
+      "top": 494,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "20.48px",
+      "d": "flex"
+     },
+     {
+      "h": 28,
+      "top": 526,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "20.48px",
+      "d": "flex"
+     }
+    ],
+    "kitrev": {
+     "h": 142,
+     "top": 421,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "8px",
+     "pb": "8px",
+     "lh": "25.6px",
+     "d": "flex"
+    },
+    "optB": {
+     "h": 24,
+     "top": 721,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "24.32px",
+     "d": "block"
+    },
+    "optSmall": {
+     "h": 16,
+     "top": 749,
+     "mt": "2px",
+     "mb": "0px",
+     "pt": "3px",
+     "pb": "3px",
+     "lh": "10.368px",
+     "d": "block"
+    },
+    "opt": {
+     "h": 59,
+     "top": 714,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "6px",
+     "pb": "6px",
+     "lh": "25.6px",
+     "d": "flex"
+    },
+    "dueL": {
+     "h": 15,
+     "top": 605,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "15.36px",
+     "d": "block"
+    },
+    "dueN": {
+     "h": 35,
+     "top": 621,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "35.28px",
+     "d": "block"
+    },
+    "krTx": {
+     "h": 20,
+     "top": 434,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "20.48px",
+     "d": "flex"
+    },
+    "krB": {
+     "h": 20,
+     "top": 434,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "20.48px",
+     "d": "block"
+    },
+    "rules": [
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(ol, ul) :is(ol, ul) { margin-block-start: 1em; margin-inline-start: 1em; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose > :first-child, .prose > :first-child :first-child { margin-block-start: 0px !important; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose > :last-child, .prose > :last-child :last-child { margin-block-end: 0px !important; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + :is(p, div, ul, ol) { margin-block-start: var(--spacing-3); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + :is(.h0, .h1, .h2, h1, h2) { margin-block-start: var(--spacing-4); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + :is(.h3, .h4, .h5, .h6, h3, h4, h5, h6) { margin-block-start: var(--spacing-3); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + .button { margin-block-start: var(--spacing-6) !important; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(.h0, .h1, .h2, .h3, .h4, h1, h2, h3, h4) + * { margin-block-start: var(--spacing-5); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(.h5, .h6, h5, h6) + * { margin-block-start: var(--spacing-4); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(p img:not([style*=\"float\"]):only-child, div img:not([style*=\"float\"]):only-child, figure, video) { margin-block: var(--spacing-8); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose figcaption { font-style: italic; font-size: var(--text-sm); color: rgb(var(--text-color) / .7); margin-block-start: 0.5em; }",
+     "eme.css?v=175585479270227651431791924167 :: .blockquote, .prose blockquote { --quote-width: 51px; --quote-height: 37px; --quote-inset-block-start: calc(var(--spacing-5) * -1); --quote-inset-inline-start: ",
+     "eme.css?v=175585479270227651431791924167 :: .prose blockquote { --quote-inset-block-start: calc(var(--spacing-4) * -1); --quote-inset-inline-start: calc(50% - (var(--quote-width) / 2)); text-align: center",
+     "eme.css?v=175585479270227651431791924167 :: .product-info > * + * { margin-block-start: var(--product-info-block-spacing); margin-block-end: var(--product-info-block-spacing); }",
+     "x es/1/0020/3636/7469/files/mc-dk.css?v=dk9k-3d43fe7",
+     "inline :: .shopify-section--main-page, .shopify-section--main-page .container, .shopify-section--main-page .page-spacer, .shopify-section--main-page .page, .shopify-secti"
+    ],
+    "fetched": [
+     "st/accelerated-checkout-backwards-compat.css :: ",
+     "s/theme.css?v=175585479270227651431791924167 :: .prose :is(.h0,.h1,.h2,.h3,.h4,h1,h2,h3,h4)+*{margin-block-start:var(--spacing-5)} || .prose :is(.h5,.h6,h5,h6)+*{margin-block-start:var(--spacing-4)} || .prose :is(.h0,.h1,.h2,.h3,h1,h2,h3)+*{margin-block-start:var(--spacing-6)} || .prose :is(.h4,h4)+*{margin-block-start:var(--spacing-5)} || .prose :is(.h5,.h6,h5,h6)+*{margin-block-start:var(--spacing-4)} || .prose :is(.h0,.h1,.h2,h1,h2)+*{margin-block-start:var(--spacing-8)}",
+     "020/3636/7469/files/mc-dk.css?v=dk9k-3d43fe7 :: #root .kitrev>*+*,#root .kitrev .kr-row{margin-block-start:0!important;margin-top:0!important}"
+    ]
+   }
+  },
+  {
+   "id": "phone-s3-90",
+   "name": "90 days selects, note unchanged",
+   "ok": true,
+   "got": {
+    "on": "90 days",
+    "note": "Swap, pause and cancel anytime. If your "
+   }
+  },
+  {
+   "id": "phone-back",
+   "name": "\"Change my scents\" returns to step 2 with the picks kept",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ]
+   }
+  },
+  {
+   "id": "phone-errors",
+   "name": "no JavaScript or console errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "desktop-s1-mount",
+   "name": "step 1 mounts: \"Step 1 of 3\", three option cards, 2 diffusers selected",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "tiers": 3,
+    "on": "Living Room & Bedroom: 2 diffusers"
+   }
+  },
+  {
+   "id": "desktop-s1-hero",
+   "name": "hero is the square picture, no video, no countdown",
+   "ok": true,
+   "got": {
+    "w": 800,
+    "loaded": true,
+    "src": "69/files/mc-dk-hero-800.jpg?v=1792532870"
+   }
+  },
+  {
+   "id": "desktop-s1-copy",
+   "name": "title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price",
+   "ok": true,
+   "got": {
+    "h1": "Maison Croyez: Your home deserves to look and feel great and safe. Protect your loved ones with our waterless diffuser & 100% organic scents.",
+    "badges": [
+     "🫁 NO SMOKE, NO AEROSOL, NO HARM.",
+     "💧 NO WATER, NO MOLD, YOUR FAMILY SAFE.",
+     "🧘 REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY."
+    ],
+    "tiers": [
+     "1 diffuser $89.95 FREE",
+     "MOST POPULAR 2 diffusers $179.90 FREE",
+     "3 diffusers $269.85 FREE"
+    ],
+    "prices": [
+     "$89.95",
+     "$179.90",
+     "$269.85"
+    ]
+   }
+  },
+  {
+   "id": "desktop-s1-place",
+   "name": "\"Where it goes\" under the options, button \"Pick your 3 scents\"",
+   "ok": true,
+   "got": {
+    "place": "WHERE IT GOES:",
+    "btn": "PICK YOUR 3 SCENTS ➔"
+   }
+  },
+  {
+   "id": "desktop-s1-tier1",
+   "name": "1 diffuser → \"Pick your 2 scents\"",
+   "ok": true,
+   "got": {
+    "btn": "PICK YOUR 2 SCENTS ➔",
+    "on": "Living Room: 1 diffuser"
+   }
+  },
+  {
+   "id": "desktop-s2-mount",
+   "name": "step 2: \"Step 2 of 3\", title with colon, reserved card with struck value + FREE!, 7 tiles, no Popular badges, 0 of 3 picked",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "title": "Pick your 3 scents:",
+    "res": "2 FREE DIFFUSERS RESERVED Living Room & Bedroom · $179.90 FREE!",
+    "tiles": 7,
+    "popular": 0,
+    "pill": "0 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "desktop-s2-fold",
+   "name": "step 2 fits the desktop window",
+   "ok": true,
+   "got": {
+    "chipsBottom": 646,
+    "vh": 900,
+    "fold": {
+     "scrollY": 0,
+     "ann": {
+      "top": 16,
+      "bottom": 50,
+      "h": 34
+     },
+     "hdr": {
+      "top": 50,
+      "bottom": 120,
+      "h": 70
+     },
+     "buybox": {
+      "top": 144,
+      "bottom": 646,
+      "h": 502
+     },
+     "bbGap": "8px",
+     "banner": null,
+     "eyebrow": {
+      "top": 156,
+      "bottom": 171,
+      "h": 16
+     },
+     "title": {
+      "top": 193,
+      "bottom": 221,
+      "h": 28
+     },
+     "kitrev": null,
+     "krGap": null,
+     "krPad": null,
+     "row": null,
+     "rowPad": null,
+     "rowLh": null,
+     "ph": null,
+     "krImg": null,
+     "krPr": null,
+     "value": null,
+     "due": null,
+     "freqHead": null,
+     "rf3": null,
+     "opt": null,
+     "optPad": null,
+     "note": null,
+     "atc": null,
+     "chips": {
+      "top": 574,
+      "bottom": 646,
+      "h": 72
+     },
+     "fonts": [
+      true,
+      true
+     ]
+    }
+   }
+  },
+  {
+   "id": "desktop-s2-bar0",
+   "name": "bar: \"Tap a scent to read…\" with the emoji inline on the first line, no ingredients link, strength label on all 7 tiles",
+   "ok": true,
+   "got": {
+    "bar": "👆 Tap a scent to read what it smells like. + adds it, − takes it out.",
+    "emojiInline": true,
+    "strengths": 7
+   }
+  },
+  {
+   "id": "desktop-s2-peek",
+   "name": "a tap on a tile only reads it (Wildwood Mystique in the bar, nothing added)",
+   "ok": true,
+   "got": {
+    "on": [],
+    "bar": "🌲 Wildwood Mystique · Purification Smells like: Pine and ju",
+    "hint": "Pick 3 more scents above to review your kit."
+   }
+  },
+  {
+   "id": "desktop-s2-plus",
+   "name": "+ twice on Chilled Citrus → x2, \"1 more\"",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x2"
+    ],
+    "hint": "Pick 1 more scent above to review your kit.",
+    "pill": "2 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "desktop-s2-full",
+   "name": "− then + on two others → 3 of 3, \"Review my kit\", + disabled",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "hint": null,
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "desktop-s2-cap",
+   "name": "no fourth scent can be added",
+   "ok": true,
+   "got": true
+  },
+  {
+   "id": "desktop-s3-mount",
+   "name": "step 3: picture, \"Step 3 of 3\", congratulations title, 3 scent rows + 2 diffusers struck FREE",
+   "ok": true,
+   "got": {
+    "banner": {
+     "loaded": true,
+     "w": 1600,
+     "src": "files/mc-dk-step3-1600x900.webp?v=1792532870"
+    },
+    "step": "STEP 3 OF 3",
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Golden Blossom Harmony $39.95",
+     "2× Maison Croyez Diffuser $179.90FREE"
+    ]
+   }
+  },
+  {
+   "id": "desktop-s3-due",
+   "name": "value line + DUE TODAY $119.85",
+   "ok": true,
+   "got": {
+    "value": "That’s $299.75 of value, you pay $119.85 today.",
+    "due": "DUE TODAY: $119.85"
+   }
+  },
+  {
+   "id": "desktop-s3-freq",
+   "name": "60 / 30 (Most popular, selected) / 90, fixed note, no payment logos, button $119.85",
+   "ok": true,
+   "got": {
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR",
+    "note": "Swap, pause and cancel anytime. If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.",
+    "paylogos": false,
+    "btn": "ADD TO CART — $119.85 ➔"
+   }
+  },
+  {
+   "id": "desktop-s3-fold",
+   "name": "Add to cart ends inside the desktop window",
+   "ok": false,
+   "got": {
+    "atcBottom": 944,
+    "vh": 900,
+    "fold": {
+     "scrollY": 0,
+     "ann": {
+      "top": 16,
+      "bottom": 50,
+      "h": 34
+     },
+     "hdr": {
+      "top": 50,
+      "bottom": 120,
+      "h": 70
+     },
+     "buybox": {
+      "top": 144,
+      "bottom": 2374,
+      "h": 2230
+     },
+     "bbGap": "10px",
+     "banner": {
+      "top": 152,
+      "bottom": 316,
+      "h": 164
+     },
+     "eyebrow": {
+      "top": 326,
+      "bottom": 341,
+      "h": 16
+     },
+     "title": {
+      "top": 351,
+      "bottom": 413,
+      "h": 62
+     },
+     "kitrev": {
+      "top": 431,
+      "bottom": 605,
+      "h": 174
+     },
+     "krGap": "4px",
+     "krPad": "8px 12px",
+     "row": {
+      "top": 440,
+      "bottom": 476,
+      "h": 36
+     },
+     "rowPad": "0px",
+     "rowLh": "22.016px",
+     "ph": {
+      "top": 440,
+      "bottom": 476,
+      "h": 36
+     },
+     "krImg": {
+      "top": 440,
+      "bottom": 476,
+      "h": 36
+     },
+     "krPr": {
+      "top": 447,
+      "bottom": 469,
+      "h": 22
+     },
+     "value": {
+      "top": 617,
+      "bottom": 637,
+      "h": 19
+     },
+     "due": {
+      "top": 649,
+      "bottom": 706,
+      "h": 57
+     },
+     "freqHead": {
+      "top": 720,
+      "bottom": 740,
+      "h": 20
+     },
+     "rf3": {
+      "top": 774,
+      "bottom": 835,
+      "h": 61
+     },
+     "opt": {
+      "top": 774,
+      "bottom": 835,
+      "h": 61
+     },
+     "optPad": "7px 6px",
+     "note": {
+      "top": 850,
+      "bottom": 886,
+      "h": 36
+     },
+     "atc": {
+      "top": 898,
+      "bottom": 944,
+      "h": 46
+     },
+     "chips": {
+      "top": 958,
+      "bottom": 1030,
+      "h": 72
+     },
+     "fonts": [
+      true,
+      true
+     ]
+    }
+   }
+  },
+  {
+   "id": "desktop-s3-below",
+   "name": "guarantees, testimonials and FAQ under the button",
+   "ok": true,
+   "got": {
+    "chips": true,
+    "reviews": true,
+    "faq": 10
+   }
+  },
+  {
+   "id": "desktop-s3-probe",
+   "name": "probe: live margins inside the kit review and the frequency buttons (informational)",
+   "ok": true,
+   "got": {
+    "rows": [
+     {
+      "h": 36,
+      "top": 440,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "22.016px",
+      "d": "flex"
+     },
+     {
+      "h": 36,
+      "top": 480,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "22.016px",
+      "d": "flex"
+     },
+     {
+      "h": 36,
+      "top": 520,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "22.016px",
+      "d": "flex"
+     },
+     {
+      "h": 36,
+      "top": 560,
+      "mt": "0px",
+      "mb": "0px",
+      "pt": "0px",
+      "pb": "0px",
+      "lh": "22.016px",
+      "d": "flex"
+     }
+    ],
+    "kitrev": {
+     "h": 174,
+     "top": 431,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "8px",
+     "pb": "8px",
+     "lh": "25.6px",
+     "d": "flex"
+    },
+    "optB": {
+     "h": 24,
+     "top": 782,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "24.32px",
+     "d": "block"
+    },
+    "optSmall": {
+     "h": 16,
+     "top": 811,
+     "mt": "2px",
+     "mb": "0px",
+     "pt": "3px",
+     "pb": "3px",
+     "lh": "10.368px",
+     "d": "block"
+    },
+    "opt": {
+     "h": 61,
+     "top": 774,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "7px",
+     "pb": "7px",
+     "lh": "25.6px",
+     "d": "flex"
+    },
+    "dueL": {
+     "h": 17,
+     "top": 649,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "16.896px",
+     "d": "block"
+    },
+    "dueN": {
+     "h": 40,
+     "top": 666,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "40.32px",
+     "d": "block"
+    },
+    "krTx": {
+     "h": 22,
+     "top": 447,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "22.016px",
+     "d": "flex"
+    },
+    "krB": {
+     "h": 22,
+     "top": 447,
+     "mt": "0px",
+     "mb": "0px",
+     "pt": "0px",
+     "pb": "0px",
+     "lh": "22.016px",
+     "d": "block"
+    },
+    "rules": [
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(ol, ul) :is(ol, ul) { margin-block-start: 1em; margin-inline-start: 1em; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose > :first-child, .prose > :first-child :first-child { margin-block-start: 0px !important; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose > :last-child, .prose > :last-child :last-child { margin-block-end: 0px !important; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + :is(p, div, ul, ol) { margin-block-start: var(--spacing-3); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + :is(.h0, .h1, .h2, h1, h2) { margin-block-start: var(--spacing-4); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + :is(.h3, .h4, .h5, .h6, h3, h4, h5, h6) { margin-block-start: var(--spacing-3); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose * + .button { margin-block-start: var(--spacing-6) !important; }",
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(.h0, .h1, .h2, .h3, .h4, h1, h2, h3, h4) + * { margin-block-start: var(--spacing-5); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(.h5, .h6, h5, h6) + * { margin-block-start: var(--spacing-4); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose :is(p img:not([style*=\"float\"]):only-child, div img:not([style*=\"float\"]):only-child, figure, video) { margin-block: var(--spacing-8); }",
+     "eme.css?v=175585479270227651431791924167 :: .prose figcaption { font-style: italic; font-size: var(--text-sm); color: rgb(var(--text-color) / .7); margin-block-start: 0.5em; }",
+     "eme.css?v=175585479270227651431791924167 :: .blockquote, .prose blockquote { --quote-width: 51px; --quote-height: 37px; --quote-inset-block-start: calc(var(--spacing-5) * -1); --quote-inset-inline-start: ",
+     "eme.css?v=175585479270227651431791924167 :: .prose blockquote { --quote-inset-block-start: calc(var(--spacing-4) * -1); --quote-inset-inline-start: calc(50% - (var(--quote-width) / 2)); text-align: center",
+     "eme.css?v=175585479270227651431791924167 :: .product-info > * + * { margin-block-start: var(--product-info-block-spacing); margin-block-end: var(--product-info-block-spacing); }",
+     "x es/1/0020/3636/7469/files/mc-dk.css?v=dk9k-3d43fe7",
+     "inline :: .shopify-section--main-page, .shopify-section--main-page .container, .shopify-section--main-page .page-spacer, .shopify-section--main-page .page, .shopify-secti"
+    ],
+    "fetched": [
+     "st/accelerated-checkout-backwards-compat.css :: ",
+     "s/theme.css?v=175585479270227651431791924167 :: .prose :is(.h0,.h1,.h2,.h3,.h4,h1,h2,h3,h4)+*{margin-block-start:var(--spacing-5)} || .prose :is(.h5,.h6,h5,h6)+*{margin-block-start:var(--spacing-4)} || .prose :is(.h0,.h1,.h2,.h3,h1,h2,h3)+*{margin-block-start:var(--spacing-6)} || .prose :is(.h4,h4)+*{margin-block-start:var(--spacing-5)} || .prose :is(.h5,.h6,h5,h6)+*{margin-block-start:var(--spacing-4)} || .prose :is(.h0,.h1,.h2,h1,h2)+*{margin-block-start:var(--spacing-8)}",
+     "020/3636/7469/files/mc-dk.css?v=dk9k-3d43fe7 :: #root .kitrev>*+*,#root .kitrev .kr-row{margin-block-start:0!important;margin-top:0!important}"
+    ]
+   }
+  },
+  {
+   "id": "desktop-s3-90",
+   "name": "90 days selects, note unchanged",
+   "ok": true,
+   "got": {
+    "on": "90 days",
+    "note": "Swap, pause and cancel anytime. If your "
+   }
+  },
+  {
+   "id": "desktop-back",
+   "name": "\"Change my scents\" returns to step 2 with the picks kept",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ]
+   }
+  },
+  {
+   "id": "desktop-errors",
+   "name": "no JavaScript or console errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "cart-2d-30",
+   "name": "cart: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days → drawer opens, three scents $39.95 on Monthly, kit line $159.90 → $0.00, total $119.85",
+   "ok": true,
+   "got": {
+    "btn": "ADD TO CART — $119.85 ➔",
+    "landed": "https://maisoncroyez.com/pages/diffuser-kits",
+    "drawer": true,
+    "total": 119.85,
+    "lines": [
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Monthly",
+      "disc": [
+       "FREE DIFFUSERS — 2 scent subscription -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Monthly",
+      "disc": [
+       "FREE DIFFUSERS — 2 scent subscription -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Monthly",
+      "disc": []
+     },
+     {
+      "v": 45900240289901,
+      "t": "Maison Croyez — Home Diffuser Kit / 2 FREE Diffusers + 2 Scents",
+      "q": 1,
+      "price": 159.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "FREE DIFFUSERS — 2 scent subscription -159.9"
+      ]
+     }
+    ],
+    "split": false,
+    "drawerText": "Congrats, your order is reserved! ✓ 4 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Golden Blossom Harmony – Love (100ml) ×1 Sale price $39.95 ✕ Wildwood Mystique – Purification (100ml) ×1 Sale price $39.95 ✕ Chilled Citrus – Relaxation & Concentration (100ml) ×1 Sale price $39.95 ✕ Maison Croyez — ",
+    "errs": []
+   }
+  },
+  {
+   "id": "cart-1d-90",
+   "name": "cart: 1 diffuser + Chilled Citrus x2 every 90 days → drawer opens, scent x2 $79.90 on Every 90 days, kit line $79.95 → $0.00, total $79.90",
+   "ok": true,
+   "got": {
+    "btn": "ADD TO CART — $79.90 ➔",
+    "landed": "https://maisoncroyez.com/pages/diffuser-kits",
+    "drawer": true,
+    "total": 79.9,
+    "lines": [
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 90 days",
+      "disc": []
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 90 days",
+      "disc": [
+       "FREE DIFFUSER -0"
+      ]
+     },
+     {
+      "v": 45900240257133,
+      "t": "Maison Croyez — Home Diffuser Kit / 1 FREE Diffuser + 1 Scent",
+      "q": 1,
+      "price": 79.95,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "FREE DIFFUSER -79.95"
+      ]
+     }
+    ],
+    "split": true,
+    "drawerText": "Congrats, your order is reserved! ✓ 3 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Chilled Citrus – Relaxation & Concentration (100ml) ×1 Sale price $39.95 ✕ Chilled Citrus – Relaxation & Concentration (100ml) ×1 Sale price $39.95 ✕ Maison Croyez — Home Diffuser Kit ×1 Sale price $0.00 Regular pric",
+    "errs": []
+   }
+  }
+ ]
+}

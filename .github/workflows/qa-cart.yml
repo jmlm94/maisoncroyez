@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 after the dk9k deploy (kits on dk9k-3d43fe7): all 23 scenarios.
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 after the dk9l deploy (kits on dk9l-852ab84): all 23 scenarios; the kits page now goes straight to checkout (cart read there, no drawer).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -51,7 +51,7 @@ jobs:
           const KIT9 = { 0: { v: 45900240257133, p: 79.95, n: 1, s: 2 }, 1: { v: 45900240289901, p: 159.90, n: 2, s: 3 }, 2: { v: 45900240322669, p: 239.85, n: 3, s: 5 } }; /* dk9: Free Diffuser Kit variants, zeroed by the FREE DIFFUSER(S) BXGYs when N scents subscribe */
           const PAGES = {
             ritual: { url: 'https://maisoncroyez.com/pages/manifestation-ritual', pick: '.picker .pick', qtyWrap: '.pick-qty' },
-            kits: { url: 'https://maisoncroyez.com/pages/diffuser-kits', pick: '.picker .pick', qtyWrap: '.cell-qty' }, /* dk8: tiles are .pick.e4t, no .cell */
+            kits: { url: 'https://maisoncroyez.com/pages/diffuser-kits', pick: '.picker .pick', qtyWrap: '.cell-qty', straight: true }, /* dk8: tiles are .pick.e4t, no .cell; dk9l: Secure checkout goes straight to /checkout, no drawer */
             bundle: { url: 'https://maisoncroyez.com/pages/living-room-bedroom-bundle', pick: '.pick.cell', qtyWrap: '.cell-qty' },
           };
           const r2 = (x) => Math.round(x * 100) / 100;
@@ -69,13 +69,13 @@ jobs:
             { page: 'ritual', name: 'R7 default, then "+ Add" on the first drawer upsell card', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85', upsell: { lines: [...expRitual({ 2: 1, 3: 1, 6: 1 }, 30).lines, { v: 41212020457581, q: 1, price: SP, plan: null, line: SP }], total: 159.80 } },
             { page: 'ritual', name: 'R8 default, then Secure checkout', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85', checkout: true },
             { page: 'ritual', name: 'R9 desktop, default', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85', vp: 'desktop' },
-            { page: 'kits', name: 'K1 default 2 diffusers, Chilled Citrus + Wildwood + Golden Blossom, every 30 days', acts: [['next'], ['kplus', 2], ['kplus', 5], ['kplus', 0], ['review']], exp: expKits9(1, { 0: 1, 2: 1, 5: 1 }, 30), btn: '$119.85' },
-            { page: 'kits', name: 'K2 1 diffuser, Chilled Citrus x2, every 30 days', acts: [['ktier', 0], ['next'], ['kplus', 2], ['kplus', 2], ['review']], exp: expKits9(0, { 2: 2 }, 30), btn: '$79.90' },
-            { page: 'kits', name: 'K3 3 diffusers, five scents, every 90 days', acts: [['ktier', 2], ['next'], ['kplus', 0], ['kplus', 1], ['kplus', 2], ['kplus', 3], ['kplus', 4], ['review'], ['kfreq', 2]], exp: expKits9(2, { 0: 1, 1: 1, 2: 1, 3: 1, 4: 1 }, 90), btn: '$199.75' },
-            { page: 'kits', name: 'K4 2 diffusers, three scents, every 60 days', acts: [['next'], ['kplus', 2], ['kplus', 5], ['kplus', 0], ['review'], ['kfreq', 0]], exp: expKits9(1, { 0: 1, 2: 1, 5: 1 }, 60), btn: '$119.85' },
-            { page: 'kits', name: 'K5 2 diffusers, Golden Blossom removed and Midnight added, every 30 days', acts: [['next'], ['kplus', 2], ['kplus', 5], ['kplus', 0], ['kminus', 0], ['kplus', 6], ['review']], exp: expKits9(1, { 2: 1, 5: 1, 6: 1 }, 30), btn: '$119.85' },
-            { page: 'kits', name: 'K6 1 diffuser, two scents, every 30 days, then Secure checkout', acts: [['ktier', 0], ['next'], ['kplus', 2], ['kplus', 3], ['review']], exp: expKits9(0, { 2: 1, 3: 1 }, 30), btn: '$79.90', checkout: true },
-            { page: 'kits', name: 'K7 desktop, 3 diffusers, five scents, 60 then back to 30 days', acts: [['ktier', 2], ['next'], ['kplus', 0], ['kplus', 1], ['kplus', 2], ['kplus', 3], ['kplus', 4], ['review'], ['kfreq', 0], ['kfreq', 1]], exp: expKits9(2, { 0: 1, 1: 1, 2: 1, 3: 1, 4: 1 }, 30), btn: '$199.75', vp: 'desktop' },
+            { page: 'kits', name: 'K1 default 2 diffusers, Chilled Citrus + Wildwood + Golden Blossom, every 30 days', acts: [['next'], ['kplus', 2], ['kplus', 5], ['kplus', 0], ['review']], exp: expKits9(1, { 0: 1, 2: 1, 5: 1 }, 30), btn: 'SECURE CHECKOUT' },
+            { page: 'kits', name: 'K2 1 diffuser, Chilled Citrus x2, every 30 days', acts: [['ktier', 0], ['next'], ['kplus', 2], ['kplus', 2], ['review']], exp: expKits9(0, { 2: 2 }, 30), btn: 'SECURE CHECKOUT' },
+            { page: 'kits', name: 'K3 3 diffusers, five scents, every 90 days', acts: [['ktier', 2], ['next'], ['kplus', 0], ['kplus', 1], ['kplus', 2], ['kplus', 3], ['kplus', 4], ['review'], ['kfreq', 2]], exp: expKits9(2, { 0: 1, 1: 1, 2: 1, 3: 1, 4: 1 }, 90), btn: 'SECURE CHECKOUT' },
+            { page: 'kits', name: 'K4 2 diffusers, three scents, every 60 days', acts: [['next'], ['kplus', 2], ['kplus', 5], ['kplus', 0], ['review'], ['kfreq', 0]], exp: expKits9(1, { 0: 1, 2: 1, 5: 1 }, 60), btn: 'SECURE CHECKOUT' },
+            { page: 'kits', name: 'K5 2 diffusers, Golden Blossom removed and Midnight added, every 30 days', acts: [['next'], ['kplus', 2], ['kplus', 5], ['kplus', 0], ['kminus', 0], ['kplus', 6], ['review']], exp: expKits9(1, { 2: 1, 5: 1, 6: 1 }, 30), btn: 'SECURE CHECKOUT' },
+            { page: 'kits', name: 'K6 1 diffuser, two scents, every 30 days, then Secure checkout', acts: [['ktier', 0], ['next'], ['kplus', 2], ['kplus', 3], ['review']], exp: expKits9(0, { 2: 1, 3: 1 }, 30), btn: 'SECURE CHECKOUT', checkout: true },
+            { page: 'kits', name: 'K7 desktop, 3 diffusers, five scents, 60 then back to 30 days', acts: [['ktier', 2], ['next'], ['kplus', 0], ['kplus', 1], ['kplus', 2], ['kplus', 3], ['kplus', 4], ['review'], ['kfreq', 0], ['kfreq', 1]], exp: expKits9(2, { 0: 1, 1: 1, 2: 1, 3: 1, 4: 1 }, 30), btn: 'SECURE CHECKOUT', vp: 'desktop' },
             { page: 'bundle', name: 'B1 default (Chilled Citrus + Midnight), every 30 days', acts: [], exp: expBundle({ 2: 1, 6: 1 }, 30), btn: '$139.95' },
             { page: 'bundle', name: 'B2 every 60 days', acts: [['freq', 1]], exp: expBundle({ 2: 1, 6: 1 }, 60), btn: '$139.95' },
             { page: 'bundle', name: 'B3 no subscription', acts: [['one']], exp: expBundle({ 2: 1, 6: 1 }, 0), btn: '$139.95' },
@@ -97,7 +97,7 @@ jobs:
             for (const it of cart.items) { const l = dr.lines.find((x) => x.title && x.title.startsWith(it.t.slice(0, 24))); if (!l) { out.push(`drawer: no line for "${it.t}"`); continue; } const want = '$' + it.line.toFixed(2); if (l.price !== want) out.push(`drawer "${it.t}": price ${l.price} (expected ${want})`); if (l.qty !== '×' + it.q) out.push(`drawer "${it.t}": qty pill ${l.qty} (expected ×${it.q})`); }
             if (!dr.total.includes('$' + cart.total.toFixed(2))) out.push(`drawer total "${dr.total}" (expected $${cart.total.toFixed(2)})`); if (/1 FREE Diffuser/.test(dr.text)) out.push('old variant title visible'); if (dr.upsells.some((u) => !/\$39\.95/.test(u))) out.push('upsell label not $39.95: ' + dr.upsells.join(' | ')); if (!dr.checkoutBtn) out.push('no checkout button'); return out; }
           const b = await chromium.launch(); const results = [];
-          for (let n = 0; n < S.length; n++) { const sc = S[n]; const P = PAGES[sc.page]; const id = `${String(n + 1).padStart(2, '0')}-${sc.page}`; const t0 = Date.now();
+          for (let n = 0; n < S.length; n++) { const sc = S[n]; const P = PAGES[sc.page]; const id = `${String(n + 1).padStart(2, '0')}-${sc.page}`; const t0 = Date.now(); let errsAtNav = null;
             const ctx = await b.newContext(sc.vp === 'desktop' ? { viewport: { width: 1366, height: 900 } } : { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, userAgent: UA });
             const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message)); pg.on('console', (m) => { if (m.type() === 'error' && !/shop\.app|frame-ancestors|403|Clear-Site-Data|import map|status of 401/.test(m.text())) errs.push('console: ' + m.text().slice(0, 160)); });
             const res = { id, page: sc.page, name: sc.name, vp: sc.vp || 'phone', issues: [] };
@@ -109,19 +109,25 @@ jobs:
               res.before = await pg.evaluate(() => { const tx = (e) => e ? (e.innerText || '').replace(/\s+/g, ' ').trim() : null; return { btn: tx(document.querySelector('#buybox .btn.atc')), picks: [...document.querySelectorAll('.pick.on')].map((e) => tx(e.querySelector('.pick-scent') || e.querySelector('.pick-name') || e).slice(0, 40) + ((e.querySelector('.pick-qty b, .cell-qty b') || {}).innerText ? ' x' + e.querySelector('.pick-qty b, .cell-qty b').innerText : '')), tier: tx(document.querySelector('.fq.dkt.on')), freq: tx(document.querySelector('.fq.on:not(.dkt)')), alt: tx(document.querySelector('.rf-alt')), sum: tx(document.querySelector('.order-sum')) }; });
               if (!res.before.btn || !res.before.btn.includes(sc.btn)) res.issues.push(`button "${res.before.btn}" (expected ${sc.btn})`);
               await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
+              if (P.straight) { /* dk9l: the page adds the lines and leaves for /checkout; the cart is read there (same origin); page errors count up to the navigation only */
+                await pg.waitForURL(/checkouts?\//, { timeout: 30000 }).catch(() => {}); errsAtNav = errs.length; await pg.waitForTimeout(3000);
+                res.landed = pg.url(); if (!/checkouts?\//.test(res.landed)) res.issues.push('did not reach checkout: ' + res.landed);
+                res.cart = await readCart(pg); res.drawer = null; res.issues.push(...cartIssues(sc.exp, res.cart));
+              } else {
               await pg.waitForFunction(() => { const d = document.getElementById('cart-drawer'); return !!d && (d.hasAttribute('open') || d.open); }, null, { timeout: 12000 }).catch(() => {}); await pg.waitForTimeout(2200);
               res.landed = pg.url(); if (!res.landed.startsWith(P.url)) res.issues.push('navigated away: ' + res.landed);
               res.cart = await readCart(pg); res.drawer = await readDrawer(pg);
               res.issues.push(...cartIssues(sc.exp, res.cart), ...drawerIssues(res.drawer, res.cart));
+              }
               await pg.screenshot({ path: `${OUT}/${id}.png` }).catch(() => {});
               if (sc.upsell) { await pg.evaluate(() => { const bt = document.querySelector('#cart-drawer .mc-fa-add'); if (!bt) throw new Error('no upsell button'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); await pg.waitForTimeout(4000); res.upsell = { cart: await readCart(pg), drawer: await readDrawer(pg) }; res.upsell.issues = [...cartIssues(sc.upsell, res.upsell.cart), ...drawerIssues(res.upsell.drawer, res.upsell.cart)]; res.issues.push(...res.upsell.issues.map((x) => 'after upsell: ' + x)); await pg.screenshot({ path: `${OUT}/${id}-upsell.png` }).catch(() => {}); }
-              if (sc.checkout) { const nav = pg.waitForURL(/checkout/, { timeout: 30000 }).catch(() => null); await pg.evaluate(() => { const bt = document.querySelector('#cart-drawer button[name=checkout]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); await nav; await pg.waitForTimeout(5000);
+              if (sc.checkout) { if (!P.straight) { const nav = pg.waitForURL(/checkout/, { timeout: 30000 }).catch(() => null); await pg.evaluate(() => { const bt = document.querySelector('#cart-drawer button[name=checkout]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); await nav; } await pg.waitForTimeout(5000);
                 await pg.evaluate(() => { const t = [...document.querySelectorAll('button')].find((x) => /order summary/i.test(x.innerText || '')); t && t.click(); }).catch(() => {}); await pg.waitForTimeout(1500);
                 res.checkout = await pg.evaluate(() => ({ url: location.href, title: document.title, text: (document.body.innerText || '').replace(/\s+/g, ' ').slice(0, 2000) }));
                 if (!/checkouts?\//.test(res.checkout.url)) res.issues.push('checkout did not open: ' + res.checkout.url); else { for (const it of res.cart.items) if (!res.checkout.text.includes(it.t.slice(0, 20))) res.issues.push(`checkout: "${it.t}" not found on the page`); if (!res.checkout.text.includes('$' + res.cart.total.toFixed(2))) res.issues.push(`checkout: total $${res.cart.total.toFixed(2)} not found`); }
                 await pg.screenshot({ path: `${OUT}/${id}-checkout.png`, fullPage: true }).catch(() => {}); }
             } catch (e) { res.issues.push('ERROR ' + (e.message || e)); }
-            res.errs = errs; if (errs.length) res.issues.push('page errors: ' + errs.join(' | ').slice(0, 300)); res.ms = Date.now() - t0;
+            res.errs = errsAtNav === null ? errs : errs.slice(0, errsAtNav); if (res.errs.length) res.issues.push('page errors: ' + res.errs.join(' | ').slice(0, 300)); res.ms = Date.now() - t0;
             console.log(`${id} ${res.issues.length ? 'FAIL' : 'PASS'} ${sc.name} :: ${JSON.stringify(res.issues)} :: cart ${res.cart ? res.cart.total : '-'} ${res.cart ? res.cart.items.map((i) => `${i.t.slice(0, 22)} x${i.q} ${i.line} ${i.plan || 'one-time'}`).join(' | ') : ''}`);
             results.push(res); await ctx.close(); await new Promise((r) => setTimeout(r, 800)); }
           await b.close();

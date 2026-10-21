@@ -79,3 +79,23 @@ Hour-keyed (hm3-): live at the 21:00 UTC flip. Verify: r182.
 Not changed (flag to owner): "100% Organic from France", "hypoallergenic … family and
 pets", "Made in France", "2,500+ homes" claims; Amazon / TikTok Shop cards link to "#";
 footer "Fragrance Subscription" link is the theme footer; diffuser product still $89.95.
+
+## Home hm4 (2026-10-21, owner request: "what would you change?" → "All claims are valid, please start" → round 2 → "Deploy both")
+Rebuilt around the free-diffusers offer, two preview rounds on the artifact (7bnHM4QCiuowehSdkkXP5v) before the deploy:
+- Hero: rating line, H1 "It’s time to make your spaces look, feel and smell great.", three badges (🌿 Organic & hypoallergenic
+  scents / 🕯️ Say goodbye to candles, sprays and plug-ins. / 🧘 Reduce stress, anxiety and brain activity.), the promise line
+  ("Our promise: if your home doesn’t look, feel and smell different within 30 days, we take everything back and refund every
+  dollar."), one dark CTA "Get my free diffusers" → /pages/diffuser-kits, picture = the kits step-3 image (1600×900, `height:auto`).
+  Spacing tightened in round 2.
+- Statement unchanged. "Start here" = the three collection cards again: Diffuser Kits → /pages/diffuser-kits, Diffusers →
+  /products/maison-croyez-home-scent-diffuser (the only active diffuser product), Scents → /collections/power-fragrances.
+- "Why 2,500+ homes choose Maison Croyez" heading smaller; the six rows unchanged apart from the price-free "finest retreats" line.
+- Seven scents: the botanical square tiles from the kits page (same size, names on two lines), sub "Pick the scents for your
+  diffusers: 2, 3 or 5 depending on the kit, $39.95 each…", CTA → kits, trust strip (30-Day Money-Back Guarantee / Lifetime
+  Warranty / Free Shipping / Made in France).
+- Testimonials: Kate D. feature + three snaps; FAQ: the nine kits questions; manifesto unchanged; closing band "Ready? The
+  diffusers are on us." The Amazon / TikTok Shop section (links were "#") is gone until real URLs exist.
+Deploy (Maison Croyez verified): fileUpdate 29644413796461 (mc-home-app.js) + 29644413763693 (mc-home.css) from raw @ 9efc817,
+both READY 19:13:40Z, sizes 14,504 / 22,228 on re-query (the mutation echoes the previous sizes). Hour-keyed (hm3-): live at the
+20:00 UTC flip. Verify: home-shot after the flip. Flag to owner: the "Diffusers" card target; "banner" was read as the hero
+picture (the sitewide announcement bar is unchanged).

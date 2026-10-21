@@ -14,6 +14,35 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-21 — dk9p (key dk9p-9efc817, LIVE 19:03 UTC): cart at Review my kit, the website's header, ?kit= deep link
+Third owner round of the day (artifact v36). Four preview builds went out together:
+- dk9m — `syncKitCart()` runs at "Review my kit" (button and sticky bar), so the kit variant and the scents on the chosen plan
+  are in the cart while the visitor reads step 3 and the Meta pixel's AddToCart fires there; "🔒 SECURE CHECKOUT ➔" re-syncs
+  (plan change) and goes straight to /checkout, where InitiateCheckout fires. Equal-height option cards (the theme's prose
+  margin on the cards is reset), "(Requires X scents)" with the parentheses, step-3 heading "How frequently would you like
+  your refills?" centred and 15% bigger (`.s9-freq-head`).
+- dk9n — the sync reconciles the cart instead of clearing it: it reads /cart.js, changes quantity / selling plan on existing
+  lines with /cart/change.js, drops lines that are no longer wanted, and calls /cart/add.js only for missing lines. A pending
+  sync is awaited before the next one starts (`KITCART.pending`). Unit-tested on 7 mock carts (`scratchpad/reconcile-test.mjs`).
+- dk9o — no page-own announcement bar or header (`RitualHeader` no longer rendered); the website's header, announcement bar
+  and footer frame the page. The page body stopped hiding the theme header group, dropped `body{padding-top:0}` and put the
+  pre-hero frame back in flow (90vw, rounded corners).
+- dk9p — `tierIdx` from the URL: `?kit=one|two|three` or `1|2|3` pre-selects the option card (default stays 2 diffusers).
+
+Deploy: fileUpdate 46262619439213 (127,582 B) + 46262619471981 (148,047 B) from raw @ 9efc817 (READY 18:41:21Z), pageUpdate
+161846919277 at 19:03:44Z. Live checks at 19:08: page-shot key + body md5 match, qa-kits 20261021T1908 47/47 (new
+`cart-*-review` checks), qa-cart 20261021T1908 23/23, pixel-kits 20261021T191 (AddToCart ×4 right after Review my kit,
+InitiateCheckout on the checkout page).
+
+Header catch: the live theme (speed round 3) hides `.shopify-section-group-header-group` on the diffuser-kits handle from
+`layout/theme.liquid`, so with dk9o the page had no header at all. The page body (re-pushed 19:56:11Z, same key) now reveals it:
+`html.mc-tcss .shopify-section-group-header-group{display:revert !important}` once the theme's deferred theme.css has applied,
+and `html:has(link[data-mc-tcss]):not(.mc-tcss) #mc-prehero{visibility:hidden}` so the first paint already has the header
+above the hero (no layout shift, no unstyled header). Trade-off: steps 2 and 3 start 119 px lower on a phone, so the fold
+checks miss by about that much again. The clean fix is in the theme layout (remove diffuser-kits from the `mc_lp` handle list,
+which also makes theme.css render-blocking on this page again); it needs a theme publish, so it stays a proposal.
+Rollback = key dk9l-852ab84 with the files at commit 852ab84 (and the dk9l page body, which hides the header group itself).
+
 ## 2026-10-21 — dk9l (key dk9l-852ab84, LIVE 16:05 UTC): new title, same-size cards, Secure checkout straight to checkout
 Second owner round of the day (artifact v33, "Deploy!"): title "Waterless Diffuser & Organic Scents: Protect your loved ones
 while making your spaces look and feel great."; hero 90% wide (corners kept; the page body's pre-hero frame follows at 90vw,

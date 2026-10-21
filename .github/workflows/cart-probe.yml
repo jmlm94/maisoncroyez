@@ -1,5 +1,5 @@
 name: cart-probe
-# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5). Rerun 20:57 UTC after setting appliesOnSubscription=true on the three BXGYs.
+# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5). Rerun 20:57 UTC after setting appliesOnSubscription=true on the three BXGYs. Rerun 21:00 UTC after the minimums went back to 1 / 2 / 3 (titles kept).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

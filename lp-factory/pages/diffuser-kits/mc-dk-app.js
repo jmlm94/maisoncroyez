@@ -887,8 +887,6 @@ function BuyBox() {
   const rows = sel.grouped();
   const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "short", day: "numeric" }); /* dk9f: computed at view time, so always current */
-  const ingr = (B.accordions.find((f) => f.list) || {}).list || [];
-  const [showIngr, setShowIngr] = useState(false);
   const chips = html`
           <div class="atc-chips">
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
@@ -911,10 +909,9 @@ function BuyBox() {
           <div class="picker-title step-title s9-title">How many spaces would you like to <em>transform today?</em></div>
           <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many free diffusers"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+              <div key=${t.key} class=${"tier t9c3" + (i === 1 ? " t9-mid" : "") + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.name + ": " + t.n + " diffuser" + (t.n > 1 ? "s" : "")} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"), the middle card a little bigger -->
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <${Img} slot=${"kit" + t.n} alt=${t.name}/>
-                <span class="tier-name">${t.name}</span>
                 <span class="t9-n">${t.n} diffuser${t.n > 1 ? "s" : ""}</span>
                 <span class="t9-val"><s>${usd(val)}</s><b>FREE</b></span>
               </div>`; })}
@@ -951,19 +948,21 @@ function BuyBox() {
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
+                <div class="e4-ph"> <!-- dk9k: the stepper lives on the photo, so it never covers the name -->
                 <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
-                <span class="pick-scent e4-name">${f.name}</span>
                 <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector -->
                   <button type="button" aria-label=${"Remove one " + f.name} disabled=${q === 0} onClick=${() => { sel.last = f.key; sel.remove(f.key); }}>\u2212</button>
                   <b>${q}</b>
                   <button type="button" aria-label=${"Add one " + f.name} disabled=${full} onClick=${more}>+</button>
                 </span>
+                </div>
+                <span class="pick-scent e4-name">${f.name}</span>
+                ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null} <!-- dk9k (owner): strength on the tile, not in the bar -->
               </div>`; })}
           </div>
           <div class="e4-bar" aria-live="polite">${lastF
-            ? html`<span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span><span class="e4-txt"><b>${lastF.name}</b> · ${lastF.intention} · <span class=${"pick-str s-" + lastF.strength} title="Scent strength"><i></i><i></i><i></i>${lastF.strength}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")} <button type="button" class="s9-ingr-link" aria-expanded=${showIngr} onClick=${(e) => { e.stopPropagation(); setShowIngr(!showIngr); }}>${showIngr ? "Hide ingredients \u2191" : "Ingredients \u2193"}</button></span>`
-            : html`<span class="e4-emoji" aria-hidden="true">👆</span><span class="e4-txt"><b>Tap a scent</b> to read what it smells like. <b>+</b> adds it, <b>\u2212</b> takes it out. <button type="button" class="s9-ingr-link" aria-expanded=${showIngr} onClick=${(e) => { e.stopPropagation(); setShowIngr(!showIngr); }}>${showIngr ? "Hide ingredients \u2191" : "Ingredients \u2193"}</button></span>`}</div> <!-- dk9f (CRO #7): the ingredient list one tap away -->
-          ${showIngr ? html`<ul class="s9-ingr-list">${ingr.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}
+            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
+            : html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">👆</span> <b>Tap a scent</b> to read what it smells like.</span><br/><b>+</b> adds it, <b>\u2212</b> takes it out.</span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`}

@@ -1638,3 +1638,47 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .kitrev > * + *,#root .kitrev .kr-row{margin-block-start:0 !important;margin-top:0 !important}
 #root .rf3-opt small,#root .rf3-opt.on small{white-space:nowrap;padding:3px 6px;letter-spacing:.06em;max-width:100%}
 @media (min-width:700px){#root .s9-banner{height:164px}#root .kitrev.k9{padding:6px 12px}}
+/* dk9k (2026-10-21, owner round after the dk9j deploy): hero 20% smaller with rounded corners and white space around; rating +20%; main title +15% with tighter margins; health badges with the emoji on top, text centred, +5%; every step title +10%; option cards without the room name ("Where it goes" has it), the middle card a little bigger; "Where it goes" text +7%; step 2: more spacing, names +10%, bigger steppers, strength label on each tile, smells-like bar with the emoji inline on a bigger first line and no ingredients link; step 3: more spacing, the fixed note +10%. */
+#root #buybox.step-1 .gal-slide.ph.sq{flex:0 0 80% !important;width:80% !important;margin:6px auto 0 !important;border-radius:16px !important;overflow:hidden}
+#root .gal-slide.ph.sq .simg,#root .gal-slide .simg{border-radius:16px !important}
+#root .buybox .tb-rating{font-size:.83rem;gap:7px}#root .buybox .tb-rating .stars5{font-size:1rem}
+#root #buybox.step-1 .tb-rating{margin-bottom:-6px}
+#root .buybox h1.h1-9e{font-size:1.72rem !important;line-height:1.12 !important}
+@media (min-width:700px){#root .buybox h1.h1-9e{font-size:2.19rem !important}}
+#root .hs3.hs3-under{margin:0}
+#root .hs3 .hs,#root #buybox.step-1 .hs3 .hs{flex-direction:column;gap:4px;padding:8px 4px;font-size:.59rem;line-height:1.2;text-align:center}
+@media (max-width:699px){#root #buybox.step-1 .hs3 .hs{font-size:.59rem;padding:8px 4px}}
+#root .hs3 .hs-ic{font-size:18px}
+#root .buybox .s9-title{font-size:1.6rem}
+#root #buybox.step-1 .s9-title{font-size:1.6rem}
+@media (max-width:699px){#root .buybox .s9-head2 .s9-title{font-size:1.43rem}#root #buybox.step-3 .s9-title{font-size:1.54rem}}
+@media (min-width:700px){#root .buybox .s9-title{font-size:2.2rem}#root .buybox .s9-head .s9-title{font-size:1.76rem}#root #buybox.step-3 .s9-title{font-size:1.93rem}}
+#root .t9-n{font-size:.86rem;font-weight:800}
+#root .tier.t9c3.t9-mid .t9-n{font-size:.96rem}
+#root .tier.t9c3.t9-mid > .ph.sq{width:72px !important;height:72px !important}
+@media (min-width:700px){#root .t9-n{font-size:.92rem}#root .tier.t9c3.t9-mid .t9-n{font-size:1.02rem}#root .tier.t9c3.t9-mid > .ph.sq{width:94px !important;height:94px !important}}
+#root .tier.t9c3{justify-content:flex-start}
+#root .place-head{font-size:.75rem}#root .place-room{font-size:.65rem;padding:3px 8px}#root .place-cap{font-size:.78rem;line-height:1.38}
+#root #buybox.step-2 .picker.e4{gap:9px}
+@media (min-width:700px){#root #buybox.step-2 .picker.e4{gap:10px}}
+#root .picker.e4 .pick{padding:3px 3px 7px}
+#root .picker.e4 .e4-ph{position:relative;display:block}
+#root .picker.e4 .e4-ph .e4-step{bottom:6px}
+#root #buybox.step-2 .picker.e4 .e4-name{font-size:11px;min-height:0;margin-top:6px;line-height:1.2}
+@media (min-width:700px){#root #buybox.step-2 .picker.e4 .e4-name{font-size:11.5px}}
+#root .picker.e4 .e4-step{gap:6px;padding:3px 4px}
+#root .picker.e4 .e4-step button{width:22px;height:22px;font-size:14px}
+#root .picker.e4 .e4-step b{font-size:12px;min-width:11px}
+#root .picker.e4 .e4-str{display:inline-flex;justify-content:center;margin:3px auto 0;font-size:.5rem;letter-spacing:.08em;color:#141414}
+#root .picker.e4 .e4-str i{width:5px;height:5px}
+#root #buybox.step-2 .e4-bar{display:block;padding:10px 12px;margin-top:2px;font-size:12.5px;line-height:1.45;text-align:center}
+#root .e4-bar .e4-l1{font-size:14.5px;line-height:1.3}
+#root .e4-bar .e4-emoji{display:inline;font-size:16px;margin-right:2px;vertical-align:-1px;line-height:1}
+#root #buybox.step-3 .buybox{gap:10px}
+#root .kitrev.k9{padding:8px 12px;gap:4px}
+@media (max-width:699px){#root .kitrev.k9{padding:8px 10px;gap:4px}}
+#root .s9-value{margin-top:2px}
+#root .s9-due{margin:2px 0}
+#root .s9-freq-head{margin:2px 0 8px}
+#root .rf3{gap:10px}
+#root #buybox.step-3 .s9-freq-note,#root .s9-freq-note{font-size:.81rem;line-height:1.38;margin-top:5px}

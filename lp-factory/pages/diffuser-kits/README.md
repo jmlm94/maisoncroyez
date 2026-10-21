@@ -14,6 +14,21 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-21 — dk9k (key dk9k-3d43fe7, LIVE 10:16 UTC): the owner's sizing round, deployed as is
+Owner round on the dk9j page (artifact v32, "Deploy as is"): hero 20% smaller with rounded corners and white space around it
+(`.gal-slide.ph.sq` at 80% on step 1; the page body's pre-hero frame matches: 80vw, radius 16 px, 6 px above, fixed at 131 px
+on phones); rating +20%; main title +15% with tighter margins; health badges with the emoji on top and the text centred, +5%;
+every step title +10%; option cards without the room name (it stays in "Where it goes" and in the card's aria-label), the middle
+card with a bigger picture and title; "Where it goes" text +7%; step 2: more spacing, names +10%, bigger steppers now inside a
+`.e4-ph` wrapper on the photo (they used to cover a two-line name), the strength label (`.e4-str`, SOFT / MEDIUM / BOLD dots) on
+each tile, the smells-like bar as a text block with the emoji inline on a bigger first line, no strength and no ingredients link
+there; step 3: block gap 10 px, review card 8 px padding, fixed note +10%. Fold, measured on the emulated preview and accepted by
+the owner: phone 390×844 step 2 guarantees end at 878, step 3 Add to cart at 900; desktop 1366×900 step 3 Add to cart at 928.
+Picker photos stay 4 across on phones (bigger photos would need 3 across and an extra row). Deploy: fileUpdate 46262619439213
+(123,138 B) + 46262619471981 (146,016 B) from raw @ 3d43fe7 (READY 2026-10-21 01:06:56Z), pageUpdate 161846919277 with the
+dk9k-3d43fe7 body (33,245 B; updatedAt 10:16:03Z). qa-kits follows the markup (tierOn from the card's aria-label, no ingredients
+check, strength label count). Rollback = key dk9j-b9e8578 with the files at commit b9e8578.
+
 ## 2026-10-20 — dk9 (key dk9-4f3f77f, LIVE 22:11 UTC): three-step page, free diffusers for a scent subscription
 Owner brief (2026-10-20): turn the page into the three-step flow again (diffusers → scents → confirmation) keeping the branding;
 new offer: 1 free diffuser for 2 scents ($79.90), 2 for 3 ($119.85), 3 for 5 ($199.75), the scents at $39.95 each; no prices on

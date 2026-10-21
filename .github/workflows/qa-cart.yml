@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 after the dk9p deploy (kits on dk9p-9efc817): the kit is added at Review my kit, frequency changes are plan changes at checkout (K3 90 days, K7 60 then 30).
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 after dk9q (key dk9q-5d84bf3): kits page on the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), kit variants renamed 1 / 2 / 3 Diffusers at $89.95 / $179.90 / $269.85, BXGY titles "N FREE DIFFUSER(S) — SCENT SUBSCRIPTION" with minimums 2 / 3 / 5 scents.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -48,7 +48,7 @@ jobs:
           const SP = 39.95;
           const PLANS = { ritual: { 30: 'Monthly', 60: 'Every 60 days', 90: 'Every 90 days' }, kits: { 30: 'Every 30 days', 60: 'Every 60 days', 90: 'Every 90 days' }, bundle: { 30: 'Every 30 days', 60: 'Every 60 days', 90: 'Every 90 days' } };
           const KIT = { 0: { v: 45784228429933, p: 109.95 }, 1: { v: 45784228462701, p: 129.95 }, 2: { v: 45784228495469, p: 189.95 } }; /* dk1-dk8 kits product (no longer used by the page) */
-          const KIT9 = { 0: { v: 45900240257133, p: 79.95, n: 1, s: 2 }, 1: { v: 45900240289901, p: 159.90, n: 2, s: 3 }, 2: { v: 45900240322669, p: 239.85, n: 3, s: 5 } }; /* dk9: Free Diffuser Kit variants, zeroed by the FREE DIFFUSER(S) BXGYs when N scents subscribe */
+          const KIT9 = { 0: { v: 45900240257133, p: 89.95, n: 1, s: 2 }, 1: { v: 45900240289901, p: 179.90, n: 2, s: 3 }, 2: { v: 45900240322669, p: 269.85, n: 3, s: 5 } }; /* dk9: Free Diffuser Kit variants, zeroed by the FREE DIFFUSER(S) BXGYs when N scents subscribe */
           const PAGES = {
             ritual: { url: 'https://maisoncroyez.com/pages/manifestation-ritual', pick: '.picker .pick', qtyWrap: '.pick-qty' },
             kits: { url: 'https://maisoncroyez.com/pages/diffuser-kits', pick: '.picker .pick', qtyWrap: '.cell-qty', straight: true }, /* dk8: tiles are .pick.e4t, no .cell; dk9l: Secure checkout goes straight to /checkout, no drawer */
@@ -57,7 +57,7 @@ jobs:
           const r2 = (x) => Math.round(x * 100) / 100;
           const expRitual = (counts, plan) => { const lines = Object.entries(counts).map(([i, q]) => ({ v: SCENT[i].v, q, price: SP, plan: plan ? PLANS.ritual[plan] : null, line: r2(q * SP) })); lines.push({ v: 45900240257133, q: 1, price: 79.95, plan: null, line: 0 }); return { lines, total: 119.85 }; };
           const expKits = (tier, idx, plan) => { const k = KIT[tier]; return { lines: [{ v: k.v, q: 1, price: k.p, plan: null, line: k.p }, { v: SCENT[idx].v, q: 1, price: plan ? 0 : SP, plan: plan ? PLANS.kits[plan] : null, line: 0 }], total: k.p }; };
-          const expKits9 = (tier, counts, plan) => { const k = KIT9[tier]; const lines = Object.entries(counts).map(([i, q]) => ({ v: SCENT[i].v, q, price: SP, plan: PLANS.ritual[plan], line: r2(q * SP) })); lines.push({ v: k.v, q: 1, price: k.p, plan: null, line: 0 }); return { lines, total: r2(Object.values(counts).reduce((a, b) => a + b, 0) * SP) }; }; /* dk9: scents paid, kit line $0 */
+          const expKits9 = (tier, counts, plan) => { const k = KIT9[tier]; const lines = Object.entries(counts).map(([i, q]) => ({ v: SCENT[i].v, q, price: SP, plan: PLANS.kits[plan], line: r2(q * SP) })); lines.push({ v: k.v, q: 1, price: k.p, plan: null, line: 0 }); return { lines, total: r2(Object.values(counts).reduce((a, b) => a + b, 0) * SP) }; }; /* dk9: scents paid, kit line $0 */
           const expBundle = (counts, plan) => { const lines = Object.entries(counts).map(([i, q]) => ({ v: SCENT[i].v, q, price: plan ? 0 : SP, plan: plan ? PLANS.bundle[plan] : null, line: 0 })); lines.push({ v: 45728132202605, q: 1, price: 139.95, plan: null, line: 139.95 }); return { lines, total: 139.95 }; };
           const S = [
             { page: 'ritual', name: 'R1 default (Chilled Citrus, Honey Nectar, Midnight), every 30 days', acts: [], exp: expRitual({ 2: 1, 3: 1, 6: 1 }, 30), btn: '$119.85' },

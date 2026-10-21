@@ -102,3 +102,8 @@ picture (the sitewide announcement bar is unchanged).
 Verified after the flip: home-shot 20261021T2002 — phone and desktop show hm4 (new hero, badges, promise, CTA, three cards,
 botanical scent tiles, FAQ, closing band), 0 JS errors, CTAs → /pages/diffuser-kits ×4, /products/maison-croyez-home-scent-diffuser,
 /collections/power-fragrances; the theme announcement bar + header sit above the hero (phone 62 + 57 px, desktop 49 + 99 px).
+
+## Home hm4 follow-up (2026-10-21 20:11 UTC, owner request): the Diffusers card links to /products/diffuser-scents
+mc-home-app.js only (commit fb517d7, 14,486 B): the "Start here" Diffusers card CTA "Shop diffusers" now goes to
+/products/diffuser-scents instead of /products/maison-croyez-home-scent-diffuser. fileUpdate 29644413796461 from raw @ fb517d7
+(READY 20:11:07Z). Hour-keyed (hm3-): live at the 21:00 UTC flip. Artifact 7bnHM4QCiuowehSdkkXP5v v3 matches.

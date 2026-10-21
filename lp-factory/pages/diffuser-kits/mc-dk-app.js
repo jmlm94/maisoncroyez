@@ -626,7 +626,7 @@ const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselecte
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
 const selStore = {
-  tierIdx: 1,            /* dk1: 2 diffusers preselected (most popular) */
+  tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* dk1: 2 diffusers preselected (most popular); dk9p (2026-10-21): ?kit=one|two|three (or 1|2|3) preselects, used by the home page cards */
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 30,
   keys: [],               /* dk8 (2026-10-14, owner): nothing pre-selected, the customer picks the free scent (was Chilled Citrus since dk1) */

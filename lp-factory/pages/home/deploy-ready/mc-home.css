@@ -348,3 +348,51 @@ html{scroll-behavior:smooth}
 #root .hero h1{margin-bottom:12px}
 #root .hsub{font-size:1.04rem;max-width:520px;margin:0 auto 18px;line-height:1.5}
 #root .hero .btn.green{margin-bottom:18px}
+
+/* hm4 (2026-10-21): the kits-page look on the home page — health badges under the title, black buttons, the three option cards, FAQ accordion, closing band */
+#root .hero h1{font-size:clamp(1.65rem,3.3vw,2.45rem);max-width:780px;letter-spacing:-.04em;line-height:1.04;margin-bottom:14px}
+#root .hbadges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;max-width:660px;margin:0 auto 14px}
+#root .hbadges span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.72);border-radius:999px;padding:9px 6px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;line-height:1.2;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);text-align:center}
+#root .hbadges i{font-style:normal;font-size:18px;line-height:1}
+#root .btn.dark{background:#141414;color:#fff;box-shadow:0 12px 26px rgba(20,20,20,.2)}
+#root .hero .hcta{margin-bottom:18px}
+#root .hero img{aspect-ratio:16/9;height:auto;width:min(100%,680px)} /* height:auto so the width/height attributes do not pin the height */
+#root .start .sub b{color:var(--ink);font-weight:600}
+#root .kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:8px}
+#root .kcard{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;background:var(--ivory);border:1.5px solid #E6E0D8;border-radius:16px;padding:22px 12px 18px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s ease}
+#root .kcard:hover{transform:translateY(-2px)}
+#root .kcard.pop{border-color:#141414;box-shadow:0 0 0 1px #141414 inset,var(--shadow);background:#F3E9E6}
+#root .ktag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#A3874A;color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;white-space:nowrap}
+#root .kcard img{width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid #ECE9E4;background:#fff;margin-bottom:6px}
+#root .kn{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;line-height:1.2}
+#root .kreq{font-family:'Outfit',sans-serif;font-weight:600;font-size:.72rem;color:var(--ink)}
+#root .kval{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:6px}
+#root .kval s{font-family:'Outfit',sans-serif;font-weight:600;font-size:.82rem;color:var(--ink)}
+#root .kval i{font-style:normal;background:#1E7A1E;color:#fff;border-radius:999px;padding:4px 12px;font-family:'Outfit',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.08em;line-height:1.2}
+#root .kgo{margin-top:12px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:#141414;border-bottom:2px solid #141414;padding-bottom:2px}
+#root .knote{margin-top:18px;text-align:center;font-size:.9rem;color:var(--ink-soft)}
+#root .faq{background:var(--ivory);text-align:center}
+#root .faq h2{font-size:clamp(2rem,4vw,3rem);margin:10px 0 22px}
+#root .faqs{max-width:820px;margin:0 auto;display:flex;flex-direction:column;border-top:1px solid #EFE3D8;text-align:left}
+#root .faqs details{border-bottom:1px solid #EFE3D8}
+#root .faqs summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 0;font-weight:600;font-size:1rem;line-height:1.35}
+#root .faqs summary::-webkit-details-marker{display:none}
+#root .faqs summary::after{content:'+';font-size:1.3rem;font-weight:400;color:var(--ink);flex:none;width:28px;height:28px;border:1px solid #D9CFC2;border-radius:50%;display:flex;align-items:center;justify-content:center}
+#root .faqs details[open] summary::after{content:'–'}
+#root .faqs details p{color:var(--ink-soft);font-size:.95rem;padding:0 44px 16px 0}
+#root .last{background:var(--grad-values);text-align:center}
+#root .last h2{font-size:clamp(2.2rem,4vw,3.2rem);margin-bottom:12px}
+#root .last p{color:var(--ink-soft);max-width:520px;margin:0 auto 20px}
+#root .chips3{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:20px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+#root .testi .tname{text-transform:none;letter-spacing:.04em;font-size:.72rem}
+@media (max-width:880px){
+  #root .kgrid{gap:10px}
+  #root .kcard{padding:18px 6px 14px}
+  #root .kcard img{width:72px;height:72px}
+  #root .kn{font-size:.92rem}
+  #root .kreq{font-size:.64rem}
+  #root .kval s{font-size:.76rem}
+  #root .kgo{font-size:.6rem;letter-spacing:.06em}
+  #root .hbadges span{font-size:.56rem;padding:8px 4px}
+  #root .faqs summary{font-size:.95rem}
+}

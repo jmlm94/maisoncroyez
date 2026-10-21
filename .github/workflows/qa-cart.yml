@@ -1,5 +1,5 @@
 name: qa-cart
-# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 after the dk9l deploy (kits on dk9l-852ab84): all 23 scenarios; the kits page now goes straight to checkout (cart read there, no drawer).
+# Live cart QA across the three offer pages: real clicks on the live site, every plan option, no-subscription, scent swaps, duplicates, the drawer upsell and the checkout handoff. Edit this line and push to run. Run 2026-10-21 (second) after the dk9l deploy (kits on dk9l-852ab84): page errors on the kits page counted up to the Secure checkout click.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -108,9 +108,10 @@ jobs:
                 else if (type === 'ktier') click(q('#buybox .tier')[i]); else if (type === 'next') click(document.querySelector('#buybox .btn.step-next')); else if (type === 'kplus') click(q('#buybox .picker .pick')[i].querySelector('.e4-step button[aria-label^="Add one"]')); else if (type === 'kminus') click(q('#buybox .picker .pick')[i].querySelector('.e4-step button[aria-label^="Remove one"]')); else if (type === 'review') click(document.querySelector('#buybox .navrow .btn.atc')); else if (type === 'kfreq') click(q('#buybox .rf3-opt')[i]); /* dk9 three-step kits page */ }, { a, P }); await pg.waitForTimeout(a[0] === 'next' || a[0] === 'review' ? 700 : 400); }
               res.before = await pg.evaluate(() => { const tx = (e) => e ? (e.innerText || '').replace(/\s+/g, ' ').trim() : null; return { btn: tx(document.querySelector('#buybox .btn.atc')), picks: [...document.querySelectorAll('.pick.on')].map((e) => tx(e.querySelector('.pick-scent') || e.querySelector('.pick-name') || e).slice(0, 40) + ((e.querySelector('.pick-qty b, .cell-qty b') || {}).innerText ? ' x' + e.querySelector('.pick-qty b, .cell-qty b').innerText : '')), tier: tx(document.querySelector('.fq.dkt.on')), freq: tx(document.querySelector('.fq.on:not(.dkt)')), alt: tx(document.querySelector('.rf-alt')), sum: tx(document.querySelector('.order-sum')) }; });
               if (!res.before.btn || !res.before.btn.includes(sc.btn)) res.issues.push(`button "${res.before.btn}" (expected ${sc.btn})`);
+              if (P.straight) errsAtNav = errs.length; /* dk9l: errors counted up to the click — the checkout page logs its own noise (Zipify post-purchase CORS, module import map) */
               await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
               if (P.straight) { /* dk9l: the page adds the lines and leaves for /checkout; the cart is read there (same origin); page errors count up to the navigation only */
-                await pg.waitForURL(/checkouts?\//, { timeout: 30000 }).catch(() => {}); errsAtNav = errs.length; await pg.waitForTimeout(3000);
+                await pg.waitForURL(/checkouts?\//, { timeout: 30000 }).catch(() => {}); await pg.waitForTimeout(3000);
                 res.landed = pg.url(); if (!/checkouts?\//.test(res.landed)) res.issues.push('did not reach checkout: ' + res.landed);
                 res.cart = await readCart(pg); res.drawer = null; res.issues.push(...cartIssues(sc.exp, res.cart));
               } else {

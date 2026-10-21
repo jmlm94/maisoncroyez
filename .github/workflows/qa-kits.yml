@@ -1,5 +1,5 @@
 name: qa-kits
-# Kits page only (https://maisoncroyez.com/pages/diffuser-kits), dk9 three-step version: step 1 (hero picture, no video, no countdown, badges under the title, three option cards with struck value + FREE, no offer price, sticky bar from load), step 2 (reserved card, tap = read / + adds / − removes, smells-like bar with the ingredients link, "Review my kit" only when the kit is full), step 3 (16:9 picture, review, value line + DUE TODAY, 60/30/90 with the black Most popular pill, the fixed note, Add to cart in the first phone screen), then two real carts (2 diffusers + 3 scents every 30 days; 1 diffuser + 2 scents every 90 days). Edit this line and push to run. Run 2026-10-21 after the dk9l deploy (key dk9l-852ab84): fixed "Pick your scents" label, Requires N scents on the cards, one-line bar prompt, Secure checkout straight to /checkout; the fold checks are expected to miss by design (owner: deploy as is).
+# Kits page only (https://maisoncroyez.com/pages/diffuser-kits), dk9 three-step version: step 1 (hero picture, no video, no countdown, badges under the title, three option cards with struck value + FREE, no offer price, sticky bar from load), step 2 (reserved card, tap = read / + adds / − removes, smells-like bar with the ingredients link, "Review my kit" only when the kit is full), step 3 (16:9 picture, review, value line + DUE TODAY, 60/30/90 with the black Most popular pill, the fixed note, Add to cart in the first phone screen), then two real carts (2 diffusers + 3 scents every 30 days; 1 diffuser + 2 scents every 90 days). Edit this line and push to run. Run 2026-10-21 (second) after the dk9l deploy (key dk9l-852ab84): new title regex, page errors counted up to the Secure checkout click; the fold checks are expected to miss by design (owner: deploy as is).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -76,7 +76,7 @@ jobs:
             let s = await state(pg);
             ck(`${vp}-s1-mount`, 'step 1 mounts: "Step 1 of 3", three option cards, 2 diffusers selected', /Step 1 of 3/i.test(s.step || '') && s.tiers.length === 3 && /Living Room & Bedroom/.test(s.tierOn || ''), { step: s.step, tiers: s.tiers.length, on: s.tierOn });
             ck(`${vp}-s1-hero`, 'hero is the square picture, no video, no countdown', s.hero && s.hero.loaded && /mc-dk-hero-800/.test(s.hero.src) && !s.video && !s.timer, s.hero);
-            ck(`${vp}-s1-copy`, 'title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price', /Your home deserves to look and feel great and safe/.test(s.h1 || '') && s.badgesAfterH1 && s.badges.length === 3 && /NO SMOKE/.test(s.badges[0]) && s.tiers.every((t) => /FREE/.test(t)) && /How many spaces would you like to transform today/.test(s.title || '') && s.prices.every((p) => ['$89.95', '$179.90', '$269.85'].includes(p)), { h1: s.h1, badges: s.badges, tiers: s.tiers, prices: s.prices });
+            ck(`${vp}-s1-copy`, 'title, badges under it, option cards: name, diffusers, struck value, FREE; no offer price', /Waterless Diffuser & Organic Scents: Protect your loved ones while making your spaces look and feel great\./.test(s.h1 || '') && s.badgesAfterH1 && s.badges.length === 3 && /NO SMOKE/.test(s.badges[0]) && s.tiers.every((t) => /FREE/.test(t)) && /How many spaces would you like to transform today/.test(s.title || '') && s.prices.every((p) => ['$89.95', '$179.90', '$269.85'].includes(p)), { h1: s.h1, badges: s.badges, tiers: s.tiers, prices: s.prices });
             ck(`${vp}-s1-place`, '"Where it goes" under the options, button "Pick your scents" (fixed label)', s.place === 'WHERE IT GOES:' && /Pick your scents/i.test(s.btn || ''), { place: s.place, btn: s.btn });
             if (mobile) ck(`${vp}-s1-sticky`, 'sticky bar shows at load on step 1', s.stickyShown && /Pick your scents/i.test(s.sticky || ''), { shown: s.stickyShown, sticky: s.sticky });
             await tap(pg, '#buybox .tier', 0); await pg.waitForTimeout(300); s = await state(pg);
@@ -121,8 +121,9 @@ jobs:
             if (freqIdx !== 1) { await tap(pg, '#buybox .rf3-opt', freqIdx); await pg.waitForTimeout(250); }
             const before = await state(pg);
             /* dk9l (2026-10-21): "Secure checkout" adds the lines and goes straight to /checkout; the cart is read from the checkout page (same origin), page errors are counted up to the navigation only */
+            const errsAtNav = errs.length; /* page errors are counted up to the click: the checkout page logs its own console noise (module import map, a 401 resource, the post-purchase app's CORS) */
             await tap(pg, '#buybox .btn.atc');
-            await pg.waitForURL(/checkouts?\//, { timeout: 30000 }).catch(() => {}); const errsAtNav = errs.length; await pg.waitForTimeout(4000);
+            await pg.waitForURL(/checkouts?\//, { timeout: 30000 }).catch(() => {}); await pg.waitForTimeout(4000);
             const c = await cartJs(pg); const landed = pg.url();
             const dtext = await pg.evaluate(() => (document.body.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 300)).catch(() => null);
             await pg.screenshot({ path: `${OUT}/cart-${name}.png` }).catch(() => {});

@@ -1,5 +1,5 @@
 name: page-shot
-# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-21 after the dk9k deploy (key dk9k-3d43fe7): body match, rounded 80% hero, three-step cart check.
+# Screenshots + a few DOM checks of any page (phone / small phone / desktop, full page). Dispatch with url + out, or edit this line and push. Run 2026-10-21 after the dk9l deploy (key dk9l-852ab84): body match, 90% hero, three-step check now lands on /checkout (no drawer on this page).
 on:
   workflow_dispatch:
     inputs:

@@ -1444,7 +1444,7 @@ function App() {
   };
   const order = (rest && step === 1) ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
   return html`
-    <${RitualHeader} key="hdr"/>
+    <!-- dk9o (2026-10-21, owner): no page-own announcement bar / header any more; the theme's header group, announcement bar and footer show on this page -->
     ${order.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
     ${(!rest && step === 1) ? html`<div id="mc-rest-sentinel" key="sentinel" aria-hidden="true" style=${{ height: "1px" }}></div>` : null}
     <${StickyBar}/>`;

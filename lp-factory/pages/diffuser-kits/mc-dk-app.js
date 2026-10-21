@@ -517,7 +517,7 @@ const CART3 = {
    leaves for /checkout, where checkout_started fires InitiateCheckout. A changed kit or frequency is removed and re-added
    (the removal targets this page's variants by id, so a line the cart split for a discount is covered too). */
 const KITCART = { pending: null, addedAt: 0 };
-const kitItems = () => { const T = selStore.tier(); const kitId = CART3.kitVariants && CART3.kitVariants[T.key]; const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30]; const items = [{ id: kitId, quantity: 1 }]; selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId })); return { T, kitId, planId, items }; };
+const kitItems = () => { const T = selStore.tier(); const kitId = CART3.kitVariants && CART3.kitVariants[T.key]; const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk9q (2026-10-21, owner): the kits page rides the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), not the ritual page's "02/10 Official Plan" with its after-first-payment discounts */ const items = [{ id: kitId, quantity: 1 }]; selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId })); return { T, kitId, planId, items }; };
 const cartPost = (url, body) => fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) }).then((r) => { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); });
 const cartGet = () => fetch("/cart.js", { headers: { "Accept": "application/json" } }).then((r) => r.json());
 /* dk9n (2026-10-21, owner): reconcile instead of replace. Lines this page owns (the kit variants + the seven scents) are compared
@@ -563,7 +563,7 @@ async function addToCart(setBusy, setToast) {
      automatic "FREE DIFFUSER(S) — N scent subscription" BXGYs; the scents ride on the owner's Subi group "02/10 Official Plan"
      at the picked frequency (same price at 30 / 60 / 90). No one-time path. */
   const kitId = CART3.kitVariants && CART3.kitVariants[T.key];
-  const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30];
+  const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk9q (2026-10-21, owner): the kits page rides the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), not the ritual page's "02/10 Official Plan" with its after-first-payment discounts */
   const items = [{ id: kitId, quantity: 1 }];
   selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId }));
   if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; }

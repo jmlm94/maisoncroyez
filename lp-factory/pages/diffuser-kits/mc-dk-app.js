@@ -516,24 +516,39 @@ const CART3 = {
    Facebook & Instagram channel fires AddToCart (one per line, from /cart/add.js) at that moment; "Secure checkout" then only
    leaves for /checkout, where checkout_started fires InitiateCheckout. A changed kit or frequency is removed and re-added
    (the removal targets this page's variants by id, so a line the cart split for a discount is covered too). */
-const KITCART = { sig: null, pending: null, addedAt: 0 };
+const KITCART = { pending: null, addedAt: 0 };
 const kitItems = () => { const T = selStore.tier(); const kitId = CART3.kitVariants && CART3.kitVariants[T.key]; const planId = (CART3.ritualPlans && CART3.ritualPlans[selStore.freq]) || CART3.ritualPlans[30]; const items = [{ id: kitId, quantity: 1 }]; selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId })); return { T, kitId, planId, items }; };
-const kitSig = () => selStore.tier().key + "|" + [...selStore.keys].sort().join(",") + "|" + selStore.freq;
 const cartPost = (url, body) => fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) }).then((r) => { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); });
+const cartGet = () => fetch("/cart.js", { headers: { "Accept": "application/json" } }).then((r) => r.json());
+/* dk9n (2026-10-21, owner): reconcile instead of replace. Lines this page owns (the kit variants + the seven scents) are compared
+   with what is picked: a dropped scent or a smaller quantity is a /cart/change.js (no AddToCart), a new frequency is a
+   /cart/change.js with the new selling plan on each scent line (no AddToCart), and only genuinely new lines or extra bottles go
+   through /cart/add.js (AddToCart for those only). Returns the number of items added. */
 async function syncKitCart() {
-  if (!onStore() || selStore.left() > 0) return false;
-  const { kitId, items } = kitItems(); if (!kitId) return false;
-  const sig = kitSig();
+  if (!onStore() || selStore.left() > 0) return 0;
+  const { kitId, planId, items } = kitItems(); if (!kitId) return 0;
   if (KITCART.pending) { try { await KITCART.pending; } catch (e) {} }
-  if (KITCART.sig === sig) return false; /* already in the cart as picked */
   KITCART.pending = (async () => {
     const ids = Object.values(CART3.kitVariants).concat(CONFIG.fragrances.map((f) => f.variant));
-    /* clear this page's variants first (also covers a reload after a review, so the cart never holds two kits) */
-    const cart = await (await fetch("/cart.js", { headers: { "Accept": "application/json" } })).json(); const updates = {}; (cart.items || []).forEach((i) => { if (ids.includes(i.variant_id)) updates[i.key] = 0; }); if (Object.keys(updates).length) await cartPost("/cart/update.js", { updates }); KITCART.sig = null;
-    await cartPost("/cart/add.js", { items });
-    KITCART.sig = sig; KITCART.addedAt = Date.now();
-    document.dispatchEvent(new CustomEvent("cart:refresh"));
-    return true;
+    const cart = await cartGet();
+    const have = new Map(); (cart.items || []).forEach((l) => { if (!ids.includes(l.variant_id)) return; const g = have.get(l.variant_id) || { q: 0, lines: [] }; g.q += l.quantity; g.lines.push(l); have.set(l.variant_id, g); });
+    const want = new Map(items.map((i) => [i.id, { q: i.quantity, plan: i.selling_plan || null }]));
+    const changes = [], adds = [];
+    have.forEach((g, vid) => {
+      const w = want.get(vid);
+      if (!w) { g.lines.forEach((l) => changes.push({ id: l.key, quantity: 0 })); return; }
+      g.lines.forEach((l, i) => {
+        const cur = l.selling_plan_allocation ? Number(l.selling_plan_allocation.selling_plan.id) : null;
+        const q = i === 0 ? Math.min(l.quantity, w.q) : Math.max(0, Math.min(l.quantity, w.q - g.lines.slice(0, i).reduce((a, x) => a + Math.min(x.quantity, w.q), 0)));
+        if (q !== l.quantity || cur !== w.plan) changes.push(Object.assign({ id: l.key, quantity: q }, w.plan ? { selling_plan: w.plan } : {}));
+      });
+      if (w.q > g.q) adds.push(Object.assign({ id: vid, quantity: w.q - g.q }, w.plan ? { selling_plan: w.plan } : {}));
+    });
+    want.forEach((w, vid) => { if (!have.has(vid)) adds.push(Object.assign({ id: vid, quantity: w.q }, w.plan ? { selling_plan: w.plan } : {})); });
+    for (const c of changes) { try { await cartPost("/cart/change.js", c); } catch (e) { /* a line merged or vanished after an earlier change; the next sync reconciles */ } }
+    if (adds.length) { await cartPost("/cart/add.js", { items: adds }); KITCART.addedAt = Date.now(); }
+    if (changes.length || adds.length) document.dispatchEvent(new CustomEvent("cart:refresh"));
+    return adds.reduce((a, x) => a + x.quantity, 0);
   })();
   try { return await KITCART.pending; } finally { KITCART.pending = null; }
 }
@@ -560,7 +575,7 @@ async function addToCart(setBusy, setToast) {
      from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */
   try {
     setBusy(true);
-    const added = await syncKitCart(); /* dk9m: usually already done at "Review my kit"; a changed frequency re-adds here */
+    const added = await syncKitCart(); /* dk9m/dk9n: usually nothing left to do (the kit went in at "Review my kit"); a changed frequency is a plan change, not a new add */
     const wait = added ? 800 : Math.max(0, 800 - (Date.now() - KITCART.addedAt));
     /* fd13 (2026-09-25, owner): straight to checkout — the drawer was an extra screen where 42% of add-to-carts stopped.
        Shopify's Meta channel pixel fires one AddToCart per cart line from the /cart/add.js call above; measured

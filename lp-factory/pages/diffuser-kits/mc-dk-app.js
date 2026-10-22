@@ -187,11 +187,11 @@ const CONFIG = {
     guests:  { file: "hf gen — hostess welcoming friend", src: A.guests || "" },
     soot:    { file: "hf gen — candle soot", src: A.soot || "" },
     tried:   { file: "hf gen — plug-in, candle, room spray", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-rt-tried-800.webp?v=1790878061" },
-    patricia1: { file: "owner patricia1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/9_1_6aa98675-dedd-467c-9458-4794ab7e13c3.png?v=1790973646" },
-    goodbye1: { file: "owner goodbye1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/1_3.png?v=1790973646" },
-    compare1: { file: "owner compare1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/10_d0bd8853-eb83-4c2b-8dcd-6b2f8cb80e75.png?v=1790973647" },
-    spaces1: { file: "owner spaces1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/8_1_b6dcf934-45c5-4fb3-87f0-5a83f0ed8737.png?v=1790973647" },
-    scents1: { file: "owner scents1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/7_2.png?v=1790973646" },
+    patricia1: { file: "owner patricia1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/9_1_6aa98675-dedd-467c-9458-4794ab7e13c3.png?v=1790973646&width=1000" },
+    goodbye1: { file: "owner goodbye1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/1_3.png?v=1790973646&width=1000" },
+    compare1: { file: "owner compare1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/10_d0bd8853-eb83-4c2b-8dcd-6b2f8cb80e75.png?v=1790973647&width=1000" },
+    spaces1: { file: "owner spaces1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/8_1_b6dcf934-45c5-4fb3-87f0-5a83f0ed8737.png?v=1790973647&width=1000" },
+    scents1: { file: "owner scents1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/7_2.png?v=1790973646&width=1000" },
     badge1: { file: "owner badge1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/3_2.png?v=1790973647" },
 
     intentionHero: { file: "anadir-subtitulo-1", src: "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-lp-intentions-v2.jpg?v=1785962123" },
@@ -799,7 +799,7 @@ function HeroStill({ poster }) {
     if (im) { im.removeAttribute("id"); im.removeAttribute("style"); }
     else { im = document.createElement("img"); im.src = posterSrc; im.width = 720; im.height = 720; im.alt = "Maison Croyez diffuser"; im.decoding = "sync"; im.setAttribute("fetchpriority", "high"); }
     im.className = "simg hv-poster"; w.appendChild(im);
-    if (posterSrc && im.src !== posterSrc) { const up = new Image(); up.decoding = "async"; up.onload = () => { im.src = posterSrc; }; up.src = posterSrc; } /* dk9j (2026-10-20): the page body's 720 px inline frame paints first; the 800 px file from Shopify Files replaces it once loaded (same 1:1 box, no shift). The 22:17 live check found the inline frame still showing. */
+    if (posterSrc && im.src !== posterSrc && window.matchMedia && window.matchMedia("(min-width: 769px)").matches) { const up = new Image(); up.decoding = "async"; up.onload = () => { im.src = posterSrc; }; up.src = posterSrc; } /* dk9r (2026-10-22, perf): phones keep the inline 720 px frame (the 800 px file only moved the LCP later and cost 66 KB) */ /* dk9j (2026-10-20): the page body's 720 px inline frame paints first; the 800 px file from Shopify Files replaces it once loaded (same 1:1 box, no shift). The 22:17 live check found the inline frame still showing. */
     const v = document.getElementById("mc-hero-v"); if (v && v.parentNode) { try { v.pause(); } catch (e) {} v.parentNode.removeChild(v); }
   }, []);
   return html`<div class="hv-pwrap" ref=${pw} key="poster"></div>`; /* dk9c (owner): no countdown badge */
@@ -1423,7 +1423,11 @@ function App() {
     const s = document.getElementById("mc-rest-sentinel");
     if (s && "IntersectionObserver" in window) { io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) go(); }, { rootMargin: "320px 0px" }); io.observe(s); }
     t = setTimeout(() => { if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 1500 }); else go(); }, 6000);
-    return () => { clearTimeout(t); EVS.forEach((ev) => window.removeEventListener(ev, go, true)); if (io) io.disconnect(); };
+    /* dk9r (2026-10-22, perf): warm the seven step-2 scent tiles and the step-3 picture at low priority while the visitor
+       reads step 1, so the first tap does not wait ~1.5 s of downloads on a slow phone. */
+    const warm = () => { try { const urls = CONFIG.fragrances.map((f) => (CONFIG.images[f.pimg || f.img] || {}).src).filter(Boolean).concat(typeof MC_STEP3_IMG !== "undefined" ? [MC_STEP3_IMG] : []); urls.forEach((u) => { const im = new Image(); try { im.fetchPriority = "low"; } catch (e) {} im.decoding = "async"; im.src = u; }); } catch (e) {} };
+    const w = setTimeout(() => { if (window.requestIdleCallback) requestIdleCallback(warm, { timeout: 3000 }); else warm(); }, 1500);
+    return () => { clearTimeout(t); clearTimeout(w); EVS.forEach((ev) => window.removeEventListener(ev, go, true)); if (io) io.disconnect(); };
   }, []);
   const sections = {
     buybox: () => html`<${BuyBox} key="bb"/>`,
@@ -1442,13 +1446,19 @@ function App() {
     guarantee: () => html`<${GuaranteeSec} key="g"/>`,
     faq: () => html`<${Faq} key="faq"/>`,
   };
-  const order = (rest && step === 1) ? CONFIG.sectionOrder : CONFIG.sectionOrder.filter((k) => k === "buybox");
+  /* dk9r (2026-10-22, perf): the long-form sections stay mounted across the steps and are only hidden on steps 2 / 3.
+     Before, every step change unmounted and re-mounted everything below the buy box (hundreds of nodes, 19 images), which
+     was most of the first tap's cost on a phone (250–700 ms at 4x CPU). StaticOnce never re-renders them either; sections
+     that need the selection subscribe to it themselves (useSelection). */
+  const restKeys = CONFIG.sectionOrder.filter((k) => k !== "buybox");
   return html`
     <!-- dk9o (2026-10-21, owner): no page-own announcement bar / header any more; the theme's header group, announcement bar and footer show on this page -->
-    ${order.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}
+    <div key="buybox" id="sec-buybox">${sections.buybox()}</div>
+    ${rest ? html`<div key="rest" id="mc-rest" style=${step === 1 ? null : { display: "none" }}><${StaticOnce}>${restKeys.map((k) => sections[k] ? html`<div key=${k} id=${"sec-" + k}>${sections[k]()}</div>` : null)}<//></div>` : null}
     ${(!rest && step === 1) ? html`<div id="mc-rest-sentinel" key="sentinel" aria-hidden="true" style=${{ height: "1px" }}></div>` : null}
     <${StickyBar}/>`;
 }
+class StaticOnce extends React.Component { shouldComponentUpdate() { return false; } render() { return this.props.children; } }
 
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 

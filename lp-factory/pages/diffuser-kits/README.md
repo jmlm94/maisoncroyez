@@ -14,6 +14,23 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-10-22 — dk9r (key dk9r-b1746c3, LIVE 22:49 UTC): the first tap, not the first paint
+Owner: the page "loads EXTREMELY SLOW". Lab numbers said otherwise (Lighthouse mobile median 91, desktop 97; fast phone fully
+there at 0.35 s), so `paint-trace.yml` now scripts the first tap under real phone throttling. That is where it hurt: 350–820 ms
+from tapping "Pick your scents" to step 2, because the step change unmounted (and step 1 re-mounted) everything below the buy
+box, the seven scent tiles (~280 KB) were only requested at the tap, and the first interaction released ~400 KB of third-party
+JS at once.
+- App: the long-form sections render once inside `StaticOnce` (preact `Component`, `shouldComponentUpdate → false`; the
+  React shim has no Component) and are hidden with `display:none` on steps 2 / 3 (`#mc-rest`). The tiles and the step-3
+  picture are warmed at low priority 1.5 s after mount. The owner PNG section images carry `&width=1000`. The 800 px hero
+  swap runs on desktop only (phones keep the inline 720 px frame, which is also the LCP).
+- Page body: third parties release 1.2 / 2.5 / 4.5 s after the first interaction (timers at 5 / 6 / 12 s unchanged).
+- Result (throttled phone): tap → step 2 in 222–269 ms (was 347–819), one long task instead of four, tiles already loaded;
+  fast phone 88 ms. Paint timeline unchanged (hero 0.6–1.4 s slow, 0.3 s fast; buy box ~3 s slow, 0.35 s fast).
+- Tools: `paint-trace.yml` (marks, LCP, long tasks, tap latency, top resources, a third-parties-blocked variant),
+  `lh-live.yml` (3 runs per form factor now). The qa-kits hero check accepts the inline frame on phones.
+Rollback = key dk9q-5d84bf3 with the app at 5d84bf3.
+
 ## 2026-10-21 — dk9q (key dk9q-5d84bf3, LIVE 20:46 UTC): the 04/10 Subi plans, readable checkout lines
 Owner: the checkout for 2 diffusers + 3 scents was confusing ("First payment $119.85, then $74.85 every month" on every scent
 line, a scent line split in two, a kit line called "2 FREE Diffusers + 2 Scents" with a $159.90 strike-through) and the

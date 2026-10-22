@@ -1,5 +1,5 @@
 name: paint-trace
-# Paint timeline of the LIVE kits page: when the first paint, the pre-hero, the theme header, theme.css (mc-tcss) and the app mount happen, under real CDP throttling (1.6 Mbps / 150 ms RTT / 4x CPU) on a phone, unthrottled phone and desktop, plus a 500 ms filmstrip of the throttled run. Edit this line and push to run. Run 2026-10-22 00:1x UTC: owner says the kits page loads extremely slowly (dk9q).
+# Paint timeline of the LIVE kits page: first paint, pre-hero, theme header, theme.css (mc-tcss), app mount, first-tap latency (step 1 → step 2) with long tasks, top resources by weight; CDP throttling (1.6 Mbps / 150 ms RTT / 4x CPU) on a phone, the same with third-party scripts blocked, unthrottled phone and desktop. Edit this line and push to run. Run 2 (2026-10-22 22:3x UTC): ticks start at document creation (v1 started them at DOMContentLoaded, so its marks were wrong).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -29,12 +29,14 @@ jobs:
           const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13) + 'Z';
           const b = await chromium.launch();
           const out = [];
-          const RUNS = [{ id: 'phone-slow-1', m: true, slow: true, film: true }, { id: 'phone-slow-2', m: true, slow: true }, { id: 'phone-fast', m: true, slow: false }, { id: 'desktop', m: false, slow: false }];
+          const RUNS = [{ id: 'phone-slow-1', m: true, slow: true }, { id: 'phone-slow-2', m: true, slow: true }, { id: 'phone-slow-no3p', m: true, slow: true, no3p: true }, { id: 'phone-fast', m: true, slow: false }, { id: 'desktop', m: false, slow: false }];
+          const THIRD = /connect\.facebook\.net|facebook\.com\/tr|clarity\.ms|klaviyo\.com|postscript\.io|gorgias|9gtb\.com|subi\.co|jointrybe|bing\.com|googletagmanager|google-analytics|doubleclick|tiktok|hotjar/;
           for (const R of RUNS) {
             const ctx = await b.newContext(R.m ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' } : { viewport: { width: 1366, height: 900 } });
             const pg = await ctx.newPage();
             const cdp = await ctx.newCDPSession(pg);
             await cdp.send('Network.enable');
+            if (R.no3p) await pg.route((u) => THIRD.test(u.href), (route) => route.abort());
             if (R.slow) { await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 1.6 * 1024 * 1024 / 8, uploadThroughput: 750 * 1024 / 8 }); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 }); }
             await pg.addInitScript(() => {
               window.__lcp = []; window.__marks = {};
@@ -56,24 +58,36 @@ jobs:
                 if (!M.buybox && document.querySelector('#buybox .btn')) M.buybox = now();
                 if (!M.heroImg) { const hi = document.querySelector('#root .hero img, #root img.hs-img, #root .hs img'); if (hi && hi.complete && hi.naturalWidth > 0) M.heroImg = now(); }
               };
-              document.addEventListener('DOMContentLoaded', () => { tick(); try { new MutationObserver(tick).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); } catch (e) {} setInterval(tick, 50); });
+              window.__lt = []; try { new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__lt.push([Math.round(e.startTime), Math.round(e.duration)]); }).observe({ type: 'longtask', buffered: true }); } catch (e) {}
+              const start = () => { if (!document.documentElement) return setTimeout(start, 5); tick(); try { new MutationObserver(tick).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); } catch (e) {} setInterval(tick, 30); };
+              start();
             });
-            const frames = [];
-            let filming = !!R.film;
-            const filmTask = (async () => { if (!filming) return; const t0 = Date.now(); for (let i = 0; i < 20; i++) { try { const p = `${OUT}/paint-${stamp}-film-${String(i * 500).padStart(4, '0')}.jpg`; await pg.screenshot({ path: p, type: 'jpeg', quality: 45, clip: { x: 0, y: 0, width: 390, height: 844 } }); frames.push(p); } catch (e) {} const wait = t0 + (i + 1) * 500 - Date.now(); if (wait > 0) await new Promise((r) => setTimeout(r, wait)); } })();
             const navStart = Date.now();
-            try { await pg.goto(URL0, { waitUntil: 'domcontentloaded', timeout: 120000 }); } catch (e) { console.log('goto', e.message); }
-            await pg.waitForTimeout(R.slow ? 12000 : 7000);
-            filming = false; await filmTask;
+            try { await pg.goto(URL0, { waitUntil: 'commit', timeout: 120000 }); } catch (e) { console.log('goto', e.message); }
+            let tap = null;
+            try {
+              await pg.waitForSelector('#buybox .btn.atc', { timeout: R.slow ? 20000 : 10000 });
+              await pg.waitForTimeout(800);
+              const t0 = await pg.evaluate(() => Math.round(performance.now()));
+              await pg.tap('#buybox .btn.atc');
+              const t1 = await pg.evaluate(() => Math.round(performance.now()));
+              let found = null; for (let i = 0; i < 160; i++) { const ok = await pg.evaluate(() => !!document.querySelector('#buybox .pick.e4t, #buybox .picker .pick')); if (ok) { found = await pg.evaluate(() => Math.round(performance.now())); break; } await pg.waitForTimeout(25); }
+              await pg.waitForTimeout(2500);
+              const after = await pg.evaluate((t0) => ({ lt: (window.__lt || []).filter((x) => x[0] >= t0 - 50 && x[0] < t0 + 3000), imgs: [...document.querySelectorAll('#buybox .pick.e4t img, #buybox .picker img')].map((i) => i.complete && i.naturalWidth > 0).filter(Boolean).length, tiles: document.querySelectorAll('#buybox .pick.e4t, #buybox .picker .pick').length }), t0);
+              tap = { at: t0, handled: t1 - t0, step2: found ? found - t0 : null, longTasksAfter: after.lt, tiles: after.tiles, tileImgsLoaded: after.imgs };
+            } catch (e) { tap = { error: e.message.slice(0, 120) }; }
+            await pg.waitForTimeout(R.slow ? 4000 : 2000);
             await pg.mouse.click(5, 5); await pg.waitForTimeout(400);
             const r = await pg.evaluate(() => {
               const res = performance.getEntriesByType('resource').filter((e) => /theme\.css|theme\.js|mc-dk|mc-lp-vendor|mc-lp-diffuser|mc-hero|mc-dk-hero|fbevents|clarity|wpm|klaviyo|subi|vendor\.js|\/cdn\/shop\/t\//.test(e.name)).map((e) => ({ n: e.name.replace(/^https?:\/\/[^/]+/, '').split('?')[0].slice(-48), start: Math.round(e.startTime), end: Math.round(e.responseEnd), kb: Math.round((e.transferSize || e.encodedBodySize || 0) / 1024), blocking: e.renderBlockingStatus || '' })).sort((a, b) => a.end - b.end);
               const nav = performance.getEntriesByType('navigation')[0];
               const hdr = document.querySelector('.shopify-section--header'); const ann = document.querySelector('.shopify-section--announcement-bar');
-              return { lcp: window.__lcp, marks: window.__marks, cls: Math.round((window.__cls || 0) * 1000) / 1000, nav: nav ? { ttfb: Math.round(nav.responseStart), dcl: Math.round(nav.domContentLoadedEventEnd), load: Math.round(nav.loadEventEnd), htmlKb: Math.round((nav.transferSize || 0) / 1024) } : null, res, header: { ann: ann ? Math.round(ann.getBoundingClientRect().height) : null, hdr: hdr ? Math.round(hdr.getBoundingClientRect().height) : null }, resCount: performance.getEntriesByType('resource').length, resKb: Math.round(performance.getEntriesByType('resource').reduce((a, e) => a + (e.transferSize || 0), 0) / 1024) };
+              const top = performance.getEntriesByType('resource').map((e) => ({ n: e.name.replace(/^https?:\/\//, '').split('?')[0].slice(-60), kb: Math.round((e.transferSize || 0) / 1024), start: Math.round(e.startTime), end: Math.round(e.responseEnd), t: e.initiatorType })).sort((a, b) => b.kb - a.kb).slice(0, 25);
+              return { top, longTasks: (window.__lt || []).slice(0, 60), lcp: window.__lcp, marks: window.__marks, cls: Math.round((window.__cls || 0) * 1000) / 1000, nav: nav ? { ttfb: Math.round(nav.responseStart), dcl: Math.round(nav.domContentLoadedEventEnd), load: Math.round(nav.loadEventEnd), htmlKb: Math.round((nav.transferSize || 0) / 1024) } : null, res, header: { ann: ann ? Math.round(ann.getBoundingClientRect().height) : null, hdr: hdr ? Math.round(hdr.getBoundingClientRect().height) : null }, resCount: performance.getEntriesByType('resource').length, resKb: Math.round(performance.getEntriesByType('resource').reduce((a, e) => a + (e.transferSize || 0), 0) / 1024) };
             });
-            r.id = R.id; r.frames = frames.map((f) => f.split('/').pop()); out.push(r);
+            r.id = R.id; r.tap = tap; out.push(r);
             console.log('==', R.id, JSON.stringify(r.nav), 'cls', r.cls, 'marks', JSON.stringify(r.marks), 'header', JSON.stringify(r.header), 'resources', r.resCount, r.resKb + ' KB');
+            console.log('  tap', JSON.stringify(r.tap)); console.log('  longTasks', JSON.stringify(r.longTasks)); for (const x of r.top) console.log('  top', JSON.stringify(x));
             for (const c of r.lcp) console.log('  LCP candidate', JSON.stringify(c));
             for (const x of r.res) console.log('  res', JSON.stringify(x));
             await ctx.close();

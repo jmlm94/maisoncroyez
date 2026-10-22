@@ -1,5 +1,5 @@
 name: paint-trace
-# Paint timeline of the LIVE kits page: first paint, pre-hero, theme header, theme.css (mc-tcss), app mount, first-tap latency (step 1 → step 2) with long tasks, top resources by weight; CDP throttling (1.6 Mbps / 150 ms RTT / 4x CPU) on a phone, the same with third-party scripts blocked, unthrottled phone and desktop. Edit this line and push to run. Run 2 (2026-10-22 22:3x UTC): ticks start at document creation (v1 started them at DOMContentLoaded, so its marks were wrong).
+# Paint timeline of the LIVE kits page: first paint, pre-hero, theme header, theme.css (mc-tcss), app mount, first-tap latency (step 1 → step 2) with long tasks, top resources by weight; CDP throttling (1.6 Mbps / 150 ms RTT / 4x CPU) on a phone, the same with third-party scripts blocked, unthrottled phone and desktop. Edit this line and push to run. Run 2 (2026-10-22 22:3x UTC): ticks start at document creation (v1 started them at DOMContentLoaded, so its marks were wrong). Run 3 (2026-10-22 22:5x UTC): after dk9r (sections stay mounted, tiles warmed, hero swap desktop only, third parties staggered after the first tap) — compare the tap latency with run 2.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

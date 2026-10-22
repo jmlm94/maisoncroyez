@@ -1458,7 +1458,9 @@ function App() {
     ${(!rest && step === 1) ? html`<div id="mc-rest-sentinel" key="sentinel" aria-hidden="true" style=${{ height: "1px" }}></div>` : null}
     <${StickyBar}/>`;
 }
-class StaticOnce extends React.Component { shouldComponentUpdate() { return false; } render() { return this.props.children; } }
+const StaticOnce = (window.preact && window.preact.Component) /* the React shim has no Component; preact core does */
+  ? (() => { class S extends window.preact.Component { shouldComponentUpdate() { return false; } render(p) { return p.children; } } return S; })()
+  : ((p) => p.children);
 
 ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
 

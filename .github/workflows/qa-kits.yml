@@ -80,7 +80,7 @@ jobs:
             ck(`${vp}-s1-place`, '"Where it goes" under the options, button "Pick your scents" (fixed label)', s.place === 'WHERE IT GOES:' && /Pick your scents/i.test(s.btn || ''), { place: s.place, btn: s.btn });
             if (mobile) ck(`${vp}-s1-sticky`, 'sticky bar shows at load on step 1', s.stickyShown && /Pick your scents/i.test(s.sticky || ''), { shown: s.stickyShown, sticky: s.sticky });
             await tap(pg, '#buybox .tier', 0); await pg.waitForTimeout(300); s = await state(pg);
-            ck(`${vp}-s1-tier1`, '1 diffuser selects (button label stays "Pick your scents")', /Pick your scents/i.test(s.btn || '') && /^Living Room:/.test(s.tierOn || ''), { btn: s.btn, on: s.tierOn });
+            ck(`${vp}-s1-tier1`, '2-scent option selects: 1 free diffuser, $79.90 today (button label stays "Pick your scents")', /Pick your scents/i.test(s.btn || '') && /^2 scents at \$39\.95 each, 1 free diffuser, \$79\.90 today \(Living Room\)$/.test(s.tierOn || ''), { btn: s.btn, on: s.tierOn }); /* dk9s: the cards are named by scents */
             await tap(pg, '#buybox .tier', 1); await pg.waitForTimeout(300);
             await pg.screenshot({ path: `${OUT}/${vp}-step1.png` });
             await tap(pg, '#buybox .btn.step-next'); await pg.waitForTimeout(700); s = await state(pg);

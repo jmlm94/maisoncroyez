@@ -211,6 +211,9 @@ dk7e (owner round 5, preview v13): refill card gets a second line "Free Shipping
 dk7f (owner round 6, preview v14): one-time card back to the same black as the refill card; "Swap, pause or cancel anytime." bold on the
 refill card and in the Step 3 subtitle ("Skip, swap, pause or cancel anytime.").
 
-## dk9s (2026-10-25) — step 1 scents-first, PREVIEW ONLY
+## dk9s (2026-10-25) — step 1 scents-first, LIVE (key dk9s-476dede)
 
-Not deployed. Step 1 options become "2 / 3 / 5 Scents" with the free diffusers shown per option; see `variants/dk9s-step1-scents/README.md`. Artifact TK1GvMvzMi69pP4wiLMfyN v37.
+Step 1 asks "How many scents and diffusers would you like?" with the line "Ships every 30, 60 or 90 days. Swap, pause and cancel anytime. Diffusers are free today only." under it.
+The three cards read "2 / 3 / 5 Scents" · 2 / 3 / 5 bottle thumbnails (the step-2 product photos) · "$39.95 each" · "+ 1 / 2 / 3 Diffusers" · kit picture · struck $89.95 / $179.90 / $269.85 + FREE · "TOTAL TODAY $79.90 / $119.85 / $199.75";
+a three-line how-it-works strip (today scents only + free diffusers ship with them / next boxes scents only, same price, 30-60-90 / cancel anytime, 30-day money-back) sits between the cards and "Where it goes".
+Steps 2–3, prices, plans and cart wiring unchanged. `fragSrc()` next to `fillKeys()` resolves a scent key to its product photo. Deploy log and QA numbers in `../free-diffusers/STATUS.md` (2026-10-25); build history in `variants/dk9s-step1-scents/README.md` (rounds 1–2 were artifact-only, v37–v38).

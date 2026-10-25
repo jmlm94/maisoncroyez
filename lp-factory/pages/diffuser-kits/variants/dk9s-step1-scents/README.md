@@ -1,4 +1,4 @@
-# dk9s — step 1 framed around the scent subscription (PREVIEW ONLY, not deployed)
+# dk9s — step 1 framed around the scent subscription (LIVE since 2026-10-25, key dk9s-476dede)
 
 Owner request 2026-10-25: step 1 of /pages/diffuser-kits confused visitors because the three options were
 "1 / 2 / 3 Diffusers" with nothing about the scents or the subscription that makes the diffusers free.
@@ -20,3 +20,8 @@ Each card now reads, top to bottom: "2 / 3 / 5 Scents" · a row of 2 / 3 / 5 bot
 - Local three-step walk (steps-shot.mjs) after round 2: 0 JS errors on phone / small / desktop; step-1 card texts
   "2 Scents $39.95 each + 1 Diffuser $89.95 FREE TOTAL TODAY $79.90" / "MOST POPULAR 3 Scents … + 2 Diffusers $179.90 FREE TOTAL TODAY $119.85" / "BEST VALUE 5 Scents … + 3 Diffusers $269.85 FREE TOTAL TODAY $199.75".
 - Not done on purpose: no deploy, no change to the home-page cards or the qa-kits gate (its step-1 checks would need the new texts before any deploy).
+
+## Deployed (2026-10-25)
+Owner: "Deploy" → live at 01:18 UTC (dk9s-76506e1) with the owner's line "Ships every 30, 60 or 90 days. Swap, pause and cancel anytime. Diffusers are free today only.",
+then 01:37 UTC (dk9s-476dede) with the title "How many scents and diffusers would you like?". `patch.py` carries the final copy. QA numbers in `../../../free-diffusers/STATUS.md`.
+

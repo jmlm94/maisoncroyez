@@ -23,6 +23,9 @@ strip under the H1 is gone, and the layout is its own: one centred column (no le
 of the "STEP N OF 3" eyebrow, and the four supplies as rows (radio, months + price line + free diffusers, framed thumbnail,
 total) instead of the kits card grid.
 
+## Round 3 (owner): "Revert the variants the way it was with two and two rows was good." → the four supplies are the card
+grid again (two and two on phones, one row on desktop); everything else from round 2 stays.
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

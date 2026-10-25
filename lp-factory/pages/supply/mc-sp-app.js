@@ -937,17 +937,17 @@ function BuyBox() {
 
           <${Steps} n=${1}/>
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
-          <div class="tiers sp-rows" role="radiogroup" aria-label="Supply length"> <!-- supply: rows, not the kits card grid -->
+          <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length"> <!-- supply (owner, round 3): the card grid, two and two on phones -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"sp-row" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
-                <span class="sp-radio" aria-hidden="true"></span>
-                <span class="sp-main">
-                  <span class="sp-months">${t.months} Months${t.tag ? html` <b class=${"sp-tag" + (t.pop ? " pop" : "")}>${t.tag}</b>` : null}</span>
-                  <span class="sp-line">${t.scents} scents \u00b7 <s>${usd(SCENT_ONE)}</s> <b>${usd(t.each)}</b> each \u00b7 <em class="sp-save-in">Save ${usd(save)}</em></span>
-                  ${t.n ? html`<span class="sp-gift">+ ${t.n} <b>FREE</b> diffuser${t.n > 1 ? "s" : ""} <s>${usd(val)}</s></span>` : html`<span class="sp-gift sp-only">Scents only</span>`}
-                </span>
-                ${t.n ? html`<span class="sp-pic t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>` : html`<span class="sp-pic sp-pic-empty" aria-hidden="true"></span>`}
-                <span class="sp-total"><small>Today</small><b>${usd(t.price)}</b></span>
+              <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+                ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
+                <span class="t9-n t9s-n">${t.months} Months</span>
+                <span class="t9s-each">${t.scents} scents · <s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span>
+                <span class="sp-save">Save ${usd(save)}</span>
+                ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
+                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
+                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span><span class="sp-nudge">Go to 9 months<br/>and a diffuser<br/>is <b>FREE</b></span>`}
+                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
           <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->

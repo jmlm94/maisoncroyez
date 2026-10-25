@@ -2,7 +2,7 @@
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
 var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-720.mp4?v=1790870731";
-var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-hero-800.jpg?v=1792532870"; /* dk9i (2026-10-20, owner): the square living-room picture */
+var MC_HERO_POSTER = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-hero-800.jpg?v=1792945162"; /* dk9i (2026-10-20, owner): the square living-room picture */
 var MC_STEP3_IMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-step3-1600x900.webp?v=1792532870"; /* dk9i (owner): the 16:9 picture on step 3 */
 var MC_HERO_STILL = true; /* dk9 (2026-10-20, owner): a picture instead of the hero video (the poster frame; swap MC_HERO_POSTER for another file) */
 /* FB pixel: loaded by Shopify's Facebook channel through the Web Pixels Manager (no page-level loader). */

@@ -944,7 +944,7 @@ function BuyBox() {
               <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class="t9-n t9s-n">${t.scents} Scents</span>
-                <span class="t9s-bottles" aria-hidden="true">${fillKeys(t.scents).map((k, i) => html`<img key=${i} class="t9s-b" src=${fragSrc(k)} alt="" loading="lazy" decoding="async"/>`)}</span>
+                <span class="t9s-bottles" aria-hidden="true"><span class="t9s-one"><img class="t9s-b t9s-b1" src=${fragSrc("love")} alt="" loading="lazy" decoding="async"/><b class="t9s-x">${t.scents}×</b></span></span>
                 <span class="t9s-each">${usd(SCENT_ONE)} each</span>
                 <span class="t9s-gift">+ ${t.n} Diffuser${t.n > 1 ? "s" : ""}</span>
                 <${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/>

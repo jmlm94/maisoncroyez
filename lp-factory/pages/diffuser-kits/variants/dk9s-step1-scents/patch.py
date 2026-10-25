@@ -12,7 +12,7 @@ def rep(s, old, new, n=1):
 MID = '·'
 app = rep(app,
   '<div class="picker-title step-title s9-title">How many spaces would you like to <em>transform today?</em></div>',
-  '<div class="picker-title step-title s9-title">How many scents would you like <em>on subscription?</em></div><p class="s9-sub">Ships every 30, 60 or 90 days ' + MID + ' Cancel anytime ' + MID + ' Free diffusers included</p> <!-- dk9s (2026-10-25, owner): step 1 is about the scent subscription; the diffusers are the free gift per option -->')
+  '<div class="picker-title step-title s9-title">How many scents would you like <em>on subscription?</em></div><p class="s9-sub">Ships every 30, 60 or 90 days. Swap, pause and cancel anytime. Diffusers are free today only.</p> <!-- dk9s (2026-10-25, owner): step 1 is about the scent subscription; the diffusers are the free gift per option -->')
 app = rep(app, 'aria-label="How many free diffusers"', 'aria-label="How many scents"')
 app = rep(app,
   'aria-label=${t.name + ": " + t.n + " diffuser" + (t.n > 1 ? "s" : "") + ", requires " + t.scents + " scents"}',

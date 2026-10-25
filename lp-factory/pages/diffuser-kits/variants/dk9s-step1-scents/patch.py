@@ -54,10 +54,10 @@ css += '''
 #root .tier.t9c3 .t9s-total small{font-family:'Outfit',sans-serif;font-weight:600;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:#5C4F46}
 #root .tier.t9c3 .t9s-total b{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;color:#141414}
 @media (min-width:700px){#root .tier.t9c3 .t9s-each{font-size:.74rem}#root .tier.t9c3 .t9s-gift{font-size:.86rem}#root .tier.t9c3 .t9s-total b{font-size:1.15rem}#root .tier.t9c3 .t9s-total small{font-size:.62rem}}
-#root .t9s-how{list-style:none;margin:0 0 10px;padding:10px 14px 10px 18px;background:#FAF7F3;border:1px solid #EFE8E0;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.35;color:#2A221E;display:grid;gap:5px}
+#root .t9s-how{list-style:none;margin:0 0 10px;padding:10px 14px 10px 20px;padding-left:20px !important;background:#FAF7F3;border:1px solid #EFE8E0;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.35;color:#2A221E;display:grid;gap:5px}
 #root .t9s-how li{position:relative;padding-left:22px;margin:0} /* dk9t (owner): more room on the left of the green checks */
 #root .t9s-how li::before{content:"\\2713";position:absolute;left:0;top:0;color:#1E7A46;font-weight:800}
-@media (min-width:700px){#root .t9s-how{font-size:.84rem;padding:12px 16px 12px 20px}}
+@media (min-width:700px){#root .t9s-how{font-size:.84rem;padding:12px 16px 12px 22px;padding-left:22px !important}}
 '''
 open(out + '/mc-dk-app.js', 'w', encoding='utf-8').write(app)
 open(out + '/mc-dk.css', 'w', encoding='utf-8').write(css)

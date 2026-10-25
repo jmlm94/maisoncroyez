@@ -20,6 +20,15 @@ const vendor = fs.readFileSync(CDN + 'mc-lp-vendor.js', 'utf8');
 const assets = fs.readFileSync(CDN + 'mc-lp-diffuser-assets.js', 'utf8');
 let app = fs.readFileSync(process.env.APP || P + 'mc-dk-app.js', 'utf8');
 const IMG = P + 'img/';
+// dk9s preview: inline the bottle thumbnails and the kit pictures so the self-contained page shows them offline
+const RIT = R + 'lp-factory/pages/free-diffusers/ritual/img/';
+// STANDIN=1: local screenshots only — the step-2 product photos live on the CDN, so stand in the ritual bottle shots for them
+if (process.env.STANDIN) {
+  const MAP = { 'golden_blossom.png?v=1791993010': 'mc-rt-frag2-240.webp', 'crisp_citruss.png?v=1791993011': 'mc-rt-frag4-240.webp', 'chilled_citrusss.png?v=1791993010': 'mc-rt-frag6-240.webp', 'honey_nectarr.png?v=1791993011': 'mc-rt-frag1-240.webp', 'euphoric_bloom.png?v=1791993010': 'mc-rt-frag3-240.webp', 'wilwood_mistiqye.png?v=1791993011': 'mc-rt-frag5-240.webp', 'midnight_sensation.png?v=1791993011': 'mc-rt-frag7-240.webp' };
+  for (const [k, v] of Object.entries(MAP)) app = app.split('https://cdn.shopify.com/s/files/1/0020/3636/7469/files/' + k + '&width=320').join('data:image/webp;base64,' + fs.readFileSync(RIT + v).toString('base64'));
+}
+app = app.replace(/https:\/\/cdn\.shopify\.com\/s\/files\/1\/0020\/3636\/7469\/files\/(mc-rt-frag[1-7]-240\.webp)\?v=\d+/g, (m, f) => fs.existsSync(RIT + f) ? 'data:image/webp;base64,' + fs.readFileSync(RIT + f).toString('base64') : m);
+app = app.replace(/https:\/\/cdn\.shopify\.com\/s\/files\/1\/0020\/3636\/7469\/files\/(mc-kb-kit[123]\.jpg)\?v=\d+&width=240/g, (m, f) => fs.existsSync(CDN + f) ? 'data:image/jpeg;base64,' + fs.readFileSync(CDN + f).toString('base64') : m);
 const dataUri = (f, mime) => 'data:' + mime + ';base64,' + fs.readFileSync(IMG + f).toString('base64');
 if (fs.existsSync(IMG + 'mc-dk-hero-800.jpg')) app = app.replace(/https:\/\/cdn\.shopify\.com\/s\/files\/1\/0020\/3636\/7469\/files\/mc-dk-hero-800\.jpg\?v=\d+/g, dataUri('mc-dk-hero-800.jpg', 'image/jpeg'));
 if (fs.existsSync(IMG + 'mc-dk-step3-1600x900.webp')) app = app.replace(/https:\/\/cdn\.shopify\.com\/s\/files\/1\/0020\/3636\/7469\/files\/mc-dk-step3-1600x900\.webp\?v=\d+/g, dataUri('mc-dk-step3-1600x900.webp', 'image/webp'));

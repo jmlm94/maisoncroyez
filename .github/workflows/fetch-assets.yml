@@ -1,0 +1,43 @@
+name: fetch-assets
+# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run picks-1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-assets.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch the pictures
+        run: |
+          set -e
+          mkdir -p lp-factory/assets/cdn/picks
+          B=https://cdn.shopify.com/s/files/1/0020/3636/7469/files
+          while read -r file v; do
+            [ -n "$file" ] || continue
+            curl -fsSL "$B/$file?v=$v&width=320" -o "lp-factory/assets/cdn/picks/$file"
+          done <<'LIST'
+          golden_blossom.png 1791993010
+          crisp_citruss.png 1791993011
+          chilled_citrusss.png 1791993010
+          honey_nectarr.png 1791993011
+          euphoric_bloom.png 1791993010
+          wilwood_mistiqye.png 1791993011
+          midnight_sensation.png 1791993011
+          LIST
+          ls -la lp-factory/assets/cdn/picks
+          file lp-factory/assets/cdn/picks/* || true
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add lp-factory/assets/cdn/picks
+          git commit -m "assets: the kits step-2 scent pictures from the store CDN (picks, 320 px)" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

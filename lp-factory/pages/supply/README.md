@@ -14,6 +14,15 @@ Answers (2026-10-25): SKUs are created by the owner after the page is done; ship
 | 12 months | 12 | $24.95 | $299.40 | $180 | 2 ($179.90) |
 | 18 months (Best value) | 18 | $19.95 | $359.10 | $360 | 3 ($269.85) |
 
+## Round 2 (owner, same day)
+"No need for the information below the atc button since this is a page for customer also delete the 3 bullets below the
+main image and alter the layout a little so it looks different from the sales page we have." → nothing below any button
+(chips, reviews, FAQ, founder note and every long-form section are gone; step 3 keeps only "Change my scents"), the badge
+strip under the H1 is gone, and the layout is its own: one centred column (no left gallery column on desktop), a kicker
+"FOR MAISON CROYEZ CUSTOMERS" + H1 + a landscape banner, a 3-segment progress track (Supply · Scents · Checkout) instead
+of the "STEP N OF 3" eyebrow, and the four supplies as rows (radio, months + price line + free diffusers, framed thumbnail,
+total) instead of the kits card grid.
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

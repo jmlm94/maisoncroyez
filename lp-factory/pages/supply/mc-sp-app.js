@@ -2,7 +2,7 @@
 "use strict";
 if (window.__MC_KX_APP__) return; window.__MC_KX_APP__ = 1;
 var MC_HERO_VIDEO = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-pdp-hero-720.mp4?v=1790870731";
-var MC_HERO_POSTER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc4MDAnIGhlaWdodD0nODAwJyB2aWV3Qm94PScwIDAgODAwIDgwMCc+PHJlY3Qgd2lkdGg9JzgwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9JyNFREU2REQnLz48cmVjdCB4PSc0MCcgeT0nNDAnIHdpZHRoPSc3MjAnIGhlaWdodD0nNzIwJyByeD0nMjQnIGZpbGw9J25vbmUnIHN0cm9rZT0nI0M5QkRBRScgc3Ryb2tlLXdpZHRoPSczJyBzdHJva2UtZGFzaGFycmF5PScxNCAxMicvPjx0ZXh0IHg9JzQwMCcgeT0nMzg1JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nT3V0Zml0LEFyaWFsLHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZvbnQtd2VpZ2h0PSc3MDAnIGxldHRlci1zcGFjaW5nPSc2JyBmaWxsPScjOEE3QjZFJz5IRVJPIElNQUdFPC90ZXh0Pjx0ZXh0IHg9JzQwMCcgeT0nNDM1JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nT3V0Zml0LEFyaWFsLHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMjInIGZvbnQtd2VpZ2h0PSc2MDAnIGZpbGw9JyNBODlBOEMnPnBsYWNlaG9sZGVyLCBmaW5hbCBwaWN0dXJlIHRvIGNvbWU8L3RleHQ+PC9zdmc+"; /* supply: placeholder until the owner sends the picture */ /* dk9i (2026-10-20, owner): the square living-room picture */
+var MC_HERO_POSTER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNjAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE2MDAgODAwJz48cmVjdCB3aWR0aD0nMTYwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9JyNFREU2REQnLz48cmVjdCB4PSc0MCcgeT0nNDAnIHdpZHRoPScxNTIwJyBoZWlnaHQ9JzcyMCcgcng9JzI0JyBmaWxsPSdub25lJyBzdHJva2U9JyNDOUJEQUUnIHN0cm9rZS13aWR0aD0nMycgc3Ryb2tlLWRhc2hhcnJheT0nMTQgMTInLz48dGV4dCB4PSc4MDAnIHk9JzM4NScgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC1mYW1pbHk9J091dGZpdCxBcmlhbCxzYW5zLXNlcmlmJyBmb250LXNpemU9JzU0JyBmb250LXdlaWdodD0nNzAwJyBsZXR0ZXItc3BhY2luZz0nOCcgZmlsbD0nIzhBN0I2RSc+SEVSTyBJTUFHRTwvdGV4dD48dGV4dCB4PSc4MDAnIHk9JzQ0MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC1mYW1pbHk9J091dGZpdCxBcmlhbCxzYW5zLXNlcmlmJyBmb250LXNpemU9JzI2JyBmb250LXdlaWdodD0nNjAwJyBmaWxsPScjQTg5QThDJz5wbGFjZWhvbGRlciwgZmluYWwgcGljdHVyZSB0byBjb21lPC90ZXh0Pjwvc3ZnPg=="; /* supply: placeholder until the owner sends the picture */ /* dk9i (2026-10-20, owner): the square living-room picture */
 var MC_STEP3_IMG = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-step3-1600x900.webp?v=1792532870"; /* dk9i (owner): the 16:9 picture on step 3 */
 var MC_HERO_STILL = true; /* dk9 (2026-10-20, owner): a picture instead of the hero video (the poster frame; swap MC_HERO_POSTER for another file) */
 /* FB pixel: loaded by Shopify's Facebook channel through the Web Pixels Manager (no page-level loader). */
@@ -76,8 +76,8 @@ const CONFIG = {
     cta: "",
   },
 
-  sectionOrder: [ /* supply: brand sections only, the new-customer education is gone */
-    "buybox", "scentsStory", "guarantee", "reviews",
+  sectionOrder: [ /* supply (owner): nothing below the buttons, this is a page for customers */
+    "buybox",
   ],
 
   /* --- gallery: EXACT product media, in the product's own order --- */
@@ -114,15 +114,17 @@ const CONFIG = {
     booklet: "",
     trustStrip: [
     ],
-    accordions: [ /* supply (2026-10-25): what an existing subscriber asks before stocking up */
-      { q: "What happens to my current subscription?", a: "We cancel it for you. On the last step you give us the name (and, if you like, the email) on the subscription. We cancel it in less than 24 hours after your order and email you a confirmation. No portal, no phone call." },
-      { q: "When am I charged?", a: "Once, today. A supply is a one-time order: nothing renews, nothing is scheduled, your card is not charged again." },
-      { q: "How does it ship?", a: "In one box, free shipping, with your free diffusers when your supply includes them. You get a tracking email as soon as it leaves." },
-      { q: "Can I mix scents?", a: "Yes. Pick any mix of the seven, including several bottles of the same scent. Use \u2212 / + on each scent, or let us spread your bottles evenly across all seven." },
-      { q: "Are the diffusers really free?", a: "Yes. From 9 months up the diffusers ship free with your supply: one with 9 months, two with 12, three with 18. They are yours to keep, with the same lifetime warranty as every Maison Croyez diffuser." },
-      { q: "What if I change my mind?", a: "Live with it for 30 days. If your home doesn\u2019t feel different, send it back with our prepaid label and we refund everything." },
-      { q: "How long does a bottle last?", a: "30+ days on the everyday setting, so one bottle a month per diffuser. Higher settings use it faster." },
+    accordions: [ /* dk9c (2026-10-20): the four subscription questions from /pages/build-your-kit first (owner to confirm the policies) */
+      { q: "When am I charged?", a: "Today you pay only for your scents. Then your scents renew at the frequency you picked (every 30, 60 or 90 days) as each new box ships. You get an email reminder before every renewal." },
+      { q: "Are the diffusers really free?", a: "Yes. Today you pay only for your scents, the diffusers ship free with your first box, and on your third delivery they\u2019re permanently yours. Cancel in the first 30 days and we refund every dollar and send a prepaid return label for the diffusers." },
+      { q: "Can I swap scents?", a: "Yes, swap any of your intentions before any delivery, right from your delivery email. No calls, no forms." },
+      { q: "What if I cancel?", a: "Cancel anytime from any delivery email. Within the first 30 days we refund every dollar and send a prepaid label for the diffusers, the scents stay with you." },
+      { q: "Is this a better alternative than plug-ins, candles & room sprays?", a: "Yes, and that is the whole reason it exists. Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, a spray masks a smell for a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day. One bottle lasts 30+ days on the everyday setting." },
+      { q: "Will this diffuser grow mold or would it leak like my last one?", a: "No. There is no water in it: no tank, no standing water, nothing that can grow. The bottle locks into the diffuser, so you can tip it, move it room to room or pack it for a trip. Nothing spills and there is nothing to clean, ever." },
+      { q: "Do the scents eliminate pet and food odors?", a: "Yes. A spray sits on top of a smell for a few minutes. A dry mist fills the whole room and keeps going, so pet, kitchen and closed-up-house odors stop coming back. In our last customer survey, dog smell was the first thing one customer said it fixed." },
       { q: "What are the ingredients for the scents?", a: "Each 100ml bottle is pure fragrance oil built on notes you can actually name:", list: ["Love, Golden Blossom Harmony: buttercup, honeysuckle & sunflower.", "Abundance, Crisp Citrus Scape: yuzu leaf, green mandarin & cypress.", "Relaxation & Concentration, Chilled Citrus: chilled lavender, eucalyptus & white citrus.", "Turn Ideas Into Reality, Honey Nectar: ginger milk, white birch & eucalyptus honey.", "Raise Energy, Euphoric Bloom: jasmine tea, white peach & sandalwood crème.", "Purification, Wildwood Mystique: huckleberry, wild juniper & mountain fern.", "Love Manifestation, Midnight Sensation: moonflower, night lily & skin musk."] },
+      { q: "How many diffusers do I need in total?", a: "One covers up to 600 square feet: an open-plan main floor or a large bedroom. For a two-storey home most customers run two, one near the entrance and one upstairs. Several told us they bought a second one for the other side of the house." },
+      { q: "What happens if I don’t like it?", a: "Live with it for 30 days. If your home doesn’t feel different, send the diffuser and the scents back with our prepaid label and we refund everything, even if you’ve tried them. Don’t love one scent but love the diffuser? We swap the scent free. And the diffuser itself is covered for life." },
     ],
   },
 
@@ -612,6 +614,8 @@ const TIERS = [ /* supply (2026-10-25, owner): 6 / 9 / 12 / 18-month supplies fo
   { key: "m18", months: 18, scents: 18, each: 19.95, n: 3, price: 359.10, name: "18-month supply", tag: "Best value", pop: false },
 ];
 const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $30 / $90 / $180 / $360 */
+const SP_STEPS = ["Supply", "Scents", "Checkout"];
+const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
 /* dk7 (2026-10-13, owner): one refill option (every 30 days, $15 off) or one-time; "Where it goes" floor plans per kit: 1 = one room, 2 = two zones in one bigger room, 3 = two in the living room + one in the bedroom */
 const PLANS = { one: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: one diffuser in a studio"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="120" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="160" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="170" cy="100" r="86" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="170" cy="100" r="9" fill="#141414"/><circle cx="170" cy="100" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">STUDIO</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">ONE ROOM, UP TO 600 SQ FT</text></svg>', two: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in one large room"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="26" y="24" width="130" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="64" width="60" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="212" y="78" width="72" height="44" rx="6" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="222" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="262" y="160" width="36" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="98" cy="80" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="98" cy="80" r="9" fill="#141414"/><circle cx="98" cy="80" r="3.5" fill="#fff"/><circle cx="226" cy="124" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="226" cy="124" r="9" fill="#141414"/><circle cx="226" cy="124" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">OR THE BEDROOM, OR THE KITCHEN</text></svg>', three: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in the living room, one in the bedroom"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="196" y1="8" x2="196" y2="88" stroke="#241C18" stroke-width="3"/><line x1="196" y1="124" x2="196" y2="202" stroke="#241C18" stroke-width="3"/><path d="M196 88 a36 36 0 0 1 36 36" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="196" y1="88" x2="232" y2="88" stroke="#241C18" stroke-width="1.4"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="62" width="60" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="150" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="166" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="100" cy="64" r="52" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="100" cy="64" r="9" fill="#141414"/><circle cx="100" cy="64" r="3.5" fill="#fff"/><circle cx="150" cy="150" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="150" cy="150" r="9" fill="#141414"/><circle cx="150" cy="150" r="3.5" fill="#fff"/><circle cx="254" cy="118" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="254" cy="118" r="9" fill="#141414"/><circle cx="254" cy="118" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="208" y="196" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">BEDROOM</text></svg>' };
 const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying each diffuser at $129.95 + the scent */
@@ -849,10 +853,10 @@ const USP3 = [
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
 /* dk9c (2026-10-20, owner): the health / emotion angles — above the fold on every step */
-const HEALTH3 = [ /* supply: the three promises of this page, same strip as the kits page */
-  { ic: "\u2705", short: "ONE PAYMENT. NOTHING RENEWS." },
-  { ic: "\u2702\ufe0f", short: "WE CANCEL YOUR SUBSCRIPTION FOR YOU." },
-  { ic: "\ud83c\udf81", short: "FREE DIFFUSERS FROM 9 MONTHS." },
+const HEALTH3 = [ /* dk9d (owner's words, all caps) */
+  { ic: "\ud83e\udec1", short: "NO SMOKE, NO AEROSOL, NO HARM." },
+  { ic: "\ud83d\udca7", short: "NO WATER, NO MOLD, YOUR FAMILY SAFE." },
+  { ic: "\ud83e\uddd8", short: "REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -925,24 +929,25 @@ function BuyBox() {
         <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
-          <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <h1 class="h1-9e">Stock up for months, save up to $360, and let us cancel your subscription for you.</h1> <!-- dk9l (2026-10-21, owner) -->
-          <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
-          <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
+          <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
+            <div class="sp-kicker">For Maison Croyez customers</div>
+            <h1 class="h1-9e sp-h1">Stock up for months, save up to $360, and let us cancel your subscription for you.</h1>
+          </div>
+          <div class="s9-banner sp-hero"><img src=${MC_HERO_POSTER} alt="" width="1600" height="800" decoding="async"/></div>
 
-          <div class="step-eyebrow">Step 1 of 3</div>
+          <${Steps} n=${1}/>
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
-          <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length">
+          <div class="tiers sp-rows" role="radiogroup" aria-label="Supply length"> <!-- supply: rows, not the kits card grid -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
-                ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
-                <span class="t9-n t9s-n">${t.months} Months</span>
-                <span class="t9s-each">${t.scents} scents \u00b7 <s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span>
-                <span class="sp-save">Save ${usd(save)}</span>
-                ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
-                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
-                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span><span class="sp-nudge">Go to 9 months<br/>and a diffuser<br/>is <b>FREE</b></span>`}
-                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
+              <div key=${t.key} class=${"sp-row" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+                <span class="sp-radio" aria-hidden="true"></span>
+                <span class="sp-main">
+                  <span class="sp-months">${t.months} Months${t.tag ? html` <b class=${"sp-tag" + (t.pop ? " pop" : "")}>${t.tag}</b>` : null}</span>
+                  <span class="sp-line">${t.scents} scents \u00b7 <s>${usd(SCENT_ONE)}</s> <b>${usd(t.each)}</b> each \u00b7 <em class="sp-save-in">Save ${usd(save)}</em></span>
+                  ${t.n ? html`<span class="sp-gift">+ ${t.n} <b>FREE</b> diffuser${t.n > 1 ? "s" : ""} <s>${usd(val)}</s></span>` : html`<span class="sp-gift sp-only">Scents only</span>`}
+                </span>
+                ${t.n ? html`<span class="sp-pic t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>` : html`<span class="sp-pic sp-pic-empty" aria-hidden="true"></span>`}
+                <span class="sp-total"><small>Today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
           <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->
@@ -951,21 +956,8 @@ function BuyBox() {
             <li><b>Your current subscription</b> is cancelled for you in less than 24 hours. You give us the name on the last step.</li>
           </ul>
           <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick my ${T.scents} scents ➔</span></button>
-          ${chips}
-
-          <${Reviews6}/>
-          <div class="acc faq">
-            ${B.accordions.map((f, i) => html`
-              <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
-                <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
-                  ${f.q}<span class="plus">+</span>
-                </button>
-                <div class="ans"><p>${f.a}</p>${f.list ? html`<ul class="faq-list">${f.list.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}</div>
-              </div>`)}
-          </div>
-          <${PatriciaCard}/>
           <//>` : step === 2 ? html`<${Fragment} key="step2">
-          <div class="step-eyebrow">Step 2 of 3</div>
+          <${Steps} n=${2}/>
           <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res">${T.n ? html`<${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.months}-month supply \u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span>` : html`<span class="s9-res-tx"><b>${T.months}-MONTH SUPPLY</b><small>${T.scents} scents \u00b7 ${usd(T.each)} each \u00b7 <b class="s9-free">Save ${usd(TIER_SAVE_SCENTS(T))}</b></small></span>`}</div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
           <div class="sp-quick">Short on time? <button type="button" class="sp-link" onClick=${() => sel.setKeys(fillKeys(T.scents))}>Spread my ${T.scents} bottles across all seven scents</button>${sel.keys.length ? html` \u00b7 <button type="button" class="sp-link" onClick=${() => sel.setKeys([])}>Start over</button>` : null}</div>
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
@@ -988,10 +980,9 @@ function BuyBox() {
             <button class="btn secondary" aria-label="Back to the supply" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your supply.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my supply ➔</span></button>`} <!-- dk9m: the kit goes into the cart here (AddToCart fires now) -->
           </div>
-          ${chips}
           <//>` : html`<${Fragment} key="step3">
           <div class="s9-banner"><img src=${(typeof MC_STEP3_IMG !== "undefined") ? MC_STEP3_IMG : ""} alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"/></div> <!-- dk9i (owner): the 16:9 picture, shown 2:1 (centre crop) so Add to cart stays in the first screen -->
-          <div class="step-eyebrow">Step 3 of 3</div>
+          <${Steps} n=${3}/>
           <div class="picker-title step-title s9-title">Your ${T.months}-month supply is ready.</div>
           <div class="kitrev k9">
             ${rows.map(({ f, q }) => html`
@@ -1018,17 +1009,6 @@ function BuyBox() {
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : "🔒 SECURE CHECKOUT ➔"}</span> <!-- dk9l (owner): straight to checkout -->
           </button>
-          ${chips}
-          <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
-          <div class="acc faq">
-            ${B.accordions.map((f, i) => html`
-              <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
-                <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
-                  ${f.q}<span class="plus">+</span>
-                </button>
-                <div class="ans"><p>${f.a}</p>${f.list ? html`<ul class="faq-list">${f.list.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}</div>
-              </div>`)}
-          </div>
           <div class="navrow back-only"><button class="btn secondary wide" onClick=${() => go(2)}>← Change my scents</button></div>
           <//>`}
         </div>

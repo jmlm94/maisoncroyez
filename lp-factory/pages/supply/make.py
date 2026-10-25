@@ -6,6 +6,10 @@ their subscription. Derived from the live kits app so the branding, components a
   step 2  pick that many scents (the kits picker, −/+ per scent, "spread evenly" shortcut)
   step 3  review, the name (+ email) on the subscription we cancel for them, secure checkout
 
+Round 2 (owner): nothing below the buttons (no chips, reviews, FAQ, founder note, long-form sections), no badge strip
+under the title, and a layout of its own: one centred column, a landscape banner, a 3-segment progress track instead of
+the "STEP N OF 3" eyebrow, and the four supplies as rows instead of the kits' card grid.
+
 usage: python3 make.py            → writes mc-sp-app.js + mc-sp.css next to this file from the kits files.
 Checkout is NOT wired yet: the owner creates the supply SKUs after the structure is approved (see SUPPLY_CART)."""
 import os, re, base64, sys
@@ -25,12 +29,12 @@ def rex(pattern, new, flags=re.S):
     assert len(m) == 1, ("regex", len(m), pattern[:80])
     app = app[:m[0].start()] + new + app[m[0].end():]
 
-# ---------- hero: a labelled placeholder until the owner sends the picture ----------
-svg = ("<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800'>"
-       "<rect width='800' height='800' fill='#EDE6DD'/>"
-       "<rect x='40' y='40' width='720' height='720' rx='24' fill='none' stroke='#C9BDAE' stroke-width='3' stroke-dasharray='14 12'/>"
-       "<text x='400' y='385' text-anchor='middle' font-family='Outfit,Arial,sans-serif' font-size='44' font-weight='700' letter-spacing='6' fill='#8A7B6E'>HERO IMAGE</text>"
-       "<text x='400' y='435' text-anchor='middle' font-family='Outfit,Arial,sans-serif' font-size='22' font-weight='600' fill='#A89A8C'>placeholder, final picture to come</text>"
+# ---------- hero: a labelled landscape placeholder until the owner sends the picture ----------
+svg = ("<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='800' viewBox='0 0 1600 800'>"
+       "<rect width='1600' height='800' fill='#EDE6DD'/>"
+       "<rect x='40' y='40' width='1520' height='720' rx='24' fill='none' stroke='#C9BDAE' stroke-width='3' stroke-dasharray='14 12'/>"
+       "<text x='800' y='385' text-anchor='middle' font-family='Outfit,Arial,sans-serif' font-size='54' font-weight='700' letter-spacing='8' fill='#8A7B6E'>HERO IMAGE</text>"
+       "<text x='800' y='440' text-anchor='middle' font-family='Outfit,Arial,sans-serif' font-size='26' font-weight='600' fill='#A89A8C'>placeholder, final picture to come</text>"
        "</svg>")
 poster = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
 rex(r'var MC_HERO_POSTER = "[^"]+";', 'var MC_HERO_POSTER = "' + poster + '"; /* supply: placeholder until the owner sends the picture */')
@@ -43,6 +47,8 @@ rex(r"const TIERS = \[.*?\n\];\n", '''const TIERS = [ /* supply (2026-10-25, own
   { key: "m18", months: 18, scents: 18, each: 19.95, n: 3, price: 359.10, name: "18-month supply", tag: "Best value", pop: false },
 ];
 const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $30 / $90 / $180 / $360 */
+const SP_STEPS = ["Supply", "Scents", "Checkout"];
+const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
 ''')
 
 # selection store: ?months= preselect, the tier price per bottle, no renewals, the cancellation fields
@@ -53,30 +59,26 @@ rep('  scentPrice() { return SCENT_ONE; },', '  scentPrice() { return this.tier(
 rep('  today() { return this.keys.length * SCENT_ONE; },', '  today() { return this.keys.length * this.tier().each; }, /* supply: the tier price per bottle */')
 rep('  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * FREQ_PRICE(this.freq) : 0; },', '  renew() { return 0; }, /* supply: nothing renews */')
 
-# ---------- badges + headline ----------
-rex(r"const HEALTH3 = \[.*?\n\];\n", '''const HEALTH3 = [ /* supply: the three promises of this page, same strip as the kits page */
-  { ic: "\\u2705", short: "ONE PAYMENT. NOTHING RENEWS." },
-  { ic: "\\u2702\\ufe0f", short: "WE CANCEL YOUR SUBSCRIPTION FOR YOU." },
-  { ic: "\\ud83c\\udf81", short: "FREE DIFFUSERS FROM 9 MONTHS." },
-];
+# ---------- step 1: header (no rating, no badge strip), banner, progress track, supplies as rows ----------
+rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9 \(owner\): no prices on Step 1[^\n]*\n', '''          <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
+            <div class="sp-kicker">For Maison Croyez customers</div>
+            <h1 class="h1-9e sp-h1">Stock up for months, save up to $360, and let us cancel your subscription for you.</h1>
+          </div>
+          <div class="s9-banner sp-hero"><img src=${MC_HERO_POSTER} alt="" width="1600" height="800" decoding="async"/></div>
 ''')
-rep('<h1 class="h1-9e">Waterless Diffuser & Organic Scents: Protect your loved ones while making your spaces look and feel great.</h1>',
-    '<h1 class="h1-9e">Stock up for months, save up to $360, and let us cancel your subscription for you.</h1>')
-
-# ---------- step 1 ----------
-rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\n', '''          <div class="step-eyebrow">Step 1 of 3</div>
+rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\n', '''          <${Steps} n=${1}/>
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
-          <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length">
+          <div class="tiers sp-rows" role="radiogroup" aria-label="Supply length"> <!-- supply: rows, not the kits card grid -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
-                ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
-                <span class="t9-n t9s-n">${t.months} Months</span>
-                <span class="t9s-each">${t.scents} scents \\u00b7 <s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span>
-                <span class="sp-save">Save ${usd(save)}</span>
-                ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
-                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
-                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span><span class="sp-nudge">Go to 9 months<br/>and a diffuser<br/>is <b>FREE</b></span>`}
-                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
+              <div key=${t.key} class=${"sp-row" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+                <span class="sp-radio" aria-hidden="true"></span>
+                <span class="sp-main">
+                  <span class="sp-months">${t.months} Months${t.tag ? html` <b class=${"sp-tag" + (t.pop ? " pop" : "")}>${t.tag}</b>` : null}</span>
+                  <span class="sp-line">${t.scents} scents \\u00b7 <s>${usd(SCENT_ONE)}</s> <b>${usd(t.each)}</b> each \\u00b7 <em class="sp-save-in">Save ${usd(save)}</em></span>
+                  ${t.n ? html`<span class="sp-gift">+ ${t.n} <b>FREE</b> diffuser${t.n > 1 ? "s" : ""} <s>${usd(val)}</s></span>` : html`<span class="sp-gift sp-only">Scents only</span>`}
+                </span>
+                ${t.n ? html`<span class="sp-pic t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>` : html`<span class="sp-pic sp-pic-empty" aria-hidden="true"></span>`}
+                <span class="sp-total"><small>Today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
           <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->
@@ -86,8 +88,11 @@ rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\
           </ul>
           <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick my ${T.scents} scents ➔</span></button>
 ''')
+# nothing below the button on step 1
+rex(r'          \$\{chips\}\n\n          <\$\{Reviews6\}/>\n          <div class="acc faq">.*?<\$\{PatriciaCard\}/>\n', '')
 
 # ---------- step 2 ----------
+rep('''          <div class="step-eyebrow">Step 2 of 3</div>''', '''          <${Steps} n=${2}/>''')
 rep('''<div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span></div>''',
     '''<div class="s9-res">${T.n ? html`<${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.months}-month supply \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span>` : html`<span class="s9-res-tx"><b>${T.months}-MONTH SUPPLY</b><small>${T.scents} scents \\u00b7 ${usd(T.each)} each \\u00b7 <b class="s9-free">Save ${usd(TIER_SAVE_SCENTS(T))}</b></small></span>`}</div>''')
 rep('''          <div class="picker e4" role="group" aria-label="Pick your scents">''',
@@ -99,8 +104,11 @@ rep('''<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above 
     '''<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your supply.</p>''')
 rep('''<button class="btn atc" onClick=${() => { syncKitCart().catch(() => {}); go(3); }}><span>Review my kit ➔</span></button>''',
     '''<button class="btn atc" onClick=${() => go(3)}><span>Review my supply ➔</span></button>''')
+# nothing below the buttons on step 2
+rep('''          ${chips}\n          <//>` : html`<${Fragment} key="step3">''', '''          <//>` : html`<${Fragment} key="step3">''')
 
 # ---------- step 3 ----------
+rep('''          <div class="step-eyebrow">Step 3 of 3</div>''', '''          <${Steps} n=${3}/>''')
 rep('''<div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>''',
     '''<div class="picker-title step-title s9-title">Your ${T.months}-month supply is ready.</div>''')
 rep('''                <span class="kr-pr">${usd(q * SCENT_ONE)}</span>''',
@@ -121,6 +129,8 @@ rex(r'          <div class="s9-freq-head">How frequently would you like your ref
           </div>
           <p class="s9-freq-note"><b>One payment, nothing renews.</b> If your home doesn\\u2019t feel different within 30 days, full refund, and we pay the return shipping.</p>
 ''')
+# nothing below the checkout button on step 3 except the way back to the scents
+rex(r'          \$\{chips\}\n          <\$\{Reviews6\}/> <!-- dk9c.*?\n          </div>\n(?=          <div class="navrow back-only">)', '')
 
 # ---------- checkout: not wired until the SKUs exist ----------
 rex(r'async function addToCart\(setBusy, setToast\) \{.*?\n\}\n', '''const SUPPLY_CART = { /* TODO (owner): the supply SKUs are created after the structure is approved. Until the ids are here the page shows a toast instead of adding to the cart. */
@@ -168,42 +178,56 @@ rep('''step === 1 ? "Pick your scents \\u2794" : step === 2 ? (left > 0 ? `${T.s
 rep('''if (step === 2) { if (left > 0) return goPick(); syncKitCart().catch(() => {}); return go(3); }''',
     '''if (step === 2) { if (left > 0) return goPick(); return go(3); }''')
 
-# ---------- the questions ----------
-m = re.search(r'      \{ q: "What are the ingredients for the scents\?".*?\n', app)
-ingredients = m.group(0)
-rex(r"    accordions: \[ /\* dk9c.*?\n    \],\n", '''    accordions: [ /* supply (2026-10-25): what an existing subscriber asks before stocking up */
-      { q: "What happens to my current subscription?", a: "We cancel it for you. On the last step you give us the name (and, if you like, the email) on the subscription. We cancel it in less than 24 hours after your order and email you a confirmation. No portal, no phone call." },
-      { q: "When am I charged?", a: "Once, today. A supply is a one-time order: nothing renews, nothing is scheduled, your card is not charged again." },
-      { q: "How does it ship?", a: "In one box, free shipping, with your free diffusers when your supply includes them. You get a tracking email as soon as it leaves." },
-      { q: "Can I mix scents?", a: "Yes. Pick any mix of the seven, including several bottles of the same scent. Use \\u2212 / + on each scent, or let us spread your bottles evenly across all seven." },
-      { q: "Are the diffusers really free?", a: "Yes. From 9 months up the diffusers ship free with your supply: one with 9 months, two with 12, three with 18. They are yours to keep, with the same lifetime warranty as every Maison Croyez diffuser." },
-      { q: "What if I change my mind?", a: "Live with it for 30 days. If your home doesn\\u2019t feel different, send it back with our prepaid label and we refund everything." },
-      { q: "How long does a bottle last?", a: "30+ days on the everyday setting, so one bottle a month per diffuser. Higher settings use it faster." },
-''' + ingredients + '''    ],
-''')
-
-# ---------- below the fold: keep the brand sections, drop the new-customer education ----------
+# ---------- the buy box is the whole page: no long-form sections ----------
 m = re.search(r"  sectionOrder: \[.*?\],\n", app, re.S)
-cur = re.findall(r'"([a-zA-Z]+)"', m.group(0))
-keep = [k for k in cur if k not in ("goodbye", "enemyStack", "mechanism", "howTo", "angleIntention", "angleFill", "faq", "spaces")]
-app = app[:m.start()] + "  sectionOrder: [ /* supply: brand sections only, the new-customer education is gone */\n    " + ", ".join('"%s"' % k for k in keep) + ",\n  ],\n" + app[m.end():]
-print("sectionOrder:", keep)
+app = app[:m.start()] + '  sectionOrder: [ /* supply (owner): nothing below the buttons, this is a page for customers */\n    "buybox",\n  ],\n' + app[m.end():]
 
 # ---------- css ----------
 css += '''
 /* ================================================================
-   supply page (2026-10-25): four supply cards, the quick-fill line on step 2, the cancellation fields on step 3
+   supply page (2026-10-25): one centred column, landscape banner, progress track, supplies as rows,
+   the quick-fill line on step 2, the cancellation fields on step 3
    ================================================================ */
-#root .tiers.t9cols.sp4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media (min-width:700px){#root .tiers.t9cols.sp4{grid-template-columns:repeat(4,minmax(0,1fr))}}
-#root .tier.t9c3.sp-card{justify-content:flex-start}
-#root .tier.t9c3.sp-card .t9s-total{margin-top:auto}
-#root .tier.t9c3 .t9s-each s{color:#9A8B80;margin-right:2px}
-#root .tier.t9c3 .sp-save{display:inline-block;background:#E8F5EC;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;margin:0 0 8px}
-#root .tier.t9c3 .t9s-gift.sp-only{color:#9A8B80;font-weight:600;margin-bottom:8px}
-#root .tier.t9c3 .sp-nudge{display:block;margin:auto 0;padding:10px 0;font-family:'Outfit',sans-serif;font-size:.68rem;line-height:1.35;color:#9A8B80;font-weight:600}
-#root .tier.t9c3 .sp-nudge b{color:#1E7A1E;font-weight:800}
-@media (min-width:700px){#root .tier.t9c3 .sp-nudge{font-size:.76rem}}
+#root #buybox.pdp-buy .wrap{display:block !important;max-width:760px;margin:0 auto}
+#root #buybox .gal-col{display:none !important}
+#root #buybox .buybox{margin-top:0}
+#root .sp-head{text-align:center;margin:14px 0 0}
+#root .sp-kicker{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#A3874A;margin:0 0 8px}
+#root .buybox h1.sp-h1{margin:0}
+#root .sp-hero{margin:2px 0 0}
+#root .sp-steps{list-style:none !important;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:6px 0 2px;padding:0 !important;font-family:'Outfit',sans-serif}
+#root .sp-steps li{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 4px 8px;margin:0;border-bottom:3px solid #E6E0D8;color:#9A8B80;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+#root .sp-steps li i{font-style:normal;width:18px;height:18px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:.6rem;letter-spacing:0;flex:none}
+#root .sp-steps li.on{color:#141414;border-bottom-color:#141414}
+#root .sp-steps li.on i{background:#141414;color:#fff;border-color:#141414}
+#root .sp-steps li.done{color:#1E7A46;border-bottom-color:#1E7A46}
+#root .tiers.sp-rows{display:grid;gap:10px;margin:6px 0 10px}
+#root .sp-row{display:grid;grid-template-columns:18px minmax(0,1fr) 56px auto;align-items:center;gap:10px;padding:12px;border:1.5px solid #E6E0D8;border-radius:14px;background:#fff;cursor:pointer;text-align:left;position:relative}
+#root .sp-row.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset;background:#F3E9E6}
+#root .sp-row:focus-visible{outline:2px solid #A3874A;outline-offset:2px}
+#root .sp-radio{width:18px;height:18px;border-radius:50%;border:2px solid #C9BDAE;background:#fff;position:relative;flex:none;box-sizing:border-box}
+#root .sp-row.on .sp-radio{border-color:#141414}
+#root .sp-row.on .sp-radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#141414}
+#root .sp-main{display:grid;gap:3px;min-width:0;font-family:'Outfit',sans-serif}
+#root .sp-months{font-weight:800;font-size:1rem;color:#141414;line-height:1.15;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#root .sp-tag{font-size:.5rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#A3874A;color:#fff;border-radius:999px;padding:3px 7px;line-height:1.2}
+#root .sp-line{font-size:.72rem;color:#5C4F46;font-weight:600;line-height:1.3}
+#root .sp-line s{color:#9A8B80}#root .sp-line b{color:#141414;font-weight:800}
+#root .sp-save-in{font-style:normal;color:#1E7A46;font-weight:800;white-space:nowrap}
+#root .sp-gift{font-size:.74rem;font-weight:700;color:#141414;line-height:1.3}
+#root .sp-gift b{color:#1E7A1E;font-weight:800}#root .sp-gift s{color:#9A8B80;font-weight:600;margin-left:4px}
+#root .sp-gift.sp-only{color:#9A8B80;font-weight:600}
+#root .sp-row .sp-pic{width:56px;margin:0 !important;justify-self:center}
+#root .sp-row .t9p2-pic > .ph.sq{width:56px !important;height:56px !important}
+#root .sp-row .t9p2-pic{position:relative;display:block;flex:none}
+#root .sp-row .t9p2-pic > .ph.sq{min-height:0 !important;margin:0 !important;border-radius:10px !important;background:#fff;border:2px solid #1E7A1E !important;overflow:hidden;box-sizing:border-box}
+#root .sp-row .t9p2-pic > .ph.sq img{object-fit:cover}
+#root .sp-row .t9f-pill{position:absolute;z-index:2;top:-8px;left:50%;transform:translateX(-50%);background:#1E7A1E;color:#fff;font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:.46rem;letter-spacing:.12em;line-height:1;padding:3px 7px;border-radius:999px;border:2px solid #fff;white-space:nowrap}
+#root .sp-row.on .t9f-pill{border-color:#F3E9E6}
+#root .sp-pic-empty{width:56px;height:56px;display:block}
+#root .sp-total{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1;font-family:'Outfit',sans-serif}
+#root .sp-total small{font-size:.54rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5C4F46}
+#root .sp-total b{font-size:1rem;font-weight:800;color:#141414;white-space:nowrap}
 #root .t9s-how.t9p4 b{font-weight:800;color:#141414}
 #root .t9s-how.t9p4 .t9p4-n{background:#fff;border:1px solid #E6E0D8;border-radius:6px;padding:0 5px;white-space:nowrap}
 #root .sp-quick{font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.4;color:#5C4F46;margin:-2px 0 8px;text-align:center}
@@ -217,7 +241,15 @@ css += '''
 #root .sp-field input{width:100%;box-sizing:border-box;font-family:'Outfit',sans-serif !important;font-size:16px;line-height:1.3;padding:11px 12px;border:1.5px solid #E6E0D8;border-radius:10px;background:#fff;color:#141414;margin:0}
 #root .sp-field input:focus{outline:none;border-color:#141414;box-shadow:0 0 0 1px #141414 inset}
 #root .sp-field input::placeholder{color:#B5A79A}
-@media (min-width:700px){#root .tier.t9c3 .sp-save{font-size:.64rem}#root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}}
+@media (min-width:700px){
+  #root .sp-head{margin-top:22px}
+  #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
+  #root .sp-row{grid-template-columns:20px minmax(0,1fr) 64px auto;padding:14px 16px;gap:14px}
+  #root .sp-months{font-size:1.12rem}#root .sp-line{font-size:.8rem}#root .sp-gift{font-size:.82rem}#root .sp-total b{font-size:1.2rem}
+  #root .sp-row .sp-pic,#root .sp-pic-empty{width:64px}#root .sp-pic-empty{height:64px}#root .sp-row .t9p2-pic > .ph.sq{width:64px !important;height:64px !important}
+  #root .sp-row .t9f-pill{font-size:.54rem;padding:3px 8px;top:-9px}
+  #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
+}
 '''
 
 open(os.path.join(HERE, "mc-sp-app.js"), "w", encoding="utf-8").write(app)

@@ -625,7 +625,6 @@ const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying eac
 const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselected "top three" = Chilled Citrus, Honey Nectar, Midnight Sensation */
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
-const fragSrc = (k) => { const f = CONFIG.fragrances.find((x) => x.key === k); const im = f && CONFIG.images[f.pimg || f.img]; return im ? im.src : ""; }; /* dk9s: bottle thumbnails on the step-1 cards */
 const selStore = {
   tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* dk1: 2 diffusers preselected (most popular); dk9p (2026-10-21): ?kit=one|two|three (or 1|2|3) preselects, used by the home page cards */
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
@@ -944,7 +943,6 @@ function BuyBox() {
               <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class="t9-n t9s-n">${t.scents} Scents</span>
-                <span class="t9s-bottles" aria-hidden="true"><span class="t9s-one"><img class="t9s-b t9s-b1" src=${fragSrc("love")} alt="" loading="lazy" decoding="async"/><b class="t9s-x">${t.scents}×</b></span></span>
                 <span class="t9s-each">${usd(SCENT_ONE)} each</span>
                 <span class="t9s-gift">+ ${t.n} Diffuser${t.n > 1 ? "s" : ""}</span>
                 <${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/>

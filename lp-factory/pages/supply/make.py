@@ -70,14 +70,13 @@ rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
           <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length"> <!-- supply (owner, round 3): the card grid, two and two on phones -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+              <div key=${t.key} class=${"tier t9c3 sp-card sp-" + t.key + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class="t9-n t9s-n">${t.months} Months</span>
-                <span class="t9s-each sp-stack"><b>${t.scents} scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
+                <span class="t9s-each sp-stack"><b>${t.scents}× Scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
                 <span class="sp-save">Save ${usd(save)}</span>
                 ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
-                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
-                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
+                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
                 <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
@@ -96,7 +95,7 @@ rep('''          <div class="step-eyebrow">Step 2 of 3</div>''', '''          <$
 rep('''<div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span></div>''',
     '''<div class="s9-res">${T.n ? html`<${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.months}-month supply \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span>` : html`<span class="s9-res-tx"><b>${T.months}-MONTH SUPPLY</b><small>${T.scents} scents \\u00b7 ${usd(T.each)} each \\u00b7 <b class="s9-free">Save ${usd(TIER_SAVE_SCENTS(T))}</b></small></span>`}</div>''')
 rep('''          <div class="picker e4" role="group" aria-label="Pick your scents">''',
-    '''          <div class="sp-quick">Short on time? <button type="button" class="sp-link" onClick=${() => sel.setKeys(fillKeys(T.scents))}>Spread my ${T.scents} bottles across all seven scents</button>${sel.keys.length ? html` \\u00b7 <button type="button" class="sp-link" onClick=${() => sel.setKeys([])}>Start over</button>` : null}</div>
+    '''          <div class="sp-quick"><button type="button" class="btn sp-pick-btn" onClick=${() => sel.setKeys(fillKeys(T.scents))}><span>Pick my scents for me</span></button>${sel.keys.length ? html`<button type="button" class="sp-link sp-reset" onClick=${() => sel.setKeys([])}>Start over</button>` : null}</div>
           <div class="picker e4" role="group" aria-label="Pick your scents">''')
 rep('''· <b>${usd(SCENT_ONE)}</b></span><br/>''', '''· <s>${usd(SCENT_ONE)}</s> <b>${usd(T.each)}</b></span><br/>''')
 rep('''aria-label="Back to the diffusers"''', '''aria-label="Back to the supply"''')
@@ -118,7 +117,7 @@ rex(r'            <div class="kr-row kr-kit">\n.*?\n            </div>\n', '''  
               <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
               <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
             </div>` : null}
-            <div class="kr-row kr-ship"><span class="kr-ic" aria-hidden="true">🚚</span><span class="kr-tx"><b>Free shipping</b><span class="kr-sub">One box, everything together.</span></span><span class="kr-pr"><span class="inc">FREE</span></span></div>
+            <div class="kr-row kr-ship"><span class="kr-ic" aria-hidden="true">🚚</span><span class="kr-tx"><b>Free Priority Shipping*</b><span class="kr-sub">One box, everything together.</span></span><span class="kr-pr"><span class="inc">FREE</span></span></div>
 ''')
 rep('''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>''',
     '''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>${T.n ? html`, <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> included` : ""}, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b> Shipping is on us.</p>''')
@@ -213,6 +212,16 @@ css += '''
 #root .tier.t9c3.sp-card .t9s-gift.sp-only{color:#141414;font-weight:800;font-size:.92rem;margin:auto 0;padding:14px 0}
 #root .tier.t9c3 .t9s-each.sp-stack{display:grid;gap:2px;margin:3px 0 8px}
 #root .tier.t9c3 .t9s-each.sp-stack b{color:#141414;font-size:.8rem;font-weight:800;line-height:1.15}
+#root .tier.t9c3.sp-card.sp-m6,#root .tier.t9c3.sp-card.sp-m6.on{background:linear-gradient(165deg,#FFFFFF 0%,#F4EBE0 100%)}
+#root .tier.t9c3.sp-card.sp-m9,#root .tier.t9c3.sp-card.sp-m9.on{background:linear-gradient(165deg,#FFF8F4 0%,#F1DCD3 100%)}
+#root .tier.t9c3.sp-card.sp-m12,#root .tier.t9c3.sp-card.sp-m12.on{background:linear-gradient(165deg,#F6FBF7 0%,#DBEEE2 100%)}
+#root .tier.t9c3.sp-card.sp-m18,#root .tier.t9c3.sp-card.sp-m18.on{background:linear-gradient(165deg,#FFFAEE 0%,#F1E2BE 100%)}
+#root .tier.t9c3.sp-card .sp-save{background:rgba(255,255,255,.75)}
+#root #buybox .navrow .pick-hint{color:#141414;font-weight:800}
+#root .s9-res-tx small{font-weight:700;color:#141414}
+#root .sp-quick{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 10px}
+#root .btn.sp-pick-btn{display:inline-flex !important;width:auto;margin:0;padding:11px 20px;font-size:.74rem !important;background:#111;color:#fff;border-radius:999px}
+#root .sp-reset{font-size:.72rem;color:#5C4F46}
 #root .kr-row.kr-ship .kr-ic{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;font-size:18px;background:#F7F3EE;border-radius:8px}
 #root .t9s-how.t9p4 b{font-weight:800;color:#141414}
 #root .t9s-how.t9p4 .t9p4-n{background:#fff;border:1px solid #E6E0D8;border-radius:6px;padding:0 5px;white-space:nowrap}

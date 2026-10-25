@@ -33,6 +33,12 @@ nudge; step 2 uses the kits page's own scent pictures (fetched into lp-factory/a
 inlined in the preview; live they load from the CDN as on the kits page); step 3 gets a "Free shipping · FREE" row, the value
 line names the free diffusers when the supply includes them, and the note reads "One payment, nothing renews, free shipping."
 
+## Round 5 (owner's artifact comments, 2026-10-25 23:52–23:55): "6× Scents" on every card; the "$89.95 value" line under the
+photo removed; a soft gradient per card (cream / blush / sage / gold); step 2: the quick-fill link is a centred black button
+"Pick my scents for me" (+ a small "Start over"), the "Pick N more scents…" hint bold and black, the reserved-diffuser card all
+bold; step 3: the shipping row reads "Free Priority Shipping*". "And also center it" (on the value line) was read as: the card
+content stays centred; the title row is kept aligned across the cards.
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

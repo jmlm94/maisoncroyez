@@ -939,14 +939,13 @@ function BuyBox() {
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
           <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length"> <!-- supply (owner, round 3): the card grid, two and two on phones -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+              <div key=${t.key} class=${"tier t9c3 sp-card sp-" + t.key + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class="t9-n t9s-n">${t.months} Months</span>
-                <span class="t9s-each sp-stack"><b>${t.scents} scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
+                <span class="t9s-each sp-stack"><b>${t.scents}× Scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
                 <span class="sp-save">Save ${usd(save)}</span>
                 ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
-                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
-                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
+                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
                 <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
@@ -959,7 +958,7 @@ function BuyBox() {
           <//>` : step === 2 ? html`<${Fragment} key="step2">
           <${Steps} n=${2}/>
           <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res">${T.n ? html`<${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.months}-month supply \u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span>` : html`<span class="s9-res-tx"><b>${T.months}-MONTH SUPPLY</b><small>${T.scents} scents \u00b7 ${usd(T.each)} each \u00b7 <b class="s9-free">Save ${usd(TIER_SAVE_SCENTS(T))}</b></small></span>`}</div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
-          <div class="sp-quick">Short on time? <button type="button" class="sp-link" onClick=${() => sel.setKeys(fillKeys(T.scents))}>Spread my ${T.scents} bottles across all seven scents</button>${sel.keys.length ? html` \u00b7 <button type="button" class="sp-link" onClick=${() => sel.setKeys([])}>Start over</button>` : null}</div>
+          <div class="sp-quick"><button type="button" class="btn sp-pick-btn" onClick=${() => sel.setKeys(fillKeys(T.scents))}><span>Pick my scents for me</span></button>${sel.keys.length ? html`<button type="button" class="sp-link sp-reset" onClick=${() => sel.setKeys([])}>Start over</button>` : null}</div>
           <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
@@ -996,7 +995,7 @@ function BuyBox() {
               <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
               <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
             </div>` : null}
-            <div class="kr-row kr-ship"><span class="kr-ic" aria-hidden="true">🚚</span><span class="kr-tx"><b>Free shipping</b><span class="kr-sub">One box, everything together.</span></span><span class="kr-pr"><span class="inc">FREE</span></span></div>
+            <div class="kr-row kr-ship"><span class="kr-ic" aria-hidden="true">🚚</span><span class="kr-tx"><b>Free Priority Shipping*</b><span class="kr-sub">One box, everything together.</span></span><span class="kr-pr"><span class="inc">FREE</span></span></div>
           </div>
           <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>${T.n ? html`, <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> included` : ""}, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b> Shipping is on us.</p>
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->

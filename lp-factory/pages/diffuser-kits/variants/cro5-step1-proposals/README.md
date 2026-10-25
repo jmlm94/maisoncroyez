@@ -19,3 +19,16 @@ Nothing here is deployed. Built on the live dk9v files (app @ a21d428).
 Files: `patch.py` (applies each proposal to the live app/css → `<variant>/mc-dk-app.js|mc-dk.css`), `shot.mjs`
 (step-1 region on phone + desktop, hides the sticky bar), `board.py` (the board page), `shots/` (phone renders).
 Suggested order: 2 + 5, then 1 + 4, then 3.
+
+## Round 2 — five takes on #2 (owner: "the one I'm most convinced about since I don't wanna give too many explanations")
+
+Board artifact 2: see the session note (Five Takes on FREE). `patch2.py` → `f1…f5`, `card-shot.mjs` (3× zoom of the three cards), `shots2/`.
+Shared base = #2: "+ N FREE Diffusers" (FREE green), no green pill, "~~$value~~ value" under the photo.
+
+| take | device |
+|---|---|
+| 2A f1 sash | green band across the bottom of the photo |
+| 2B f2 stamp | outlined rotated FREE stamp across the photo |
+| 2C f3 price tag | hanging retail tag on the photo: FREE + struck value inside; no value line under the photo |
+| 2D f4 frame | green border on the photo, FREE pill breaking the top edge |
+| 2E f5 big picture | photo fills the card width, corner tag from #2 |

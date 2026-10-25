@@ -1,24 +1,25 @@
-*Maison Croyez — Daily Report · Friday, October 23, 2026*
+*Maison Croyez — Daily Report · Saturday, October 24, 2026*
 
-:warning: *Partial report: Shopify orders for Oct 23 NOT pulled.* The Shopify connector flipped back to *Carbinox Co.* (shopcarbinox.com) again, so I skipped the order pull per the runbook guard. Orders are complete through Oct 22. Yesterday's $0 sales and $0 profit are not real: yesterday morning's pull already showed 5 renewal orders ($330) placed early on Oct 23, and the full day is likely higher. The 7-day and longer windows are missing Oct 23. The connector has switched stores several times since Oct 15; it may be worth disconnecting the Carbinox store from the Shopify connector, or reply "Run again" after reconnecting to Maison Croyez and I'll backfill.
-:pause_button: *Ads still paused:* the LP Test campaign has been paused since Oct 20, 5:07 PM ET. $0 spend for the 3rd day (Oct 21–23). No campaign in the account spent anything on Oct 22 or 23.
+:white_check_mark: *Shopify is back on Maison Croyez and Oct 23 is backfilled* (8 renewal orders, $459 sales, +$278 contribution profit). All windows below are complete.
+:pause_button: *Ads paused for the 4th day* (LP Test campaign paused since Oct 20, 5:07 PM ET; $0 spend Oct 21–24).
+:mag: *4 days with no ads (Oct 21–24):* 19 renewal orders, $1,278 in sales, +$797 contribution profit, 0 new customers. That's why the 7-day profit is now slightly positive (+$6). The catch: no new subscribers are coming in to replace the ones who cancel.
 
-Hello Jose — yesterday we sold *$0* on Shopify across *0 orders* (*$0* subscription · *$0* one-time). COGS were *$0*, shipping ≈*$0*, processing fees *$0.00*, handling *$0.00*, and Meta ad spend *$0* (CPM — · CPC — · CTR —).
+Hello Jose — yesterday we sold *$240* on Shopify across *3 orders* (*$240* subscription · *$0* one-time). COGS were *$54*, shipping ≈*$23*, processing fees *$7.86*, handling *$3.00*, and Meta ad spend *$0* (CPM — · CPC — · CTR —).
 
-:large_green_circle: *Contribution profit yesterday: $0* · Blended ROAS *—*
+:large_green_circle: *Contribution profit yesterday: $152* · Blended ROAS *—*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $0 | $0 | $0 (−100.0%) | — |
-| 7 days | $2,153 | $1,829 | −$580 (−158.3%) | 1.18× |
-| 14 days | $6,154 | $4,005 | −$804 (+51.3%) | 1.54× |
-| 28 days | $10,185 | $7,468 | −$2,455 (+67.9%) | 1.36× |
-| 45 days | $24,732 | $18,814 | −$8,198 (+60.7%) | 1.31× |
-| 90 days | $45,527 | $44,408 | −$29,048  | 1.03× |
+| Yesterday | $240 | $0 | $152 (−45.1%) | — |
+| 7 days | $2,417 | $1,446 | $6 (+101.4%) | 1.67× |
+| 14 days | $6,074 | $3,783 | −$420 (+69.5%) | 1.61× |
+| 28 days | $10,059 | $6,950 | −$1,798 (+77.4%) | 1.45× |
+| 45 days | $24,317 | $18,037 | −$7,207 (+65.3%) | 1.35× |
+| 90 days | $46,026 | $43,810 | −$27,995  | 1.05× |
 
-:seedling: *Subscriptions:* 301 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 0 new yesterday · 85 renewal orders in 28d
+:seedling: *Subscriptions:* 301 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 0 new yesterday · 91 renewal orders in 28d
 
-:scales: *Worth it yet?* Almost — each sub costs $277, returns ~$165 in 180d (0.60×). Break-even CAC: $165.
+:scales: *Worth it yet?* Almost — each sub costs $316, returns ~$165 in 180d (0.52×). Break-even CAC: $165.
 
 :test_tube: *LP Test final tally (Oct 5–20, Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase. LP Kits was the best ad set at ~$167 per purchase.
 

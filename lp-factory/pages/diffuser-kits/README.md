@@ -210,3 +210,7 @@ one-time card grayer (title + sub) with no price on the right, "No automatic ref
 dk7e (owner round 5, preview v13): refill card gets a second line "Free Shipping, right at your doorstep. Swap, pause or cancel anytime."
 dk7f (owner round 6, preview v14): one-time card back to the same black as the refill card; "Swap, pause or cancel anytime." bold on the
 refill card and in the Step 3 subtitle ("Skip, swap, pause or cancel anytime.").
+
+## dk9s (2026-10-25) — step 1 scents-first, PREVIEW ONLY
+
+Not deployed. Step 1 options become "2 / 3 / 5 Scents" with the free diffusers shown per option; see `variants/dk9s-step1-scents/README.md`. Artifact TK1GvMvzMi69pP4wiLMfyN v37.

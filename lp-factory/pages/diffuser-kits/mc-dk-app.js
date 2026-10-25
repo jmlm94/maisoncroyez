@@ -625,6 +625,7 @@ const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying eac
 const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselected "top three" = Chilled Citrus, Honey Nectar, Midnight Sensation */
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
+const fragSrc = (k) => { const f = CONFIG.fragrances.find((x) => x.key === k); const im = f && CONFIG.images[f.pimg || f.img]; return im ? im.src : ""; }; /* dk9s: bottle thumbnails on the step-1 cards */
 const selStore = {
   tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* dk1: 2 diffusers preselected (most popular); dk9p (2026-10-21): ?kit=one|two|three (or 1|2|3) preselects, used by the home page cards */
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
@@ -937,17 +938,25 @@ function BuyBox() {
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
           <div class="step-eyebrow">Step 1 of 3</div>
-          <div class="picker-title step-title s9-title">How many spaces would you like to <em>transform today?</em></div>
-          <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many free diffusers"> <!-- dk9d (owner): one row, three option cards -->
+          <div class="picker-title step-title s9-title">How many scents would you like <em>on subscription?</em></div><p class="s9-sub">Ships every 30, 60 or 90 days · Cancel anytime · Free diffusers included</p> <!-- dk9s (2026-10-25, owner): step 1 is about the scent subscription; the diffusers are the free gift per option -->
+          <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.name + ": " + t.n + " diffuser" + (t.n > 1 ? "s" : "") + ", requires " + t.scents + " scents"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
+              <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
-                <${Img} slot=${"kit" + t.n} alt=${t.name}/>
-                <span class="t9-n">${t.n} Diffuser${t.n > 1 ? "s" : ""}</span>
-                <span class="t9-req">(Requires ${t.scents} scents)</span>
+                <span class="t9-n t9s-n">${t.scents} Scents</span>
+                <span class="t9s-bottles" aria-hidden="true">${fillKeys(t.scents).map((k, i) => html`<img key=${i} class="t9s-b" src=${fragSrc(k)} alt="" loading="lazy" decoding="async"/>`)}</span>
+                <span class="t9s-each">${usd(SCENT_ONE)} each</span>
+                <span class="t9s-gift">+ ${t.n} Diffuser${t.n > 1 ? "s" : ""}</span>
+                <${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/>
                 <span class="t9-val"><s>${usd(val)}</s><b>FREE</b></span>
+                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
+          <ul class="t9s-how"> <!-- dk9s (2026-10-25): what happens after the click, in three lines -->
+            <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
+            <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick on the last step.</li>
+            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
+          </ul>
 
           <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right; dk9d: back under the options -->
             <div class="place-grid">

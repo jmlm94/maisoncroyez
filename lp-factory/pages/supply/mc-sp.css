@@ -1741,7 +1741,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root #buybox .gal-col{display:none !important}
 #root #buybox .buybox{margin-top:0}
 #root .sp-head{text-align:center;margin:14px 0 0}
-#root .sp-kicker{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#A3874A;margin:0 0 8px}
+#root .sp-kicker-row{margin:0 0 10px}
+#root .sp-kicker{display:inline-block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:#A3874A;border-radius:999px;padding:6px 12px;line-height:1.2}
 #root .buybox h1.sp-h1{margin:0}
 #root .sp-hero{margin:2px 0 0}
 #root .sp-steps{list-style:none !important;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:6px 0 2px;padding:0 !important;font-family:'Outfit',sans-serif}
@@ -1756,9 +1757,11 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .tier.t9c3.sp-card .t9s-total{margin-top:auto}
 #root .tier.t9c3 .t9s-each s{color:#9A8B80;margin-right:2px}
 #root .tier.t9c3 .sp-save{display:inline-block;background:#E8F5EC;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;margin:0 0 8px}
-#root .tier.t9c3 .t9s-gift.sp-only{color:#9A8B80;font-weight:600;margin-bottom:8px}
-#root .tier.t9c3 .sp-nudge{display:block;margin:auto 0;padding:10px 0;font-family:'Outfit',sans-serif;font-size:.68rem;line-height:1.35;color:#9A8B80;font-weight:600}
-#root .tier.t9c3 .sp-nudge b{color:#1E7A1E;font-weight:800}
+#root .tier.t9c3.sp-card .t9s-gift{color:#1E7A1E;font-weight:800}
+#root .tier.t9c3.sp-card .t9s-gift.sp-only{color:#141414;font-weight:800;font-size:.92rem;margin:auto 0;padding:14px 0}
+#root .tier.t9c3 .t9s-each.sp-stack{display:grid;gap:2px;margin:3px 0 8px}
+#root .tier.t9c3 .t9s-each.sp-stack b{color:#141414;font-size:.8rem;font-weight:800;line-height:1.15}
+#root .kr-row.kr-ship .kr-ic{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;font-size:18px;background:#F7F3EE;border-radius:8px}
 #root .t9s-how.t9p4 b{font-weight:800;color:#141414}
 #root .t9s-how.t9p4 .t9p4-n{background:#fff;border:1px solid #E6E0D8;border-radius:6px;padding:0 5px;white-space:nowrap}
 #root .sp-quick{font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.4;color:#5C4F46;margin:-2px 0 8px;text-align:center}
@@ -1775,6 +1778,6 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 @media (min-width:700px){
   #root .sp-head{margin-top:22px}
   #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
-  #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3 .sp-nudge{font-size:.76rem}
+  #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
   #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
 }

@@ -930,8 +930,8 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker">For Maison Croyez customers</div>
-            <h1 class="h1-9e sp-h1">Stock up for months, save up to $360, and let us cancel your subscription for you.</h1>
+            <div class="sp-kicker-row"><span class="sp-kicker">Exclusively for Maison Croyez customers</span></div>
+            <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${MC_HERO_POSTER} alt="" width="1600" height="800" decoding="async"/></div>
 
@@ -942,11 +942,11 @@ function BuyBox() {
               <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class="t9-n t9s-n">${t.months} Months</span>
-                <span class="t9s-each">${t.scents} scents · <s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span>
+                <span class="t9s-each sp-stack"><b>${t.scents} scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
                 <span class="sp-save">Save ${usd(save)}</span>
                 ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
                 <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
-                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span><span class="sp-nudge">Go to 9 months<br/>and a diffuser<br/>is <b>FREE</b></span>`}
+                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
                 <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
@@ -996,8 +996,9 @@ function BuyBox() {
               <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
               <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
             </div>` : null}
+            <div class="kr-row kr-ship"><span class="kr-ic" aria-hidden="true">🚚</span><span class="kr-tx"><b>Free shipping</b><span class="kr-sub">One box, everything together.</span></span><span class="kr-pr"><span class="inc">FREE</span></span></div>
           </div>
-          <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b></p>
+          <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>${T.n ? html`, <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> included` : ""}, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b> Shipping is on us.</p>
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
           <div class="sp-cancel"> <!-- supply: the subscription we cancel for them -->
             <div class="s9-freq-head">Cancel my current subscription for me</div>
@@ -1005,7 +1006,7 @@ function BuyBox() {
             <label class="sp-field" for="sp-name"><span>Name on the subscription</span><input id="sp-name" type="text" autocomplete="name" placeholder="e.g. Jane Smith" defaultValue=${sel.cancelName} onInput=${(e) => { sel.cancelName = e.target.value; }}/></label>
             <label class="sp-field" for="sp-email"><span>Email on the subscription <small>(optional, speeds it up)</small></span><input id="sp-email" type="email" autocomplete="email" inputmode="email" placeholder="e.g. jane@email.com" defaultValue=${sel.cancelEmail} onInput=${(e) => { sel.cancelEmail = e.target.value; }}/></label>
           </div>
-          <p class="s9-freq-note"><b>One payment, nothing renews.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping.</p>
+          <p class="s9-freq-note"><b>One payment, nothing renews, free shipping.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping.</p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : "🔒 SECURE CHECKOUT ➔"}</span> <!-- dk9l (owner): straight to checkout -->
           </button>

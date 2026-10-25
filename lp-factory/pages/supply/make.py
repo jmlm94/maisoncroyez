@@ -61,8 +61,8 @@ rep('  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.key
 
 # ---------- step 1: header (no rating, no badge strip), banner, progress track, supplies as rows ----------
 rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9 \(owner\): no prices on Step 1[^\n]*\n', '''          <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker">For Maison Croyez customers</div>
-            <h1 class="h1-9e sp-h1">Stock up for months, save up to $360, and let us cancel your subscription for you.</h1>
+            <div class="sp-kicker-row"><span class="sp-kicker">Exclusively for Maison Croyez customers</span></div>
+            <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${MC_HERO_POSTER} alt="" width="1600" height="800" decoding="async"/></div>
 ''')
@@ -73,11 +73,11 @@ rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\
               <div key=${t.key} class=${"tier t9c3 sp-card" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
                 <span class="t9-n t9s-n">${t.months} Months</span>
-                <span class="t9s-each">${t.scents} scents \u00b7 <s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span>
+                <span class="t9s-each sp-stack"><b>${t.scents} scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
                 <span class="sp-save">Save ${usd(save)}</span>
                 ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
                 <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
-                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span><span class="sp-nudge">Go to 9 months<br/>and a diffuser<br/>is <b>FREE</b></span>`}
+                <span class="t9p2-val"><s>${usd(val)}</s> value</span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
                 <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
@@ -118,16 +118,17 @@ rex(r'            <div class="kr-row kr-kit">\n.*?\n            </div>\n', '''  
               <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
               <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
             </div>` : null}
+            <div class="kr-row kr-ship"><span class="kr-ic" aria-hidden="true">🚚</span><span class="kr-tx"><b>Free shipping</b><span class="kr-sub">One box, everything together.</span></span><span class="kr-pr"><span class="inc">FREE</span></span></div>
 ''')
 rep('''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>''',
-    '''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b></p>''')
+    '''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>${T.n ? html`, <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> included` : ""}, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b> Shipping is on us.</p>''')
 rex(r'          <div class="s9-freq-head">How frequently would you like your refills\?</div>.*?whatever the frequency -->\n', '''          <div class="sp-cancel"> <!-- supply: the subscription we cancel for them -->
             <div class="s9-freq-head">Cancel my current subscription for me</div>
             <p class="sp-cancel-p">Tell us who your subscription is under. We cancel it in less than 24 hours and email you a confirmation. No portal, no phone call, nothing else to do.</p>
             <label class="sp-field" for="sp-name"><span>Name on the subscription</span><input id="sp-name" type="text" autocomplete="name" placeholder="e.g. Jane Smith" defaultValue=${sel.cancelName} onInput=${(e) => { sel.cancelName = e.target.value; }}/></label>
             <label class="sp-field" for="sp-email"><span>Email on the subscription <small>(optional, speeds it up)</small></span><input id="sp-email" type="email" autocomplete="email" inputmode="email" placeholder="e.g. jane@email.com" defaultValue=${sel.cancelEmail} onInput=${(e) => { sel.cancelEmail = e.target.value; }}/></label>
           </div>
-          <p class="s9-freq-note"><b>One payment, nothing renews.</b> If your home doesn\\u2019t feel different within 30 days, full refund, and we pay the return shipping.</p>
+          <p class="s9-freq-note"><b>One payment, nothing renews, free shipping.</b> If your home doesn\\u2019t feel different within 30 days, full refund, and we pay the return shipping.</p>
 ''')
 # nothing below the checkout button on step 3 except the way back to the scents
 rex(r'          \$\{chips\}\n          <\$\{Reviews6\}/> <!-- dk9c.*?\n          </div>\n(?=          <div class="navrow back-only">)', '')
@@ -192,7 +193,8 @@ css += '''
 #root #buybox .gal-col{display:none !important}
 #root #buybox .buybox{margin-top:0}
 #root .sp-head{text-align:center;margin:14px 0 0}
-#root .sp-kicker{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#A3874A;margin:0 0 8px}
+#root .sp-kicker-row{margin:0 0 10px}
+#root .sp-kicker{display:inline-block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:#A3874A;border-radius:999px;padding:6px 12px;line-height:1.2}
 #root .buybox h1.sp-h1{margin:0}
 #root .sp-hero{margin:2px 0 0}
 #root .sp-steps{list-style:none !important;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:6px 0 2px;padding:0 !important;font-family:'Outfit',sans-serif}
@@ -207,9 +209,11 @@ css += '''
 #root .tier.t9c3.sp-card .t9s-total{margin-top:auto}
 #root .tier.t9c3 .t9s-each s{color:#9A8B80;margin-right:2px}
 #root .tier.t9c3 .sp-save{display:inline-block;background:#E8F5EC;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;margin:0 0 8px}
-#root .tier.t9c3 .t9s-gift.sp-only{color:#9A8B80;font-weight:600;margin-bottom:8px}
-#root .tier.t9c3 .sp-nudge{display:block;margin:auto 0;padding:10px 0;font-family:'Outfit',sans-serif;font-size:.68rem;line-height:1.35;color:#9A8B80;font-weight:600}
-#root .tier.t9c3 .sp-nudge b{color:#1E7A1E;font-weight:800}
+#root .tier.t9c3.sp-card .t9s-gift{color:#1E7A1E;font-weight:800}
+#root .tier.t9c3.sp-card .t9s-gift.sp-only{color:#141414;font-weight:800;font-size:.92rem;margin:auto 0;padding:14px 0}
+#root .tier.t9c3 .t9s-each.sp-stack{display:grid;gap:2px;margin:3px 0 8px}
+#root .tier.t9c3 .t9s-each.sp-stack b{color:#141414;font-size:.8rem;font-weight:800;line-height:1.15}
+#root .kr-row.kr-ship .kr-ic{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;font-size:18px;background:#F7F3EE;border-radius:8px}
 #root .t9s-how.t9p4 b{font-weight:800;color:#141414}
 #root .t9s-how.t9p4 .t9p4-n{background:#fff;border:1px solid #E6E0D8;border-radius:6px;padding:0 5px;white-space:nowrap}
 #root .sp-quick{font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.4;color:#5C4F46;margin:-2px 0 8px;text-align:center}
@@ -226,7 +230,7 @@ css += '''
 @media (min-width:700px){
   #root .sp-head{margin-top:22px}
   #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
-  #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3 .sp-nudge{font-size:.76rem}
+  #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
   #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
 }
 '''

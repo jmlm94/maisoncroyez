@@ -26,6 +26,13 @@ total) instead of the kits card grid.
 ## Round 3 (owner): "Revert the variants the way it was with two and two rows was good." → the four supplies are the card
 grid again (two and two on phones, one row on desktop); everything else from round 2 stays.
 
+## Round 4 (owner): badge "EXCLUSIVELY FOR MAISON CROYEZ CUSTOMERS" (gold pill) above the H1; H1 "You already love them, stock up
+for months and save a lot, no more subscription."; on the cards the count and the price sit on two lines ("6 scents" / "~~$39.95~~
+$34.95 each"), the "+ N FREE Diffusers" line is all green and bold, the 6-month card says "Scents only" in black, bigger, no
+nudge; step 2 uses the kits page's own scent pictures (fetched into lp-factory/assets/cdn/picks by the fetch-assets workflow and
+inlined in the preview; live they load from the CDN as on the kits page); step 3 gets a "Free shipping · FREE" row, the value
+line names the free diffusers when the supply includes them, and the note reads "One payment, nothing renews, free shipping."
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

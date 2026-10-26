@@ -57,7 +57,7 @@ supply" on steps 2 and 3); Shop Pay is confirmed on for the store, so the instal
 Product "Scent Supply" 15409132994669 / variants m6 67864692326509, m9 67864692359277, m12 67864692392045, m18 67864692424813.
 Files: mc-sp-app.js 46573254148205, mc-sp.css 46573254180973, hero MediaImage 46573170032749. Owner (round 8): scents go on the order
 as a note (line item properties), not as variants; the countdown has nothing to do with the emails (counts from the first visit).
-Redeploy: `LIVE=1 python3 make.py` → commit → fileUpdate both GenericFiles with the raw URL at that sha → live.json key sp2-<sha7>
+Redeploy: `LIVE=1 python3 make.py` → commit → fileUpdate both GenericFiles with the raw URL at that sha → live.json key spN-<sha7>
 → `python3 body.py` → pageUpdate(163021881453) with page-body.html → stamp `[run …]` in .github/workflows/page-shot-supply.yml.
 
 ## Deploy plan (2026-10-26, as executed)
@@ -112,3 +112,7 @@ productVariantsBulkUpdate(mediaId). The first media (6) is the product's feature
 Fallback without AI: `img/variants/compose.py` (DIFF=../../../../assets/cdn/diffuser/d25.png) composes `supply-N-real.jpg` from
 the real photos — one tile per bottle, one per free diffuser (d25 = the clean single-diffuser packshot of the Home Scent Diffuser
 product), caption band on top. Not on the store; swap with productVariantsBulkUpdate(mediaId) if preferred.
+
+## sp4 (2026-10-26, owner): "Exclusive for Maison Croyez VIP Customers" badge; the countdown is a black block — "YOUR PRICE IS LOCKED
+FOR:" in caps, the time below it as 00:00:00 (`.sp-deadline` / `.sp-dl-lb` / `.sp-dl-t`, compact on step 3). Same 24-hour clock from
+the first visit on this device. LIVE key sp4-84e4145.

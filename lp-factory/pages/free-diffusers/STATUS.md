@@ -339,3 +339,4 @@ Round-2 Higgsfield renders from the real scent photos (correct names, counts and
 MediaImage 46576697606253 (6-Month), 46576697639021 (9 + 1 diffuser), 46576697671789 (12 + 1), 46576697704557 (18 + 2), all READY.
 Sources + the no-AI composites (`compose.py`, `supply-N-real.jpg`) in `lp-factory/pages/supply/img/variants/`. Cost per item set
 earlier today ($54 / $107 / $134 / $214). Product title is now "Maison Croyez - Scent Supply Packages" (owner rename).
+- 2026-10-26 SUPPLY sp4 — LIVE (key sp4-84e4145, page body updated 20:04 UTC; app 132197 B / css 159322 B re-queried after fileUpdate @ 84e4145): owner's two changes — the badge reads "Exclusive for Maison Croyez VIP Customers"; the price-lock countdown is a black block with "YOUR PRICE IS LOCKED FOR:" in caps and the time below it as 00:00:00 (24 h from the first visit on this device, same clock as before), on step 1 and compact on step 3. Artifact JYGDzu63F7bsBSYQqhqVTH v10. Check run triggered at this push.

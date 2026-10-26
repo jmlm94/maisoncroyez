@@ -53,7 +53,14 @@ picture and the seven scent pictures (inlined in the preview; on the live page i
 supply" on steps 2 and 3); Shop Pay is confirmed on for the store, so the installment lines carry the Shop Pay logo
 (PAY_ICONS.shop from the kits app) on the cards and under DUE TODAY.
 
-## Deploy plan (2026-10-26, prepared; waiting for the Shopify connector)
+## LIVE 2026-10-26 — https://maisoncroyez.com/pages/supply (page 163021881453, key sp1-a0c94c8)
+Product "Scent Supply" 15409132994669 / variants m6 67864692326509, m9 67864692359277, m12 67864692392045, m18 67864692424813.
+Files: mc-sp-app.js 46573254148205, mc-sp.css 46573254180973, hero MediaImage 46573170032749. Owner (round 8): scents go on the order
+as a note (line item properties), not as variants; the countdown has nothing to do with the emails (counts from the first visit).
+Redeploy: `LIVE=1 python3 make.py` → commit → fileUpdate both GenericFiles with the raw URL at that sha → live.json key sp2-<sha7>
+→ `python3 body.py` → pageUpdate(163021881453) with page-body.html → stamp `[run …]` in .github/workflows/page-shot-supply.yml.
+
+## Deploy plan (2026-10-26, as executed)
 1. Product "Scent Supply" (new, separate from everything in the catalogue), 4 variants: "6-Month Supply" $209.70 (compare-at $239.70),
    "9-Month Supply + 1 Free Diffuser" $269.55 ($449.50), "12-Month Supply + 2 Free Diffusers" $299.40 ($659.30),
    "18-Month Supply + 3 Free Diffusers" $359.10 ($989.00); untracked inventory, ships, published to the Online Store, in no collection.

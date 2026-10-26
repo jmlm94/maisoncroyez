@@ -116,3 +116,6 @@ product), caption band on top. Not on the store; swap with productVariantsBulkUp
 ## sp4 (2026-10-26, owner): "Exclusive for Maison Croyez VIP Customers" badge; the countdown is a black block — "YOUR PRICE IS LOCKED
 FOR:" in caps, the time below it as 00:00:00 (`.sp-deadline` / `.sp-dl-lb` / `.sp-dl-t`, compact on step 3). Same 24-hour clock from
 the first visit on this device. LIVE key sp4-84e4145.
+
+## sp5 (2026-10-26, owner): countdown 20% smaller — `.sp-dl-t` 1.6 → 1.28rem (desktop 1.8 → 1.44rem, compact 1.3 → 1.04rem), block
+padding 9/10 px (compact 7/8 px). LIVE key sp5-d40eaf7 (only mc-sp.css changed).

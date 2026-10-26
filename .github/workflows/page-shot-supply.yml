@@ -1,5 +1,5 @@
 name: page-shot-supply
-# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (9-month supply, scents picked for me, name + email, checkout) that reads /cart.js and clears it. Edit this line and push to run. [run sp-0]
+# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (9-month supply, scents picked for me, name + email, checkout) that reads /cart.js and clears it. Edit this line and push to run. [run sp1-a0c94c8]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

@@ -37,6 +37,9 @@ svg = ("<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='800' viewBo
        "<text x='800' y='440' text-anchor='middle' font-family='Outfit,Arial,sans-serif' font-size='26' font-weight='600' fill='#A89A8C'>placeholder, final picture to come</text>"
        "</svg>")
 poster = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+mosaic = os.path.join(HERE, "img", "hero-mosaic.webp")
+if os.path.exists(mosaic):  # trust 5: provisional hero = a mosaic of the real diffuser picture + the seven scent pictures, until the owner's photo
+    poster = "data:image/webp;base64," + base64.b64encode(open(mosaic, "rb").read()).decode()
 rex(r'var MC_HERO_POSTER = "[^"]+";', 'var MC_HERO_POSTER = "' + poster + '"; /* supply: placeholder until the owner sends the picture */')
 
 # ---------- the offer ----------
@@ -49,12 +52,30 @@ rex(r"const TIERS = \[.*?\n\];\n", '''const TIERS = [ /* supply (2026-10-25, own
 const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $30 / $90 / $180 / $360 */
 const SP_STEPS = ["Supply", "Scents", "Checkout"];
 const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
+const SHOP_PAY_INSTALLMENTS = true; /* logic 4 (owner to confirm the store has Shop Pay Installments on): 4 interest-free payments, $50–$999 */
+const SHELF_LIFE_MONTHS = 0; /* trust 2: unopened shelf life in months, from the owner; 0 = the sentence is not shown */
+const DEADLINE_HOURS = 24; /* trust 3 (owner): "24 hours to complete", counted from the email link's ?t= (unix seconds) or the first visit on this device */
+const deadlineStart = () => { try { const q = new URLSearchParams(location.search).get("t"); if (q && /^\\d+$/.test(q)) return q.length > 10 ? +q : +q * 1000; const k = "mc_sp_t0"; let v = localStorage.getItem(k); if (!v) { v = String(Date.now()); localStorage.setItem(k, v); } return +v; } catch (e) { return Date.now(); } };
+const DEADLINE_AT = deadlineStart() + DEADLINE_HOURS * 3600 * 1000;
+function Deadline({ compact }) {
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
+  const left = DEADLINE_AT - now;
+  if (left <= 0) return html`<div class=${"sp-deadline over" + (compact ? " compact" : "")}>Your ${DEADLINE_HOURS}-hour price window has closed.</div>`;
+  const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), sec = Math.floor(left % 60000 / 1000);
+  const pad = (n) => String(n).padStart(2, "0");
+  return html`<div class=${"sp-deadline" + (compact ? " compact" : "")} role="timer"><span class="sp-dl-ic" aria-hidden="true">\\u23f1</span><span>Your price is locked for <b>${h}h ${pad(m)}m ${pad(sec)}s</b></span></div>`;
+}
+const monthsFor = (t, d) => { const m = t.scents / d; return Number.isInteger(m) ? String(m) : (Math.floor(m) ? Math.floor(m) + "\\u00bd" : "\\u00bd"); }; /* logic 3: one bottle runs one diffuser for about a month; halves shown as ½ */
+const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
 ''')
 
 # selection store: ?months= preselect, the tier price per bottle, no renewals, the cancellation fields
 rep('''  tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(),''',
     '''  tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("months"); const i = { "6": 0, "9": 1, "12": 2, "18": 3 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* supply: 9 months preselected; ?months=6|9|12|18 from the email */
-  cancelName: "", cancelEmail: "", /* supply: the subscription we cancel for them (step 3) */''')
+  cancelName: "", cancelEmail: "", /* supply: the subscription we cancel for them (step 3) */
+  diffusers: (() => { try { const d = +new URLSearchParams(location.search).get("d"); return d >= 1 && d <= 3 ? d : 1; } catch (e) { return 1; } })(), /* logic 3: diffusers at home (?d=1|2|3 from the email) */
+  setDiffusers(n) { this.diffusers = n; this.emit(); },''')
 rep('  scentPrice() { return SCENT_ONE; },', '  scentPrice() { return this.tier().each; },')
 rep('  today() { return this.keys.length * SCENT_ONE; },', '  today() { return this.keys.length * this.tier().each; }, /* supply: the tier price per bottle */')
 rep('  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * FREQ_PRICE(this.freq) : 0; },', '  renew() { return 0; }, /* supply: nothing renews */')
@@ -68,16 +89,19 @@ rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9
 ''')
 rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\n', '''          <${Steps} n=${1}/>
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
+          <${Deadline}/>
+          <div class="sp-diff" role="radiogroup" aria-label="How many diffusers do you run at home?"><span class="sp-diff-l">I run</span>${[1, 2, 3].map((d) => html`<button type="button" key=${d} role="radio" aria-checked=${sel.diffusers === d} class=${"sp-diff-b" + (sel.diffusers === d ? " on" : "")} onClick=${() => sel.setDiffusers(d)}>${d}</button>`)}<span class="sp-diff-l">diffuser${sel.diffusers > 1 ? "s" : ""} at home</span><small class="sp-diff-n">One bottle runs one diffuser for about a month, so the months below follow your home.</small></div>
           <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length"> <!-- supply (owner, round 3): the card grid, two and two on phones -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`
-              <div key=${t.key} class=${"tier t9c3 sp-card sp-" + t.key + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.months + " months: " + t.scents + " scents at " + usd(t.each) + " each" + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
+              <div key=${t.key} class=${"tier t9c3 sp-card sp-" + t.key + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " bottles at " + usd(t.each) + " each, about " + monthsFor(t, sel.diffusers) + " months with " + sel.diffusers + " diffuser" + (sel.diffusers > 1 ? "s" : "") + (t.n ? ", " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") : "") + ", " + usd(t.price) + " today"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
-                <span class="t9-n t9s-n">${t.months} Months</span>
+                <span class="t9-n t9s-n">${monthsFor(t, sel.diffusers)} Months</span>
                 <span class="t9s-each sp-stack"><b>${t.scents}× Scents</b><span><s>${usd(SCENT_ONE)}</s> ${usd(t.each)} each</span></span>
                 <span class="sp-save">Save ${usd(save)}</span>
                 ${t.n ? html`<span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
                 <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>` : html`<span class="t9s-gift sp-only">Scents only</span>`}
-                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
+                <span class="sp-vs">On your subscription <s>${usd(t.scents * SCENT_ONE)}</s></span>
+                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b>${SHOP_PAY_INSTALLMENTS ? html`<small class="sp-inst">or 4 \\u00d7 ${inst(t.price)} with Shop Pay</small>` : null}</span>
               </div>`; })}
           </div>
           <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->
@@ -93,7 +117,7 @@ rex(r'          \$\{chips\}\n\n          <\$\{Reviews6\}/>\n          <div class
 # ---------- step 2 ----------
 rep('''          <div class="step-eyebrow">Step 2 of 3</div>''', '''          <${Steps} n=${2}/>''')
 rep('''<div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span></div>''',
-    '''<div class="s9-res">${T.n ? html`<${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.months}-month supply \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span>` : html`<span class="s9-res-tx"><b>${T.months}-MONTH SUPPLY</b><small>${T.scents} scents \\u00b7 ${usd(T.each)} each \\u00b7 <b class="s9-free">Save ${usd(TIER_SAVE_SCENTS(T))}</b></small></span>`}</div>''')
+    '''<div class="s9-res">${T.n ? html`<${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.scents}-bottle supply \\u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span>` : html`<span class="s9-res-tx"><b>${T.scents}-BOTTLE SUPPLY</b><small>${T.scents} scents \\u00b7 ${usd(T.each)} each \\u00b7 <b class="s9-free">Save ${usd(TIER_SAVE_SCENTS(T))}</b></small></span>`}</div>''')
 rep('''          <div class="picker e4" role="group" aria-label="Pick your scents">''',
     '''          <div class="sp-quick"><button type="button" class="btn sp-pick-btn" onClick=${() => sel.setKeys(fillKeys(T.scents))}><span>Pick my scents for me</span></button>${sel.keys.length ? html`<button type="button" class="sp-link sp-reset" onClick=${() => sel.setKeys([])}>Start over</button>` : null}</div>
           <div class="picker e4" role="group" aria-label="Pick your scents">''')
@@ -109,7 +133,7 @@ rep('''          ${chips}\n          <//>` : html`<${Fragment} key="step3">''', 
 # ---------- step 3 ----------
 rep('''          <div class="step-eyebrow">Step 3 of 3</div>''', '''          <${Steps} n=${3}/>''')
 rep('''<div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>''',
-    '''<div class="picker-title step-title s9-title">Your ${T.months}-month supply is ready.</div>''')
+    '''<div class="picker-title step-title s9-title">Your ${T.scents}-bottle supply is ready.</div>''')
 rep('''                <span class="kr-pr">${usd(q * SCENT_ONE)}</span>''',
     '''                <span class="kr-pr"><s>${usd(q * SCENT_ONE)}</s>${usd(q * T.each)}</span>''')
 rex(r'            <div class="kr-row kr-kit">\n.*?\n            </div>\n', '''            ${T.n ? html`<div class="kr-row kr-kit">
@@ -127,7 +151,7 @@ rex(r'          <div class="s9-freq-head">How frequently would you like your ref
             <label class="sp-field" for="sp-name"><span>Name on the subscription</span><input id="sp-name" type="text" autocomplete="name" placeholder="e.g. Jane Smith" defaultValue=${sel.cancelName} onInput=${(e) => { sel.cancelName = e.target.value; }}/></label>
             <label class="sp-field" for="sp-email"><span>Email on the subscription <small>(optional, speeds it up)</small></span><input id="sp-email" type="email" autocomplete="email" inputmode="email" placeholder="e.g. jane@email.com" defaultValue=${sel.cancelEmail} onInput=${(e) => { sel.cancelEmail = e.target.value; }}/></label>
           </div>
-          <p class="s9-freq-note"><b>One payment, nothing renews, free shipping.</b> If your home doesn\\u2019t feel different within 30 days, full refund, and we pay the return shipping.</p>
+          <div class="sp-guar"><b>Swap any unopened bottle</b> for another scent, free, in your first 60 days.${SHELF_LIFE_MONTHS ? html` Unopened, a bottle keeps for <b>${SHELF_LIFE_MONTHS} months</b>.` : ""} One payment, nothing renews, free priority shipping.</div>
 ''')
 # nothing below the checkout button on step 3 except the way back to the scents
 rex(r'          \$\{chips\}\n          <\$\{Reviews6\}/> <!-- dk9c.*?\n          </div>\n(?=          <div class="navrow back-only">)', '')
@@ -149,10 +173,10 @@ async function addToCart(setBusy, setToast) {
   }
   const T = selStore.tier();
   const vid = SUPPLY_CART.variants[T.key];
-  const attrs = { "Cancel subscription for": name, "Supply": T.months + " months (" + T.scents + " scents" + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + ")" };
+  const attrs = { "Cancel subscription for": name, "Supply": T.scents + " bottles for " + selStore.diffusers + " diffuser" + (selStore.diffusers > 1 ? "s" : "") + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") };
   if ((selStore.cancelEmail || "").trim()) attrs["Subscription email"] = selStore.cancelEmail.trim();
   if (!onStore() || !vid) {
-    setToast((onStore() ? "This offer isn\\u2019t open for checkout yet. Check back shortly. " : "Preview mode. ") + "On the live store this adds the " + T.months + "-month supply (" + selStore.label() + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + "), " + usd(selStore.today()) + " today, saves the cancellation request for " + name + " on the order, and goes straight to checkout.");
+    setToast((onStore() ? "This offer isn\\u2019t open for checkout yet. Check back shortly. " : "Preview mode. ") + "On the live store this adds the " + T.scents + "-bottle supply (" + selStore.label() + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + "), " + usd(selStore.today()) + " today, saves the cancellation request for " + name + " on the order, and goes straight to checkout.");
     return;
   }
   try {
@@ -177,6 +201,10 @@ rep('''step === 1 ? "Pick your scents \\u2794" : step === 2 ? (left > 0 ? `${T.s
     '''step === 1 ? "Pick my " + T.scents + " scents \\u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \\u00b7 ${left} more` : "Review my supply \\u2794")''')
 rep('''if (step === 2) { if (left > 0) return goPick(); syncKitCart().catch(() => {}); return go(3); }''',
     '''if (step === 2) { if (left > 0) return goPick(); return go(3); }''')
+
+rep("""<!-- dk9i (owner): the value line + big due-today block -->""", """<!-- dk9i (owner): the value line + big due-today block -->
+          ${SHOP_PAY_INSTALLMENTS ? html`<p class="sp-inst sp-inst-due">or 4 interest-free payments of <b>${inst(sel.today())}</b> with Shop Pay</p>` : null}
+          <${Deadline} compact=${true}/>""")
 
 # ---------- the buy box is the whole page: no long-form sections ----------
 m = re.search(r"  sectionOrder: \[.*?\],\n", app, re.S)
@@ -222,6 +250,22 @@ css += '''
 #root .sp-quick{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 10px}
 #root .btn.sp-pick-btn{display:inline-flex !important;width:auto;margin:0;padding:11px 20px;font-size:.74rem !important;background:#111;color:#fff;border-radius:999px}
 #root .sp-reset{font-size:.72rem;color:#5C4F46}
+#root .sp-deadline{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 10px;padding:8px 12px;border-radius:999px;background:#FFF3D6;border:1px solid #F0DDA6;color:#5C4A1E;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:600}
+#root .sp-deadline b{font-weight:800;color:#141414;font-variant-numeric:tabular-nums}
+#root .sp-deadline.over{background:#F3EDE4;border-color:#E3DBD1;color:#5C4F46}
+#root .sp-deadline.compact{margin:10px 0 0}
+#root .sp-diff{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:0 0 4px;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;color:#2A221E}
+#root .sp-diff-b{font:inherit;font-weight:800;width:34px;height:34px;border-radius:50%;border:1.5px solid #E6E0D8;background:#fff;color:#141414;cursor:pointer;padding:0;display:grid;place-items:center}
+#root .sp-diff-b.on{background:#141414;color:#fff;border-color:#141414}
+#root .sp-diff-n{display:block;width:100%;text-align:center;font-size:.68rem;font-weight:600;color:#9A8B80;margin:2px 0 8px}
+#root .tier.t9c3 .sp-vs{font-family:'Outfit',sans-serif;font-size:.6rem;font-weight:600;color:#5C4F46;margin-top:auto;padding-top:6px;line-height:1.3}
+#root .tier.t9c3 .sp-vs s{color:#9A8B80;font-weight:700}
+#root .tier.t9c3.sp-card .t9s-total{margin-top:4px}
+#root .tier.t9c3 .t9s-total .sp-inst{text-transform:none;letter-spacing:0;font-size:.58rem;font-weight:600;color:#5A31F4;margin-top:3px}
+#root .sp-inst-due{margin:-4px 0 0;text-align:center;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;color:#5A31F4}
+#root .sp-inst-due b{font-weight:800}
+#root .sp-guar{margin:8px 0 0;padding:10px 12px;border-radius:12px;background:#FAF7F3;border:1px solid #EFE8E0;font-family:'Outfit',sans-serif;font-size:.78rem;line-height:1.4;color:#5C4F46;text-align:center}
+#root .sp-guar b{color:#141414;font-weight:800}
 #root .kr-row.kr-ship .kr-ic{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;font-size:18px;background:#F7F3EE;border-radius:8px}
 #root .t9s-how.t9p4 b{font-weight:800;color:#141414}
 #root .t9s-how.t9p4 .t9p4-n{background:#fff;border:1px solid #E6E0D8;border-radius:6px;padding:0 5px;white-space:nowrap}
@@ -241,6 +285,7 @@ css += '''
   #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
   #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
   #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
+  #root .sp-deadline{font-size:.82rem}#root .sp-diff{font-size:.86rem}#root .tier.t9c3 .sp-vs{font-size:.66rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
 }
 '''
 

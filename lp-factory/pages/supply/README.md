@@ -39,6 +39,16 @@ photo removed; a soft gradient per card (cream / blush / sage / gold); step 2: t
 bold; step 3: the shipping row reads "Free Priority Shipping*". "And also center it" (on the value line) was read as: the card
 content stays centred; the title row is kept aligned across the cards.
 
+## Round 6 (owner picked from the CVR review): logic 1 — "On your subscription ~~$359.55~~" on every card above the total;
+logic 3 — "I run 1 / 2 / 3 diffusers at home" switch (?d=1|2|3 from the email), the card months follow it (9 bottles → 4½ months
+with two diffusers), steps 2 and 3 say "9-bottle supply"; logic 4 — "or 4 × $67.39 with Shop Pay" under each total and
+"4 interest-free payments" under DUE TODAY (SHOP_PAY_INSTALLMENTS flag, owner to confirm the store has it on); trust 2 — the
+borrowed 30-day guarantee is replaced by "Swap any unopened bottle for another scent, free, in your first 60 days" (+ a shelf-life
+sentence once SHELF_LIFE_MONTHS is set); trust 3 — a 24-hour "Your price is locked for 23h 59m 59s" bar on steps 1 and 3,
+counted from the email link's ?t= (unix seconds) or the first visit (localStorage); not enforced server-side, so the price must
+really change after 24 h for it to be true; trust 5 — provisional hero: img/hero-mosaic.webp, a mosaic of the real diffuser
+picture and the seven scent pictures (inlined in the preview; on the live page it should be a CDN file, not inline).
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

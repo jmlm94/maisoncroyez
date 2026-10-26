@@ -1,5 +1,5 @@
 name: fetch-assets
-# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run picks-1]
+# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run variants-1]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -32,12 +32,19 @@ jobs:
           midnight_sensation.png 1791993011
           LIST
           ls -la lp-factory/assets/cdn/picks
-          file lp-factory/assets/cdn/picks/* || true
+          # supply variant images generated on Higgsfield (2026-10-26) — the sandbox cannot reach cloudfront
+          mkdir -p lp-factory/pages/supply/img/variants
+          H=https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU
+          curl -fsSL "$H/hf_20261026_192150_749c72b6-e76d-4bff-83bf-80da1827106d.png" -o lp-factory/pages/supply/img/variants/supply-6.png
+          curl -fsSL "$H/hf_20261026_192151_a68b05d5-cebf-4d97-8096-7c69cd3cabc6.png" -o lp-factory/pages/supply/img/variants/supply-9.png
+          curl -fsSL "$H/hf_20261026_192151_8a20efc3-d769-4c1a-b4ab-f68fbae8812a.png" -o lp-factory/pages/supply/img/variants/supply-12.png
+          curl -fsSL "$H/hf_20261026_192152_cc424df4-d6d5-4b91-8319-a1211b9567df.png" -o lp-factory/pages/supply/img/variants/supply-18.png
+          ls -la lp-factory/pages/supply/img/variants
       - name: Commit
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add lp-factory/assets/cdn/picks
-          git commit -m "assets: the kits step-2 scent pictures from the store CDN (picks, 320 px)" || exit 0
+          git add lp-factory/assets/cdn/picks lp-factory/pages/supply/img/variants
+          git commit -m "assets: fetched pictures (picks, supply variant images)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

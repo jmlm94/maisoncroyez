@@ -11,8 +11,8 @@ Answers (2026-10-25): SKUs are created by the owner after the page is done; ship
 |---|---|---|---|---|---|
 | 6 months | 6 | $34.95 | $209.70 | $30 | — |
 | 9 months (Most popular, default) | 9 | $29.95 | $269.55 | $90 | 1 ($89.95) |
-| 12 months | 12 | $24.95 | $299.40 | $180 | 2 ($179.90) |
-| 18 months (Best value) | 18 | $19.95 | $359.10 | $360 | 3 ($269.85) |
+| 12 months | 12 | $27.95 | $335.40 | $144 | 1 ($89.95) — owner 2026-10-26 (was $24.95 / 2) |
+| 18 months (Best value) | 18 | $24.95 | $449.10 | $270 | 2 ($179.90) — owner 2026-10-26 (was $19.95 / 3) |
 
 ## Round 2 (owner, same day)
 "No need for the information below the atc button since this is a page for customer also delete the 3 bullets below the

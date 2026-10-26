@@ -1,5 +1,5 @@
 name: fetch-assets
-# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run variants-1]
+# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run products-1]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -40,11 +40,26 @@ jobs:
           curl -fsSL "$H/hf_20261026_192151_8a20efc3-d769-4c1a-b4ab-f68fbae8812a.png" -o lp-factory/pages/supply/img/variants/supply-12.png
           curl -fsSL "$H/hf_20261026_192152_cc424df4-d6d5-4b91-8319-a1211b9567df.png" -o lp-factory/pages/supply/img/variants/supply-18.png
           ls -la lp-factory/pages/supply/img/variants
+          # the real scent product photos (first image of each scent product) + the seven-scents group shot, for composites and references
+          mkdir -p lp-factory/assets/cdn/products
+          while read -r name file; do curl -fsSL "$B/$file" -o "lp-factory/assets/cdn/products/$name.png"; done <<'LIST2'
+          golden-blossom 18.png?v=1779490806
+          crisp-citrus 16.png?v=1779490806
+          chilled-citrus 14.png?v=1779490806
+          honey-nectar 20.png?v=1779490807
+          euphoric-bloom 17.png?v=1779490806
+          wildwood-mystique 15.png?v=1779490806
+          midnight-sensation 19.png?v=1779490806
+          seven-scents 28_5262c0b2-960c-4332-99d4-c37835db64b8.png?v=1779491813
+          golden-blossom-2 1_8.png?v=1779489933
+          packaging-29 29_0b4ae82e-253e-48f5-b7be-d4b4ff6ca0fc.png?v=1779491812
+          LIST2
+          ls -la lp-factory/assets/cdn/products
       - name: Commit
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add lp-factory/assets/cdn/picks lp-factory/pages/supply/img/variants
+          git add lp-factory/assets/cdn/picks lp-factory/pages/supply/img/variants lp-factory/assets/cdn/products
           git commit -m "assets: fetched pictures (picks, supply variant images)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

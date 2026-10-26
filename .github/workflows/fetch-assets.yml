@@ -1,5 +1,5 @@
 name: fetch-assets
-# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run products-1]
+# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run round2-1]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -39,6 +39,11 @@ jobs:
           curl -fsSL "$H/hf_20261026_192151_a68b05d5-cebf-4d97-8096-7c69cd3cabc6.png" -o lp-factory/pages/supply/img/variants/supply-9.png
           curl -fsSL "$H/hf_20261026_192151_8a20efc3-d769-4c1a-b4ab-f68fbae8812a.png" -o lp-factory/pages/supply/img/variants/supply-12.png
           curl -fsSL "$H/hf_20261026_192152_cc424df4-d6d5-4b91-8319-a1211b9567df.png" -o lp-factory/pages/supply/img/variants/supply-18.png
+          # round 2 (real scent photos as references)
+          curl -fsSL "$H/hf_20261026_192705_c2880b28-1abc-4a16-a4b0-624049878706.png" -o lp-factory/pages/supply/img/variants/supply-6-r2.png
+          curl -fsSL "$H/hf_20261026_192704_ed20453d-becc-4706-9d71-95289cd1a2ab.png" -o lp-factory/pages/supply/img/variants/supply-9-r2.png
+          curl -fsSL "$H/hf_20261026_192705_c00288b4-f442-406e-afae-bf824f5f6f7c.png" -o lp-factory/pages/supply/img/variants/supply-12-r2.png
+          curl -fsSL "$H/hf_20261026_192704_e1245ed4-0696-44a0-8f99-e7f58b328811.png" -o lp-factory/pages/supply/img/variants/supply-18-r2.png
           ls -la lp-factory/pages/supply/img/variants
           # the real scent product photos (first image of each scent product) + the seven-scents group shot, for composites and references
           mkdir -p lp-factory/assets/cdn/products

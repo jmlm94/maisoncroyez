@@ -49,6 +49,10 @@ counted from the email link's ?t= (unix seconds) or the first visit (localStorag
 really change after 24 h for it to be true; trust 5 — provisional hero: img/hero-mosaic.webp, a mosaic of the real diffuser
 picture and the seven scent pictures (inlined in the preview; on the live page it should be a CDN file, not inline).
 
+## Round 7 (owner): the "I run 1 / 2 / 3 diffusers" switch is gone and the months are fixed again (6 / 9 / 12 / 18, "9-month
+supply" on steps 2 and 3); Shop Pay is confirmed on for the store, so the installment lines carry the Shop Pay logo
+(PAY_ICONS.shop from the kits app) on the cards and under DUE TODAY.
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

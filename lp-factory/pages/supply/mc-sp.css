@@ -1775,16 +1775,16 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .sp-deadline b{font-weight:800;color:#141414;font-variant-numeric:tabular-nums}
 #root .sp-deadline.over{background:#F3EDE4;border-color:#E3DBD1;color:#5C4F46}
 #root .sp-deadline.compact{margin:10px 0 0}
-#root .sp-diff{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:0 0 4px;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;color:#2A221E}
-#root .sp-diff-b{font:inherit;font-weight:800;width:34px;height:34px;border-radius:50%;border:1.5px solid #E6E0D8;background:#fff;color:#141414;cursor:pointer;padding:0;display:grid;place-items:center}
-#root .sp-diff-b.on{background:#141414;color:#fff;border-color:#141414}
-#root .sp-diff-n{display:block;width:100%;text-align:center;font-size:.68rem;font-weight:600;color:#9A8B80;margin:2px 0 8px}
 #root .tier.t9c3 .sp-vs{font-family:'Outfit',sans-serif;font-size:.6rem;font-weight:600;color:#5C4F46;margin-top:auto;padding-top:6px;line-height:1.3}
 #root .tier.t9c3 .sp-vs s{color:#9A8B80;font-weight:700}
 #root .tier.t9c3.sp-card .t9s-total{margin-top:4px}
 #root .tier.t9c3 .t9s-total .sp-inst{text-transform:none;letter-spacing:0;font-size:.58rem;font-weight:600;color:#5A31F4;margin-top:3px}
 #root .sp-inst-due{margin:-4px 0 0;text-align:center;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;color:#5A31F4}
 #root .sp-inst-due b{font-weight:800}
+#root .sp-splogo{display:inline-flex;vertical-align:middle;margin-left:3px;position:relative;top:-1px}
+#root .sp-splogo .shoppay-svg{display:block;width:34px;height:22px;border-radius:4px}
+#root .sp-splogo.big .shoppay-svg{width:44px;height:28px}
+#root .tier.t9c3 .t9s-total .sp-inst{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px}
 #root .sp-guar{margin:8px 0 0;padding:10px 12px;border-radius:12px;background:#FAF7F3;border:1px solid #EFE8E0;font-family:'Outfit',sans-serif;font-size:.78rem;line-height:1.4;color:#5C4F46;text-align:center}
 #root .sp-guar b{color:#141414;font-weight:800}
 #root .kr-row.kr-ship .kr-ic{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;font-size:18px;background:#F7F3EE;border-radius:8px}
@@ -1806,5 +1806,5 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
   #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
   #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
   #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
-  #root .sp-deadline{font-size:.82rem}#root .sp-diff{font-size:.86rem}#root .tier.t9c3 .sp-vs{font-size:.66rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
+  #root .sp-deadline{font-size:.82rem}#root .tier.t9c3 .sp-vs{font-size:.66rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
 }

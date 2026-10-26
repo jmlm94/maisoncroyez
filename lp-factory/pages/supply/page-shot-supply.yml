@@ -1,0 +1,102 @@
+name: page-shot-supply
+# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (9-month supply, scents picked for me, name + email, checkout) that reads /cart.js and clears it. Edit this line and push to run. [run sp-0]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/page-shot-supply.yml']
+permissions:
+  contents: write
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      URL: https://maisoncroyez.com/pages/supply
+      OUT: lp-factory/pages/supply/shots
+      BODY: lp-factory/pages/supply/page-body.html
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Body check (live page body vs repo page-body.html)
+        run: |
+          curl -sSL -A "Mozilla/5.0" "$URL" -o live.html
+          node -e '
+            const fs=require("fs"),c=require("crypto");
+            const live=fs.readFileSync("live.html","utf8"), repo=fs.readFileSync(process.env.BODY,"utf8");
+            const head="<style>.shopify-section--main-page", tail="<!-- /mc-supply -->";
+            const i=live.indexOf(head), j=live.indexOf(tail,i); const seg=i>=0&&j>=0?live.slice(i,j+tail.length):"";
+            const md5=(x)=>c.createHash("md5").update(x).digest("hex");
+            const key=(seg.match(/var v=\x27([^\x27]+)\x27/)||[])[1];
+            const nl=(x)=>x.replace(/\n/g,""); const out=`bodyMatch: ${seg===repo} bodyMatchIgnoringNewlines: ${nl(seg)===nl(repo)} liveLen: ${seg.length} repoLen: ${repo.length} liveMd5: ${md5(seg)} repoMd5: ${md5(repo)} key: ${key}`;
+            if(nl(seg)!==nl(repo)){const a=nl(seg),b=nl(repo);let k=0;while(k<a.length&&k<b.length&&a[k]===b[k])k++;console.log("first diff at",k,JSON.stringify(a.slice(k-20,k+40)),"vs",JSON.stringify(b.slice(k-20,k+40)));}
+            console.log(out); fs.mkdirSync(process.env.OUT,{recursive:true}); fs.writeFileSync(process.env.OUT+"/body-check-latest.txt",out+"\n");
+          '
+      - name: Shoot the three steps + cart run
+        run: |
+          mkdir -p "$OUT"
+          cat > run.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL_ = process.env.URL, OUT = process.env.OUT;
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
+          const b = await chromium.launch(); const notes = [];
+          const UA = 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36';
+          const tx = (pg, q) => pg.evaluate((q) => { const e = document.querySelector(q); return e ? (e.innerText || '').replace(/\s+/g, ' ').trim() : null; }, q);
+          for (const [name, W, H, mobile] of [['phone', 390, 844, true], ['desktop', 1366, 900, false]]) {
+            const ctx = await b.newContext(mobile ? { viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA } : { viewport: { width: W, height: H }, deviceScaleFactor: 2 });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            const consoleErrs = []; pg.on('console', (m) => { if (m.type() === 'error') consoleErrs.push(m.text().slice(0, 140)); });
+            const failedOwn = []; pg.on('requestfailed', (r) => { const u = r.url(); if (/maisoncroyez\.com|cdn\.shopify\.com\/s\/files/.test(u)) failedOwn.push(u.slice(-70) + ' ' + ((r.failure() || {}).errorText || '')); });
+            await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+            let mounted = true; try { await pg.waitForSelector('#buybox .tiers [role=radio]', { timeout: 30000 }); } catch (e) { mounted = false; notes.push(`${name}: buy box did not mount`); }
+            await pg.waitForTimeout(2000);
+            const d = await pg.evaluate(() => ({ key: (([...document.scripts].find((x) => /mc-sp-app\.js/.test(x.src)) || {}).src || 'none').split('v=')[1], title: document.title, h1: (document.querySelector('#buybox h1') || {}).innerText, badge: (document.querySelector('.sp-kicker') || {}).innerText, hero: (() => { const im = document.querySelector('.sp-hero img'); return im ? [im.naturalWidth, im.complete, (im.currentSrc || '').slice(-40)] : null; })(), tiers: [...document.querySelectorAll('#buybox .tiers [role=radio]')].map((e) => (e.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 80)), deadline: (document.querySelector('.sp-deadline') || {}).innerText, cfg: window.MC_SUPPLY || null, imgs: (() => { const a = [...document.querySelectorAll('#root img')]; const bad = a.filter((i) => !i.complete || i.naturalWidth === 0); return { n: a.length, notLoaded: bad.length, notLoadedSrc: bad.slice(0, 5).map((i) => (i.currentSrc || i.src || '').slice(-50)) }; })() }));
+            await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step1.png` });
+            await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step1-full.png`, fullPage: true });
+            let s2 = null, s3 = null, cart = null;
+            if (mounted) {
+              await pg.evaluate(() => document.querySelectorAll('#buybox .tiers [role=radio]')[1].click()); await pg.waitForTimeout(300);
+              await pg.evaluate(() => document.querySelector('#buybox .btn.step-next').click()); await pg.waitForTimeout(800);
+              await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step2.png` });
+              await pg.evaluate(() => document.querySelector('#buybox .sp-pick-btn').click()); await pg.waitForTimeout(400);
+              s2 = { pill: await tx(pg, '#buybox .pick-pill'), res: await tx(pg, '#buybox .s9-res'), btn: await tx(pg, '#buybox .navrow .btn.atc'), pics: [...new Set(await pg.evaluate(() => [...document.querySelectorAll('#buybox .pick .ph img')].map((im) => im.naturalWidth + 'x' + im.naturalHeight)))] };
+              await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step2-full.png`, fullPage: true });
+              await pg.evaluate(() => document.querySelector('#buybox .navrow .btn.atc').click()); await pg.waitForTimeout(800);
+              s3 = { title: await tx(pg, '#buybox .s9-title'), rows: await pg.evaluate(() => [...document.querySelectorAll('#buybox .kr-row')].map((e) => (e.innerText || '').replace(/\s+/g, ' ').trim())), due: await tx(pg, '#buybox .s9-due'), inst: await tx(pg, '#buybox .sp-inst-due'), guar: await tx(pg, '#buybox .sp-guar') };
+              await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step3-full.png`, fullPage: true });
+              if (name === 'phone') {
+                // the real cart run: name + email, checkout → /cart/add.js + /cart/update.js, read /cart.js before the redirect, then clear
+                await pg.fill('#sp-name', 'QA Run'); await pg.fill('#sp-email', 'qa@maisoncroyez.com');
+                const addP = pg.waitForResponse((r) => /\/cart\/add\.js/.test(r.url()), { timeout: 15000 }).catch(() => null);
+                const updP = pg.waitForResponse((r) => /\/cart\/update\.js/.test(r.url()), { timeout: 15000 }).catch(() => null);
+                await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
+                const addR = await addP, updR = await updP;
+                const toast = await pg.evaluate(() => (document.querySelector('.toast') || {}).innerText || null).catch(() => null);
+                let cartJs = null; try { cartJs = await pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { n: c.item_count, total: c.total_price / 100, attributes: c.attributes, items: c.items.map((i) => ({ variant: i.variant_id, title: i.product_title + ' - ' + i.variant_title, qty: i.quantity, price: i.final_line_price / 100, properties: i.properties })) }; }); } catch (e) { cartJs = 'cart read failed: ' + e.message; }
+                let landed = null; try { await pg.waitForURL(/checkout/, { timeout: 15000 }); landed = pg.url().slice(0, 80); } catch (e) { landed = 'no redirect: ' + pg.url().slice(0, 80); }
+                await pg.screenshot({ path: `${OUT}/${stamp}-cart-landed.png` }).catch(() => {});
+                let cleared = null; try { cleared = await pg.evaluate(async () => { const c = await (await fetch('/cart/clear.js', { method: 'POST' })).json(); return c.item_count; }); } catch (e) { cleared = 'clear failed: ' + e.message; }
+                cart = { add: addR ? addR.status() : null, update: updR ? updR.status() : null, toast, cartJs, landed, clearedItemCount: cleared };
+                fs.writeFileSync(`${OUT}/cart-check-latest.txt`, JSON.stringify(cart) + '\n');
+              }
+            }
+            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, s2, s3, cart, errs, consoleErrs: consoleErrs.slice(0, 8), failedOwn: failedOwn.slice(0, 8) })}`);
+            await ctx.close();
+          }
+          await b.close();
+          fs.writeFileSync(`${OUT}/${stamp}-notes.txt`, notes.join('\n') + '\n'); console.log(notes.join('\n'));
+          EOF2
+          node run.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "page-shot-supply: $URL" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

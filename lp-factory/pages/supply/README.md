@@ -53,6 +53,19 @@ picture and the seven scent pictures (inlined in the preview; on the live page i
 supply" on steps 2 and 3); Shop Pay is confirmed on for the store, so the installment lines carry the Shop Pay logo
 (PAY_ICONS.shop from the kits app) on the cards and under DUE TODAY.
 
+## Deploy plan (2026-10-26, prepared; waiting for the Shopify connector)
+1. Product "Scent Supply" (new, separate from everything in the catalogue), 4 variants: "6-Month Supply" $209.70 (compare-at $239.70),
+   "9-Month Supply + 1 Free Diffuser" $269.55 ($449.50), "12-Month Supply + 2 Free Diffusers" $299.40 ($659.30),
+   "18-Month Supply + 3 Free Diffusers" $359.10 ($989.00); untracked inventory, ships, published to the Online Store, in no collection.
+   The order is ONE line: that variant, with line item properties "Scents: …" and "Free diffusers: N", and cart attributes
+   "Cancel subscription for", "Subscription email", "Supply". No discounts, no other products touched.
+2. Files on Shopify: mc-sp-app.js + mc-sp.css (LIVE=1 build, raw GitHub URL at the deploy commit) and img/hero-mosaic.jpg.
+3. live.json ← key sp1-<sha7>, the hero CDN URL, the four variant ids → `python3 body.py` → page-body.html → pageCreate
+   (handle "supply", same template as the kits page) with window.MC_SUPPLY in the body.
+4. `page-shot-supply.yml` (kept here until the page exists, then moved to .github/workflows/): body match, screenshots of the three
+   steps, and a real cart run (9 months, scents picked for me, name + email, checkout) that reads /cart.js and clears it.
+Email deep links: /pages/supply?months=9&t=<unix seconds of the send> (the 24-hour lock counts from t).
+
 ## Files
 - `make.py` — derives `mc-sp-app.js` + `mc-sp.css` from the live kits files (`../diffuser-kits/mc-dk-app.js|mc-dk.css`), so the
   branding, components and CSS are the kits page's. Re-run after any kits change you want carried over.

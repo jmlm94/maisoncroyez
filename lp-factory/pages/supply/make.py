@@ -38,7 +38,8 @@ svg = ("<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='800' viewBo
        "</svg>")
 poster = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
 mosaic = os.path.join(HERE, "img", "hero-mosaic.webp")
-if os.path.exists(mosaic):  # trust 5: provisional hero = a mosaic of the real diffuser picture + the seven scent pictures, until the owner's photo
+LIVE = os.environ.get("LIVE") == "1"  # LIVE=1: the store build — no inline hero (window.MC_SUPPLY.hero from the page body), smaller file
+if os.path.exists(mosaic) and not LIVE:  # trust 5: provisional hero = a mosaic of the real diffuser picture + the seven scent pictures, until the owner's photo
     poster = "data:image/webp;base64," + base64.b64encode(open(mosaic, "rb").read()).decode()
 rex(r'var MC_HERO_POSTER = "[^"]+";', 'var MC_HERO_POSTER = "' + poster + '"; /* supply: placeholder until the owner sends the picture */')
 
@@ -82,7 +83,7 @@ rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9
             <div class="sp-kicker-row"><span class="sp-kicker">Exclusively for Maison Croyez customers</span></div>
             <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
           </div>
-          <div class="s9-banner sp-hero"><img src=${MC_HERO_POSTER} alt="" width="1600" height="800" decoding="async"/></div>
+          <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
 ''')
 rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\n', '''          <${Steps} n=${1}/>
           <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
@@ -153,11 +154,7 @@ rex(r'          <div class="s9-freq-head">How frequently would you like your ref
 rex(r'          \$\{chips\}\n          <\$\{Reviews6\}/> <!-- dk9c.*?\n          </div>\n(?=          <div class="navrow back-only">)', '')
 
 # ---------- checkout: not wired until the SKUs exist ----------
-rex(r'async function addToCart\(setBusy, setToast\) \{.*?\n\}\n', '''const SUPPLY_CART = { /* TODO (owner): the supply SKUs are created after the structure is approved. Until the ids are here the page shows a toast instead of adding to the cart. */
-  variants: { m6: null, m9: null, m12: null, m18: null }, /* one "Scent Supply" variant per tier, priced $209.70 / $269.55 / $299.40 / $359.10 */
-  diffuserVariant: null,                                   /* the diffuser line(s), made free by an automatic discount per tier */
-  checkoutUrl: "/checkout",
-};
+rex(r'async function addToCart\(setBusy, setToast\) \{.*?\n\}\n', '''const SUPPLY_CART = Object.assign({ variants: { m6: null, m9: null, m12: null, m18: null }, checkoutUrl: "/checkout" }, (window.MC_SUPPLY || {})); /* the page body sets window.MC_SUPPLY = { variants: { m6, m9, m12, m18 }, hero, checkoutUrl } — the "Scent Supply" product, one variant per supply, created 2026-10-26 */
 async function addToCart(setBusy, setToast) {
   const left = selStore.left();
   if (left > 0) { setToast("Pick " + left + " more scent" + (left > 1 ? "s" : "") + " to complete your supply."); return; }
@@ -177,11 +174,10 @@ async function addToCart(setBusy, setToast) {
   }
   try {
     setBusy(true);
-    /* order shape (to confirm with the owner when the SKUs exist): the supply variant carries the price, the scents and the
-       free diffusers go in as their own lines so fulfilment sees every bottle; an automatic discount per tier zeroes them. */
-    const items = [{ id: vid, quantity: 1, properties: { "Scents": selStore.label() } }];
-    selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q }));
-    if (T.n && SUPPLY_CART.diffuserVariant) items.push({ id: SUPPLY_CART.diffuserVariant, quantity: T.n });
+    /* order shape (2026-10-26): ONE line — the "Scent Supply" variant for the picked supply (its title names the free diffusers,
+       its price is the supply total, compare-at = the bottles at $39.95 + the diffusers). The scents ride as line item properties,
+       the cancellation request as cart attributes. Nothing else from the catalogue is touched, no discounts involved. */
+    const items = [{ id: vid, quantity: 1, properties: { "Scents": selStore.label(), "Free diffusers": T.n ? String(T.n) : "none" } }];
     await cartPost("/cart/add.js", { items });
     await cartPost("/cart/update.js", { attributes: attrs }); /* the cancellation request rides on the order as attributes */
     setTimeout(() => { window.location.href = (SUPPLY_CART.checkoutUrl || "/checkout"); }, 800);

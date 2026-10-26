@@ -333,3 +333,9 @@ $0.00") — r233 updates them. Special Kits product 8245945434221 is now unused 
 - 2026-10-26 SUPPLY sp2 — checks: page-shot-supply 20261026T1640 bodyMatch true, key sp2-b377b99, 0 JS errors, all images loaded; live cart run again one line $269.55 with properties + attributes, landed on checkout, cart cleared. Artifact JYGDzu63F7bsBSYQqhqVTH v8 matches live.
 - 2026-10-26 SUPPLY sp3 — LIVE (key sp3-a5dc72e; app 132108 B @ a5dc72e via fileUpdate 46573254148205): owner changed the offer — 12 months $27.95 a bottle + 1 free diffuser ($335.40, compare-at $569.35; was $24.95 / 2 / $299.40), 18 months $24.95 a bottle + 2 free diffusers ($449.10, compare-at $899.00; was $19.95 / 3 / $359.10); 6 and 9 unchanged. Variant ids unchanged: option values renamed with productOptionUpdate ("12-Month Supply + 1 Free Diffuser", "18-Month Supply + 2 Free Diffusers"), prices with productVariantsBulkUpdate. Check run triggered at this push.
 - 2026-10-26 SUPPLY sp3 — checks: page-shot-supply 20261026T1912 bodyMatch true, key sp3-a5dc72e, 0 JS errors, all images loaded, cards show $27.95 + 1 diffuser / $24.95 + 2 diffusers; live cart run (9 months) one line $269.55, landed on checkout, cart cleared. Artifact JYGDzu63F7bsBSYQqhqVTH v9 matches live.
+
+## 2026-10-26 — supply variant pictures LIVE (product 15409132994669)
+Round-2 Higgsfield renders from the real scent photos (correct names, counts and diffusers) attached to the four variants:
+MediaImage 46576697606253 (6-Month), 46576697639021 (9 + 1 diffuser), 46576697671789 (12 + 1), 46576697704557 (18 + 2), all READY.
+Sources + the no-AI composites (`compose.py`, `supply-N-real.jpg`) in `lp-factory/pages/supply/img/variants/`. Cost per item set
+earlier today ($54 / $107 / $134 / $214). Product title is now "Maison Croyez - Scent Supply Packages" (owner rename).

@@ -99,3 +99,16 @@ Also pending: a Shopify page at /pages/supply with the kits page-body pattern (p
 the theme announcement bar text (it is global: today it says "THE DIFFUSERS ARE 100% ON US…" on every page).
 
 Preview: build with `APP=… CSS=… [STANDIN=1] node build-variant.mjs` (scratchpad pw) — artifact "MC Scent Supply".
+
+## Variant pictures (2026-10-26, owner: "create some variant images on Higgsfield… Those are not the fragrances, do it good please!")
+Round 1 (references: the kits hero + one box photo) invented scent names → rejected. Round 2 used the seven real scent product
+photos (`lp-factory/assets/cdn/products/*.png`, first image of each scent product) + the group shot + the diffuser hero as
+references (gpt_image_2_5, 1k, high), with the real names spelled out in the prompt: overhead flat lay on marble, the exact
+count of boxes + bottles, the diffuser(s) only where the offer includes them (9 → 1, 12 → 1, 18 → 2). Files:
+`img/variants/supply-{6,9,12,18}-r2.png` (1024², fetched by fetch-assets.yml; round-1 files `supply-N.png` kept for the record).
+LIVE on the product (title now "Maison Croyez - Scent Supply Packages", renamed by the owner): productUpdate(media) →
+MediaImage 46576697606253 (6) / 46576697639021 (9) / 46576697671789 (12) / 46576697704557 (18), each attached to its variant with
+productVariantsBulkUpdate(mediaId). The first media (6) is the product's featured image.
+Fallback without AI: `img/variants/compose.py` (DIFF=../../../../assets/cdn/diffuser/d25.png) composes `supply-N-real.jpg` from
+the real photos — one tile per bottle, one per free diffuser (d25 = the clean single-diffuser packshot of the Home Scent Diffuser
+product), caption band on top. Not on the store; swap with productVariantsBulkUpdate(mediaId) if preferred.

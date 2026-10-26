@@ -620,10 +620,10 @@ function Deadline({ compact }) {
   const [now, setNow] = useState(Date.now());
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
   const left = DEADLINE_AT - now;
-  if (left <= 0) return html`<div class=${"sp-deadline over" + (compact ? " compact" : "")}>Your ${DEADLINE_HOURS}-hour price window has closed.</div>`;
+  if (left <= 0) return html`<div class=${"sp-deadline over" + (compact ? " compact" : "")}><span class="sp-dl-lb">Your ${DEADLINE_HOURS}-hour price window has closed</span></div>`;
   const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), sec = Math.floor(left % 60000 / 1000);
   const pad = (n) => String(n).padStart(2, "0");
-  return html`<div class=${"sp-deadline" + (compact ? " compact" : "")} role="timer"><span class="sp-dl-ic" aria-hidden="true">\u23f1</span><span>Your price is locked for <b>${h}h ${pad(m)}m ${pad(sec)}s</b></span></div>`;
+  return html`<div class=${"sp-deadline" + (compact ? " compact" : "")} role="timer"><span class="sp-dl-lb">Your price is locked for:</span><b class="sp-dl-t">${pad(h)}:${pad(m)}:${pad(sec)}</b></div>`; /* sp4 (owner): the label in caps, the time below it as 00:00:00, on black */
 }
 const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
 /* dk7 (2026-10-13, owner): one refill option (every 30 days, $15 off) or one-time; "Where it goes" floor plans per kit: 1 = one room, 2 = two zones in one bigger room, 3 = two in the living room + one in the bedroom */
@@ -940,7 +940,7 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker-row"><span class="sp-kicker">Exclusively for Maison Croyez customers</span></div>
+            <div class="sp-kicker-row"><span class="sp-kicker">Exclusive for Maison Croyez VIP Customers</span></div>
             <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>

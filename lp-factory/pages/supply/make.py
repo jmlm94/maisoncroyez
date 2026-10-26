@@ -62,10 +62,10 @@ function Deadline({ compact }) {
   const [now, setNow] = useState(Date.now());
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
   const left = DEADLINE_AT - now;
-  if (left <= 0) return html`<div class=${"sp-deadline over" + (compact ? " compact" : "")}>Your ${DEADLINE_HOURS}-hour price window has closed.</div>`;
+  if (left <= 0) return html`<div class=${"sp-deadline over" + (compact ? " compact" : "")}><span class="sp-dl-lb">Your ${DEADLINE_HOURS}-hour price window has closed</span></div>`;
   const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), sec = Math.floor(left % 60000 / 1000);
   const pad = (n) => String(n).padStart(2, "0");
-  return html`<div class=${"sp-deadline" + (compact ? " compact" : "")} role="timer"><span class="sp-dl-ic" aria-hidden="true">\\u23f1</span><span>Your price is locked for <b>${h}h ${pad(m)}m ${pad(sec)}s</b></span></div>`;
+  return html`<div class=${"sp-deadline" + (compact ? " compact" : "")} role="timer"><span class="sp-dl-lb">Your price is locked for:</span><b class="sp-dl-t">${pad(h)}:${pad(m)}:${pad(sec)}</b></div>`; /* sp4 (owner): the label in caps, the time below it as 00:00:00, on black */
 }
 const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
 ''')
@@ -80,7 +80,7 @@ rep('  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.key
 
 # ---------- step 1: header (no rating, no badge strip), banner, progress track, supplies as rows ----------
 rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9 \(owner\): no prices on Step 1[^\n]*\n', '''          <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker-row"><span class="sp-kicker">Exclusively for Maison Croyez customers</span></div>
+            <div class="sp-kicker-row"><span class="sp-kicker">Exclusive for Maison Croyez VIP Customers</span></div>
             <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
@@ -242,10 +242,12 @@ css += '''
 #root .sp-quick{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 10px}
 #root .btn.sp-pick-btn{display:inline-flex !important;width:auto;margin:0;padding:11px 20px;font-size:.74rem !important;background:#111;color:#fff;border-radius:999px}
 #root .sp-reset{font-size:.72rem;color:#5C4F46}
-#root .sp-deadline{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 10px;padding:8px 12px;border-radius:999px;background:#FFF3D6;border:1px solid #F0DDA6;color:#5C4A1E;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:600}
-#root .sp-deadline b{font-weight:800;color:#141414;font-variant-numeric:tabular-nums}
-#root .sp-deadline.over{background:#F3EDE4;border-color:#E3DBD1;color:#5C4F46}
-#root .sp-deadline.compact{margin:10px 0 0}
+#root .sp-deadline{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;margin:0 0 12px;padding:10px 14px 11px;border-radius:12px;background:#111;color:#fff;font-family:'Outfit',sans-serif;text-align:center}
+#root .sp-deadline .sp-dl-lb{display:block;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;line-height:1.3}
+#root .sp-deadline .sp-dl-t{display:block;font-size:1.6rem;font-weight:800;letter-spacing:.08em;color:#fff;font-variant-numeric:tabular-nums;line-height:1.05}
+#root .sp-deadline.over .sp-dl-lb{color:#D9D2C8}
+#root .sp-deadline.compact{margin:10px 0 0;padding:8px 12px 9px}
+#root .sp-deadline.compact .sp-dl-t{font-size:1.3rem}
 #root .tier.t9c3 .sp-vs{font-family:'Outfit',sans-serif;font-size:.6rem;font-weight:600;color:#5C4F46;margin-top:auto;padding-top:6px;line-height:1.3}
 #root .tier.t9c3 .sp-vs s{color:#9A8B80;font-weight:700}
 #root .tier.t9c3.sp-card .t9s-total{margin-top:4px}
@@ -277,7 +279,7 @@ css += '''
   #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
   #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
   #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
-  #root .sp-deadline{font-size:.82rem}#root .tier.t9c3 .sp-vs{font-size:.66rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
+  #root .sp-deadline .sp-dl-t{font-size:1.8rem}#root .sp-deadline .sp-dl-lb{font-size:.66rem}#root .tier.t9c3 .sp-vs{font-size:.66rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
 }
 '''
 

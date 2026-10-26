@@ -605,10 +605,10 @@ const MODE_GRAD = { sub: "linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)", one:
 const TIERS = [ /* supply (2026-10-25, owner): 6 / 9 / 12 / 18-month supplies for existing customers. One payment, nothing renews; free diffusers from 9 months (1 / 2 / 3). */
   { key: "m6", months: 6, scents: 6, each: 34.95, n: 0, price: 209.70, name: "6-month supply", tag: "", pop: false },
   { key: "m9", months: 9, scents: 9, each: 29.95, n: 1, price: 269.55, name: "9-month supply", tag: "Most popular", pop: true },
-  { key: "m12", months: 12, scents: 12, each: 24.95, n: 2, price: 299.40, name: "12-month supply", tag: "", pop: false },
-  { key: "m18", months: 18, scents: 18, each: 19.95, n: 3, price: 359.10, name: "18-month supply", tag: "Best value", pop: false },
+  { key: "m12", months: 12, scents: 12, each: 27.95, n: 1, price: 335.40, name: "12-month supply", tag: "", pop: false }, /* owner 2026-10-26: $27.95 a bottle, 1 diffuser (was $24.95 / 2) */
+  { key: "m18", months: 18, scents: 18, each: 24.95, n: 2, price: 449.10, name: "18-month supply", tag: "Best value", pop: false }, /* owner 2026-10-26: $24.95 a bottle, 2 diffusers (was $19.95 / 3) */
 ];
-const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $30 / $90 / $180 / $360 */
+const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $30 / $90 / $144 / $270 */
 const SP_STEPS = ["Supply", "Scents", "Checkout"];
 const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
 const SHOP_PAY_INSTALLMENTS = true; /* logic 4 (owner to confirm the store has Shop Pay Installments on): 4 interest-free payments, $50–$999 */

@@ -55,8 +55,8 @@ const SP_STEPS = ["Supply", "Scents", "Checkout"];
 const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
 const SHOP_PAY_INSTALLMENTS = true; /* logic 4 (owner to confirm the store has Shop Pay Installments on): 4 interest-free payments, $50–$999 */
 const SHELF_LIFE_MONTHS = 0; /* trust 2: unopened shelf life in months, from the owner; 0 = the sentence is not shown */
-const DEADLINE_HOURS = 24; /* trust 3 (owner): "24 hours to complete", counted from the email link's ?t= (unix seconds) or the first visit on this device */
-const deadlineStart = () => { try { const q = new URLSearchParams(location.search).get("t"); if (q && /^\\d+$/.test(q)) return q.length > 10 ? +q : +q * 1000; const k = "mc_sp_t0"; let v = localStorage.getItem(k); if (!v) { v = String(Date.now()); localStorage.setItem(k, v); } return +v; } catch (e) { return Date.now(); } };
+const DEADLINE_HOURS = 24; /* trust 3 (owner): "24 hours to complete", counted from the first visit on this device */
+const deadlineStart = () => { try { const k = "mc_sp_t0"; let v = localStorage.getItem(k); if (!v) { v = String(Date.now()); localStorage.setItem(k, v); } return +v; } catch (e) { return Date.now(); } }; /* owner: the countdown has nothing to do with the emails — it counts from the first visit on this device */
 const DEADLINE_AT = deadlineStart() + DEADLINE_HOURS * 3600 * 1000;
 function Deadline({ compact }) {
   const [now, setNow] = useState(Date.now());

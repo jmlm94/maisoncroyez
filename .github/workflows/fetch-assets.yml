@@ -1,5 +1,5 @@
 name: fetch-assets
-# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run round2-1]
+# Downloads store CDN pictures the sandbox cannot reach (step-2 scent pictures of the kits page) into lp-factory/assets/cdn/picks, for the supply / kits previews. Edit this line and push to run. [run diffuser-1]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -60,11 +60,29 @@ jobs:
           packaging-29 29_0b4ae82e-253e-48f5-b7be-d4b4ff6ca0fc.png?v=1779491812
           LIST2
           ls -la lp-factory/assets/cdn/products
+          # clean diffuser pictures from the Home Scent Diffuser / bundles products (for the supply composites' diffuser tile)
+          mkdir -p lp-factory/assets/cdn/diffuser
+          while read -r name file; do curl -fsSL "$B/$file" -o "lp-factory/assets/cdn/diffuser/$name.png"; done <<'LIST3'
+          d92 Diseno_sin_titulo_92.png?v=1783904283
+          d1 image-1_1_1.png?v=1773273488
+          d2 image-2_1_1.png?v=1773273488
+          d3 image-3_1_1.png?v=1773273488
+          d4 image-4_1_1.png?v=1773273488
+          d5 image-5_1_1.png?v=1773273488
+          d6 image-6_1_1.png?v=1773273488
+          d7 image-7_1_1.png?v=1773273488
+          d23 23_c869164d-5fdc-4499-b988-63a77e4acd84.png?v=1779491861
+          d24 24_60499c64-0c0b-48a4-8b5b-0785ce8dfa67.png?v=1779491849
+          d25 25-min.png?v=1767910199
+          d26 26-min.png?v=1773273488
+          d27 27-min.png?v=1773273488
+          LIST3
+          ls -la lp-factory/assets/cdn/diffuser
       - name: Commit
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add lp-factory/assets/cdn/picks lp-factory/pages/supply/img/variants lp-factory/assets/cdn/products
+          git add lp-factory/assets/cdn/picks lp-factory/pages/supply/img/variants lp-factory/assets/cdn/products lp-factory/assets/cdn/diffuser
           git commit -m "assets: fetched pictures (picks, supply variant images)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

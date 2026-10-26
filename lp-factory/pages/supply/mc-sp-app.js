@@ -946,7 +946,7 @@ function BuyBox() {
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
 
           <${Steps} n=${1}/>
-          <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">One box, one payment, nothing renews. We cancel your current subscription for you.</p>
+          <div class="picker-title step-title s9-title">How many months <em>would you like to cover?</em></div><p class="s9-sub">Months are counted at one bottle a month in one diffuser. Running two or three? Your supply goes faster, but you still save on every bottle, and the free diffusers stay free.</p>
           <${Deadline}/>
           <div class="tiers t9 t9cols sp4" role="radiogroup" aria-label="Supply length"> <!-- supply (owner, round 3): the card grid, two and two on phones -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const save = TIER_SAVE_SCENTS(t); const pick = () => sel.setTier(i); return html`

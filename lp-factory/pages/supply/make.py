@@ -14,7 +14,7 @@ usage: python3 make.py            → writes mc-sp-app.js + mc-sp.css next to th
 Checkout is NOT wired yet: the owner creates the supply SKUs after the structure is approved (see SUPPLY_CART)."""
 import os, re, base64, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-KITS = os.path.join(HERE, "..", "diffuser-kits")
+KITS = os.path.join(HERE, "base")  # frozen copy of the kits files at dk9w-fc4b8e5 (2026-10-27): the kits page moves on (dk9x) without changing the supply page
 app = open(os.path.join(KITS, "mc-dk-app.js"), encoding="utf-8").read()
 css = open(os.path.join(KITS, "mc-dk.css"), encoding="utf-8").read()
 

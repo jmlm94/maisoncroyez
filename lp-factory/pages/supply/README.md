@@ -119,3 +119,8 @@ the first visit on this device. LIVE key sp4-84e4145.
 
 ## sp5 (2026-10-26, owner): countdown 20% smaller — `.sp-dl-t` 1.6 → 1.28rem (desktop 1.8 → 1.44rem, compact 1.3 → 1.04rem), block
 padding 9/10 px (compact 7/8 px). LIVE key sp5-d40eaf7 (only mc-sp.css changed).
+
+## Frozen kits base (2026-10-27)
+`make.py` now reads `base/mc-dk-app.js` + `base/mc-dk.css`, a copy of the kits files at dk9w-fc4b8e5, so the kits dk9x changes
+(new title, cart step, delivery line, icons) do not leak into the supply page. Rebuilding from the base gives byte-identical
+`mc-sp-app.js` / `mc-sp.css` (checked).

@@ -957,7 +957,7 @@ function BuyBox() {
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <p class="dk-freebar">JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!</p> <!-- dk9x (owner): smaller headline on black, above the title; wording from the artifact comment -->
-          <h1 class="h1-9e">Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN.</h1> <!-- dk9x (2026-10-27, owner) -->
+          <h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1> <!-- dk9x (2026-10-27, owner; wording from the artifact comment) -->
           <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 

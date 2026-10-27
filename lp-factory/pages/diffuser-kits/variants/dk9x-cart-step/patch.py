@@ -32,7 +32,7 @@ rep('''on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) +
 # the button of every step
 rep('''<h1 class="h1-9e">Waterless Diffuser & Organic Scents: Protect your loved ones while making your spaces look and feel great.</h1> <!-- dk9l (2026-10-21, owner) -->''',
     '''<p class="dk-freebar">JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!</p> <!-- dk9x (owner): smaller headline on black, above the title; wording from the artifact comment -->
-          <h1 class="h1-9e">Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN.</h1> <!-- dk9x (2026-10-27, owner) -->''')
+          <h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1> <!-- dk9x (2026-10-27, owner; wording from the artifact comment) -->''')
 rep('''                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
 ''', "")  # dk9x (owner): the total is explained on the next steps
 rep('''  const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };

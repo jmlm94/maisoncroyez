@@ -17,7 +17,9 @@ replaces the emojis on the trust chips (truck, shield-check, lifetime loop), the
 bed, pan, bath, door, house, ruler); the step-2 scent bar shows a swatch of the scent's box gradient instead of an emoji and an
 up arrow instead of the pointing hand; the three badges lose their emojis and get one soft gradient each (peach, sky-mint,
 lilac); the FREE pill on the card photos is black (the photo frame stays green).
-Preview: artifact TK1GvMvzMi69pP4wiLMfyN v47 (ahead of live until deploy).
+Round 6 (same day, owner's artifact comment): title "Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look
+and feel great and safe again."
+Preview: artifact TK1GvMvzMi69pP4wiLMfyN v48 (ahead of live until deploy).
 Checked locally (phone 390, small 360, desktop 1366): 0 JS errors, step 3 button + sticky = ADD TO CART, toast correct.
 
 History to keep in mind: fd13 (2026-09-25) measured 42% of add-to-carts stopping at the cart drawer, which is why the page

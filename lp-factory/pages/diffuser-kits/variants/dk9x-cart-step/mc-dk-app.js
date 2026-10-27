@@ -936,7 +936,7 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <p class="dk-freebar">THE DIFFUSERS ARE 100% FREE WHEN YOU PICK YOUR FIRST SCENTS!</p> <!-- dk9x (owner): smaller headline on black, above the title -->
+          <p class="dk-freebar">JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!</p> <!-- dk9x (owner): smaller headline on black, above the title; wording from the artifact comment -->
           <h1 class="h1-9e">Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN.</h1> <!-- dk9x (2026-10-27, owner) -->
           <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
@@ -954,11 +954,6 @@ function BuyBox() {
                 <span class="t9p2-val"><s>${usd(val)}</s> value</span>
               </div>`; })}
           </div>
-          <ul class="t9s-how"> <!-- dk9s (2026-10-25): what happens after the click, in three lines -->
-            <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
-            <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick on the last step.</li>
-            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
-          </ul>
 
           <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right; dk9d: back under the options -->
             <div class="place-grid">
@@ -1003,7 +998,7 @@ function BuyBox() {
               </div>`; })}
           </div>
           <div class="e4-bar" aria-live="polite">${lastF
-            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span> <b>${lastF.name}</b> · ${lastF.intention} · <b>${usd(SCENT_ONE)}</b></span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
+            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
             : html`<span class="e4-txt"><b class="e4-l1"><span class="e4-emoji" aria-hidden="true">☝🏻</span> Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
@@ -1030,6 +1025,11 @@ function BuyBox() {
           </div>
           <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
+          <ul class="t9s-how"> <!-- dk9x (owner): moved here from step 1 -->
+            <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
+            <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just below.</li>
+            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
+          </ul>
           <div class="s9-freq-head">How frequently would you like your refills?</div> <!-- dk9m (owner) -->
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}

@@ -31,7 +31,7 @@ rep('''on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) +
 # ---- round 2 (2026-10-27, owner): new headline + black kicker above it, no "Total today" on the cards, delivery estimate under
 # the button of every step
 rep('''<h1 class="h1-9e">Waterless Diffuser & Organic Scents: Protect your loved ones while making your spaces look and feel great.</h1> <!-- dk9l (2026-10-21, owner) -->''',
-    '''<p class="dk-freebar">THE DIFFUSERS ARE 100% FREE WHEN YOU PICK YOUR FIRST SCENTS!</p> <!-- dk9x (owner): smaller headline on black, above the title -->
+    '''<p class="dk-freebar">JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!</p> <!-- dk9x (owner): smaller headline on black, above the title; wording from the artifact comment -->
           <h1 class="h1-9e">Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN.</h1> <!-- dk9x (2026-10-27, owner) -->''')
 rep('''                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
 ''', "")  # dk9x (owner): the total is explained on the next steps
@@ -44,12 +44,28 @@ rep('''  const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.pr
     <section class=${"section pdp-buy step-" + step} id="buybox">''')
 rep("\n          ${chips}", "\n          ${eta}\n          ${chips}", 3)
 
+# ---- round 3 (2026-10-27, owner's artifact comments): no price in the step-2 scent bar; the three "Today / Next boxes / Cancel
+# anytime" lines move from step 1 to step 3, between "Due today" and the frequency question
+rep('''<b>${lastF.name}</b> · ${lastF.intention} · <b>${usd(SCENT_ONE)}</b></span>''',
+    '''<b>${lastF.name}</b> · ${lastF.intention}</span>''')
+HOW = '''          <ul class="t9s-how"> <!-- dk9s (2026-10-25): what happens after the click, in three lines -->
+            <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
+            <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick on the last step.</li>
+            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
+          </ul>
+'''
+rep(HOW, "")
+rep('''          <div class="s9-freq-head">How frequently would you like your refills?</div> <!-- dk9m (owner) -->''',
+    HOW.replace("<!-- dk9s (2026-10-25): what happens after the click, in three lines -->", "<!-- dk9x (owner): moved here from step 1 -->").replace("You pick on the last step.", "You pick just below.")
+    + '''          <div class="s9-freq-head">How frequently would you like your refills?</div> <!-- dk9m (owner) -->''')
+
 open(os.path.join(HERE, "mc-dk-app.js"), "w", encoding="utf-8").write(s)
 print("mc-dk-app.js", len(s.encode()))
 
 css = open(os.path.join(HERE, "..", "..", "mc-dk.css"), encoding="utf-8").read()
 css += """
 /* dk9x (2026-10-27, owner): black kicker above the title, delivery estimate under each step's button */
+#root #buybox.step-3 .t9s-how{margin:12px 0 14px}
 #root #buybox .buybox .dk-freebar{display:block;margin:12px 0 0;padding:8px 12px;border-radius:10px;background:#111;color:#fff !important;font-family:'Outfit',sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.08em;line-height:1.35;text-align:center;text-transform:uppercase}
 #root .buybox .dk-eta{margin:9px 0 0;text-align:center;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:500;color:#3A322D;line-height:1.3}
 #root .buybox .dk-eta b{font-weight:800;color:#141414}

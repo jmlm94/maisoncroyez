@@ -7,7 +7,10 @@ STAGED, NOT LIVE. Built on the live dk9w app (key dk9w-fc4b8e5). `patch.py` writ
 Round 2 (same day, owner): title "Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN." with a black
 kicker above it, "THE DIFFUSERS ARE 100% FREE WHEN YOU PICK YOUR FIRST SCENTS!" (`.dk-freebar`); no "Total today" on the three
 step-1 cards; "🚚 Estimated delivery: 3–5 business days" (`.dk-eta`) under the button of steps 1, 2 and 3.
-Preview: artifact TK1GvMvzMi69pP4wiLMfyN v44 (ahead of live until deploy).
+Round 3 (same day, owner's artifact comments): kicker reads "JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!"; no price in the
+step-2 scent bar ("Name · Intention" only); the three "Today / Next boxes / Cancel anytime" lines moved from step 1 to step 3,
+between "Due today" and the frequency question ("You pick on the last step." → "You pick just below.").
+Preview: artifact TK1GvMvzMi69pP4wiLMfyN v45 (ahead of live until deploy).
 Checked locally (phone 390, small 360, desktop 1366): 0 JS errors, step 3 button + sticky = ADD TO CART, toast correct.
 
 History to keep in mind: fd13 (2026-09-25) measured 42% of add-to-carts stopping at the cart drawer, which is why the page

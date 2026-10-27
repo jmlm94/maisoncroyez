@@ -927,6 +927,7 @@ function BuyBox() {
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
           </div>`;
+  const eta = html`<p class="dk-eta"><span class="dk-eta-ic" aria-hidden="true">🚚</span>Estimated delivery: <b>3–5 business days</b></p>`; /* dk9x (owner): under the button of every step */
   const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
   return html`
     <section class=${"section pdp-buy step-" + step} id="buybox">
@@ -935,7 +936,8 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <h1 class="h1-9e">Waterless Diffuser & Organic Scents: Protect your loved ones while making your spaces look and feel great.</h1> <!-- dk9l (2026-10-21, owner) -->
+          <p class="dk-freebar">THE DIFFUSERS ARE 100% FREE WHEN YOU PICK YOUR FIRST SCENTS!</p> <!-- dk9x (owner): smaller headline on black, above the title -->
+          <h1 class="h1-9e">Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN.</h1> <!-- dk9x (2026-10-27, owner) -->
           <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
@@ -950,7 +952,6 @@ function BuyBox() {
                 <span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
                 <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
                 <span class="t9p2-val"><s>${usd(val)}</s> value</span>
-                <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b></span>
               </div>`; })}
           </div>
           <ul class="t9s-how"> <!-- dk9s (2026-10-25): what happens after the click, in three lines -->
@@ -971,6 +972,7 @@ function BuyBox() {
           </div>
 
           <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your scents ➔</span></button> <!-- dk9l (owner): fixed label -->
+          ${eta}
           ${chips}
 
           <${Reviews6}/>
@@ -1007,6 +1009,7 @@ function BuyBox() {
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => { syncKitCart().catch(() => {}); go(3); }}><span>Review my kit ➔</span></button>`} <!-- dk9m: the kit goes into the cart here (AddToCart fires now) -->
           </div>
+          ${eta}
           ${chips}
           <//>` : html`<${Fragment} key="step3">
           <div class="s9-banner"><img src=${(typeof MC_STEP3_IMG !== "undefined") ? MC_STEP3_IMG : ""} alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"/></div> <!-- dk9i (owner): the 16:9 picture, shown 2:1 (centre crop) so Add to cart stays in the first screen -->
@@ -1035,6 +1038,7 @@ function BuyBox() {
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : "ADD TO CART ➔"}</span> <!-- dk9x (owner): the cart step is back -->
           </button>
+          ${eta}
           ${chips}
           <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
           <div class="acc faq">

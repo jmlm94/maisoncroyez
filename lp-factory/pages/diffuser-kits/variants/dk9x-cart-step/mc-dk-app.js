@@ -858,10 +858,30 @@ const USP3 = [
   { ic: "💧", tx: "No more leaks, mold\nor maintenance." },
 ];
 /* dk9c (2026-10-20, owner): the health / emotion angles — above the fold on every step */
+/* dk9x (2026-10-27, owner): "signature branded icons instead of emojis" — one line-icon set, ink strokes + a gold accent */
+const MCI_A = 'stroke="#A3874A"';
+const mci = (body) => '<svg viewBox="0 0 24 24" fill="none" stroke="#241C18" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
+const MCI = {
+  truck: mci('<path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 9.5h4.2l2.8 3.2v3.8h-7"/><circle cx="6.5" cy="17.2" r="1.8" fill="#fff" ' + MCI_A + '/><circle cx="17" cy="17.2" r="1.8" fill="#fff" ' + MCI_A + '/>'),
+  shield: mci('<path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="M8.6 12.2l2.4 2.4 4.4-4.6" ' + MCI_A + '/>'),
+  lifetime: mci('<circle cx="12" cy="12" r="9.5"/><path d="M12 12c-1.2-1.6-2.1-2.8-3.6-2.8a2.8 2.8 0 0 0 0 5.6c1.5 0 2.4-1.2 3.6-2.8s2.1-2.8 3.6-2.8a2.8 2.8 0 0 1 0 5.6c-1.5 0-2.4-1.2-3.6-2.8z" ' + MCI_A + '/>'),
+  sofa: mci('<path d="M4.5 11V8.5A2.5 2.5 0 0 1 7 6h10a2.5 2.5 0 0 1 2.5 2.5V11"/><path d="M3 11.5a1.5 1.5 0 0 1 3 0V14h12v-2.5a1.5 1.5 0 0 1 3 0V17H3z"/><path d="M5 17v2M19 17v2" ' + MCI_A + '/>'),
+  bed: mci('<path d="M3 18.5V6"/><path d="M3 14h18v4.5"/><path d="M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11v5"/><circle cx="7" cy="11.2" r="1.8" ' + MCI_A + '/>'),
+  pan: mci('<circle cx="10" cy="14" r="6"/><path d="M16 14h5.5"/><path d="M8 6.2c0-1 .8-1.2.8-2.2M11.6 6.2c0-1 .8-1.2.8-2.2" ' + MCI_A + '/>'),
+  bath: mci('<path d="M3 12h18v2.5a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 14.5z"/><path d="M6 12V6a2 2 0 0 1 3.6-1.2"/><path d="M7 19l-1 2M17 19l1 2" ' + MCI_A + '/>'),
+  door: mci('<path d="M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21"/><path d="M4 21h16"/><circle cx="15" cy="12.5" r="1" ' + MCI_A + '/>'),
+  house: mci('<path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5" ' + MCI_A + '/>'),
+  ruler: mci('<rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6.5 8v3M10 8v4.5M13.5 8v3M17 8v4.5" ' + MCI_A + '/>'),
+  up: mci('<path d="M12 19V5M6.5 10.5L12 5l5.5 5.5"/>'),
+};
+const ROOM_IC = { "Studio": MCI.sofa, "Living Room": MCI.sofa, "Bedroom": MCI.bed, "Kitchen": MCI.pan, "Bathroom": MCI.bath, "Entry": MCI.door, "1+ Rooms": MCI.house, "Large Spaces": MCI.ruler };
+/* the step-2 scent bar: a swatch of the scent's own box gradient instead of an emoji */
+const SCENT_SWATCH = { love: "linear-gradient(160deg,#F26A3D,#F7C948)", abundance: "linear-gradient(160deg,#F5E04E,#8EC9F0)", focus: "linear-gradient(160deg,#E9A6D0,#D7B5E8)", ideas: "linear-gradient(160deg,#9ED9D3,#EE4F8E)", energy: "linear-gradient(160deg,#E9BFDB,#F3895F)", purify: "linear-gradient(160deg,#F2E15A,#D873B4)", midnight: "linear-gradient(160deg,#A9D8EE,#E7A6D2)" };
+const ic = (k, cls) => html`<span class=${"mc-ic " + (cls || "")} aria-hidden="true" dangerouslySetInnerHTML=${{ __html: MCI[k] }}></span>`;
 const HEALTH3 = [ /* dk9d (owner's words, all caps) */
-  { ic: "\ud83e\udec1", short: "NO SMOKE, NO HARM." }, /* dk9x (owner): shorter */
-  { ic: "\ud83d\udca7", short: "NO WATER, NO MOLD." },
-  { ic: "\ud83e\uddd8", short: "REDUCE STRESS & ANXIETY." },
+  { short: "NO SMOKE, NO HARM." }, /* dk9x (owner): shorter, no emojis, a soft gradient on each (CSS nth-child) */
+  { short: "NO WATER, NO MOLD." },
+  { short: "REDUCE STRESS & ANXIETY." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -923,11 +943,11 @@ function BuyBox() {
   const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "short", day: "numeric" }); /* dk9f: computed at view time, so always current */
   const chips = html`
           <div class="atc-chips">
-            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🚚</span><span><b>Free Shipping</b><small>On Every Order</small></span></span>
-            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🛡️</span><span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
-            <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
+            <span class="atc-chip">${ic("truck", "atc-chip-ic")}<span><b>Free Shipping</b><small>On Every Order</small></span></span>
+            <span class="atc-chip">${ic("shield", "atc-chip-ic")}<span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
+            <span class="atc-chip">${ic("lifetime", "atc-chip-ic")}<span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
           </div>`;
-  const eta = html`<p class="dk-eta"><span class="dk-eta-ic" aria-hidden="true">🚚</span>Estimated delivery: <b>3–5 business days</b></p>`; /* dk9x (owner): under the button of every step */
+  const eta = html`<p class="dk-eta">${ic("truck", "dk-eta-ic")}Estimated delivery: <b>3–5 business days</b></p>`; /* dk9x (owner): under the button of every step */
   const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
   return html`
     <section class=${"section pdp-buy step-" + step} id="buybox">
@@ -938,7 +958,7 @@ function BuyBox() {
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
           <p class="dk-freebar">JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!</p> <!-- dk9x (owner): smaller headline on black, above the title; wording from the artifact comment -->
           <h1 class="h1-9e">Maison Croyez Diffuser & Scents: Make your spaces look, feel and smell great AGAIN.</h1> <!-- dk9x (2026-10-27, owner) -->
-          <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}><span class="hs-ic" aria-hidden="true">${h.ic}</span>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
+          <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
           <div class="step-eyebrow">Step 1 of 3</div>
@@ -960,7 +980,7 @@ function BuyBox() {
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
               <div class="place-side">
                 <div class="place-head">Where it goes:</div>
-                <div class="place-rooms">${T.rooms.map((r) => html`<span key=${r} class="place-room">${r}</span>`)}</div>
+                <div class="place-rooms">${T.rooms.map((r) => { const l = r.replace(/^[^A-Za-z0-9]+/, ""); return html`<span key=${r} class="place-room"><span class="mc-ic pr-ic" aria-hidden="true" dangerouslySetInnerHTML=${{ __html: ROOM_IC[l] || "" }}></span>${l}</span>`; })}</div>
                 <p class="place-cap" dangerouslySetInnerHTML=${{ __html: T.where }}></p>
               </div>
             </div>
@@ -998,8 +1018,8 @@ function BuyBox() {
               </div>`; })}
           </div>
           <div class="e4-bar" aria-live="polite">${lastF
-            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-emoji" aria-hidden="true">${SCENT_EMOJI[lastF.key] || "🌿"}</span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
-            : html`<span class="e4-txt"><b class="e4-l1"><span class="e4-emoji" aria-hidden="true">☝🏻</span> Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
+            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style=${{ background: SCENT_SWATCH[lastF.key] || "#E6E3DE" }}></span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
+            : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
             ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => { syncKitCart().catch(() => {}); go(3); }}><span>Review my kit ➔</span></button>`} <!-- dk9m: the kit goes into the cart here (AddToCart fires now) -->

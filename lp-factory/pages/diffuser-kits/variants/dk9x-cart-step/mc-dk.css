@@ -1735,6 +1735,20 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 
 /* dk9x (2026-10-27, owner): black kicker above the title, delivery estimate under each step's button */
 #root #buybox.step-3 .t9s-how{margin:12px 0 14px}
+#root .mc-ic{display:inline-flex;align-items:center;justify-content:center;flex:none}
+#root .mc-ic svg{width:100%;height:100%;display:block}
+#root .atc-chip .mc-ic.atc-chip-ic{width:26px;height:26px;font-size:0;margin:0 auto 4px}
+#root #buybox.step-1 .atc-chip .mc-ic.atc-chip-ic{width:26px;height:26px;font-size:0}
+#root .buybox .dk-eta .mc-ic.dk-eta-ic{width:18px;height:18px;vertical-align:-4px;margin-right:6px;display:inline-flex}
+#root .place-room{display:inline-flex !important;align-items:center;gap:5px}
+#root .place-room .mc-ic.pr-ic{width:15px;height:15px}
+#root .e4-bar .e4-sw{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:7px;vertical-align:-1px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+#root .e4-bar .mc-ic.e4-arrow{width:17px;height:17px;vertical-align:-3px;margin-right:4px;display:inline-flex}
+#root .hs3 .hs:nth-child(1){background:linear-gradient(135deg,#FDEBDD,#F8DCE6) !important}
+#root .hs3 .hs:nth-child(2){background:linear-gradient(135deg,#E0F0FA,#E2F4EA) !important}
+#root .hs3 .hs:nth-child(3){background:linear-gradient(135deg,#EEE5F8,#F9E3EF) !important}
+#root #buybox.step-1 .hs3 .hs{padding:9px 4px !important}
+#root .tier.t9c3 .t9f-pill{background:#111 !important}
 #root .s9-due .s9-due-each{display:block;margin-top:2px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:#5C4F46;letter-spacing:.01em}
 #root #buybox .buybox .dk-freebar{display:block;margin:12px 0 0;padding:8px 12px;border-radius:10px;background:#111;color:#fff !important;font-family:'Outfit',sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.08em;line-height:1.35;text-align:center;text-transform:uppercase}
 #root .buybox .dk-eta{margin:9px 0 0;text-align:center;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:500;color:#3A322D;line-height:1.3}

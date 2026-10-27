@@ -12,7 +12,12 @@ step-2 scent bar ("Name · Intention" only); the three "Today / Next boxes / Can
 between "Due today" and the frequency question ("You pick on the last step." → "You pick just below.").
 Round 4 (same day, owner's artifact comments): badges read "NO SMOKE, NO HARM." / "NO WATER, NO MOLD." / "REDUCE STRESS &
 ANXIETY."; "$39.95/scent" under the big due-today number on step 3 (`.s9-due-each`).
-Preview: artifact TK1GvMvzMi69pP4wiLMfyN v46 (ahead of live until deploy).
+Round 5 (same day, owner's artifact comments): one signature line-icon set (ink strokes, gold #A3874A accent; `MCI` in the app)
+replaces the emojis on the trust chips (truck, shield-check, lifetime loop), the delivery line (truck) and the room tags (sofa,
+bed, pan, bath, door, house, ruler); the step-2 scent bar shows a swatch of the scent's box gradient instead of an emoji and an
+up arrow instead of the pointing hand; the three badges lose their emojis and get one soft gradient each (peach, sky-mint,
+lilac); the FREE pill on the card photos is black (the photo frame stays green).
+Preview: artifact TK1GvMvzMi69pP4wiLMfyN v47 (ahead of live until deploy).
 Checked locally (phone 390, small 360, desktop 1366): 0 JS errors, step 3 button + sticky = ADD TO CART, toast correct.
 
 History to keep in mind: fd13 (2026-09-25) measured 42% of add-to-carts stopping at the cart drawer, which is why the page

@@ -859,9 +859,9 @@ const USP3 = [
 ];
 /* dk9c (2026-10-20, owner): the health / emotion angles — above the fold on every step */
 const HEALTH3 = [ /* dk9d (owner's words, all caps) */
-  { ic: "\ud83e\udec1", short: "NO SMOKE, NO AEROSOL, NO HARM." },
-  { ic: "\ud83d\udca7", short: "NO WATER, NO MOLD, YOUR FAMILY SAFE." },
-  { ic: "\ud83e\uddd8", short: "REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY." },
+  { ic: "\ud83e\udec1", short: "NO SMOKE, NO HARM." }, /* dk9x (owner): shorter */
+  { ic: "\ud83d\udca7", short: "NO WATER, NO MOLD." },
+  { ic: "\ud83e\uddd8", short: "REDUCE STRESS & ANXIETY." },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -1024,7 +1024,7 @@ function BuyBox() {
             </div>
           </div>
           <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
-          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
+          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span><span class="s9-due-each">${usd(SCENT_ONE)}/scent</span></div> <!-- dk9i (owner): the value line + big due-today block -->
           <ul class="t9s-how"> <!-- dk9x (owner): moved here from step 1 -->
             <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
             <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just below.</li>

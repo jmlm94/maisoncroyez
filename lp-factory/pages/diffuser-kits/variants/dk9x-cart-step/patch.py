@@ -59,6 +59,16 @@ rep('''          <div class="s9-freq-head">How frequently would you like your re
     HOW.replace("<!-- dk9s (2026-10-25): what happens after the click, in three lines -->", "<!-- dk9x (owner): moved here from step 1 -->").replace("You pick on the last step.", "You pick just below.")
     + '''          <div class="s9-freq-head">How frequently would you like your refills?</div> <!-- dk9m (owner) -->''')
 
+# ---- round 4 (2026-10-27, owner's artifact comments): shorter badges; "$39.95/scent" under the due-today number on step 3
+rep('''  { ic: "\\ud83e\\udec1", short: "NO SMOKE, NO AEROSOL, NO HARM." },
+  { ic: "\\ud83d\\udca7", short: "NO WATER, NO MOLD, YOUR FAMILY SAFE." },
+  { ic: "\\ud83e\\uddd8", short: "REDUCE STRESS, ANXIETY AND HIGH BRAIN ACTIVITY." },''',
+    '''  { ic: "\\ud83e\\udec1", short: "NO SMOKE, NO HARM." }, /* dk9x (owner): shorter */
+  { ic: "\\ud83d\\udca7", short: "NO WATER, NO MOLD." },
+  { ic: "\\ud83e\\uddd8", short: "REDUCE STRESS & ANXIETY." },''')
+rep('''<span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span></div>''',
+    '''<span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span><span class="s9-due-each">${usd(SCENT_ONE)}/scent</span></div>''')  # dk9x (owner)
+
 open(os.path.join(HERE, "mc-dk-app.js"), "w", encoding="utf-8").write(s)
 print("mc-dk-app.js", len(s.encode()))
 
@@ -66,6 +76,7 @@ css = open(os.path.join(HERE, "..", "..", "mc-dk.css"), encoding="utf-8").read()
 css += """
 /* dk9x (2026-10-27, owner): black kicker above the title, delivery estimate under each step's button */
 #root #buybox.step-3 .t9s-how{margin:12px 0 14px}
+#root .s9-due .s9-due-each{display:block;margin-top:2px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:#5C4F46;letter-spacing:.01em}
 #root #buybox .buybox .dk-freebar{display:block;margin:12px 0 0;padding:8px 12px;border-radius:10px;background:#111;color:#fff !important;font-family:'Outfit',sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.08em;line-height:1.35;text-align:center;text-transform:uppercase}
 #root .buybox .dk-eta{margin:9px 0 0;text-align:center;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:500;color:#3A322D;line-height:1.3}
 #root .buybox .dk-eta b{font-weight:800;color:#141414}

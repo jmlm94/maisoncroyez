@@ -1,366 +1,52 @@
 [
  {
   "name": "webkit-empty",
-  "errs": [
-   "null is not an object (evaluating 'u.__k')"
-  ],
-  "console": [
-   "Failed to load resource: the server responded with a status of 403 (Forbidden)"
-  ],
-  "failed": [
-   "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
-  ],
-  "app": [
-   {
-    "t": 551,
-    "status": 200,
-    "url": "mc-lp-diffuser-assets.js?v=dk10-4c93b85"
-   },
-   {
-    "t": 553,
-    "status": 200,
-    "url": "mc-lp-vendor.js?v=dk10-4c93b85"
-   },
-   {
-    "t": 565,
-    "status": 200,
-    "url": "mc-dk-app.js?v=dk10-4c93b85"
-   }
-  ],
-  "mountAt": null,
-  "s1": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
-   "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
-   ],
-   "errs": null
-  },
-  "s2": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
-   "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
-   ],
-   "errs": null
-  },
-  "geo2": {
-   "vw": 390,
-   "prehero": {
-    "x": 0,
-    "y": 129,
-    "w": 390,
-    "h": 594,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "12px 0px 0px -20px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "start",
-    "disp": "block"
-   },
-   "preImg": {
-    "x": 20,
-    "y": 129,
-    "w": 351,
-    "h": 351,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "6px 19.5px 0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgba(0, 0, 0, 0)",
-    "bg": "rgb(255, 255, 255)",
-    "br": "16px",
-    "ta": "start",
-    "disp": "block"
-   },
-   "preTxt": {
-    "x": 20,
-    "y": 502,
-    "w": 350,
-    "h": 221,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "0px 20px",
-    "p": "0px 0px 28px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "center",
-    "disp": "block"
-   },
-   "preRetry": {
-    "x": 0,
-    "y": 0,
-    "w": 0,
-    "h": 0,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "20px 0px 0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "center",
-    "disp": "none"
-   },
-   "hero": null,
-   "rating": null,
-   "stars": null,
-   "ratingB": null,
-   "kicker": null,
-   "h1": null,
-   "badges": null,
-   "badge0": null,
-   "buybox": null,
-   "main": {
-    "x": 0,
-    "y": 117,
-    "w": 390,
-    "h": 2178,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "start",
-    "disp": "block"
-   }
-  },
-  "s3": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
-   "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
-   ],
-   "errs": null
-  },
-  "s5": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
-   "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
-   ],
-   "errs": null
-  },
-  "s9": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
-   "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
-   ],
-   "errs": null
-  },
-  "s18": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
-   "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
-   ],
-   "errs": null
-  },
-  "geo18": {
-   "vw": 390,
-   "prehero": {
-    "x": 0,
-    "y": 129,
-    "w": 390,
-    "h": 594,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "12px 0px 0px -20px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "start",
-    "disp": "block"
-   },
-   "preImg": {
-    "x": 20,
-    "y": 129,
-    "w": 351,
-    "h": 351,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "6px 19.5px 0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgba(0, 0, 0, 0)",
-    "bg": "rgb(255, 255, 255)",
-    "br": "16px",
-    "ta": "start",
-    "disp": "block"
-   },
-   "preTxt": {
-    "x": 20,
-    "y": 502,
-    "w": 350,
-    "h": 221,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "0px 20px",
-    "p": "0px 0px 28px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "center",
-    "disp": "block"
-   },
-   "preRetry": {
-    "x": 0,
-    "y": 0,
-    "w": 0,
-    "h": 0,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "20px 0px 0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "center",
-    "disp": "none"
-   },
-   "hero": null,
-   "rating": null,
-   "stars": null,
-   "ratingB": null,
-   "kicker": null,
-   "h1": null,
-   "badges": null,
-   "badge0": null,
-   "buybox": null,
-   "main": {
-    "x": 0,
-    "y": 117,
-    "w": 390,
-    "h": 2178,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgb(36, 28, 24)",
-    "bg": "rgba(0, 0, 0, 0)",
-    "br": "0px",
-    "ta": "start",
-    "disp": "block"
-   }
-  },
-  "retryUi": {
-   "shown": "none",
-   "err": null,
-   "sub": false,
-   "badges": []
-  }
- },
- {
-  "name": "webkit-cart4",
   "errs": [],
   "console": [
-   "Failed to load resource: the server responded with a status of 403 (Forbidden)",
-   "Beacon API cannot load https://www.facebook.com/tr/. Reached maximum amount of queued data of 64Kb for keepalive requests",
    "Failed to load resource: the server responded with a status of 403 (Forbidden)"
   ],
   "failed": [
-   "https://maisoncroyez.com/api/collect Aborted: 204 No Content",
-   "https://maisoncroyez.com/pages/diffuser-kits Frame load interrupted",
    "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
   ],
   "app": [
    {
-    "t": 2227,
+    "t": 705,
     "status": 200,
-    "url": "mc-lp-diffuser-assets.js?v=dk10-4c93b85"
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
    },
    {
-    "t": 2236,
+    "t": 706,
     "status": 200,
-    "url": "mc-lp-vendor.js?v=dk10-4c93b85"
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
    },
    {
-    "t": 2236,
+    "t": 708,
     "status": 200,
-    "url": "mc-dk-app.js?v=dk10-4c93b85"
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
    }
   ],
   "mountAt": 1,
-  "prefillAdd": {
-   "status": 200,
-   "n": 4
-  },
   "s1": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s2": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "geo2": {
    "vw": 390,
@@ -605,44 +291,636 @@
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s5": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s9": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s18": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
+  },
+  "geo18": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 12988,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "retryUi": {
+   "shown": "none",
+   "err": null,
+   "sub": false,
+   "badges": [
+    "NO SMOKE, NO HARM",
+    "NO WATER, NO MOLD",
+    "REDUCE STRESS & ANXIETY"
+   ]
+  }
+ },
+ {
+  "name": "webkit-cart4",
+  "errs": [],
+  "console": [
+   "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+   "Beacon API cannot load https://www.facebook.com/tr/. Reached maximum amount of queued data of 64Kb for keepalive requests",
+   "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+  ],
+  "failed": [
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content",
+   "https://maisoncroyez.com/pages/diffuser-kits Frame load interrupted",
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
+  ],
+  "app": [
+   {
+    "t": 2320,
+    "status": 200,
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 2325,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 2363,
+    "status": 200,
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   }
+  ],
+  "mountAt": 1,
+  "prefillAdd": {
+   "status": 200,
+   "n": 4
+  },
+  "s1": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s2": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "geo2": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 4221,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "s3": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s5": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s9": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s18": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "geo18": {
    "vw": 390,
@@ -906,87 +1184,76 @@
   ],
   "app": [
    {
-    "t": 304,
+    "t": 320,
     "status": 200,
-    "url": "mc-lp-vendor.js?v=dk10-4c93b85"
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
    },
    {
-    "t": 314,
+    "t": 324,
     "status": 200,
-    "url": "mc-lp-diffuser-assets.js?v=dk10-4c93b85"
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 8449,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    }
   ],
-  "mountAt": null,
+  "mountAt": 2,
   "s1": {
    "rootKids": 0,
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s2": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": []
   },
   "geo2": {
    "vw": 390,
    "prehero": {
     "x": 0,
-    "y": 129,
-    "w": 390,
-    "h": 594,
+    "y": 0,
+    "w": 0,
+    "h": 0,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
     "fw": "400",
-    "m": "12px 0px 0px -20px",
+    "m": "12px 0px 0px calc(50% - 195px)",
     "p": "0px",
     "ls": "-0.16px",
     "color": "rgb(36, 28, 24)",
     "bg": "rgba(0, 0, 0, 0)",
     "br": "0px",
     "ta": "start",
-    "disp": "block"
+    "disp": "none"
    },
-   "preImg": {
-    "x": 20,
-    "y": 129,
-    "w": 351,
-    "h": 351,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "6px 19.5px 0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgba(0, 0, 0, 0)",
-    "bg": "rgb(255, 255, 255)",
-    "br": "16px",
-    "ta": "start",
-    "disp": "block"
-   },
+   "preImg": null,
    "preTxt": {
-    "x": 20,
-    "y": 502,
-    "w": 350,
-    "h": 221,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
     "fw": "400",
-    "m": "0px 20px",
+    "m": "0px auto",
     "p": "0px 0px 28px",
     "ls": "-0.16px",
     "color": "rgb(36, 28, 24)",
@@ -1013,20 +1280,173 @@
     "ta": "center",
     "disp": "none"
    },
-   "hero": null,
-   "rating": null,
-   "stars": null,
-   "ratingB": null,
-   "kicker": null,
-   "h1": null,
-   "badges": null,
-   "badge0": null,
-   "buybox": null,
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
    "main": {
     "x": 0,
     "y": 117,
     "w": 390,
-    "h": 2178,
+    "h": 4221,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
@@ -1042,97 +1462,92 @@
    }
   },
   "s3": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "s5": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "s9": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "s18": {
-   "rootKids": 0,
-   "prehero": "block",
-   "h1": null,
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "geo18": {
    "vw": 390,
    "prehero": {
     "x": 0,
-    "y": 129,
-    "w": 390,
-    "h": 594,
+    "y": 0,
+    "w": 0,
+    "h": 0,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
     "fw": "400",
-    "m": "12px 0px 0px -20px",
+    "m": "12px 0px 0px calc(50% - 195px)",
     "p": "0px",
     "ls": "-0.16px",
     "color": "rgb(36, 28, 24)",
     "bg": "rgba(0, 0, 0, 0)",
     "br": "0px",
     "ta": "start",
-    "disp": "block"
+    "disp": "none"
    },
-   "preImg": {
-    "x": 20,
-    "y": 129,
-    "w": 351,
-    "h": 351,
-    "fs": "16px",
-    "lh": "25.6px",
-    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
-    "fw": "400",
-    "m": "6px 19.5px 0px",
-    "p": "0px",
-    "ls": "-0.16px",
-    "color": "rgba(0, 0, 0, 0)",
-    "bg": "rgb(255, 255, 255)",
-    "br": "16px",
-    "ta": "start",
-    "disp": "block"
-   },
+   "preImg": null,
    "preTxt": {
-    "x": 20,
-    "y": 502,
-    "w": 350,
-    "h": 221,
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
     "fw": "400",
-    "m": "0px 20px",
+    "m": "0px auto",
     "p": "0px 0px 28px",
     "ls": "-0.16px",
     "color": "rgb(36, 28, 24)",
@@ -1159,20 +1574,173 @@
     "ta": "center",
     "disp": "none"
    },
-   "hero": null,
-   "rating": null,
-   "stars": null,
-   "ratingB": null,
-   "kicker": null,
-   "h1": null,
-   "badges": null,
-   "badge0": null,
-   "buybox": null,
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
    "main": {
     "x": 0,
     "y": 117,
     "w": 390,
-    "h": 2178,
+    "h": 12988,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
@@ -1191,7 +1759,11 @@
    "shown": "none",
    "err": null,
    "sub": false,
-   "badges": []
+   "badges": [
+    "NO SMOKE, NO HARM",
+    "NO WATER, NO MOLD",
+    "REDUCE STRESS & ANXIETY"
+   ]
   }
  },
  {
@@ -1199,10 +1771,11 @@
   "errs": [],
   "console": [],
   "failed": [
-   "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
    "https://maisoncroyez.com/api/collect net::ERR_ABORTED",
    "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
    "https://maisoncroyez.com/shopify_pay/accelerated_checkout net::ERR_ABORTED",
+   "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
+   "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
    "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
    "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
    "https://maisoncroyez.com/.well-known/shopify/monorail/unstable/produce_batch net::ERR_ABORTED",
@@ -1212,19 +1785,19 @@
   ],
   "app": [
    {
-    "t": 713,
+    "t": 770,
     "status": 200,
-    "url": "mc-lp-vendor.js?v=dk10-4c93b85"
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
    },
    {
-    "t": 908,
+    "t": 1061,
     "status": 200,
-    "url": "mc-lp-diffuser-assets.js?v=dk10-4c93b85"
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
    },
    {
-    "t": 1221,
+    "t": 1069,
     "status": 200,
-    "url": "mc-dk-app.js?v=dk10-4c93b85"
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
    }
   ],
   "mountAt": 2,
@@ -1232,7 +1805,11 @@
    "rootKids": -1,
    "prehero": "block",
    "h1": null,
-   "scripts": [],
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
    "errs": null
   },
   "s2": {
@@ -1240,11 +1817,11 @@
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "geo2": {
    "vw": 412,
@@ -1489,44 +2066,46 @@
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s5": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s9": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s18": {
    "rootKids": 3,
    "prehero": "none",
    "h1": "Maison Croyez Home Diffuser & ",
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "geo18": {
    "vw": 412,
@@ -1784,19 +2363,20 @@
    "Failed to load resource: the server responded with a status of 403 (Forbidden)"
   ],
   "failed": [
-   "tps://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-app.js?v=dk10-4c93b85 Blocked by Web Inspector",
-   "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
+   "ps://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-app.js?v=dk10b-2cb82e9 Blocked by Web Inspector",
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content",
+   "/cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-dk-app.js?v=dk10b-2cb82e9&r=1 Blocked by Web Inspector"
   ],
   "app": [
    {
-    "t": 410,
+    "t": 307,
     "status": 200,
-    "url": "mc-lp-vendor.js?v=dk10-4c93b85"
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
    },
    {
-    "t": 418,
+    "t": 308,
     "status": 200,
-    "url": "mc-lp-diffuser-assets.js?v=dk10-4c93b85"
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
    }
   ],
   "mountAt": null,
@@ -1805,22 +2385,22 @@
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s2": {
    "rootKids": 0,
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "geo2": {
    "vw": 390,
@@ -1929,44 +2509,51 @@
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s5": {
    "rootKids": 0,
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
    ],
-   "errs": null
+   "errs": []
   },
   "s9": {
    "rootKids": 0,
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": [
+    "load failed @mc-dk-app.js?v=dk10b-2cb82e9&r=1:"
+   ]
   },
   "s18": {
    "rootKids": 0,
    "prehero": "block",
    "h1": null,
    "scripts": [
-    "mc-lp-vendor.js?v=dk10-4c93b85",
-    "mc-lp-diffuser-assets.js?v=dk10-4c93b85",
-    "mc-dk-app.js?v=dk10-4c93b85"
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9&r=1"
    ],
-   "errs": null
+   "errs": [
+    "load failed @mc-dk-app.js?v=dk10b-2cb82e9&r=1:",
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
   },
   "geo18": {
    "vw": 390,
@@ -1974,7 +2561,7 @@
     "x": 0,
     "y": 129,
     "w": 390,
-    "h": 594,
+    "h": 681,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
@@ -2010,12 +2597,171 @@
     "x": 20,
     "y": 502,
     "w": 350,
-    "h": 221,
+    "h": 308,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
     "fw": "400",
     "m": "0px 20px",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 20,
+    "y": 715,
+    "w": 350,
+    "h": 67,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "hero": null,
+   "rating": null,
+   "stars": null,
+   "ratingB": null,
+   "kicker": null,
+   "h1": null,
+   "badges": null,
+   "badge0": null,
+   "buybox": null,
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 2265,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "retryUi": {
+   "shown": "block",
+   "err": "load failed @mc-dk-app.js?v=dk10b-2cb82e9&r=1:",
+   "sub": false,
+   "badges": []
+  }
+ },
+ {
+  "name": "webkit-repeat",
+  "errs": [],
+  "console": [
+   "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+  ],
+  "failed": [
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content",
+   "https://maisoncroyez.com/pages/diffuser-kits Frame load interrupted",
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
+  ],
+  "app": [
+   {
+    "t": 299,
+    "status": 200,
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 306,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 308,
+    "status": 200,
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 7533,
+    "status": 200,
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 7546,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 7556,
+    "status": 200,
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   }
+  ],
+  "mountAt": 1,
+  "firstMount": 3,
+  "s1": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s2": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "geo2": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
     "p": "0px 0px 28px",
     "ls": "-0.16px",
     "color": "rgb(36, 28, 24)",
@@ -2042,20 +2788,457 @@
     "ta": "center",
     "disp": "none"
    },
-   "hero": null,
-   "rating": null,
-   "stars": null,
-   "ratingB": null,
-   "kicker": null,
-   "h1": null,
-   "badges": null,
-   "badge0": null,
-   "buybox": null,
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
    "main": {
     "x": 0,
     "y": 117,
     "w": 390,
-    "h": 2178,
+    "h": 4221,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "s3": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s5": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s9": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s18": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
+  },
+  "geo18": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 12988,
     "fs": "16px",
     "lh": "25.6px",
     "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
@@ -2074,7 +3257,1189 @@
    "shown": "none",
    "err": null,
    "sub": false,
-   "badges": []
+   "badges": [
+    "NO SMOKE, NO HARM",
+    "NO WATER, NO MOLD",
+    "REDUCE STRESS & ANXIETY"
+   ]
+  }
+ },
+ {
+  "name": "webkit-empty2",
+  "errs": [],
+  "console": [],
+  "failed": [
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
+  ],
+  "app": [
+   {
+    "t": 309,
+    "status": 200,
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 310,
+    "status": 200,
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 343,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
+   }
+  ],
+  "mountAt": 1,
+  "s1": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s2": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "geo2": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 4221,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "s3": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s5": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s9": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s18": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "geo18": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 12988,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "retryUi": {
+   "shown": "none",
+   "err": null,
+   "sub": false,
+   "badges": [
+    "NO SMOKE, NO HARM",
+    "NO WATER, NO MOLD",
+    "REDUCE STRESS & ANXIETY"
+   ]
+  }
+ },
+ {
+  "name": "webkit-repeat2",
+  "errs": [],
+  "console": [
+   "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+  ],
+  "failed": [
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content",
+   "https://maisoncroyez.com/pages/diffuser-kits Frame load interrupted",
+   "https://maisoncroyez.com/api/collect Aborted: 204 No Content"
+  ],
+  "app": [
+   {
+    "t": 324,
+    "status": 200,
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 325,
+    "status": 200,
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 363,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 7466,
+    "status": 200,
+    "url": "mc-lp-vendor.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 7468,
+    "status": 200,
+    "url": "mc-dk-app.js?v=dk10b-2cb82e9"
+   },
+   {
+    "t": 7468,
+    "status": 200,
+    "url": "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9"
+   }
+  ],
+  "mountAt": 1,
+  "firstMount": 3,
+  "s1": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s2": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "geo2": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 4221,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "s3": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s5": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s9": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": []
+  },
+  "s18": {
+   "rootKids": 3,
+   "prehero": "none",
+   "h1": "Maison Croyez Home Diffuser & ",
+   "scripts": [
+    "mc-lp-vendor.js?v=dk10b-2cb82e9",
+    "mc-lp-diffuser-assets.js?v=dk10b-2cb82e9",
+    "mc-dk-app.js?v=dk10b-2cb82e9"
+   ],
+   "errs": [
+    "load failed @sdk.bundle.js?shopId=5063&src=sdkAppEmbed:"
+   ]
+  },
+  "geo18": {
+   "vw": 390,
+   "prehero": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "12px 0px 0px calc(50% - 195px)",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "none"
+   },
+   "preImg": null,
+   "preTxt": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px auto",
+    "p": "0px 0px 28px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "preRetry": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "20px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "none"
+   },
+   "hero": {
+    "x": 20,
+    "y": 135,
+    "w": 351,
+    "h": 351,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "16px",
+    "ta": "start",
+    "disp": "block"
+   },
+   "rating": {
+    "x": 20,
+    "y": 508,
+    "w": 350,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "14px 0px -6px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "flex"
+   },
+   "stars": {
+    "x": 74,
+    "y": 510,
+    "w": 75,
+    "h": 16,
+    "fs": "16px",
+    "lh": "16px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "1px",
+    "color": "rgb(217, 207, 194)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "ratingB": {
+    "x": 156,
+    "y": 508,
+    "w": 159,
+    "h": 21,
+    "fs": "13.28px",
+    "lh": "21.248001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "0px",
+    "p": "0px",
+    "ls": "normal",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "left",
+    "disp": "block"
+   },
+   "kicker": {
+    "x": 20,
+    "y": 543,
+    "w": 350,
+    "h": 30,
+    "fs": "10.88px",
+    "lh": "14.688001px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "800",
+    "m": "12px 0px 0px",
+    "p": "8px 12px",
+    "ls": "0.8704px",
+    "color": "rgb(255, 255, 255)",
+    "bg": "rgb(17, 17, 17)",
+    "br": "10px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "h1": {
+    "x": 20,
+    "y": 581,
+    "w": 350,
+    "h": 120,
+    "fs": "27.52px",
+    "lh": "30.822399px",
+    "ff": "Unna, serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-1.376px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "center",
+    "disp": "block"
+   },
+   "badges": {
+    "x": 20,
+    "y": 709,
+    "w": 350,
+    "h": 40,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "grid"
+   },
+   "badge0": {
+    "x": 20,
+    "y": 709,
+    "w": 113,
+    "h": 40,
+    "fs": "9.44px",
+    "lh": "11.327999px",
+    "ff": "Outfit, sans-serif",
+    "fw": "700",
+    "m": "0px",
+    "p": "9px 4px",
+    "ls": "0.3304px",
+    "color": "rgb(17, 17, 17)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "999px",
+    "ta": "center",
+    "disp": "flex"
+   },
+   "buybox": {
+    "x": 20,
+    "y": 494,
+    "w": 350,
+    "h": 2892,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", \"Helvetica Neue\", Aria",
+    "fw": "400",
+    "m": "8px 0px 0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "flex"
+   },
+   "main": {
+    "x": 0,
+    "y": 117,
+    "w": 390,
+    "h": 12988,
+    "fs": "16px",
+    "lh": "25.6px",
+    "ff": "\"Be Vietnam Pro\", system-ui, sans-serif",
+    "fw": "400",
+    "m": "0px",
+    "p": "0px",
+    "ls": "-0.16px",
+    "color": "rgb(36, 28, 24)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "ta": "start",
+    "disp": "block"
+   }
+  },
+  "retryUi": {
+   "shown": "none",
+   "err": null,
+   "sub": false,
+   "badges": [
+    "NO SMOKE, NO HARM",
+    "NO WATER, NO MOLD",
+    "REDUCE STRESS & ANXIETY"
+   ]
   }
  }
 ]

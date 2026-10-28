@@ -1,5 +1,5 @@
 name: pixel-kits
-# 2026-10-28 dk9x (cart step) — what the Meta channel pixel sends from /pages/diffuser-kits: PageView on load, AddToCart at "Review my kit" (one per cart line), nothing extra at "ADD TO CART", PageView on /cart, InitiateCheckout on the checkout page reached from the cart page's own checkout button. Edit this line and push to run. [run dk9x-337282c #2: the visible cart checkout button]
+# 2026-10-28 dk9y — what the Meta channel pixel sends from /pages/diffuser-kits: PageView on load, NOTHING at "Review my kit" (dk9y: the cart is untouched there), AddToCart at "ADD TO CART" (one per cart line, as the cart opens), PageView on /cart, InitiateCheckout on the checkout page reached from the cart page's visible checkout button. Edit this line and push to run. [run dk9y-99ef82f]
 # "Review my kit" and/or after "Secure checkout" (the /checkout navigation is answered with a 204 so the page stays alive and the
 # beacons can be counted), InitiateCheckout on the checkout page. Real UA, navigator.webdriver hidden, hooks in every frame
 # (fbevents sends nothing from a webdriver browser). Owner: "I don't see Add to cart or checkout even firing". Edit this line and push to run. Run 2026-10-21 after dk9p: AddToCart expected right after Review my kit, nothing new at Secure checkout, InitiateCheckout on the checkout page.

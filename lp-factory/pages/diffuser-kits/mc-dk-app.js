@@ -568,7 +568,7 @@ async function addToCart(setBusy, setToast) {
   selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId }));
   if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; }
   if (!onStore() || !kitId) {
-    setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + " on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) + " today, and opens the cart.");
+    setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + " on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) + " today, and opens the cart drawer.");
     return;
   }
   /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line
@@ -591,7 +591,14 @@ async function addToCart(setBusy, setToast) {
     /* dk9x (2026-10-27, owner): the cart step is back ("include the cart step and not going straight to checkout"): the theme's
        cart page, same 800 ms margin for the channel pixel's AddToCart beacons. History: fd13 measured 42% of add-to-carts
        stopping at the drawer; dk9l went straight to checkout. */
-    setTimeout(() => { window.location.href = "/cart"; }, wait);
+    /* dk9z (2026-10-28, owner): open the theme's cart drawer on this page instead of the cart page (dk5 mechanism). */
+    const drawer = document.getElementById("cart-drawer");
+    if (drawer && typeof drawer.show === "function") {
+      document.documentElement.dispatchEvent(new CustomEvent("cart:refresh", { bubbles: true, detail: { open: true } }));
+      setTimeout(() => { try { drawer.show(); } catch (e) {} setBusy(false); }, 150);
+    } else {
+      setTimeout(() => { window.location.href = "/cart"; }, wait);
+    }
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");

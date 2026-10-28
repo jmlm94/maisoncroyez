@@ -1,0 +1,321 @@
+[
+ {
+  "label": "page load",
+  "newHits": [
+   {
+    "ev": "PageView",
+    "eid": "sh-80034423-BF89-4513-C73D-9A8058E8598F",
+    "k": "beacon"
+   }
+  ]
+ },
+ {
+  "label": "T1 /cart/update.js add Golden Blossom by variant id (no plan)",
+  "status": 200,
+  "newHits": [
+   {
+    "ev": "AddToCart",
+    "val": "39.95",
+    "ids": "[41212020457581]",
+    "eid": "sh-800390bd-029F-40F0-7C7B-D8A317CE4BB6",
+    "k": "beacon"
+   }
+  ],
+  "cart": {
+   "n": 1,
+   "total": 39.95,
+   "lines": [
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:9c6de8d0341dbaa370ff57fb1ecf464d",
+     "q": 1,
+     "line": 39.95,
+     "plan": null,
+     "disc": []
+    }
+   ]
+  }
+ },
+ {
+  "label": "T2 /cart/change.js set the 30-day plan on that line",
+  "status": 200,
+  "newHits": [],
+  "cart": {
+   "n": 1,
+   "total": 39.95,
+   "lines": [
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:b62b214622ddb66818478ac7c5ae5f87",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": []
+    }
+   ]
+  }
+ },
+ {
+  "label": "T3 /cart/update.js add Wildwood + Chilled + the 2-diffuser kit in one call",
+  "status": 200,
+  "newHits": [
+   {
+    "ev": "AddToCart",
+    "val": "39.95",
+    "ids": "[41212021669997]",
+    "eid": "sh-8003fbb9-503F-47AF-7CD2-E1F4D0F01B2E",
+    "k": "beacon"
+   },
+   {
+    "ev": "AddToCart",
+    "val": "39.95",
+    "ids": "[41212021506157]",
+    "eid": "sh-8003fbc3-A5D6-4FE2-D6C1-543331077D90",
+    "k": "beacon"
+   },
+   {
+    "ev": "AddToCart",
+    "val": "179.9",
+    "ids": "[45900240289901]",
+    "eid": "sh-8003fbcb-6C00-49A5-2353-BF465D58A328",
+    "k": "beacon"
+   }
+  ],
+  "cart": {
+   "n": 4,
+   "total": 119.85,
+   "lines": [
+    {
+     "id": 45900240289901,
+     "key": "45900240289901:73294faeca61de43e675f2028fd5c805",
+     "q": 1,
+     "line": 0,
+     "plan": null,
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+     ]
+    },
+    {
+     "id": 41212021506157,
+     "key": "41212021506157:0b78e06a8b947d74b67f9bf856019bc9",
+     "q": 1,
+     "line": 39.95,
+     "plan": null,
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212021669997,
+     "key": "41212021669997:448420a52054266a05aaf127d274064b",
+     "q": 1,
+     "line": 39.95,
+     "plan": null,
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:aa3a83a28fc332ed35983305e5542cc5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "T4 /cart/change.js plans on Wildwood + Chilled",
+  "status": "ok",
+  "newHits": [],
+  "cart": {
+   "n": 4,
+   "total": 119.85,
+   "lines": [
+    {
+     "id": 45900240289901,
+     "key": "45900240289901:73294faeca61de43e675f2028fd5c805",
+     "q": 1,
+     "line": 0,
+     "plan": null,
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+     ]
+    },
+    {
+     "id": 41212021506157,
+     "key": "41212021506157:bd34d9b4b39ad781190270f6471601f5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212021669997,
+     "key": "41212021669997:1ee2235b841e573524cf55814248fb01",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:aa3a83a28fc332ed35983305e5542cc5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "T5 custom fbq AddToCart once, real total",
+  "status": "sent",
+  "newHits": [
+   {
+    "ev": "AddToCart",
+    "val": "119.85",
+    "ids": "[\"41212020457581\",\"41212021669997\",\"41212021506157\",\"45900240289901\"]",
+    "eid": "mc-atc-probe-1793149097196",
+    "k": "beacon"
+   }
+  ],
+  "cart": {
+   "n": 4,
+   "total": 119.85,
+   "lines": [
+    {
+     "id": 45900240289901,
+     "key": "45900240289901:73294faeca61de43e675f2028fd5c805",
+     "q": 1,
+     "line": 0,
+     "plan": null,
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+     ]
+    },
+    {
+     "id": 41212021506157,
+     "key": "41212021506157:bd34d9b4b39ad781190270f6471601f5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212021669997,
+     "key": "41212021669997:1ee2235b841e573524cf55814248fb01",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:aa3a83a28fc332ed35983305e5542cc5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "T6 control: /cart/add.js one more Golden Blossom on the plan",
+  "status": 200,
+  "newHits": [
+   {
+    "ev": "AddToCart",
+    "val": "39.95",
+    "ids": "[41212020457581]",
+    "eid": "sh-8004a391-7712-4599-5881-9379BCC8F045",
+    "k": "beacon"
+   }
+  ],
+  "cart": {
+   "n": 5,
+   "total": 159.8,
+   "lines": [
+    {
+     "id": 45900240289901,
+     "key": "45900240289901:73294faeca61de43e675f2028fd5c805",
+     "q": 1,
+     "line": 0,
+     "plan": null,
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+     ]
+    },
+    {
+     "id": 41212021506157,
+     "key": "41212021506157:bd34d9b4b39ad781190270f6471601f5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212021669997,
+     "key": "41212021669997:1ee2235b841e573524cf55814248fb01",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    },
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:b62b214622ddb66818478ac7c5ae5f87",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": []
+    },
+    {
+     "id": 41212020457581,
+     "key": "41212020457581:aa3a83a28fc332ed35983305e5542cc5",
+     "q": 1,
+     "line": 39.95,
+     "plan": "Every 30 days",
+     "disc": [
+      "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "T7 clear",
+  "status": 200,
+  "newHits": [],
+  "cart": {
+   "n": 0,
+   "total": 0,
+   "lines": []
+  }
+ },
+ {
+  "errs": []
+ }
+]

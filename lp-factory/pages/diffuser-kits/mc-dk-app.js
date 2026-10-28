@@ -575,7 +575,7 @@ async function addToCart(setBusy, setToast) {
      from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */
   try {
     setBusy(true);
-    const added = await syncKitCart(); /* dk9m/dk9n: usually nothing left to do (the kit went in at "Review my kit"); a changed frequency is a plan change, not a new add */
+    const added = await syncKitCart(); /* dk9y (2026-10-28, owner): the whole kit is added here, at ADD TO CART, so the AddToCart beacons fire as the cart opens, not at "Review my kit"; a kit already in the cart from an earlier visit is only adjusted. Was (dk9m/dk9n): usually nothing left to do (the kit went in at "Review my kit"); a changed frequency is a plan change, not a new add */
     const wait = added ? 800 : Math.max(0, 800 - (Date.now() - KITCART.addedAt));
     /* fd13 (2026-09-25, owner): straight to checkout — the drawer was an extra screen where 42% of add-to-carts stopped.
        Shopify's Meta channel pixel fires one AddToCart per cart line from the /cart/add.js call above; measured
@@ -1022,7 +1022,7 @@ function BuyBox() {
             : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
           <div class="navrow">
             <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
-            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => { syncKitCart().catch(() => {}); go(3); }}><span>Review my kit ➔</span></button>`} <!-- dk9m: the kit goes into the cart here (AddToCart fires now) -->
+            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`} <!-- dk9y (owner): nothing goes into the cart here any more; the kit is added at ADD TO CART -->
           </div>
           ${eta}
           ${chips}
@@ -1243,7 +1243,7 @@ function StickyBar() {
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
   const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "ADD TO CART \u2794"; /* dk9: step-aware; dk9x: the cart step is back */
-  const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); syncKitCart().catch(() => {}); return go(3); } addToCart(setBusy, setToast); }; /* dk9m: review = cart add */
+  const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); return go(3); } addToCart(setBusy, setToast); }; /* dk9y: review only reviews; ADD TO CART adds */
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy || (step === 2 && left > 0)} onClick=${act}>

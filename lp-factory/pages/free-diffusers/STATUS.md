@@ -349,3 +349,18 @@ earlier today ($54 / $107 / $134 / $214). Product title is now "Maison Croyez - 
 - 2026-10-28 kits dk9y — checks: page-shot bodyMatch true (md5 baee059e), key dk9y-99ef82f; qa-kits 20261028T0110 43/47 (same three fold checks + the shop.app console message as dk9x), cart-*-review PASS with an empty cart after Review my kit, cart flows land on /cart at $119.85 / $79.90; pixel-kits 20261028T011 (phone + desktop): PageView ×1, nothing at Review my kit (cart 0), AddToCart ×4 only after ADD TO CART (one per cart line, kit + 3 scents), PageView on /cart, InitiateCheckout ×1 on checkout.
 - 2026-10-28 kits dk9z — LIVE (key dk9z-62905fa; mc-dk-app.js 135062 B @ 62905fa re-queried READY, css unchanged; page body updated 01:28:44 UTC, md5 780cf5db). Owner: "it needs to open the drawer not the cart page please". ADD TO CART adds the kit (AddToCart fires there, one per line, nothing at Review my kit, as dk9y) and opens the theme's cart drawer on the page (dk5 mechanism: cart:refresh on documentElement, then #cart-drawer.show(); /cart only as a fallback if the drawer is missing). qa-kits cart flows now expect to stay on the page with the drawer open; pixel-kits follows ADD TO CART → drawer → its checkout button. page-shot, qa-kits and pixel-kits triggered at this push.
 - 2026-10-28 kits dk9z — checks: page-shot bodyMatch true (md5 780cf5db), key dk9z-62905fa, legacy cart check sub-30 / sub-90: stays on the page, drawer open + visible with the kit ("Congrats, your order is reserved!", scents $39.95, diffuser $0.00 struck from $179.90), total $119.85; qa-kits 20261028T0131 43/47 (same three fold checks + shop.app console message), cart flows 2d-30 / 1d-90 PASS on the page with the drawer open; pixel-kits 20261028T013 (phone + desktop): PageView ×1, nothing at Review my kit, AddToCart ×4 at ADD TO CART as the drawer opens (no second PageView), InitiateCheckout ×1 on checkout reached from the drawer's checkout button.
+
+## 2026-10-28 kits dk10 / dk10b LIVE (page body key dk10b-2cb82e9, app 135534 B @ 2cb82e9, css 154131 B @ 4c93b85)
+Owner (iPhone screenshot: picture only, nothing below): "Run one more QA because its opening like this", delete the step-1
+sub-line, badges bolder without the trailing period.
+- Cause of the screenshot: the theme layout (speed round 3) injects the page scripts as soon as theme.css applies,
+  reading the body's preload links; on a cached visit that can run before the parser reaches <div id="root">, so the
+  app hit ReactDOM.createRoot(null) ("null is not an object (evaluating 'u.__k')") and stayed on the pre-hero.
+  Reproduced locally and in ios-check (dk10, webkit-empty). Fix (dk10b): the app renders once #root exists.
+- Loading view: picture centred, rating / FREE line / title as plain HTML under it; body loader watches even when the
+  theme injects the scripts: re-fetch at 8 s, "Still loading? Tap to reload" at 15 s (ios-check webkit-fail shows it).
+- Copy: step-1 sub-line removed; badges "NO SMOKE, NO HARM" / "NO WATER, NO MOLD" / "REDUCE STRESS & ANXIETY" in
+  Outfit 700, near-black.
+- Checks: body matches (newlines aside); ios-check WebKit empty x2, 4-item cart, repeat visit x2 (first and second
+  load) all render at 1 s, no page errors; QA 43/47 (the same 4 layout/shop.app misses); cart flows $119.85 / $79.90
+  open the drawer; pixel PageView x1, AddToCart x4 at ADD TO CART, InitiateCheckout x1 from the drawer.

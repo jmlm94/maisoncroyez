@@ -886,9 +886,9 @@ const ROOM_IC = { "Studio": MCI.sofa, "Living Room": MCI.sofa, "Bedroom": MCI.be
 const SCENT_SWATCH = { love: "linear-gradient(160deg,#F26A3D,#F7C948)", abundance: "linear-gradient(160deg,#F5E04E,#8EC9F0)", focus: "linear-gradient(160deg,#E9A6D0,#D7B5E8)", ideas: "linear-gradient(160deg,#9ED9D3,#EE4F8E)", energy: "linear-gradient(160deg,#E9BFDB,#F3895F)", purify: "linear-gradient(160deg,#F2E15A,#D873B4)", midnight: "linear-gradient(160deg,#A9D8EE,#E7A6D2)" };
 const ic = (k, cls) => html`<span class=${"mc-ic " + (cls || "")} aria-hidden="true" dangerouslySetInnerHTML=${{ __html: MCI[k] }}></span>`;
 const HEALTH3 = [ /* dk9d (owner's words, all caps) */
-  { short: "NO SMOKE, NO HARM." }, /* dk9x (owner): shorter, no emojis, a soft gradient on each (CSS nth-child) */
-  { short: "NO WATER, NO MOLD." },
-  { short: "REDUCE STRESS & ANXIETY." },
+  { short: "NO SMOKE, NO HARM" }, /* dk9x (owner): shorter, no emojis, a soft gradient on each (CSS nth-child); dk10 (owner): no period, bolder */
+  { short: "NO WATER, NO MOLD" },
+  { short: "REDUCE STRESS & ANXIETY" },
 ];
 const StepHead = ({ n, title, right }) => html`
   <div class="picker-title step-title">${title}</div>${right ? html`<div class="pick-pill-row"><span class="pick-pill">${right}</span></div>` : null}`;
@@ -969,7 +969,7 @@ function BuyBox() {
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
           <div class="step-eyebrow">Step 1 of 3</div>
-          <div class="picker-title step-title s9-title">How many scents and diffusers <em>would you like?</em></div><p class="s9-sub">Ships every 30, 60 or 90 days. Swap, pause and cancel anytime. Diffusers are free today only.</p> <!-- dk9s (2026-10-25, owner): step 1 is about the scent subscription; the diffusers are the free gift per option -->
+          <div class="picker-title step-title s9-title">How many scents and diffusers <em>would you like?</em></div><!-- dk10 (2026-10-28, owner): the sub-line under the step-1 title is gone -->
           <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
               <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->

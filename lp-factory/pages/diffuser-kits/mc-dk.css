@@ -1755,3 +1755,5 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .dk-eta b{font-weight:800;color:#141414}
 #root .buybox .dk-eta-ic{margin-right:6px}
 @media (min-width:700px){#root #buybox .buybox .dk-freebar{font-size:.78rem;padding:9px 14px}#root .buybox .dk-eta{font-size:.82rem}}
+/* dk10 (2026-10-28, owner): the three badges under the title bolder (Outfit 700 is the heavier face on the page; it was Be Vietnam Pro, whose heaviest file is 600) */
+#root .hs3 .hs,#root #buybox.step-1 .hs3 .hs{font-family:'Outfit',sans-serif !important;font-weight:700 !important;color:#111 !important;letter-spacing:.035em !important;-webkit-text-stroke:.2px currentColor}

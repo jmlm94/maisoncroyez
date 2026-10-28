@@ -1,0 +1,70 @@
+name: cart-page
+# dk9x (2026-10-28): the kits page now sends shoppers to /cart. This walks the real flow (3 scents + 2 diffusers, Review my kit, ADD TO CART), records every checkout control on the cart page (buttons / inputs / links / forms that mention checkout, terms checkboxes), screenshots the cart page on phone and desktop, clicks the visible checkout control and reports where it lands. Then clears the cart. Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/cart-page.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Probe
+        run: |
+          mkdir -p lp-factory/pages/diffuser-kits/shots
+          cat > probe.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = 'lp-factory/pages/diffuser-kits/shots';
+          const b = await chromium.launch(); const res = [];
+          for (const [name, W, H, mobile] of [['phone', 390, 844, true], ['desktop', 1366, 900, false]]) {
+            const ctx = await b.newContext(mobile ? { viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' } : { viewport: { width: W, height: H } });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message.slice(0, 160)));
+            const r = { name };
+            try {
+              await pg.goto('https://maisoncroyez.com/pages/diffuser-kits', { waitUntil: 'domcontentloaded', timeout: 90000 });
+              await pg.waitForSelector('#buybox .tier', { timeout: 60000 }); await pg.waitForTimeout(1500);
+              await pg.evaluate(() => document.querySelectorAll('#buybox .tier')[1].click()); await pg.waitForTimeout(300);
+              await pg.evaluate(() => document.querySelector('#buybox .btn.step-next').click()); await pg.waitForTimeout(700);
+              for (const k of [2, 5, 0]) { await pg.evaluate((k) => document.querySelectorAll('#buybox .picker .pick')[k].querySelector('.e4-step button[aria-label^="Add one"]').click(), k); await pg.waitForTimeout(250); }
+              await pg.evaluate(() => document.querySelector('#buybox .navrow .btn.atc').click()); await pg.waitForTimeout(3500);
+              r.btn = await pg.evaluate(() => (document.querySelector('#buybox .btn.atc') || {}).innerText);
+              await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
+              await pg.waitForURL(/\/cart(\?|#|$)/, { timeout: 30000 }).catch(() => {}); await pg.waitForTimeout(5000);
+              r.cartUrl = pg.url();
+              r.controls = await pg.evaluate(() => { const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 0 && b.height > 0 && c.visibility !== 'hidden' && c.display !== 'none'; }; return [...document.querySelectorAll('button, input[type=submit], input[type=button], a, form')].filter((e) => /checkout/i.test((e.getAttribute('name') || '') + ' ' + (e.getAttribute('href') || '') + ' ' + (e.getAttribute('action') || '') + ' ' + (e.innerText || e.value || '').slice(0, 60))).map((e) => ({ tag: e.tagName, name: e.getAttribute('name'), href: e.getAttribute('href'), action: e.getAttribute('action'), form: e.getAttribute('form'), type: e.getAttribute('type'), disabled: !!e.disabled, visible: vis(e), text: (e.innerText || e.value || '').replace(/\s+/g, ' ').trim().slice(0, 60), cls: (e.className || '').toString().slice(0, 80), box: (() => { const b = e.getBoundingClientRect(); return [Math.round(b.x), Math.round(b.y + scrollY), Math.round(b.width), Math.round(b.height)]; })() })); });
+              r.terms = await pg.evaluate(() => [...document.querySelectorAll('input[type=checkbox]')].map((e) => ({ id: e.id, name: e.name, checked: e.checked, label: ((e.closest('label') || document.querySelector(`label[for="${e.id}"]`) || {}).innerText || '').slice(0, 80) })));
+              r.cartText = await pg.evaluate(() => (document.querySelector('main') || document.body).innerText.replace(/\s+/g, ' ').trim().slice(0, 900));
+              await pg.screenshot({ path: `${OUT}/cart-page-${name}.png`, fullPage: true });
+              const target = await pg.evaluate(() => { const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 0 && b.height > 0 && c.visibility !== 'hidden' && c.display !== 'none'; }; const c = [...document.querySelectorAll('button[name="checkout"], input[name="checkout"], a[href*="/checkout"], button[type=submit]')].filter((e) => vis(e) && /checkout/i.test((e.getAttribute('name') || '') + (e.getAttribute('href') || '') + (e.innerText || e.value || ''))); if (!c.length) return null; c[0].setAttribute('data-probe-ck', '1'); return (c[0].innerText || c[0].value || c[0].getAttribute('href') || '').trim().slice(0, 40); });
+              r.clicked = target;
+              if (target) { await pg.locator('[data-probe-ck="1"]').click({ timeout: 10000 }).catch((e) => { r.clickErr = e.message.slice(0, 120); }); await pg.waitForURL(/checkouts?\//, { timeout: 45000 }).catch(() => {}); await pg.waitForTimeout(4000); }
+              r.landed = pg.url();
+              r.checkoutText = await pg.evaluate(() => document.body.innerText.replace(/\s+/g, ' ').trim().slice(0, 500)).catch(() => null);
+              await pg.screenshot({ path: `${OUT}/cart-page-${name}-landed.png` }).catch(() => {});
+              r.cleared = await pg.evaluate(async () => { try { const c = await (await fetch('https://maisoncroyez.com/cart/clear.js', { method: 'POST' })).json(); return c.item_count; } catch (e) { return 'n/a ' + e.message; } }).catch(() => null);
+            } catch (e) { r.error = e.message.slice(0, 300); await pg.screenshot({ path: `${OUT}/cart-page-${name}-error.png` }).catch(() => {}); }
+            r.errs = errs.slice(0, 5); res.push(r); console.log(JSON.stringify(r)); await ctx.close();
+          }
+          await b.close();
+          fs.writeFileSync(`${OUT}/cart-page-latest.json`, JSON.stringify(res, null, 1));
+          EOF2
+          node probe.mjs
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/diffuser-kits/shots
+          git commit -m "cart-page: kits flow to /cart and the cart's checkout control" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

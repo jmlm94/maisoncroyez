@@ -1,0 +1,76 @@
+name: deploy-kits
+# Deploys the kits page to Maison Croyez WITHOUT the Claude Shopify connector: pinned to patshion.myshopify.com, checks the shop name is "Maison Croyez" before any write, updates the two kits files from GitHub at the commit below and the page body from the repo. Needs the repository secret SHOPIFY_MC_TOKEN (Admin API token of an app installed on Maison Croyez with write_files + write_online_store_pages); without it the run does nothing. Edit this line and push to run. [deploy kits 337282c5e9ce0b581cff40b209d38f8f0aeffa9b #1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/deploy-kits.yml']
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Deploy (Maison Croyez only)
+        env:
+          TOKEN: ${{ secrets.SHOPIFY_MC_TOKEN }}
+        run: |
+          cat > deploy.py <<'PY'
+          import os, re, sys, json, time, urllib.request
+          SHOP = "patshion.myshopify.com"
+          API = f"https://{SHOP}/admin/api/2026-10/graphql.json"
+          OUT = "lp-factory/pages/diffuser-kits/deploy-latest.txt"
+          log = []
+          def say(m): print(m); log.append(m)
+          def done(code):
+              open(OUT, "w").write("\n".join(log) + "\n"); sys.exit(code)
+          token = os.environ.get("TOKEN") or ""
+          if not token:
+              say("SHOPIFY_MC_TOKEN is not set: nothing deployed."); done(0)
+          line2 = open(".github/workflows/deploy-kits.yml").read().split("\n")[1]
+          m = re.search(r"\[deploy kits ([0-9a-f]{40})", line2)
+          if not m: say("no [deploy kits <sha>] marker on line 2: nothing deployed."); done(0)
+          sha = m.group(1)
+          def gql(q, v=None):
+              req = urllib.request.Request(API, data=json.dumps({"query": q, "variables": v or {}}).encode(), headers={"Content-Type": "application/json", "X-Shopify-Access-Token": token})
+              r = json.load(urllib.request.urlopen(req, timeout=60))
+              if r.get("errors"): say("GraphQL errors: " + json.dumps(r["errors"])[:600]); done(1)
+              return r["data"]
+          shop = gql("{ shop { name myshopifyDomain primaryDomain { host } } }")["shop"]
+          say(f"shop: {shop}")
+          if shop["name"] != "Maison Croyez" or shop["myshopifyDomain"] != SHOP:
+              say("NOT Maison Croyez: stopping, nothing written."); done(1)
+          raw = f"https://raw.githubusercontent.com/jmlm94/maisoncroyez/{sha}/lp-factory/pages/diffuser-kits/"
+          files = {"gid://shopify/GenericFile/46262619439213": "mc-dk-app.js", "gid://shopify/GenericFile/46262619471981": "mc-dk.css"}
+          sizes = {gid: len(urllib.request.urlopen(raw + f, timeout=60).read()) for gid, f in files.items()}
+          say(f"sources at {sha[:7]}: " + ", ".join(f"{files[g]} {s} B" for g, s in sizes.items()))
+          body = open("lp-factory/pages/diffuser-kits/page-body.html", encoding="utf-8").read()
+          key = f"dk9x-{sha[:7]}"
+          if body.count(key) != 5: say(f"page-body.html does not carry {key} 5 times: stopping, nothing written."); done(1)
+          r = gql("mutation($files:[FileUpdateInput!]!){ fileUpdate(files:$files){ files{ id fileStatus } userErrors{ field message code } } }", {"files": [{"id": g, "originalSource": raw + f} for g, f in files.items()]})
+          if r["fileUpdate"]["userErrors"]: say("fileUpdate errors: " + json.dumps(r["fileUpdate"]["userErrors"])); done(1)
+          for i in range(40):
+              time.sleep(3)
+              n = gql("query($ids:[ID!]!){ nodes(ids:$ids){ ... on GenericFile { id fileStatus originalFileSize url } } }", {"ids": list(files)})["nodes"]
+              if all(x["fileStatus"] == "READY" and x["originalFileSize"] == sizes[x["id"]] for x in n): break
+          say("files: " + json.dumps(n))
+          if not all(x["fileStatus"] == "READY" and x["originalFileSize"] == sizes[x["id"]] for x in n): say("files not READY with the new sizes: page NOT updated."); done(1)
+          r = gql("mutation($id:ID!,$page:PageUpdateInput!){ pageUpdate(id:$id, page:$page){ page{ id handle updatedAt body } userErrors{ field message code } } }", {"id": "gid://shopify/Page/161846919277", "page": {"body": body}})
+          if r["pageUpdate"]["userErrors"]: say("pageUpdate errors: " + json.dumps(r["pageUpdate"]["userErrors"])); done(1)
+          p = r["pageUpdate"]["page"]
+          say(f"page {p['handle']} updated {p['updatedAt']}, body {len(p['body'])} chars, key {key} present: {key in p['body']}")
+          say("DEPLOYED"); done(0)
+          PY
+          python3 deploy.py
+      - name: Commit the deploy log
+        if: always()
+        run: |
+          git config user.name "mc-deploy"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/diffuser-kits/deploy-latest.txt 2>/dev/null || exit 0
+          git commit -m "deploy-kits: log" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

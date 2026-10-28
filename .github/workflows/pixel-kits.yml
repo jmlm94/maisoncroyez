@@ -1,5 +1,5 @@
 name: pixel-kits
-# 2026-10-28 dk9y — what the Meta channel pixel sends from /pages/diffuser-kits: PageView on load, NOTHING at "Review my kit" (dk9y: the cart is untouched there), AddToCart at "ADD TO CART" (one per cart line, as the cart opens), PageView on /cart, InitiateCheckout on the checkout page reached from the cart page's visible checkout button. Edit this line and push to run. [run dk9y-99ef82f]
+# 2026-10-28 dk9z — what the Meta channel pixel sends from /pages/diffuser-kits: PageView on load, nothing at "Review my kit", AddToCart at "ADD TO CART" (one per cart line) as the theme's cart drawer opens on the page, InitiateCheckout on the checkout page reached from the drawer's checkout button. Edit this line and push to run. [run dk9z-62905fa]
 # "Review my kit" and/or after "Secure checkout" (the /checkout navigation is answered with a 204 so the page stays alive and the
 # beacons can be counted), InitiateCheckout on the checkout page. Real UA, navigator.webdriver hidden, hooks in every frame
 # (fbevents sends nothing from a webdriver browser). Owner: "I don't see Add to cart or checkout even firing". Edit this line and push to run. Run 2026-10-21 after dk9p: AddToCart expected right after Review my kit, nothing new at Secure checkout, InitiateCheckout on the checkout page.
@@ -48,13 +48,13 @@ jobs:
             await pg.evaluate(() => { const bt = document.querySelector('#buybox .navrow .btn.atc'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); tReview = Date.now(); await pg.waitForTimeout(6000);
             await snap('step 3 (+6s after Review my kit)');
             await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); tClick = Date.now(); await pg.locator('#buybox .btn.atc').click();
-            await pg.waitForURL(/\/cart(\?|#|$)/, { timeout: 30000 }).catch(() => {}); await pg.waitForTimeout(8000);
-            await snap('cart page +8s after ADD TO CART (dk9x: the button opens /cart)');
-            const ck = pg.locator('button[name="checkout"]:visible, input[name="checkout"]:visible, a[href$="/checkout"]:visible').first(); /* the cart page also renders a hidden checkout button first */ let clicked = false;
+            await pg.waitForTimeout(8000);
+            await snap('cart drawer +8s after ADD TO CART (dk9z: the button opens the drawer on the page)');
+            const ck = pg.locator('#cart-drawer button[name="checkout"]:visible, #cart-drawer a[href$="/checkout"]:visible, button[name="checkout"]:visible').first(); /* dk9z: the drawer's checkout button */ let clicked = false;
             try { await ck.scrollIntoViewIfNeeded({ timeout: 8000 }); await ck.click({ timeout: 10000 }); clicked = true; } catch (e) {}
             if (!clicked) await pg.goto('https://maisoncroyez.com/checkout', { waitUntil: 'domcontentloaded', timeout: 90000 }).catch(() => {});
             await pg.waitForURL(/checkouts?\//, { timeout: 45000 }).catch(() => {}); await pg.waitForTimeout(9000);
-            await snap(clicked ? 'checkout +9s (from the cart page checkout button)' : 'checkout +9s (cart checkout button not found: direct /checkout)');
+            await snap(clicked ? 'checkout +9s (from the drawer checkout button)' : 'checkout +9s (drawer checkout button not found: direct /checkout)');
             await ctx.close(); await new Promise((r) => setTimeout(r, 20000));
           }
           await b.close();

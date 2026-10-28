@@ -1,0 +1,61 @@
+name: atc-probe
+# 2026-10-28 (owner: "fire AddToCart once, when the cart actually opens"): which cart writes make Shopify's Meta channel fire AddToCart? Fresh session on the kits page, Meta beacons hooked. /cart/update.js (add by variant id), /cart/change.js (set the selling plan), /cart/add.js (control), and one custom fbq AddToCart with the real total. Clears the cart at the end. Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/atc-probe.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Probe
+        run: |
+          mkdir -p lp-factory/pages/diffuser-kits/pixel
+          cat > probe.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const b = await chromium.launch(); const out = [];
+          const ctx = await b.newContext({ viewport: { width: 390, height: 900 }, deviceScaleFactor: 2, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1', locale: 'en-US', timezoneId: 'America/New_York' });
+          await ctx.addInitScript(() => { try { Object.defineProperty(navigator, 'webdriver', { get: () => undefined }); } catch (e) {} });
+          await ctx.addInitScript(() => { try { const push = (k, u, body) => { try { const str = String(u) + ' ' + (body || ''); if (!/facebook\.com\/tr/.test(String(u))) return; const q = {}; try { new URL(String(u)).searchParams.forEach((v, kk) => { q[kk] = v; }); } catch (e) {} try { new URLSearchParams(body || '').forEach((v, kk) => { q[kk] = v; }); } catch (e) {} const h = { ev: q.ev || '?', id: q.id, eid: q.eid, ids: q['cd[content_ids]'], val: q['cd[value]'], k, t: Date.now(), f: location.href.slice(0, 60), top: window === window.top }; (window.__fbHits = window.__fbHits || []).push(h); try { const a = JSON.parse(localStorage.getItem('__mcFbHits') || '[]'); a.push(h); localStorage.setItem('__mcFbHits', JSON.stringify(a.slice(-60))); } catch (e) {} } catch (e) {} }; const bodyOf = (d) => { try { if (typeof d === 'string') return d; if (d instanceof URLSearchParams) return d.toString(); if (d && typeof d.forEach === 'function') { const p = []; d.forEach((v, k) => { if (typeof v === 'string') p.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); }); return p.join('&'); } } catch (e) {} return ''; }; const ob = navigator.sendBeacon && navigator.sendBeacon.bind(navigator); if (ob) navigator.sendBeacon = function (u, d) { const r = ob(u, d); try { if (d instanceof Blob) d.text().then((tx) => push('beacon', u, tx)).catch(() => push('beacon', u, '')); else push('beacon', u, bodyOf(d)); } catch (e) {} return r; }; const of = window.fetch; if (of) window.fetch = function (u, o) { try { push('fetch', (u && u.url) || u, bodyOf(o && o.body)); } catch (e) {} return of.apply(this, arguments); }; const OX = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function (m, u) { push('xhr', u, ''); return OX.apply(this, arguments); }; const desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src'); if (desc && desc.set) Object.defineProperty(HTMLImageElement.prototype, 'src', { get: desc.get, set: function (v) { push('img', v, ''); return desc.set.call(this, v); }, configurable: true }); } catch (e) {} });
+          const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message.slice(0, 120)));
+          await pg.goto('https://maisoncroyez.com/pages/diffuser-kits', { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.mouse.wheel(0, 300); await pg.waitForTimeout(9000);
+          let seen = 0;
+          const hits = async () => { const h = await pg.evaluate(() => (window.__fbHits || []).map((x) => ({ ev: x.ev, val: x.val, ids: x.ids, eid: x.eid, k: x.k }))); const fresh = h.slice(seen); seen = h.length; return fresh; };
+          const cart = () => pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { n: c.item_count, total: c.total_price / 100, lines: c.items.map((i) => ({ id: i.variant_id, key: i.key, q: i.quantity, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
+          const post = (path, body) => pg.evaluate(async ([path, body]) => { const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) }); return r.status; }, [path, body]);
+          const step = async (label, fn) => { let status = null; try { status = await fn(); } catch (e) { status = 'err ' + e.message.slice(0, 80); } await pg.waitForTimeout(6000); const r = { label, status, newHits: await hits(), cart: await cart() }; out.push(r); console.log(JSON.stringify(r)); };
+          out.push({ label: 'page load', newHits: await hits() }); console.log(JSON.stringify(out[0]));
+          const PLAN30 = 7883817069, KIT2 = 45900240289901, GOLD = 41212020457581, WILD = 41212021669997, CHILL = 41212021506157;
+          await step('T1 /cart/update.js add Golden Blossom by variant id (no plan)', () => post('/cart/update.js', { updates: { [GOLD]: 1 } }));
+          await step('T2 /cart/change.js set the 30-day plan on that line', async () => { const c = await cart(); const l = c.lines.find((x) => x.id === GOLD); return post('/cart/change.js', { id: l.key, quantity: 1, selling_plan: PLAN30 }); });
+          await step('T3 /cart/update.js add Wildwood + Chilled + the 2-diffuser kit in one call', () => post('/cart/update.js', { updates: { [WILD]: 1, [CHILL]: 1, [KIT2]: 1 } }));
+          await step('T4 /cart/change.js plans on Wildwood + Chilled', async () => { let c = await cart(); for (const v of [WILD, CHILL]) { const l = c.lines.find((x) => x.id === v && !x.plan); if (l) { await post('/cart/change.js', { id: l.key, quantity: 1, selling_plan: PLAN30 }); c = await cart(); } } return 'ok'; });
+          await step('T5 custom fbq AddToCart once, real total', () => pg.evaluate(() => { if (typeof window.fbq !== 'function') return 'no fbq'; window.fbq('track', 'AddToCart', { value: 119.85, currency: 'USD', content_type: 'product', content_ids: ['41212020457581', '41212021669997', '41212021506157', '45900240289901'], contents: [{ id: '41212020457581', quantity: 1 }, { id: '41212021669997', quantity: 1 }, { id: '41212021506157', quantity: 1 }, { id: '45900240289901', quantity: 1 }], num_items: 4 }, { eventID: 'mc-atc-probe-' + Date.now() }); return 'sent'; }));
+          await step('T6 control: /cart/add.js one more Golden Blossom on the plan', () => post('/cart/add.js', { items: [{ id: GOLD, quantity: 1, selling_plan: PLAN30 }] }));
+          await step('T7 clear', () => post('/cart/clear.js', {}));
+          out.push({ errs }); await b.close();
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 12);
+          fs.writeFileSync(`lp-factory/pages/diffuser-kits/pixel/atc-probe-${stamp}.json`, JSON.stringify(out, null, 1));
+          EOF2
+          node probe.mjs
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/diffuser-kits/pixel
+          git commit -m "atc-probe: which cart writes fire AddToCart" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

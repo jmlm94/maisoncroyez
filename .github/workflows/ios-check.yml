@@ -1,0 +1,67 @@
+name: ios-check
+# 2026-10-28 (owner's iPhone screenshot: the kits page stuck on the pre-hero picture, nothing below): loads /pages/diffuser-kits in WebKit (iPhone 14 profile) and Chromium, with an empty cart and with a 4-line kit already in the cart, takes screenshots at 1 / 3 / 6 / 12 s, records page errors, console errors, failed requests, when mc-dk-app.js arrives and when #root mounts. Clears the cart. Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/ios-check.yml']
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps webkit chromium
+      - name: Check
+        run: |
+          mkdir -p lp-factory/pages/diffuser-kits/ios
+          cat > check.mjs <<'EOF2'
+          import { webkit, chromium, devices } from 'playwright';
+          import fs from 'fs';
+          const OUT = 'lp-factory/pages/diffuser-kits/ios'; const res = [];
+          for (const [engine, bt] of [['webkit', webkit], ['chromium', chromium]]) {
+            const b = await bt.launch();
+            for (const prefill of [false, true]) {
+              const ctx = await b.newContext(engine === 'webkit' ? { ...devices['iPhone 14'] } : { ...devices['Pixel 7'] });
+              const pg = await ctx.newPage(); const t0 = Date.now();
+              const r = { engine, prefill, errs: [], console: [], failed: [], app: null, mountAt: null };
+              pg.on('pageerror', (e) => r.errs.push(e.message.slice(0, 200)));
+              pg.on('console', (m) => { if (m.type() === 'error') r.console.push(m.text().slice(0, 160)); });
+              pg.on('requestfailed', (q) => { const u = q.url(); if (/maisoncroyez|cdn\.shopify/.test(u)) r.failed.push(u.slice(-80) + ' ' + ((q.failure() || {}).errorText || '')); });
+              pg.on('response', (q) => { if (/mc-dk-app\.js/.test(q.url())) r.app = { t: Date.now() - t0, status: q.status(), url: q.url().slice(-40) }; });
+              if (prefill) {
+                await pg.goto('https://maisoncroyez.com/pages/contact', { waitUntil: 'domcontentloaded', timeout: 90000 }).catch(() => {});
+                r.prefillAdd = await pg.evaluate(async () => { const r = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: 45900240289901, quantity: 1 }, { id: 41212020457581, quantity: 1, selling_plan: 7883817069 }, { id: 41212021669997, quantity: 1, selling_plan: 7883817069 }, { id: 41212021506157, quantity: 1, selling_plan: 7883817069 }] }) }); const c = await (await fetch('/cart.js')).json(); return { status: r.status, n: c.item_count }; }).catch((e) => 'err ' + e.message);
+              }
+              const t1 = Date.now();
+              await pg.goto('https://maisoncroyez.com/pages/diffuser-kits', { waitUntil: 'domcontentloaded', timeout: 90000 }).catch((e) => r.errs.push('goto ' + e.message.slice(0, 80)));
+              for (const s of [1, 3, 6, 12]) {
+                await pg.waitForTimeout(Math.max(0, s * 1000 - (Date.now() - t1)));
+                const st = await pg.evaluate(() => ({ rootKids: (document.getElementById('root') || {}).children ? document.getElementById('root').children.length : -1, prehero: (() => { const p = document.getElementById('mc-prehero'); return p ? getComputedStyle(p).display : 'none'; })(), h1: (document.querySelector('#buybox h1') || {}).innerText || null, scripts: [...document.scripts].filter((x) => /mc-(lp|dk)/.test(x.src)).map((x) => x.src.split('/').pop().slice(0, 50)) })).catch((e) => ({ err: e.message.slice(0, 80) }));
+                if (st.rootKids > 0 && !r.mountAt) r.mountAt = s;
+                r['s' + s] = st;
+                await pg.screenshot({ path: `${OUT}/${engine}-${prefill ? 'cart4' : 'empty'}-${s}s.png` }).catch(() => {});
+              }
+              if (prefill) r.cleared = await pg.evaluate(async () => (await (await fetch('/cart/clear.js', { method: 'POST' })).json()).item_count).catch(() => null);
+              res.push(r); console.log(JSON.stringify(r)); await ctx.close();
+            }
+            await b.close();
+          }
+          fs.writeFileSync(`${OUT}/ios-check-latest.json`, JSON.stringify(res, null, 1));
+          EOF2
+          node check.mjs
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/diffuser-kits/ios
+          git commit -m "ios-check: kits page in WebKit (iPhone) and Chromium" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

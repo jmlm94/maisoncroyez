@@ -1,5 +1,5 @@
 name: ios-check
-# 2026-10-28 (owner's iPhone screenshot: the kits page stuck on the pre-hero picture, nothing below): loads /pages/diffuser-kits in WebKit (iPhone 14 profile) and Chromium, with an empty cart and with a 4-line kit already in the cart, takes screenshots at 1 / 3 / 6 / 12 s, records page errors, console errors, failed requests, when mc-dk-app.js arrives and when #root mounts. Clears the cart. Edit this line and push to run. v2 (cases: webkit empty / cart4 / app request hanging, chromium slow phone; geometry of the pre-hero and the mounted hero). [run dk10-4c93b85]
+# 2026-10-28 (owner's iPhone screenshot: the kits page stuck on the pre-hero picture, nothing below): loads /pages/diffuser-kits in WebKit (iPhone 14 profile) and Chromium, with an empty cart and with a 4-line kit already in the cart, takes screenshots at 1 / 3 / 6 / 12 s, records page errors, console errors, failed requests, when mc-dk-app.js arrives and when #root mounts. Clears the cart. Edit this line and push to run. v2 (cases: webkit empty / cart4 / app request hanging, chromium slow phone; geometry of the pre-hero and the mounted hero). [run dk10b-2cb82e9]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -32,6 +32,9 @@ jobs:
             { name: 'webkit-hang', engine: 'webkit', block: 'hang' },
             { name: 'chromium-slow', engine: 'chromium', slow: true },
             { name: 'webkit-fail', engine: 'webkit', block: 'fail' },
+            { name: 'webkit-repeat', engine: 'webkit', repeat: true },
+            { name: 'webkit-empty2', engine: 'webkit' },
+            { name: 'webkit-repeat2', engine: 'webkit', repeat: true },
           ];
           const geo = () => { const g = (s) => { const e = document.querySelector(s); if (!e) return null; const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return { x: Math.round(r.x), y: Math.round(r.y + scrollY), w: Math.round(r.width), h: Math.round(r.height), fs: cs.fontSize, lh: cs.lineHeight, ff: cs.fontFamily.slice(0, 40), fw: cs.fontWeight, m: cs.margin, p: cs.padding, ls: cs.letterSpacing, color: cs.color, bg: cs.backgroundColor, br: cs.borderRadius, ta: cs.textAlign, disp: cs.display }; };
             return { vw: innerWidth, prehero: g('#mc-prehero'), preImg: g('#mc-hero-p'), preTxt: g('#mc-pre-txt'), preRetry: g('#mc-pre-retry'), hero: g('#buybox .hv-poster'), rating: g('#buybox .tb-rating'), stars: g('#buybox .stars5'), ratingB: g('#buybox .tb-rating b'), kicker: g('#buybox .dk-freebar'), h1: g('#buybox h1'), badges: g('#buybox .hs3'), badge0: g('#buybox .hs3 .hs'), buybox: g('#buybox .buybox'), main: g('main') }; };
@@ -53,6 +56,7 @@ jobs:
               await pg.goto('https://maisoncroyez.com/pages/contact', { waitUntil: 'domcontentloaded', timeout: 90000 }).catch(() => {});
               r.prefillAdd = await pg.evaluate(async () => { const r = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: 45900240289901, quantity: 1 }, { id: 41212020457581, quantity: 1, selling_plan: 7883817069 }, { id: 41212021669997, quantity: 1, selling_plan: 7883817069 }, { id: 41212021506157, quantity: 1, selling_plan: 7883817069 }] }) }); const c = await (await fetch('/cart.js')).json(); return { status: r.status, n: c.item_count }; }).catch((e) => 'err ' + e.message);
             }
+            if (c.repeat) { await pg.goto('https://maisoncroyez.com/pages/diffuser-kits', { waitUntil: 'load', timeout: 90000 }).catch(() => {}); await pg.waitForTimeout(6000); r.firstMount = await pg.evaluate(() => document.getElementById('root').children.length).catch(() => null); } /* repeat visit: everything cached, the case that froze on the owner's phone */
             const t1 = Date.now();
             await pg.goto('https://maisoncroyez.com/pages/diffuser-kits', { waitUntil: 'commit', timeout: 90000 }).catch((e) => r.errs.push('goto ' + e.message.slice(0, 80)));
             for (const s of [1, 2, 3, 5, 9, 18]) {

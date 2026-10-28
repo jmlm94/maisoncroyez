@@ -1503,6 +1503,14 @@ const StaticOnce = (window.preact && window.preact.Component) /* the React shim 
   ? (() => { class S extends window.preact.Component { shouldComponentUpdate() { return false; } render(p) { return p.children; } } return S; })()
   : ((p) => p.children);
 
-ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+/* dk10b (2026-10-28): the theme layout injects this app as soon as theme.css applies, which on a cached repeat visit can be
+   before the parser has reached <div id="root">; render once #root exists instead of failing on null. */
+(function mountWhenReady() {
+  let done = false;
+  const tryMount = () => { if (done) return true; const r = document.getElementById("root"); if (!r) return false; done = true; ReactDOM.createRoot(r).render(html`<${App}/>`); return true; };
+  if (tryMount()) return;
+  const iv = setInterval(() => { if (tryMount()) clearInterval(iv); }, 25);
+  document.addEventListener("DOMContentLoaded", () => { if (tryMount()) clearInterval(iv); });
+})();
 
 })();

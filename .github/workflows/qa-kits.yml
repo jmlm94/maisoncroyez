@@ -27,7 +27,7 @@ jobs:
           curl -sSL -A "Mozilla/5.0" https://maisoncroyez.com/pages/diffuser-kits -o live.html || true
           KEY=$(grep -o "var v='[^']*'" live.html | head -1 | cut -d"'" -f2)
           echo "live key: $KEY"
-          if [[ "$KEY" == dk9* ]]; then echo "run=yes" >> "$GITHUB_OUTPUT"; else echo "run=no" >> "$GITHUB_OUTPUT"; echo "live page is not on dk9 yet — skipping"; fi
+          if [[ "$KEY" == dk9* || "$KEY" == dk1* ]]; then echo "run=yes" >> "$GITHUB_OUTPUT"; else echo "run=no" >> "$GITHUB_OUTPUT"; echo "live page is not on dk9 yet — skipping"; fi
       - name: Kits QA
         if: steps.gate.outputs.run == 'yes'
         run: |

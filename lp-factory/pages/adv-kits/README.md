@@ -85,3 +85,8 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Description cut to one sentence + the bold "Read these 5 alerts" line (keeps photo + button on the first phone screen).
 - Lede opens on the EPA fine-particles fact (candles and incense); the humidifier fact stays in Alert #1.
 - Shopify page title to become "What Your Candles, Sprays And Plug-Ins Leave In The Air Your Kids Breathe".
+
+## v12 (2026-10-29, owner): 8-photo creator grid
+- The 2x2 kits-page photo grid is now 8 creator photos from the owner's Drive folder (fetched by fetch-drive.yml into drive/),
+  one per creator, product in frame, square crops that drop the burned-in captions (shopify/img/mc-cs-ugc1..8.jpg,
+  Shopify Files ?v=1793311480). 2 columns on phones, 4 from 560 px.

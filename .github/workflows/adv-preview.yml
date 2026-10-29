@@ -1,5 +1,5 @@
 name: adv-preview
-# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 4: preview of theme 188123349101, article fast path]
+# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 5: live page after the v11 headline]
 on:
   workflow_dispatch:
   push:
@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      OUT: lp-factory/pages/adv-kits/shopify/preview-theme
+      OUT: lp-factory/pages/adv-kits/shopify/preview
       BODY: lp-factory/pages/adv-kits/shopify/page-body.html
-      URL: 'https://maisoncroyez.com/pages/indoor-air-alerts?preview_theme_id=188123349101'
+      URL: 'https://maisoncroyez.com/pages/indoor-air-alerts'
       INJECT: ''
     steps:
       - uses: actions/checkout@v4
@@ -93,6 +93,11 @@ jobs:
                 ctas: [...(root ? root.querySelectorAll('a.btn') : [])].map(a => a.getAttribute('href')),
                 alerts: root ? root.querySelectorAll('.alert').length : 0,
                 pageHeight: document.body.scrollHeight,
+                lede: (root && root.querySelector('.lede') || {}).innerText || 'MISSING',
+                desc: (root && root.querySelector('.desc') || {}).innerText || 'MISSING',
+                readBtnBottom: root ? Math.round(root.querySelector('header.top .btn').getBoundingClientRect().bottom + scrollY) : null,
+                title: document.title,
+                text: root ? root.innerText : '',
               };
             });
             // sticky bar: hidden at the top, on after alert 1, off on the offer
@@ -112,6 +117,18 @@ jobs:
               await Promise.all([pg.waitForURL(/diffuser-kits/, { timeout: 30000 }).catch(() => null), pg.click('#offer a.btn')]);
               r.ctaLandsOn = pg.url().split('?')[0];
             }
+            if (label === 'phone') {
+              const ref = await b.newPage();
+              await ref.setContent(BODY.replace(/<link[^>]+fonts.googleapis[^>]+>/, ''));
+              const want = await ref.evaluate(() => document.getElementById('mcadv').innerText);
+              await ref.close();
+              const norm = t => t.replace(/\s+/g, ' ').trim();
+              const a = norm(r.audit.text), w = norm(want);
+              let i = 0; while (i < a.length && a[i] === w[i]) i++;
+              r.textMatchesBuild = a === w;
+              if (!r.textMatchesBuild) r.firstDiff = { at: i, live: a.slice(i, i + 80), build: w.slice(i, i + 80) };
+            }
+            delete r.audit.text;
             report.runs.push(r);
             await ctx.close();
           }

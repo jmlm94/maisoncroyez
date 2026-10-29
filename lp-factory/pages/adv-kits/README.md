@@ -54,3 +54,7 @@ buy buttons.
 
 v9 (owner, 2026-10-29): every word capitalised again on the headline and all section headings; the product photo above
 "Here's How It Fixes All 5 Alerts." is now the kits page's first gallery image (assets/cdn/diffuser/d92.png).
+
+v10 (owner comments, 2026-10-29): byline is just "By Patricia T." (no role, no "Sponsored"; the footer disclosure stays);
+the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, kp-badge, kp-intentions) captioned
+"Maison Croyez at home."

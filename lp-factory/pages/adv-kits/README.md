@@ -51,3 +51,6 @@ new Alert #3 "What's in that “fresh” scent isn't on the label." (Steinemann 
 toxic or hazardous, one listed on a label); product photo after Patricia's note; "Meet Maison Croyez" early button after
 Alert #1; offer says diffusers go back to $89.95 after the first 1,000; "Loved by 2,500+ homes in America" under both
 buy buttons.
+
+v9 (owner, 2026-10-29): every word capitalised again on the headline and all section headings; the product photo above
+"Here's How It Fixes All 5 Alerts." is now the kits page's first gallery image (assets/cdn/diffuser/d92.png).

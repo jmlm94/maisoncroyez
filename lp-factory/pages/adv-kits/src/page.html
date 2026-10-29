@@ -49,6 +49,17 @@ h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,6.3vw,40px);lin
 .author{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink3);line-height:1.35;margin:0 0 10px}
 .author .av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--white);display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:15px}
 .author b{color:var(--ink);font-weight:700}
+.author img.av{object-fit:cover;background:var(--wash)}
+.sp{border:1px solid var(--ink3);border-radius:3px;padding:0 5px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.lede{font-size:20px;line-height:1.45}
+.early{border:1px solid var(--rule);padding:14px 16px 16px;margin:0 0 18px;text-align:center}
+.early p{font-family:var(--sans);font-size:14.5px;font-weight:600;margin:0 0 2px}
+.btn.ghost{background:var(--white);color:var(--black);border:2px solid var(--black)}
+.btn.ghost:hover{background:var(--wash)}
+.trust{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.02em;text-align:center;margin:10px 0 0}
+.bio{display:flex;gap:12px;align-items:center;border-top:1px solid var(--ink);padding:16px 0 0;margin:28px 0 0}
+.bio img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none}
+.bio p{margin:0;font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--ink2)}
 .hero{margin:0}
 .hero img{width:100%;aspect-ratio:2/1;object-fit:cover}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--black);color:var(--white);text-decoration:none;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:14px 18px;border-radius:4px;margin:10px 0 0;text-align:center;border:0;cursor:pointer}
@@ -133,9 +144,9 @@ footer ol{margin:0 0 8px;padding-left:18px}
 <main class="wrap">
   <header class="top">
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li>Health</li><li>Healthy Home</li><li aria-current="page">Indoor Air Quality</li></ol></nav>
-    <h1>5 Alerts You're Missing Out About Candles, Sprays And Diffusers That Could Affect Your Health And Others.</h1>
+    <h1>Your “healthy” diffuser may be growing mold. Here are 4 more things in your home nobody warns you about.</h1>
     <p class="desc">Why fill your home with smoke and chemicals just because they smell good? Every day you keep doing it is another day your family breathes it in. <strong>Read these 5 alerts before you do it again.</strong></p>
-    <div class="author"><span class="av" aria-hidden="true">E</span><span>By <b>The Editorial Team</b> · 5 min read<br>Updated Oct 29, 2026</span></div>
+    <div class="author"><img class="av" src="{{pat_face}}" width="68" height="68" alt=""><span>By <b>Patricia T.</b>, founder of Maison Croyez<br>Updated Oct 29, 2026 · 5 min read · <span class="sp">Sponsored</span></span></div>
     <figure class="hero">
       <img src="{{smoke}}" width="1200" height="675" alt="Late-afternoon sun through a living-room window showing a haze of smoke above burning candles and an incense stick">
     </figure>
@@ -143,28 +154,28 @@ footer ol{margin:0 0 8px;padding-left:18px}
   </header>
 
   <article>
-    <p>Nobody thinks twice about it. You light a candle to unwind, spray the bathroom before guests arrive, plug something into the hallway outlet and run a diffuser on the nightstand.</p>
-    <p>It smells like home. It feels harmless.</p>
-    <p>But every one of those habits leaves something behind: in a water tank you never look inside, on your bank statement, on your furniture, in your nose and, worst of all, <strong>in your lungs</strong>.</p>
+    <p class="lede"><strong>The EPA tells anyone with a humidifier to empty the tank every day and scrub it every third day.</strong> When did you last clean yours?</p>
+    <p>If you're like most people, you don't remember. And the water diffuser on your nightstand works exactly the same way.</p>
+    <p>It doesn't stop there. The candle you light to unwind, the spray before guests arrive, the plug-in in the hallway: <strong>every one of them leaves something behind in the air your family breathes.</strong></p>
     <p class="hook">Here are the five alerts most people miss. Save the last one for the end: it's the one that matters most.</p>
 
     <section class="alert" id="alert-1" aria-labelledby="a1">
       <p class="alabel">Alert #1</p>
-      <h2 id="a1">The “Healthy” Diffuser On Your Nightstand May Be Growing Mold.</h2>
+      <h2 id="a1">The “healthy” diffuser on your nightstand may be growing mold.</h2>
       <figure><img src="{{mold}}" width="680" height="400" alt="The inside of a water diffuser's tank with a ring of grey residue and pink buildup"><figcaption>The tank of a water diffuser after a few weeks of use.</figcaption></figure>
       <p>Water diffusers feel like the clean option. Just water and a few drops of oil, right?</p>
       <p>That tank sits full of <strong>standing water for days, warm and in the dark</strong>. It's exactly where <strong>mold and bacteria grow</strong>. And every time the diffuser runs, <strong>whatever is growing in there goes into the mist you breathe while you sleep.</strong></p>
-      <p>It's serious enough that <strong>the EPA tells people who use humidifiers, which mist water the same way, to empty the tank every day and clean it every third day.</strong></p>
+      <p>That's why the EPA's advice for humidifiers, which mist water the same way, is so strict: <strong>empty it every day, clean it every third day.</strong> Skip a week and you're misting whatever grew in there.</p>
       <p class="note">Be honest: when did you last scrub yours?</p>
-      <p class="hook">And that's the one people buy because it seems like the healthy choice. The rest of the house isn't doing any better, starting with your wallet.</p>
+      <div class="early"><p>Already know you want a diffuser with no water at all?</p><a class="btn ghost" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Meet Maison Croyez ➔</a></div>
+      <p class="hook">And that's the one people buy because it seems like the healthy choice. The rest of the house isn't doing any better.</p>
     </section>
 
     <section class="alert" id="alert-2" aria-labelledby="a2">
       <p class="alabel">Alert #2</p>
-      <h2 id="a2">You're Burning Through $2,500+ A Year Without Realizing It.</h2>
-      <figure><img src="{{grave}}" width="640" height="640" alt="A box full of burned-down candles, reed diffusers, plug-in refills and an old water diffuser"></figure>
-      <p>Nobody budgets for scent. That's exactly why it gets so expensive.</p>
-      <p>A $30 candle every week. Refills for three plug-ins. A few cans of spray. Reed refills, oils, incense. <strong>None of it feels like much on its own.</strong> Now add it up for a year:</p>
+      <h2 id="a2">It's costing you $2,500+ a year, and your home shows it.</h2>
+      <figure><img src="{{leak}}" width="720" height="720" alt="A white water diffuser leaking on a walnut dresser, water rings in the finish and books getting wet"></figure>
+      <p>Nobody budgets for scent. A $30 candle every week. Refills for three plug-ins. A few cans of spray. Reed refills, oils, incense. <strong>None of it feels like much on its own.</strong> Now add it up for a year:</p>
       <div class="receipt" role="table" aria-label="A typical year of scent">
         <div role="row"><span role="cell">Candles<small>one a week at $30</small></span><span role="cell">$1,560</span></div>
         <div role="row"><span role="cell">Plug-in refills<small>3 outlets, $9 a month each</small></span><span role="cell">$324</span></div>
@@ -172,22 +183,23 @@ footer ol{margin:0 0 8px;padding-left:18px}
         <div role="row"><span role="cell">Oils, reeds and incense<small>about $30 a month</small></span><span role="cell">$360</span></div>
         <div role="row"><span role="cell">Every year</span><span role="cell">$2,532</span></div>
       </div>
-      <p>And what do you have at the end of it? <strong>A cabinet of empty jars, and a home that smells like nothing again by morning.</strong></p>
-      <p class="hook">But the money is the least of it.</p>
+      <p>And your home pays twice. Look up at the ceiling above the spot where you burn candles. That grey shadow is <strong>soot</strong>, and it doesn't wipe off. Water diffusers get bumped and overfilled, leaving <strong>white rings and warped spots</strong> on the dresser. Reed diffusers tip over and the oil strips the finish off wood.</p>
+      <p class="hook">If this is what it does to wood and paint, what is it doing to the people who breathe it? Start with what's actually in it.</p>
     </section>
 
     <section class="alert" id="alert-3" aria-labelledby="a3">
       <p class="alabel">Alert #3</p>
-      <h2 id="a3">Your Furniture, Walls And Ceiling Are Quietly Paying For It Too.</h2>
-      <figure><img src="{{leak}}" width="720" height="720" alt="A white water diffuser leaking on a walnut dresser, water rings in the finish and books getting wet"></figure>
-      <p>Look up at the ceiling above the spot where you burn candles. See that grey shadow? <strong>That's soot.</strong> It settles on walls, curtains and lampshades, and it doesn't wipe off.</p>
-      <p>Water diffusers get bumped, overfilled and moved, and the water ends up on the dresser: <strong>white rings, a cloudy stain, a warped spot right under the base.</strong> Reed diffusers tip over and the oil strips the finish off wood. Plug-ins drip down the wall under the outlet.</p>
-      <p class="hook">Here's the question nobody asks: if this is what it does to wood and paint, what is it doing to the people who breathe it every night?</p>
+      <h2 id="a3">What's in that “fresh” scent isn't on the label.</h2>
+      <figure><img src="{{tried}}" width="640" height="640" alt="A plug-in air freshener, a candle and a room spray on a stone counter"></figure>
+      <p>Turn over an air freshener, a room spray or a candle. You'll usually find one word: <strong>“fragrance.”</strong> In the U.S., that single word can stand for dozens of ingredients that companies don't have to name.</p>
+      <p>When researchers tested 25 popular fragranced products, air fresheners included, <strong>they found 133 different chemicals released into the air. 24 of them are classified as toxic or hazardous under U.S. federal law, and only one of the 133 was listed on any label.</strong></p>
+      <p class="note">You can't avoid what nobody tells you is there.</p>
+      <p class="hook">And if grown adults react to it, think about the smallest lungs in the house.</p>
     </section>
 
     <section class="alert" id="alert-4" aria-labelledby="a4">
       <p class="alabel">Alert #4</p>
-      <h2 id="a4">The Sneezing And Headaches You Blame On The Season May Be Coming From Your Candle.</h2>
+      <h2 id="a4">The sneezing and headaches you blame on the season may be coming from your candle.</h2>
       <figure><img src="{{allergy}}" width="720" height="720" alt="A mother holding a tissue to her nose next to her daughter and a golden retriever, an air freshener spray and a lit candle in front"></figure>
       <p>Itchy eyes. A stuffy nose that shows up every evening. A headache by 9 p.m. Most of us blame pollen, the weather or a long day.</p>
       <p>But <strong>fragrance is one of the most common triggers.</strong> In a national U.S. survey, <strong>about one in three adults said fragranced products like air fresheners and scented candles gave them health problems, from headaches to asthma attacks.</strong></p>
@@ -198,7 +210,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
 
     <section class="alert" id="alert-5" aria-labelledby="a5">
       <p class="alabel">Alert #5</p>
-      <h2 id="a5">Every Night You Light A Candle, Your Lungs Breathe What It Leaves Behind.</h2>
+      <h2 id="a5">Every night you light a candle, your lungs breathe what it leaves behind.</h2>
       <figure><img src="{{soot}}" width="640" height="640" alt="A three-wick candle in a glass jar with a thread of smoke rising from the flame"></figure>
       <p>This is the one that matters most.</p>
       <p>Candles and incense don't only release scent. Every flame releases smoke and soot. <strong>The EPA lists burning candles and incense among the sources of fine particles indoors</strong>, particles small enough to <strong>get deep into your lungs, and some can even reach your bloodstream.</strong></p>
@@ -216,7 +228,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
 
     <section class="alert" id="fix" aria-labelledby="fx">
       <p class="alabel dark">The fix</p>
-      <h2 id="fx">“I Couldn't Find A Safe Way To Make My Home Smell Good, So I Made One.”</h2>
+      <h2 id="fx">“I couldn't find a safe way to make my home smell good, so I made one.”</h2>
       <div class="founder">
         <img src="{{patricia}}" width="640" height="640" alt="Patricia, founder of Maison Croyez, at home with her dog">
         <p>“I loved coming home to a house that smelled beautiful. Then I started reading about what I was actually breathing: the soot from my candles, the sprays, the water diffuser on my nightstand that I never cleaned as often as I should have.</p>
@@ -225,13 +237,14 @@ footer ol{margin:0 0 8px;padding-left:18px}
         <p>I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</p>
         <p class="sig">Patricia T.<span>Founder &amp; Creative Director, Maison Croyez</span></p>
       </div>
+      <figure><img src="{{mist}}" width="640" height="800" alt="The Maison Croyez diffuser releasing a fine dry mist on a coffee table in a sunlit living room"><figcaption>The Maison Croyez diffuser: pure fragrance oil turned into a dry mist. No water, no flame.</figcaption></figure>
       <p>It works like the diffusers in luxury hotel lobbies: <strong>it turns pure fragrance oil into a fine, dry mist</strong> and moves it through the whole room. Nothing burns. Nothing sprays. There's no water. One diffuser fills up to 600 square feet in about ten minutes.</p>
-      <h3 class="bigt">Here's How It Fixes All 5 Alerts.</h3>
+      <h3 class="bigt">Here's how it fixes all 5 alerts.</h3>
       <ul class="fix-list">
         <li><span class="fl">Alert #1 · Mold</span><span class="fa">No water and no tank. Nothing to grow, nothing to scrub.</span></li>
-        <li><span class="fl">Alert #2 · Your money</span><span class="fa">One 100 ml bottle lasts 30+ days, and the first 1,000 diffusers are free.</span></li>
-        <li><span class="fl">Alert #3 · Your home</span><span class="fa">No soot. The bottle locks in, so it's waterless and leakproof.</span></li>
-        <li><span class="fl">Alert #4 · Allergies</span><span class="fa">Hypoallergenic, 100% organic oils, with three strength settings.</span></li>
+        <li><span class="fl">Alert #2 · Your money and home</span><span class="fa">One 100 ml bottle lasts 30+ days. No soot, and the bottle locks in, so nothing spills.</span></li>
+        <li><span class="fl">Alert #3 · Hidden chemicals</span><span class="fa">100% organic oils with notes you can name on every bottle.</span></li>
+        <li><span class="fl">Alert #4 · Allergies</span><span class="fa">Hypoallergenic oils, with three strength settings.</span></li>
         <li><span class="fl">Alert #5 · Your lungs</span><span class="fa">No flame, no smoke, no soot. Safe to leave on overnight.</span></li>
       </ul>
       <p class="fr-h">Every Maison Croyez fragrance is:</p>
@@ -241,6 +254,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
         <div><b>Cruelty-free</b><span>Never tested on animals.</span></div>
       </div>
       <a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Get my free diffusers ➔</a>
+      <p class="trust">Loved by 2,500+ homes in America</p>
     </section>
 
     <div class="pics">
@@ -256,14 +270,18 @@ footer ol{margin:0 0 8px;padding-left:18px}
 
     <section class="offer" id="offer" aria-labelledby="of">
       <p class="alabel">Launch offer</p>
-      <h2 id="of">We're New, So The First 1,000 Diffusers Are On Us.</h2>
+      <h2 id="of">We're new, so the first 1,000 diffusers are on us.</h2>
       <p>Maison Croyez is a young brand, and we know trying something new in your home takes trust. So <strong>we're taking the risk instead of you: the first 1,000 diffusers are free</strong> when you pick your scents.</p>
+      <p><strong>After the first 1,000, diffusers go back to $89.95.</strong></p>
       <a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Claim one of the 1,000 free diffusers ➔</a>
+      <p class="trust">Loved by 2,500+ homes in America</p>
     </section>
 
     <details><summary>Is it a good fit if someone at home has allergies or asthma?</summary><p>Nothing burns and nothing is sprayed, and the oils are hypoallergenic. If someone is sensitive to fragrance, start on the subtle setting. You have 30 days to send everything back for a full refund.</p></details>
     <details><summary>Is it safe around kids and pets?</summary><p>There's no flame, no smoke, no heat and no water, so it's safe to leave on overnight, in a kid's room or near pets. Start on the subtle setting in the room where your pet sleeps.</p></details>
     <details><summary>Am I locked in?</summary><p>No. Your scents ship every 30, 60 or 90 days, your choice, and you can swap, pause or cancel anytime.</p></details>
+
+    <div class="bio"><img src="{{pat_face}}" width="104" height="104" alt=""><p><b>About the author.</b> Patricia T. is the founder and creative director of Maison Croyez.</p></div>
   </article>
 </main>
 
@@ -274,6 +292,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
     <li>U.S. Environmental Protection Agency: Indoor Particulate Matter; Particulate Matter Basics; The Inside Story, A Guide to Indoor Air Quality.</li>
     <li>Steinemann, A. Fragranced consumer products: exposures and effects from emissions. Air Quality, Atmosphere &amp; Health, 2016.</li>
     <li>U.S. Environmental Protection Agency, Use and Care of Home Humidifiers.</li>
+    <li>Steinemann, A. et al. Fragranced consumer products: Chemicals emitted, ingredients unlisted. Environmental Impact Assessment Review, 2011.</li>
     <li>National Fire Protection Association, Home Candle Fires (2015–2019 averages).</li>
   </ol>
   <p>The yearly costs in Alert #2 are an example. Customer quotes come from the Maison Croyez customer survey and Amazon reviews.</p>

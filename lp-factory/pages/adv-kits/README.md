@@ -43,3 +43,11 @@ attached to the anonymous survey/Amazon quotes.
 
 v7 (owner, 2026-10-29): fix rows are plain black text with a green check (red "Alert #" labels kept); new strip under
 them, "Every Maison Croyez fragrance is:" IFRA 51 compliant / Paraben-free / Cruelty-free (owner-supplied claims).
+
+v8 (owner: "apply all", 2026-10-29): headline "Your “healthy” diffuser may be growing mold. Here are 4 more things in your
+home nobody warns you about." (sentence case, also on every alert heading); byline Patricia T. with her face crop and a
+"Sponsored" tag, author note at the end; lede opens on the EPA humidifier advice; money and furniture merged into Alert #2;
+new Alert #3 "What's in that “fresh” scent isn't on the label." (Steinemann et al. 2011: 25 products, 133 chemicals, 24
+toxic or hazardous, one listed on a label); product photo after Patricia's note; "Meet Maison Croyez" early button after
+Alert #1; offer says diffusers go back to $89.95 after the first 1,000; "Loved by 2,500+ homes in America" under both
+buy buttons.

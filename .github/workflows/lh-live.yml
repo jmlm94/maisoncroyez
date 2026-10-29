@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Run 2026-10-29: the new advertorial /pages/indoor-air-alerts (owner asked for a page speed test). 3 runs per form factor.
+# Run 2026-10-29 (2): /pages/indoor-air-alerts on the unpublished copy 188123349101 with the article added to the speed-round-3 fast path. Compare with lp-factory/pages/adv-kits/perf/lh-20261029T1959Z.md.
 name: lh-live
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/indoor-air-alerts' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/adv-kits/perf' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/indoor-air-alerts?preview_theme_id=188123349101' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/adv-kits/perf-preview' }}
       RUNS: ${{ github.event.inputs.runs || '3' }}
     steps:
       - uses: actions/checkout@v4

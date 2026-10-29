@@ -70,3 +70,12 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Page gid://shopify/Page/163225075821, title "Your “Healthy” Diffuser May Be Growing Mold", default page template, published.
 - Images: 13 Shopify Files (mc-cs-*.jpg, ?v=1793302792), map in `shopify/urls.json`; body = `shopify/page-body.html` built with it.
 - To change the article: edit `src/page.html`, run `python3 shopify/build.py body shopify/urls.json`, then pageUpdate the body.
+
+## Speed 2026-10-29 (perf/lh-20261029T1959Z.md)
+- Lighthouse 3x: mobile 46 / 58 / 54 (LCP 6.3–7.0 s, TBT 680–1,700 ms), desktop 95 / 96 / 98 (LCP 1.1–1.4 s).
+- Filmstrip: the full first screen is painted at ~1.5 s on the throttled phone; the lab LCP is the hero image, held back by
+  "render delay" (4.3 s) charged to main-thread work from site-wide scripts (theme inline scripts, Facebook, Postscript, Subi, 9gtb, Klaviyo).
+- The store's black announcement bar flashes for a moment before the body's CSS hides it.
+- Next lever: add `indoor-air-alerts` to the theme's speed-round-3 landing-page list (theme.css off the critical path, header
+  hidden from the head). Needs a theme copy the owner publishes; the kits page scores 91–92 mobile with it.
+- PSI API run failed: the anonymous daily quota was used up (429).

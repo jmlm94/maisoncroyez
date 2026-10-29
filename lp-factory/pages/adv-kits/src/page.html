@@ -28,11 +28,20 @@ img{display:block;max-width:100%;height:auto}
 .site .wrap{display:grid;grid-template-columns:28px 1fr 28px;align-items:center;gap:8px;padding-block:8px}
 .burger{width:22px;height:14px;display:grid;align-content:space-between}
 .burger i{display:block;height:2px;background:var(--ink)}
-.wordmark{text-align:center;font-family:var(--serif);font-weight:700;font-size:21px;letter-spacing:-.01em;line-height:1.1}
-.date{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;margin-top:1px;letter-spacing:.02em}
+.logo{justify-self:center;display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--black)}
+.logo:focus-visible{outline:2px solid var(--ink3);outline-offset:3px}
+.logo .mark{flex:none;width:32px;height:32px}
+.logo .lt{display:flex;flex-direction:column;align-items:center;line-height:1}
+.logo .l0{font-family:var(--sans);font-weight:800;font-size:7.5px;letter-spacing:.42em;padding-left:.42em;margin-bottom:2px}
+.logo .l1{font-family:var(--serif);font-weight:700;font-size:21px;letter-spacing:-.02em;white-space:nowrap}
+.logo .l2{display:flex;align-items:center;gap:5px;font-family:var(--sans);font-weight:800;font-size:7.5px;letter-spacing:.42em;padding-left:.42em;margin-top:3px}
+.logo .l2::before,.logo .l2::after{content:"";width:14px;height:1px;background:var(--black)}
+.search{justify-self:end;width:20px;height:20px}
 .top{padding-block:12px 0}
-.pre{font-family:var(--sans);font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px;display:flex;align-items:center;gap:8px}
-.pre::before{content:"";width:8px;height:8px;background:var(--black);border-radius:50%}
+.crumbs{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:0 0 8px}
+.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 0}
+.crumbs li+li::before{content:"\203A";margin:0 7px;color:var(--ink3)}
+.crumbs li:last-child{color:var(--ink)}
 h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,6.3vw,40px);line-height:1.14;letter-spacing:-.01em;margin:0 0 10px;text-wrap:balance}
 .desc{font-size:15.5px;line-height:1.45;color:var(--ink2);margin:0 0 10px}
 .author{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink3);line-height:1.35;margin:0 0 10px}
@@ -93,18 +102,18 @@ footer ol{margin:0 0 8px;padding-left:18px}
 @media (prefers-reduced-motion:reduce){.bar{transition:none}}
 </style>
 
-<div class="ann"><div class="wrap">Read this before you light another candle</div></div>
+<div class="ann" id="top"><div class="wrap">Read this before you light another candle</div></div>
 <div class="site"><div class="wrap">
   <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
-  <div><div class="wordmark">The Indoor Air Report</div><div class="date">Thursday, October 29, 2026</div></div>
-  <span aria-hidden="true"></span>
+  <a class="logo" href="#top" aria-label="The Indoor Air Report"><svg class="mark" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="17.5" fill="#000"/><g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M7 12.5q3-2.6 6 0t6 0t6 0t5 0"/><path d="M7 18q3-2.6 6 0t6 0t6 0t5 0"/><path d="M7 23.5q3-2.6 6 0t6 0t6 0t5 0"/></g></svg><span class="lt" aria-hidden="true"><span class="l0">THE</span><span class="l1">Indoor Air</span><span class="l2">REPORT</span></span></a>
+  <svg class="search" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="#111" stroke-width="2"/><path d="M13 13l5 5" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
 </div></div>
 
 <main class="wrap">
   <header class="top">
-    <p class="pre">Health alert</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li>Health</li><li>Healthy Home</li><li aria-current="page">Indoor Air Quality</li></ol></nav>
     <h1>5 Alerts You're Missing Out About Candles, Sprays And Diffusers That Could Affect Your Health And Others</h1>
-    <p class="desc">That cozy candle, the “fresh” spray, the diffuser by your bed. Each one leaves something behind, and most families only notice when it hits their bills, their furniture, their kids or their lungs.</p>
+    <p class="desc">Why fill your home with smoke and chemicals just because they smell good? Every day you keep doing it is another day your family breathes it in. Read these 5 alerts before you do it again.</p>
     <div class="author"><span class="av" aria-hidden="true">E</span><span>By <b>The Editorial Team</b> · 4 min read<br>Updated Oct 29, 2026 · <span class="tag">Advertorial</span></span></div>
     <figure class="hero">
       <img src="{{smoke}}" width="1200" height="675" alt="Late-afternoon sun through a living-room window showing a haze of smoke above burning candles and an incense stick">

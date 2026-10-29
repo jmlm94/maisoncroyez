@@ -1,10 +1,11 @@
 name: fetch-adv
 # Relay for the adv-kits advertorial: downloads each "name url" line of lp-factory/pages/adv-kits/img/urls.txt (generated
 # media the sandbox can't reach), saves a 1200 px JPEG as img/<name>.jpg and commits. Push urls.txt or this file to run.
+# ads/urls.txt (Meta ad images) is saved full size as a high-quality JPEG in ads/<name>.jpg.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
-    paths: ['lp-factory/pages/adv-kits/img/urls.txt', '.github/workflows/fetch-adv.yml']
+    paths: ['lp-factory/pages/adv-kits/img/urls.txt', 'lp-factory/pages/adv-kits/ads/urls.txt', '.github/workflows/fetch-adv.yml']
 permissions:
   contents: write
 jobs:
@@ -27,11 +28,20 @@ jobs:
             python3 -c "import sys;from PIL import Image;im=Image.open(sys.argv[1]).convert('RGB');im.thumbnail((1200,1200));im.save(sys.argv[2],'JPEG',quality=86,optimize=True)" "/tmp/$name.src" "$D/$name.jpg"
             ls -la "$D/$name.jpg"
           done < "$D/urls.txt"
+          A=lp-factory/pages/adv-kits/ads
+          [ -f "$A/urls.txt" ] && while read -r name url; do
+            [ -z "${name:-}" ] && continue
+            case "$name" in \#*) continue;; esac
+            [ -f "$A/$name.jpg" ] && continue
+            curl -fsSL -o "/tmp/$name.src" "$url"
+            python3 -c "import sys;from PIL import Image;im=Image.open(sys.argv[1]).convert('RGB');print(im.size);im.save(sys.argv[2],'JPEG',quality=92,optimize=True)" "/tmp/$name.src" "$A/$name.jpg"
+            ls -la "$A/$name.jpg"
+          done < "$A/urls.txt"
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/adv-kits/img
+          git add lp-factory/pages/adv-kits/img lp-factory/pages/adv-kits/ads
           git commit -m "adv-kits: fetched generated images" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

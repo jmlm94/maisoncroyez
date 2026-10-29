@@ -17,3 +17,11 @@ haze, allergies, leaking water diffuser; fetched by .github/workflows/fetch-adv.
 
 Build: `python3 src/images.py` (images to data URIs, img.json is gitignored) then
 `python3 src/build.py <out.html>`; publish the output to the artifact URL above.
+
+v3 (owner, 2026-10-29): black and white only, styled as a plain news listicle ("The Indoor Air Report" header, Source
+Serif 4 + Libre Franklin), not branded. Above the fold on a phone: announcement bar, header, pre-headline, headline,
+description, author (with the Advertorial tag), image, "Read the 5 alerts" button. Headline (owner's words, each word
+capitalised): "5 Alerts You're Missing Out About Candles, Sprays And Diffusers That Could Affect Your Health And Others".
+Alerts now escalate: #1 $2,500+ a year (receipt) -> #2 furniture, walls, ceiling -> #3 allergies (you, kids, pets) ->
+#4 mold in the "healthy" water diffuser -> #5 lungs and fire, each ending on a hook into the next. Then "The fix",
+quotes, a plain offer box, 3 FAQ, sources. Calculator, scent grid, setup steps and kit cards removed for now.

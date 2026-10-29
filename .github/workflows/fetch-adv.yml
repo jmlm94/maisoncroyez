@@ -17,13 +17,14 @@ jobs:
       - name: Fetch
         run: |
           set -euo pipefail
+          pip install -q pillow
           D=lp-factory/pages/adv-kits/img
           while read -r name url; do
             [ -z "${name:-}" ] && continue
             case "$name" in \#*) continue;; esac
             [ -f "$D/$name.jpg" ] && continue
             curl -fsSL -o "/tmp/$name.src" "$url"
-            convert "/tmp/$name.src" -resize '1200x1200>' -quality 86 "$D/$name.jpg"
+            python3 -c "import sys;from PIL import Image;im=Image.open(sys.argv[1]).convert('RGB');im.thumbnail((1200,1200));im.save(sys.argv[2],'JPEG',quality=86,optimize=True)" "/tmp/$name.src" "$D/$name.jpg"
             ls -la "$D/$name.jpg"
           done < "$D/urls.txt"
       - name: Commit

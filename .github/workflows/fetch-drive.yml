@@ -1,0 +1,35 @@
+name: fetch-drive
+# Downloads the owner's Drive photos listed in lp-factory/pages/adv-kits/drive/ids.txt ("name fileId", link-shared files)
+# into drive/<name>.jpg and commits. A file that isn't link-shared comes back as an HTML page and is logged, not saved.
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['lp-factory/pages/adv-kits/drive/ids.txt', '.github/workflows/fetch-drive.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch
+        run: |
+          D=lp-factory/pages/adv-kits/drive
+          while read -r name id; do
+            [ -z "${name:-}" ] && continue
+            case "$name" in \#*) continue;; esac
+            [ -f "$D/$name.jpg" ] && continue
+            curl -sL -o "/tmp/$name" "https://drive.usercontent.google.com/download?id=$id&export=download" || true
+            t=$(file -b --mime-type "/tmp/$name")
+            if [ "$t" = "image/jpeg" ] || [ "$t" = "image/png" ]; then cp "/tmp/$name" "$D/$name.jpg"; echo "ok $name $(stat -c %s "$D/$name.jpg")"; else echo "NOT AN IMAGE $name ($t)" | tee -a "$D/fetch-log.txt"; fi
+          done < "$D/ids.txt"
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/adv-kits/drive
+          git commit -m "adv-kits: fetched Drive creator photos" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

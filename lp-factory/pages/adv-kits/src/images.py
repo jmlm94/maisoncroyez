@@ -15,6 +15,8 @@ def fit(im, w):
 out = {}
 body = open(p("pages", "diffuser-kits", "page-body.html")).read()
 out["hero"] = re.search(r'src="(data:image/webp;base64,[^"]+)"', body).group(1)  # the kits page's living-room picture, 720 px
+for k, f in [("smoke", "smoke-haze"), ("allergy", "allergy"), ("leak", "leak")]:  # Higgsfield, fetched by fetch-adv.yml
+    out[k] = uri(fit(Image.open(p("pages/adv-kits/img", f + ".jpg")), 720))
 out["soot"] = uri(fit(Image.open(p("pages/pdp-diffuser/assets/processed/soot.jpg")).crop((100, 50, 800, 750)), 640))
 out["mold"] = uri(fit(Image.open(p("pages/pdp-diffuser/assets/processed/mold.jpg")).crop((0, 330, 800, 800)), 680))
 out["grave"] = uri(fit(Image.open(p("pages/adv-scent-ritual/assets/processed/grave.jpg")), 640))

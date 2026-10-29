@@ -79,3 +79,9 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Next lever: add `indoor-air-alerts` to the theme's speed-round-3 landing-page list (theme.css off the critical path, header
   hidden from the head). Needs a theme copy the owner publishes; the kits page scores 91–92 mobile with it.
 - PSI API run failed: the anonymous daily quota was used up (429).
+
+## v11 (2026-10-29, owner): headline about what candles / sprays / plug-ins leave in the air
+- h1: "The Candle In The Kitchen, The Spray In The Living Room, The Plug-In In The Bedroom: Here’s What They Actually Leave In The Air Your Kids And Pets Breathe."
+- Description cut to one sentence + the bold "Read these 5 alerts" line (keeps photo + button on the first phone screen).
+- Lede opens on the EPA fine-particles fact (candles and incense); the humidifier fact stays in Alert #1.
+- Shopify page title to become "What Your Candles, Sprays And Plug-Ins Leave In The Air Your Kids Breathe".

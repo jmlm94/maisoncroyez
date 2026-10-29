@@ -40,3 +40,6 @@ under the fix button removed; "Here's How It Fixes All 5 Alerts." as a big title
 over a green (#0A7A2F) answer box with white text; a 2x2 photo row before the quotes (creator photos mc-review-1/4/5/6
 from the kits page; #3 left out because it shows a lit candle), captioned "Maison Croyez in real homes." and not
 attached to the anonymous survey/Amazon quotes.
+
+v7 (owner, 2026-10-29): fix rows are plain black text with a green check (red "Alert #" labels kept); new strip under
+them, "Every Maison Croyez fragrance is:" IFRA 51 compliant / Paraben-free / Cruelty-free (owner-supplied claims).

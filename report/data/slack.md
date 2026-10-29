@@ -1,26 +1,24 @@
-*Maison Croyez — Daily Report · Tuesday, October 27, 2026*
+*Maison Croyez — Daily Report · Wednesday, October 28, 2026*
 
-:white_check_mark: *Shopify is back on Maison Croyez and Oct 25–26 are backfilled* (Oct 25: 6 orders, $499, +$325 · Oct 26: 3 orders, $120, +$63). All windows below are complete.
-:rocket: *Ads are back on: 2 new campaigns launched yesterday afternoon.* "MC | Creator Ads | CBO" ($350/day budget, live 4:17 PM ET) and "MC | Audience Test | CBO" ($250/day, live 5:41 PM ET), so $600/day combined starting today. LP Test stays paused.
-:dart: *First few hours:* $98 spent. Creator Ads got 1 purchase worth $310 ($56 spend), and it matches a real Shopify order (#MC27185, a Scent Supply Package + 100ml scent). Audience Test spent $42 with 3 add-to-carts and 3 checkouts but no purchase yet. Too early to judge either one.
-:mag: Yesterday was also a big renewal day: 12 subscription renewals ($639). The 7-day ROAS of 28.95× looks huge only because ads were off for most of the week; it'll normalize as the new campaigns spend.
+:warning: *Partial report: Shopify orders for Oct 28 NOT pulled.* The Shopify connector is pointed at *Carbinox Co.* (shopcarbinox.com) again, so I skipped the pull per the runbook guard. Orders are complete through Oct 27. Yesterday's $0 sales, $0 profit and "0 new" subscribers are not real, the $427 cost-per-sub may be overstated, and the 7-day and longer windows are missing Oct 28 orders. (4 renewal orders worth $170 were already seen early on Oct 28.) Please re-connect Shopify to *Maison Croyez* and reply "Run again" so I can backfill.
+:rocket: *First full day of the new campaigns: $754 spent, 3 Meta-attributed purchases ($240).* Creator Ads spent $463 against its $350/day budget (3 purchases: Nana 1 for $120 on $62 spend, Crystal B 2 for $120 on $66). Audience Test spent $291 on a $250 budget with 0 purchases despite 21 add-to-carts (Broad 14, Interest Stack 4, LAL 3). Ellis A, Adriana, Crystal A, Patricia Founder and Ellis B spent $57–77 each with no add-to-carts.
 
-Hello Jose — yesterday we sold *$949* on Shopify across *13 orders* (*$639* subscription · *$310* one-time). COGS were *$260*, shipping ≈*$98*, processing fees *$29.54*, handling *$13.00*, and Meta ad spend *$98* (CPM $230.23 · CPC $5.78 · CTR 3.98%).
+Hello Jose — yesterday we sold *$0* on Shopify across *0 orders* (*$0* subscription · *$0* one-time). COGS were *$0*, shipping ≈*$0*, processing fees *$0.00*, handling *$0.00*, and Meta ad spend *$754* (CPM $238.48 · CPC $4.52 · CTR 5.28%).
 
-:large_green_circle: *Contribution profit yesterday: $450* · Blended ROAS *9.65×*
+:red_circle: *Contribution profit yesterday: −$754* · Blended ROAS *—*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $949 | $98 | $450 (+612.5%) | 9.65× |
-| 7 days | $2,846 | $98 | $1,635 (+253.1%) | 28.95× |
-| 14 days | $5,898 | $2,772 | $567 (+176.0%) | 2.13× |
-| 28 days | $10,114 | $5,650 | −$179 (+97.6%) | 1.79× |
-| 45 days | $22,883 | $15,778 | −$4,945 (+76.2%) | 1.45× |
-| 90 days | $46,711 | $42,543 | −$25,706  | 1.10× |
+| Yesterday | $0 | $754 | −$754 (−267.5%) | — |
+| 7 days | $2,557 | $853 | $698 (+180.8%) | 3.00× |
+| 14 days | $5,568 | $3,344 | −$166 (+82.0%) | 1.67× |
+| 28 days | $9,844 | $6,404 | −$1,088 (+85.3%) | 1.54× |
+| 45 days | $21,908 | $15,604 | −$4,972 (+76.1%) | 1.40× |
+| 90 days | $45,993 | $42,525 | −$25,755  | 1.08× |
 
-:seedling: *Subscriptions:* 301 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 0 new yesterday · 97 renewal orders in 28d
-
-:scales: *Worth it yet?* Almost — each sub costs $377, returns ~$165 in 180d (0.44×). Break-even CAC: $165.
+:seedling: *Subscriptions:* 301 acquired · est. MRR *$16,926* (ceiling — cancels not visible via API) · 0 new yesterday · 91 renewal orders in 28d
+:vs: *Meta vs day before:* CPM +3.8% · CPC −21.9% · CTR +32.9% · spend +667.3%
+:scales: *Worth it yet?* Almost — each sub costs $427, returns ~$165 in 180d (0.39×). Break-even CAC: $165.
 
 :test_tube: *LP Test final tally (Oct 5–20, Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase. LP Kits was the best ad set at ~$167 per purchase. Break-even is $165 per new subscriber, which is the bar the new campaigns need to beat.
 

@@ -25,3 +25,12 @@ capitalised): "5 Alerts You're Missing Out About Candles, Sprays And Diffusers T
 Alerts now escalate: #1 $2,500+ a year (receipt) -> #2 furniture, walls, ceiling -> #3 allergies (you, kids, pets) ->
 #4 mold in the "healthy" water diffuser -> #5 lungs and fire, each ending on a hook into the next. Then "The fix",
 quotes, a plain offer box, 3 FAQ, sources. Calculator, scent grid, setup steps and kit cards removed for now.
+
+v5 (owner comments, 2026-10-29): logo header (date removed); breadcrumb HEALTH > HEALTHY HOME > INDOOR AIR QUALITY;
+sharper description with the last sentence bold; "Advertorial" tag removed from the author line (footer disclosure kept);
+hero caption removed; button "Read the alerts · 5 min read"; periods on every headline; red "Alert #" labels and an
+animated red announcement bar (the only colour besides black and white); mold moved to Alert #1 (order now mold, money,
+furniture, allergies, lungs); key lines bold; Alert #5 adds EPA (fine particles reach the bloodstream, indoor air 2-5x,
+90% of time indoors) and NFPA stats (7,400 candle fires a year, ~20 a day, 36% in bedrooms, 2015-2019 averages);
+"The fix" is now Patricia's founder note with her photo (img/patricia.jpg, the owner photo from the kits page);
+offer angle "We're new, so the first 1,000 diffusers are on us".

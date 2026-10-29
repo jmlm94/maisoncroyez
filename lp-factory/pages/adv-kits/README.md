@@ -34,3 +34,9 @@ furniture, allergies, lungs); key lines bold; Alert #5 adds EPA (fine particles 
 90% of time indoors) and NFPA stats (7,400 candle fires a year, ~20 a day, 36% in bedrooms, 2015-2019 averages);
 "The fix" is now Patricia's founder note with her photo (img/patricia.jpg, the owner photo from the kits page);
 offer angle "We're new, so the first 1,000 diffusers are on us".
+
+v6 (owner comments, 2026-10-29): offer box without prices and without the shipping/guarantee paragraph; trust line
+under the fix button removed; "Here's How It Fixes All 5 Alerts." as a big title; each fix row = red "Alert #" label
+over a green (#0A7A2F) answer box with white text; a 2x2 photo row before the quotes (creator photos mc-review-1/4/5/6
+from the kits page; #3 left out because it shows a lit candle), captioned "Maison Croyez in real homes." and not
+attached to the anonymous survey/Amazon quotes.

@@ -9,7 +9,7 @@
    headline, description, author, image and a "read" button. Five numbered alerts escalate; the product comes after. */
 :root{
   color-scheme:light;
-  --white:#FFFFFF; --black:#000000; --red:#C8102E; --red-deep:#8E0A1F; --red-hot:#E5283A; --ink:#111111; --ink2:#444444; --ink3:#6B6B6B; --rule:#E2E2E2; --wash:#F4F4F4;
+  --white:#FFFFFF; --black:#000000; --red:#C8102E; --green:#0A7A2F; --red-deep:#8E0A1F; --red-hot:#E5283A; --ink:#111111; --ink2:#444444; --ink3:#6B6B6B; --rule:#E2E2E2; --wash:#F4F4F4;
   --serif:'Source Serif 4', Georgia, 'Times New Roman', serif;
   --sans:'Libre Franklin', 'Helvetica Neue', Arial, system-ui, sans-serif;
 }
@@ -80,10 +80,15 @@ figcaption{font-family:var(--sans);font-size:12px;line-height:1.4;color:var(--in
 .receipt div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed #BDBDBD;font-variant-numeric:tabular-nums}
 .receipt div span:first-child small{display:block;font-size:12.5px;color:var(--ink3)}
 .receipt div:last-child{border-bottom:0;font-weight:800;font-size:18px}
-.fix-list{list-style:none;margin:0 0 18px;padding:0;border-top:1px solid var(--rule)}
-.fix-list li{display:grid;grid-template-columns:24px 1fr;gap:8px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:17px;line-height:1.45}
-.fix-list li::before{content:"✓";font-family:var(--sans);font-weight:800}
-.fix-list b{font-family:var(--sans);font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:1px}
+.fix-list{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:12px}
+.fix-list li{display:grid;justify-items:start;gap:6px}
+.fix-list .fl{display:inline-block;background:var(--red);color:var(--white);font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:3px}
+.fix-list .fa{display:flex;gap:9px;align-items:flex-start;width:100%;background:var(--green);color:var(--white);font-size:17px;line-height:1.45;padding:11px 14px;border-radius:6px}
+.fix-list .fa::before{content:"✓";font-family:var(--sans);font-weight:800}
+.bigt{font-family:var(--serif);font-weight:700;font-size:clamp(28px,7vw,40px);line-height:1.1;letter-spacing:-.015em;margin:26px 0 16px;text-wrap:balance}
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:26px 0 8px}
+.pics img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.pics-cap{font-family:var(--sans);font-size:12px;color:var(--ink3);margin:0 0 18px}
 blockquote{margin:0 0 18px;padding:14px 16px;background:var(--wash)}
 blockquote p{margin:0 0 6px;font-style:italic;font-size:17px;line-height:1.5}
 blockquote cite{font-style:normal;font-family:var(--sans);font-size:12px;color:var(--ink3)}
@@ -214,19 +219,26 @@ footer ol{margin:0 0 8px;padding-left:18px}
         <p>I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</p>
         <p class="sig">Patricia T.<span>Founder &amp; Creative Director, Maison Croyez</span></p>
       </div>
-      <p>It works like the diffusers in luxury hotel lobbies: <strong>it turns pure fragrance oil into a fine, dry mist</strong> and moves it through the whole room. Nothing burns. Nothing sprays. There's no water. One diffuser fills up to 600 square feet in about ten minutes. Here's how it answers each alert:</p>
+      <p>It works like the diffusers in luxury hotel lobbies: <strong>it turns pure fragrance oil into a fine, dry mist</strong> and moves it through the whole room. Nothing burns. Nothing sprays. There's no water. One diffuser fills up to 600 square feet in about ten minutes.</p>
+      <h3 class="bigt">Here's How It Fixes All 5 Alerts.</h3>
       <ul class="fix-list">
-        <li><span><b>Alert #1 · Mold</b>No water and no tank. Nothing to grow, nothing to scrub.</span></li>
-        <li><span><b>Alert #2 · Your money</b>One 100 ml bottle lasts 30+ days, and the first 1,000 diffusers are free.</span></li>
-        <li><span><b>Alert #3 · Your home</b>No soot. The bottle locks in, so it's waterless and leakproof.</span></li>
-        <li><span><b>Alert #4 · Allergies</b>Hypoallergenic, 100% organic oils, with three strength settings.</span></li>
-        <li><span><b>Alert #5 · Your lungs</b>No flame, no smoke, no soot. Safe to leave on overnight.</span></li>
+        <li><span class="fl">Alert #1 · Mold</span><span class="fa">No water and no tank. Nothing to grow, nothing to scrub.</span></li>
+        <li><span class="fl">Alert #2 · Your money</span><span class="fa">One 100 ml bottle lasts 30+ days, and the first 1,000 diffusers are free.</span></li>
+        <li><span class="fl">Alert #3 · Your home</span><span class="fa">No soot. The bottle locks in, so it's waterless and leakproof.</span></li>
+        <li><span class="fl">Alert #4 · Allergies</span><span class="fa">Hypoallergenic, 100% organic oils, with three strength settings.</span></li>
+        <li><span class="fl">Alert #5 · Your lungs</span><span class="fa">No flame, no smoke, no soot. Safe to leave on overnight.</span></li>
       </ul>
       <a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Get my free diffusers ➔</a>
-      <p class="small">30-day money-back guarantee · Lifetime warranty · Free shipping</p>
     </section>
 
-    <blockquote style="margin-top:26px"><p>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</p><cite>Maison Croyez customer survey · switched from reed sticks</cite></blockquote>
+    <div class="pics">
+      <img src="{{rv1}}" width="520" height="520" alt="A woman unboxing the Maison Croyez diffuser in her kitchen">
+      <img src="{{rv5}}" width="520" height="520" alt="A woman relaxing on her sofa next to the diffuser and a bottle of scent">
+      <img src="{{rv4}}" width="520" height="520" alt="A woman holding the Maison Croyez diffuser box in her kitchen">
+      <img src="{{rv6}}" width="520" height="520" alt="A woman holding a bottle of Maison Croyez scent, the diffuser behind her">
+    </div>
+    <p class="pics-cap">Maison Croyez in real homes.</p>
+    <blockquote><p>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</p><cite>Maison Croyez customer survey · switched from reed sticks</cite></blockquote>
     <blockquote><p>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</p><cite>Maison Croyez customer survey · bought it for safety and no mold</cite></blockquote>
     <blockquote><p>“It does not need water, which means no spills, no damp residue, no constantly refilling it like I am caring for a very needy plant.”</p><cite>Amazon review</cite></blockquote>
 
@@ -234,12 +246,6 @@ footer ol{margin:0 0 8px;padding-left:18px}
       <p class="alabel">Launch offer</p>
       <h2 id="of">We're New, So The First 1,000 Diffusers Are On Us.</h2>
       <p>Maison Croyez is a young brand, and we know trying something new in your home takes trust. So <strong>we're taking the risk instead of you: the first 1,000 diffusers are free</strong> when you pick your scents.</p>
-      <ul>
-        <li>2 scents + 1 free diffuser: $79.90</li>
-        <li>3 scents + 2 free diffusers: $119.85 (most popular)</li>
-        <li>5 scents + 3 free diffusers: $199.75</li>
-      </ul>
-      <p>Your scents ship every 30, 60 or 90 days, and you can swap, pause or cancel anytime. <strong>Live with it for 30 days. If your home doesn't feel different, send it back with the prepaid label for a full refund.</strong></p>
       <a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Claim one of the 1,000 free diffusers ➔</a>
     </section>
 

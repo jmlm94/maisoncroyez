@@ -18,6 +18,8 @@ out["hero"] = re.search(r'src="(data:image/webp;base64,[^"]+)"', body).group(1) 
 for k, f in [("allergy", "allergy"), ("leak", "leak")]:  # Higgsfield, fetched by fetch-adv.yml
     out[k] = uri(fit(Image.open(p("pages/adv-kits/img", f + ".jpg")), 720))
 out["patricia"] = uri(fit(Image.open(p("pages/adv-kits/img/patricia.jpg")), 640))  # owner photo, from the kits page
+for n in (1, 4, 5, 6):  # creator photos used on the kits page's review carousel
+    out["rv%d" % n] = uri(fit(Image.open(p("assets/cdn/mc-review-%d.jpg" % n)), 520))
 out["smoke"] = uri(fit(Image.open(p("pages/adv-kits/img/smoke-haze.jpg")).crop((0, 300, 1200, 975)), 900))  # 16:9 hero
 out["soot"] = uri(fit(Image.open(p("pages/pdp-diffuser/assets/processed/soot.jpg")).crop((100, 50, 800, 750)), 640))
 out["mold"] = uri(fit(Image.open(p("pages/pdp-diffuser/assets/processed/mold.jpg")).crop((0, 330, 800, 800)), 680))

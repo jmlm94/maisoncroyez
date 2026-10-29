@@ -1,0 +1,273 @@
+<title>The Candle Swap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,700;1,700&family=Outfit:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single 680px magazine column, numbered reasons as the spine, one offer block, sticky claim bar on phones.
+   Deliberately light-only: it reads as a printed home-and-living feature, the brand's blush and ink, gradient only on the one headline phrase. */
+:root{
+  color-scheme:light;
+  --paper:#FFFFFF; --blush:#F3EAE8; --blush2:#ECDFDE; --rose:#C4A59F; --rose-deep:#8A5B52;
+  --ink:#241C18; --ink2:#5C4F46; --ink3:#8A8079; --rule:#E6DCD8; --star:#F5B301; --ok:#0A7A2F;
+  --grad:linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%);
+  --display:'Unna', Georgia, 'Times New Roman', serif;
+  --label:'Outfit', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+  --body:'Be Vietnam Pro', 'Helvetica Neue', Arial, system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;overflow-x:clip}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top strip */
+.strip{background:var(--ink);color:#F3EAE8}
+.strip .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:8px;font-family:var(--label);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.strip .ad{opacity:.7;letter-spacing:.12em;font-weight:600}
+.mast{border-bottom:1px solid var(--rule)}
+.mast .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-block:14px}
+.mast .name{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.02em}
+.mast .sec{font-family:var(--label);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep)}
+
+/* article head */
+header.art{padding-block:26px 6px}
+.kicker{font-family:var(--label);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);margin:0 0 12px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7.4vw,50px);line-height:.98;letter-spacing:-.045em;margin:0 0 16px;text-wrap:balance}
+h1 em,.gr{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dek{font-size:19px;line-height:1.5;color:var(--ink2);margin:0 0 18px;text-wrap:pretty}
+.byline{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--ink3);padding-block:12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.byline b{color:var(--ink);font-weight:600}
+figure{margin:22px 0}
+figure img{border-radius:14px;width:100%}
+figcaption{font-size:13px;line-height:1.45;color:var(--ink3);margin-top:8px}
+
+/* article body */
+.copy p{margin:0 0 16px;text-wrap:pretty}
+.copy p.lead::first-letter{font-family:var(--display);font-weight:700;float:left;font-size:58px;line-height:.8;padding:5px 3px 0 0;color:var(--rose-deep)}
+.reason{padding-block:22px 6px;border-top:1px solid var(--rule);margin-top:26px}
+.rhead{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;margin-bottom:12px}
+.rnum{font-family:var(--display);font-weight:700;font-style:italic;font-size:46px;line-height:.9;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;min-width:34px}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,5.6vw,34px);line-height:1.04;letter-spacing:-.035em;margin:2px 0 0;text-wrap:balance}
+.fix{display:flex;gap:10px;align-items:flex-start;background:var(--blush);border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.5;margin:6px 0 16px}
+.fix .ck{flex:none;width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+blockquote{margin:18px 0;padding:16px 18px;border-left:3px solid var(--rose);background:#FBF7F6;border-radius:0 12px 12px 0}
+blockquote p{margin:0 0 6px;font-family:var(--display);font-weight:700;font-size:20px;line-height:1.3;letter-spacing:-.01em}
+blockquote cite{font-style:normal;font-size:12.5px;color:var(--ink3)}
+.stars{color:var(--star);letter-spacing:2px;font-size:14px}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 18px}
+.spec{border:1px solid var(--rule);border-radius:12px;padding:12px 14px}
+.spec b{display:block;font-family:var(--label);font-weight:800;font-size:22px;letter-spacing:-.01em;line-height:1.1}
+.spec span{font-size:13px;color:var(--ink2)}
+.scents{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:10px 0 18px}
+.scent{border:1px solid var(--rule);border-radius:12px;padding:10px 10px 12px;text-align:center;min-width:0}
+.scent img{width:96px;height:96px;object-fit:contain;margin:0 auto 6px;border-radius:0}
+.scent b{display:block;font-size:13.5px;line-height:1.25}
+.scent i{display:block;font-style:normal;font-family:var(--label);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-deep);margin:3px 0}
+.scent span{display:block;font-size:12px;line-height:1.35;color:var(--ink3)}
+.steps{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center;margin:8px 0 18px}
+.steps ol{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15.5px}
+.steps img{border-radius:14px}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* CTA */
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:#fff;text-decoration:none;font-family:var(--label);font-weight:800;font-size:16px;letter-spacing:.08em;text-transform:uppercase;padding:17px 20px;border-radius:999px;margin:6px 0 8px;text-align:center}
+.cta:hover{background:#000}
+.cta:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.cta-note{text-align:center;font-size:13px;color:var(--ink3);margin:0 0 10px}
+
+/* offer */
+.offer{margin:34px 0 10px;border-radius:18px;background:var(--blush);padding:24px 18px 20px}
+.offer .kicker{margin-bottom:8px}
+.offer h2{margin-bottom:10px}
+.offer>p{font-size:16px;margin:0 0 14px}
+.tiers{display:grid;gap:10px;margin:14px 0}
+.tier{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:#fff;border:1.5px solid var(--rule);border-radius:14px;padding:14px 16px;position:relative}
+.tier.pop{border-color:var(--ink)}
+.tier .tag{position:absolute;top:-10px;left:14px;background:var(--ink);color:#fff;font-family:var(--label);font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+.tier .t{font-weight:600;font-size:16px;line-height:1.3}
+.tier .s{font-size:13.5px;color:var(--ink2);grid-column:1}
+.tier .free{color:var(--ok);font-weight:700}
+.tier .pr{grid-row:1 / span 2;grid-column:2;text-align:right;font-family:var(--label);font-weight:800;font-size:20px;line-height:1.1}
+.tier .pr small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--ink3)}
+.tier .pr s{color:var(--ink3);font-weight:600;font-size:13px}
+.assure{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 4px;font-size:13.5px}
+.assure div{background:#fff;border-radius:10px;padding:9px 11px;line-height:1.35}
+.assure b{display:block;font-size:13.5px}
+
+/* quotes wall */
+.wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:12px 0 18px}
+.q{border:1px solid var(--rule);border-radius:12px;padding:14px 15px;font-size:15px;line-height:1.5;min-width:0}
+.q p{margin:6px 0 8px}
+.q cite{font-style:normal;font-size:12px;color:var(--ink3)}
+
+/* faq */
+details{border-top:1px solid var(--rule);padding:4px 0}
+details:last-of-type{border-bottom:1px solid var(--rule)}
+summary{cursor:pointer;list-style:none;font-weight:600;font-size:16px;padding:12px 28px 12px 0;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:8px;font-size:22px;font-weight:400;color:var(--rose-deep)}
+details[open] summary::after{content:"−"}
+summary:focus-visible{outline:2px solid var(--rose);outline-offset:2px;border-radius:4px}
+details p{margin:0 0 14px;font-size:15.5px;color:var(--ink2)}
+
+footer{margin-top:40px;background:#1E1613;color:#CDBFB9;font-size:12.5px;line-height:1.55}
+footer .wrap{padding-block:26px calc(96px + env(safe-area-inset-bottom,0px))}
+footer p{margin:0 0 8px}
+footer a{color:#F3EAE8}
+
+/* sticky claim bar (phones) */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-top:1px solid var(--rule);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));transform:translateY(110%);transition:transform .25s ease}
+.bar.on{transform:none}
+.bar .cta{margin:0;padding:14px 18px;font-size:15px;max-width:640px;margin-inline:auto}
+@media (min-width:900px){.bar{display:none}}
+@media (prefers-reduced-motion:reduce){.bar{transition:none}}
+</style>
+
+<div class="strip"><div class="wrap"><span>Home &amp; Wellbeing</span><span class="ad">Advertorial</span></div></div>
+<div class="mast"><div class="wrap"><span class="name">The Maison Croyez Journal</span><span class="sec">At home</span></div></div>
+
+<main class="wrap">
+  <header class="art">
+    <p class="kicker">Indoor air · 5 min read</p>
+    <h1>5 reasons women are throwing out their candles for <em>this waterless diffuser</em>.</h1>
+    <p class="dek">Soot on the ceiling, mold in the water tank, plug-ins that fade in a week. Here's what is really filling the air at home, and the hotel-style fix that is free right now.</p>
+    <div class="byline"><span>By <b>the Maison Croyez editors</b></span><span>Updated October 29, 2026</span></div>
+  </header>
+
+  <figure>
+    <img src="{{hero}}" width="720" height="720" alt="Three friends laughing on a sofa, a Maison Croyez diffuser and a bottle of Golden Blossom Harmony on the table">
+    <figcaption>The Maison Croyez diffuser on a living-room table, next to a 100 ml bottle of Golden Blossom Harmony.</figcaption>
+  </figure>
+
+  <div class="copy">
+    <p class="lead">You light a candle so the house feels like home. You keep a plug-in by the front door. Maybe you bought one of those water diffusers that puffs out a little cloud.</p>
+    <p>It all smells nice for an hour. But each one has a cost most of us never think about, and it ends up on your ceiling, in your water tank, and in the air you breathe all evening.</p>
+    <p>Here's what so many women are switching to instead, and why.</p>
+
+    <section class="reason" aria-labelledby="r1">
+      <div class="rhead"><span class="rnum" aria-hidden="true">1</span><h2 id="r1">Every candle puts smoke in the room.</h2></div>
+      <figure><img src="{{soot}}" width="640" height="640" alt="A three-wick candle in a glass jar, a thread of smoke rising from the flame"></figure>
+      <p>The black ring inside the jar and the grey smudge above the shelf are soot. A flame makes it every time it burns, and it doesn't stay in the jar. It drifts through the room you're sitting in.</p>
+      <p>Then there's the flame itself. Candles start thousands of home fires in the U.S. every year, according to the National Fire Protection Association. You can't leave one burning when you go to bed or step out.</p>
+      <div class="fix"><span class="ck" aria-hidden="true">✓</span><span><b>The swap:</b> a waterless diffuser has no flame and makes no smoke. Leave it on overnight, in a bedroom, in a kid's room or near pets.</span></div>
+    </section>
+
+    <section class="reason" aria-labelledby="r2">
+      <div class="rhead"><span class="rnum" aria-hidden="true">2</span><h2 id="r2">The water diffuser is growing something.</h2></div>
+      <figure><img src="{{mold}}" width="680" height="400" alt="The inside of a water diffuser's tank with a ring of grey residue and pink buildup"><figcaption>The tank of a water diffuser after a few weeks of use.</figcaption></figure>
+      <p>Water diffusers sit full of water for days. A warm tank of standing water is where mold and bacteria grow, and whatever grows in the tank gets misted into the room along with your oil.</p>
+      <p>Most of us rinse it when we remember. Few of us remember.</p>
+      <div class="fix"><span class="ck" aria-hidden="true">✓</span><span><b>The swap:</b> no water and no tank. Nothing to grow, nothing to scrub, nothing to spill.</span></div>
+      <blockquote><p>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</p><cite>Maison Croyez customer survey · bought it for safety and no mold</cite></blockquote>
+    </section>
+
+    <section class="reason" aria-labelledby="r3">
+      <div class="rhead"><span class="rnum" aria-hidden="true">3</span><h2 id="r3">Plug-ins, sprays and reed sticks only scent the corner they sit in.</h2></div>
+      <figure><img src="{{tried}}" width="640" height="640" alt="A plug-in air freshener, a candle and a room spray on a stone counter"></figure>
+      <p>A candle, a plug-in and a reed stick all work the same way. They warm or wick the scent so it evaporates right next to the device. That's why you smell them from four feet away and nowhere else.</p>
+      <p>It's also why a plug-in is strong for a week, then fades into the wallpaper, and why a spray covers a smell for a few minutes and then it's back.</p>
+      <blockquote><p>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</p><cite>Maison Croyez customer survey · switched from reed sticks</cite></blockquote>
+    </section>
+
+    <section class="reason" aria-labelledby="r4">
+      <div class="rhead"><span class="rnum" aria-hidden="true">4</span><h2 id="r4">Hotels figured this out years ago.</h2></div>
+      <figure><img src="{{mist}}" width="640" height="800" alt="The Maison Croyez diffuser releasing a fine mist on a coffee table in a sunlit living room"></figure>
+      <p>Walk into a good hotel lobby and the whole space smells like something. That isn't a candle. It's a cold-air diffuser: it turns pure fragrance oil into a fine, dry mist and pushes it through the room, corner to corner. No heat, no water, nothing diluted.</p>
+      <p>Maison Croyez put that technology into a slim tower you plug into the wall. Most people who walk in think it's a speaker.</p>
+      <div class="specs">
+        <div class="spec"><b>600 sq ft</b><span>covered by one diffuser</span></div>
+        <div class="spec"><b>~10 min</b><span>to fill a room, corner to corner</span></div>
+        <div class="spec"><b>30+ days</b><span>per 100 ml bottle on the everyday setting</span></div>
+        <div class="spec"><b>3 settings</b><span>subtle, balanced or full, one button</span></div>
+      </div>
+      <blockquote><p>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn't require water. Visitors always comment on how wonderful my house smells.”</p><cite><span class="stars" aria-label="5 stars">★★★★★</span> Michael C. · Amazon verified purchase</cite></blockquote>
+    </section>
+
+    <section class="reason" aria-labelledby="r5">
+      <div class="rhead"><span class="rnum" aria-hidden="true">5</span><h2 id="r5">The scent sets the mood of the whole house.</h2></div>
+      <p>Every bottle is 100 ml of pure fragrance oil with notes you can actually name, and each one is made for a feeling. Chilled Citrus for winding down in the bedroom. Golden Blossom Harmony for the living room when people come over. Wildwood Mystique for a home that smells clean, not perfumed.</p>
+      <div class="scents" role="list">
+        <div class="scent" role="listitem"><img src="{{s_relax}}" width="96" height="96" alt=""><b>Chilled Citrus</b><i>Relaxation</i><span>Chilled lavender, eucalyptus, white citrus</span></div>
+        <div class="scent" role="listitem"><img src="{{s_love}}" width="96" height="96" alt=""><b>Golden Blossom Harmony</b><i>Love</i><span>Buttercup, honeysuckle, sunflower</span></div>
+        <div class="scent" role="listitem"><img src="{{s_purify}}" width="96" height="96" alt=""><b>Wildwood Mystique</b><i>Purification</i><span>Huckleberry, wild juniper, mountain fern</span></div>
+        <div class="scent" role="listitem"><img src="{{s_energy}}" width="96" height="96" alt=""><b>Euphoric Bloom</b><i>Raise energy</i><span>Jasmine tea, white peach, sandalwood crème</span></div>
+        <div class="scent" role="listitem"><img src="{{s_abundance}}" width="96" height="96" alt=""><b>Crisp Citrus Scape</b><i>Abundance</i><span>Yuzu leaf, green mandarin, cypress</span></div>
+        <div class="scent" role="listitem"><img src="{{s_ideas}}" width="96" height="96" alt=""><b>Honey Nectar</b><i>Ideas into reality</i><span>Ginger milk, white birch, eucalyptus honey</span></div>
+      </div>
+      <blockquote><p>“The scent stays long after the diffuser turns off. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</p><cite>Maison Croyez customer survey · lives in an apartment</cite></blockquote>
+    </section>
+
+    <section class="reason" aria-labelledby="how">
+      <h2 id="how">Setting it up takes about a minute.</h2>
+      <div class="steps">
+        <img src="{{step2}}" width="480" height="480" alt="Hands locking a bottle of fragrance oil into the base of the diffuser">
+        <ol>
+          <li><b>Lock in the bottle.</b> No water, no measuring.</li>
+          <li><b>Plug it in and press once.</b> No app, no charging.</li>
+          <li><b>Pick a setting and walk away.</b> The room is filled in about ten minutes.</li>
+        </ol>
+      </div>
+    </section>
+  </div>
+
+  <section class="offer" id="offer" aria-labelledby="offer-h">
+    <p class="kicker">The offer</p>
+    <h2 id="offer-h">Right now the diffusers are <span class="gr">free</span>.</h2>
+    <p>Pick your scents and Maison Croyez includes the diffusers free. Your scents ship every 30, 60 or 90 days, and you can swap, pause or cancel anytime.</p>
+    <img src="{{kit2}}" width="520" height="520" alt="Two Maison Croyez diffusers side by side" style="width:min(100%,320px);margin:4px auto 6px;border-radius:14px">
+    <div class="tiers">
+      <div class="tier"><span class="t">Living Room</span><span class="s">2 scents + <span class="free">1 free diffuser</span> <s>$89.95</s></span><span class="pr">$79.90<small>$39.95 per scent</small></span></div>
+      <div class="tier pop"><span class="tag">Most popular</span><span class="t">Living Room &amp; Bedroom</span><span class="s">3 scents + <span class="free">2 free diffusers</span> <s>$179.90</s></span><span class="pr">$119.85<small>$39.95 per scent</small></span></div>
+      <div class="tier"><span class="t">Whole Home</span><span class="s">5 scents + <span class="free">3 free diffusers</span> <s>$269.85</s></span><span class="pr">$199.75<small>$39.95 per scent</small></span></div>
+    </div>
+    <a class="cta" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Claim my free diffusers ➔</a>
+    <p class="cta-note">You choose your scents on the next page.</p>
+    <div class="assure">
+      <div><b>30-day guarantee</b>Full refund with a prepaid return label, even if you've used the scents.</div>
+      <div><b>Lifetime warranty</b>If a diffuser ever stops working, it's replaced.</div>
+      <div><b>Free shipping</b>Ships in 24 hours.</div>
+      <div><b>No commitment</b>Swap scents, pause or cancel anytime.</div>
+    </div>
+  </section>
+
+  <section class="copy" aria-labelledby="said">
+    <h2 id="said" style="margin-top:34px">What customers told us.</h2>
+    <div class="wall">
+      <div class="q"><span class="stars" aria-label="5 stars">★★★★★</span><p>“It does not need water, which means no spills, no damp residue, no constantly refilling it like I am caring for a very needy plant. I just attach the oil bottle and that is pretty much it.”</p><cite>Amazon review</cite></div>
+      <div class="q"><span class="stars" aria-label="5 stars">★★★★★</span><p>“Absolutely amazing. I bought it for my mom, and she simply loves it!”</p><cite>Simon F. · Amazon verified purchase</cite></div>
+      <div class="q"><p>“Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.”</p><cite>Customer survey · switched from sprays, plug-ins and candles</cite></div>
+      <div class="q"><p>“It solved everything. Fresh. Wonderful.”</p><cite>Customer survey · almost didn't buy because of the price</cite></div>
+    </div>
+
+    <h2 style="margin:30px 0 8px">Questions.</h2>
+    <details><summary>Is it safe around pets and kids?</summary><p>There's no flame, no heat and no water, so it's safe to leave on overnight, in a kid's room or near pets.</p></details>
+    <details><summary>How long does one bottle last?</summary><p>30+ days on the everyday setting. The higher settings use it faster.</p></details>
+    <details><summary>How many diffusers do I need?</summary><p>One covers up to 600 square feet, an open-plan main floor or a large bedroom. Most two-storey homes run two: one near the entrance and one upstairs.</p></details>
+    <details><summary>What if I don't like it?</summary><p>Live with it for 30 days. If your home doesn't feel different, send the diffuser and the scents back with the prepaid label for a full refund. Love the diffuser but not a scent? Swap the scent for free.</p></details>
+    <details><summary>Am I locked in?</summary><p>No. Your scents ship every 30, 60 or 90 days, your choice, and you can swap, pause or cancel anytime.</p></details>
+
+    <a class="cta" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener" style="margin-top:26px">Claim my free diffusers ➔</a>
+    <p class="cta-note">30-day guarantee · lifetime warranty · free shipping</p>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p><b>Advertisement.</b> This article is paid content from Maison Croyez.</p>
+  <p>Customer quotes come from the Maison Croyez customer survey and Amazon reviews. Fire figures: National Fire Protection Association, home candle fires report. Results vary by room size and setting.</p>
+  <p>© 2026 Maison Croyez · <a href="https://maisoncroyez.com" target="_blank" rel="noopener">maisoncroyez.com</a></p>
+</div></footer>
+
+<div class="bar" id="bar"><a class="cta" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Claim my free diffusers ➔</a></div>
+<script>
+(function(){
+  var bar=document.getElementById('bar'), offer=document.getElementById('offer');
+  function upd(){
+    var y=window.scrollY||0, r=offer.getBoundingClientRect(), vh=window.innerHeight||800;
+    var inOffer=r.top<vh && r.bottom>0;
+    bar.classList.toggle('on', y>600 && !inOffer);
+  }
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
+})();
+</script>

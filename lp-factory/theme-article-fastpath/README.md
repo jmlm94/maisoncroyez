@@ -8,3 +8,10 @@ announcement-bar flash). `edited/layout/theme.liquid` is the uploaded file (md5 
 file is `../theme-speed3/edited/layout/theme.liquid` (md5 5f374e8fc3577656245f62c42439e87e).
 
 To go live the owner publishes 188123349101 (Online Store → Themes → Publish). Rollback: publish 187241169005 again.
+
+## Preview results (2026-10-29 20:33 UTC, ?preview_theme_id=188123349101)
+- Page checks (shopify/preview-theme/report.json): article mounted at top 0 on phone / small / desktop, store header + footer
+  hidden, 14/14 images, fonts loaded, no JS errors, sticky bar correct, offer button lands on /pages/diffuser-kits.
+- Lighthouse 3x (adv-kits/perf-preview/lh-20261029T2033Z.md): mobile 63 / 66 / 69 (live theme: 46 / 58 / 54), TBT 420–470 ms
+  (was 680–1,700), LCP 4.3–6.2 s (was 6.3–7.0); desktop 91 / 96 / 97. Filmstrip: no announcement-bar flash any more; the
+  black bar at the bottom of the frames is Shopify's preview bar, which only exists in preview.

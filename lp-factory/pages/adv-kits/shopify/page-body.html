@@ -1,0 +1,309 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Libre+Franklin:wght@500;600;700;800&display=swap">
+<style>.shopify-section-group-header-group,.shopify-section-group-footer-group{display:none !important}
+.shopify-section--main-page .page > h1{display:none !important}
+.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;margin-bottom:0 !important;padding-top:0 !important;padding-bottom:0 !important;border:0 !important;max-width:none !important}
+html,body{overflow-x:clip}
+body{padding-top:0 !important;background:#fff !important}
+#mcadv{position:relative;width:100vw;margin-left:calc(50% - 50vw);text-align:left}
+#mcadv :is(h1,h2,h3,h4,p,ol,ul,li,figure,figcaption,blockquote,cite,details,summary,img,a,header,footer,article,nav,section,svg,strong,b){margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;quotes:none;min-height:0}
+#mcadv :is(h1,h2,h3,h4){font-weight:700}
+#mcadv :is(strong,b){font-weight:700}
+#mcadv :is(p,li,figcaption)::before{content:none}
+#mcadv blockquote::before,#mcadv blockquote::after{content:none}
+#mcadv ol{list-style:decimal}
+#mcadv ul{list-style:disc}
+#mcadv a.btn{text-decoration:none}
+#mcadv{color-scheme:light;
+  --white:#FFFFFF; --black:#000000; --red:#C8102E; --green:#0A7A2F; --red-deep:#8E0A1F; --red-hot:#E5283A; --ink:#111111; --ink2:#444444; --ink3:#6B6B6B; --rule:#E2E2E2; --wash:#F4F4F4;
+  --serif:'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --sans:'Libre Franklin', 'Helvetica Neue', Arial, system-ui, sans-serif;}
+#mcadv *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+#mcadv{background:var(--white);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.62;overflow-x:clip}
+#mcadv a{color:inherit}
+#mcadv img{display:block;max-width:100%;height:auto}
+#mcadv .wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#mcadv .ann{background:linear-gradient(90deg,var(--red-deep),var(--red),var(--red-hot),var(--red),var(--red-deep));background-size:300% 100%;color:var(--white)}
+@media (prefers-reduced-motion:no-preference){#mcadv .ann{animation:annshift 5s ease-in-out infinite}}
+@keyframes annshift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+#mcadv .ann .wrap{padding-block:7px;text-align:center;font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+#mcadv .site{border-bottom:1px solid var(--ink)}
+#mcadv .site .wrap{display:grid;grid-template-columns:28px 1fr 28px;align-items:center;gap:8px;padding-block:8px}
+#mcadv .burger{width:22px;height:14px;display:grid;align-content:space-between}
+#mcadv .burger i{display:block;height:2px;background:var(--ink)}
+#mcadv .logo{justify-self:center;display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--black)}
+#mcadv .logo:focus-visible{outline:2px solid var(--ink3);outline-offset:3px}
+#mcadv .logo .mark{flex:none;width:32px;height:32px}
+#mcadv .logo .lt{display:flex;flex-direction:column;align-items:center;line-height:1}
+#mcadv .logo .l0{font-family:var(--sans);font-weight:800;font-size:7.5px;letter-spacing:.42em;padding-left:.42em;margin-bottom:2px}
+#mcadv .logo .l1{font-family:var(--serif);font-weight:700;font-size:21px;letter-spacing:-.02em;white-space:nowrap}
+#mcadv .logo .l2{display:flex;align-items:center;gap:5px;font-family:var(--sans);font-weight:800;font-size:7.5px;letter-spacing:.42em;padding-left:.42em;margin-top:3px}
+#mcadv .logo .l2::before,#mcadv .logo .l2::after{content:"";width:14px;height:1px;background:var(--black)}
+#mcadv .search{justify-self:end;width:20px;height:20px}
+#mcadv .top{padding-block:12px 0}
+#mcadv .crumbs{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:0 0 8px}
+#mcadv .crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 0}
+#mcadv .crumbs li+li::before{content:"\203A";margin:0 7px;color:var(--ink3)}
+#mcadv .crumbs li:last-child{color:var(--ink)}
+#mcadv h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,6.3vw,40px);line-height:1.14;letter-spacing:-.01em;margin:0 0 10px;text-wrap:balance}
+#mcadv .desc{font-size:15.5px;line-height:1.45;color:var(--ink2);margin:0 0 10px}
+#mcadv .author{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink3);line-height:1.35;margin:0 0 10px}
+#mcadv .author .av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--white);display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:15px}
+#mcadv .author b{color:var(--ink);font-weight:700}
+#mcadv .author img.av{object-fit:cover;background:var(--wash)}
+#mcadv .sp{border:1px solid var(--ink3);border-radius:3px;padding:0 5px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+#mcadv .lede{font-size:20px;line-height:1.45}
+#mcadv .early{border:1px solid var(--rule);padding:14px 16px 16px;margin:0 0 18px;text-align:center}
+#mcadv .early p{font-family:var(--sans);font-size:14.5px;font-weight:600;margin:0 0 2px}
+#mcadv .btn.ghost{background:var(--white);color:var(--black);border:2px solid var(--black)}
+#mcadv .btn.ghost:hover{background:var(--wash)}
+#mcadv .trust{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.02em;text-align:center;margin:10px 0 0}
+#mcadv .bio{display:flex;gap:12px;align-items:center;border-top:1px solid var(--ink);padding:16px 0 0;margin:28px 0 0}
+#mcadv .bio img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none}
+#mcadv .bio p{margin:0;font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--ink2)}
+#mcadv .hero{margin:0}
+#mcadv .hero img{width:100%;aspect-ratio:2/1;object-fit:cover}
+#mcadv .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--black);color:var(--white);text-decoration:none;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:14px 18px;border-radius:4px;margin:10px 0 0;text-align:center;border:0;cursor:pointer}
+#mcadv .btn:hover{background:#222}
+#mcadv .btn:focus-visible{outline:3px solid var(--ink3);outline-offset:3px}
+#mcadv article{padding-block:22px 0}
+#mcadv article p{margin:0 0 18px;text-wrap:pretty}
+#mcadv .alert{border-top:1px solid var(--ink);margin-top:34px;padding-top:18px;scroll-margin-top:10px}
+#mcadv .alabel{display:inline-block;background:var(--red);color:var(--white);font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;border-radius:3px;margin:0 0 10px}
+#mcadv .alabel.dark{background:var(--black)}
+#mcadv .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 18px;border-top:2px solid var(--black);border-bottom:2px solid var(--black);padding:12px 0}
+#mcadv .stats div{text-align:center;min-width:0}
+#mcadv .stats b{display:block;font-family:var(--sans);font-weight:800;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+#mcadv .stats span{display:block;font-family:var(--sans);font-size:12px;line-height:1.3;color:var(--ink2);margin-top:3px}
+#mcadv .founder{background:var(--wash);padding:18px 16px 16px;margin:0 0 18px}
+#mcadv .founder img{width:100%;max-width:380px;margin:0 auto 16px}
+#mcadv .founder p{font-style:italic;margin:0 0 14px}
+#mcadv .sig{font-weight:700;margin:0}
+#mcadv .sig span{display:block;font-family:var(--sans);font-weight:500;font-size:12.5px;color:var(--ink3)}
+#mcadv h2{font-family:var(--serif);font-weight:700;font-size:clamp(23px,5.4vw,31px);line-height:1.17;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
+#mcadv figure{margin:0 0 18px}
+#mcadv figure img{width:100%}
+#mcadv figcaption{font-family:var(--sans);font-size:12px;line-height:1.4;color:var(--ink3);margin-top:6px}
+#mcadv .note{border-left:3px solid var(--black);padding:2px 0 2px 14px;margin:0 0 18px;font-style:italic}
+#mcadv .hook{font-weight:700}
+#mcadv .receipt{font-family:var(--sans);font-size:15px;border-top:2px solid var(--black);border-bottom:2px solid var(--black);margin:0 0 18px}
+#mcadv .receipt div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed #BDBDBD;font-variant-numeric:tabular-nums}
+#mcadv .receipt div span:first-child small{display:block;font-size:12.5px;color:var(--ink3)}
+#mcadv .receipt div:last-child{border-bottom:0;font-weight:800;font-size:18px}
+#mcadv .fix-list{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:12px}
+#mcadv .fix-list li{display:grid;justify-items:start;gap:6px}
+#mcadv .fix-list .fl{display:inline-block;background:var(--red);color:var(--white);font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:3px}
+#mcadv .fix-list .fa{display:flex;gap:9px;align-items:flex-start;width:100%;color:var(--ink);font-size:17px;line-height:1.45;padding:2px 0 0}
+#mcadv .fix-list .fa::before{content:"✓";font-family:var(--sans);font-weight:800;color:var(--green)}
+#mcadv .fr-h{font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin:4px 0 8px}
+#mcadv .fr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 20px}
+#mcadv .fr div{border:1.5px solid var(--black);padding:10px 8px 11px;text-align:center;min-width:0}
+#mcadv .fr b{display:block;font-family:var(--sans);font-weight:800;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;line-height:1.25}
+#mcadv .fr b::before{content:"✓";display:block;color:var(--green);font-size:18px;line-height:1;margin-bottom:5px}
+#mcadv .fr span{display:block;font-family:var(--sans);font-size:11.5px;line-height:1.35;color:var(--ink2);margin-top:4px}
+#mcadv .bigt{font-family:var(--serif);font-weight:700;font-size:clamp(28px,7vw,40px);line-height:1.1;letter-spacing:-.015em;margin:26px 0 16px;text-wrap:balance}
+#mcadv .pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:26px 0 8px}
+#mcadv .pics img{width:100%;aspect-ratio:1/1;object-fit:cover}
+#mcadv .pics-cap{font-family:var(--sans);font-size:12px;color:var(--ink3);margin:0 0 18px}
+#mcadv blockquote{margin:0 0 18px;padding:14px 16px;background:var(--wash)}
+#mcadv blockquote p{margin:0 0 6px;font-style:italic;font-size:17px;line-height:1.5}
+#mcadv blockquote cite{font-style:normal;font-family:var(--sans);font-size:12px;color:var(--ink3)}
+#mcadv .offer{border:2px solid var(--black);padding:18px 16px 16px;margin:28px 0 18px}
+#mcadv .offer h2{margin-bottom:10px}
+#mcadv .offer p{font-size:17px;margin-bottom:12px}
+#mcadv .offer ul{margin:0 0 6px;padding-left:20px;font-size:16.5px}
+#mcadv .offer li{margin-bottom:4px}
+#mcadv .small{font-family:var(--sans);font-size:12.5px;color:var(--ink3);text-align:center;margin:8px 0 0}
+#mcadv details{border-top:1px solid var(--rule)}
+#mcadv details:last-of-type{border-bottom:1px solid var(--rule)}
+#mcadv summary{cursor:pointer;list-style:none;font-family:var(--sans);font-weight:700;font-size:15.5px;padding:13px 26px 13px 0;position:relative}
+#mcadv summary::-webkit-details-marker{display:none}
+#mcadv summary::after{content:"+";position:absolute;right:2px;top:9px;font-size:21px;font-weight:500}
+#mcadv details[open] summary::after{content:"−"}
+#mcadv summary:focus-visible{outline:2px solid var(--ink3);outline-offset:2px}
+#mcadv details p{font-size:16.5px;color:var(--ink2);margin:0 0 14px}
+#mcadv footer{margin-top:36px;border-top:1px solid var(--ink);font-family:var(--sans);font-size:12px;line-height:1.55;color:var(--ink3)}
+#mcadv footer .wrap{padding-block:18px calc(90px + env(safe-area-inset-bottom,0px))}
+#mcadv footer p{margin:0 0 8px}
+#mcadv footer ol{margin:0 0 8px;padding-left:18px}
+#mcadv .bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--white);border-top:1px solid var(--ink);padding:9px max(16px,env(safe-area-inset-right,0px)) calc(9px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));transform:translateY(110%);transition:transform .25s ease}
+#mcadv .bar.on{transform:none}
+#mcadv .bar .btn{margin:0 auto;max-width:640px;padding:13px 16px}
+@media (min-width:900px){#mcadv .bar{display:none}}
+@media (prefers-reduced-motion:reduce){#mcadv .bar{transition:none}}</style>
+<div id="mcadv">
+<div class="ann" id="top"><div class="wrap">Read this before you light another candle</div></div>
+<div class="site"><div class="wrap">
+  <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+  <a class="logo" href="#top" aria-label="The Indoor Air Report"><svg class="mark" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="17.5" fill="#000"/><g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M7 12.5q3-2.6 6 0t6 0t6 0t5 0"/><path d="M7 18q3-2.6 6 0t6 0t6 0t5 0"/><path d="M7 23.5q3-2.6 6 0t6 0t6 0t5 0"/></g></svg><span class="lt" aria-hidden="true"><span class="l0">THE</span><span class="l1">Indoor Air</span><span class="l2">REPORT</span></span></a>
+  <svg class="search" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="#111" stroke-width="2"/><path d="M13 13l5 5" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+</div></div>
+
+<div class="wrap amain">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li>Health</li><li>Healthy Home</li><li aria-current="page">Indoor Air Quality</li></ol></nav>
+    <h1>Your “Healthy” Diffuser May Be Growing Mold. Here Are 4 More Things In Your Home Nobody Warns You About.</h1>
+    <p class="desc">Why fill your home with smoke and chemicals just because they smell good? Every day you keep doing it is another day your family breathes it in. <strong>Read these 5 alerts before you do it again.</strong></p>
+    <div class="author"><img class="av" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-pat-face.jpg" width="68" height="68" alt=""><span>By <b>Patricia T.</b><br>Updated Oct 29, 2026 · 5 min read</span></div>
+    <figure class="hero">
+      <img fetchpriority="high" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-smoke.jpg" width="1200" height="675" alt="Late-afternoon sun through a living-room window showing a haze of smoke above burning candles and an incense stick">
+    </figure>
+    <a class="btn" href="#alert-1">Read the alerts · 5 min read ↓</a>
+  </header>
+
+  <article>
+    <p class="lede"><strong>The EPA tells anyone with a humidifier to empty the tank every day and scrub it every third day.</strong> When did you last clean yours?</p>
+    <p>If you're like most people, you don't remember. And the water diffuser on your nightstand works exactly the same way.</p>
+    <p>It doesn't stop there. The candle you light to unwind, the spray before guests arrive, the plug-in in the hallway: <strong>every one of them leaves something behind in the air your family breathes.</strong></p>
+    <p class="hook">Here are the five alerts most people miss. Save the last one for the end: it's the one that matters most.</p>
+
+    <section class="alert" id="alert-1" aria-labelledby="a1">
+      <p class="alabel">Alert #1</p>
+      <h2 id="a1">The “Healthy” Diffuser On Your Nightstand May Be Growing Mold.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-mold.jpg" width="680" height="400" alt="The inside of a water diffuser's tank with a ring of grey residue and pink buildup"><figcaption>The tank of a water diffuser after a few weeks of use.</figcaption></figure>
+      <p>Water diffusers feel like the clean option. Just water and a few drops of oil, right?</p>
+      <p>That tank sits full of <strong>standing water for days, warm and in the dark</strong>. It's exactly where <strong>mold and bacteria grow</strong>. And every time the diffuser runs, <strong>whatever is growing in there goes into the mist you breathe while you sleep.</strong></p>
+      <p>That's why the EPA's advice for humidifiers, which mist water the same way, is so strict: <strong>empty it every day, clean it every third day.</strong> Skip a week and you're misting whatever grew in there.</p>
+      <p class="note">Be honest: when did you last scrub yours?</p>
+      <div class="early"><p>Already know you want a diffuser with no water at all?</p><a class="btn ghost" href="/pages/diffuser-kits">Meet Maison Croyez ➔</a></div>
+      <p class="hook">And that's the one people buy because it seems like the healthy choice. The rest of the house isn't doing any better.</p>
+    </section>
+
+    <section class="alert" id="alert-2" aria-labelledby="a2">
+      <p class="alabel">Alert #2</p>
+      <h2 id="a2">It's Costing You $2,500+ A Year, And Your Home Shows It.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-leak.jpg" width="720" height="720" alt="A white water diffuser leaking on a walnut dresser, water rings in the finish and books getting wet"></figure>
+      <p>Nobody budgets for scent. A $30 candle every week. Refills for three plug-ins. A few cans of spray. Reed refills, oils, incense. <strong>None of it feels like much on its own.</strong> Now add it up for a year:</p>
+      <div class="receipt" role="table" aria-label="A typical year of scent">
+        <div role="row"><span role="cell">Candles<small>one a week at $30</small></span><span role="cell">$1,560</span></div>
+        <div role="row"><span role="cell">Plug-in refills<small>3 outlets, $9 a month each</small></span><span role="cell">$324</span></div>
+        <div role="row"><span role="cell">Room sprays<small>3 cans a month at $8</small></span><span role="cell">$288</span></div>
+        <div role="row"><span role="cell">Oils, reeds and incense<small>about $30 a month</small></span><span role="cell">$360</span></div>
+        <div role="row"><span role="cell">Every year</span><span role="cell">$2,532</span></div>
+      </div>
+      <p>And your home pays twice. Look up at the ceiling above the spot where you burn candles. That grey shadow is <strong>soot</strong>, and it doesn't wipe off. Water diffusers get bumped and overfilled, leaving <strong>white rings and warped spots</strong> on the dresser. Reed diffusers tip over and the oil strips the finish off wood.</p>
+      <p class="hook">If this is what it does to wood and paint, what is it doing to the people who breathe it? Start with what's actually in it.</p>
+    </section>
+
+    <section class="alert" id="alert-3" aria-labelledby="a3">
+      <p class="alabel">Alert #3</p>
+      <h2 id="a3">What's In That “Fresh” Scent Isn't On The Label.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-tried.jpg" width="640" height="640" alt="A plug-in air freshener, a candle and a room spray on a stone counter"></figure>
+      <p>Turn over an air freshener, a room spray or a candle. You'll usually find one word: <strong>“fragrance.”</strong> In the U.S., that single word can stand for dozens of ingredients that companies don't have to name.</p>
+      <p>When researchers tested 25 popular fragranced products, air fresheners included, <strong>they found 133 different chemicals released into the air. 24 of them are classified as toxic or hazardous under U.S. federal law, and only one of the 133 was listed on any label.</strong></p>
+      <p class="note">You can't avoid what nobody tells you is there.</p>
+      <p class="hook">And if grown adults react to it, think about the smallest lungs in the house.</p>
+    </section>
+
+    <section class="alert" id="alert-4" aria-labelledby="a4">
+      <p class="alabel">Alert #4</p>
+      <h2 id="a4">The Sneezing And Headaches You Blame On The Season May Be Coming From Your Candle.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-allergy.jpg" width="720" height="720" alt="A mother holding a tissue to her nose next to her daughter and a golden retriever, an air freshener spray and a lit candle in front"></figure>
+      <p>Itchy eyes. A stuffy nose that shows up every evening. A headache by 9 p.m. Most of us blame pollen, the weather or a long day.</p>
+      <p>But <strong>fragrance is one of the most common triggers.</strong> In a national U.S. survey, <strong>about one in three adults said fragranced products like air fresheners and scented candles gave them health problems, from headaches to asthma attacks.</strong></p>
+      <p class="note">Now think about who else is in that room.</p>
+      <p><strong>Kids breathe in more air for their body size than adults do</strong>, so the same candle reaches them harder. And <strong>vets warn that smoke and aerosol sprays irritate pets' airways too</strong>, birds and cats most of all.</p>
+      <p class="hook">And the last alert is the one almost nobody hears about.</p>
+    </section>
+
+    <section class="alert" id="alert-5" aria-labelledby="a5">
+      <p class="alabel">Alert #5</p>
+      <h2 id="a5">Every Night You Light A Candle, Your Lungs Breathe What It Leaves Behind.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-soot.jpg" width="640" height="640" alt="A three-wick candle in a glass jar with a thread of smoke rising from the flame"></figure>
+      <p>This is the one that matters most.</p>
+      <p>Candles and incense don't only release scent. Every flame releases smoke and soot. <strong>The EPA lists burning candles and incense among the sources of fine particles indoors</strong>, particles small enough to <strong>get deep into your lungs, and some can even reach your bloodstream.</strong></p>
+      <p>One candle won't hurt you. But it's never one candle. It's every evening, in a closed room, all winter, for years. Add the propellants and synthetic fragrance chemicals from sprays and plug-ins, and it adds up where you spend the most time: <strong>indoor air can hold 2 to 5 times more of some pollutants than the air outside, and Americans spend about 90% of their time indoors</strong>, according to the EPA.</p>
+      <p>And then there's the flame itself:</p>
+      <div class="stats">
+        <div><b>7,400</b><span>home fires started by candles each year in the U.S.</span></div>
+        <div><b>~20</b><span>candle fires a day</span></div>
+        <div><b>36%</b><span>of them start in a bedroom</span></div>
+      </div>
+      <p class="small" style="text-align:left;margin:-10px 0 18px">National Fire Protection Association, yearly averages for 2015–2019.</p>
+      <p class="hook">So what do you do? Give up a home that smells good?</p>
+      <p>No. You change how the scent gets into the air.</p>
+    </section>
+
+    <section class="alert" id="fix" aria-labelledby="fx">
+      <p class="alabel dark">The fix</p>
+      <h2 id="fx">“I Couldn't Find A Safe Way To Make My Home Smell Good, So I Made One.”</h2>
+      <div class="founder">
+        <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-patricia.jpg" width="640" height="640" alt="Patricia, founder of Maison Croyez, at home with her dog">
+        <p>“I loved coming home to a house that smelled beautiful. Then I started reading about what I was actually breathing: the soot from my candles, the sprays, the water diffuser on my nightstand that I never cleaned as often as I should have.</p>
+        <p>I couldn't find anything that made my home smell the way I wanted without one of those trade-offs. So I set out to change it.</p>
+        <p>Maison Croyez diffusers are <strong>waterless and leakproof</strong>: no water, no tank, no flame, nothing to spill. Our fragrances are <strong>100% organic and hypoallergenic, made with ingredients from France</strong>, and every scent is tested in my own living room first.</p>
+        <p>I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</p>
+        <p class="sig">Patricia T.<span>Founder &amp; Creative Director, Maison Croyez</span></p>
+      </div>
+      <figure><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-d92.jpg" width="720" height="720" alt="The Maison Croyez diffuser releasing a fine dry mist on a stone coffee table, with bottles and boxes of Maison Croyez scents"><figcaption>The Maison Croyez diffuser: pure fragrance oil turned into a dry mist. No water, no flame.</figcaption></figure>
+      <p>It works like the diffusers in luxury hotel lobbies: <strong>it turns pure fragrance oil into a fine, dry mist</strong> and moves it through the whole room. Nothing burns. Nothing sprays. There's no water. One diffuser fills up to 600 square feet in about ten minutes.</p>
+      <h3 class="bigt">Here's How It Fixes All 5 Alerts.</h3>
+      <ul class="fix-list">
+        <li><span class="fl">Alert #1 · Mold</span><span class="fa">No water and no tank. Nothing to grow, nothing to scrub.</span></li>
+        <li><span class="fl">Alert #2 · Your money and home</span><span class="fa">One 100 ml bottle lasts 30+ days. No soot, and the bottle locks in, so nothing spills.</span></li>
+        <li><span class="fl">Alert #3 · Hidden chemicals</span><span class="fa">100% organic oils with notes you can name on every bottle.</span></li>
+        <li><span class="fl">Alert #4 · Allergies</span><span class="fa">Hypoallergenic oils, with three strength settings.</span></li>
+        <li><span class="fl">Alert #5 · Your lungs</span><span class="fa">No flame, no smoke, no soot. Safe to leave on overnight.</span></li>
+      </ul>
+      <p class="fr-h">Every Maison Croyez fragrance is:</p>
+      <div class="fr">
+        <div><b>IFRA 51 compliant</b><span>Meets the International Fragrance Association's safety standards (51st Amendment).</span></div>
+        <div><b>Paraben-free</b><span>No parabens in any of our oils.</span></div>
+        <div><b>Cruelty-free</b><span>Never tested on animals.</span></div>
+      </div>
+      <a class="btn" href="/pages/diffuser-kits">Get my free diffusers ➔</a>
+      <p class="trust">Loved by 2,500+ homes in America</p>
+    </section>
+
+    <div class="pics">
+      <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-kp-compare.jpg" width="520" height="520" alt="Four friends laughing on a sofa with the Maison Croyez diffuser on the coffee table">
+      <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-kp-spaces.jpg" width="520" height="520" alt="A woman in bed hugging her white dog, the diffuser on the nightstand">
+      <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-kp-badge.jpg" width="520" height="520" alt="The Maison Croyez diffuser on a kitchen counter while someone cooks">
+      <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-kp-intentions.jpg" width="520" height="520" alt="Hands opening a bottle of Maison Croyez scent next to the diffuser in a living room">
+    </div>
+    <p class="pics-cap">Maison Croyez at home.</p>
+    <blockquote><p>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</p><cite>Maison Croyez customer survey · switched from reed sticks</cite></blockquote>
+    <blockquote><p>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</p><cite>Maison Croyez customer survey · bought it for safety and no mold</cite></blockquote>
+    <blockquote><p>“It does not need water, which means no spills, no damp residue, no constantly refilling it like I am caring for a very needy plant.”</p><cite>Amazon review</cite></blockquote>
+
+    <section class="offer" id="offer" aria-labelledby="of">
+      <p class="alabel">Launch offer</p>
+      <h2 id="of">We're New, So The First 1,000 Diffusers Are On Us.</h2>
+      <p>Maison Croyez is a young brand, and we know trying something new in your home takes trust. So <strong>we're taking the risk instead of you: the first 1,000 diffusers are free</strong> when you pick your scents.</p>
+      <p><strong>After the first 1,000, diffusers go back to $89.95.</strong></p>
+      <a class="btn" href="/pages/diffuser-kits">Claim one of the 1,000 free diffusers ➔</a>
+      <p class="trust">Loved by 2,500+ homes in America</p>
+    </section>
+
+    <details><summary>Is it a good fit if someone at home has allergies or asthma?</summary><p>Nothing burns and nothing is sprayed, and the oils are hypoallergenic. If someone is sensitive to fragrance, start on the subtle setting. You have 30 days to send everything back for a full refund.</p></details>
+    <details><summary>Is it safe around kids and pets?</summary><p>There's no flame, no smoke, no heat and no water, so it's safe to leave on overnight, in a kid's room or near pets. Start on the subtle setting in the room where your pet sleeps.</p></details>
+    <details><summary>Am I locked in?</summary><p>No. Your scents ship every 30, 60 or 90 days, your choice, and you can swap, pause or cancel anytime.</p></details>
+
+    <div class="bio"><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/jmlm94/maisoncroyez/claude/maison-diffuser-perf-fixes-f45ggl/lp-factory/pages/adv-kits/shopify/img/mc-cs-pat-face.jpg" width="104" height="104" alt=""><p><b>About the author.</b> Patricia T. is the founder and creative director of Maison Croyez.</p></div>
+  </article>
+</div>
+
+<footer><div class="wrap">
+  <p><b>Advertorial.</b> This article is paid content from Maison Croyez. It is general information, not medical advice. If you have asthma or allergies, ask your doctor what's right for your home.</p>
+  <p>Sources:</p>
+  <ol>
+    <li>U.S. Environmental Protection Agency: Indoor Particulate Matter; Particulate Matter Basics; The Inside Story, A Guide to Indoor Air Quality.</li>
+    <li>Steinemann, A. Fragranced consumer products: exposures and effects from emissions. Air Quality, Atmosphere &amp; Health, 2016.</li>
+    <li>U.S. Environmental Protection Agency, Use and Care of Home Humidifiers.</li>
+    <li>Steinemann, A. et al. Fragranced consumer products: Chemicals emitted, ingredients unlisted. Environmental Impact Assessment Review, 2011.</li>
+    <li>National Fire Protection Association, Home Candle Fires (2015–2019 averages).</li>
+  </ol>
+  <p>The yearly costs in Alert #2 are an example. Customer quotes come from the Maison Croyez customer survey and Amazon reviews.</p>
+</div></footer>
+
+<div class="bar" id="bar"><a class="btn" href="/pages/diffuser-kits">Get my free diffusers ➔</a></div>
+</div>
+<script>(function(){
+  var bar=document.getElementById('bar'), first=document.getElementById('alert-1'), offer=document.getElementById('offer');
+  function upd(){
+    var vh=window.innerHeight||800, f=first.getBoundingClientRect(), o=offer.getBoundingClientRect();
+    bar.classList.toggle('on', f.top<vh*0.5 && !(o.top<vh && o.bottom>0));
+  }
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
+})();</script>

@@ -58,3 +58,10 @@ v9 (owner, 2026-10-29): every word capitalised again on the headline and all sec
 v10 (owner comments, 2026-10-29): byline is just "By Patricia T." (no role, no "Sponsored"; the footer disclosure stays);
 the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, kp-badge, kp-intentions) captioned
 "Maison Croyez at home."
+
+## Shopify version (shopify/)
+- `python3 shopify/build.py img` writes the 13 images as `shopify/img/mc-cs-*.jpg` (upload these to Shopify Files).
+- `python3 shopify/build.py body [urls.json]` writes `shopify/page-body.html`: the store header, announcement bar, footer and page title
+  are hidden, every rule is scoped under `#mcadv`, theme `.prose` styles are reset, buttons go to `/pages/diffuser-kits` in the same tab.
+  Without `urls.json` the images point at raw GitHub (preview only); with it, at the Shopify CDN.
+- `.github/workflows/adv-preview.yml` drops the body into a plain store page on the real theme and saves screenshots + checks to `shopify/preview/`.

@@ -65,3 +65,8 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   are hidden, every rule is scoped under `#mcadv`, theme `.prose` styles are reset, buttons go to `/pages/diffuser-kits` in the same tab.
   Without `urls.json` the images point at raw GitHub (preview only); with it, at the Shopify CDN.
 - `.github/workflows/adv-preview.yml` drops the body into a plain store page on the real theme and saves screenshots + checks to `shopify/preview/`.
+
+## LIVE 2026-10-29: https://maisoncroyez.com/pages/indoor-air-alerts
+- Page gid://shopify/Page/163225075821, title "Your “Healthy” Diffuser May Be Growing Mold", default page template, published.
+- Images: 13 Shopify Files (mc-cs-*.jpg, ?v=1793302792), map in `shopify/urls.json`; body = `shopify/page-body.html` built with it.
+- To change the article: edit `src/page.html`, run `python3 shopify/build.py body shopify/urls.json`, then pageUpdate the body.

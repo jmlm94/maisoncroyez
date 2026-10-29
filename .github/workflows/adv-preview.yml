@@ -1,5 +1,5 @@
 name: adv-preview
-# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 1]
+# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 2: live page]
 on:
   workflow_dispatch:
   push:
@@ -15,8 +15,8 @@ jobs:
     env:
       OUT: lp-factory/pages/adv-kits/shopify/preview
       BODY: lp-factory/pages/adv-kits/shopify/page-body.html
-      URL: ''
-      INJECT: 'yes'
+      URL: 'https://maisoncroyez.com/pages/indoor-air-alerts'
+      INJECT: ''
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,8 +66,10 @@ jobs:
               }, BODY);
             }
             await pg.waitForTimeout(2500);
-            await pg.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); } window.scrollTo(0, 0); });
-            await pg.waitForTimeout(2500);
+            await pg.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
+            await pg.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 250)); } });
+            await pg.evaluate(async () => { const t = Date.now(); while (Date.now() - t < 15000 && [...document.images].some(i => !i.complete)) await new Promise(r => setTimeout(r, 250)); window.scrollTo(0, 0); });
+            await pg.waitForTimeout(1500);
             await pg.evaluate(() => document.fonts && document.fonts.ready);
             r.audit = await pg.evaluate(() => {
               const vis = el => !!el && getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().height > 0;
@@ -102,8 +104,14 @@ jobs:
               window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 400));
               return { top, mid, onOffer: off, shown: getComputedStyle(bar).display !== 'none' };
             });
+            r.loadMs = await pg.evaluate(() => { const n = performance.getEntriesByType('navigation')[0]; return n ? { dcl: Math.round(n.domContentLoadedEventEnd), load: Math.round(n.loadEventEnd) } : null; });
             await pg.screenshot({ path: `${OUT}/${label}-fold.png` });
             await pg.screenshot({ path: `${OUT}/${label}-full.png`, fullPage: true });
+            if (label === 'phone') {
+              // the offer button should take a shopper to the kits page
+              await Promise.all([pg.waitForURL(/diffuser-kits/, { timeout: 30000 }).catch(() => null), pg.click('#offer a.btn')]);
+              r.ctaLandsOn = pg.url().split('?')[0];
+            }
             report.runs.push(r);
             await ctx.close();
           }

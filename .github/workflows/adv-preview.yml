@@ -1,5 +1,5 @@
 name: adv-preview
-# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 2: live page]
+# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 3: live page, top gap fix]
 on:
   workflow_dispatch:
   push:

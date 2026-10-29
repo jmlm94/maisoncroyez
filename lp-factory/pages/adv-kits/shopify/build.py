@@ -81,7 +81,7 @@ THEME = """
 .shopify-section--main-page .page > h1{display:none !important}
 .shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;margin-bottom:0 !important;padding-top:0 !important;padding-bottom:0 !important;border:0 !important;max-width:none !important}
 html,body{overflow-x:clip}
-body{padding-top:0 !important;background:#fff !important}
+body{padding-top:0 !important;margin:0 !important;background:#fff !important}
 #mcadv{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:0 !important;margin-bottom:0 !important;text-align:left}
 #main{padding-top:0 !important;margin-top:0 !important}
 #mcadv :is(h1,h2,h3,h4,p,ol,ul,li,figure,figcaption,blockquote,cite,details,summary,img,a,header,footer,article,nav,section,svg,strong,b){margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;quotes:none;min-height:0}

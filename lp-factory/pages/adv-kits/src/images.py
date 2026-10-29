@@ -24,6 +24,8 @@ out["pat_face"] = uri(Image.open(p("pages/adv-kits/img/patricia.jpg")).crop((245
 out["d92"] = uri(fit(Image.open(p("assets/cdn/diffuser/d92.png")), 760))  # kits page gallery, first image
 for k in ("compare", "spaces", "badge", "intentions"):  # kits page lifestyle photos, fetched by fetch-adv.yml
     out["kp_" + k] = uri(fit(Image.open(p("pages/adv-kits/img/kp-%s.jpg" % k)), 520))
+for k, (n, w, y) in enumerate([('12-dorelie-guinn-2', 1080, 94), ('08-crystal-cameron-1', 1080, 94), ('14-elise-curtis-1', 1080, 94), ('07-chelsea-penner-3', 720, 62), ('03-bianca-gonzalez-1', 1080, 94), ('04-breklin-johnson-1', 720, 62), ('22-melanie-melnikova-2', 720, 62), ('19-kelsey-marty-1', 1080, 94)], 1):  # owner's creator photos (Drive), square crops
+    out["ugc%d" % k] = uri(fit(Image.open(p("pages/adv-kits/drive", n + ".jpg")).convert("RGB").crop((0, y, w, y + w)), 520))
 out["smoke"] = uri(fit(Image.open(p("pages/adv-kits/img/smoke-haze.jpg")).crop((0, 300, 1200, 975)), 900))  # 16:9 hero
 out["soot"] = uri(fit(Image.open(p("pages/pdp-diffuser/assets/processed/soot.jpg")).crop((100, 50, 800, 750)), 640))
 out["mold"] = uri(fit(Image.open(p("pages/pdp-diffuser/assets/processed/mold.jpg")).crop((0, 330, 800, 800)), 680))

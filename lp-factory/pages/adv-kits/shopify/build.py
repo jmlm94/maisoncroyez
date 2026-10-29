@@ -29,6 +29,15 @@ IMAGES = {
     "kp_spaces":     ("pages/adv-kits/img/kp-spaces.jpg", None, 720),
     "kp_badge":      ("pages/adv-kits/img/kp-badge.jpg", None, 720),
     "kp_intentions": ("pages/adv-kits/img/kp-intentions.jpg", None, 720),
+    # owner's creator photos (Drive), square crops above the burned-in captions
+    "ugc1":          ("pages/adv-kits/drive/12-dorelie-guinn-2.jpg", (0, 94, 1080, 1174), 720),
+    "ugc2":          ("pages/adv-kits/drive/08-crystal-cameron-1.jpg", (0, 94, 1080, 1174), 720),
+    "ugc3":          ("pages/adv-kits/drive/14-elise-curtis-1.jpg", (0, 94, 1080, 1174), 720),
+    "ugc4":          ("pages/adv-kits/drive/07-chelsea-penner-3.jpg", (0, 62, 720, 782), 720),
+    "ugc5":          ("pages/adv-kits/drive/03-bianca-gonzalez-1.jpg", (0, 94, 1080, 1174), 720),
+    "ugc6":          ("pages/adv-kits/drive/04-breklin-johnson-1.jpg", (0, 62, 720, 782), 720),
+    "ugc7":          ("pages/adv-kits/drive/22-melanie-melnikova-2.jpg", (0, 62, 720, 782), 720),
+    "ugc8":          ("pages/adv-kits/drive/19-kelsey-marty-1.jpg", (0, 94, 1080, 1174), 720),
 }
 def fname(k): return "mc-cs-%s.jpg" % k.replace("_", "-")
 

@@ -1,6 +1,6 @@
 # Lighthouse on a LIVE page (mobile + desktop, N repeats) with a third-party breakdown, so we can see which
 # scripts cost the most before deciding what to defer or remove. Commits a markdown summary + raw JSON.
-# Run 2026-10-22 00:0x UTC: owner says /pages/diffuser-kits "loads EXTREMELY SLOW" — kits page on dk9q (theme header revealed once theme.css applies, pre-hero hidden until then). Compare with 20261013T2126Z. 3 runs per form factor.
+# Run 2026-10-29: the new advertorial /pages/indoor-air-alerts (owner asked for a page speed test). 3 runs per form factor.
 name: lh-live
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
-      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits' }}
-      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits/perf' }}
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/indoor-air-alerts' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/adv-kits/perf' }}
       RUNS: ${{ github.event.inputs.runs || '3' }}
     steps:
       - uses: actions/checkout@v4

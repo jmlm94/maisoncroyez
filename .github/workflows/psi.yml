@@ -1,9 +1,10 @@
 name: psi
 # PageSpeed Insights (Google's lab hardware, stable) for the LP plus two store baselines (home, a product page), mobile and
 # desktop, with the third-party / bootup / render-blocking / LCP audits and CrUX field data when present. Commits a markdown
-# summary + raw JSON to lp-factory/pages/free-diffusers/perf/psi-<stamp>.md. Re-run: edit this comment and push.
+# summary + raw JSON to lp-factory/pages/adv-kits/perf/psi-<stamp>.md. Re-run: edit this comment and push.
 # 2026-09-25 v2 — LP only, mobile then desktop, 75 s apart, to stay under the anonymous quota (v1 hit 429 on 6 rapid calls).
 #            Reality check of fd16-280dce7 against Google's own Lighthouse hardware.
+# 2026-10-29 — the new advertorial /pages/indoor-air-alerts (owner asked for a page speed test).
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -19,11 +20,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: PSI
         run: |
-          mkdir -p lp-factory/pages/free-diffusers/perf
+          mkdir -p lp-factory/pages/adv-kits/perf
           cat > psi.mjs <<'EOF2'
           import fs from 'fs';
           const URLS = [
-            ['lp', 'https://maisoncroyez.com/pages/free-diffusers'],
+            ['adv', 'https://maisoncroyez.com/pages/indoor-air-alerts'],
           ];
           const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
           const out = { stamp, results: [] };
@@ -58,15 +59,15 @@ jobs:
               console.log(`${id} ${strategy}: ${score} — LCP ${m('largest-contentful-paint')} TBT ${m('total-blocking-time')} SI ${m('speed-index')}`);
             }
           }
-          fs.writeFileSync(`lp-factory/pages/free-diffusers/perf/psi-${stamp}.md`, md);
-          fs.writeFileSync(`lp-factory/pages/free-diffusers/perf/psi-${stamp}.json`, JSON.stringify(out));
+          fs.writeFileSync(`lp-factory/pages/adv-kits/perf/psi-${stamp}.md`, md);
+          fs.writeFileSync(`lp-factory/pages/adv-kits/perf/psi-${stamp}.json`, JSON.stringify(out));
           EOF2
           node psi.mjs
       - name: Commit
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/pages/free-diffusers/perf
-          git commit -m "perf: PageSpeed Insights (LP + home + product, mobile + desktop)" || exit 0
+          git add lp-factory/pages/adv-kits/perf
+          git commit -m "perf: PageSpeed Insights, indoor-air-alerts (mobile + desktop)" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

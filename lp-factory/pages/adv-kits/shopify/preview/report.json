@@ -1,10 +1,10 @@
 {
- "when": "2026-10-29T19:34:43.853Z",
- "inject": true,
+ "when": "2026-10-29T19:45:02.112Z",
+ "inject": false,
  "runs": [
   {
    "label": "phone",
-   "host": "https://maisoncroyez.com/pages/the-scent-story",
+   "host": "https://maisoncroyez.com/pages/indoor-air-alerts",
    "errs": [],
    "audit": {
     "mounted": true,
@@ -22,15 +22,7 @@
     "serifLoaded": true,
     "sansLoaded": true,
     "imgs": 14,
-    "broken": [
-     "mc-cs-soot.jpg",
-     "mc-cs-patricia.jpg",
-     "mc-cs-d92.jpg",
-     "mc-cs-kp-compare.jpg",
-     "mc-cs-kp-spaces.jpg",
-     "mc-cs-kp-badge.jpg",
-     "mc-cs-kp-intentions.jpg"
-    ],
+    "broken": [],
     "ctas": [
      "#alert-1",
      "/pages/diffuser-kits",
@@ -39,18 +31,23 @@
      "/pages/diffuser-kits"
     ],
     "alerts": 6,
-    "pageHeight": 12971
+    "pageHeight": 12891
    },
    "bar": {
     "top": false,
     "mid": true,
-    "onOffer": true,
+    "onOffer": false,
     "shown": true
-   }
+   },
+   "loadMs": {
+    "dcl": 1217,
+    "load": 2107
+   },
+   "ctaLandsOn": "https://maisoncroyez.com/pages/diffuser-kits"
   },
   {
    "label": "small",
-   "host": "https://maisoncroyez.com/pages/the-scent-story",
+   "host": "https://maisoncroyez.com/pages/indoor-air-alerts",
    "errs": [],
    "audit": {
     "mounted": true,
@@ -68,15 +65,7 @@
     "serifLoaded": true,
     "sansLoaded": true,
     "imgs": 14,
-    "broken": [
-     "mc-cs-soot.jpg",
-     "mc-cs-patricia.jpg",
-     "mc-cs-d92.jpg",
-     "mc-cs-kp-compare.jpg",
-     "mc-cs-kp-spaces.jpg",
-     "mc-cs-kp-badge.jpg",
-     "mc-cs-kp-intentions.jpg"
-    ],
+    "broken": [],
     "ctas": [
      "#alert-1",
      "/pages/diffuser-kits",
@@ -85,18 +74,22 @@
      "/pages/diffuser-kits"
     ],
     "alerts": 6,
-    "pageHeight": 13287
+    "pageHeight": 13228
    },
    "bar": {
     "top": false,
-    "mid": false,
-    "onOffer": true,
+    "mid": true,
+    "onOffer": false,
     "shown": true
+   },
+   "loadMs": {
+    "dcl": 868,
+    "load": 1467
    }
   },
   {
    "label": "desktop",
-   "host": "https://maisoncroyez.com/pages/the-scent-story",
+   "host": "https://maisoncroyez.com/pages/indoor-air-alerts",
    "errs": [],
    "audit": {
     "mounted": true,
@@ -114,15 +107,7 @@
     "serifLoaded": true,
     "sansLoaded": true,
     "imgs": 14,
-    "broken": [
-     "mc-cs-soot.jpg",
-     "mc-cs-patricia.jpg",
-     "mc-cs-d92.jpg",
-     "mc-cs-kp-compare.jpg",
-     "mc-cs-kp-spaces.jpg",
-     "mc-cs-kp-badge.jpg",
-     "mc-cs-kp-intentions.jpg"
-    ],
+    "broken": [],
     "ctas": [
      "#alert-1",
      "/pages/diffuser-kits",
@@ -131,13 +116,17 @@
      "/pages/diffuser-kits"
     ],
     "alerts": 6,
-    "pageHeight": 12717
+    "pageHeight": 12629
    },
    "bar": {
     "top": false,
     "mid": true,
-    "onOffer": true,
+    "onOffer": false,
     "shown": false
+   },
+   "loadMs": {
+    "dcl": 875,
+    "load": 1527
    }
   }
  ]

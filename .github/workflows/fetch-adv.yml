@@ -1,0 +1,36 @@
+name: fetch-adv
+# Relay for the adv-kits advertorial: downloads each "name url" line of lp-factory/pages/adv-kits/img/urls.txt (generated
+# media the sandbox can't reach), saves a 1200 px JPEG as img/<name>.jpg and commits. Push urls.txt or this file to run.
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['lp-factory/pages/adv-kits/img/urls.txt', '.github/workflows/fetch-adv.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch
+        run: |
+          set -euo pipefail
+          D=lp-factory/pages/adv-kits/img
+          while read -r name url; do
+            [ -z "${name:-}" ] && continue
+            case "$name" in \#*) continue;; esac
+            [ -f "$D/$name.jpg" ] && continue
+            curl -fsSL -o "/tmp/$name.src" "$url"
+            convert "/tmp/$name.src" -resize '1200x1200>' -quality 86 "$D/$name.jpg"
+            ls -la "$D/$name.jpg"
+          done < "$D/urls.txt"
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/adv-kits/img
+          git commit -m "adv-kits: fetched generated images" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

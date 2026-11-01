@@ -1,0 +1,77 @@
+name: kits-buybox
+# Captures the live /pages/diffuser-kits buy box at each step on an iPhone-size screen (screenshot + rendered HTML + every
+# image it shows, saved locally), so the advertorial's in-article kit builder can copy its layout and images exactly.
+# Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/kits-buybox.yml']
+permissions:
+  contents: write
+jobs:
+  cap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Capture
+        run: |
+          D=lp-factory/pages/adv-kits/kits-ref; mkdir -p $D/img
+          cat > cap.mjs <<'EOS'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const D = 'lp-factory/pages/adv-kits/kits-ref';
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true,
+            userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' });
+          const pg = await ctx.newPage();
+          await pg.goto('https://maisoncroyez.com/pages/diffuser-kits?cb=' + Date.now(), { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }); await pg.waitForTimeout(6000);
+          const imgs = new Map();
+          const grab = async (name) => {
+            await pg.evaluate(async () => { const bb = document.getElementById('buybox'); bb.scrollIntoView({ block: 'start' }); for (let y = 0; y < bb.offsetHeight; y += 400) { window.scrollBy(0, 400); await new Promise(r => setTimeout(r, 120)); } bb.scrollIntoView({ block: 'start' }); });
+            await pg.waitForTimeout(1500);
+            const info = await pg.evaluate(() => {
+              const bb = document.getElementById('buybox');
+              const srcs = [...bb.querySelectorAll('img')].map(i => ({ src: i.currentSrc || i.src, cls: i.className, alt: i.alt, w: i.naturalWidth, h: i.naturalHeight }));
+              const bgs = [...bb.querySelectorAll('*')].map(e => getComputedStyle(e).backgroundImage).filter(v => v && v !== 'none' && v.includes('url('));
+              return { html: bb.outerHTML, srcs, bgs: [...new Set(bgs)].slice(0, 40), h: bb.offsetHeight };
+            });
+            fs.writeFileSync(`${D}/${name}.html`, info.html);
+            info.srcs.forEach(s => imgs.set(s.src, s));
+            await (await pg.$('#buybox')).screenshot({ path: `${D}/${name}.png` });
+            console.log(name, info.h, info.srcs.length, JSON.stringify(info.bgs).slice(0, 400));
+          };
+          await grab('step1');
+          await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click(); await pg.waitForTimeout(1200);
+          await grab('step2-empty');
+          for (const k of [0, 2, 5]) { await pg.evaluate((k) => { const bt = document.querySelectorAll('#buybox .picker .pick')[k].querySelector('.e4-step button[aria-label^="Add one"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(400); }
+          await grab('step2-full');
+          await pg.evaluate(() => { const bt = document.querySelector('#buybox .navrow .btn.atc'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); await pg.waitForTimeout(2500);
+          await grab('step3');
+          const list = [...imgs.values()];
+          fs.writeFileSync(`${D}/images.json`, JSON.stringify(list, null, 1));
+          let n = 0;
+          for (const s of list) {
+            if (!/^https?:/.test(s.src)) continue;
+            const name = s.src.split('?')[0].split('/').pop();
+            try { const r = await fetch(s.src); if (r.ok) { fs.writeFileSync(`${D}/img/${name}`, Buffer.from(await r.arrayBuffer())); n++; } } catch (e) {}
+          }
+          console.log('saved images', n, 'of', list.length);
+          await b.close();
+          EOS
+          node cap.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/adv-kits/kits-ref
+          git commit -m "kits-buybox: live buy box steps 1-3 (html, screenshots, images)" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

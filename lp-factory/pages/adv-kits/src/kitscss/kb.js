@@ -3,6 +3,9 @@
   var root = document.getElementById('mckb'); if (!root) return;
   var sec = root.querySelector('#buybox'), box = root.querySelector('.buybox');
   var DIFF = 89.95, SCENT = 39.95;
+  /* pricing test (owner, 2026-11-01): a one-time option on step 3, diffusers $49.95 each, refunded if they start a refill plan within 30 days.
+     Off on the review copy; build.py turns it on with ONETIME=1. */
+  var ONETIME = false, DIFF_ONE = 49.95;
   var KIT = ['{{kb_kit1}}', '{{kb_kit2}}', '{{kb_kit3}}'];
   var TIERS = [
     { key: 'one', n: 1, name: 'Living Room', scents: 2, tag: '', pop: false, rooms: ['Studio', 'Bathroom', 'Entry'], where: '<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand.' },
@@ -21,7 +24,7 @@
   var SW = { love: 'linear-gradient(160deg,#F26A3D,#F7C948)', abundance: 'linear-gradient(160deg,#F5E04E,#8EC9F0)', focus: 'linear-gradient(160deg,#E9A6D0,#D7B5E8)', ideas: 'linear-gradient(160deg,#9ED9D3,#EE4F8E)', energy: 'linear-gradient(160deg,#E9BFDB,#F3895F)', purify: 'linear-gradient(160deg,#F2E15A,#D873B4)', midnight: 'linear-gradient(160deg,#A9D8EE,#E7A6D2)' };
   var FREQS = [{ d: 60 }, { d: 30, tag: 'Most popular' }, { d: 90 }];
   var PLANS = /*PLANS*/{}, RIC = /*RIC*/{}, IC = /*IC*/{};
-  var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false };
+  var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false, buy: 'sub' };
 
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
   var usd = function (v) { return '$' + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)); };
@@ -32,8 +35,9 @@
   var qty = function (k) { return st.keys.filter(function (x) { return x === k; }).length; };
   var fr = function (k) { return FR.filter(function (f) { return f.key === k; })[0]; };
   var grouped = function () { var m = [], seen = {}; st.keys.forEach(function (k) { if (!seen[k]) { seen[k] = 1; m.push({ f: fr(k), q: qty(k) }); } }); return m; };
-  var today = function () { return st.keys.length * SCENT; };
-  var value = function () { return T().n * DIFF + today(); };
+  var one = function () { return ONETIME && st.buy === 'one'; };
+  var today = function () { return st.keys.length * SCENT + (one() ? T().n * DIFF_ONE : 0); };
+  var value = function () { return T().n * DIFF + st.keys.length * SCENT; };
 
   var eta = '<p class="dk-eta">' + ic('truck', 'dk-eta-ic') + 'Estimated delivery: <b>3–5 business days</b></p>';
   var chips = '<div class="atc-chips">' +
@@ -82,21 +86,28 @@
   }
 
   function step3() {
-    var t = T();
-    return '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
+    var t = T(), o = one(), dpay = t.n * DIFF_ONE;
+    var buy = !ONETIME ? '' : '<div class="s9-freq-head">How would you like your kit?</div>' +
+      '<div class="pt2" role="radiogroup" aria-label="Subscription or one-time">' +
+        '<button type="button" class="pt-opt' + (o ? '' : ' on') + '" role="radio" aria-checked="' + !o + '" data-buy="sub" data-k="bsub"><small class="pt-tag">Best value</small><b>Subscribe</b><small>Diffuser' + (t.n > 1 ? 's' : '') + ' FREE · refills every 30, 60 or 90 days</small></button>' +
+        '<button type="button" class="pt-opt' + (o ? ' on' : '') + '" role="radio" aria-checked="' + o + '" data-buy="one" data-k="bone"><b>One-time</b><small>Diffuser' + (t.n > 1 ? 's' : '') + ' ' + usd(DIFF_ONE) + ' each · no refills</small></button></div>';
+    return '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your ' + (o ? '' : 'free ') + 'diffusers have been reserved.</div>' +
       '<div class="kitrev k9">' + grouped().map(function (g) {
         return '<div class="kr-row">' + img(g.f.img, g.f.name) + '<span class="kr-tx"><b>' + g.q + '× ' + g.f.name + '</b><span class="kr-sub">' + esc(g.f.int) + ' · 100ml</span></span><span class="kr-pr">' + usd(g.q * SCENT) + '</span></div>';
       }).join('') +
-        '<div class="kr-row kr-kit"><img class="kr-img" src="' + KIT[st.t] + '" alt="" decoding="async"><span class="kr-tx"><b>' + t.n + '× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span><span class="kr-pr"><s>' + usd(t.n * DIFF) + '</s><span class="inc">FREE</span></span></div></div>' +
+        '<div class="kr-row kr-kit"><img class="kr-img" src="' + KIT[st.t] + '" alt="" decoding="async"><span class="kr-tx"><b>' + t.n + '× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span><span class="kr-pr"><s>' + usd(t.n * DIFF) + '</s>' + (o ? '<span class="pay">' + usd(dpay) + '</span>' : '<span class="inc">FREE</span>') + '</span></div></div>' + buy +
       '<p class="s9-value">That’s <b class="s9-val-green">' + usd(value()) + ' of value</b>, you pay ' + usd(today()) + ' today.</p>' +
-      '<div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>' + today().toFixed(2) + '</span><span class="s9-due-each">' + usd(SCENT) + '/scent</span></div>' +
-      '<ul class="t9s-how"><li><b>Today</b> you pay only for your scents. The free diffuser' + (t.n > 1 ? 's ship' : ' ships') + ' with them.</li><li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just below.</li><li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li></ul>' +
+      '<div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>' + today().toFixed(2) + '</span><span class="s9-due-each">' + usd(SCENT) + '/scent' + (o ? ' + ' + usd(DIFF_ONE) + '/diffuser' : '') + '</span></div>' +
+      (o
+        ? '<ul class="t9s-how"><li><b>Today</b> you pay for your scents and ' + usd(DIFF_ONE) + ' per diffuser. Nothing is charged later.</li><li><b>Change your mind?</b> Start a refill plan within 30 days and we refund the ' + usd(dpay) + ' you paid for your diffuser' + (t.n > 1 ? 's' : '') + '.</li><li><b>30-day money-back</b> on everything, prepaid return.</li></ul>' +
+          '<p class="s9-freq-note"><b>No subscription, no surprises.</b> If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>'
+        : '<ul class="t9s-how"><li><b>Today</b> you pay only for your scents. The free diffuser' + (t.n > 1 ? 's ship' : ' ships') + ' with them.</li><li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just below.</li><li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li></ul>' +
       '<div class="s9-freq-head">How frequently would you like your refills?</div>' +
       '<div class="rf3" role="radiogroup" aria-label="Refill frequency">' + FREQS.map(function (o) {
         var on = st.freq === o.d;
         return '<button type="button" class="rf3-opt' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-f="' + o.d + '" data-k="f' + o.d + '"><b>' + o.d + ' days</b>' + (o.tag ? '<small class="rf3-tag">' + o.tag + '</small>' : '') + '</button>';
       }).join('') + '</div>' +
-      '<p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>' +
+      '<p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>') +
       '<button type="button" class="btn atc" data-cart="1" data-k="cart"' + (left() > 0 ? ' disabled' : '') + '><span>ADD TO CART ➔</span></button>' +
       (st.added ? '<p class="kb-done" role="status">Preview only: on the live page this button adds your kit to the cart and opens it.</p>' : '') +
       eta + chips +
@@ -120,6 +131,7 @@
     if (d.t !== undefined) { st.t = +d.t; st.keys = st.keys.slice(0, TIERS[st.t].scents); render(); return; }
     if (d.go) { go(+d.go); return; }
     if (d.f) { st.freq = +d.f; render(); return; }
+    if (d.buy) { st.buy = d.buy; render(); return; }
     if (d.add) { if (st.keys.length < T().scents) { st.keys.push(d.add); st.last = d.add; } render(); return; }
     if (d.rm) { st.last = d.rm; var i = st.keys.indexOf(d.rm); if (i > -1) st.keys.splice(i, 1); render(); return; }
     if (d.peek) { st.last = d.peek; render(); return; }

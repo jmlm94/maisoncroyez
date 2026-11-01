@@ -145,3 +145,11 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Before deploying: Meta's codeless "Clicked to PDP" event no longer means a kits-page visit (nothing leaves the page);
   measure the builder instead (steps reached, Add to cart). adv-preview.yml still clicks '#offer a.btn' and expects the
   kits page, so update that check too.
+
+## One-time pricing test (2026-11-01, owner) — test artifact only
+- Owner: "$49.95/diffuser if no subscription and if you decide to subscribe later, full $99.90 refund".
+- kb.js has `ONETIME` (off by default). `ONETIME=1 python3 src/build.py <out>` builds a copy whose step 3 adds
+  Subscribe / One-time cards: one-time = scents $39.95 + diffusers $49.95 each, no refill picker, "Start a refill plan
+  within 30 days and we refund the $X you paid for your diffusers" (the 30-day window is a proposal, owner to confirm).
+  Kit 1/2/3 one-time today: $129.85 / $219.75 / $349.60 (subscription $79.90 / $119.85 / $199.75).
+- kb.js is the source; `python3 src/kitscss/inline_js.py` pastes it (with kitscss/icons.json) into page.html.

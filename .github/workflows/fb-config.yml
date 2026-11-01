@@ -1,0 +1,40 @@
+name: fb-config
+# Saves the Meta pixel's config script (980908600592309) and pulls out the Event Setup Tool rules, so we can see what
+# triggers the "Clicked to PDP" custom event (button text, CSS selector or link URL). Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fb-config.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch
+        run: |
+          D=lp-factory/pages/adv-kits/pixel; mkdir -p $D
+          curl -sL -A 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' -o /tmp/cfg.js "https://connect.facebook.net/signals/config/980908600592309?v=2.9.429&r=stable&domain=maisoncroyez.com"
+          ls -la /tmp/cfg.js
+          python3 - <<'PY'
+          import re
+          s = open('/tmp/cfg.js', encoding='utf-8', errors='replace').read()
+          out = []
+          for m in re.finditer(r'Clicked to PDP|SubscribedButtonClick|eventSetup|buttonSelector|button_text|innerText', s):
+              a = max(0, m.start() - 900); b = min(len(s), m.end() + 900)
+              out.append('=== %s @%d\n%s\n' % (m.group(0), m.start(), s[a:b]))
+              if len(out) > 12: break
+          open('lp-factory/pages/adv-kits/pixel/fb-config-rules.txt', 'w').write('\n'.join(out) or 'no matches; size %d' % len(s))
+          print(len(s), len(out))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/pages/adv-kits/pixel
+          git commit -m "fb-config: Meta pixel event setup rules" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

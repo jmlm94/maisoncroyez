@@ -160,6 +160,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
 #mckb .kr-pr .inc{display:inline-block}
 #mckb .kb-done{font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.4;text-align:center;color:#241C18;background:#F3EBE1;border-radius:14px;padding:10px 14px}
 @media (max-width:479px){#mckb{padding-left:8px;padding-right:8px}}
+#offer > .trust{margin:0 -16px -16px;padding:2px 16px 18px;background:#F4F4F4}  /* owner: the grey runs on under the builder to the bottom of the box */
 #mckb .step-eyebrow{font-size:.86rem}  /* owner: bigger "Step 1 of 3" */
 </style>
 
@@ -432,8 +433,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
 
   function step3() {
     var t = T();
-    return '<div class="s9-banner"><img src="{{kb_step3}}" alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"></div>' +
-      '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
+    return '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
       '<div class="kitrev k9">' + grouped().map(function (g) {
         return '<div class="kr-row">' + img(g.f.img, g.f.name) + '<span class="kr-tx"><b>' + g.q + '× ' + g.f.name + '</b><span class="kr-sub">' + esc(g.f.int) + ' · 100ml</span></span><span class="kr-pr">' + usd(g.q * SCENT) + '</span></div>';
       }).join('') +

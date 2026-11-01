@@ -136,3 +136,5 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Owner comments (v15, 2026-11-01): launch-offer box centered; builder on a light grey (#F4F4F4) panel that runs the full
   width of the box; "Step N of 3" bigger (.86rem); a small US flag (inline SVG, so it shows on Windows too) after both
   "Loved by 2,500+ homes in America" lines. The older comment threads (2026-10-29) were all handled in v5–v10.
+- Owner comments (v15, later): no photo at the top of step 3 (kb_step3 stays in images.py, unused); the grey panel runs on
+  under the builder through "Loved by 2,500+ homes in America" to the bottom of the box.

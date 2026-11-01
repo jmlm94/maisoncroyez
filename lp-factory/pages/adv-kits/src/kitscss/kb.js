@@ -83,8 +83,7 @@
 
   function step3() {
     var t = T();
-    return '<div class="s9-banner"><img src="{{kb_step3}}" alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"></div>' +
-      '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
+    return '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
       '<div class="kitrev k9">' + grouped().map(function (g) {
         return '<div class="kr-row">' + img(g.f.img, g.f.name) + '<span class="kr-tx"><b>' + g.q + '× ' + g.f.name + '</b><span class="kr-sub">' + esc(g.f.int) + ' · 100ml</span></span><span class="kr-pr">' + usd(g.q * SCENT) + '</span></div>';
       }).join('') +

@@ -1,5 +1,5 @@
 name: adv-preview
-# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 6: live page with the 8-photo creator grid]
+# Preview of the Candle Swap advertorial inside the real Maison Croyez theme before it is a live page: opens a plain store page, swaps its body for lp-factory/pages/adv-kits/shopify/page-body.html, then saves phone + desktop screenshots and DOM checks to shopify/preview/. Once the page is live, set URL to it and leave INJECT empty. Edit this line and push to run. [run 7: v15 body injected into a live store page: kit builder walk + real cart read]
 on:
   workflow_dispatch:
   push:
@@ -15,8 +15,8 @@ jobs:
     env:
       OUT: lp-factory/pages/adv-kits/shopify/preview
       BODY: lp-factory/pages/adv-kits/shopify/page-body.html
-      URL: 'https://maisoncroyez.com/pages/indoor-air-alerts'
-      INJECT: ''
+      URL: ''
+      INJECT: 'yes'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -112,10 +112,21 @@ jobs:
             r.loadMs = await pg.evaluate(() => { const n = performance.getEntriesByType('navigation')[0]; return n ? { dcl: Math.round(n.domContentLoadedEventEnd), load: Math.round(n.loadEventEnd) } : null; });
             await pg.screenshot({ path: `${OUT}/${label}-fold.png` });
             await pg.screenshot({ path: `${OUT}/${label}-full.png`, fullPage: true });
-            if (label === 'phone') {
-              // the offer button should take a shopper to the kits page
-              await Promise.all([pg.waitForURL(/diffuser-kits/, { timeout: 30000 }).catch(() => null), pg.click('#offer a.btn')]);
-              r.ctaLandsOn = pg.url().split('?')[0];
+            if (label === 'phone' && await pg.$('#mckb')) {
+              // v15: every article button scrolls to the kit builder; walk it and add the kit to this session's cart
+              await pg.click('.fixrow[data-cta="fix-1"]'); await pg.waitForTimeout(1500);
+              r.fixScrollTop = await pg.evaluate(() => Math.round(document.getElementById('mckb').getBoundingClientRect().top));
+              await (await pg.$('#mckb')).screenshot({ path: `${OUT}/phone-builder-1.png` });
+              await pg.click('#mckb [data-go="2"]'); await pg.waitForTimeout(600);
+              for (const k of ['love', 'focus', 'purify']) { await pg.click(`#mckb [data-add="${k}"]`); await pg.waitForTimeout(250); }
+              await (await pg.$('#mckb')).screenshot({ path: `${OUT}/phone-builder-2.png` });
+              await pg.click('#mckb [data-go="3"]'); await pg.waitForTimeout(600);
+              await (await pg.$('#mckb')).screenshot({ path: `${OUT}/phone-builder-3.png` });
+              r.step3 = await pg.evaluate(() => ({ due: (document.querySelector('#mckb .s9-due-n') || {}).innerText, value: (document.querySelector('#mckb .s9-value') || {}).innerText }));
+              await pg.click('#mckb [data-cart]'); await pg.waitForTimeout(5000);
+              r.afterCartUrl = pg.url().split('?')[0];
+              r.cart = await pg.evaluate(async () => { const c = await (await fetch('/cart.js', { headers: { Accept: 'application/json' } })).json(); return { total: c.total_price, discount: c.total_discount, items: c.items.map(i => ({ v: i.variant_id, title: i.title, q: i.quantity, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null, final: i.final_line_price, orig: i.original_line_price, disc: (i.discounts || []).map(d => d.title) })) }; });
+              await pg.screenshot({ path: `${OUT}/phone-after-cart.png` });
             }
             if (label === 'phone') {
               const ref = await b.newPage();

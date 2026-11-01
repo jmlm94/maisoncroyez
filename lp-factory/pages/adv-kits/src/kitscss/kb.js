@@ -6,6 +6,11 @@
   /* pricing test (owner, 2026-11-01): a one-time option on step 3, diffusers $49.95 each, refunded if they start a refill plan within 30 days.
      Off on the review copy; build.py turns it on with ONETIME=1. */
   var ONETIME = false, DIFF_ONE = 49.95;
+  /* the store's cart: the same kit variants, scents and Subi refill plans as /pages/diffuser-kits (CART3 + CONFIG.fragrances in mc-dk-app.js) */
+  var KITV = { 1: 45900240257133, 2: 45900240289901, 3: 45900240322669 };
+  var PLAN = { 30: 7883817069, 60: 7883849837, 90: 7883882605 };
+  var VAR = { love: 41212020457581, abundance: 41212018655341, focus: 41212021506157, ideas: 41212021342317, energy: 41212020752493, purify: 41212021669997, midnight: 41212019933293 };
+  var onStore = /(^|\.)maisoncroyez\.com$/.test(location.hostname);
   var KIT = ['{{kb_kit1}}', '{{kb_kit2}}', '{{kb_kit3}}'];
   var TIERS = [
     { key: 'one', n: 1, name: 'Living Room', scents: 2, tag: '', pop: false, rooms: ['Studio', 'Bathroom', 'Entry'], where: '<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand.' },
@@ -24,7 +29,7 @@
   var SW = { love: 'linear-gradient(160deg,#F26A3D,#F7C948)', abundance: 'linear-gradient(160deg,#F5E04E,#8EC9F0)', focus: 'linear-gradient(160deg,#E9A6D0,#D7B5E8)', ideas: 'linear-gradient(160deg,#9ED9D3,#EE4F8E)', energy: 'linear-gradient(160deg,#E9BFDB,#F3895F)', purify: 'linear-gradient(160deg,#F2E15A,#D873B4)', midnight: 'linear-gradient(160deg,#A9D8EE,#E7A6D2)' };
   var FREQS = [{ d: 60 }, { d: 30, tag: 'Most popular' }, { d: 90 }];
   var PLANS = /*PLANS*/{}, RIC = /*RIC*/{}, IC = /*IC*/{};
-  var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false, buy: 'sub' };
+  var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false, buy: 'sub', busy: false, err: false };
 
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
   var usd = function (v) { return '$' + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)); };
@@ -108,8 +113,9 @@
         return '<button type="button" class="rf3-opt' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-f="' + o.d + '" data-k="f' + o.d + '"><b>' + o.d + ' days</b>' + (o.tag ? '<small class="rf3-tag">' + o.tag + '</small>' : '') + '</button>';
       }).join('') + '</div>' +
       '<p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>') +
-      '<button type="button" class="btn atc" data-cart="1" data-k="cart"' + (left() > 0 ? ' disabled' : '') + '><span>ADD TO CART ➔</span></button>' +
+      '<button type="button" class="btn atc" data-cart="1" data-k="cart"' + (left() > 0 || st.busy ? ' disabled' : '') + '><span>' + (st.busy ? 'One moment…' : 'ADD TO CART ➔') + '</span></button>' +
       (st.added ? '<p class="kb-done" role="status">Preview only: on the live page this button adds your kit to the cart and opens it.</p>' : '') +
+      (st.err ? '<p class="kb-done" role="alert">Your kit couldn’t be added. Please try again.</p>' : '') +
       eta + chips +
       '<div class="navrow back-only"><button type="button" class="btn secondary wide" data-go="2" data-k="g2b">← Change my scents</button></div>';
   }
@@ -126,6 +132,32 @@
     window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 12, behavior: still ? 'auto' : 'smooth' });
     var f = box.querySelector('.step-title'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
   }
+  /* Add to cart on the store: the kit variant + each scent on the chosen refill plan (the free-diffuser discounts zero the kit
+     at checkout, as on the kits page). A kit this page or the kits page added earlier is replaced, not doubled. Shopify's
+     Meta channel fires AddToCart from /cart/add.js; the 800 ms wait before leaving keeps its beacons. */
+  function addCart() {
+    if (st.busy || left() > 0) return;
+    st.busy = true; st.err = false; render();
+    var plan = PLAN[st.freq] || PLAN[30], items = [{ id: KITV[T().n], quantity: 1 }];
+    grouped().forEach(function (g) { items.push({ id: VAR[g.f.key], quantity: g.q, selling_plan: plan }); });
+    var mine = [KITV[1], KITV[2], KITV[3]].concat(FR.map(function (f) { return VAR[f.key]; }));
+    var post = function (u, b) { return fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(b) }).then(function (r) { if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }); };
+    fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function (r) { return r.json(); })
+      .then(function (c) {
+        return (c.items || []).filter(function (l) { return mine.indexOf(l.variant_id) > -1; })
+          .reduce(function (p, l) { return p.then(function () { return post('/cart/change.js', { id: l.key, quantity: 0 }); }); }, Promise.resolve());
+      })
+      .then(function () { return post('/cart/add.js', { items: items }); })
+      .then(function () {
+        var drawer = document.getElementById('cart-drawer');
+        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true, detail: { open: true } }));
+        setTimeout(function () {
+          if (drawer && typeof drawer.show === 'function') { try { drawer.show(); } catch (e) {} st.busy = false; render(); }
+          else window.location.href = '/cart';
+        }, 800);
+      })
+      .catch(function () { st.busy = false; st.err = true; render(); });
+  }
   function act(el) {
     var d = el.dataset;
     if (d.t !== undefined) { st.t = +d.t; st.keys = st.keys.slice(0, TIERS[st.t].scents); render(); return; }
@@ -135,7 +167,7 @@
     if (d.add) { if (st.keys.length < T().scents) { st.keys.push(d.add); st.last = d.add; } render(); return; }
     if (d.rm) { st.last = d.rm; var i = st.keys.indexOf(d.rm); if (i > -1) st.keys.splice(i, 1); render(); return; }
     if (d.peek) { st.last = d.peek; render(); return; }
-    if (d.cart) { st.added = true; render(); }
+    if (d.cart) { if (!onStore) { st.added = true; render(); return; } addCart(); }
   }
   box.addEventListener('click', function (e) {
     if (e.target.closest('.e4-step') && !e.target.closest('button')) return;

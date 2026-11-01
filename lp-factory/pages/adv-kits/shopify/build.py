@@ -39,6 +39,17 @@ IMAGES = {
     "ugc7":          ("pages/adv-kits/drive/22-melanie-melnikova-2.jpg", (0, 62, 720, 782), 720),
     "ugc8":          ("pages/adv-kits/drive/19-kelsey-marty-1.jpg", (0, 94, 1080, 1174), 720),
 }
+# The kit builder's pictures are already on the Shopify CDN (the kits page uses them): no upload, same URLs.
+CDN = "https://cdn.shopify.com/s/files/1/0020/3636/7469/files/"
+STORE_IMAGES = {
+    "kb_kit1": CDN + "mc-kb-kit1.jpg?v=1786479536&width=240", "kb_kit2": CDN + "mc-kb-kit2.jpg?v=1786479536&width=240",
+    "kb_kit3": CDN + "mc-kb-kit3.jpg?v=1786479536&width=240",
+    "s_love": CDN + "golden_blossom.png?v=1791993010&width=320", "s_abundance": CDN + "crisp_citruss.png?v=1791993011&width=320",
+    "s_relax": CDN + "chilled_citrusss.png?v=1791993010&width=320", "s_ideas": CDN + "honey_nectarr.png?v=1791993011&width=320",
+    "s_energy": CDN + "euphoric_bloom.png?v=1791993010&width=320", "s_purify": CDN + "wilwood_mistiqye.png?v=1791993011&width=320",
+    "s_night": CDN + "midnight_sensation.png?v=1791993011&width=320",
+    "kb_step3": CDN + "mc-dk-step3-1600x900.webp?v=1792532870",
+}
 def fname(k): return "mc-cs-%s.jpg" % k.replace("_", "-")
 
 def build_img():
@@ -107,7 +118,9 @@ def build_body(urls_path=None):
     s = open(SRC, encoding="utf-8").read()
     fonts = re.search(r'<link rel="stylesheet" href="https://fonts.googleapis.com[^>]+>', s).group(0)
     css = re.search(r"<style>(.*?)</style>", s, re.S).group(1)
-    js = re.search(r"<script>(.*?)</script>", s, re.S).group(1).strip()
+    # v15: the kit builder's styles (the kits page buy box, src/kits-buybox.css) go in where page.html says {{kits_css}}
+    css = css.replace("{{kits_css}}", open(os.path.join(HERE, "..", "src", "kits-buybox.css"), encoding="utf-8").read())
+    js = "\n".join(m.strip() for m in re.findall(r"<script>(.*?)</script>", s, re.S))  # v15: both scripts (sticky bar + kit builder)
     markup = s[s.index("</style>") + len("</style>"):s.index("<script>")].strip()
 
     if urls_path:
@@ -116,9 +129,11 @@ def build_body(urls_path=None):
         ref = os.environ.get("REF", "claude/maison-diffuser-perf-fixes-f45ggl")
         base = "https://raw.githubusercontent.com/jmlm94/maisoncroyez/%s/lp-factory/pages/adv-kits/shopify/img/" % ref
         urls = {k: base + fname(k) for k in IMAGES}
-    keys = set(re.findall(r"\{\{(\w+)\}\}", markup))
+    urls = dict(STORE_IMAGES, **urls)
+    keys = set(re.findall(r"\{\{(\w+)\}\}", markup)) | set(re.findall(r"\{\{(\w+)\}\}", js))
     assert keys <= set(urls), keys - set(urls)
-    for k in keys: markup = markup.replace("{{%s}}" % k, urls[k])
+    for k in keys: markup = markup.replace("{{%s}}" % k, urls[k]); js = js.replace("{{%s}}" % k, urls[k])
+    assert "{{" not in js and "{{" not in css
 
     # The store page is the same site: buttons open in the same tab, with a relative link.
     markup = re.sub(r'href="https://maisoncroyez\.com(/pages/diffuser-kits[^"]*)" target="_blank" rel="noopener"', r'href="\1"', markup)

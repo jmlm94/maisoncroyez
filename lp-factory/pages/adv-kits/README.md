@@ -125,6 +125,10 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Styles: src/kits-buybox.css = the mc-dk.css rules that match those elements, re-rooted from #root to #mckb, in source
   order (rebuild with `python3 src/kitscss/extract.py`; it matches selectors against kits-ref/*.html). build.py inlines it
   at {{kits_css}}. Fonts: Unna, Outfit, Be Vietnam Pro (Google Fonts in the artifact; the kits page self-hosts the same).
+- On the live kits page the store theme also changes a few things (black "←" and Change-my-scents buttons with white
+  text, no button shadows, 12px above div+div blocks, -0.16px letter-spacing, balanced titles). kits-buybox.yml run 2
+  saved the live computed styles (kits-ref/<step>.styles.json); page.html mirrors them right after {{kits_css}}, and a
+  computed-style diff of the review copy against the live page now shows no differences at phone width.
 - Article rules that would leak in were narrowed: `.btn` -> `a.btn`, `.offer p/ul/li` -> direct children.
 - Images: kb_kit1..3 and kb_step3 from kits-ref/img (images.py); scent tiles reuse s_*.
 - Deploy notes: shopify/build.py only takes the first <script> and only fills {{…}} in the markup — before deploying the

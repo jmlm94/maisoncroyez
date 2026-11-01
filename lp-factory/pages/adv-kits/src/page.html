@@ -126,6 +126,66 @@ blockquote cite{font-style:normal;font-family:var(--sans);font-size:12px;color:v
 .offer ul{margin:0 0 6px;padding-left:20px;font-size:16.5px}
 .offer li{margin-bottom:4px}
 .small{font-family:var(--sans);font-size:12.5px;color:var(--ink3);text-align:center;margin:8px 0 0}
+.kb{display:grid;gap:14px;margin:6px 0 0;font-family:var(--sans)}
+.kb-prog{display:grid;gap:7px}
+.kb-prog p{margin:0;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.kb-prog p b{color:var(--ink)}
+.kb-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.kb-bar i{height:4px;border-radius:2px;background:var(--rule)}
+.kb-bar i.on{background:var(--black)}
+.kb-h{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.2;margin:0}
+.kb-panel{display:grid;gap:12px}
+.kb-panel[hidden]{display:none}
+.kb-tier{display:grid;grid-template-columns:64px minmax(0,1fr) 22px;gap:12px;align-items:center;width:100%;text-align:left;background:var(--white);border:1.5px solid var(--rule);border-radius:6px;padding:12px;cursor:pointer;font:inherit;color:var(--ink);position:relative}
+.kb-tier img{width:64px;height:64px;object-fit:cover;border-radius:4px}
+.kb-tier .x{position:absolute;left:58px;top:8px;background:var(--black);color:var(--white);font-size:11px;font-weight:800;border-radius:10px;padding:1px 6px}
+.kb-tier b{display:block;font-size:17px}
+.kb-tier .w{display:block;font-size:14.5px;color:var(--ink)}
+.kb-tier .w em{font-style:normal;color:var(--green);font-weight:800}
+.kb-tier small{display:block;font-size:12.5px;color:var(--ink3);margin-top:2px}
+.kb-tier .tg{position:absolute;right:10px;top:-9px;background:var(--black);color:var(--white);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px}
+.kb-tier .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--rule)}
+.kb-tier[aria-pressed="true"]{border-color:var(--black);box-shadow:0 0 0 1px var(--black)}
+.kb-tier[aria-pressed="true"] .dot{border:6px solid var(--black)}
+.kb-tier:focus-visible,.kb-step button:focus-visible,.kb-freq button:focus-visible,.kb-link:focus-visible{outline:3px solid var(--ink3);outline-offset:2px}
+.kb-count{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
+.kb-count b{background:var(--wash);border-radius:12px;padding:3px 10px;font-variant-numeric:tabular-nums}
+.kb-count b.full{background:var(--green);color:var(--white)}
+.kb-link{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.kb-scents{display:grid;gap:8px}
+.kb-sc{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;border:1.5px solid var(--rule);border-radius:6px;padding:8px 10px;background:var(--white)}
+.kb-sc.on{border-color:var(--black)}
+.kb-sc img{width:52px;height:52px;object-fit:contain;background:var(--wash);border-radius:4px}
+.kb-sc b{display:block;font-size:15px;line-height:1.25}
+.kb-sc .in{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:1px 0 2px}
+.kb-sc .sm{display:block;font-size:13px;line-height:1.35;color:var(--ink2)}
+.kb-step{display:flex;align-items:center;gap:6px}
+.kb-step button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--black);background:var(--white);color:var(--black);font:inherit;font-size:18px;font-weight:700;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+.kb-step button.add{background:var(--black);color:var(--white)}
+.kb-step button:disabled{opacity:.3;cursor:not-allowed}
+.kb-step span{min-width:14px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.kb-row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--rule);font-size:14.5px}
+.kb-row img{width:48px;height:48px;object-fit:contain;background:var(--wash);border-radius:4px}
+.kb-row b{display:block}
+.kb-row small{display:block;font-size:12.5px;color:var(--ink3)}
+.kb-row .pr{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kb-row .pr s{color:var(--ink3);display:block;font-size:12.5px}
+.kb-row .pr em{font-style:normal;font-weight:800;color:var(--green)}
+.kb-val{margin:0;font-size:15px}
+.kb-val b{color:var(--green)}
+.kb-due{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--black);border-bottom:2px solid var(--black);padding:10px 0}
+.kb-due span{font-weight:800;font-size:15px}
+.kb-due strong{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
+.kb-fh{margin:0;font-weight:800;font-size:14.5px}
+.kb-freq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kb-freq button{border:1.5px solid var(--rule);border-radius:6px;background:var(--white);color:var(--ink);font:inherit;font-weight:800;font-size:15px;padding:10px 4px 9px;cursor:pointer;display:grid;gap:2px;justify-items:center}
+.kb-freq button small{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
+.kb-freq button[aria-pressed="true"]{border-color:var(--black);box-shadow:0 0 0 1px var(--black)}
+.kb-how{margin:0;padding-left:18px;display:grid;gap:5px;font-size:14px;color:var(--ink2)}
+.kb .btn{margin:0}
+.kb .btn:disabled{background:var(--ink3);cursor:not-allowed}
+.kb-back{justify-self:start}
+.kb-done{margin:0;background:var(--wash);border-left:3px solid var(--green);padding:10px 12px;font-size:14px}
 details{border-top:1px solid var(--rule)}
 details:last-of-type{border-bottom:1px solid var(--rule)}
 summary{cursor:pointer;list-style:none;font-family:var(--sans);font-weight:700;font-size:15.5px;padding:13px 26px 13px 0;position:relative}
@@ -292,7 +352,41 @@ footer ol{margin:0 0 8px;padding-left:18px}
       <h2 id="of">We're New, So The First 1,000 Diffusers Are On Us.</h2>
       <p>Maison Croyez is a young brand, and we know trying something new in your home takes trust. So <strong>we're taking the risk instead of you: the first 1,000 diffusers are free</strong> when you pick your scents.</p>
       <p><strong>After the first 1,000, diffusers go back to $89.95.</strong></p>
-      <a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Claim one of the 1,000 free diffusers ➔</a>
+      <div class="kb" id="kb">
+        <div class="kb-prog"><p><b id="kb-n">Step 1 of 3</b> · <span id="kb-lbl">Your diffusers</span></p><div class="kb-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>
+
+        <div class="kb-panel" data-p="1">
+          <p class="kb-h">How many free diffusers would you like?</p>
+          <div id="kb-tiers" class="kb-panel" role="radiogroup" aria-label="Number of diffusers"></div>
+          <button type="button" class="btn" data-go="2">Pick your scents ➔</button>
+        </div>
+
+        <div class="kb-panel" data-p="2" hidden>
+          <p class="kb-h" id="kb-h2">Pick your 3 scents</p>
+          <div class="kb-count"><b id="kb-cnt">0 of 3 picked</b><button type="button" class="kb-link" id="kb-best">Not sure? Use our best sellers</button></div>
+          <div class="kb-scents" id="kb-scents"></div>
+          <button type="button" class="btn" data-go="3" id="kb-next2" disabled>Pick 3 more</button>
+          <button type="button" class="kb-link kb-back" data-go="1">← Change diffusers</button>
+        </div>
+
+        <div class="kb-panel" data-p="3" hidden>
+          <p class="kb-h">Your kit</p>
+          <div id="kb-lines"></div>
+          <p class="kb-val" id="kb-val"></p>
+          <div class="kb-due"><span>Due today</span><strong id="kb-due"></strong></div>
+          <p class="kb-fh">How often should we send your scents?</p>
+          <div class="kb-freq" id="kb-freq" role="radiogroup" aria-label="Refill frequency"></div>
+          <ul class="kb-how">
+            <li><b>Today</b> you pay only for your scents. <span id="kb-ship">The free diffusers ship with them.</span></li>
+            <li><b>Next boxes</b> are scents only, same price, every <span id="kb-every">30</span> days.</li>
+            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
+          </ul>
+          <button type="button" class="btn" id="kb-add">Add to cart ➔</button>
+          <p class="kb-done" id="kb-done" hidden>Preview only: on the live page this button adds your kit to the cart and opens it.</p>
+          <p class="small">Free shipping · 30-day money-back · lifetime warranty</p>
+          <button type="button" class="kb-link kb-back" data-go="2">← Change scents</button>
+        </div>
+      </div>
       <p class="trust">Loved by 2,500+ homes in America</p>
     </section>
 
@@ -328,3 +422,100 @@ footer ol{margin:0 0 8px;padding-left:18px}
   window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
 })();
 </script>
+<script>
+(function(){
+  var root = document.getElementById('kb'); if (!root) return;
+  var DIFF = 89.95, SCENT = 39.95;
+  var TIERS = [
+    { n: 1, scents: 2, area: 'Up to 600 sq ft', rooms: 'One room', tag: '' },
+    { n: 2, scents: 3, area: 'Up to 1,200 sq ft', rooms: 'Living room + bedroom', tag: 'Most popular' },
+    { n: 3, scents: 5, area: 'Up to 1,800 sq ft', rooms: 'Your whole home', tag: 'Best value' }
+  ];
+  var SC = [
+    { k: 'love', name: 'Golden Blossom Harmony', int: 'Love', sm: 'Fresh flowers and a little honey. Like walking into a florist.', img: '{{s_love}}' },
+    { k: 'abundance', name: 'Crisp Citrus Scape', int: 'Abundance', sm: 'Fresh citrus peel and green leaves. Like a clean hotel lobby.', img: '{{s_abundance}}' },
+    { k: 'midnight', name: 'Midnight Sensation', int: 'Love Manifestation', sm: 'White flowers and soft musk. Like perfume on warm skin.', img: '{{s_night}}' },
+    { k: 'focus', name: 'Chilled Citrus', int: 'Relaxation & Concentration', sm: 'Lavender and eucalyptus. Like a day spa.', img: '{{s_relax}}' },
+    { k: 'ideas', name: 'Honey Nectar', int: 'Turn Ideas Into Reality', sm: 'Warm milk and honey. Like a café on a slow morning.', img: '{{s_ideas}}' },
+    { k: 'energy', name: 'Euphoric Bloom', int: 'Raise Energy', sm: 'White peach and jasmine tea. Fruity and bright, never sugary.', img: '{{s_energy}}' },
+    { k: 'purify', name: 'Wildwood Mystique', int: 'Purification', sm: 'Pine and juniper. Like a walk in the woods after rain.', img: '{{s_purify}}' }
+  ];
+  var BEST = ['love', 'abundance', 'midnight', 'focus', 'ideas'];
+  var FREQS = [{ d: 60 }, { d: 30, tag: 'Most popular' }, { d: 90 }];
+  var LABELS = ['Your diffusers', 'Your scents', 'Review your kit'];
+  var st = { step: 1, tier: 1, picks: {}, freq: 30 };
+  var $ = function (id) { return document.getElementById(id); };
+  var usd = function (v) { return '$' + v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+  var tier = function () { return TIERS[st.tier]; };
+  var picked = function () { var t = 0; for (var k in st.picks) t += st.picks[k]; return t; };
+
+  $('kb-tiers').innerHTML = TIERS.map(function (t, i) {
+    return '<button type="button" class="kb-tier" role="radio" data-t="' + i + '">' + (t.tag ? '<span class="tg">' + t.tag + '</span>' : '') +
+      '<img src="{{thumb}}" width="64" height="64" alt="">' + (t.n > 1 ? '<span class="x">×' + t.n + '</span>' : '') +
+      '<span><b>' + t.n + ' free diffuser' + (t.n > 1 ? 's' : '') + '</b><span class="w">with <em>' + t.scents + ' scents</em></span><small>' + t.area + ' · ' + t.rooms + '</small></span><i class="dot"></i></button>';
+  }).join('');
+  $('kb-scents').innerHTML = SC.map(function (f) {
+    return '<div class="kb-sc" data-k="' + f.k + '"><img src="' + f.img + '" width="52" height="52" alt="">' +
+      '<span><b>' + f.name + '</b><span class="in">' + f.int + '</span><span class="sm">' + f.sm + '</span></span>' +
+      '<span class="kb-step"><button type="button" class="sub" aria-label="Remove one ' + f.name + '">−</button><span>0</span><button type="button" class="add" aria-label="Add one ' + f.name + '">+</button></span></div>';
+  }).join('');
+  $('kb-freq').innerHTML = FREQS.map(function (o) {
+    return '<button type="button" role="radio" data-f="' + o.d + '">' + o.d + ' days' + (o.tag ? '<small>' + o.tag + '</small>' : '') + '</button>';
+  }).join('');
+
+  function trim() {
+    var over = picked() - tier().scents;
+    for (var i = SC.length - 1; i >= 0 && over > 0; i--) {
+      var k = SC[i].k; while (st.picks[k] && over > 0) { st.picks[k]--; over--; if (!st.picks[k]) delete st.picks[k]; }
+    }
+  }
+  function render() {
+    var t = tier(), need = t.scents, have = picked(), full = have >= need;
+    $('kb-n').textContent = 'Step ' + st.step + ' of 3';
+    $('kb-lbl').textContent = LABELS[st.step - 1];
+    root.querySelectorAll('.kb-bar i').forEach(function (b, i) { b.classList.toggle('on', i < st.step); });
+    root.querySelectorAll('[data-p]').forEach(function (p) { p.hidden = +p.getAttribute('data-p') !== st.step; });
+    root.querySelectorAll('.kb-tier').forEach(function (b, i) { var on = i === st.tier; b.setAttribute('aria-pressed', on); b.setAttribute('aria-checked', on); });
+    $('kb-h2').textContent = 'Pick your ' + need + ' scents';
+    $('kb-cnt').textContent = have + ' of ' + need + ' picked';
+    $('kb-cnt').classList.toggle('full', full);
+    root.querySelectorAll('.kb-sc').forEach(function (row) {
+      var q = st.picks[row.getAttribute('data-k')] || 0;
+      row.classList.toggle('on', q > 0);
+      row.querySelector('.kb-step span').textContent = q;
+      row.querySelector('.sub').disabled = q === 0;
+      row.querySelector('.add').disabled = full;
+    });
+    var nx = $('kb-next2'); nx.disabled = !full; nx.textContent = full ? 'Review my kit ➔' : 'Pick ' + (need - have) + ' more';
+    var lines = '<div class="kb-row"><img src="{{thumb}}" width="48" height="48" alt=""><span><b>' + t.n + '× Maison Croyez Diffuser</b><small>Waterless, leakproof, lifetime warranty.</small></span><span class="pr"><s>' + usd(t.n * DIFF) + '</s><em>FREE</em></span></div>';
+    SC.forEach(function (f) { var q = st.picks[f.k]; if (q) lines += '<div class="kb-row"><img src="' + f.img + '" width="48" height="48" alt=""><span><b>' + f.name + '</b><small>' + f.int + ' · 100 ml' + (q > 1 ? ' · ×' + q : '') + '</small></span><span class="pr">' + usd(q * SCENT) + '</span></div>'; });
+    $('kb-lines').innerHTML = lines;
+    var today = have * SCENT, value = t.n * DIFF + today;
+    $('kb-val').innerHTML = "That's <b>" + usd(value) + ' of value</b>, you pay ' + usd(today) + ' today.';
+    $('kb-due').textContent = usd(today);
+    $('kb-ship').textContent = t.n > 1 ? 'The free diffusers ship with them.' : 'The free diffuser ships with them.';
+    $('kb-every').textContent = st.freq;
+    root.querySelectorAll('#kb-freq button').forEach(function (b) { var on = +b.getAttribute('data-f') === st.freq; b.setAttribute('aria-pressed', on); b.setAttribute('aria-checked', on); });
+  }
+  function go(n) {
+    st.step = n; $('kb-done').hidden = true; render();
+    var top = root.getBoundingClientRect().top;
+    if (top < 0) window.scrollTo({ top: top + window.scrollY - 12, behavior: 'smooth' });
+  }
+  root.addEventListener('click', function (e) {
+    var el = e.target.closest('button'); if (!el || !root.contains(el)) return;
+    if (el.hasAttribute('data-t')) { st.tier = +el.getAttribute('data-t'); trim(); render(); return; }
+    if (el.hasAttribute('data-go')) { go(+el.getAttribute('data-go')); return; }
+    if (el.hasAttribute('data-f')) { st.freq = +el.getAttribute('data-f'); render(); return; }
+    if (el.id === 'kb-best') { st.picks = {}; BEST.slice(0, tier().scents).forEach(function (k) { st.picks[k] = 1; }); render(); return; }
+    if (el.id === 'kb-add') { $('kb-done').hidden = false; return; }
+    var row = el.closest('.kb-sc'); if (!row) return;
+    var k = row.getAttribute('data-k');
+    if (el.classList.contains('add') && picked() < tier().scents) st.picks[k] = (st.picks[k] || 0) + 1;
+    if (el.classList.contains('sub') && st.picks[k]) { st.picks[k]--; if (!st.picks[k]) delete st.picks[k]; }
+    render();
+  });
+  render();
+})();
+</script>
+

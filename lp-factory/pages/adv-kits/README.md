@@ -104,3 +104,13 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   "Here's how it fixes all 5 alerts"), "See how it works" -> ?cta=fix-1..5. Fix row 1 replaces Alert #1's old outline box.
 - Thumbnail on Shopify = mc-cs-d92.jpg resized by the CDN (&width=144). shopify/page-body.html is built and ready for pageUpdate.
 - After deploy: check that the new links fire Meta's codeless "Clicked to PDP" event (rule not in the pixel config file).
+
+## v14 (2026-11-01, owner): in-article kit builder — review copy only, NOT on Shopify
+- The launch-offer box at the end now holds a 3-step builder like /pages/diffuser-kits: 1) 1 / 2 / 3 free diffusers with
+  2 / 3 / 5 scents (no prices on step 1, as on the kits page), 2) pick scents from the 7 (+/- per scent, "best sellers"
+  shortcut), 3) review: diffusers struck through at $89.95 each and FREE, scents at $39.95, "That's $X of value, you pay $Y
+  today", Due today, refill every 60 / 30 (most popular) / 90 days, how-it-works bullets, Add to cart.
+- Numbers match the kits cart check (2 diffusers + 3 scents = $299.75 value, $119.85 today). In the review copy Add to cart
+  only shows a "preview only" note; the live version needs the kits page's cart code (kit variant + scents on the Subi plan
+  for the chosen frequency, then the cart drawer).
+- shopify/page-body.html is still v13 (A + B only); src/page.html now also has the builder, so rebuild with care.

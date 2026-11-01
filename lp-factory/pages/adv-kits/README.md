@@ -133,3 +133,6 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Images: kb_kit1..3 and kb_step3 from kits-ref/img (images.py); scent tiles reuse s_*.
 - Deploy notes: shopify/build.py only takes the first <script> and only fills {{…}} in the markup — before deploying the
   builder it must also ship the second script, fill the image keys inside it with CDN URLs and inline kits-buybox.css.
+- Owner comments (v15, 2026-11-01): launch-offer box centered; builder on a light grey (#F4F4F4) panel that runs the full
+  width of the box; "Step N of 3" bigger (.86rem); a small US flag (inline SVG, so it shows on Windows too) after both
+  "Loved by 2,500+ homes in America" lines. The older comment threads (2026-10-29) were all handled in v5–v10.

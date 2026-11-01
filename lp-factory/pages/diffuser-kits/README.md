@@ -14,6 +14,21 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-11-01 — dk11 (key dk11-7dade96, LIVE 23:41 UTC): step 1 title, bigger step labels, step 3 unlock copy + button
+
+Owner rounds on the preview (MC LP Draft Copy 3, artifact v49 to v58), then "AND DEPLOY". Built by
+variants/dk11-onetime/patch.py (default build, subscription only; the one-time option was removed in round 10):
+- Step 1 title "Buy more scents = *Get more FREE Diffusers:*" (was "How many scents and diffusers would you like?"); the
+  "+ N FREE DIFFUSERS" line on the cards in caps and green.
+- "Step N of 3" labels 25% bigger (.62rem to .775rem) with 14px above them, all three steps.
+- Step 3: the refill buttons come first under "Select your auto-refill frequency to unlock your FREE Diffusers:", then one
+  bold explanation, "Your diffusers are free ($89.95 each) when you select any auto-refill option. You can swap, pause or
+  cancel your auto-refill anytime, and we'll send you a prepaid return label." (replaces the three notes and the
+  "Swap, pause and cancel anytime…" note). Button (and the step 3 sticky bar) "UNLOCK FREE DIFFUSERS ➔".
+- Cart code unchanged from dk10b.
+Deploy (Shopify connector, store confirmed Maison Croyez): fileUpdate 46262619439213 mc-dk-app.js (135,176 B) +
+46262619471981 mc-dk.css (154,776 B) from raw @ 7dade96, both READY 23:34:03Z; pageUpdate 161846919277 with the
+dk11-7dade96 body (42,166 B; updatedAt 23:41:15Z). qa-kits updated for the new copy and run on the live page.
 ## 2026-10-22 — dk9r (key dk9r-b1746c3, LIVE 22:49 UTC): the first tap, not the first paint
 Owner: the page "loads EXTREMELY SLOW". Lab numbers said otherwise (Lighthouse mobile median 91, desktop 97; fast phone fully
 there at 0.35 s), so `paint-trace.yml` now scripts the first tap under real phone throttling. That is where it hurt: 350–820 ms

@@ -1758,10 +1758,10 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* dk10 (2026-10-28, owner): the three badges under the title bolder (Outfit 700 is the heavier face on the page; it was Be Vietnam Pro, whose heaviest file is 600) */
 #root .hs3 .hs,#root #buybox.step-1 .hs3 .hs{font-family:'Outfit',sans-serif !important;font-weight:700 !important;color:#111 !important;letter-spacing:.035em !important;-webkit-text-stroke:.2px currentColor}
 
-/* dk11 test (2026-11-01, owner): the one-time link under the refill buttons */
-#root .ot-link{display:block;margin:10px auto 0;padding:4px 6px;background:none;border:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;line-height:1.35;color:#241C18;text-decoration:underline;text-underline-offset:3px;text-align:center;cursor:pointer}
-#root .ot-link:hover{text-decoration-thickness:2px}
-#root .kr-pr .pay{color:#141414}
+/* dk11 (2026-11-01, owner) */
+#root .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center}
 /* round 7 (owner): step 1, the "+ N FREE DIFFUSERS" line in caps and green on all three cards */
 #root .tier.t9c3 .t9s-gift{text-transform:uppercase;color:#1E7A1E;letter-spacing:.02em}
-#root .buybox .s9-freq-sub{margin:-4px 0 0;font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.35;text-align:center;color:#5C4F46 !important}
+/* round 9 (owner): the "Step N of 3" label 25% bigger with a little room above it, on all three steps */
+#root .buybox .step-eyebrow{font-size:.775rem !important;margin-top:14px !important}
+#root .buybox .s9-title .t1-em{white-space:nowrap}

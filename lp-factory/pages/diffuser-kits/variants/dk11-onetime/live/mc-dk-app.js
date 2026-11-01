@@ -517,7 +517,7 @@ const CART3 = {
    leaves for /checkout, where checkout_started fires InitiateCheckout. A changed kit or frequency is removed and re-added
    (the removal targets this page's variants by id, so a line the cart split for a discount is covered too). */
 const KITCART = { pending: null, addedAt: 0 };
-const kitItems = () => { const T = selStore.tier(); const one = selStore.plan === "one"; /* dk11: one-time = the "(One-Time)" kit variant + scents without a plan */ const kitId = one ? CART3.oneTimeKits[T.key] : (CART3.kitVariants && CART3.kitVariants[T.key]); const planId = one ? null : ((CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]); /* dk9q (2026-10-21, owner): the kits page rides the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), not the ritual page's "02/10 Official Plan" with its after-first-payment discounts */ const items = [{ id: kitId, quantity: 1 }]; selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId })); return { T, kitId, planId, items }; };
+const kitItems = () => { const T = selStore.tier(); const kitId = CART3.kitVariants && CART3.kitVariants[T.key]; const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk9q (2026-10-21, owner): the kits page rides the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), not the ritual page's "02/10 Official Plan" with its after-first-payment discounts */ const items = [{ id: kitId, quantity: 1 }]; selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId })); return { T, kitId, planId, items }; };
 const cartPost = (url, body) => fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) }).then((r) => { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); });
 const cartGet = () => fetch("/cart.js", { headers: { "Accept": "application/json" } }).then((r) => r.json());
 /* dk9n (2026-10-21, owner): reconcile instead of replace. Lines this page owns (the kit variants + the seven scents) are compared
@@ -529,7 +529,7 @@ async function syncKitCart() {
   const { kitId, planId, items } = kitItems(); if (!kitId) return 0;
   if (KITCART.pending) { try { await KITCART.pending; } catch (e) {} }
   KITCART.pending = (async () => {
-    const ids = Object.values(CART3.kitVariants).concat(Object.values(CART3.oneTimeKits), CONFIG.fragrances.map((f) => f.variant)); /* dk11: the one-time kits are this page's lines too */
+    const ids = Object.values(CART3.kitVariants).concat(CONFIG.fragrances.map((f) => f.variant));
     const cart = await cartGet();
     const have = new Map(); (cart.items || []).forEach((l) => { if (!ids.includes(l.variant_id)) return; const g = have.get(l.variant_id) || { q: 0, lines: [] }; g.q += l.quantity; g.lines.push(l); have.set(l.variant_id, g); });
     const want = new Map(items.map((i) => [i.id, { q: i.quantity, plan: i.selling_plan || null }]));
@@ -537,10 +537,6 @@ async function syncKitCart() {
     have.forEach((g, vid) => {
       const w = want.get(vid);
       if (!w) { g.lines.forEach((l) => changes.push({ id: l.key, quantity: 0 })); return; }
-      if (w.plan === null && g.lines.some((l) => l.selling_plan_allocation)) { /* dk11: a selling plan cannot be cleared from a line in place; remove those lines and add the units back one-time */
-        g.lines = g.lines.filter((l) => { if (!l.selling_plan_allocation) return true; changes.push({ id: l.key, quantity: 0 }); g.q -= l.quantity; return false; });
-        if (!g.lines.length) { if (w.q > 0) adds.push({ id: vid, quantity: w.q }); return; }
-      }
       g.lines.forEach((l, i) => {
         const cur = l.selling_plan_allocation ? Number(l.selling_plan_allocation.selling_plan.id) : null;
         const q = i === 0 ? Math.min(l.quantity, w.q) : Math.max(0, Math.min(l.quantity, w.q - g.lines.slice(0, i).reduce((a, x) => a + Math.min(x.quantity, w.q), 0)));
@@ -566,11 +562,10 @@ async function addToCart(setBusy, setToast) {
   /* dk9 (2026-10-20, owner): kit line = the unlisted Free Diffuser Kit variant for 1 / 2 / 3 diffusers, made free by the
      automatic "FREE DIFFUSER(S) — N scent subscription" BXGYs; the scents ride on the owner's Subi group "02/10 Official Plan"
      at the picked frequency (same price at 30 / 60 / 90). No one-time path. */
-  const kitId = selStore.plan === "one" ? CART3.oneTimeKits[T.key] : (CART3.kitVariants && CART3.kitVariants[T.key]); /* dk11 */
+  const kitId = CART3.kitVariants && CART3.kitVariants[T.key];
   const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk9q (2026-10-21, owner): the kits page rides the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), not the ritual page's "02/10 Official Plan" with its after-first-payment discounts */
   const items = [{ id: kitId, quantity: 1 }];
   selStore.grouped().forEach(({ f, q }) => items.push({ id: f.variant, quantity: q, selling_plan: planId }));
-  if (!onStore() && selStore.plan === "one") { setToast("Preview mode. On the live store this adds " + T.n + " diffuser" + (T.n > 1 ? "s" : "") + " at " + usd(DIFF_ONE_TIME) + " each + " + selStore.label() + ", one-time (no refills), " + usd(selStore.today()) + " today, and opens the cart drawer."); return; }
   if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; }
   if (!onStore() || !kitId) {
     setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + " on the every-" + selStore.freq + "-days plan, " + usd(selStore.today()) + " today, and opens the cart drawer.");
@@ -621,7 +616,6 @@ const LOGO_SRC = A.logoLight || "https://maisoncroyez.com/cdn/shop/files/mc-kb-l
    today on every kit; refills (optional) at the Subi prices below. Savings are shown against $129.95 per diffuser (the
    single-diffuser price) plus the $49.95 scent. */
 const DIFF_LIST = 129.95;
-const DIFF_ONE_TIME = 49.95; /* dk11 (2026-11-01, owner): one-time path, diffusers $49.95 each ("(One-Time)" kit variants), refunded if a refill plan starts within 30 days (support does the refund) */
 const DIFF_VALUE = 89.95; /* dk9 (2026-10-20, owner): diffuser value shown on the page and claimed free ($89.95 / $179.90 / $269.85) */
 const RITUAL = { price: 129.95 }; /* default kit = 2 diffusers (dk6, 2026-10-09: $109.95 / $129.95 / $189.95) */
 const FREQS = [{ days: 60 }, { days: 30, tag: "Most popular", pop: true }, { days: 90 }]; /* dk9e (owner): 30 in the middle */ /* dk9 (2026-10-20, owner): 30 / 60 / 90 days, same price at every frequency, no one-time option */
@@ -661,7 +655,7 @@ const selStore = {
   extras() { return Math.max(0, this.keys.length - this.tier().scents); },
   left() { return Math.max(0, this.tier().scents - this.keys.length); },
   oneTime() { return false; }, /* dk9: subscription only */
-  today() { return this.keys.length * SCENT_ONE + (this.plan === "one" ? this.tier().n * DIFF_ONE_TIME : 0); }, /* dk11: one-time pays for the diffusers */ /* dk9: the scents are the order ($39.95 each); the diffusers ride free */
+  today() { return this.keys.length * SCENT_ONE; }, /* dk9: the scents are the order ($39.95 each); the diffusers ride free */
   value() { return this.tier().n * DIFF_VALUE + this.keys.length * SCENT_ONE; },
   savings() { return Math.max(0, this.value() - this.today()); },
   renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * FREQ_PRICE(this.freq) : 0; },
@@ -948,7 +942,6 @@ function BuyBox() {
   const T = sel.tier();
   const left = sel.left();
   const step = sel.step || 1;
-  const one = sel.plan === "one"; /* dk11 */
   const goReviews = () => { let n = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (n++ < 40) setTimeout(f, 50); }; f(); };
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* steps start at the top: announcement bar, header, then the step */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
@@ -976,7 +969,7 @@ function BuyBox() {
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
           <div class="step-eyebrow">Step 1 of 3</div>
-          <div class="picker-title step-title s9-title">How many scents and diffusers <em>would you like?</em></div><!-- dk10 (2026-10-28, owner): the sub-line under the step-1 title is gone -->
+          <div class="picker-title step-title s9-title">Buy more scents = <em class="t1-em">Get more FREE Diffusers:</em></div><!-- dk10 (2026-10-28, owner): the sub-line under the step-1 title is gone -->
           <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
               <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
@@ -1043,7 +1036,7 @@ function BuyBox() {
           <//>` : html`<${Fragment} key="step3">
           <div class="s9-banner"><img src=${(typeof MC_STEP3_IMG !== "undefined") ? MC_STEP3_IMG : ""} alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"/></div> <!-- dk9i (owner): the 16:9 picture, shown 2:1 (centre crop) so Add to cart stays in the first screen -->
           <div class="step-eyebrow">Step 3 of 3</div>
-          <div class="picker-title step-title s9-title">Congratulations, your ${one ? "" : "free "}diffusers have been reserved.</div>
+          <div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>
           <div class="kitrev k9">
             ${rows.map(({ f, q }) => html`
               <div class="kr-row" key=${f.key}>
@@ -1054,30 +1047,16 @@ function BuyBox() {
             <div class="kr-row kr-kit">
               <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
               <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
-              <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s>${one ? html`<span class="pay">${usd(T.n * DIFF_ONE_TIME)}</span>` : html`<span class="inc">FREE</span>`}</span>
+              <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
             </div>
           </div>
           <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
-          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span><span class="s9-due-each">${usd(SCENT_ONE)}/scent${one ? " + " + usd(DIFF_ONE_TIME) + "/diffuser" : ""}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
-          ${one ? html`
-          <button type="button" class="ot-link" onClick=${() => sel.setPlan("sub")}>← Subscribe instead and get your diffuser${T.n > 1 ? "s" : ""} FREE</button>
-          <ul class="t9s-how">
-            <li><b>Today</b> you pay for your scents and ${usd(DIFF_ONE_TIME)} per diffuser. Nothing is charged later.</li>
-            <li><b>Change your mind?</b> Start a refill plan within 30 days and we refund the ${usd(T.n * DIFF_ONE_TIME)} you paid for your diffuser${T.n > 1 ? "s" : ""}.</li>
-            <li><b>30-day money-back</b> on everything, prepaid return.</li>
-          </ul>
-          <p class="s9-freq-note"><b>No subscription, no surprises.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>` : html`
+          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span><span class="s9-due-each">${usd(SCENT_ONE)}/scent</span></div> <!-- dk9i (owner): the value line + big due-today block -->
           <div class="s9-freq-head">Select your auto-refill frequency to unlock your FREE Diffusers:</div> <!-- dk9m (owner) -->
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
           </div>
-          <button type="button" class="ot-link" onClick=${() => sel.setPlan("one")}>One-Time Purchase: Diffusers ${usd(DIFF_ONE_TIME)} each. Full refund if you subscribe within 30 days.</button> <!-- dk11 test (owner): a plain link under the frequencies -->
-          <ul class="t9s-how"> <!-- dk9x (owner): moved here from step 1 -->
-            <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
-            <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just above.</li>
-            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
-          </ul>
-          <p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p> <!-- dk9i (owner): fixed, whatever the frequency -->`}
+          <p class="t9s-how t9s-expl">Your diffuser${T.n > 1 ? "s are" : " is"} free (${usd(DIFF_VALUE)}${T.n > 1 ? " each" : ""}) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.</p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
             <span>${busy ? "One moment…" : "ADD TO CART ➔"}</span> <!-- dk9x (owner): the cart step is back -->
           </button>

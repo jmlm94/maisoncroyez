@@ -1,4 +1,5 @@
-# dk11 — one-time option on step 3 (preview only, NOT live)
+# dk11 — step 1 / step 3 changes on /pages/diffuser-kits (preview only, NOT live; one-time option removed in round 10)
+
 
 Owner, 2026-11-01: "$49.95/diffuser if no subscription and if you decide to subscribe later, full $99.90 refund …"
 "I'm talking to see it on the diffusers-kit page". Previewed as artifact v49 of MC LP Draft Copy 3
@@ -36,3 +37,13 @@ store a one-time Add to cart only shows a message): the unused "(One-Time)" kit 
 now $80.00 / $90.05 / $140.10) would need $49.95 / $99.90 / $149.85 and the scents added without a selling plan; check that
 the FREE DIFFUSERS BXGYs (customerBuys isOneTimePurchase: true) do not also zero those one-time kit lines; the
 refund-on-subscribe would be a manual support step.
+
+## Rounds 9 and 10 (artifact v57, owner, 2026-11-01)
+
+- Round 9: step 1 title "How many scents and diffusers would you like?" is now "Buy more scents = *Get more FREE Diffusers:*"
+  (the italic half stays on one line; on a phone the "=" ends line one). The "Step N of 3" label is 25% bigger (.62rem to
+  .775rem) with 14px above it, on all three steps.
+- Round 10: "Delete one time purchase option entirely." The default build (`python3 patch.py <dir>`, `python3 live.py [KEY]`)
+  is subscription only: no one-time link, no one-time step 3, and the cart code is the live dk10b one, untouched.
+  `DK11_ONETIME=1` still builds the one-time version (and live.py's one-time cart wiring) for reference.
+  Because of that, a dk11 deploy no longer needs the "(One-Time)" kit variants repriced.

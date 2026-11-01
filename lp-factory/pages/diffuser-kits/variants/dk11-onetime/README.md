@@ -17,6 +17,10 @@ for your diffusers" / 30-day money-back. (Round 1, v49, had two Subscribe / One-
 | 2 diffusers + 3 scents | $119.85 | $219.75 | $99.90 |
 | 3 diffusers + 5 scents | $199.75 | $349.60 | $149.85 |
 
+Round 4 (v52), owner: "switch this, frequency vs one time payment section first and then the three notes". Step 3 order is
+now: kit summary, value, Due today, refill buttons + one-time link (or, in one-time mode, the link back), the three notes
+("You pick just above"), the guarantee note, Add to cart.
+
 Build: `python3 patch.py <dir>` then `APP=<dir>/mc-dk-app.js CSS=<dir>/mc-dk.css node ../dk9s-step1-scents/build-variant.mjs <out> "MC LP Draft Copy 3"`;
 the published file also inlines the seven scent photos from ../../../adv-kits/kits-ref/img (webp).
 

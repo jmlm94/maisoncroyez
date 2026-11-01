@@ -44,11 +44,18 @@ LINK_ONE = ('          <button type="button" class="ot-link" onClick=${() => sel
 LINK_SUB = ('          <button type="button" class="ot-link" onClick=${() => sel.setPlan("sub")}>\u2190 Subscribe instead and get your diffuser${T.n > 1 ? "s" : ""} FREE</button>\n')
 i = sub_block.index('<p class="s9-freq-note">')
 sub_block = sub_block[:i].rstrip(' ') + LINK_ONE + '          ' + sub_block[i:]
-one_block = ('          <ul class="t9s-how">\n'
+# round 4 (owner, 2026-11-01): the frequency buttons + the one-time link come first, then the three notes
+u = sub_block.index('</ul>') + len('</ul>\n')
+f = sub_block.index('          <div class="s9-freq-head">')
+n = sub_block.index('          <p class="s9-freq-note">')
+ul_part = sub_block[:u].replace('You pick just below.', 'You pick just above.')
+assert 'You pick just above.' in ul_part
+sub_block = sub_block[f:n] + ul_part + sub_block[n:]
+one_block = (LINK_SUB + '          <ul class="t9s-how">\n'
              '            <li><b>Today</b> you pay for your scents and ${usd(DIFF_ONE_TIME)} per diffuser. Nothing is charged later.</li>\n'
              '            <li><b>Change your mind?</b> Start a refill plan within 30 days and we refund the ${usd(T.n * DIFF_ONE_TIME)} you paid for your diffuser${T.n > 1 ? "s" : ""}.</li>\n'
              '            <li><b>30-day money-back</b> on everything, prepaid return.</li>\n'
-             '          </ul>\n' + LINK_SUB +
+             '          </ul>\n' +
              '          <p class="s9-freq-note"><b>No subscription, no surprises.</b> If your home doesn\\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>')
 app = app[:a] + '          ${one ? html`\n' + one_block + '` : html`\n' + sub_block + '`}' + app[b:]
 

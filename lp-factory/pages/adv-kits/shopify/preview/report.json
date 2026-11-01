@@ -1,10 +1,10 @@
 {
- "when": "2026-10-29T22:09:06.094Z",
- "inject": false,
+ "when": "2026-11-01T23:11:08.514Z",
+ "inject": true,
  "runs": [
   {
    "label": "phone",
-   "host": "https://maisoncroyez.com/pages/indoor-air-alerts",
+   "host": "https://maisoncroyez.com/pages/the-scent-story",
    "errs": [],
    "audit": {
     "mounted": true,
@@ -21,21 +21,20 @@
     "h1Transform": "none",
     "serifLoaded": true,
     "sansLoaded": true,
-    "imgs": 18,
+    "imgs": 27,
     "broken": [],
     "ctas": [
      "#alert-1",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits"
+     "#mckb",
+     "#mckb",
+     "#mckb"
     ],
     "alerts": 6,
-    "pageHeight": 13267,
+    "pageHeight": 14752,
     "lede": "The EPA lists burning candles and incense among the sources of fine particles in your home: particles small enough to get deep into the lungs. Now look at who's sitting closest to the candle tonight.",
     "desc": "Why fill your home with smoke and chemicals just because they smell good? Read these 5 alerts before you do it again.",
     "readBtnBottom": 682,
-    "title": "What Your Candles, Sprays And Plug-Ins Leave In The Air Your Kids Brea"
+    "title": "The Scent That Comes With a Free Diffuser"
    },
    "bar": {
     "top": false,
@@ -44,20 +43,75 @@
     "shown": true
    },
    "loadMs": {
-    "dcl": 1027,
-    "load": 1296
+    "dcl": 274,
+    "load": 735
    },
-   "ctaLandsOn": "https://maisoncroyez.com/pages/diffuser-kits",
+   "fixScrollTop": 33,
+   "step3": {
+    "due": "$119.85",
+    "value": "That’s $299.75 of value, you pay $119.85 today."
+   },
+   "afterCartUrl": "https://maisoncroyez.com/pages/the-scent-story",
+   "cart": {
+    "total": 11985,
+    "discount": 17990,
+    "items": [
+     {
+      "v": 41212021669997,
+      "title": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "plan": "Every 30 days",
+      "final": 3995,
+      "orig": 3995,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "title": "Chilled Citrus – Relaxation &amp; Concentration (100ml)",
+      "q": 1,
+      "plan": "Every 30 days",
+      "final": 3995,
+      "orig": 3995,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "plan": "Every 30 days",
+      "final": 3995,
+      "orig": 3995,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "title": "Maison Croyez Home Diffuser - 2 Diffusers",
+      "q": 1,
+      "plan": null,
+      "final": 0,
+      "orig": 17990,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION"
+      ]
+     }
+    ]
+   },
    "textMatchesBuild": false,
    "firstDiff": {
-    "at": 9114,
+    "at": 10270,
     "live": " GET MY FREE DIFFUSERS ➔",
     "build": ""
    }
   },
   {
    "label": "small",
-   "host": "https://maisoncroyez.com/pages/indoor-air-alerts",
+   "host": "https://maisoncroyez.com/pages/the-scent-story",
    "errs": [],
    "audit": {
     "mounted": true,
@@ -74,21 +128,20 @@
     "h1Transform": "none",
     "serifLoaded": true,
     "sansLoaded": true,
-    "imgs": 18,
+    "imgs": 27,
     "broken": [],
     "ctas": [
      "#alert-1",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits"
+     "#mckb",
+     "#mckb",
+     "#mckb"
     ],
     "alerts": 6,
-    "pageHeight": 13544,
+    "pageHeight": 15029,
     "lede": "The EPA lists burning candles and incense among the sources of fine particles in your home: particles small enough to get deep into the lungs. Now look at who's sitting closest to the candle tonight.",
     "desc": "Why fill your home with smoke and chemicals just because they smell good? Read these 5 alerts before you do it again.",
     "readBtnBottom": 682,
-    "title": "What Your Candles, Sprays And Plug-Ins Leave In The Air Your Kids Brea"
+    "title": "The Scent That Comes With a Free Diffuser"
    },
    "bar": {
     "top": false,
@@ -97,13 +150,13 @@
     "shown": true
    },
    "loadMs": {
-    "dcl": 1180,
-    "load": 1408
+    "dcl": 316,
+    "load": 546
    }
   },
   {
    "label": "desktop",
-   "host": "https://maisoncroyez.com/pages/indoor-air-alerts",
+   "host": "https://maisoncroyez.com/pages/the-scent-story",
    "errs": [],
    "audit": {
     "mounted": true,
@@ -120,21 +173,20 @@
     "h1Transform": "none",
     "serifLoaded": true,
     "sansLoaded": true,
-    "imgs": 18,
+    "imgs": 27,
     "broken": [],
     "ctas": [
      "#alert-1",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits",
-     "/pages/diffuser-kits"
+     "#mckb",
+     "#mckb",
+     "#mckb"
     ],
     "alerts": 6,
-    "pageHeight": 12291,
+    "pageHeight": 13602,
     "lede": "The EPA lists burning candles and incense among the sources of fine particles in your home: particles small enough to get deep into the lungs. Now look at who's sitting closest to the candle tonight.",
     "desc": "Why fill your home with smoke and chemicals just because they smell good? Read these 5 alerts before you do it again.",
     "readBtnBottom": 868,
-    "title": "What Your Candles, Sprays And Plug-Ins Leave In The Air Your Kids Brea"
+    "title": "The Scent That Comes With a Free Diffuser"
    },
    "bar": {
     "top": false,
@@ -143,8 +195,8 @@
     "shown": false
    },
    "loadMs": {
-    "dcl": 693,
-    "load": 894
+    "dcl": 317,
+    "load": 529
    }
   }
  ]

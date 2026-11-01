@@ -23,6 +23,9 @@ now: kit summary, value, Due today, refill buttons + one-time link (or, in one-t
 
 Round 5 (v53), owner: the refill heading reads "Select your auto-refill frequency to unlock your FREE Diffusers:" with a
 small line under it, "Cancel within 30 days for a full refund." Round 6 (v54): that small line deleted (owner).
+Round 8 (v56), owner: in subscription mode the three notes become one explanation, "Your diffusers are free ($89.95 each)
+when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we'll send you a prepaid
+return label.", and the "Swap, pause and cancel anytime…" note under it is gone (one-time mode unchanged).
 Round 7 (v55), owner: on step 1 the "+ N FREE Diffusers" line is ALL CAPS and green on all three cards.
 
 Build: `python3 patch.py <dir>` then `APP=<dir>/mc-dk-app.js CSS=<dir>/mc-dk.css node ../dk9s-step1-scents/build-variant.mjs <out> "MC LP Draft Copy 3"`;

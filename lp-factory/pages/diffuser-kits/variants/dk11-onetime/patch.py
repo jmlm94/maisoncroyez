@@ -55,6 +55,13 @@ sub_block = sub_block[f:n] + ul_part + sub_block[n:]
 HEAD = '<div class="s9-freq-head">How frequently would you like your refills?</div>'
 assert sub_block.count(HEAD) == 1
 sub_block = sub_block.replace(HEAD, '<div class="s9-freq-head">Select your auto-refill frequency to unlock your FREE Diffusers:</div>')  # round 6 (owner): the small refund line under it is gone
+# round 8 (owner, 2026-11-01): one explanation instead of the three notes, and no swap / pause / cancel note under it
+i1 = sub_block.index('          <ul class="t9s-how">'); i2 = sub_block.index('</ul>', i1) + len('</ul>\n')
+n2 = sub_block.index('          <p class="s9-freq-note">')
+EXPL = ('          <p class="t9s-how t9s-expl">Your diffuser${T.n > 1 ? "s are" : " is"} free (${usd(DIFF_VALUE)}${T.n > 1 ? " each" : ""}) when you select any auto-refill option. '
+        'You can swap, pause or cancel your auto-refill anytime, and we\u2019ll send you a prepaid return label.</p>\n')
+sub_block = sub_block[:i1] + EXPL + sub_block[i2:n2].rstrip() + '\n          '
+assert 's9-freq-note' not in sub_block and 't9s-expl' in sub_block
 one_block = (LINK_SUB + '          <ul class="t9s-how">\n'
              '            <li><b>Today</b> you pay for your scents and ${usd(DIFF_ONE_TIME)} per diffuser. Nothing is charged later.</li>\n'
              '            <li><b>Change your mind?</b> Start a refill plan within 30 days and we refund the ${usd(T.n * DIFF_ONE_TIME)} you paid for your diffuser${T.n > 1 ? "s" : ""}.</li>\n'
@@ -74,6 +81,7 @@ css += '''
 #root .ot-link{display:block;margin:10px auto 0;padding:4px 6px;background:none;border:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;line-height:1.35;color:#241C18;text-decoration:underline;text-underline-offset:3px;text-align:center;cursor:pointer}
 #root .ot-link:hover{text-decoration-thickness:2px}
 #root .kr-pr .pay{color:#141414}
+#root .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center}
 /* round 7 (owner): step 1, the "+ N FREE DIFFUSERS" line in caps and green on all three cards */
 #root .tier.t9c3 .t9s-gift{text-transform:uppercase;color:#1E7A1E;letter-spacing:.02em}
 #root .buybox .s9-freq-sub{margin:-4px 0 0;font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.35;text-align:center;color:#5C4F46 !important}

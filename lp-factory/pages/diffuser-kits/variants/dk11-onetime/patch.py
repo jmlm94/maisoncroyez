@@ -33,6 +33,10 @@ if ONETIME:
 app = rep(app, '<div class="picker-title step-title s9-title">How many scents and diffusers <em>would you like?</em></div>',
           '<div class="picker-title step-title s9-title">Buy more scents\u00a0= <em class="t1-em">Get more FREE Diffusers:</em></div>')
 
+# round 12 (owner, 2026-11-01): the step 3 button (and the sticky bar on step 3) reads "UNLOCK FREE DIFFUSERS ->"
+app = rep(app, '<span>${busy ? "One moment…" : "ADD TO CART ➔"}</span>', '<span>${busy ? "One moment…" : "UNLOCK FREE DIFFUSERS ➔"}</span>')
+app = rep(app, ': "ADD TO CART \\u2794"; /* dk9: step-aware', ': "UNLOCK FREE DIFFUSERS \\u2794"; /* dk9: step-aware')
+
 # step 3
 if ONETIME:
     app = rep(app, '  const step = sel.step || 1;\n  const goReviews',

@@ -969,7 +969,7 @@ function BuyBox() {
           <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
           <div class="step-eyebrow">Step 1 of 3</div>
-          <div class="picker-title step-title s9-title">How many scents and diffusers <em>would you like?</em></div><!-- dk10 (2026-10-28, owner): the sub-line under the step-1 title is gone -->
+          <div class="picker-title step-title s9-title">Buy more scents = <em class="t1-em">Get more FREE Diffusers:</em></div><!-- dk10 (2026-10-28, owner): the sub-line under the step-1 title is gone -->
           <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents"> <!-- dk9d (owner): one row, three option cards -->
             ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
               <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
@@ -1052,18 +1052,13 @@ function BuyBox() {
           </div>
           <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span><span class="s9-due-each">${usd(SCENT_ONE)}/scent</span></div> <!-- dk9i (owner): the value line + big due-today block -->
-          <ul class="t9s-how"> <!-- dk9x (owner): moved here from step 1 -->
-            <li><b>Today</b> you pay only for your scents. The free diffuser${T.n > 1 ? "s ship" : " ships"} with them.</li>
-            <li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just below.</li>
-            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
-          </ul>
-          <div class="s9-freq-head">How frequently would you like your refills?</div> <!-- dk9m (owner) -->
+          <div class="s9-freq-head">Select your auto-refill frequency to unlock your FREE Diffusers:</div> <!-- dk9m (owner) -->
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
           </div>
-          <p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p> <!-- dk9i (owner): fixed, whatever the frequency -->
+          <p class="t9s-how t9s-expl">Your diffuser${T.n > 1 ? "s are" : " is"} free (${usd(DIFF_VALUE)}${T.n > 1 ? " each" : ""}) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.</p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : "ADD TO CART ➔"}</span> <!-- dk9x (owner): the cart step is back -->
+            <span>${busy ? "One moment…" : "UNLOCK FREE DIFFUSERS ➔"}</span> <!-- dk9x (owner): the cart step is back -->
           </button>
           ${eta}
           ${chips}
@@ -1249,7 +1244,7 @@ function StickyBar() {
   const left = sel.left();
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "ADD TO CART \u2794"; /* dk9: step-aware; dk9x: the cart step is back */
+  const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "UNLOCK FREE DIFFUSERS \u2794"; /* dk9: step-aware; dk9x: the cart step is back */
   const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); return go(3); } addToCart(setBusy, setToast); }; /* dk9y: review only reviews; ADD TO CART adds */
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>

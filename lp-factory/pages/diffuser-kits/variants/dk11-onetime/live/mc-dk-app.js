@@ -1058,7 +1058,7 @@ function BuyBox() {
           </div>
           <p class="t9s-how t9s-expl">Your diffuser${T.n > 1 ? "s are" : " is"} free (${usd(DIFF_VALUE)}${T.n > 1 ? " each" : ""}) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.</p>
           <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : "ADD TO CART ➔"}</span> <!-- dk9x (owner): the cart step is back -->
+            <span>${busy ? "One moment…" : "UNLOCK FREE DIFFUSERS ➔"}</span> <!-- dk9x (owner): the cart step is back -->
           </button>
           ${eta}
           ${chips}
@@ -1244,7 +1244,7 @@ function StickyBar() {
   const left = sel.left();
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
-  const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "ADD TO CART \u2794"; /* dk9: step-aware; dk9x: the cart step is back */
+  const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "UNLOCK FREE DIFFUSERS \u2794"; /* dk9: step-aware; dk9x: the cart step is back */
   const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); return go(3); } addToCart(setBusy, setToast); }; /* dk9y: review only reviews; ADD TO CART adds */
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>

@@ -47,3 +47,4 @@ refund-on-subscribe would be a manual support step.
   is subscription only: no one-time link, no one-time step 3, and the cart code is the live dk10b one, untouched.
   `DK11_ONETIME=1` still builds the one-time version (and live.py's one-time cart wiring) for reference.
   Because of that, a dk11 deploy no longer needs the "(One-Time)" kit variants repriced.
+- Round 11 (v58): the step 3 explanation ("Your diffusers are free …") is all in bold (owner).

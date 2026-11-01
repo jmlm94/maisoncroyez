@@ -97,7 +97,7 @@ if ONETIME:
 
 css += '''
 /* dk11 (2026-11-01, owner) */
-#root .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center}
+#root .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center;font-weight:700;color:#241C18} /* round 11 (owner): all in bold */
 /* round 7 (owner): step 1, the "+ N FREE DIFFUSERS" line in caps and green on all three cards */
 #root .tier.t9c3 .t9s-gift{text-transform:uppercase;color:#1E7A1E;letter-spacing:.02em}
 /* round 9 (owner): the "Step N of 3" label 25% bigger with a little room above it, on all three steps */

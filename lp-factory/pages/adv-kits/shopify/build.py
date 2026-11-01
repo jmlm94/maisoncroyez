@@ -93,7 +93,7 @@ html,body{overflow-x:clip}
 body{padding-top:0 !important;margin:0 !important;background:#fff !important}
 #mcadv{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:0 !important;margin-bottom:0 !important;text-align:left}
 #main{padding-top:0 !important;margin-top:0 !important}
-#mcadv :is(h1,h2,h3,h4,p,ol,ul,li,figure,figcaption,blockquote,cite,details,summary,img,a,header,footer,article,nav,section,svg,strong,b){margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;quotes:none;min-height:0}
+#mcadv :is(h1,h2,h3,h4,p,ol,ul,li,figure,figcaption,blockquote,cite,details,summary,img,a,header,footer,article,aside,nav,section,svg,strong,b){margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;quotes:none;min-height:0}
 #mcadv :is(h1,h2,h3,h4){font-weight:700}
 #mcadv :is(strong,b){font-weight:700}
 #mcadv :is(p,li,figcaption)::before{content:none}
@@ -121,7 +121,7 @@ def build_body(urls_path=None):
     for k in keys: markup = markup.replace("{{%s}}" % k, urls[k])
 
     # The store page is the same site: buttons open in the same tab, with a relative link.
-    markup = markup.replace('href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener"', 'href="/pages/diffuser-kits"')
+    markup = re.sub(r'href="https://maisoncroyez\.com(/pages/diffuser-kits[^"]*)" target="_blank" rel="noopener"', r'href="\1"', markup)
     assert "target=\"_blank\"" not in markup
     # The theme already has a <main>; ours becomes a div.
     markup = markup.replace('<main class="wrap">', '<div class="wrap amain">').replace("</main>", "</div>")

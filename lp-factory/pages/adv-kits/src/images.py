@@ -21,6 +21,7 @@ out["patricia"] = uri(fit(Image.open(p("pages/adv-kits/img/patricia.jpg")), 640)
 for n in (1, 4, 5, 6):  # creator photos used on the kits page's review carousel
     out["rv%d" % n] = uri(fit(Image.open(p("assets/cdn/mc-review-%d.jpg" % n)), 520))
 out["pat_face"] = uri(Image.open(p("pages/adv-kits/img/patricia.jpg")).crop((245, 75, 395, 225)).resize((104, 104), Image.LANCZOS), "JPEG", 85)
+out["thumb"] = uri(fit(Image.open(p("assets/cdn/diffuser/d92.png")), 144), "JPEG", 82)  # editor's note + fix-row thumbnail
 out["d92"] = uri(fit(Image.open(p("assets/cdn/diffuser/d92.png")), 760))  # kits page gallery, first image
 for k in ("compare", "spaces", "badge", "intentions"):  # kits page lifestyle photos, fetched by fetch-adv.yml
     out["kp_" + k] = uri(fit(Image.open(p("pages/adv-kits/img/kp-%s.jpg" % k)), 520))

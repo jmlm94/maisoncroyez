@@ -52,8 +52,18 @@ h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,6.3vw,40px);lin
 .author img.av{object-fit:cover;background:var(--wash)}
 .sp{border:1px solid var(--ink3);border-radius:3px;padding:0 5px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
 .lede{font-size:20px;line-height:1.45}
-.early{border:1px solid var(--rule);padding:14px 16px 16px;margin:0 0 18px;text-align:center}
-.early p{font-family:var(--sans);font-size:14.5px;font-weight:600;margin:0 0 2px}
+.ednote{background:var(--wash);padding:14px;margin:0 0 18px;display:grid;gap:12px;font-family:var(--sans)}
+.ednote .k{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:0}
+.ednote .row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:center}
+.ednote .row img{width:72px;height:72px;object-fit:cover}
+.ednote .row p{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
+.ednote .btn{margin:0}
+.fixrow{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 18px;text-decoration:none;color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.4}
+.fixrow img{width:56px;height:56px;object-fit:cover}
+.fixrow .ok{color:var(--green);font-weight:800}
+.fixrow .go{display:block;margin-top:3px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.fixrow:hover .go{text-decoration-thickness:2px}
+.fixrow:focus-visible{outline:2px solid var(--ink3);outline-offset:3px}
 .btn.ghost{background:var(--white);color:var(--black);border:2px solid var(--black)}
 .btn.ghost:hover{background:var(--wash)}
 .trust{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.02em;text-align:center;margin:10px 0 0}
@@ -157,6 +167,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
   <article>
     <p class="lede"><strong>The EPA lists burning candles and incense among the sources of fine particles in your home: particles small enough to get deep into the lungs.</strong> Now look at who's sitting closest to the candle tonight.</p>
     <p>And it doesn't stop at candles. The spray before guests arrive, the plug-in in the bedroom, even the water diffuser on the nightstand that's supposed to be the healthy choice: <strong>every one of them leaves something behind in the air your kids and pets breathe.</strong></p>
+    <aside class="ednote" aria-label="Editor's note"><p class="k">Editor's note</p><div class="row"><img src="{{thumb}}" width="144" height="144" alt="The Maison Croyez waterless diffuser"><p>Short on time? The fix most of these alerts point to is a diffuser with <strong>no water, no flame and no spray</strong>. The first 1,000 are free with your scents.</p></div><a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits?cta=note" target="_blank" rel="noopener">See the waterless diffuser ➔</a></aside>
     <p class="hook">Here are the five alerts most people miss. Save the last one for the end: it's the one that matters most.</p>
 
     <section class="alert" id="alert-1" aria-labelledby="a1">
@@ -167,7 +178,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
       <p>That tank sits full of <strong>standing water for days, warm and in the dark</strong>. It's exactly where <strong>mold and bacteria grow</strong>. And every time the diffuser runs, <strong>whatever is growing in there goes into the mist you breathe while you sleep.</strong></p>
       <p>That's why the EPA's advice for humidifiers, which mist water the same way, is so strict: <strong>empty it every day, clean it every third day.</strong> Skip a week and you're misting whatever grew in there.</p>
       <p class="note">Be honest: when did you last scrub yours?</p>
-      <div class="early"><p>Already know you want a diffuser with no water at all?</p><a class="btn ghost" href="https://maisoncroyez.com/pages/diffuser-kits" target="_blank" rel="noopener">Meet Maison Croyez ➔</a></div>
+      <a class="fixrow" href="https://maisoncroyez.com/pages/diffuser-kits?cta=fix-1" target="_blank" rel="noopener"><img src="{{thumb}}" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> No water and no tank. Nothing to grow, nothing to scrub. <span class="go">See how it works →</span></span></a>
       <p class="hook">And that's the one people buy because it seems like the healthy choice. The rest of the house isn't doing any better.</p>
     </section>
 
@@ -184,6 +195,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
         <div role="row"><span role="cell">Every year</span><span role="cell">$2,532</span></div>
       </div>
       <p>And your home pays twice. Look up at the ceiling above the spot where you burn candles. That grey shadow is <strong>soot</strong>, and it doesn't wipe off. Water diffusers get bumped and overfilled, leaving <strong>white rings and warped spots</strong> on the dresser. Reed diffusers tip over and the oil strips the finish off wood.</p>
+      <a class="fixrow" href="https://maisoncroyez.com/pages/diffuser-kits?cta=fix-2" target="_blank" rel="noopener"><img src="{{thumb}}" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> One 100 ml bottle lasts 30+ days. No soot, and the bottle locks in, so nothing spills. <span class="go">See how it works →</span></span></a>
       <p class="hook">If this is what it does to wood and paint, what is it doing to the people who breathe it? Start with what's actually in it.</p>
     </section>
 
@@ -194,6 +206,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
       <p>Turn over an air freshener, a room spray or a candle. You'll usually find one word: <strong>“fragrance.”</strong> In the U.S., that single word can stand for dozens of ingredients that companies don't have to name.</p>
       <p>When researchers tested 25 popular fragranced products, air fresheners included, <strong>they found 133 different chemicals released into the air. 24 of them are classified as toxic or hazardous under U.S. federal law, and only one of the 133 was listed on any label.</strong></p>
       <p class="note">You can't avoid what nobody tells you is there.</p>
+      <a class="fixrow" href="https://maisoncroyez.com/pages/diffuser-kits?cta=fix-3" target="_blank" rel="noopener"><img src="{{thumb}}" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> 100% organic oils with notes you can name on every bottle. <span class="go">See how it works →</span></span></a>
       <p class="hook">And if grown adults react to it, think about the smallest lungs in the house.</p>
     </section>
 
@@ -205,6 +218,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
       <p>But <strong>fragrance is one of the most common triggers.</strong> In a national U.S. survey, <strong>about one in three adults said fragranced products like air fresheners and scented candles gave them health problems, from headaches to asthma attacks.</strong></p>
       <p class="note">Now think about who else is in that room.</p>
       <p><strong>Kids breathe in more air for their body size than adults do</strong>, so the same candle reaches them harder. And <strong>vets warn that smoke and aerosol sprays irritate pets' airways too</strong>, birds and cats most of all.</p>
+      <a class="fixrow" href="https://maisoncroyez.com/pages/diffuser-kits?cta=fix-4" target="_blank" rel="noopener"><img src="{{thumb}}" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> Hypoallergenic oils, with three strength settings. <span class="go">See how it works →</span></span></a>
       <p class="hook">And the last alert is the one almost nobody hears about.</p>
     </section>
 
@@ -222,6 +236,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
         <div><b>36%</b><span>of them start in a bedroom</span></div>
       </div>
       <p class="small" style="text-align:left;margin:-10px 0 18px">National Fire Protection Association, yearly averages for 2015–2019.</p>
+      <a class="fixrow" href="https://maisoncroyez.com/pages/diffuser-kits?cta=fix-5" target="_blank" rel="noopener"><img src="{{thumb}}" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> No flame, no smoke, no soot. Safe to leave on overnight. <span class="go">See how it works →</span></span></a>
       <p class="hook">So what do you do? Give up a home that smells good?</p>
       <p>No. You change how the scent gets into the air.</p>
     </section>

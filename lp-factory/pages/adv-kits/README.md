@@ -96,3 +96,11 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   SubscribedButtonClick on the offer button (Meta event-setup-tool events already configured) -> kits page in ~0.5 s -> PageView ->
   AddToCart x4 -> InitiateCheckout. Consent granted (US), one pixel 980908600592309 throughout. No JS errors.
 - So the site and pixel are not the cause; check the campaign (ad destination URL, link clicks / LPV / Clicked to PDP volume, columns).
+
+## v13 (2026-11-01, owner picked options A + B from the shortcut proposals) — review copy only, NOT live yet
+- A: "Editor's note" box after the opening (screen ~1.3 on an iPhone 14): product thumbnail, the waterless fix in two lines,
+  button "See the waterless diffuser" -> /pages/diffuser-kits?cta=note.
+- B: a fix row at the end of each alert (screens ~2.8 / 4.5 / 5.9 / 7.4 / 9.1): thumbnail, "✓ The fix: …" (same lines as
+  "Here's how it fixes all 5 alerts"), "See how it works" -> ?cta=fix-1..5. Fix row 1 replaces Alert #1's old outline box.
+- Thumbnail on Shopify = mc-cs-d92.jpg resized by the CDN (&width=144). shopify/page-body.html is built and ready for pageUpdate.
+- After deploy: check that the new links fire Meta's codeless "Clicked to PDP" event (rule not in the pixel config file).

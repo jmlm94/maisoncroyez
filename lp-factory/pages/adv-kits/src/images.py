@@ -38,5 +38,8 @@ out["kit2"] = uri(fit(Image.open(p("pages/kit-builder/assets/kit2.jpg")), 520))
 for k, f in [("love", "golden_blossom"), ("relax", "chilled_citrusss"), ("purify", "wilwood_mistiqye"), ("energy", "euphoric_bloom"),
              ("abundance", "crisp_citruss"), ("ideas", "honey_nectarr"), ("night", "midnight_sensation")]:
     out["s_" + k] = uri(fit(Image.open(p("assets/cdn", f + ".png")).convert("RGBA"), 240), "WEBP", 82)
+for n in (1, 2, 3):  # kit builder: the kits page's diffuser-kit pictures (kits-ref, fetched by kits-buybox.yml)
+    out["kb_kit%d" % n] = uri(Image.open(p("pages/adv-kits/kits-ref/img/mc-kb-kit%d.jpg" % n)), "JPEG", 85)
+out["kb_step3"] = uri(fit(Image.open(p("pages/adv-kits/kits-ref/img/mc-dk-step3-1600x900.webp")), 760), "WEBP", 78)  # kit builder step 3 banner
 json.dump(out, open(os.path.join(os.path.dirname(__file__), "img.json"), "w"))
 print({k: len(v) // 1024 for k, v in out.items()}, "KB total", sum(len(v) for v in out.values()) // 1024)

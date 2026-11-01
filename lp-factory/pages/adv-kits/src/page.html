@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Libre+Franklin:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Libre+Franklin:wght@500;600;700;800&family=Unna:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@400;700&family=Be+Vietnam+Pro:wght@400;600&display=swap">
 <style>
 /* Layout: a plain news-site listicle. One 680px column, black and white (greys are tints of black) plus one red for alerts, serif headline
    and body, a sans for labels and buttons. Above the fold on a phone: announcement bar, site header, pre-headline,
@@ -64,17 +64,17 @@ h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,6.3vw,40px);lin
 .fixrow .go{display:block;margin-top:3px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .fixrow:hover .go{text-decoration-thickness:2px}
 .fixrow:focus-visible{outline:2px solid var(--ink3);outline-offset:3px}
-.btn.ghost{background:var(--white);color:var(--black);border:2px solid var(--black)}
-.btn.ghost:hover{background:var(--wash)}
+a.btn.ghost{background:var(--white);color:var(--black);border:2px solid var(--black)}
+a.btn.ghost:hover{background:var(--wash)}
 .trust{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.02em;text-align:center;margin:10px 0 0}
 .bio{display:flex;gap:12px;align-items:center;border-top:1px solid var(--ink);padding:16px 0 0;margin:28px 0 0}
 .bio img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none}
 .bio p{margin:0;font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--ink2)}
 .hero{margin:0}
 .hero img{width:100%;aspect-ratio:2/1;object-fit:cover}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--black);color:var(--white);text-decoration:none;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:14px 18px;border-radius:4px;margin:10px 0 0;text-align:center;border:0;cursor:pointer}
-.btn:hover{background:#222}
-.btn:focus-visible{outline:3px solid var(--ink3);outline-offset:3px}
+a.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--black);color:var(--white);text-decoration:none;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:14px 18px;border-radius:4px;margin:10px 0 0;text-align:center;border:0;cursor:pointer}
+a.btn:hover{background:#222}
+a.btn:focus-visible{outline:3px solid var(--ink3);outline-offset:3px}
 
 /* article */
 article{padding-block:22px 0}
@@ -122,70 +122,10 @@ blockquote p{margin:0 0 6px;font-style:italic;font-size:17px;line-height:1.5}
 blockquote cite{font-style:normal;font-family:var(--sans);font-size:12px;color:var(--ink3)}
 .offer{border:2px solid var(--black);padding:18px 16px 16px;margin:28px 0 18px}
 .offer h2{margin-bottom:10px}
-.offer p{font-size:17px;margin-bottom:12px}
-.offer ul{margin:0 0 6px;padding-left:20px;font-size:16.5px}
-.offer li{margin-bottom:4px}
+.offer > p{font-size:17px;margin-bottom:12px}
+.offer > ul{margin:0 0 6px;padding-left:20px;font-size:16.5px}
+.offer > ul > li{margin-bottom:4px}
 .small{font-family:var(--sans);font-size:12.5px;color:var(--ink3);text-align:center;margin:8px 0 0}
-.kb{display:grid;gap:14px;margin:6px 0 0;font-family:var(--sans)}
-.kb-prog{display:grid;gap:7px}
-.kb-prog p{margin:0;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
-.kb-prog p b{color:var(--ink)}
-.kb-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-.kb-bar i{height:4px;border-radius:2px;background:var(--rule)}
-.kb-bar i.on{background:var(--black)}
-.kb-h{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.2;margin:0}
-.kb-panel{display:grid;gap:12px}
-.kb-panel[hidden]{display:none}
-.kb-tier{display:grid;grid-template-columns:64px minmax(0,1fr) 22px;gap:12px;align-items:center;width:100%;text-align:left;background:var(--white);border:1.5px solid var(--rule);border-radius:6px;padding:12px;cursor:pointer;font:inherit;color:var(--ink);position:relative}
-.kb-tier img{width:64px;height:64px;object-fit:cover;border-radius:4px}
-.kb-tier .x{position:absolute;left:58px;top:8px;background:var(--black);color:var(--white);font-size:11px;font-weight:800;border-radius:10px;padding:1px 6px}
-.kb-tier b{display:block;font-size:17px}
-.kb-tier .w{display:block;font-size:14.5px;color:var(--ink)}
-.kb-tier .w em{font-style:normal;color:var(--green);font-weight:800}
-.kb-tier small{display:block;font-size:12.5px;color:var(--ink3);margin-top:2px}
-.kb-tier .tg{position:absolute;right:10px;top:-9px;background:var(--black);color:var(--white);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px}
-.kb-tier .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--rule)}
-.kb-tier[aria-pressed="true"]{border-color:var(--black);box-shadow:0 0 0 1px var(--black)}
-.kb-tier[aria-pressed="true"] .dot{border:6px solid var(--black)}
-.kb-tier:focus-visible,.kb-step button:focus-visible,.kb-freq button:focus-visible,.kb-link:focus-visible{outline:3px solid var(--ink3);outline-offset:2px}
-.kb-count{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
-.kb-count b{background:var(--wash);border-radius:12px;padding:3px 10px;font-variant-numeric:tabular-nums}
-.kb-count b.full{background:var(--green);color:var(--white)}
-.kb-link{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.kb-scents{display:grid;gap:8px}
-.kb-sc{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;border:1.5px solid var(--rule);border-radius:6px;padding:8px 10px;background:var(--white)}
-.kb-sc.on{border-color:var(--black)}
-.kb-sc img{width:52px;height:52px;object-fit:contain;background:var(--wash);border-radius:4px}
-.kb-sc b{display:block;font-size:15px;line-height:1.25}
-.kb-sc .in{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:1px 0 2px}
-.kb-sc .sm{display:block;font-size:13px;line-height:1.35;color:var(--ink2)}
-.kb-step{display:flex;align-items:center;gap:6px}
-.kb-step button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--black);background:var(--white);color:var(--black);font:inherit;font-size:18px;font-weight:700;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
-.kb-step button.add{background:var(--black);color:var(--white)}
-.kb-step button:disabled{opacity:.3;cursor:not-allowed}
-.kb-step span{min-width:14px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
-.kb-row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--rule);font-size:14.5px}
-.kb-row img{width:48px;height:48px;object-fit:contain;background:var(--wash);border-radius:4px}
-.kb-row b{display:block}
-.kb-row small{display:block;font-size:12.5px;color:var(--ink3)}
-.kb-row .pr{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.kb-row .pr s{color:var(--ink3);display:block;font-size:12.5px}
-.kb-row .pr em{font-style:normal;font-weight:800;color:var(--green)}
-.kb-val{margin:0;font-size:15px}
-.kb-val b{color:var(--green)}
-.kb-due{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--black);border-bottom:2px solid var(--black);padding:10px 0}
-.kb-due span{font-weight:800;font-size:15px}
-.kb-due strong{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
-.kb-fh{margin:0;font-weight:800;font-size:14.5px}
-.kb-freq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.kb-freq button{border:1.5px solid var(--rule);border-radius:6px;background:var(--white);color:var(--ink);font:inherit;font-weight:800;font-size:15px;padding:10px 4px 9px;cursor:pointer;display:grid;gap:2px;justify-items:center}
-.kb-freq button small{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
-.kb-freq button[aria-pressed="true"]{border-color:var(--black);box-shadow:0 0 0 1px var(--black)}
-.kb-how{margin:0;padding-left:18px;display:grid;gap:5px;font-size:14px;color:var(--ink2)}
-.kb .btn{margin:0}
-.kb .btn:disabled{background:var(--ink3);cursor:not-allowed}
-.kb-back{justify-self:start}
-.kb-done{margin:0;background:var(--wash);border-left:3px solid var(--green);padding:10px 12px;font-size:14px}
 details{border-top:1px solid var(--rule)}
 details:last-of-type{border-bottom:1px solid var(--rule)}
 summary{cursor:pointer;list-style:none;font-family:var(--sans);font-weight:700;font-size:15.5px;padding:13px 26px 13px 0;position:relative}
@@ -203,6 +143,15 @@ footer ol{margin:0 0 8px;padding-left:18px}
 .bar .btn{margin:0 auto;max-width:640px;padding:13px 16px}
 @media (min-width:900px){.bar{display:none}}
 @media (prefers-reduced-motion:reduce){.bar{transition:none}}
+/* kit builder: the /pages/diffuser-kits buy box (kits-buybox.css, extracted from mc-dk.css by src/kitscss/extract.py), set inside the launch-offer box */
+{{kits_css}}
+#mckb{margin:16px 0 0;text-align:left}
+#mckb .pdp-buy{padding:0 !important}
+#mckb .pdp-buy .wrap,#mckb .pdp-buy > .wrap{display:block !important;max-width:none;margin:0;padding:0}
+#mckb .pdp-buy .buybox{margin-top:0}
+#mckb .step-title:focus{outline:none}
+#mckb .kb-done{font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.4;text-align:center;color:#241C18;background:#F3EBE1;border-radius:14px;padding:10px 14px}
+@media (max-width:479px){#mckb{margin-left:-8px;margin-right:-8px}}
 </style>
 
 <div class="ann" id="top"><div class="wrap">Read this before you light another candle</div></div>
@@ -352,41 +301,7 @@ footer ol{margin:0 0 8px;padding-left:18px}
       <h2 id="of">We're New, So The First 1,000 Diffusers Are On Us.</h2>
       <p>Maison Croyez is a young brand, and we know trying something new in your home takes trust. So <strong>we're taking the risk instead of you: the first 1,000 diffusers are free</strong> when you pick your scents.</p>
       <p><strong>After the first 1,000, diffusers go back to $89.95.</strong></p>
-      <div class="kb" id="kb">
-        <div class="kb-prog"><p><b id="kb-n">Step 1 of 3</b> · <span id="kb-lbl">Your diffusers</span></p><div class="kb-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>
-
-        <div class="kb-panel" data-p="1">
-          <p class="kb-h">How many free diffusers would you like?</p>
-          <div id="kb-tiers" class="kb-panel" role="radiogroup" aria-label="Number of diffusers"></div>
-          <button type="button" class="btn" data-go="2">Pick your scents ➔</button>
-        </div>
-
-        <div class="kb-panel" data-p="2" hidden>
-          <p class="kb-h" id="kb-h2">Pick your 3 scents</p>
-          <div class="kb-count"><b id="kb-cnt">0 of 3 picked</b><button type="button" class="kb-link" id="kb-best">Not sure? Use our best sellers</button></div>
-          <div class="kb-scents" id="kb-scents"></div>
-          <button type="button" class="btn" data-go="3" id="kb-next2" disabled>Pick 3 more</button>
-          <button type="button" class="kb-link kb-back" data-go="1">← Change diffusers</button>
-        </div>
-
-        <div class="kb-panel" data-p="3" hidden>
-          <p class="kb-h">Your kit</p>
-          <div id="kb-lines"></div>
-          <p class="kb-val" id="kb-val"></p>
-          <div class="kb-due"><span>Due today</span><strong id="kb-due"></strong></div>
-          <p class="kb-fh">How often should we send your scents?</p>
-          <div class="kb-freq" id="kb-freq" role="radiogroup" aria-label="Refill frequency"></div>
-          <ul class="kb-how">
-            <li><b>Today</b> you pay only for your scents. <span id="kb-ship">The free diffusers ship with them.</span></li>
-            <li><b>Next boxes</b> are scents only, same price, every <span id="kb-every">30</span> days.</li>
-            <li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li>
-          </ul>
-          <button type="button" class="btn" id="kb-add">Add to cart ➔</button>
-          <p class="kb-done" id="kb-done" hidden>Preview only: on the live page this button adds your kit to the cart and opens it.</p>
-          <p class="small">Free shipping · 30-day money-back · lifetime warranty</p>
-          <button type="button" class="kb-link kb-back" data-go="2">← Change scents</button>
-        </div>
-      </div>
+      <div class="mckb" id="mckb"><section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox"></div></div></section></div>
       <p class="trust">Loved by 2,500+ homes in America</p>
     </section>
 
@@ -424,96 +339,142 @@ footer ol{margin:0 0 8px;padding-left:18px}
 </script>
 <script>
 (function(){
-  var root = document.getElementById('kb'); if (!root) return;
+  /* Launch-offer kit builder: the /pages/diffuser-kits buy box (steps 1-3), same markup and classes, styled by the kits CSS under #mckb. */
+  var root = document.getElementById('mckb'); if (!root) return;
+  var sec = root.querySelector('#buybox'), box = root.querySelector('.buybox');
   var DIFF = 89.95, SCENT = 39.95;
+  var KIT = ['{{kb_kit1}}', '{{kb_kit2}}', '{{kb_kit3}}'];
   var TIERS = [
-    { n: 1, scents: 2, area: 'Up to 600 sq ft', rooms: 'One room', tag: '' },
-    { n: 2, scents: 3, area: 'Up to 1,200 sq ft', rooms: 'Living room + bedroom', tag: 'Most popular' },
-    { n: 3, scents: 5, area: 'Up to 1,800 sq ft', rooms: 'Your whole home', tag: 'Best value' }
+    { key: 'one', n: 1, name: 'Living Room', scents: 2, tag: '', pop: false, rooms: ['Studio', 'Bathroom', 'Entry'], where: '<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand.' },
+    { key: 'two', n: 2, name: 'Living Room & Bedroom', scents: 3, tag: 'Most popular', pop: true, rooms: ['Living Room', 'Bedroom', 'Kitchen'], where: '<b>Two diffusers for one bigger room</b>, up to 1,200 sq ft: the living room, the bedroom or the kitchen.' },
+    { key: 'three', n: 3, name: 'Living Room, Bedroom & Kitchen', scents: 5, tag: 'Best value', pop: false, rooms: ['1+ Rooms', 'Large Spaces'], where: '<b>Three diffusers, up to 1,800 sq ft:</b> two in the living room, one in the bedroom, or any split you like.' }
   ];
-  var SC = [
-    { k: 'love', name: 'Golden Blossom Harmony', int: 'Love', sm: 'Fresh flowers and a little honey. Like walking into a florist.', img: '{{s_love}}' },
-    { k: 'abundance', name: 'Crisp Citrus Scape', int: 'Abundance', sm: 'Fresh citrus peel and green leaves. Like a clean hotel lobby.', img: '{{s_abundance}}' },
-    { k: 'midnight', name: 'Midnight Sensation', int: 'Love Manifestation', sm: 'White flowers and soft musk. Like perfume on warm skin.', img: '{{s_night}}' },
-    { k: 'focus', name: 'Chilled Citrus', int: 'Relaxation & Concentration', sm: 'Lavender and eucalyptus. Like a day spa.', img: '{{s_relax}}' },
-    { k: 'ideas', name: 'Honey Nectar', int: 'Turn Ideas Into Reality', sm: 'Warm milk and honey. Like a café on a slow morning.', img: '{{s_ideas}}' },
-    { k: 'energy', name: 'Euphoric Bloom', int: 'Raise Energy', sm: 'White peach and jasmine tea. Fruity and bright, never sugary.', img: '{{s_energy}}' },
-    { k: 'purify', name: 'Wildwood Mystique', int: 'Purification', sm: 'Pine and juniper. Like a walk in the woods after rain.', img: '{{s_purify}}' }
+  var FR = [
+    { key: 'love', name: 'Golden Blossom Harmony', int: 'Love', str: 'medium', sm: 'Fresh flowers and a little honey. Like walking into a florist.', notes: 'Buttercup, Honeysuckle & Sunflower', img: '{{s_love}}' },
+    { key: 'abundance', name: 'Crisp Citrus Scape', int: 'Abundance', str: 'soft', sm: 'Fresh citrus peel and green leaves. Like a clean hotel lobby.', notes: 'Yuzu Leaf, Green Mandarin & Cypress', img: '{{s_abundance}}' },
+    { key: 'focus', name: 'Chilled Citrus', int: 'Relaxation & Concentration', str: 'soft', sm: 'Lavender and eucalyptus. Like a day spa.', notes: 'Chilled Lavender, Eucalyptus & White Citrus', img: '{{s_relax}}' },
+    { key: 'ideas', name: 'Honey Nectar', int: 'Turn Ideas Into Reality', str: 'medium', sm: 'Warm milk and honey. Like a café on a slow morning.', notes: 'Ginger Milk, White Birch & Eucalyptus Honey', img: '{{s_ideas}}' },
+    { key: 'energy', name: 'Euphoric Bloom', int: 'Raise Energy', str: 'medium', sm: 'White peach and jasmine tea. Fruity and bright, never sugary.', notes: 'Jasmine Tea, White Peach & Sandalwood Crème', img: '{{s_energy}}' },
+    { key: 'purify', name: 'Wildwood Mystique', int: 'Purification', str: 'bold', sm: 'Pine and juniper. Like a walk in the woods after rain.', notes: 'Huckleberry, Wild Juniper & Mountain Fern', img: '{{s_purify}}' },
+    { key: 'midnight', name: 'Midnight Sensation', int: 'Love Manifestation', str: 'bold', sm: 'White flowers and soft musk. Like perfume on warm skin.', notes: 'Moonflower, Night Lily & Skin Musk', img: '{{s_night}}' }
   ];
-  var BEST = ['love', 'abundance', 'midnight', 'focus', 'ideas'];
+  var SW = { love: 'linear-gradient(160deg,#F26A3D,#F7C948)', abundance: 'linear-gradient(160deg,#F5E04E,#8EC9F0)', focus: 'linear-gradient(160deg,#E9A6D0,#D7B5E8)', ideas: 'linear-gradient(160deg,#9ED9D3,#EE4F8E)', energy: 'linear-gradient(160deg,#E9BFDB,#F3895F)', purify: 'linear-gradient(160deg,#F2E15A,#D873B4)', midnight: 'linear-gradient(160deg,#A9D8EE,#E7A6D2)' };
   var FREQS = [{ d: 60 }, { d: 30, tag: 'Most popular' }, { d: 90 }];
-  var LABELS = ['Your diffusers', 'Your scents', 'Review your kit'];
-  var st = { step: 1, tier: 1, picks: {}, freq: 30 };
-  var $ = function (id) { return document.getElementById(id); };
-  var usd = function (v) { return '$' + v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
-  var tier = function () { return TIERS[st.tier]; };
-  var picked = function () { var t = 0; for (var k in st.picks) t += st.picks[k]; return t; };
+  var PLANS = {"one": "<svg viewBox=\"0 0 320 210\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Floor plan: one diffuser in a studio\"><rect x=\"8\" y=\"8\" width=\"304\" height=\"194\" rx=\"3\" fill=\"#FAFAF8\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"8\" y1=\"150\" x2=\"8\" y2=\"188\" stroke=\"#FAFAF8\" stroke-width=\"4\"/><path d=\"M8 188 a38 38 0 0 1 38 -38\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><rect x=\"30\" y=\"118\" width=\"98\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"40\" y=\"110\" width=\"78\" height=\"12\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"26\" y=\"24\" width=\"120\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"36\" width=\"80\" height=\"112\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"36\" width=\"80\" height=\"26\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"222\" y=\"42\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"258\" y=\"42\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"214\" y=\"160\" width=\"30\" height=\"24\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><circle cx=\"170\" cy=\"100\" r=\"86\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"170\" cy=\"100\" r=\"9\" fill=\"#141414\"/><circle cx=\"170\" cy=\"100\" r=\"3.5\" fill=\"#fff\"/><text x=\"22\" y=\"176\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">STUDIO</text><text x=\"22\" y=\"191\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"8.5\" font-weight=\"600\" letter-spacing=\".8\" fill=\"#5C4F46\">ONE ROOM, UP TO 600 SQ FT</text></svg>", "two": "<svg viewBox=\"0 0 320 210\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Floor plan: two diffusers in one large room\"><rect x=\"8\" y=\"8\" width=\"304\" height=\"194\" rx=\"3\" fill=\"#FAFAF8\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"8\" y1=\"150\" x2=\"8\" y2=\"188\" stroke=\"#FAFAF8\" stroke-width=\"4\"/><path d=\"M8 188 a38 38 0 0 1 38 -38\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><rect x=\"26\" y=\"24\" width=\"130\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"56\" y=\"64\" width=\"60\" height=\"26\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"30\" y=\"118\" width=\"98\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"40\" y=\"110\" width=\"78\" height=\"12\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"212\" y=\"78\" width=\"72\" height=\"44\" rx=\"6\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"222\" y=\"66\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"254\" y=\"66\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"222\" y=\"124\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"254\" y=\"124\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"262\" y=\"160\" width=\"36\" height=\"28\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><circle cx=\"98\" cy=\"80\" r=\"64\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"98\" cy=\"80\" r=\"9\" fill=\"#141414\"/><circle cx=\"98\" cy=\"80\" r=\"3.5\" fill=\"#fff\"/><circle cx=\"226\" cy=\"124\" r=\"64\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"226\" cy=\"124\" r=\"9\" fill=\"#141414\"/><circle cx=\"226\" cy=\"124\" r=\"3.5\" fill=\"#fff\"/><text x=\"22\" y=\"176\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">LIVING ROOM</text><text x=\"22\" y=\"191\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"8.5\" font-weight=\"600\" letter-spacing=\".8\" fill=\"#5C4F46\">OR THE BEDROOM, OR THE KITCHEN</text></svg>", "three": "<svg viewBox=\"0 0 320 210\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Floor plan: two diffusers in the living room, one in the bedroom\"><rect x=\"8\" y=\"8\" width=\"304\" height=\"194\" rx=\"3\" fill=\"#FAFAF8\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"196\" y1=\"8\" x2=\"196\" y2=\"88\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"196\" y1=\"124\" x2=\"196\" y2=\"202\" stroke=\"#241C18\" stroke-width=\"3\"/><path d=\"M196 88 a36 36 0 0 1 36 36\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><line x1=\"196\" y1=\"88\" x2=\"232\" y2=\"88\" stroke=\"#241C18\" stroke-width=\"1.4\"/><line x1=\"8\" y1=\"150\" x2=\"8\" y2=\"188\" stroke=\"#FAFAF8\" stroke-width=\"4\"/><path d=\"M8 188 a38 38 0 0 1 38 -38\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><rect x=\"30\" y=\"118\" width=\"98\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"40\" y=\"110\" width=\"78\" height=\"12\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"56\" y=\"62\" width=\"60\" height=\"28\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"26\" y=\"24\" width=\"150\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"40\" width=\"80\" height=\"112\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"40\" width=\"80\" height=\"26\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"222\" y=\"46\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"258\" y=\"46\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"214\" y=\"166\" width=\"30\" height=\"24\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><circle cx=\"100\" cy=\"64\" r=\"52\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"64\" r=\"9\" fill=\"#141414\"/><circle cx=\"100\" cy=\"64\" r=\"3.5\" fill=\"#fff\"/><circle cx=\"150\" cy=\"150\" r=\"46\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"150\" cy=\"150\" r=\"9\" fill=\"#141414\"/><circle cx=\"150\" cy=\"150\" r=\"3.5\" fill=\"#fff\"/><circle cx=\"254\" cy=\"118\" r=\"46\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"254\" cy=\"118\" r=\"9\" fill=\"#141414\"/><circle cx=\"254\" cy=\"118\" r=\"3.5\" fill=\"#fff\"/><text x=\"22\" y=\"176\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">LIVING ROOM</text><text x=\"208\" y=\"196\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">BEDROOM</text></svg>"}, RIC = {"Studio": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 11V8.5A2.5 2.5 0 0 1 7 6h10a2.5 2.5 0 0 1 2.5 2.5V11\"/><path d=\"M3 11.5a1.5 1.5 0 0 1 3 0V14h12v-2.5a1.5 1.5 0 0 1 3 0V17H3z\"/><path d=\"M5 17v2M19 17v2\" stroke=\"#A3874A\"/></svg>", "Living Room": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 11V8.5A2.5 2.5 0 0 1 7 6h10a2.5 2.5 0 0 1 2.5 2.5V11\"/><path d=\"M3 11.5a1.5 1.5 0 0 1 3 0V14h12v-2.5a1.5 1.5 0 0 1 3 0V17H3z\"/><path d=\"M5 17v2M19 17v2\" stroke=\"#A3874A\"/></svg>", "Bedroom": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 18.5V6\"/><path d=\"M3 14h18v4.5\"/><path d=\"M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11v5\"/><circle cx=\"7\" cy=\"11.2\" r=\"1.8\" stroke=\"#A3874A\"/></svg>", "Kitchen": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"14\" r=\"6\"/><path d=\"M16 14h5.5\"/><path d=\"M8 6.2c0-1 .8-1.2.8-2.2M11.6 6.2c0-1 .8-1.2.8-2.2\" stroke=\"#A3874A\"/></svg>", "Bathroom": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 12h18v2.5a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 14.5z\"/><path d=\"M6 12V6a2 2 0 0 1 3.6-1.2\"/><path d=\"M7 19l-1 2M17 19l1 2\" stroke=\"#A3874A\"/></svg>", "Entry": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21\"/><path d=\"M4 21h16\"/><circle cx=\"15\" cy=\"12.5\" r=\"1\" stroke=\"#A3874A\"/></svg>", "1+ Rooms": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3.5 11L12 4l8.5 7\"/><path d=\"M5.5 9.5V20h13V9.5\"/><path d=\"M10 20v-5h4v5\" stroke=\"#A3874A\"/></svg>", "Large Spaces": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2.5\" y=\"8\" width=\"19\" height=\"8\" rx=\"1.5\"/><path d=\"M6.5 8v3M10 8v4.5M13.5 8v3M17 8v4.5\" stroke=\"#A3874A\"/></svg>"}, IC = {"truck": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.5 6.5h11v10h-11z\"/><path d=\"M13.5 9.5h4.2l2.8 3.2v3.8h-7\"/><circle cx=\"6.5\" cy=\"17.2\" r=\"1.8\" fill=\"#fff\" stroke=\"#A3874A\"/><circle cx=\"17\" cy=\"17.2\" r=\"1.8\" fill=\"#fff\" stroke=\"#A3874A\"/></svg>", "shield": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z\"/><path d=\"M8.6 12.2l2.4 2.4 4.4-4.6\" stroke=\"#A3874A\"/></svg>", "lifetime": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"M12 12c-1.2-1.6-2.1-2.8-3.6-2.8a2.8 2.8 0 0 0 0 5.6c1.5 0 2.4-1.2 3.6-2.8s2.1-2.8 3.6-2.8a2.8 2.8 0 0 1 0 5.6c-1.5 0-2.4-1.2-3.6-2.8z\" stroke=\"#A3874A\"/></svg>", "up": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 19V5M6.5 10.5L12 5l5.5 5.5\"/></svg>"};
+  var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false };
 
-  $('kb-tiers').innerHTML = TIERS.map(function (t, i) {
-    return '<button type="button" class="kb-tier" role="radio" data-t="' + i + '">' + (t.tag ? '<span class="tg">' + t.tag + '</span>' : '') +
-      '<img src="{{thumb}}" width="64" height="64" alt="">' + (t.n > 1 ? '<span class="x">×' + t.n + '</span>' : '') +
-      '<span><b>' + t.n + ' free diffuser' + (t.n > 1 ? 's' : '') + '</b><span class="w">with <em>' + t.scents + ' scents</em></span><small>' + t.area + ' · ' + t.rooms + '</small></span><i class="dot"></i></button>';
-  }).join('');
-  $('kb-scents').innerHTML = SC.map(function (f) {
-    return '<div class="kb-sc" data-k="' + f.k + '"><img src="' + f.img + '" width="52" height="52" alt="">' +
-      '<span><b>' + f.name + '</b><span class="in">' + f.int + '</span><span class="sm">' + f.sm + '</span></span>' +
-      '<span class="kb-step"><button type="button" class="sub" aria-label="Remove one ' + f.name + '">−</button><span>0</span><button type="button" class="add" aria-label="Add one ' + f.name + '">+</button></span></div>';
-  }).join('');
-  $('kb-freq').innerHTML = FREQS.map(function (o) {
-    return '<button type="button" role="radio" data-f="' + o.d + '">' + o.d + ' days' + (o.tag ? '<small>' + o.tag + '</small>' : '') + '</button>';
-  }).join('');
+  var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  var usd = function (v) { return '$' + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)); };
+  var ic = function (k, cls) { return '<span class="mc-ic ' + cls + '" aria-hidden="true">' + IC[k] + '</span>'; };
+  var img = function (src, alt) { return '<div class="ph sq"><img class="simg" src="' + src + '" alt="' + esc(alt) + '" decoding="async"></div>'; };
+  var T = function () { return TIERS[st.t]; };
+  var left = function () { return Math.max(0, T().scents - st.keys.length); };
+  var qty = function (k) { return st.keys.filter(function (x) { return x === k; }).length; };
+  var fr = function (k) { return FR.filter(function (f) { return f.key === k; })[0]; };
+  var grouped = function () { var m = [], seen = {}; st.keys.forEach(function (k) { if (!seen[k]) { seen[k] = 1; m.push({ f: fr(k), q: qty(k) }); } }); return m; };
+  var today = function () { return st.keys.length * SCENT; };
+  var value = function () { return T().n * DIFF + today(); };
 
-  function trim() {
-    var over = picked() - tier().scents;
-    for (var i = SC.length - 1; i >= 0 && over > 0; i--) {
-      var k = SC[i].k; while (st.picks[k] && over > 0) { st.picks[k]--; over--; if (!st.picks[k]) delete st.picks[k]; }
-    }
+  var eta = '<p class="dk-eta">' + ic('truck', 'dk-eta-ic') + 'Estimated delivery: <b>3–5 business days</b></p>';
+  var chips = '<div class="atc-chips">' +
+    '<span class="atc-chip">' + ic('truck', 'atc-chip-ic') + '<span><b>Free Shipping</b><small>On Every Order</small></span></span>' +
+    '<span class="atc-chip">' + ic('shield', 'atc-chip-ic') + '<span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>' +
+    '<span class="atc-chip">' + ic('lifetime', 'atc-chip-ic') + '<span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span></div>';
+
+  function step1() {
+    var t = T();
+    return '<div class="step-eyebrow">Step 1 of 3</div>' +
+      '<div class="picker-title step-title s9-title">How many scents and diffusers <em>would you like?</em></div>' +
+      '<div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents">' + TIERS.map(function (x, i) {
+        var on = i === st.t;
+        return '<div class="tier t9c3' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" tabindex="0" data-t="' + i + '" data-k="t' + i + '" aria-label="' + esc(x.scents + ' scents at ' + usd(SCENT) + ' each, ' + x.n + ' free diffuser' + (x.n > 1 ? 's' : '') + ', ' + usd(x.scents * SCENT) + ' today (' + x.name + ')') + '">' +
+          (x.tag ? '<span class="kg-tag t9-tag' + (x.pop ? ' pop' : '') + '">' + x.tag + '</span>' : '') +
+          '<span class="t9-n t9s-n">' + x.scents + ' Scents</span><span class="t9s-each">' + usd(SCENT) + ' each</span>' +
+          '<span class="t9s-gift">+ ' + x.n + ' <b class="t9p2-free">FREE</b> Diffuser' + (x.n > 1 ? 's' : '') + '</span>' +
+          '<span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i>' + img(KIT[i], x.n + ' free diffuser' + (x.n > 1 ? 's' : '')) + '</span>' +
+          '<span class="t9p2-val"><s>' + usd(x.n * DIFF) + '</s> value</span></div>';
+      }).join('') + '</div>' +
+      '<div class="place"><div class="place-grid"><div class="plan place-plan">' + PLANS[t.key] + '</div><div class="place-side"><div class="place-head">Where it goes:</div><div class="place-rooms">' +
+        t.rooms.map(function (r) { return '<span class="place-room"><span class="mc-ic pr-ic" aria-hidden="true">' + (RIC[r] || '') + '</span>' + r + '</span>'; }).join('') +
+      '</div><p class="place-cap">' + t.where + '</p></div></div></div>' +
+      '<button type="button" class="btn atc step-next" data-go="2" data-k="g2"><span>Pick your scents ➔</span></button>' + eta + chips;
   }
+
+  function step2() {
+    var t = T(), l = left(), full = l === 0, lf = st.last ? fr(st.last) : null;
+    return '<div class="step-eyebrow">Step 2 of 3</div>' +
+      '<div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ' + t.scents + ' scents:</div><span class="pick-pill">' + (t.scents - l) + ' of ' + t.scents + ' picked</span></div>' +
+      '<div class="s9-res">' + img(KIT[st.t], t.name) + '<span class="s9-res-tx"><b>' + t.n + ' FREE DIFFUSER' + (t.n > 1 ? 'S' : '') + ' RESERVED</b><small>' + esc(t.name) + ' · <s>' + usd(t.n * DIFF) + '</s> <b class="s9-free">FREE!</b></small></span></div></div>' +
+      '<div class="picker e4" role="group" aria-label="Pick your scents">' + FR.map(function (f) {
+        var q = qty(f.key), on = q > 0;
+        return '<div class="pick e4t' + (on ? ' on' : '') + (!on && full ? ' full' : '') + (st.last === f.key ? ' peek' : '') + '" role="group" aria-label="' + esc(f.name) + '" tabindex="0" data-peek="' + f.key + '" data-k="p' + f.key + '">' +
+          '<div class="e4-ph">' + img(f.img, f.name) + '</div><span class="pick-scent e4-name">' + f.name + '</span>' +
+          '<span class="pick-str e4-str s-' + f.str + '" title="Scent strength"><i></i><i></i><i></i>' + f.str + '</span>' +
+          '<span class="e4-step"><button type="button" aria-label="Remove one ' + esc(f.name) + '" data-rm="' + f.key + '" data-k="r' + f.key + '"' + (q === 0 ? ' disabled' : '') + '>−</button><b>' + q + '</b>' +
+          '<button type="button" aria-label="Add one ' + esc(f.name) + '" data-add="' + f.key + '" data-k="a' + f.key + '"' + (full ? ' disabled' : '') + '>+</button></span></div>';
+      }).join('') + '</div>' +
+      '<div class="e4-bar" aria-live="polite">' + (lf
+        ? '<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style="background:' + SW[lf.key] + '"></span> <b>' + lf.name + '</b> · ' + esc(lf.int) + '</span><br><b>Smells like:</b> ' + lf.sm + '<br><b>Notes:</b> ' + esc(lf.notes) + '</span>'
+        : '<span class="e4-txt"><b class="e4-l1">' + ic('up', 'e4-arrow') + ' Tap a scent to read more about it.</b></span>') + '</div>' +
+      '<div class="navrow"><button type="button" class="btn secondary" aria-label="Back to the diffusers" data-go="1" data-k="g1">←</button>' +
+      (l > 0 ? '<p class="pick-hint">Pick ' + l + ' more scent' + (l > 1 ? 's' : '') + ' above to review your kit.</p>' : '<button type="button" class="btn atc" data-go="3" data-k="g3"><span>Review my kit ➔</span></button>') +
+      '</div>' + eta + chips;
+  }
+
+  function step3() {
+    var t = T();
+    return '<div class="s9-banner"><img src="{{kb_step3}}" alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"></div>' +
+      '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
+      '<div class="kitrev k9">' + grouped().map(function (g) {
+        return '<div class="kr-row">' + img(g.f.img, g.f.name) + '<span class="kr-tx"><b>' + g.q + '× ' + g.f.name + '</b><span class="kr-sub">' + esc(g.f.int) + ' · 100ml</span></span><span class="kr-pr">' + usd(g.q * SCENT) + '</span></div>';
+      }).join('') +
+        '<div class="kr-row kr-kit"><img class="kr-img" src="' + KIT[st.t] + '" alt="" decoding="async"><span class="kr-tx"><b>' + t.n + '× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span><span class="kr-pr"><s>' + usd(t.n * DIFF) + '</s><span class="inc">FREE</span></span></div></div>' +
+      '<p class="s9-value">That’s <b class="s9-val-green">' + usd(value()) + ' of value</b>, you pay ' + usd(today()) + ' today.</p>' +
+      '<div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>' + today().toFixed(2) + '</span><span class="s9-due-each">' + usd(SCENT) + '/scent</span></div>' +
+      '<ul class="t9s-how"><li><b>Today</b> you pay only for your scents. The free diffuser' + (t.n > 1 ? 's ship' : ' ships') + ' with them.</li><li><b>Next boxes</b> are scents only, same price, every 30, 60 or 90 days. You pick just below.</li><li><b>Cancel anytime</b> from any delivery email. 30-day money-back, prepaid return.</li></ul>' +
+      '<div class="s9-freq-head">How frequently would you like your refills?</div>' +
+      '<div class="rf3" role="radiogroup" aria-label="Refill frequency">' + FREQS.map(function (o) {
+        var on = st.freq === o.d;
+        return '<button type="button" class="rf3-opt' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-f="' + o.d + '" data-k="f' + o.d + '"><b>' + o.d + ' days</b>' + (o.tag ? '<small class="rf3-tag">' + o.tag + '</small>' : '') + '</button>';
+      }).join('') + '</div>' +
+      '<p class="s9-freq-note"><b>Swap, pause and cancel anytime.</b> If your home doesn’t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>' +
+      '<button type="button" class="btn atc" data-cart="1" data-k="cart"' + (left() > 0 ? ' disabled' : '') + '><span>ADD TO CART ➔</span></button>' +
+      (st.added ? '<p class="kb-done" role="status">Preview only: on the live page this button adds your kit to the cart and opens it.</p>' : '') +
+      eta + chips +
+      '<div class="navrow back-only"><button type="button" class="btn secondary wide" data-go="2" data-k="g2b">← Change my scents</button></div>';
+  }
+
   function render() {
-    var t = tier(), need = t.scents, have = picked(), full = have >= need;
-    $('kb-n').textContent = 'Step ' + st.step + ' of 3';
-    $('kb-lbl').textContent = LABELS[st.step - 1];
-    root.querySelectorAll('.kb-bar i').forEach(function (b, i) { b.classList.toggle('on', i < st.step); });
-    root.querySelectorAll('[data-p]').forEach(function (p) { p.hidden = +p.getAttribute('data-p') !== st.step; });
-    root.querySelectorAll('.kb-tier').forEach(function (b, i) { var on = i === st.tier; b.setAttribute('aria-pressed', on); b.setAttribute('aria-checked', on); });
-    $('kb-h2').textContent = 'Pick your ' + need + ' scents';
-    $('kb-cnt').textContent = have + ' of ' + need + ' picked';
-    $('kb-cnt').classList.toggle('full', full);
-    root.querySelectorAll('.kb-sc').forEach(function (row) {
-      var q = st.picks[row.getAttribute('data-k')] || 0;
-      row.classList.toggle('on', q > 0);
-      row.querySelector('.kb-step span').textContent = q;
-      row.querySelector('.sub').disabled = q === 0;
-      row.querySelector('.add').disabled = full;
-    });
-    var nx = $('kb-next2'); nx.disabled = !full; nx.textContent = full ? 'Review my kit ➔' : 'Pick ' + (need - have) + ' more';
-    var lines = '<div class="kb-row"><img src="{{thumb}}" width="48" height="48" alt=""><span><b>' + t.n + '× Maison Croyez Diffuser</b><small>Waterless, leakproof, lifetime warranty.</small></span><span class="pr"><s>' + usd(t.n * DIFF) + '</s><em>FREE</em></span></div>';
-    SC.forEach(function (f) { var q = st.picks[f.k]; if (q) lines += '<div class="kb-row"><img src="' + f.img + '" width="48" height="48" alt=""><span><b>' + f.name + '</b><small>' + f.int + ' · 100 ml' + (q > 1 ? ' · ×' + q : '') + '</small></span><span class="pr">' + usd(q * SCENT) + '</span></div>'; });
-    $('kb-lines').innerHTML = lines;
-    var today = have * SCENT, value = t.n * DIFF + today;
-    $('kb-val').innerHTML = "That's <b>" + usd(value) + ' of value</b>, you pay ' + usd(today) + ' today.';
-    $('kb-due').textContent = usd(today);
-    $('kb-ship').textContent = t.n > 1 ? 'The free diffusers ship with them.' : 'The free diffuser ships with them.';
-    $('kb-every').textContent = st.freq;
-    root.querySelectorAll('#kb-freq button').forEach(function (b) { var on = +b.getAttribute('data-f') === st.freq; b.setAttribute('aria-pressed', on); b.setAttribute('aria-checked', on); });
+    var a = document.activeElement, fk = a && box.contains(a) ? a.getAttribute('data-k') : null;
+    sec.className = 'section pdp-buy step-' + st.step;
+    box.innerHTML = st.step === 1 ? step1() : st.step === 2 ? step2() : step3();
+    if (fk) { var el = box.querySelector('[data-k="' + fk + '"]'); if (el && !el.disabled) el.focus({ preventScroll: true }); }
   }
   function go(n) {
-    st.step = n; $('kb-done').hidden = true; render();
-    var top = root.getBoundingClientRect().top;
-    if (top < 0) window.scrollTo({ top: top + window.scrollY - 12, behavior: 'smooth' });
+    st.step = n; st.added = false; render();
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 12, behavior: still ? 'auto' : 'smooth' });
+    var f = box.querySelector('.step-title'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
   }
-  root.addEventListener('click', function (e) {
-    var el = e.target.closest('button'); if (!el || !root.contains(el)) return;
-    if (el.hasAttribute('data-t')) { st.tier = +el.getAttribute('data-t'); trim(); render(); return; }
-    if (el.hasAttribute('data-go')) { go(+el.getAttribute('data-go')); return; }
-    if (el.hasAttribute('data-f')) { st.freq = +el.getAttribute('data-f'); render(); return; }
-    if (el.id === 'kb-best') { st.picks = {}; BEST.slice(0, tier().scents).forEach(function (k) { st.picks[k] = 1; }); render(); return; }
-    if (el.id === 'kb-add') { $('kb-done').hidden = false; return; }
-    var row = el.closest('.kb-sc'); if (!row) return;
-    var k = row.getAttribute('data-k');
-    if (el.classList.contains('add') && picked() < tier().scents) st.picks[k] = (st.picks[k] || 0) + 1;
-    if (el.classList.contains('sub') && st.picks[k]) { st.picks[k]--; if (!st.picks[k]) delete st.picks[k]; }
-    render();
+  function act(el) {
+    var d = el.dataset;
+    if (d.t !== undefined) { st.t = +d.t; st.keys = st.keys.slice(0, TIERS[st.t].scents); render(); return; }
+    if (d.go) { go(+d.go); return; }
+    if (d.f) { st.freq = +d.f; render(); return; }
+    if (d.add) { if (st.keys.length < T().scents) { st.keys.push(d.add); st.last = d.add; } render(); return; }
+    if (d.rm) { st.last = d.rm; var i = st.keys.indexOf(d.rm); if (i > -1) st.keys.splice(i, 1); render(); return; }
+    if (d.peek) { st.last = d.peek; render(); return; }
+    if (d.cart) { st.added = true; render(); }
+  }
+  box.addEventListener('click', function (e) {
+    if (e.target.closest('.e4-step') && !e.target.closest('button')) return;
+    var el = e.target.closest('button,[data-t],[data-peek]');
+    if (el && box.contains(el)) act(el);
+  });
+  box.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target; if (el.tagName === 'BUTTON' || !(el.dataset.t !== undefined || el.dataset.peek)) return;
+    e.preventDefault(); act(el);
   });
   render();
 })();

@@ -114,3 +114,18 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   only shows a "preview only" note; the live version needs the kits page's cart code (kit variant + scents on the Subi plan
   for the chosen frequency, then the cart drawer).
 - shopify/page-body.html is still v13 (A + B only); src/page.html now also has the builder, so rebuild with care.
+
+## v15 (2026-11-01, owner): the builder now looks exactly like the kits page buy box — review copy only, NOT on Shopify
+- Owner: "adapt the images … the details with the caps and everything else … only in the launch offer thing. Same layouts".
+- Same markup and class names as /pages/diffuser-kits steps 1–3 (mc-dk-app.js BuyBox), rendered by a small script
+  (src/kitscss/kb.js, pasted into page.html's second <script>): tier cards with the FREE pill and kit photos, "Where it
+  goes" plan + room chips, scent tiles with strength dots and −/+ steppers, the "Smells like / Notes" bar, the step-3
+  banner, kit review, Due today, refill pills, delivery line and the three trust chips. Not copied: rating, h1, badges,
+  reviews, FAQ (the article has its own).
+- Styles: src/kits-buybox.css = the mc-dk.css rules that match those elements, re-rooted from #root to #mckb, in source
+  order (rebuild with `python3 src/kitscss/extract.py`; it matches selectors against kits-ref/*.html). build.py inlines it
+  at {{kits_css}}. Fonts: Unna, Outfit, Be Vietnam Pro (Google Fonts in the artifact; the kits page self-hosts the same).
+- Article rules that would leak in were narrowed: `.btn` -> `a.btn`, `.offer p/ul/li` -> direct children.
+- Images: kb_kit1..3 and kb_step3 from kits-ref/img (images.py); scent tiles reuse s_*.
+- Deploy notes: shopify/build.py only takes the first <script> and only fills {{…}} in the markup — before deploying the
+  builder it must also ship the second script, fill the image keys inside it with CDN URLs and inline kits-buybox.css.

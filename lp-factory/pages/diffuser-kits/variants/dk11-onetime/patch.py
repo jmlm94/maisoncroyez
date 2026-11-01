@@ -54,7 +54,7 @@ sub_block = sub_block[f:n] + ul_part + sub_block[n:]
 # round 5 (owner, 2026-11-01): the refill question becomes the unlock line, with a small refund line under it
 HEAD = '<div class="s9-freq-head">How frequently would you like your refills?</div>'
 assert sub_block.count(HEAD) == 1
-sub_block = sub_block.replace(HEAD, '<div class="s9-freq-head">Select your auto-refill frequency to unlock your FREE Diffusers:</div>\n          <p class="s9-freq-sub">Cancel within 30 days for a full refund.</p>')
+sub_block = sub_block.replace(HEAD, '<div class="s9-freq-head">Select your auto-refill frequency to unlock your FREE Diffusers:</div>')  # round 6 (owner): the small refund line under it is gone
 one_block = (LINK_SUB + '          <ul class="t9s-how">\n'
              '            <li><b>Today</b> you pay for your scents and ${usd(DIFF_ONE_TIME)} per diffuser. Nothing is charged later.</li>\n'
              '            <li><b>Change your mind?</b> Start a refill plan within 30 days and we refund the ${usd(T.n * DIFF_ONE_TIME)} you paid for your diffuser${T.n > 1 ? "s" : ""}.</li>\n'

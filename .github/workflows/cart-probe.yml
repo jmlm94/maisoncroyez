@@ -1,5 +1,5 @@
 name: cart-probe
-# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5). Rerun 20:57 UTC after setting appliesOnSubscription=true on the three BXGYs. Rerun 21:00 UTC after the minimums went back to 1 / 2 / 3 (titles kept). Rerun 21:05 UTC: code discount FREEDIFFUSERS applied through /cart/update.js (S7, S8) before the plain scenarios. Rerun 21:06 UTC after customerBuys isSubscription=true on the three BXGYs (the API update had reset it). Rerun 21:22 UTC: bundle page add (S9–S11) — qa-cart sees add.js 400 on the bundle page since 20:49.
+# Ajax-cart probe: adds a kit + scents with a given selling plan from a fresh session and prints /cart.js (lines, plans, discount allocations, total). Edit this line and push to run. Run 2026-10-21 20:53 UTC: why the kit line is no longer zeroed after dk9q (04/10 plans + BXGY minimums 2/3/5). Rerun 20:57 UTC after setting appliesOnSubscription=true on the three BXGYs. Rerun 21:00 UTC after the minimums went back to 1 / 2 / 3 (titles kept). Rerun 21:05 UTC: code discount FREEDIFFUSERS applied through /cart/update.js (S7, S8) before the plain scenarios. Rerun 21:06 UTC after customerBuys isSubscription=true on the three BXGYs (the API update had reset it). Rerun 21:22 UTC: bundle page add (S9–S11) — qa-cart sees add.js 400 on the bundle page since 20:49. Run 2026-11-01: dk11 one-time kits (O1–O3) vs the FREE DIFFUSERS discounts, S1 as control.
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -35,9 +35,12 @@ jobs:
             echo "$R" | jq -c '{total: (.total_price/100), codes: [.discount_codes[]? | {c: .code, ok: .applicable}], items: [.items[] | {v: .variant_id, q: .quantity, variant: .variant_title, line: (.final_line_price/100), plan: (.selling_plan_allocation.selling_plan.name // null), disc: [.line_level_discount_allocations[] | {t: .discount_application.title, a: (.amount/100)}]}]}' 2>/dev/null || echo "RAW: ${R:0:300}"
             sleep 3
           }
-          probe "S9 bundle 45728132202605 + Chilled + Midnight on 04/10 Every 30 days" "{\"items\":[{\"id\":45728132202605,\"quantity\":1},{\"id\":$C,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":41212019933293,\"quantity\":1,\"selling_plan\":$P30N}]}"
-          probe "S10 bundle + Chilled + Midnight one-time" "{\"items\":[{\"id\":45728132202605,\"quantity\":1},{\"id\":$C,\"quantity\":1},{\"id\":41212019933293,\"quantity\":1}]}"
-          probe "S11 bundle alone" "{\"items\":[{\"id\":45728132202605,\"quantity\":1}]}"
+          O1=45900920324205; O2=45900920356973; O3=45900920389741; H=41212021342317; E=41212020752493
+          # 2026-11-01 (dk11 one-time): do the FREE DIFFUSERS discounts leave the (One-Time) kit variants alone?
+          probe "O1 one-time kit1 + 2 one-time scents" "{\"items\":[{\"id\":$O1,\"quantity\":1},{\"id\":$G,\"quantity\":1},{\"id\":$C,\"quantity\":1}]}"
+          probe "O2 one-time kit2 + 3 one-time scents" "{\"items\":[{\"id\":$O2,\"quantity\":1},{\"id\":$G,\"quantity\":1},{\"id\":$W,\"quantity\":1},{\"id\":$C,\"quantity\":1}]}"
+          probe "O3 one-time kit3 + 5 one-time scents" "{\"items\":[{\"id\":$O3,\"quantity\":1},{\"id\":$G,\"quantity\":1},{\"id\":$W,\"quantity\":1},{\"id\":$C,\"quantity\":1},{\"id\":$H,\"quantity\":1},{\"id\":$E,\"quantity\":1}]}"
+          probe "S1 control: kit2 + 3 scents on 04/10 Every 30 days" "{\"items\":[{\"id\":$K2,\"quantity\":1},{\"id\":$G,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$W,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$C,\"quantity\":1,\"selling_plan\":$P30N}]}"
           exit 0
           probe_code "S7 kit2 + 3 scents on 04/10 Every 30 days + code" "{\"items\":[{\"id\":$K2,\"quantity\":1},{\"id\":$G,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$W,\"quantity\":1,\"selling_plan\":$P30N},{\"id\":$C,\"quantity\":1,\"selling_plan\":$P30N}]}" FREEDIFFUSERS
           probe_code "S8 kit1 + Chilled x2 on 04/10 Every 90 days + code" "{\"items\":[{\"id\":$K1,\"quantity\":1},{\"id\":$C,\"quantity\":2,\"selling_plan\":$P90N}]}" FREEDIFFUSERS

@@ -138,3 +138,10 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   "Loved by 2,500+ homes in America" lines. The older comment threads (2026-10-29) were all handled in v5–v10.
 - Owner comments (v15, later): no photo at the top of step 3 (kb_step3 stays in images.py, unused); the grey panel runs on
   under the builder through "Loved by 2,500+ homes in America" to the bottom of the box.
+- Owner: "make all the buttons go to this new sales area". The editor's-note button, the five fix rows, "Get my free
+  diffusers" under the fixes and the sticky bar now scroll to the builder (href="#mckb", data-cta = note / fix-1..5 /
+  fix-all / bar, which replace the old ?cta= tags). "Read the alerts" still goes to Alert #1. No link to the kits page is
+  left in the article.
+- Before deploying: Meta's codeless "Clicked to PDP" event no longer means a kits-page visit (nothing leaves the page);
+  measure the builder instead (steps reached, Add to cart). adv-preview.yml still clicks '#offer a.btn' and expects the
+  kits page, so update that check too.

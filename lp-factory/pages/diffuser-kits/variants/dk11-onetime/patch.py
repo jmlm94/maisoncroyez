@@ -74,6 +74,8 @@ css += '''
 #root .ot-link{display:block;margin:10px auto 0;padding:4px 6px;background:none;border:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;line-height:1.35;color:#241C18;text-decoration:underline;text-underline-offset:3px;text-align:center;cursor:pointer}
 #root .ot-link:hover{text-decoration-thickness:2px}
 #root .kr-pr .pay{color:#141414}
+/* round 7 (owner): step 1, the "+ N FREE DIFFUSERS" line in caps and green on all three cards */
+#root .tier.t9c3 .t9s-gift{text-transform:uppercase;color:#1E7A1E;letter-spacing:.02em}
 #root .buybox .s9-freq-sub{margin:-4px 0 0;font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.35;text-align:center;color:#5C4F46 !important}
 '''
 os.makedirs(out, exist_ok=True)

@@ -40,7 +40,7 @@ a = app.index('          <ul class="t9s-how"> <!-- dk9x (owner): moved here from
 b = app.index('<!-- dk9i (owner): fixed, whatever the frequency -->', a) + len('<!-- dk9i (owner): fixed, whatever the frequency -->')
 sub_block = app[a:b]
 assert sub_block.count('<div class="rf3"') == 1 and sub_block.count('s9-freq-note') == 1
-LINK_ONE = ('          <button type="button" class="ot-link" onClick=${() => sel.setPlan("one")}>Prefer no subscription? Buy one-time: diffusers ${usd(DIFF_ONE_TIME)} each</button> <!-- dk11 test (owner): a plain link under the frequencies -->\n')
+LINK_ONE = ('          <button type="button" class="ot-link" onClick=${() => sel.setPlan("one")}>One-Time Purchase: Diffusers ${usd(DIFF_ONE_TIME)} each. Full refund if you subscribe within 30 days.</button> <!-- dk11 test (owner): a plain link under the frequencies -->\n')
 LINK_SUB = ('          <button type="button" class="ot-link" onClick=${() => sel.setPlan("sub")}>\u2190 Subscribe instead and get your diffuser${T.n > 1 ? "s" : ""} FREE</button>\n')
 i = sub_block.index('<p class="s9-freq-note">')
 sub_block = sub_block[:i].rstrip(' ') + LINK_ONE + '          ' + sub_block[i:]

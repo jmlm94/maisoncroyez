@@ -5,8 +5,8 @@ Owner, 2026-11-01: "$49.95/diffuser if no subscription and if you decide to subs
 (https://claude.ai/artifact/TK1GvMvzMi69pP4wiLMfyN). The live page is unchanged.
 
 Round 2 (artifact v50), owner: "leave it the same, just add a clickable link below the frequencies … add the explanation the
-same way". Step 3 is the live page plus one underlined link under the 30 / 60 / 90-day buttons: "Prefer no subscription? Buy
-one-time: diffusers $49.95 each". Tapping it switches to one-time: the kit line shows ~~$179.90~~ $99.90, the title drops "free",
+same way". Step 3 is the live page plus one underlined link under the 30 / 60 / 90-day buttons: "One-Time Purchase: Diffusers
+$49.95 each. Full refund if you subscribe within 30 days." (owner's wording, v51). Tapping it switches to one-time: the kit line shows ~~$179.90~~ $99.90, the title drops "free",
 Due today adds "+ $49.95/diffuser", the refill buttons give way to "← Subscribe instead and get your diffusers FREE", and the
 bullets read "Nothing is charged later" / "Change your mind? Start a refill plan within 30 days and we refund the $X you paid
 for your diffusers" / 30-day money-back. (Round 1, v49, had two Subscribe / One-time cards; dropped.)

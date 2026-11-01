@@ -4,11 +4,12 @@ Owner, 2026-11-01: "$49.95/diffuser if no subscription and if you decide to subs
 "I'm talking to see it on the diffusers-kit page". Previewed as artifact v49 of MC LP Draft Copy 3
 (https://claude.ai/artifact/TK1GvMvzMi69pP4wiLMfyN). The live page is unchanged.
 
-Step 3 gets "How would you like your kit?" with two cards under the kit summary:
-- **Subscribe** (Best value, preselected): today's live offer, diffusers FREE, refills every 30 / 60 / 90 days.
-- **One-time**: scents $39.95 each + diffusers $49.95 each, no refills. The kit line shows ~~$179.90~~ $99.90, the title drops
-  "free", Due today adds "+ $49.95/diffuser", the refill picker is hidden, bullets: "Nothing is charged later" /
-  "Change your mind? Start a refill plan within 30 days and we refund the $X you paid for your diffusers" / 30-day money-back.
+Round 2 (artifact v50), owner: "leave it the same, just add a clickable link below the frequencies … add the explanation the
+same way". Step 3 is the live page plus one underlined link under the 30 / 60 / 90-day buttons: "Prefer no subscription? Buy
+one-time: diffusers $49.95 each". Tapping it switches to one-time: the kit line shows ~~$179.90~~ $99.90, the title drops "free",
+Due today adds "+ $49.95/diffuser", the refill buttons give way to "← Subscribe instead and get your diffusers FREE", and the
+bullets read "Nothing is charged later" / "Change your mind? Start a refill plan within 30 days and we refund the $X you paid
+for your diffusers" / 30-day money-back. (Round 1, v49, had two Subscribe / One-time cards; dropped.)
 
 | Kit | Subscribe today | One-time today | Refund if they subscribe later |
 |---|---|---|---|

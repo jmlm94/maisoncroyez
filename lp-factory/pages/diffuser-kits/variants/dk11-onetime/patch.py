@@ -2,8 +2,8 @@
 """dk11 — one-time pricing test on /pages/diffuser-kits (preview only, owner 2026-11-01).
 
 Owner: "$49.95/diffuser if no subscription and if you decide to subscribe later, full $99.90 refund".
-Step 3 gets two cards above the price: Subscribe (diffusers FREE, refills every 30/60/90 days, the live offer) and
-One-time (diffusers $49.95 each, no refills). One-time changes the kit line (struck value -> $49.95 each), Due today,
+Step 3 stays as live; under the 30/60/90-day buttons a link "Prefer no subscription? Buy one-time: diffusers $49.95 each"
+(owner: "leave it the same, just add a clickable link below the frequencies"). One-time changes the kit line (struck value -> $49.95 each), Due today,
 the three bullets (incl. "start a refill plan within 30 days and we refund the $X you paid for your diffusers"), hides
 the refill picker and swaps the note. Rides on the store's existing `plan` field ("sub" | "one").
 Not wired to the cart: on the store a one-time ATC only shows a message (needs one-time diffuser variants at $49.95).
@@ -33,23 +33,22 @@ app = rep(app, '  const step = sel.step || 1;\n  const goReviews',
 app = rep(app, '<div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>',
           '<div class="picker-title step-title s9-title">Congratulations, your ${one ? "" : "free "}diffusers have been reserved.</div>')
 app = rep(app, '<span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>\n            </div>\n          </div>\n',
-          '<span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s>${one ? html`<span class="pay">${usd(T.n * DIFF_ONE_TIME)}</span>` : html`<span class="inc">FREE</span>`}</span>\n            </div>\n          </div>\n'
-          '          <div class="s9-freq-head">How would you like your kit?</div> <!-- dk11 test (owner): one-time next to the subscription -->\n'
-          '          <div class="pt2" role="radiogroup" aria-label="Subscription or one-time">\n'
-          '            <button type="button" class=${"pt-opt" + (one ? "" : " on")} role="radio" aria-checked=${!one} onClick=${() => sel.setPlan("sub")}><small class="pt-tag">Best value</small><b>Subscribe</b><small>Diffuser${T.n > 1 ? "s" : ""} FREE · refills every 30, 60 or 90 days</small></button>\n'
-          '            <button type="button" class=${"pt-opt" + (one ? " on" : "")} role="radio" aria-checked=${one} onClick=${() => sel.setPlan("one")}><b>One-time</b><small>Diffuser${T.n > 1 ? "s" : ""} ${usd(DIFF_ONE_TIME)} each · no refills</small></button>\n'
-          '          </div>\n')
+          '<span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s>${one ? html`<span class="pay">${usd(T.n * DIFF_ONE_TIME)}</span>` : html`<span class="inc">FREE</span>`}</span>\n            </div>\n          </div>\n')
 app = rep(app, '<span class="s9-due-each">${usd(SCENT_ONE)}/scent</span></div>',
           '<span class="s9-due-each">${usd(SCENT_ONE)}/scent${one ? " + " + usd(DIFF_ONE_TIME) + "/diffuser" : ""}</span></div>')
 a = app.index('          <ul class="t9s-how"> <!-- dk9x (owner): moved here from step 1 -->')
 b = app.index('<!-- dk9i (owner): fixed, whatever the frequency -->', a) + len('<!-- dk9i (owner): fixed, whatever the frequency -->')
 sub_block = app[a:b]
 assert sub_block.count('<div class="rf3"') == 1 and sub_block.count('s9-freq-note') == 1
+LINK_ONE = ('          <button type="button" class="ot-link" onClick=${() => sel.setPlan("one")}>Prefer no subscription? Buy one-time: diffusers ${usd(DIFF_ONE_TIME)} each</button> <!-- dk11 test (owner): a plain link under the frequencies -->\n')
+LINK_SUB = ('          <button type="button" class="ot-link" onClick=${() => sel.setPlan("sub")}>\u2190 Subscribe instead and get your diffuser${T.n > 1 ? "s" : ""} FREE</button>\n')
+i = sub_block.index('<p class="s9-freq-note">')
+sub_block = sub_block[:i].rstrip(' ') + LINK_ONE + '          ' + sub_block[i:]
 one_block = ('          <ul class="t9s-how">\n'
              '            <li><b>Today</b> you pay for your scents and ${usd(DIFF_ONE_TIME)} per diffuser. Nothing is charged later.</li>\n'
              '            <li><b>Change your mind?</b> Start a refill plan within 30 days and we refund the ${usd(T.n * DIFF_ONE_TIME)} you paid for your diffuser${T.n > 1 ? "s" : ""}.</li>\n'
              '            <li><b>30-day money-back</b> on everything, prepaid return.</li>\n'
-             '          </ul>\n'
+             '          </ul>\n' + LINK_SUB +
              '          <p class="s9-freq-note"><b>No subscription, no surprises.</b> If your home doesn\\u2019t feel different within 30 days, full refund, and we pay the return shipping. No questions asked.</p>')
 app = app[:a] + '          ${one ? html`\n' + one_block + '` : html`\n' + sub_block + '`}' + app[b:]
 
@@ -60,13 +59,9 @@ app = rep(app, '  if (onStore() && !kitId) { setToast("This offer isn\\u2019t op
           '  if (onStore() && !kitId) { setToast("This offer isn\\u2019t open for checkout yet. Check back shortly."); return; }')
 
 css += '''
-/* dk11 test (2026-11-01, owner): Subscribe / One-time cards on step 3 */
-#root .pt2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-top:8px}
-#root .pt-opt{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:64px;margin:0;padding:12px 8px 10px;border:1.5px solid #E6E0D8;border-radius:12px;background:#fff;text-align:center;font-family:'Outfit',sans-serif;color:#241C18;cursor:pointer}
-#root .pt-opt b{font-weight:800;font-size:1rem;line-height:1.15}
-#root .pt-opt small{font-size:.7rem;line-height:1.3}
-#root .pt-opt.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
-#root .pt-opt .pt-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#141414;color:#fff !important;border-radius:999px;padding:3px 8px;font-size:.54rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+/* dk11 test (2026-11-01, owner): the one-time link under the refill buttons */
+#root .ot-link{display:block;margin:10px auto 0;padding:4px 6px;background:none;border:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;line-height:1.35;color:#241C18;text-decoration:underline;text-underline-offset:3px;text-align:center;cursor:pointer}
+#root .ot-link:hover{text-decoration-thickness:2px}
 #root .kr-pr .pay{color:#141414}
 '''
 os.makedirs(out, exist_ok=True)

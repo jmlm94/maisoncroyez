@@ -90,3 +90,9 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - The 2x2 kits-page photo grid is now 8 creator photos from the owner's Drive folder (fetched by fetch-drive.yml into drive/),
   one per creator, product in frame, square crops that drop the burned-in captions (shopify/img/mc-cs-ugc1..8.jpg,
   Shopify Files ?v=1793311480). 2 columns on phones, 4 from 560 px.
+
+## Pixel check 2026-11-01 (pixel/pixel-adv-20261101T161.json), owner: "no add to carts on the advertorial campaign"
+- Ad visitor path verified on iPhone + desktop: article PageView (with _fbc from the fbclid) -> "Clicked to PDP" custom event +
+  SubscribedButtonClick on the offer button (Meta event-setup-tool events already configured) -> kits page in ~0.5 s -> PageView ->
+  AddToCart x4 -> InitiateCheckout. Consent granted (US), one pixel 980908600592309 throughout. No JS errors.
+- So the site and pixel are not the cause; check the campaign (ad destination URL, link clicks / LPV / Clicked to PDP volume, columns).

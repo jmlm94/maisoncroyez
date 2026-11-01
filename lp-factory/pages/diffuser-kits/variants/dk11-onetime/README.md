@@ -21,6 +21,9 @@ Round 4 (v52), owner: "switch this, frequency vs one time payment section first 
 now: kit summary, value, Due today, refill buttons + one-time link (or, in one-time mode, the link back), the three notes
 ("You pick just above"), the guarantee note, Add to cart.
 
+Round 5 (v53), owner: the refill heading reads "Select your auto-refill frequency to unlock your FREE Diffusers:" with a
+small line under it, "Cancel within 30 days for a full refund."
+
 Build: `python3 patch.py <dir>` then `APP=<dir>/mc-dk-app.js CSS=<dir>/mc-dk.css node ../dk9s-step1-scents/build-variant.mjs <out> "MC LP Draft Copy 3"`;
 the published file also inlines the seven scent photos from ../../../adv-kits/kits-ref/img (webp).
 

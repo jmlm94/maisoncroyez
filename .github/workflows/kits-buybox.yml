@@ -1,7 +1,8 @@
 name: kits-buybox
 # Captures the live /pages/diffuser-kits buy box at each step on an iPhone-size screen (screenshot + rendered HTML + every
 # image it shows, saved locally), so the advertorial's in-article kit builder can copy its layout and images exactly.
-# Edit this line and push to run. [run 1]
+# Run 2 also saves each step's computed styles (<step>.styles.json) so the builder can match what the theme adds.
+# Edit this line and push to run. [run 2]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -44,6 +45,23 @@ jobs:
               return { html: bb.outerHTML, srcs, bgs: [...new Set(bgs)].slice(0, 40), h: bb.offsetHeight };
             });
             fs.writeFileSync(`${D}/${name}.html`, info.html);
+            const styles = await pg.evaluate((PROPS) => {
+              const box = document.querySelector('#buybox .buybox');
+              const DROP = '.gal-col,.tb-rating,.dk-freebar,.h1-9e,.hs3,.rv6,.acc,.pat-wrap';
+              const seen = {}, out = {};
+              box.querySelectorAll('*').forEach(e => {
+                if (e.closest(DROP) || (e.closest('svg') && e.tagName !== 'svg')) return;
+                const pc = e.parentElement.className;
+                const sig = (pc && typeof pc === 'string' ? pc.split(' ')[0] + '>' : '') + e.tagName.toLowerCase() + '.' + (typeof e.className === 'string' ? e.className.trim().split(/\s+/).join('.') : '');
+                seen[sig] = (seen[sig] || 0) + 1;
+                const cs = getComputedStyle(e), o = {};
+                PROPS.forEach(p => { o[p] = cs.getPropertyValue(p); });
+                const r = e.getBoundingClientRect(); o._w = Math.round(r.width); o._h = Math.round(r.height);
+                out[sig + '#' + seen[sig]] = o;
+              });
+              return { root: getComputedStyle(document.documentElement).fontSize, out };
+            }, ['display','flex-direction','align-items','justify-content','text-align','font-family','font-size','font-weight','font-style','line-height','letter-spacing','text-transform','color','background-color','background-image','border-top-width','border-top-style','border-top-color','border-left-width','border-top-left-radius','box-shadow','padding-top','padding-right','padding-bottom','padding-left','margin-top','margin-bottom','opacity','gap','white-space','text-decoration-line','filter','grid-template-columns','object-fit','aspect-ratio','min-height','width','height','outline-style','cursor','transform']);
+            fs.writeFileSync(`${D}/${name}.styles.json`, JSON.stringify(styles));
             info.srcs.forEach(s => imgs.set(s.src, s));
             await (await pg.$('#buybox')).screenshot({ path: `${D}/${name}.png` });
             console.log(name, info.h, info.srcs.length, JSON.stringify(info.bgs).slice(0, 400));

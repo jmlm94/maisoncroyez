@@ -1,0 +1,1038 @@
+{
+ "stamp": "20261102T0045",
+ "inject": false,
+ "url": "https://maisoncroyez.com/pages/indoor-air-alerts",
+ "pass": 60,
+ "total": 60,
+ "checks": [
+  {
+   "id": "phone-mount",
+   "name": "article + builder mount: \"Step 1 of 3\" with the logo 14px above it (10px between), three cards, 2 diffusers selected, no one-time option",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "logo": {
+     "loaded": true,
+     "w": 96,
+     "mt": "14px",
+     "beforeStep": true,
+     "src": "mc-kb-logo.png?v=1786479535&wi"
+    },
+    "tiers": 3,
+    "on": "3 scents at $39.95 each, 2 free diffusers, $119.85 today (Living Room & Bedroom)",
+    "oneTime": 0,
+    "eyeMt": "10px"
+   }
+  },
+  {
+   "id": "phone-cta-note",
+   "name": "\"SEE THE WATERLESS DIFFUSER ➔\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "SEE THE WATERLESS DIFFUSER ➔"
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-fix-1",
+   "name": "\"✓ The fix: No water and no tank. Nothing\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: No water and no tank. Nothing"
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-fix-2",
+   "name": "\"✓ The fix: One 100 ml bottle lasts about\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: One 100 ml bottle lasts about"
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-fix-3",
+   "name": "\"✓ The fix: 100% organic oils with notes \" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: 100% organic oils with notes "
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-fix-4",
+   "name": "\"✓ The fix: Hypoallergenic oils, with thr\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: Hypoallergenic oils, with thr"
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-fix-5",
+   "name": "\"✓ The fix: No flame, no smoke, no soot. \" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: No flame, no smoke, no soot. "
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-fix-all",
+   "name": "\"GET MY FREE DIFFUSERS ➔\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "GET MY FREE DIFFUSERS ➔"
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-bar",
+   "name": "\"GET MY FREE DIFFUSERS ➔\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "GET MY FREE DIFFUSERS ➔"
+    },
+    "clicked": true,
+    "scrollY": 12881,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 33
+   }
+  },
+  {
+   "id": "phone-cta-read",
+   "name": "\"Read the alerts\" still goes to Alert #1",
+   "ok": true,
+   "got": {
+    "href": "#alert-1",
+    "top": 30
+   }
+  },
+  {
+   "id": "phone-bar",
+   "name": "sticky bar: hidden at the top, shown after Alert #1, hidden on the offer, \"Get my free diffusers\" -> #mckb",
+   "ok": true,
+   "got": {
+    "top": false,
+    "mid": true,
+    "onOffer": false,
+    "text": "GET MY FREE DIFFUSERS ➔",
+    "href": "#mckb"
+   }
+  },
+  {
+   "id": "phone-s1-copy",
+   "name": "step 1: \"Buy more scents = Get more FREE Diffusers:\", \"+ N FREE DIFFUSER(S)\" in green caps on all three cards, $39.95 each + struck values only, \"Where it goes\", \"Pick your scents\"",
+   "ok": true,
+   "got": {
+    "title": "Buy more scents = Get more FREE Diffusers:",
+    "gifts": [
+     {
+      "t": "+ 1 FREE DIFFUSER",
+      "col": "rgb(30, 122, 30)",
+      "tt": "uppercase"
+     },
+     {
+      "t": "+ 2 FREE DIFFUSERS",
+      "col": "rgb(30, 122, 30)",
+      "tt": "uppercase"
+     },
+     {
+      "t": "+ 3 FREE DIFFUSERS",
+      "col": "rgb(30, 122, 30)",
+      "tt": "uppercase"
+     }
+    ],
+    "prices": [
+     "$39.95",
+     "$89.95",
+     "$39.95",
+     "$179.90",
+     "$39.95",
+     "$269.85"
+    ],
+    "place": "WHERE IT GOES:",
+    "btn": "PICK YOUR SCENTS ➔",
+    "where": "Two diffusers for one bigger room, up to 1,200 sq ft: the living room, the bedroom or the kitchen."
+   }
+  },
+  {
+   "id": "phone-s1-tier1",
+   "name": "2-scent card selects: 1 free diffuser, $79.90 today, \"Where it goes\" changes",
+   "ok": true,
+   "got": {
+    "on": "2 scents at $39.95 each, 1 free diffuser, $79.90 today (Living Room)",
+    "where": "One diffuser fills one room, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand."
+   }
+  },
+  {
+   "id": "phone-s1-tier3",
+   "name": "5-scent card selects: 3 free diffusers, $199.75 today",
+   "ok": true,
+   "got": {
+    "on": "5 scents at $39.95 each, 3 free diffusers, $199.75 today (Living Room, Bedroom & Kitchen)",
+    "where": "Three diffusers, up to 1,800 sq ft: two in the living room, one in the bedroom, or any split you like."
+   }
+  },
+  {
+   "id": "phone-s2-mount",
+   "name": "step 2: logo + \"Step 2 of 3\", \"Pick your 3 scents:\", 2 FREE DIFFUSERS RESERVED $179.90 FREE!, 7 tiles with strength, 0 of 3 picked, bar \"Tap a scent…\", builder scrolled into view",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "logo": {
+     "loaded": true,
+     "w": 96,
+     "mt": "14px",
+     "beforeStep": true,
+     "src": "mc-kb-logo.png?v=1786479535&wi"
+    },
+    "title": "Pick your 3 scents:",
+    "res": "2 FREE DIFFUSERS RESERVED Living Room & Bedroom · $179.90 FREE!",
+    "tiles": 7,
+    "strengths": 7,
+    "pill": "0 OF 3 PICKED",
+    "bar": "Tap a scent to read more about it.",
+    "mckbTop": 13
+   }
+  },
+  {
+   "id": "phone-s2-peek",
+   "name": "a tap on a tile only reads it (Wildwood Mystique: Smells like + Notes in the bar, nothing added)",
+   "ok": true,
+   "got": {
+    "on": [],
+    "bar": "Wildwood Mystique · Purification Smells like: Pine and juniper. Like a walk in t",
+    "hint": "Pick 3 more scents above to review your kit."
+   }
+  },
+  {
+   "id": "phone-s2-plus",
+   "name": "+ twice on Chilled Citrus -> x2, \"Pick 1 more\", 2 of 3 picked",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x2"
+    ],
+    "hint": "Pick 1 more scent above to review your kit.",
+    "pill": "2 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "phone-s2-full",
+   "name": "- then + on two others -> 3 of 3, \"Review my kit\", + disabled on the unpicked tiles",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "hint": null,
+    "review": "REVIEW MY KIT ➔",
+    "pill": "3 OF 3 PICKED",
+    "plusDisabledOff": true,
+    "plusOffCount": 4
+   }
+  },
+  {
+   "id": "phone-s2-back",
+   "name": "\"←\" returns to step 1 with the 3-scent card still selected",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "on": "3 scents at $39.95 each, 2 free diffusers, $119.85 today (Living Room & Bedroom)"
+   }
+  },
+  {
+   "id": "phone-s2-kept",
+   "name": "forward again: the three picks are kept",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "phone-s3-mount",
+   "name": "step 3: logo + \"Step 3 of 3\", no picture, congratulations title, 3 scent rows + \"2× Maison Croyez Diffuser $179.90 FREE\"",
+   "ok": true,
+   "got": {
+    "step": "STEP 3 OF 3",
+    "logo": {
+     "loaded": true,
+     "w": 96,
+     "mt": "14px",
+     "beforeStep": true,
+     "src": "mc-kb-logo.png?v=1786479535&wi"
+    },
+    "banner": false,
+    "title": "Congratulations, your free diffusers have been reserved.",
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Golden Blossom Harmony $39.95",
+     "2× Maison Croyez Diffuser $179.90FREE"
+    ]
+   }
+  },
+  {
+   "id": "phone-s3-due",
+   "name": "value line + DUE TODAY $119.85, $39.95/scent",
+   "ok": true,
+   "got": {
+    "value": "That’s $299.75 of value, you pay $119.85 today.",
+    "due": "DUE TODAY: $119.85 $39.95/scent"
+   }
+  },
+  {
+   "id": "phone-s3-freq",
+   "name": "unlock heading, 60 / 30 (Most popular, selected) / 90, bold explanation, no notes, UNLOCK FREE DIFFUSERS",
+   "ok": true,
+   "got": {
+    "head": "Select your auto-refill frequency to unlock your FREE Diffusers:",
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR",
+    "expl": "Your diffusers are free ($89.95 each) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.",
+    "explFw": "700",
+    "note": null,
+    "notes": 0,
+    "btn": "UNLOCK FREE DIFFUSERS ➔"
+   }
+  },
+  {
+   "id": "phone-s3-90",
+   "name": "90 days selects, explanation unchanged",
+   "ok": true,
+   "got": {
+    "on": "90 days",
+    "expl": "Your diffusers are free ($89.95 each) when you sel"
+   }
+  },
+  {
+   "id": "phone-s3-back",
+   "name": "\"Change my scents\" returns to step 2 with the picks kept",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ]
+   }
+  },
+  {
+   "id": "phone-errors",
+   "name": "no JavaScript or console errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "phone-4xx",
+   "name": "no failed requests for the store's own files (other failed requests listed for information)",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "desktop-mount",
+   "name": "article + builder mount: \"Step 1 of 3\" with the logo 14px above it (10px between), three cards, 2 diffusers selected, no one-time option",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "logo": {
+     "loaded": true,
+     "w": 96,
+     "mt": "14px",
+     "beforeStep": true,
+     "src": "mc-kb-logo.png?v=1786479535&wi"
+    },
+    "tiers": 3,
+    "on": "3 scents at $39.95 each, 2 free diffusers, $119.85 today (Living Room & Bedroom)",
+    "oneTime": 0,
+    "eyeMt": "10px"
+   }
+  },
+  {
+   "id": "desktop-cta-note",
+   "name": "\"SEE THE WATERLESS DIFFUSER ➔\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "SEE THE WATERLESS DIFFUSER ➔"
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-fix-1",
+   "name": "\"✓ The fix: No water and no tank. Nothing\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: No water and no tank. Nothing"
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-fix-2",
+   "name": "\"✓ The fix: One 100 ml bottle lasts about\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: One 100 ml bottle lasts about"
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-fix-3",
+   "name": "\"✓ The fix: 100% organic oils with notes \" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: 100% organic oils with notes "
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-fix-4",
+   "name": "\"✓ The fix: Hypoallergenic oils, with thr\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: Hypoallergenic oils, with thr"
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-fix-5",
+   "name": "\"✓ The fix: No flame, no smoke, no soot. \" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "✓ The fix: No flame, no smoke, no soot. "
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-fix-all",
+   "name": "\"GET MY FREE DIFFUSERS ➔\" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)",
+   "ok": true,
+   "got": {
+    "shown": {
+     "vis": true,
+     "href": "#mckb",
+     "text": "GET MY FREE DIFFUSERS ➔"
+    },
+    "clicked": true,
+    "scrollY": 12141,
+    "hash": "",
+    "path": "/pages/indoor-air-alerts",
+    "mckbTop": 32
+   }
+  },
+  {
+   "id": "desktop-cta-read",
+   "name": "\"Read the alerts\" still goes to Alert #1",
+   "ok": true,
+   "got": {
+    "href": "#alert-1",
+    "top": 31
+   }
+  },
+  {
+   "id": "desktop-s1-copy",
+   "name": "step 1: \"Buy more scents = Get more FREE Diffusers:\", \"+ N FREE DIFFUSER(S)\" in green caps on all three cards, $39.95 each + struck values only, \"Where it goes\", \"Pick your scents\"",
+   "ok": true,
+   "got": {
+    "title": "Buy more scents = Get more FREE Diffusers:",
+    "gifts": [
+     {
+      "t": "+ 1 FREE DIFFUSER",
+      "col": "rgb(30, 122, 30)",
+      "tt": "uppercase"
+     },
+     {
+      "t": "+ 2 FREE DIFFUSERS",
+      "col": "rgb(30, 122, 30)",
+      "tt": "uppercase"
+     },
+     {
+      "t": "+ 3 FREE DIFFUSERS",
+      "col": "rgb(30, 122, 30)",
+      "tt": "uppercase"
+     }
+    ],
+    "prices": [
+     "$39.95",
+     "$89.95",
+     "$39.95",
+     "$179.90",
+     "$39.95",
+     "$269.85"
+    ],
+    "place": "WHERE IT GOES:",
+    "btn": "PICK YOUR SCENTS ➔",
+    "where": "Two diffusers for one bigger room, up to 1,200 sq ft: the living room, the bedroom or the kitchen."
+   }
+  },
+  {
+   "id": "desktop-s1-tier1",
+   "name": "2-scent card selects: 1 free diffuser, $79.90 today, \"Where it goes\" changes",
+   "ok": true,
+   "got": {
+    "on": "2 scents at $39.95 each, 1 free diffuser, $79.90 today (Living Room)",
+    "where": "One diffuser fills one room, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand."
+   }
+  },
+  {
+   "id": "desktop-s1-tier3",
+   "name": "5-scent card selects: 3 free diffusers, $199.75 today",
+   "ok": true,
+   "got": {
+    "on": "5 scents at $39.95 each, 3 free diffusers, $199.75 today (Living Room, Bedroom & Kitchen)",
+    "where": "Three diffusers, up to 1,800 sq ft: two in the living room, one in the bedroom, or any split you like."
+   }
+  },
+  {
+   "id": "desktop-s2-mount",
+   "name": "step 2: logo + \"Step 2 of 3\", \"Pick your 3 scents:\", 2 FREE DIFFUSERS RESERVED $179.90 FREE!, 7 tiles with strength, 0 of 3 picked, bar \"Tap a scent…\", builder scrolled into view",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "logo": {
+     "loaded": true,
+     "w": 96,
+     "mt": "14px",
+     "beforeStep": true,
+     "src": "mc-kb-logo.png?v=1786479535&wi"
+    },
+    "title": "Pick your 3 scents:",
+    "res": "2 FREE DIFFUSERS RESERVED Living Room & Bedroom · $179.90 FREE!",
+    "tiles": 7,
+    "strengths": 7,
+    "pill": "0 OF 3 PICKED",
+    "bar": "Tap a scent to read more about it.",
+    "mckbTop": 12
+   }
+  },
+  {
+   "id": "desktop-s2-peek",
+   "name": "a tap on a tile only reads it (Wildwood Mystique: Smells like + Notes in the bar, nothing added)",
+   "ok": true,
+   "got": {
+    "on": [],
+    "bar": "Wildwood Mystique · Purification Smells like: Pine and juniper. Like a walk in t",
+    "hint": "Pick 3 more scents above to review your kit."
+   }
+  },
+  {
+   "id": "desktop-s2-plus",
+   "name": "+ twice on Chilled Citrus -> x2, \"Pick 1 more\", 2 of 3 picked",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x2"
+    ],
+    "hint": "Pick 1 more scent above to review your kit.",
+    "pill": "2 OF 3 PICKED"
+   }
+  },
+  {
+   "id": "desktop-s2-full",
+   "name": "- then + on two others -> 3 of 3, \"Review my kit\", + disabled on the unpicked tiles",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "hint": null,
+    "review": "REVIEW MY KIT ➔",
+    "pill": "3 OF 3 PICKED",
+    "plusDisabledOff": true,
+    "plusOffCount": 4
+   }
+  },
+  {
+   "id": "desktop-s2-back",
+   "name": "\"←\" returns to step 1 with the 3-scent card still selected",
+   "ok": true,
+   "got": {
+    "step": "STEP 1 OF 3",
+    "on": "3 scents at $39.95 each, 2 free diffusers, $119.85 today (Living Room & Bedroom)"
+   }
+  },
+  {
+   "id": "desktop-s2-kept",
+   "name": "forward again: the three picks are kept",
+   "ok": true,
+   "got": {
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "desktop-s3-mount",
+   "name": "step 3: logo + \"Step 3 of 3\", no picture, congratulations title, 3 scent rows + \"2× Maison Croyez Diffuser $179.90 FREE\"",
+   "ok": true,
+   "got": {
+    "step": "STEP 3 OF 3",
+    "logo": {
+     "loaded": true,
+     "w": 96,
+     "mt": "14px",
+     "beforeStep": true,
+     "src": "mc-kb-logo.png?v=1786479535&wi"
+    },
+    "banner": false,
+    "title": "Congratulations, your free diffusers have been reserved.",
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Golden Blossom Harmony $39.95",
+     "2× Maison Croyez Diffuser $179.90FREE"
+    ]
+   }
+  },
+  {
+   "id": "desktop-s3-due",
+   "name": "value line + DUE TODAY $119.85, $39.95/scent",
+   "ok": true,
+   "got": {
+    "value": "That’s $299.75 of value, you pay $119.85 today.",
+    "due": "DUE TODAY: $119.85 $39.95/scent"
+   }
+  },
+  {
+   "id": "desktop-s3-freq",
+   "name": "unlock heading, 60 / 30 (Most popular, selected) / 90, bold explanation, no notes, UNLOCK FREE DIFFUSERS",
+   "ok": true,
+   "got": {
+    "head": "Select your auto-refill frequency to unlock your FREE Diffusers:",
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR",
+    "expl": "Your diffusers are free ($89.95 each) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.",
+    "explFw": "700",
+    "note": null,
+    "notes": 0,
+    "btn": "UNLOCK FREE DIFFUSERS ➔"
+   }
+  },
+  {
+   "id": "desktop-s3-90",
+   "name": "90 days selects, explanation unchanged",
+   "ok": true,
+   "got": {
+    "on": "90 days",
+    "expl": "Your diffusers are free ($89.95 each) when you sel"
+   }
+  },
+  {
+   "id": "desktop-s3-back",
+   "name": "\"Change my scents\" returns to step 2 with the picks kept",
+   "ok": true,
+   "got": {
+    "step": "STEP 2 OF 3",
+    "on": [
+     "Golden Blossom Harmony x1",
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ]
+   }
+  },
+  {
+   "id": "desktop-errors",
+   "name": "no JavaScript or console errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "desktop-4xx",
+   "name": "no failed requests for the store's own files (other failed requests listed for information)",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "cart-start",
+   "name": "cart empty before the walk",
+   "ok": true,
+   "got": {
+    "n": 0,
+    "total": 0,
+    "items": []
+   }
+  },
+  {
+   "id": "cart-2d-30-review",
+   "name": "nothing is in the cart after \"Review my kit\" (the kit is added at UNLOCK FREE DIFFUSERS)",
+   "ok": true,
+   "got": {
+    "n": 0,
+    "total": 0,
+    "items": []
+   }
+  },
+  {
+   "id": "cart-2d-30",
+   "name": "phone: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days -> drawer opens on the page, three scents $39.95 on Every 30 days, kit $179.90 -> $0.00, total $119.85",
+   "ok": true,
+   "got": {
+    "btnBefore": "UNLOCK FREE DIFFUSERS ➔",
+    "btnBusy": "ONE MOMENT…",
+    "btnAfter": "UNLOCK FREE DIFFUSERS ➔",
+    "note": null,
+    "landed": "https://maisoncroyez.com/pages/indoor-air-alerts",
+    "drawer": {
+     "open": true,
+     "visible": true,
+     "text": "Congrats, your order is reserved! ✓ 4 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Golden Blossom Harmony – Love (100ml) ×1 Sale price $39.95 ✕ Wildwood Mystique – Purification (100ml) ×1 Sale price "
+    },
+    "total": 119.85,
+    "lines": [
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentrat",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Maison Croyez Home Diffuser / 2 Diffuser",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ],
+    "kitDiscount": [
+     "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+    ],
+    "errs": [],
+    "failedRequests": []
+   }
+  },
+  {
+   "id": "cart-swap-tier",
+   "name": "back on step 1, the 2-scent card selects and the picks are trimmed to 2 on step 2",
+   "ok": true,
+   "got": {
+    "on": "2 scents at $39.95 each, 1 free diffuser, $79.90 today (Living Room)"
+   }
+  },
+  {
+   "id": "cart-swap-picks",
+   "name": "step 2 keeps the first two picks (Chilled Citrus, Wildwood Mystique), 2 of 2 picked",
+   "ok": true,
+   "got": {
+    "on": [
+     "Chilled Citrus x1",
+     "Wildwood Mystique x1"
+    ],
+    "pill": "2 OF 2 PICKED",
+    "review": "REVIEW MY KIT ➔"
+   }
+  },
+  {
+   "id": "cart-swap-s3",
+   "name": "step 3 for 1 diffuser: \"1× Maison Croyez Diffuser $89.95 FREE\", $169.85 of value, $79.90 today, singular explanation",
+   "ok": true,
+   "got": {
+    "rows": [
+     "1× Chilled Citrus $39.95",
+     "1× Wildwood Mystique $39.95",
+     "1× Maison Croyez Diffuser $89.95FREE"
+    ],
+    "value": "That’s $169.85 of value, you pay $79.90 today.",
+    "expl": "Your diffuser is free ($89.95) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label."
+   }
+  },
+  {
+   "id": "cart-1d-90-replace",
+   "name": "phone, second add: 1 diffuser + Chilled Citrus + Wildwood Mystique every 90 days replaces the first kit (no doubling): two scents on Every 90 days, kit $89.95 -> $0.00, total $79.90",
+   "ok": true,
+   "got": {
+    "btnBefore": "UNLOCK FREE DIFFUSERS ➔",
+    "btnBusy": "ONE MOMENT…",
+    "btnAfter": "UNLOCK FREE DIFFUSERS ➔",
+    "note": null,
+    "landed": "https://maisoncroyez.com/pages/indoor-air-alerts",
+    "drawer": {
+     "open": true,
+     "visible": true,
+     "text": "Congrats, your order is reserved! ✓ 3 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Wildwood Mystique – Purification (100ml) ×1 Sale price $39.95 ✕ Chilled Citrus – Relaxation & Concentration (100ml) "
+    },
+    "total": 79.9,
+    "lines": [
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 90 days",
+      "disc": [
+       "1 FREE DIFFUSER — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentrat",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 90 days",
+      "disc": [
+       "1 FREE DIFFUSER — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240257133,
+      "t": "Maison Croyez Home Diffuser / 1 Diffuser",
+      "q": 1,
+      "price": 89.95,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "1 FREE DIFFUSER — SCENT SUBSCRIPTION -89.95"
+      ]
+     }
+    ],
+    "kitDiscount": [
+     "1 FREE DIFFUSER — SCENT SUBSCRIPTION -89.95"
+    ],
+    "errs": [],
+    "failedRequests": []
+   }
+  },
+  {
+   "id": "cart-3d-60-desktop",
+   "name": "desktop: 3 diffusers + Chilled Citrus x2, Midnight Sensation, Euphoric Bloom, Honey Nectar every 60 days -> drawer, kit $269.85 -> $0.00, total $199.75",
+   "ok": true,
+   "got": {
+    "btnBefore": "UNLOCK FREE DIFFUSERS ➔",
+    "btnBusy": "ONE MOMENT…",
+    "btnAfter": "UNLOCK FREE DIFFUSERS ➔",
+    "note": null,
+    "landed": "https://maisoncroyez.com/pages/indoor-air-alerts",
+    "drawer": {
+     "open": true,
+     "visible": true,
+     "text": "Congrats, your order is reserved! ✓ 6 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $39.95 ✕ Euphoric Bloom – Energy Raise (100ml) ×1 Sa"
+    },
+    "total": 199.75,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Realit",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 60 days",
+      "disc": [
+       "3 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020752493,
+      "t": "Euphoric Bloom – Energy Raise (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 60 days",
+      "disc": [
+       "3 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212019933293,
+      "t": "Midnight Sensation – Love Manifestation ",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": "Every 60 days",
+      "disc": [
+       "3 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentrat",
+      "q": 2,
+      "price": 39.95,
+      "line": 79.9,
+      "plan": "Every 60 days",
+      "disc": [
+       "3 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240322669,
+      "t": "Maison Croyez Home Diffuser / 3 Diffuser",
+      "q": 1,
+      "price": 269.85,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "3 FREE DIFFUSERS — SCENT SUBSCRIPTION -269.85"
+      ]
+     }
+    ],
+    "kitDiscount": [
+     "3 FREE DIFFUSERS — SCENT SUBSCRIPTION -269.85"
+    ],
+    "errs": [],
+    "failedRequests": []
+   }
+  }
+ ]
+}

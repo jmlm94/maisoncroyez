@@ -146,10 +146,22 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   measure the builder instead (steps reached, Add to cart). adv-preview.yml still clicks '#offer a.btn' and expects the
   kits page, so update that check too.
 
-## One-time pricing test (2026-11-01, owner) — test artifact only
-- Owner: "$49.95/diffuser if no subscription and if you decide to subscribe later, full $99.90 refund".
-- kb.js has `ONETIME` (off by default). `ONETIME=1 python3 src/build.py <out>` builds a copy whose step 3 adds
-  Subscribe / One-time cards: one-time = scents $39.95 + diffusers $49.95 each, no refill picker, "Start a refill plan
-  within 30 days and we refund the $X you paid for your diffusers" (the 30-day window is a proposal, owner to confirm).
-  Kit 1/2/3 one-time today: $129.85 / $219.75 / $349.60 (subscription $79.90 / $119.85 / $199.75).
-- kb.js is the source; `python3 src/kitscss/inline_js.py` pastes it (with kitscss/icons.json) into page.html.
+## v16 (2026-11-02, owner): the launch-offer builder gets the kits page's dk11 changes + the store logo
+- Owner: "apply those changes to the candle swap advertorial, specifically on the launch offer section" and "put maison croyez
+  logo above the step x of 3". Same as /pages/diffuser-kits dk11 (kb.js + the #mckb rules in page.html):
+  step 1 title "Buy more scents = *Get more FREE Diffusers:*", "+ N FREE DIFFUSERS" in green caps; a little room above
+  "Step N of 3" (its size stays .86rem, owner's earlier choice); step 3 = refill buttons first under "Select your auto-refill
+  frequency to unlock your FREE Diffusers:", then one bold explanation ("Your diffusers are free ($89.95 each) when you select any
+  auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we'll send you a prepaid return label."),
+  button "UNLOCK FREE DIFFUSERS ➔". The three notes and the swap / pause / cancel note are gone.
+- The store header logo (mc-kb-logo.png, already on the Shopify CDN; kb_logo in images.py / shopify/build.py) sits above
+  "Step N of 3" on all three steps, 96px wide, centred.
+- The one-time pricing test is removed from kb.js, build.py and page.html (the kits page dropped it too, owner: "Delete one time
+  purchase option entirely"). The test artifact copy stays in git history only.
+- Checks: adv-preview run 41364939976 (v16 body injected into the real theme): no errors, no broken images, sticky bar OK,
+  fix-row tap lands on the builder, cart = 3 scents on Every 30 days + kit $179.90 -> $0.00, total $119.85, drawer on the page.
+  `.github/workflows/qa-adv.yml` is the full QA (every article button scrolls to #mckb, steps 1–3, cart drawer, a second add
+  replaces the first kit, sticky bar); INJECT=yes before the deploy, INJECT=no on the live page after it.
+- Meta: the three Candle Swap ad sets optimise for Purchase (checked 2026-11-02), so moving the buttons in-page does not change
+  delivery; the codeless "Clicked to PDP" event now fires on an in-page scroll, not a kits-page visit. pixel-adv.yml follows the
+  new path (fix row -> builder -> UNLOCK FREE DIFFUSERS -> drawer -> checkout).

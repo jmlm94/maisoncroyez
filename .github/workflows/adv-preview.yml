@@ -15,8 +15,8 @@ jobs:
     env:
       OUT: lp-factory/pages/adv-kits/shopify/preview
       BODY: lp-factory/pages/adv-kits/shopify/page-body-inline.html  # v16: everything inline for injection; page-body.html (live) loads mc-cs-adv.css / .js from the CDN
-      URL: ''
-      INJECT: 'yes'
+      URL: 'https://maisoncroyez.com/pages/indoor-air-alerts'  # v16 live (2026-11-02): screenshots + the text match against the build, no injection
+      INJECT: 'no'
     steps:
       - uses: actions/checkout@v4
         with:

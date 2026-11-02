@@ -2,7 +2,8 @@ name: pixel-adv
 # 2026-11-01 owner: "Why don't I see absolutely any add to carts on the advertorial campaign?" Follows an ad visitor end to end:
 # /pages/indoor-air-alerts (with Facebook ad-click params) -> reads -> taps the offer button -> /pages/diffuser-kits -> builds a
 # kit -> ADD TO CART -> checkout, and records every Meta pixel beacon (PageView / ViewContent / AddToCart / InitiateCheckout) and
-# the time from the tap to the kits page being usable. Edit this line and push to run. [run 1]
+# the time from the tap to the kits page being usable. [run 1] v16 (2026-11-02): the path is now article -> fix row (in-page scroll
+# to the kit builder) -> kit -> UNLOCK FREE DIFFUSERS (cart drawer on the article) -> checkout. Edit this line and push to run. [run 2: after the v16 deploy]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -42,24 +43,27 @@ jobs:
             await pg.waitForSelector('#mcadv', { timeout: 60000 }); await pg.waitForTimeout(6000);
             await snap('advertorial loaded (+6s)');
             await pg.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo({ top: y, behavior: 'instant' }); await new Promise((r) => setTimeout(r, 120)); } });
-            await pg.evaluate(() => document.querySelector('#offer a.btn').scrollIntoView({ block: 'center', behavior: 'instant' })); await pg.waitForTimeout(800);
+            /* v16 (2026-11-02): nothing leaves the article any more. A fix row scrolls to the in-article kit builder (#mckb); the kit is built and
+               added there, and the theme's cart drawer opens on the article. So the beacons to look for are AddToCart on the ARTICLE page. */
+            await pg.evaluate(() => document.querySelector('.fixrow[data-cta="fix-3"]').scrollIntoView({ block: 'center', behavior: 'instant' })); await pg.waitForTimeout(800);
             const tTap = Date.now();
-            await Promise.all([pg.waitForURL(/diffuser-kits/, { timeout: 60000 }).catch(() => {}), pg.locator('#offer a.btn').click()]);
-            const tUrl = Date.now();
-            const okKits = await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }).then(() => true).catch(() => false);
-            out.push({ path: P.id, label: 'tap -> kits page', kitsUrl: pg.url().slice(0, 90), msToUrl: tUrl - tTap, msToBuybox: okKits ? Date.now() - tTap : 'buybox never appeared', referrer: await pg.evaluate(() => document.referrer.slice(0, 90)) });
+            await pg.locator('.fixrow[data-cta="fix-3"]').click(); await pg.waitForTimeout(1500);
+            const okBuilder = await pg.waitForSelector('#mckb .tiers', { timeout: 30000 }).then(() => true).catch(() => false);
+            out.push({ path: P.id, label: 'tap on a fix row -> in-page scroll to the builder (no navigation)', url: pg.url().slice(0, 90), hash: await pg.evaluate(() => location.hash), builderTop: await pg.evaluate(() => Math.round(document.getElementById('mckb').getBoundingClientRect().top)), msToBuilder: okBuilder ? Date.now() - tTap : 'builder never appeared' });
             console.log(JSON.stringify(out[out.length - 1]));
-            await pg.waitForTimeout(7000);
-            await snap('kits page from the advertorial (+7s)');
-            await pg.click('#buybox .tier:nth-child(2)'); await pg.waitForTimeout(300);
-            await pg.evaluate(() => document.querySelector('#buybox .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#buybox .step-next').click(); await pg.waitForTimeout(700);
-            for (const k of [2, 5, 0]) { await pg.evaluate((k) => { const bt = document.querySelectorAll('#buybox .picker .pick')[k].querySelector('.e4-step button[aria-label^="Add one"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(250); }
+            await pg.waitForTimeout(3000);
+            await snap('builder in view after the fix-row tap (+3s)');
+            await pg.click('#mckb .tier:nth-child(2)'); await pg.waitForTimeout(300);
+            await pg.evaluate(() => document.querySelector('#mckb .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#mckb .step-next').click(); await pg.waitForTimeout(1000);
+            for (const k of ['focus', 'purify', 'love']) { await pg.evaluate((k) => { const bt = document.querySelector('#mckb [data-add="' + k + '"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(250); }
             await pg.waitForTimeout(1000); await snap('step 2: three scents picked');
-            await pg.evaluate(() => { const bt = document.querySelector('#buybox .navrow .btn.atc'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); tReview = Date.now(); await pg.waitForTimeout(6000);
+            await pg.evaluate(() => { const bt = document.querySelector('#mckb .navrow .btn.atc'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); tReview = Date.now(); await pg.waitForTimeout(6000);
             await snap('step 3 (+6s after Review my kit)');
-            await pg.evaluate(() => document.querySelector('#buybox .btn.atc').scrollIntoView({ block: 'center' })); tClick = Date.now(); await pg.locator('#buybox .btn.atc').click();
+            await pg.evaluate(() => document.querySelector('#mckb [data-cart]').scrollIntoView({ block: 'center' })); tClick = Date.now(); await pg.locator('#mckb [data-cart]').click();
             await pg.waitForTimeout(8000);
-            await snap('cart drawer +8s after ADD TO CART (dk9z: the button opens the drawer on the page)');
+            out.push({ path: P.id, label: 'UNLOCK FREE DIFFUSERS -> /cart/add.js -> cart drawer on the article', msToAddJs: tAdd ? tAdd - tClick : 'no /cart/add.js response', url: pg.url().slice(0, 90), drawerOpen: await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return !!d && (d.hasAttribute('open') || !!d.open); }) });
+            console.log(JSON.stringify(out[out.length - 1]));
+            await snap('cart drawer +8s after UNLOCK FREE DIFFUSERS (the button opens the drawer on the article)');
             const ck = pg.locator('#cart-drawer button[name="checkout"]:visible, #cart-drawer a[href$="/checkout"]:visible, button[name="checkout"]:visible').first(); /* dk9z: the drawer's checkout button */ let clicked = false;
             try { await ck.scrollIntoViewIfNeeded({ timeout: 8000 }); await ck.click({ timeout: 10000 }); clicked = true; } catch (e) {}
             if (!clicked) await pg.goto('https://maisoncroyez.com/checkout', { waitUntil: 'domcontentloaded', timeout: 90000 }).catch(() => {});
@@ -77,6 +81,6 @@ jobs:
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
           git add lp-factory/pages/adv-kits/pixel
-          git commit -m "pixel-adv: Meta beacons from the advertorial through the kits page" || exit 0
+          git commit -m "pixel-adv: Meta beacons on the advertorial (in-page builder) through checkout" || exit 0
           git pull --rebase -q origin "$GITHUB_REF_NAME" || true
           git push

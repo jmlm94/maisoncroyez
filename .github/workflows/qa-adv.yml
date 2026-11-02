@@ -6,7 +6,7 @@ name: qa-adv
 # Alert #1 and hides on the offer. INJECT=yes drops shopify/page-body.html into a plain store page on the real theme (before the deploy);
 # INJECT=no runs on URL (the live page). Edit this line and push to run. Run 1 (2026-11-02): INJECT, v16 body before pageUpdate (35/58: test-script
 # mistakes + the second add left stale lines, fixed in kb.js). Run 2: INJECT, kb.js removal in rounds, script fixes, 4xx URLs recorded (42/60: the page passed everywhere; the rest was the
-# harness: host-probe 404s, a pathname compared with a URL, the desktop cart on the headless browser signature). Run 3: live page after the deploy.
+# harness: host-probe 404s, a pathname compared with a URL, the desktop cart on the headless browser signature). Run 3 (2026-11-02): the live page after the v16 deploy (files mc-cs-adv.css / .js on the CDN, body key cs16-a20283e).
 on:
   workflow_dispatch:
   push:
@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 25
     env:
       URL: https://maisoncroyez.com/pages/indoor-air-alerts
-      INJECT: 'yes'
+      INJECT: 'no'  # run 3+: the live page
       BODY: lp-factory/pages/adv-kits/shopify/page-body-inline.html  # v16: everything inline for injection; page-body.html (live) loads mc-cs-adv.css / .js from the CDN
       OUT: lp-factory/pages/adv-kits/qa
     steps:
@@ -32,6 +32,24 @@ jobs:
         with:
           node-version: 20
       - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Body check (live page HTML must contain shopify/page-body.html, newlines aside; live mode only)
+        if: env.INJECT != 'yes'
+        run: |
+          mkdir -p "$OUT"
+          curl -sSL -A "Mozilla/5.0" "$URL?cb=$(date +%s)" -o live.html || true
+          python3 - <<'PY' | tee "$OUT/body-check-latest.txt"
+          import hashlib, os, re
+          live = open('live.html', encoding='utf-8').read(); repo = open('lp-factory/pages/adv-kits/shopify/page-body.html', encoding='utf-8').read()
+          nl = lambda t: t.replace('\n', '').replace('\r', '')
+          found = nl(live).find(nl(repo)) >= 0
+          key = re.search(r'mc-cs-adv\.js\?v=([\w-]+)', live); md5 = lambda t: hashlib.md5(t.encode()).hexdigest()
+          print('bodyInLive(ignoringNewlines):', found, 'liveLen:', len(live), 'repoLen:', len(repo), 'liveKey:', key.group(1) if key else None, 'repoMd5:', md5(repo))
+          if not found:
+              a, b = nl(live), nl(repo); i = a.find(b[:200]); j = 0
+              if i >= 0:
+                  while j < len(b) and i + j < len(a) and a[i + j] == b[j]: j += 1
+              print('first difference at', j, 'live:', a[i + j:i + j + 120] if i >= 0 else 'START NOT FOUND', '| repo:', b[j:j + 120])
+          PY
       - name: Advertorial QA
         run: |
           cat > qa.mjs <<'EOF'

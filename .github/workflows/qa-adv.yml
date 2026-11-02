@@ -1,0 +1,230 @@
+name: qa-adv
+# Candle Swap advertorial QA (lp-factory/pages/adv-kits), v16 builder: every article button scrolls to the launch-offer builder (#mckb),
+# the three steps work like /pages/diffuser-kits (step 1 cards, step 2 scent picker with +/-, peek, cap, step 3 review / value / Due today /
+# refill buttons / bold explanation / UNLOCK FREE DIFFUSERS), Add to cart puts the kit + scents on the Subi plan in the real cart and opens the
+# theme's cart drawer on the page (no /cart page), a second add replaces the first kit instead of doubling it, the sticky bar shows after
+# Alert #1 and hides on the offer. INJECT=yes drops shopify/page-body.html into a plain store page on the real theme (before the deploy);
+# INJECT=no runs on URL (the live page). Edit this line and push to run. Run 1 (2026-11-02): INJECT, v16 body before pageUpdate.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/qa-adv.yml']
+permissions:
+  contents: write
+concurrency: qa-adv
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      URL: https://maisoncroyez.com/pages/indoor-air-alerts
+      INJECT: 'yes'
+      BODY: lp-factory/pages/adv-kits/shopify/page-body.html
+      OUT: lp-factory/pages/adv-kits/qa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Advertorial QA
+        run: |
+          cat > qa.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const INJECT = process.env.INJECT === 'yes', URL_ = process.env.URL, BODY = fs.readFileSync(process.env.BODY, 'utf8');
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13), OUT = `${process.env.OUT}/${stamp}`;
+          fs.mkdirSync(OUT, { recursive: true });
+          const HOSTS = INJECT ? ['/pages/contact', '/pages/about-us', '/pages/about', '/pages/faq', '/pages/faqs', '/pages/the-scent-story'].map(p => 'https://maisoncroyez.com' + p) : [URL_];
+          const SCENTS = { love: { name: 'Golden Blossom Harmony', v: 41212020457581 }, abundance: { name: 'Crisp Citrus Scape', v: 41212018655341 }, focus: { name: 'Chilled Citrus', v: 41212021506157 }, ideas: { name: 'Honey Nectar', v: 41212021342317 }, energy: { name: 'Euphoric Bloom', v: 41212020752493 }, purify: { name: 'Wildwood Mystique', v: 41212021669997 }, midnight: { name: 'Midnight Sensation', v: 41212019933293 } };
+          const KITS = [{ n: 1, s: 2, v: 45900240257133, p: 89.95 }, { n: 2, s: 3, v: 45900240289901, p: 179.90 }, { n: 3, s: 5, v: 45900240322669, p: 269.85 }];
+          const SP = 39.95, BTN = 'UNLOCK FREE DIFFUSERS ➔';
+          const EXPL = (n) => `Your diffuser${n > 1 ? 's are' : ' is'} free ($89.95${n > 1 ? ' each' : ''}) when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.`;
+          const checks = [];
+          const ck = (id, name, ok, got) => { checks.push({ id, name, ok: !!ok, got }); console.log((ok ? 'PASS' : 'FAIL') + ' ' + id + ' — ' + name + (ok ? '' : ' => ' + JSON.stringify(got).slice(0, 600))); };
+          const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          const b = await chromium.launch();
+          const open = async (mobile) => {
+            const ctx = await b.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA } : { viewport: { width: 1366, height: 900 }, deviceScaleFactor: 1 });
+            const pg = await ctx.newPage(); const errs = [];
+            pg.on('pageerror', (e) => errs.push(e.message.slice(0, 160)));
+            pg.on('console', (m) => { if (m.type() === 'error' && !/Clear-Site-Data|frame-ancestors|shop\.app|403/.test(m.text())) errs.push('console: ' + m.text().slice(0, 140)); });
+            let host = null;
+            for (const u of HOSTS) {
+              let ok = false;
+              for (let a = 0; a < 3 && !ok; a++) {
+                const resp = await pg.goto(u + (u.includes('?') ? '&' : '?') + 'cb=' + Date.now(), { waitUntil: 'load', timeout: 60000 }).catch(() => null);
+                const st = resp ? resp.status() : 0; if (st === 404) break;
+                ok = st === 200 && !!(await pg.$('.shopify-section--main-page .page')); if (!ok) await pg.waitForTimeout(15000);
+              }
+              if (ok) { host = u; break; }
+            }
+            if (!host) throw new Error('no page loaded');
+            if (INJECT) {
+              await pg.evaluate((html) => {
+                const page = document.querySelector('.shopify-section--main-page .page');
+                let prose = page.querySelector('.prose');
+                if (!prose) { prose = document.createElement('div'); prose.className = 'prose'; page.appendChild(prose); }
+                [...page.children].forEach((c) => { if (c !== prose && c.tagName !== 'H1') c.remove(); });
+                prose.innerHTML = html;
+                prose.querySelectorAll('script').forEach((s) => { const n = document.createElement('script'); n.textContent = s.textContent; s.replaceWith(n); });
+              }, BODY);
+            }
+            await pg.waitForSelector('#mckb .tiers .tier', { timeout: 30000 });
+            await pg.waitForTimeout(1500);
+            await pg.addStyleTag({ content: 'html{scroll-behavior:auto !important}' }); /* anchor jumps land at once; the builder's own smooth scrolls get a wait */
+            return { ctx, pg, errs, path: host.split('?')[0] };
+          };
+          const tap = (pg, q, i = 0) => pg.evaluate(([q, i]) => { const e = document.querySelectorAll(q)[i]; if (!e) return false; e.scrollIntoView({ block: 'center' }); e.click(); return true; }, [q, i]);
+          const plus = (pg, k) => tap(pg, `#mckb [data-add="${k}"]`);
+          const minus = (pg, k) => tap(pg, `#mckb [data-rm="${k}"]`);
+          const cartJs = (pg) => pg.evaluate(async () => { let c; try { c = await (await fetch('/cart.js', { headers: { Accept: 'application/json' } })).json(); } catch (e) { return { n: null, total: null, items: [], err: String(e).slice(0, 80) }; } return { n: c.item_count, total: c.total_price / 100, items: c.items.map((i) => ({ v: i.variant_id, t: (i.product_title + (i.variant_title && i.variant_title !== 'Default Title' ? ' / ' + i.variant_title : '')).slice(0, 40), q: i.quantity, price: i.price / 100, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
+          const clearCart = (pg) => pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
+          const state = (pg) => pg.evaluate(() => {
+            const tx = (e) => e ? (e.innerText || '').replace(/\s+/g, ' ').trim() : null, q = (s) => document.querySelector('#mckb ' + s), cs = (e, p) => e ? getComputedStyle(e)[p] : null;
+            const logo = q('.kb-logo'), eye = q('.step-eyebrow');
+            return {
+              step: tx(eye), eyeMt: cs(eye, 'marginTop'), eyeFs: cs(eye, 'fontSize'),
+              logo: logo ? { loaded: logo.complete && logo.naturalWidth > 0, w: Math.round(logo.getBoundingClientRect().width), beforeStep: !!(eye && (logo.compareDocumentPosition(eye) & Node.DOCUMENT_POSITION_FOLLOWING)), src: (logo.currentSrc || logo.src || '').split('/').pop().slice(0, 30) } : null,
+              title: tx(q('.s9-title')), tiers: [...document.querySelectorAll('#mckb .tier')].map((e) => e.getAttribute('aria-label')), tierOn: (q('.tier.on') || {}).getAttribute ? q('.tier.on').getAttribute('aria-label') : null,
+              gifts: [...document.querySelectorAll('#mckb .t9s-gift')].map((e) => ({ t: tx(e), col: cs(e, 'color'), tt: cs(e, 'textTransform') })),
+              prices: (tx(q('.buybox')) || '').match(/\$\d[\d.,]*/g) || [], place: tx(q('.place-head')), where: tx(q('.place-cap')), btn: tx(q('.btn.atc')), review: tx(q('.navrow .btn.atc')),
+              res: tx(q('.s9-res')), pill: tx(q('.pick-pill')), tiles: document.querySelectorAll('#mckb .picker .pick').length, strengths: document.querySelectorAll('#mckb .picker .e4-str').length,
+              on: [...document.querySelectorAll('#mckb .picker .pick.on')].map((e) => tx(e.querySelector('.e4-name')) + ' x' + tx(e.querySelector('.e4-step b'))), bar: tx(q('.e4-bar')), hint: tx(q('.pick-hint')),
+              plusDisabledOff: [...document.querySelectorAll('#mckb .picker .pick:not(.on) [data-add]')].every((b) => b.disabled), plusOffCount: document.querySelectorAll('#mckb .picker .pick:not(.on) [data-add]').length,
+              banner: !!q('.s9-banner'), rows: [...document.querySelectorAll('#mckb .kitrev .kr-row')].map(tx), value: tx(q('.s9-value')), due: tx(q('.s9-due')),
+              freqHead: tx(q('.s9-freq-head')), freqs: [...document.querySelectorAll('#mckb .rf3-opt')].map(tx), freqOn: tx(q('.rf3-opt.on')),
+              expl: tx(q('.t9s-expl')), explFw: cs(q('.t9s-expl'), 'fontWeight'), note: tx(q('.s9-freq-note')), notes: document.querySelectorAll('#mckb .t9s-how li').length, oneTime: document.querySelectorAll('#mckb .pt-opt, #mckb .ot-link').length,
+              done: tx(q('.kb-done')), mckbTop: Math.round(document.getElementById('mckb').getBoundingClientRect().top), scrollY: Math.round(scrollY), hash: location.hash, path: location.pathname,
+            };
+          });
+          const walkTo3 = async (pg, tier, picks) => { /* tier card -> Pick your scents -> + on each pick -> Review my kit */
+            await tap(pg, '#mckb .tier', tier); await pg.waitForTimeout(250);
+            await tap(pg, '#mckb .btn.step-next'); await pg.waitForTimeout(900);
+            for (const k of picks) { await plus(pg, k); await pg.waitForTimeout(200); }
+            await tap(pg, '#mckb .navrow .btn.atc'); await pg.waitForTimeout(900);
+          };
+          const run = async (vp) => {
+            const mobile = vp === 'phone'; const { ctx, pg, errs, path } = await open(mobile);
+            let s = await state(pg);
+            ck(`${vp}-mount`, 'article + builder mount: "Step 1 of 3", logo above it, three cards, 2 diffusers selected, no one-time option', /Step 1 of 3/i.test(s.step || '') && s.logo && s.logo.loaded && s.logo.beforeStep && s.logo.w >= 80 && s.logo.w <= 110 && s.tiers.length === 3 && /2 free diffusers.*Living Room & Bedroom/.test(s.tierOn || '') && s.oneTime === 0 && s.eyeMt === '14px', { step: s.step, logo: s.logo, tiers: s.tiers.length, on: s.tierOn, oneTime: s.oneTime, eyeMt: s.eyeMt });
+            // every article button scrolls to the builder (no navigation)
+            const ctas = ['note', 'fix-1', 'fix-2', 'fix-3', 'fix-4', 'fix-5', 'fix-all'].concat(mobile ? ['bar'] : []);
+            for (const c of ctas) {
+              await pg.evaluate(() => { history.replaceState(null, '', location.pathname + location.search); window.scrollTo(0, 0); }); await pg.waitForTimeout(300);
+              if (c === 'bar') { await pg.evaluate(() => { const a = document.getElementById('alert-1'); window.scrollTo(0, a.getBoundingClientRect().top + scrollY + 300); }); await pg.waitForTimeout(600); }
+              const shown = await pg.evaluate((c) => { const a = document.querySelector(`[data-cta="${c}"]`); if (!a) return null; const r = a.getBoundingClientRect(); const vis = getComputedStyle(a).display !== 'none' && r.height > 0 && (c !== 'bar' || document.getElementById('bar').classList.contains('on')); if (c !== 'bar') a.scrollIntoView({ block: 'center' }); return { vis, href: a.getAttribute('href'), text: a.innerText.trim().slice(0, 40) }; }, c);
+              await pg.waitForTimeout(300);
+              const clicked = await pg.evaluate((c) => { const a = document.querySelector(`[data-cta="${c}"]`); if (!a) return false; a.click(); return true; }, c); await pg.waitForTimeout(900);
+              const after = await state(pg);
+              ck(`${vp}-cta-${c}`, `"${(shown || {}).text}" scrolls to the builder (href #mckb, lands ~12px from the top, stays on the page)`, shown && shown.vis && shown.href === '#mckb' && clicked && after.hash === '#mckb' && after.path === path && after.mckbTop >= 0 && after.mckbTop <= 60, { shown, clicked, hash: after.hash, path: after.path, mckbTop: after.mckbTop });
+            }
+            const read = await pg.evaluate(async () => { window.scrollTo(0, 0); await new Promise((r) => setTimeout(r, 300)); const a = document.querySelector('header.top a.btn'); const href = a && a.getAttribute('href'); if (a) a.click(); await new Promise((r) => setTimeout(r, 800)); const t = document.getElementById('alert-1'); return { href, top: t ? Math.round(t.getBoundingClientRect().top) : null }; });
+            ck(`${vp}-cta-read`, '"Read the alerts" still goes to Alert #1', read.href === '#alert-1' && read.top !== null && read.top >= 0 && read.top <= 60, read);
+            if (mobile) {
+              const bar = await pg.evaluate(async () => { const bar = document.getElementById('bar'); const at = async (y) => { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 450)); return bar.classList.contains('on'); }; const a1 = document.getElementById('alert-1'), of = document.getElementById('offer'); const top = await at(0), mid = await at(a1.getBoundingClientRect().top + scrollY + 300), onOffer = await at(of.getBoundingClientRect().top + scrollY - 100); return { top, mid, onOffer, text: bar.innerText.trim(), href: bar.querySelector('a').getAttribute('href') }; });
+              ck(`${vp}-bar`, 'sticky bar: hidden at the top, shown after Alert #1, hidden on the offer, "Get my free diffusers" -> #mckb', !bar.top && bar.mid && !bar.onOffer && /Get my free diffusers/.test(bar.text) && bar.href === '#mckb', bar);
+            }
+            // step 1
+            await pg.evaluate(() => document.getElementById('mckb').scrollIntoView({ block: 'start' })); await pg.waitForTimeout(300); s = await state(pg);
+            ck(`${vp}-s1-copy`, 'step 1: "Buy more scents = Get more FREE Diffusers:", "+ N FREE DIFFUSER(S)" in green caps on all three cards, $39.95 each + struck values only, "Where it goes", "Pick your scents"', /^Buy more scents = Get more FREE Diffusers:$/.test(s.title || '') && s.gifts.length === 3 && s.gifts.every((g, i) => g.t === `+ ${i + 1} FREE DIFFUSER${i ? 'S' : ''}` && g.col === 'rgb(30, 122, 30)' && g.tt === 'uppercase') && s.prices.every((p) => ['$39.95', '$89.95', '$179.90', '$269.85'].includes(p)) && s.place === 'WHERE IT GOES:' && /Pick your scents/i.test(s.btn || '') && /Two diffusers for one bigger room/.test(s.where || ''), { title: s.title, gifts: s.gifts, prices: s.prices, place: s.place, btn: s.btn, where: s.where });
+            await tap(pg, '#mckb .tier', 0); await pg.waitForTimeout(300); s = await state(pg);
+            ck(`${vp}-s1-tier1`, '2-scent card selects: 1 free diffuser, $79.90 today, "Where it goes" changes', /^2 scents at \$39\.95 each, 1 free diffuser, \$79\.90 today \(Living Room\)$/.test(s.tierOn || '') && /One diffuser fills one room/.test(s.where || ''), { on: s.tierOn, where: s.where });
+            await tap(pg, '#mckb .tier', 2); await pg.waitForTimeout(300); s = await state(pg);
+            ck(`${vp}-s1-tier3`, '5-scent card selects: 3 free diffusers, $199.75 today', /^5 scents at \$39\.95 each, 3 free diffusers, \$199\.75 today/.test(s.tierOn || '') && /Three diffusers/.test(s.where || ''), { on: s.tierOn, where: s.where });
+            await tap(pg, '#mckb .tier', 1); await pg.waitForTimeout(300);
+            await (await pg.$('#mckb')).screenshot({ path: `${OUT}/${vp}-step1.png` });
+            await tap(pg, '#mckb .btn.step-next'); await pg.waitForTimeout(1200); s = await state(pg);
+            ck(`${vp}-s2-mount`, 'step 2: logo + "Step 2 of 3", "Pick your 3 scents:", 2 FREE DIFFUSERS RESERVED $179.90 FREE!, 7 tiles with strength, 0 of 3 picked, bar "Tap a scent…", builder scrolled into view', /Step 2 of 3/i.test(s.step || '') && s.logo && s.logo.loaded && /Pick your 3 scents:/.test(s.title || '') && /2 FREE DIFFUSERS RESERVED/.test(s.res || '') && /\$179\.90/.test(s.res || '') && /FREE!/.test(s.res || '') && s.tiles === 7 && s.strengths === 7 && /0 of 3 picked/i.test(s.pill || '') && /Tap a scent to read more about it/.test(s.bar || '') && s.mckbTop >= -5 && s.mckbTop <= 60, { step: s.step, logo: s.logo, title: s.title, res: s.res, tiles: s.tiles, strengths: s.strengths, pill: s.pill, bar: s.bar, mckbTop: s.mckbTop });
+            await tap(pg, '#mckb [data-peek="purify"]'); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s2-peek`, 'a tap on a tile only reads it (Wildwood Mystique: Smells like + Notes in the bar, nothing added)', s.on.length === 0 && /Wildwood Mystique/.test(s.bar || '') && /Smells like/.test(s.bar || '') && /Notes:/.test(s.bar || '') && /Pick 3 more/.test(s.hint || ''), { on: s.on, bar: (s.bar || '').slice(0, 80), hint: s.hint });
+            await plus(pg, 'focus'); await plus(pg, 'focus'); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s2-plus`, '+ twice on Chilled Citrus -> x2, "Pick 1 more", 2 of 3 picked', s.on.length === 1 && /Chilled Citrus x2/.test(s.on[0]) && /Pick 1 more/.test(s.hint || '') && /2 of 3 picked/i.test(s.pill || ''), { on: s.on, hint: s.hint, pill: s.pill });
+            await minus(pg, 'focus'); await plus(pg, 'purify'); await plus(pg, 'love'); await pg.waitForTimeout(300); s = await state(pg);
+            ck(`${vp}-s2-full`, '- then + on two others -> 3 of 3, "Review my kit", + disabled on the unpicked tiles', s.on.length === 3 && !s.hint && /Review my kit/i.test(s.review || '') && /3 of 3 picked/i.test(s.pill || '') && s.plusDisabledOff && s.plusOffCount === 4, { on: s.on, hint: s.hint, review: s.review, pill: s.pill, plusDisabledOff: s.plusDisabledOff, plusOffCount: s.plusOffCount });
+            await (await pg.$('#mckb')).screenshot({ path: `${OUT}/${vp}-step2.png` });
+            await tap(pg, '#mckb .navrow .btn.secondary'); await pg.waitForTimeout(1200); s = await state(pg);
+            ck(`${vp}-s2-back`, '"←" returns to step 1 with the 3-scent card still selected', /Step 1 of 3/i.test(s.step || '') && /2 free diffusers/.test(s.tierOn || ''), { step: s.step, on: s.tierOn });
+            await tap(pg, '#mckb .btn.step-next'); await pg.waitForTimeout(1200); s = await state(pg);
+            ck(`${vp}-s2-kept`, 'forward again: the three picks are kept', s.on.length === 3 && /Review my kit/i.test(s.review || ''), { on: s.on, review: s.review });
+            await tap(pg, '#mckb .navrow .btn.atc'); await pg.waitForTimeout(1200); s = await state(pg);
+            ck(`${vp}-s3-mount`, 'step 3: logo + "Step 3 of 3", no picture, congratulations title, 3 scent rows + "2× Maison Croyez Diffuser $179.90 FREE"', /Step 3 of 3/i.test(s.step || '') && s.logo && s.logo.loaded && !s.banner && /Congratulations, your free diffusers have been reserved/.test(s.title || '') && s.rows.length === 4 && /2× Maison Croyez Diffuser.*\$179\.90.*FREE/.test(s.rows[3] || '') && /Chilled Citrus/.test(s.rows[0] || ''), { step: s.step, logo: s.logo, banner: s.banner, title: s.title, rows: s.rows });
+            ck(`${vp}-s3-due`, 'value line + DUE TODAY $119.85, $39.95/scent', /\$299\.75 of value, you pay \$119\.85 today/.test(s.value || '') && /Due today:\s*\$119\.85/i.test(s.due || '') && /\$39\.95\/scent$/.test(s.due || ''), { value: s.value, due: s.due });
+            ck(`${vp}-s3-freq`, 'unlock heading, 60 / 30 (Most popular, selected) / 90, bold explanation, no notes, UNLOCK FREE DIFFUSERS', /^Select your auto-refill frequency to unlock your FREE Diffusers:$/.test(s.freqHead || '') && s.freqs.length === 3 && /^60 days/.test(s.freqs[0]) && /^30 days/.test(s.freqs[1]) && /MOST POPULAR/i.test(s.freqs[1]) && /^90 days/.test(s.freqs[2]) && /^30 days/.test(s.freqOn || '') && s.expl === EXPL(2) && +s.explFw >= 700 && !s.note && s.notes === 0 && s.btn === BTN && s.oneTime === 0, { head: s.freqHead, freqs: s.freqs, on: s.freqOn, expl: s.expl, explFw: s.explFw, note: s.note, notes: s.notes, btn: s.btn });
+            await tap(pg, '#mckb .rf3-opt', 2); await pg.waitForTimeout(250); s = await state(pg);
+            ck(`${vp}-s3-90`, '90 days selects, explanation unchanged', /^90 days/.test(s.freqOn || '') && s.expl === EXPL(2), { on: s.freqOn, expl: (s.expl || '').slice(0, 50) });
+            await (await pg.$('#mckb')).screenshot({ path: `${OUT}/${vp}-step3.png` });
+            await tap(pg, '#mckb .navrow.back-only .btn'); await pg.waitForTimeout(1200); s = await state(pg);
+            ck(`${vp}-s3-back`, '"Change my scents" returns to step 2 with the picks kept', /Step 2 of 3/i.test(s.step || '') && s.on.length === 3, { step: s.step, on: s.on });
+            ck(`${vp}-errors`, 'no JavaScript or console errors', errs.length === 0, errs.slice(0, 5));
+            await ctx.close();
+          };
+          // real cart: Add to cart -> drawer opens on the page, cart.js holds the kit (zeroed by the free-diffuser discount) + scents on the plan
+          const cartCheck = async (pg, errs, path, name, tier, freqIdx, exp) => {
+            if (freqIdx !== 1) { await tap(pg, '#mckb .rf3-opt', freqIdx); await pg.waitForTimeout(250); }
+            const before = await state(pg); const errsAtClick = errs.length;
+            await tap(pg, '#mckb [data-cart]'); await pg.waitForTimeout(300);
+            const busy = await state(pg);
+            await pg.waitForTimeout(5500);
+            const drawer = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; const r = d.getBoundingClientRect(); return { open: d.hasAttribute('open') || !!d.open, visible: r.width > 0 && r.height > 0, text: (d.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 200) }; }).catch(() => null);
+            const after = await state(pg), c = await cartJs(pg), landed = pg.url().split('?')[0];
+            await pg.screenshot({ path: `${OUT}/cart-${name}.png` });
+            const merged = Object.values(c.items.reduce((m, l) => { const k = l.v + '|' + l.plan + '|' + l.price; if (m[k]) { m[k].q += l.q; m[k].line = Math.round((m[k].line + l.line) * 100) / 100; } else m[k] = { ...l }; return m; }, {}));
+            const match = merged.length === exp.lines.length && c.total === exp.total && exp.lines.every((e) => merged.some((l) => l.v === e.v && l.q === e.q && l.price === e.price && l.line === e.line && l.plan === e.plan));
+            const kitLine = c.items.find((l) => [KITS[0].v, KITS[1].v, KITS[2].v].includes(l.v));
+            ck(`cart-${name}`, exp.name, before.btn === BTN && /One moment/.test(busy.btn || '') && landed === path && !!(drawer && drawer.open && drawer.visible) && match && after.btn === BTN && !after.done && !after.hash.includes('cart') && (errs.length - errsAtClick) === 0 && !!kitLine && kitLine.disc.some((d) => /FREE DIFFUSER/i.test(d)), { btnBefore: before.btn, btnBusy: busy.btn, btnAfter: after.btn, landed, drawer, total: c.total, lines: c.items, kitDiscount: kitLine && kitLine.disc, errs: errs.slice(errsAtClick, errsAtClick + 4) });
+          };
+          const cartPhone = async () => {
+            const { ctx, pg, errs, path } = await open(true);
+            await clearCart(pg);
+            await tap(pg, '.fixrow[data-cta="fix-3"]'); await pg.waitForTimeout(800); /* a visitor who tapped a fix row */
+            const empty = await cartJs(pg); ck('cart-start', 'cart empty before the walk', empty.n === 0, empty);
+            await walkTo3(pg, 1, ['focus', 'purify', 'love']);
+            const afterReview = await cartJs(pg); ck('cart-2d-30-review', 'nothing is in the cart after "Review my kit" (the kit is added at UNLOCK FREE DIFFUSERS)', afterReview.n === 0, afterReview);
+            await cartCheck(pg, errs, path, '2d-30', 1, 1, { total: 119.85, name: 'phone: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days -> drawer opens on the page, three scents $39.95 on Every 30 days, kit $179.90 -> $0.00, total $119.85', lines: [{ v: SCENTS.focus.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: SCENTS.purify.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: SCENTS.love.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: KITS[1].v, q: 1, price: KITS[1].p, line: 0, plan: null }] });
+            // close the drawer, change the kit, add again: the first kit must be replaced, not doubled
+            await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (d && typeof d.hide === 'function') { try { d.hide(); } catch (e) {} } else if (d) d.removeAttribute('open'); }); await pg.waitForTimeout(600);
+            await tap(pg, '#mckb .navrow.back-only .btn'); await pg.waitForTimeout(1000);
+            await tap(pg, '#mckb .navrow .btn.secondary'); await pg.waitForTimeout(1000);
+            await tap(pg, '#mckb .tier', 0); await pg.waitForTimeout(300); let s = await state(pg);
+            ck('cart-swap-tier', 'back on step 1, the 2-scent card selects and the picks are trimmed to 2 on step 2', /1 free diffuser/.test(s.tierOn || ''), { on: s.tierOn });
+            await tap(pg, '#mckb .btn.step-next'); await pg.waitForTimeout(1000); s = await state(pg);
+            ck('cart-swap-picks', 'step 2 keeps the first two picks (Chilled Citrus, Wildwood Mystique), 2 of 2 picked', s.on.length === 2 && /2 of 2 picked/i.test(s.pill || '') && /Review my kit/i.test(s.review || ''), { on: s.on, pill: s.pill, review: s.review });
+            await tap(pg, '#mckb .navrow .btn.atc'); await pg.waitForTimeout(1000); s = await state(pg);
+            ck('cart-swap-s3', 'step 3 for 1 diffuser: "1× Maison Croyez Diffuser $89.95 FREE", $169.85 of value, $79.90 today, singular explanation', s.rows.length === 3 && /1× Maison Croyez Diffuser.*\$89\.95.*FREE/.test(s.rows[2] || '') && /\$169\.85 of value, you pay \$79\.90 today/.test(s.value || '') && s.expl === EXPL(1), { rows: s.rows, value: s.value, expl: s.expl });
+            await cartCheck(pg, errs, path, '1d-90-replace', 0, 2, { total: 79.90, name: 'phone, second add: 1 diffuser + Chilled Citrus + Wildwood Mystique every 90 days replaces the first kit (no doubling): two scents on Every 90 days, kit $89.95 -> $0.00, total $79.90', lines: [{ v: SCENTS.focus.v, q: 1, price: SP, line: SP, plan: 'Every 90 days' }, { v: SCENTS.purify.v, q: 1, price: SP, line: SP, plan: 'Every 90 days' }, { v: KITS[0].v, q: 1, price: KITS[0].p, line: 0, plan: null }] });
+            await clearCart(pg);
+            await ctx.close();
+          };
+          const cartDesktop = async () => {
+            const { ctx, pg, errs, path } = await open(false);
+            await clearCart(pg);
+            await tap(pg, '[data-cta="fix-all"]'); await pg.waitForTimeout(800);
+            await walkTo3(pg, 2, ['focus', 'focus', 'midnight', 'energy', 'ideas']);
+            await cartCheck(pg, errs, path, '3d-60-desktop', 2, 0, { total: 199.75, name: 'desktop: 3 diffusers + Chilled Citrus x2, Midnight Sensation, Euphoric Bloom, Honey Nectar every 60 days -> drawer, kit $269.85 -> $0.00, total $199.75', lines: [{ v: SCENTS.focus.v, q: 2, price: SP, line: 79.90, plan: 'Every 60 days' }, { v: SCENTS.midnight.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: SCENTS.energy.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: SCENTS.ideas.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: KITS[2].v, q: 1, price: KITS[2].p, line: 0, plan: null }] });
+            await clearCart(pg);
+            await ctx.close();
+          };
+          await run('phone');
+          await run('desktop');
+          await cartPhone();
+          await cartDesktop();
+          await b.close();
+          const pass = checks.filter((c) => c.ok).length;
+          const md = [`# Candle Swap advertorial QA ${stamp} (${INJECT ? 'body injected into the real theme' : URL_})`, '', `${pass}/${checks.length} checks passed.`, '', '| # | check | result | details |', '|---|---|---|---|', ...checks.map((c) => `| ${c.id} | ${c.name} | ${c.ok ? 'PASS' : 'FAIL'} | ${JSON.stringify(c.got).replace(/\|/g, '\\|').slice(0, 500)} |`)].join('\n') + '\n';
+          fs.writeFileSync(`${OUT}/report.md`, md); fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ stamp, inject: INJECT, url: URL_, pass, total: checks.length, checks }, null, 1));
+          console.log(`\n${pass}/${checks.length} checks passed -> ${OUT}/report.md`);
+          EOF
+          node qa.mjs
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "qa-adv: Candle Swap advertorial QA" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

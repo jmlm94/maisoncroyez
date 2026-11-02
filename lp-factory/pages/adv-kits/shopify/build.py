@@ -49,6 +49,7 @@ STORE_IMAGES = {
     "s_energy": CDN + "euphoric_bloom.png?v=1791993010&width=320", "s_purify": CDN + "wilwood_mistiqye.png?v=1791993011&width=320",
     "s_night": CDN + "midnight_sensation.png?v=1791993011&width=320",
     "kb_step3": CDN + "mc-dk-step3-1600x900.webp?v=1792532870",
+    "kb_logo": CDN + "mc-kb-logo.png?v=1786479535&width=240",  # the store header logo
 }
 def fname(k): return "mc-cs-%s.jpg" % k.replace("_", "-")
 

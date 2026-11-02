@@ -10,8 +10,5 @@ keys = set(re.findall(r"\{\{(\w+)\}\}", s))
 missing = keys - set(img)
 assert not missing, missing
 for k in keys: s = s.replace("{{%s}}" % k, img[k])
-if os.environ.get("ONETIME"):  # pricing test copy: the builder offers one-time (diffusers $49.95 each) next to the subscription
-    assert s.count("var ONETIME = false,") == 1
-    s = s.replace("var ONETIME = false,", "var ONETIME = true,").replace("<title>The Candle Swap</title>", "<title>Candle Swap One-Time Test</title>")
 open(OUT, "w", encoding="utf-8").write(s)
 print(OUT, len(s) // 1024, "KB")

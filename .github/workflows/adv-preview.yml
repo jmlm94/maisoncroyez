@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 15
     env:
       OUT: lp-factory/pages/adv-kits/shopify/preview
-      BODY: lp-factory/pages/adv-kits/shopify/page-body.html
+      BODY: lp-factory/pages/adv-kits/shopify/page-body-inline.html  # v16: everything inline for injection; page-body.html (live) loads mc-cs-adv.css / .js from the CDN
       URL: ''
       INJECT: 'yes'
     steps:
@@ -62,7 +62,7 @@ jobs:
                 if (!prose) { prose = document.createElement('div'); prose.className = 'prose'; page.appendChild(prose); }
                 [...page.children].forEach(c => { if (c !== prose && c.tagName !== 'H1') c.remove(); });
                 prose.innerHTML = html;
-                prose.querySelectorAll('script').forEach(s => { const n = document.createElement('script'); n.textContent = s.textContent; s.replaceWith(n); });
+                prose.querySelectorAll('script').forEach((s) => { const n = document.createElement('script'); if (s.src) n.src = s.src; else n.textContent = s.textContent; s.replaceWith(n); });
               }, BODY);
             }
             await pg.waitForTimeout(2500);

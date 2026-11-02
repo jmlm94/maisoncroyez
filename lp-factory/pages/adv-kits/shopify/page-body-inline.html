@@ -1,0 +1,955 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Libre+Franklin:wght@500;600;700;800&family=Unna:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@400;700&family=Be+Vietnam+Pro:wght@400;600&display=swap">
+<style>.shopify-section-group-header-group,.shopify-section-group-footer-group{display:none !important}
+.shopify-section--main-page .page > h1{display:none !important}
+.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;margin-bottom:0 !important;padding-top:0 !important;padding-bottom:0 !important;border:0 !important;max-width:none !important}
+html,body{overflow-x:clip}
+body{padding-top:0 !important;margin:0 !important;background:#fff !important}
+#mcadv{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:0 !important;margin-bottom:0 !important;text-align:left}
+#main{padding-top:0 !important;margin-top:0 !important}
+#mcadv :is(h1,h2,h3,h4,p,ol,ul,li,figure,figcaption,blockquote,cite,details,summary,img,a,header,footer,article,aside,nav,section,svg,strong,b){margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;quotes:none;min-height:0}
+#mcadv :is(h1,h2,h3,h4){font-weight:700}
+#mcadv :is(strong,b){font-weight:700}
+#mcadv :is(p,li,figcaption)::before{content:none}
+#mcadv blockquote::before,#mcadv blockquote::after{content:none}
+#mcadv ol{list-style:decimal}
+#mcadv ul{list-style:disc}
+#mcadv a.btn{text-decoration:none}
+#mcadv{color-scheme:light;
+  --white:#FFFFFF; --black:#000000; --red:#C8102E; --green:#0A7A2F; --red-deep:#8E0A1F; --red-hot:#E5283A; --ink:#111111; --ink2:#444444; --ink3:#6B6B6B; --rule:#E2E2E2; --wash:#F4F4F4;
+  --serif:'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --sans:'Libre Franklin', 'Helvetica Neue', Arial, system-ui, sans-serif;}
+#mcadv *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+#mcadv{background:var(--white);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.62;overflow-x:clip}
+#mcadv a{color:inherit}
+#mcadv img{display:block;max-width:100%;height:auto}
+#mcadv .wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#mcadv .ann{background:linear-gradient(90deg,var(--red-deep),var(--red),var(--red-hot),var(--red),var(--red-deep));background-size:300% 100%;color:var(--white)}
+@media (prefers-reduced-motion:no-preference){#mcadv .ann{animation:annshift 5s ease-in-out infinite}}
+@keyframes annshift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+#mcadv .ann .wrap{padding-block:7px;text-align:center;font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+#mcadv .site{border-bottom:1px solid var(--ink)}
+#mcadv .site .wrap{display:grid;grid-template-columns:28px 1fr 28px;align-items:center;gap:8px;padding-block:8px}
+#mcadv .burger{width:22px;height:14px;display:grid;align-content:space-between}
+#mcadv .burger i{display:block;height:2px;background:var(--ink)}
+#mcadv .logo{justify-self:center;display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--black)}
+#mcadv .logo:focus-visible{outline:2px solid var(--ink3);outline-offset:3px}
+#mcadv .logo .mark{flex:none;width:32px;height:32px}
+#mcadv .logo .lt{display:flex;flex-direction:column;align-items:center;line-height:1}
+#mcadv .logo .l0{font-family:var(--sans);font-weight:800;font-size:7.5px;letter-spacing:.42em;padding-left:.42em;margin-bottom:2px}
+#mcadv .logo .l1{font-family:var(--serif);font-weight:700;font-size:21px;letter-spacing:-.02em;white-space:nowrap}
+#mcadv .logo .l2{display:flex;align-items:center;gap:5px;font-family:var(--sans);font-weight:800;font-size:7.5px;letter-spacing:.42em;padding-left:.42em;margin-top:3px}
+#mcadv .logo .l2::before,#mcadv .logo .l2::after{content:"";width:14px;height:1px;background:var(--black)}
+#mcadv .search{justify-self:end;width:20px;height:20px}
+#mcadv .top{padding-block:12px 0}
+#mcadv .crumbs{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:0 0 8px}
+#mcadv .crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 0}
+#mcadv .crumbs li+li::before{content:"\203A";margin:0 7px;color:var(--ink3)}
+#mcadv .crumbs li:last-child{color:var(--ink)}
+#mcadv h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,6.3vw,40px);line-height:1.14;letter-spacing:-.01em;margin:0 0 10px;text-wrap:balance}
+#mcadv .desc{font-size:15.5px;line-height:1.45;color:var(--ink2);margin:0 0 10px}
+#mcadv .author{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink3);line-height:1.35;margin:0 0 10px}
+#mcadv .author .av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--white);display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:15px}
+#mcadv .author b{color:var(--ink);font-weight:700}
+#mcadv .author img.av{object-fit:cover;background:var(--wash)}
+#mcadv .sp{border:1px solid var(--ink3);border-radius:3px;padding:0 5px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+#mcadv .lede{font-size:20px;line-height:1.45}
+#mcadv .ednote{background:var(--wash);padding:14px;margin:0 0 18px;display:grid;gap:12px;font-family:var(--sans)}
+#mcadv .ednote .k{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:0}
+#mcadv .ednote .row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:center}
+#mcadv .ednote .row img{width:72px;height:72px;object-fit:cover}
+#mcadv .ednote .row p{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
+#mcadv .ednote .btn{margin:0}
+#mcadv .fixrow{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 18px;text-decoration:none;color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.4}
+#mcadv .fixrow img{width:56px;height:56px;object-fit:cover}
+#mcadv .fixrow .ok{color:var(--green);font-weight:800}
+#mcadv .fixrow .go{display:block;margin-top:3px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+#mcadv .fixrow:hover .go{text-decoration-thickness:2px}
+#mcadv .fixrow:focus-visible{outline:2px solid var(--ink3);outline-offset:3px}
+#mcadv a.btn.ghost{background:var(--white);color:var(--black);border:2px solid var(--black)}
+#mcadv a.btn.ghost:hover{background:var(--wash)}
+#mcadv .trust{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.02em;text-align:center;margin:10px 0 0}
+#mcadv .trust .flag{display:inline-block;width:19px;height:10px;margin-left:6px;vertical-align:0;box-shadow:0 0 0 .5px rgba(0,0,0,.25)}
+#mcadv .bio{display:flex;gap:12px;align-items:center;border-top:1px solid var(--ink);padding:16px 0 0;margin:28px 0 0}
+#mcadv .bio img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none}
+#mcadv .bio p{margin:0;font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--ink2)}
+#mcadv .hero{margin:0}
+#mcadv .hero img{width:100%;aspect-ratio:2/1;object-fit:cover}
+#mcadv a.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--black);color:var(--white);text-decoration:none;font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:14px 18px;border-radius:4px;margin:10px 0 0;text-align:center;border:0;cursor:pointer}
+#mcadv a.btn:hover{background:#222}
+#mcadv a.btn:focus-visible{outline:3px solid var(--ink3);outline-offset:3px}
+#mcadv article{padding-block:22px 0}
+#mcadv article p{margin:0 0 18px;text-wrap:pretty}
+#mcadv .alert{border-top:1px solid var(--ink);margin-top:34px;padding-top:18px;scroll-margin-top:10px}
+#mcadv .alabel{display:inline-block;background:var(--red);color:var(--white);font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;border-radius:3px;margin:0 0 10px}
+#mcadv .alabel.dark{background:var(--black)}
+#mcadv .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 18px;border-top:2px solid var(--black);border-bottom:2px solid var(--black);padding:12px 0}
+#mcadv .stats div{text-align:center;min-width:0}
+#mcadv .stats b{display:block;font-family:var(--sans);font-weight:800;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+#mcadv .stats span{display:block;font-family:var(--sans);font-size:12px;line-height:1.3;color:var(--ink2);margin-top:3px}
+#mcadv .founder{background:var(--wash);padding:18px 16px 16px;margin:0 0 18px}
+#mcadv .founder img{width:100%;max-width:380px;margin:0 auto 16px}
+#mcadv .founder p{font-style:italic;margin:0 0 14px}
+#mcadv .sig{font-weight:700;margin:0}
+#mcadv .sig span{display:block;font-family:var(--sans);font-weight:500;font-size:12.5px;color:var(--ink3)}
+#mcadv h2{font-family:var(--serif);font-weight:700;font-size:clamp(23px,5.4vw,31px);line-height:1.17;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
+#mcadv figure{margin:0 0 18px}
+#mcadv figure img{width:100%}
+#mcadv figcaption{font-family:var(--sans);font-size:12px;line-height:1.4;color:var(--ink3);margin-top:6px}
+#mcadv .note{border-left:3px solid var(--black);padding:2px 0 2px 14px;margin:0 0 18px;font-style:italic}
+#mcadv .hook{font-weight:700}
+#mcadv .receipt{font-family:var(--sans);font-size:15px;border-top:2px solid var(--black);border-bottom:2px solid var(--black);margin:0 0 18px}
+#mcadv .receipt div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed #BDBDBD;font-variant-numeric:tabular-nums}
+#mcadv .receipt div span:first-child small{display:block;font-size:12.5px;color:var(--ink3)}
+#mcadv .receipt div:last-child{border-bottom:0;font-weight:800;font-size:18px}
+#mcadv .fix-list{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:12px}
+#mcadv .fix-list li{display:grid;justify-items:start;gap:6px}
+#mcadv .fix-list .fl{display:inline-block;background:var(--red);color:var(--white);font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:3px}
+#mcadv .fix-list .fa{display:flex;gap:9px;align-items:flex-start;width:100%;color:var(--ink);font-size:17px;line-height:1.45;padding:2px 0 0}
+#mcadv .fix-list .fa::before{content:"✓";font-family:var(--sans);font-weight:800;color:var(--green)}
+#mcadv .fr-h{font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin:4px 0 8px}
+#mcadv .fr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 20px}
+#mcadv .fr div{border:1.5px solid var(--black);padding:10px 8px 11px;text-align:center;min-width:0}
+#mcadv .fr b{display:block;font-family:var(--sans);font-weight:800;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;line-height:1.25}
+#mcadv .fr b::before{content:"✓";display:block;color:var(--green);font-size:18px;line-height:1;margin-bottom:5px}
+#mcadv .fr span{display:block;font-family:var(--sans);font-size:11.5px;line-height:1.35;color:var(--ink2);margin-top:4px}
+#mcadv .bigt{font-family:var(--serif);font-weight:700;font-size:clamp(28px,7vw,40px);line-height:1.1;letter-spacing:-.015em;margin:26px 0 16px;text-wrap:balance}
+#mcadv .pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:26px 0 8px}
+@media (min-width:560px){#mcadv .pics{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
+#mcadv .pics img{width:100%;aspect-ratio:1/1;object-fit:cover}
+#mcadv .pics-cap{font-family:var(--sans);font-size:12px;color:var(--ink3);margin:0 0 18px}
+#mcadv blockquote{margin:0 0 18px;padding:14px 16px;background:var(--wash)}
+#mcadv blockquote p{margin:0 0 6px;font-style:italic;font-size:17px;line-height:1.5}
+#mcadv blockquote cite{font-style:normal;font-family:var(--sans);font-size:12px;color:var(--ink3)}
+#mcadv .offer{border:2px solid var(--black);padding:18px 16px 16px;margin:28px 0 18px;text-align:center}
+#mcadv .offer h2{margin-bottom:10px}
+#mcadv .offer > p{font-size:17px;margin-bottom:12px}
+#mcadv .offer > ul{margin:0 0 6px;padding-left:20px;font-size:16.5px}
+#mcadv .offer > ul > li{margin-bottom:4px}
+#mcadv .small{font-family:var(--sans);font-size:12.5px;color:var(--ink3);text-align:center;margin:8px 0 0}
+#mcadv details{border-top:1px solid var(--rule)}
+#mcadv details:last-of-type{border-bottom:1px solid var(--rule)}
+#mcadv summary{cursor:pointer;list-style:none;font-family:var(--sans);font-weight:700;font-size:15.5px;padding:13px 26px 13px 0;position:relative}
+#mcadv summary::-webkit-details-marker{display:none}
+#mcadv summary::after{content:"+";position:absolute;right:2px;top:9px;font-size:21px;font-weight:500}
+#mcadv details[open] summary::after{content:"−"}
+#mcadv summary:focus-visible{outline:2px solid var(--ink3);outline-offset:2px}
+#mcadv details p{font-size:16.5px;color:var(--ink2);margin:0 0 14px}
+#mcadv footer{margin-top:36px;border-top:1px solid var(--ink);font-family:var(--sans);font-size:12px;line-height:1.55;color:var(--ink3)}
+#mcadv footer .wrap{padding-block:18px calc(90px + env(safe-area-inset-bottom,0px))}
+#mcadv footer p{margin:0 0 8px}
+#mcadv footer ol{margin:0 0 8px;padding-left:18px}
+#mcadv .bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--white);border-top:1px solid var(--ink);padding:9px max(16px,env(safe-area-inset-right,0px)) calc(9px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));transform:translateY(110%);transition:transform .25s ease}
+#mcadv .bar.on{transform:none}
+#mcadv .bar .btn{margin:0 auto;max-width:640px;padding:13px 16px}
+@media (min-width:900px){#mcadv .bar{display:none}}
+@media (prefers-reduced-motion:reduce){#mcadv .bar{transition:none}}
+#mcadv #mckb{--blush:#ECDFDE;
+  --blush-soft:#F3EAE8;
+  --rosewood:#C4A59F;
+  --rosewood-deep:#8A5B52;
+  --rosewood-tint:#E7D6D2;
+  --cream:#F9F5F0;
+  --ivory:#FFFFFF;
+  --cta:#0A9400;
+  --ink:#241C18;
+  --ink-soft:#5C4F48;
+  --footer:#1E1613;
+  --gold:#D9B08C;
+  --star:#F5B301;
+  --grad-em:linear-gradient(92deg,#7C3AED 0%,#C0589B 48%,#F59E0B 100%);
+  --grad-hero:linear-gradient(168deg,#F3E7E3 0%,#ECDFDE 34%,#E6CDBB 72%,#DCB99F 100%);
+  --grad-values:linear-gradient(160deg,#F6ECE6 0%,#ECDFDE 45%,#E9D3BE 100%);
+  --grad-badge:linear-gradient(145deg,#D9A98F 0%,#C4A59F 55%,#E3C1A4 100%);
+  --grad-cta:linear-gradient(135deg,#8A5B52 0%,#3A2721 90%);
+  --radius:22px;
+  --shadow:0 10px 34px rgba(60,38,30,.12);
+  --maxw:1080px;}
+#mcadv #mckb *{margin:0;padding:0;box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){#mcadv #mckb *,#mcadv #mckb *::before,#mcadv #mckb *::after{animation:none!important;transition:none!important}}
+#mcadv #mckb{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+#mcadv #mckb img,#mcadv #mckb svg{max-width:100%;display:block}
+#mcadv #mckb button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+#mcadv #mckb button:focus-visible{outline:3px solid var(--rosewood-deep);outline-offset:2px}
+#mcadv #mckb .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+#mcadv #mckb .section{padding:64px 0}
+#mcadv #mckb .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  width:100%;padding:17px 26px;border-radius:999px;
+  background:var(--cta);color:#FFFFFF;text-decoration:none;
+  font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  font-size:.86rem;box-shadow:0 12px 28px rgba(0,0,0,.28);
+  transition:transform .15s ease,box-shadow .15s ease;text-align:center;}
+#mcadv #mckb .btn:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(0,0,0,.36)}
+#mcadv #mckb .ph{position:relative;border-radius:var(--radius);overflow:hidden;
+  display:flex;align-items:flex-end;min-height:200px;
+  background:linear-gradient(150deg,#E9D8D2 0%,#D9BBAC 48%,#C4A59F 100%);}
+#mcadv #mckb .ph img.simg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#mcadv #mckb .ph.sq{aspect-ratio:1/1;min-height:0;height:auto}
+#mcadv #mckb .buybox{display:flex;flex-direction:column;gap:16px}
+#mcadv #mckb .pdp-buy{padding-top:18px}
+#mcadv #mckb .pdp-buy .buybox{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+#mcadv #mckb .picker{display:flex;flex-direction:column;gap:8px}
+#mcadv #mckb .pick{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  border:1.5px solid var(--blush);border-radius:14px;padding:9px 12px;background:var(--ivory);
+  transition:border-color .15s ease;}
+#mcadv #mckb .pick.on{border-color:var(--ink)}
+#mcadv #mckb .atc{margin-top:4px}
+@media(min-width:860px){#mcadv #mckb .pdp-buy .wrap{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+#mcadv #mckb .pdp-buy .buybox{margin-top:0}}
+#mcadv #mckb .pick{flex-direction:column;align-items:stretch;gap:8px;padding:11px 12px}
+#mcadv #mckb .atc span:first-child{font-size:1.05rem;letter-spacing:.1em}
+#mcadv #mckb .picker-title{font-family:'Unna',serif;font-weight:700;letter-spacing:-.03em;line-height:1;
+  font-size:clamp(1.71rem,6.3vw,2.16rem);text-align:center;margin-top:14px;text-wrap:balance;}
+#mcadv #mckb .pick{position:relative}
+#mcadv #mckb .pick{margin-top:4px}
+#mcadv #mckb .section{padding:38px 0}
+#mcadv #mckb .pdp-buy{padding-top:6px}
+#mcadv #mckb .pdp-buy .buybox{gap:10px}
+@media(max-width:899px){#mcadv #mckb .pdp-buy{padding-top:0}}
+#mcadv #mckb{--grad-em:linear-gradient(92deg,#A67C3D 0%,#B8905A 55%,#C9A25C 100%);}
+#mcadv #mckb .btn.atc span:first-child{font-size:1.02rem}
+#mcadv #mckb .btn.atc{background:#111}
+#mcadv #mckb{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif}
+#mcadv #mckb .kg-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#111;color:#fff;border-radius:999px;padding:3px 10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+#mcadv #mckb img{display:block !important}
+#mcadv #mckb svg{display:block !important}
+#mcadv #mckb .btn{display:flex !important}
+#mcadv #mckb .ph{display:flex !important}
+#mcadv #mckb .buybox{display:flex !important}
+#mcadv #mckb .pdp-buy .buybox{display:flex !important}
+#mcadv #mckb .picker{display:flex !important}
+#mcadv #mckb .pick{display:flex !important}
+@media(min-width:860px){#mcadv #mckb .pdp-buy .wrap{display:grid !important}}
+#mcadv #mckb ul{list-style:none !important;padding-left:0 !important;margin-left:0 !important}
+#mcadv #mckb li{list-style:none !important}
+#mcadv #mckb li::marker{content:'' !important}
+#mcadv #mckb p,#mcadv #mckb span,#mcadv #mckb div,#mcadv #mckb li,#mcadv #mckb ul,#mcadv #mckb b,#mcadv #mckb i,#mcadv #mckb em,#mcadv #mckb s,#mcadv #mckb small,#mcadv #mckb button,#mcadv #mckb section{font-family:inherit !important}
+#mcadv #mckb{font-family:'Be Vietnam Pro','BVP Fallback',system-ui,sans-serif !important;line-height:1.6 !important}
+#mcadv #mckb .btn{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important}
+#mcadv #mckb .picker-title{font-family:'Unna',serif !important;font-weight:700 !important;letter-spacing:-.03em !important;line-height:1 !important}
+#mcadv #mckb{font-family:'Be Vietnam Pro','Helvetica Neue',Arial,sans-serif !important}
+#mcadv #mckb .kg-tag{font-family:'Outfit',sans-serif !important;font-weight:700 !important;letter-spacing:.06em !important;text-transform:uppercase !important}
+#mcadv #mckb .tiers{display:flex;flex-direction:column;gap:12px;margin:10px 0 6px}
+#mcadv #mckb .tier{position:relative;display:flex;gap:12px;align-items:center;border:1.5px solid #E8E0D5;border-radius:14px;padding:16px 14px 14px;background:#fff;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+#mcadv #mckb .tier.on{border-color:#241C18;background:#FDFBF8;box-shadow:0 6px 18px rgba(36,28,24,.08)}
+#mcadv #mckb .tier .kg-tag{left:44px;transform:none}
+#mcadv #mckb .tier{align-items:center;gap:10px;padding:14px 12px 14px 12px;transition:background .2s,border-color .2s}
+#mcadv #mckb .tier.on{border-color:#241C18;box-shadow:0 8px 22px rgba(36,28,24,.10)}
+#mcadv #mckb .tier{gap:12px;padding:14px 12px}
+#mcadv #mckb .buybox .tier{gap:12px;padding:14px 12px}
+@media(min-width:600px){#mcadv #mckb .buybox .tier{gap:16px;padding:16px 16px}}
+#mcadv #mckb .atc-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+#mcadv #mckb .atc-chip{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;background:#FDFBF8;border:1.5px solid #E8E0D5;border-radius:14px;padding:12px 6px 11px}
+#mcadv #mckb .atc-chip-ic{font-size:1.5rem;line-height:1}
+#mcadv #mckb .atc-chip b{display:block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.74rem;line-height:1.2;color:#241C18;letter-spacing:.01em}
+#mcadv #mckb .atc-chip small{display:block;font-size:.68rem;color:#6E5B4F;line-height:1.25;margin-top:2px}
+#mcadv #mckb .step-title{margin-top:8px}
+#mcadv #mckb .btn.step-next{margin-top:14px}
+#mcadv #mckb .navrow{display:flex;gap:10px;margin-top:16px}
+#mcadv #mckb .navrow .btn{flex:1;margin:0}
+#mcadv #mckb .navrow .btn.atc{margin-top:0}
+#mcadv #mckb .navrow .btn.secondary{flex:0 0 56px;background:#fff;color:#241C18;border:1.5px solid #241C18;box-shadow:none}
+#mcadv #mckb .navrow .btn.secondary.wide{flex:1}
+#mcadv #mckb .kitrev{border:1.5px solid rgba(36,28,24,.16);border-radius:14px;background:#fff;box-shadow:0 6px 16px rgba(36,28,24,.06);padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin:12px 0 14px}
+#mcadv #mckb .kr-row{display:flex;align-items:center;gap:10px;font-size:.88rem}
+#mcadv #mckb .kr-row .kr-img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:0 0 44px;background:#fff}
+#mcadv #mckb .kr-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+#mcadv #mckb .kr-tx b{font-weight:700}
+#mcadv #mckb .kr-sub{font-size:.7rem;line-height:1.3;color:#7A6A5F}
+#mcadv #mckb .kr-pr{white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;font-size:.85rem;text-align:right}
+#mcadv #mckb .kr-pr s{color:#9A8B80;font-weight:600;margin-right:4px}
+#mcadv #mckb .kr-pr .inc{color:#1F7A3A}
+#mcadv #mckb .buybox .pick-pill{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:#F3EBE1;color:#241C18;border-radius:999px;padding:4px 10px;white-space:nowrap}
+#mcadv #mckb .buybox .pick-hint{margin:0;padding:12px 14px;border:1.5px dashed rgba(36,28,24,.22);border-radius:999px;text-align:center;font-size:.86rem;color:#5C4F46;flex:1}
+#mcadv #mckb .buybox .navrow{align-items:center}
+#mcadv #mckb .buybox .tier{gap:10px;padding:12px 12px 12px 10px}
+#mcadv #mckb .pick-scent{font-size:.76rem;font-weight:600;color:#5C4F46}
+#mcadv #mckb .pick-pill{font-size:.86rem !important;padding:9px 18px !important;background:#F3F1EE !important;color:#241C18 !important}
+#mcadv #mckb .pick-str{display:inline-flex;align-items:center;gap:3px;margin-top:4px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#5C4F46}
+#mcadv #mckb .pick-str i{display:inline-block;width:6px;height:6px;border-radius:99px;background:#D9D3CC}
+#mcadv #mckb .pick-str.s-soft i:nth-child(1),#mcadv #mckb .pick-str.s-medium i:nth-child(-n+2),#mcadv #mckb .pick-str.s-bold i{background:#241C18}
+#mcadv #mckb .pick-str i:nth-child(3){margin-right:3px}
+@media(min-width:900px){#mcadv #mckb .pdp-buy .wrap{grid-template-columns:minmax(0,46fr) minmax(0,54fr) !important;gap:44px}}
+#mcadv #mckb .pdp-buy > .wrap{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}
+#mcadv #mckb .pick-pill{white-space:normal !important;max-width:100%;line-height:1.35;text-align:center;display:inline-block}
+#mcadv #mckb .pick-pill{font-size:.62rem !important;padding:4px 11px !important;letter-spacing:.08em}
+#mcadv #mckb .place{margin:-6px 0 20px;padding:12px 12px 11px;border:1px solid #E6E3DE;border-radius:14px;background:#FAFAF8}
+#mcadv #mckb .place-head{font-family:'Outfit',sans-serif;font-weight:800;font-size:.92rem;letter-spacing:.1em;text-transform:uppercase;color:#141414;margin-bottom:10px;text-align:center}
+#mcadv #mckb .place-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px;align-items:center}
+#mcadv #mckb .plan{background:#fff;border:1px solid #ECE9E4;border-radius:10px;padding:6px;aspect-ratio:320/210}
+#mcadv #mckb .plan svg{display:block;width:100%;height:100%}
+#mcadv #mckb .place-rooms{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+#mcadv #mckb .place-room{font-family:'Outfit',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.04em;color:#241C18;background:#fff;border:1px solid #E6E3DE;border-radius:999px;padding:4px 9px;white-space:nowrap;line-height:1.3}
+#mcadv #mckb .place-cap{margin:0;font-size:.76rem;line-height:1.42;color:#5C4F46}
+#mcadv #mckb .place-cap b{color:#141414}
+@media (max-width:479px){#mcadv #mckb .place-grid{grid-template-columns:1fr;gap:10px}
+#mcadv #mckb .plan{max-width:300px;margin:0 auto}
+#mcadv #mckb .place-side{text-align:center}
+#mcadv #mckb .place-rooms{justify-content:center}}
+#mcadv #mckb .buybox .step-title{margin:12px 0 8px !important}
+#mcadv #mckb .buybox .btn.atc{margin-top:10px}
+#mcadv #mckb .place{margin:0 0 10px;padding:10px 12px}
+#mcadv #mckb .place-grid{grid-template-columns:118px minmax(0,1fr) !important;gap:10px;align-items:center}
+#mcadv #mckb .plan{width:118px;max-width:none;margin:0;padding:4px}
+#mcadv #mckb .place-side{text-align:left !important}
+#mcadv #mckb .place-head{font-size:.7rem;letter-spacing:.08em;margin:0 0 5px;text-align:left}
+#mcadv #mckb .place-rooms{justify-content:flex-start !important;gap:4px;margin-bottom:5px}
+#mcadv #mckb .place-room{font-size:.6rem;padding:3px 7px}
+#mcadv #mckb .place-cap{font-size:.72rem;line-height:1.35}
+@media (min-width:700px){#mcadv #mckb .place-grid{grid-template-columns:150px minmax(0,1fr) !important;gap:14px}
+#mcadv #mckb .plan{width:150px}}
+#mcadv #mckb .buybox .step-title{margin:10px 0 6px !important}
+#mcadv #mckb .buybox .btn.atc{margin-top:8px}
+#mcadv #mckb .place{margin-bottom:8px}
+#mcadv #mckb .picker.e4{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:6px}
+#mcadv #mckb .picker.e4 .pick{display:block !important;position:relative;padding:4px 4px 6px;border:1.5px solid #E6E3DE;border-radius:11px;background:#fff;text-align:center;cursor:pointer;min-height:0;margin:0}
+#mcadv #mckb .picker.e4 .pick.on{border-color:#141414;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
+#mcadv #mckb .picker.e4 .pick .ph{width:100% !important;max-width:none !important;height:auto !important;aspect-ratio:1/1;margin:0 !important;border-radius:8px;overflow:hidden;background:#F7F3EE}
+#mcadv #mckb .picker.e4 .pick .ph img{width:100%;height:100%;object-fit:cover}
+#mcadv #mckb .picker.e4 .e4-name{display:block;font-family:'Be Vietnam Pro','BVP Fallback',system-ui,sans-serif;font-weight:600;font-size:10px;line-height:1.15;margin-top:5px;min-height:23px;color:#141414;overflow-wrap:anywhere}
+#mcadv #mckb .e4-bar{margin-top:7px;font-size:11px;line-height:1.4;color:#5C4F46;background:#F7F3EE;border:1px solid #E6E3DE;border-radius:10px;padding:8px 10px;min-height:38px;display:flex;align-items:flex-start;gap:8px;text-align:left}
+#mcadv #mckb .e4-bar b{color:#141414;font-weight:600}
+#mcadv #mckb .e4-bar{justify-content:center;align-items:center;text-align:center}
+@media (min-width:700px){#mcadv #mckb .picker.e4{grid-template-columns:repeat(7,minmax(0,1fr)) !important;gap:8px}
+#mcadv #mckb .picker.e4 .e4-name{font-size:10.5px}}
+#mcadv #mckb .step-eyebrow{font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#A3874A;text-align:center;margin:6px 0 2px}
+#mcadv #mckb .buybox .s9-title{text-align:center;font-size:1.7rem;line-height:1.1;margin:0 0 12px !important}
+#mcadv #mckb .buybox .s9-title em{font-style:italic;font-weight:700}
+#mcadv #mckb .tiers.t9{gap:12px;margin:4px 0 10px}
+#mcadv #mckb .btn.step-next{margin-top:14px}
+#mcadv #mckb .s9-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px}
+#mcadv #mckb .buybox .s9-head .s9-title{margin:0 !important;text-align:left;font-size:1.45rem}
+#mcadv #mckb .s9-head .pick-pill{flex:none;white-space:nowrap !important}
+#mcadv #mckb .picker.e4 .pick.full{opacity:.45}
+#mcadv #mckb #buybox.step-2 .buybox,#mcadv #mckb #buybox.step-3 .buybox{padding-top:8px}
+#mcadv #mckb .navrow{margin-top:12px}
+#mcadv #mckb .kitrev.k9{margin:4px 0 10px;padding:10px 12px;gap:7px}
+#mcadv #mckb .kitrev.k9 .kr-row{font-size:.84rem}
+#mcadv #mckb .kitrev.k9 .kr-row > .ph.sq{flex:0 0 36px;width:36px !important;height:36px !important;min-height:0 !important;margin:0 !important;border-radius:8px !important;overflow:hidden}
+#mcadv #mckb .kitrev.k9 .kr-row .kr-img{width:36px;height:36px;flex-basis:36px}
+#mcadv #mckb .kitrev.k9 .kr-sub{font-size:.66rem}
+#mcadv #mckb .s9-freq-head{font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.02em;color:#241C18;margin:2px 0 6px}
+#mcadv #mckb .rf3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#mcadv #mckb .rf3-opt{position:relative;border:1.5px solid #E6E0D8;border-radius:12px;background:#fff;padding:10px 6px;text-align:center;cursor:pointer;font-family:'Outfit',sans-serif;color:#241C18;display:flex;flex-direction:column;align-items:center;gap:2px;margin:0}
+#mcadv #mckb .rf3-opt b{font-weight:800;font-size:.95rem}
+#mcadv #mckb .rf3-opt small{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#8A4B4B;font-weight:700}
+#mcadv #mckb .rf3-opt.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset;background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
+#mcadv #mckb .s9-freq-note{margin:8px 0 0;font-size:.82rem;line-height:1.4;color:#5C4F46;text-align:center}
+#mcadv #mckb .s9-freq-note b{color:#241C18;font-weight:700}
+#mcadv #mckb #buybox.step-3 .btn.atc{margin-top:10px}
+#mcadv #mckb .navrow.back-only{margin-top:10px}
+@media (min-width:700px){#mcadv #mckb .buybox .s9-title{font-size:2rem}
+#mcadv #mckb .buybox .s9-head .s9-title{font-size:1.6rem}}
+#mcadv #mckb .buybox .s9-title{font-size:1.45rem}
+#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.32rem;margin-bottom:8px !important}
+#mcadv #mckb .step-eyebrow{margin:4px 0 2px}
+#mcadv #mckb .s9-head{margin-bottom:6px}
+#mcadv #mckb #buybox.step-2 .picker.e4{gap:5px}
+#mcadv #mckb #buybox.step-2 .picker.e4 .e4-name{min-height:20px;margin-top:4px}
+#mcadv #mckb #buybox.step-2 .e4-bar{padding:6px 10px;margin-top:6px;font-size:10.5px}
+#mcadv #mckb #buybox.step-2 .navrow{margin-top:8px}
+#mcadv #mckb .kitrev.k9{gap:6px;padding:8px 12px}
+#mcadv #mckb .kitrev.k9 .kr-sub{display:none}
+#mcadv #mckb .kitrev.k9 .kr-row{font-size:.86rem}
+#mcadv #mckb .s9-freq-head{margin:0 0 6px}
+#mcadv #mckb .rf3-opt{padding:8px 6px}
+#mcadv #mckb .s9-freq-note{margin-top:6px;font-size:.78rem}
+#mcadv #mckb #buybox.step-3 .btn.atc{margin-top:8px}
+#mcadv #mckb #buybox.step-2 .atc-chips,#mcadv #mckb #buybox.step-3 .atc-chips{margin-top:10px}
+#mcadv #mckb #buybox.step-2 .atc-chip,#mcadv #mckb #buybox.step-3 .atc-chip{padding:8px 4px 7px}
+#mcadv #mckb #buybox.step-2 .atc-chip small,#mcadv #mckb #buybox.step-3 .atc-chip small{line-height:1.2}
+#mcadv #mckb .kitrev.k9{gap:4px}
+#mcadv #mckb .rf3-opt{padding:7px 6px}
+#mcadv #mckb #buybox.step-2 .atc-chip,#mcadv #mckb #buybox.step-3 .atc-chip{padding:7px 4px 6px;gap:4px}
+@media (max-height:780px){#mcadv #mckb #buybox.step-2 .atc-chip small,#mcadv #mckb #buybox.step-3 .atc-chip small{display:none}
+#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.2rem}}
+@media (max-width:699px){#mcadv #mckb #buybox.step-1 .buybox{gap:10px}}
+#mcadv #mckb .tiers.t9{gap:9px;margin:0 0 6px}
+#mcadv #mckb #buybox.step-1 .step-eyebrow{margin:2px 0 0}
+#mcadv #mckb #buybox.step-1 .s9-title{font-size:1.35rem;margin-bottom:6px !important}
+#mcadv #mckb #buybox.step-1 .btn.step-next{margin-top:4px}
+#mcadv #mckb #buybox.step-1 .atc-chips{margin-top:8px}
+#mcadv #mckb #buybox.step-1 .place{margin-top:6px}
+#mcadv #mckb .picker.e4 .e4-step{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px}
+#mcadv #mckb .picker.e4 .e4-step button{width:22px;height:22px;border-radius:50%;border:1.5px solid #141414;background:#fff;color:#141414;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;margin:0}
+#mcadv #mckb .picker.e4 .e4-step button:disabled{opacity:.3;cursor:not-allowed}
+#mcadv #mckb .picker.e4 .e4-step b{min-width:12px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:12px;color:#141414}
+#mcadv #mckb .picker.e4 .pick.on .e4-step button:not(:disabled){background:#141414;color:#fff}
+#mcadv #mckb #buybox.step-2 .picker.e4 .e4-name{min-height:0}
+@media (min-width:700px){#mcadv #mckb .picker.e4 .e4-step{gap:4px}
+#mcadv #mckb .picker.e4 .e4-step button{width:20px;height:20px;font-size:13px}}
+#mcadv #mckb #buybox.step-2 .buybox,#mcadv #mckb #buybox.step-3 .buybox{gap:8px}
+#mcadv #mckb .picker.e4 .pick{padding-bottom:4px}
+#mcadv #mckb .picker.e4 .pick .ph{position:relative}
+#mcadv #mckb .picker.e4 .e4-step{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);margin:0;background:rgba(255,255,255,.92);border-radius:999px;padding:2px 3px;box-shadow:0 1px 4px rgba(0,0,0,.18);z-index:2;gap:5px}
+#mcadv #mckb .picker.e4 .e4-step button{width:20px;height:20px;font-size:13px}
+#mcadv #mckb .picker.e4 .e4-step b{font-size:11px;min-width:10px}
+#mcadv #mckb #buybox.step-2 .picker.e4 .e4-name{min-height:20px;margin-top:4px}
+#mcadv #mckb #buybox.step-2 .e4-bar{margin-top:0}
+#mcadv #mckb #buybox.step-2 .navrow{margin-top:2px}
+#mcadv #mckb #buybox.step-2 .atc-chips,#mcadv #mckb #buybox.step-3 .atc-chips{margin-top:4px}
+#mcadv #mckb #buybox.step-3 .btn.atc{margin-top:2px}
+#mcadv #mckb .kitrev.k9{margin:0 0 4px}
+@media (max-width:699px){#mcadv #mckb #buybox.step-1 .buybox{gap:8px}
+#mcadv #mckb #buybox.step-1 .s9-title{font-size:1.45rem;margin-bottom:4px !important}
+#mcadv #mckb .tiers.t9{gap:8px;margin-bottom:2px}
+#mcadv #mckb #buybox.step-1 .atc-chips{display:flex;gap:4px;margin-top:6px}
+#mcadv #mckb #buybox.step-1 .atc-chip{flex:1;flex-direction:row;gap:4px;padding:6px 4px;border-radius:999px;justify-content:center}
+#mcadv #mckb #buybox.step-1 .atc-chip .atc-chip-ic{font-size:13px;line-height:1}
+#mcadv #mckb #buybox.step-1 .atc-chip b{font-size:.6rem;line-height:1.1;white-space:nowrap}
+#mcadv #mckb #buybox.step-1 .atc-chip small{display:none}
+#mcadv #mckb #buybox.step-1 .btn.step-next{margin-top:2px}}
+#mcadv #mckb .tiers.t9cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 8px}
+#mcadv #mckb .tier.t9c3{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:12px 6px 10px;border:1.5px solid #E6E0D8;border-radius:14px;background:#fff;box-shadow:none;position:relative}
+#mcadv #mckb .tier.t9c3.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset;background:#F3E9E6}
+#mcadv #mckb .t9-n{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;color:#141414;line-height:1.2}
+#mcadv #mckb .tier.t9c3 .kg-tag.t9-tag,#mcadv #mckb .tier.t9c3 .kg-tag.t9-tag.pop{top:-9px;left:50%;transform:translateX(-50%);background:#A3874A;font-size:.5rem;padding:3px 8px;white-space:nowrap}
+@media (min-width:700px){#mcadv #mckb .t9-n{font-size:.78rem}}
+#mcadv #mckb #buybox.step-1 .place{margin:0 0 4px}
+#mcadv #mckb .buybox .btn.atc,#mcadv #mckb .buybox .navrow .btn{padding:13px 22px}
+#mcadv #mckb .navrow .btn.secondary{flex-basis:50px}
+#mcadv #mckb .s9-head2{align-items:center;gap:12px}
+#mcadv #mckb .s9-head-tx{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+#mcadv #mckb .s9-head-tx .pick-pill{align-self:flex-start}
+#mcadv #mckb #buybox.step-2 .e4-bar{font-size:12.5px;line-height:1.4;color:#141414;padding:8px 10px}
+#mcadv #mckb .e4-bar,#mcadv #mckb .e4-bar .e4-txt{color:#141414}
+#mcadv #mckb .buybox p,#mcadv #mckb .buybox small,#mcadv #mckb .buybox s,#mcadv #mckb .pick-hint,#mcadv #mckb .s9-freq-note,#mcadv #mckb .atc-chip small,#mcadv #mckb .place-cap,#mcadv #mckb .kr-sub,#mcadv #mckb .kr-pr s{color:#141414 !important}
+#mcadv #mckb .tiers.t9cols{gap:10px;margin:6px 0 10px}
+#mcadv #mckb .tier.t9c3{gap:5px;padding:16px 8px 14px}
+#mcadv #mckb .buybox .btn.atc,#mcadv #mckb .buybox .navrow .btn{padding:10px 20px;font-size:.86rem !important}
+#mcadv #mckb .s9-res{flex:none;display:flex;align-items:center;gap:8px;border:1.5px solid #141414;border-radius:12px;padding:6px 10px 6px 6px;background:#F3E9E6;max-width:190px}
+#mcadv #mckb .s9-res > .ph.sq{width:44px !important;height:44px !important;min-height:0 !important;flex:0 0 44px;margin:0 !important;border-radius:8px !important;background:#fff;border:1px solid #ECE9E4;overflow:hidden}
+#mcadv #mckb .s9-res-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+#mcadv #mckb .s9-res-tx b{font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.06em;line-height:1.2;color:#141414}
+#mcadv #mckb .s9-res-tx small{font-size:.6rem;line-height:1.2;color:#141414}
+@media (min-width:700px){#mcadv #mckb .s9-res{max-width:220px}}
+#mcadv #mckb .s9-banner{margin:0 0 2px;border-radius:14px;overflow:hidden;background:#F7F3EE;aspect-ratio:2/1}
+#mcadv #mckb .s9-banner img{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:699px){#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.2rem;margin-bottom:6px !important}
+#mcadv #mckb .kitrev.k9{padding:6px 10px;gap:3px}
+#mcadv #mckb .s9-freq-note{font-size:.76rem;margin-top:4px}}
+#mcadv #mckb .picker.e4 .pick.peek{box-shadow:0 0 0 2px #141414 inset}
+#mcadv #mckb #buybox.step-2 .buybox{gap:12px}
+#mcadv #mckb #buybox.step-3 .buybox{gap:10px}
+#mcadv #mckb #buybox.step-2 .buybox{gap:8px}
+#mcadv #mckb #buybox.step-3 .buybox{gap:8px}
+#mcadv #mckb #buybox.step-2 .e4-bar{flex-wrap:wrap}
+#mcadv #mckb #buybox.step-3 .step-eyebrow{margin:0}
+#mcadv #mckb .s9-freq-head{margin-bottom:4px}
+#mcadv #mckb .s9-res-tx small b{font-weight:800;color:#141414}
+#mcadv #mckb #buybox.step-2 .e4-bar{flex-wrap:nowrap}
+@media (max-width:699px){#mcadv #mckb .buybox .s9-head2 .s9-title{font-size:1.3rem}
+#mcadv #mckb .s9-res{max-width:172px;padding:6px 8px 6px 6px}}
+#mcadv #mckb .rf3-opt small{background:#A3874A;color:#fff;border-radius:999px;padding:3px 8px;font-size:.54rem;letter-spacing:.08em;line-height:1.2;margin-top:2px}
+#mcadv #mckb .rf3-opt.on small{background:#8A4B4B}
+#mcadv #mckb .rf3-opt{justify-content:center;text-align:center;min-height:60px}
+#mcadv #mckb .rf3-opt b{width:100%;text-align:center}
+#mcadv #mckb .rf3-opt small,#mcadv #mckb .rf3-opt.on small{background:#141414;color:#fff}
+@media (max-width:699px){#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.4rem}}
+@media (min-width:700px){#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.75rem}}
+#mcadv #mckb .s9-res-tx small s{color:#141414}
+#mcadv #mckb .s9-res-tx small .s9-free{color:#1E7A1E;font-weight:800}
+#mcadv #mckb .rf3-opt small,#mcadv #mckb .rf3-opt.on small{color:#fff !important}
+#mcadv #mckb .s9-res-tx small .s9-free{color:#1E7A1E !important}
+#mcadv #mckb .s9-value{margin:2px 0 0;text-align:center;font-size:.9rem;line-height:1.35;color:#141414}
+#mcadv #mckb .s9-value .s9-val-green{color:#1E7A1E !important;font-weight:800}
+#mcadv #mckb .s9-due{display:flex;flex-direction:column;align-items:center;gap:0;margin:2px 0 0}
+#mcadv #mckb .s9-due-l{font-family:'Outfit',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#7A4B3A}
+#mcadv #mckb .s9-due-n{font-family:'Unna',serif;font-weight:700;font-size:2.4rem;line-height:1.05;color:#141414;letter-spacing:-.02em}
+#mcadv #mckb .s9-due-n sup{font-size:.5em;vertical-align:top;margin-right:1px;line-height:1.6}
+#mcadv #mckb .kitrev.k9{margin-bottom:0}
+#mcadv #mckb #buybox.step-3 .s9-freq-note{text-align:center}
+@media (max-width:699px){#mcadv #mckb .kitrev.k9{gap:2px;padding:6px 10px}
+#mcadv #mckb .kitrev.k9 .kr-row{font-size:.8rem;gap:8px}
+#mcadv #mckb .kitrev.k9 .kr-row > .ph.sq{flex-basis:28px;width:28px !important;height:28px !important}
+#mcadv #mckb .kitrev.k9 .kr-row .kr-img{width:28px;height:28px;flex-basis:28px}
+#mcadv #mckb .s9-value{font-size:.84rem}
+#mcadv #mckb .s9-due-n{font-size:2.1rem}
+#mcadv #mckb .s9-due-l{font-size:.6rem}
+#mcadv #mckb #buybox.step-3 .s9-freq-note{font-size:.74rem;line-height:1.3;margin-top:2px}
+#mcadv #mckb #buybox.step-3 .s9-freq-head{margin:0 0 3px}
+#mcadv #mckb #buybox.step-3 .rf3-opt{min-height:52px;padding:6px 6px}}
+@media (min-width:700px){#mcadv #mckb .s9-banner{aspect-ratio:auto;height:210px}}
+#mcadv #mckb #buybox.step-3 .buybox{gap:7px}
+#mcadv #mckb .s9-banner{margin:0}
+#mcadv #mckb .s9-value,#mcadv #mckb .s9-due{margin:0}
+@media (max-width:699px){#mcadv #mckb #buybox.step-3 .s9-title{margin-bottom:4px !important}}
+@media (min-width:700px){#mcadv #mckb .s9-banner{height:176px}}
+#mcadv #mckb .kitrev > * + *,#mcadv #mckb .kitrev .kr-row{margin-block-start:0 !important;margin-top:0 !important}
+#mcadv #mckb .rf3-opt small,#mcadv #mckb .rf3-opt.on small{white-space:nowrap;padding:3px 6px;letter-spacing:.06em;max-width:100%}
+@media (min-width:700px){#mcadv #mckb .s9-banner{height:164px}
+#mcadv #mckb .kitrev.k9{padding:6px 12px}}
+#mcadv #mckb .buybox .s9-title{font-size:1.6rem}
+#mcadv #mckb #buybox.step-1 .s9-title{font-size:1.6rem}
+@media (max-width:699px){#mcadv #mckb .buybox .s9-head2 .s9-title{font-size:1.43rem}
+#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.54rem}}
+@media (min-width:700px){#mcadv #mckb .buybox .s9-title{font-size:2.2rem}
+#mcadv #mckb .buybox .s9-head .s9-title{font-size:1.76rem}
+#mcadv #mckb #buybox.step-3 .s9-title{font-size:1.93rem}}
+#mcadv #mckb .t9-n{font-size:.86rem;font-weight:800}
+@media (min-width:700px){#mcadv #mckb .t9-n{font-size:.92rem}}
+#mcadv #mckb .tier.t9c3{justify-content:flex-start}
+#mcadv #mckb .place-head{font-size:.75rem}
+#mcadv #mckb .place-room{font-size:.65rem;padding:3px 8px}
+#mcadv #mckb .place-cap{font-size:.78rem;line-height:1.38}
+#mcadv #mckb #buybox.step-2 .picker.e4{gap:9px}
+@media (min-width:700px){#mcadv #mckb #buybox.step-2 .picker.e4{gap:10px}}
+#mcadv #mckb .picker.e4 .pick{padding:3px 3px 7px}
+#mcadv #mckb .picker.e4 .e4-ph{position:relative;display:block}
+#mcadv #mckb #buybox.step-2 .picker.e4 .e4-name{font-size:11px;min-height:0;margin-top:6px;line-height:1.2}
+@media (min-width:700px){#mcadv #mckb #buybox.step-2 .picker.e4 .e4-name{font-size:11.5px}}
+#mcadv #mckb .picker.e4 .e4-step{gap:6px;padding:3px 4px}
+#mcadv #mckb .picker.e4 .e4-step button{width:22px;height:22px;font-size:14px}
+#mcadv #mckb .picker.e4 .e4-step b{font-size:12px;min-width:11px}
+#mcadv #mckb .picker.e4 .e4-str{display:inline-flex;justify-content:center;margin:3px auto 0;font-size:.5rem;letter-spacing:.08em;color:#141414}
+#mcadv #mckb .picker.e4 .e4-str i{width:5px;height:5px}
+#mcadv #mckb #buybox.step-2 .e4-bar{display:block;padding:10px 12px;margin-top:2px;font-size:12.5px;line-height:1.45;text-align:center}
+#mcadv #mckb .e4-bar .e4-l1{font-size:14.5px;line-height:1.3}
+#mcadv #mckb #buybox.step-3 .buybox{gap:10px}
+#mcadv #mckb .kitrev.k9{padding:8px 12px;gap:4px}
+@media (max-width:699px){#mcadv #mckb .kitrev.k9{padding:8px 10px;gap:4px}}
+#mcadv #mckb .s9-value{margin-top:2px}
+#mcadv #mckb .s9-due{margin:2px 0}
+#mcadv #mckb .s9-freq-head{margin:2px 0 8px}
+#mcadv #mckb .rf3{gap:10px}
+#mcadv #mckb #buybox.step-3 .s9-freq-note,#mcadv #mckb .s9-freq-note{font-size:.81rem;line-height:1.38;margin-top:5px}
+#mcadv #mckb #buybox.step-1 .atc-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+#mcadv #mckb #buybox.step-1 .atc-chip{flex-direction:column;gap:4px;padding:7px 4px 6px;border-radius:14px}
+#mcadv #mckb #buybox.step-1 .atc-chip .atc-chip-ic{font-size:1.5rem;line-height:1}
+#mcadv #mckb #buybox.step-1 .atc-chip b{font-size:.74rem;line-height:1.2;white-space:normal}
+#mcadv #mckb #buybox.step-1 .atc-chip small{display:block;line-height:1.2}
+#mcadv #mckb .picker.e4 .e4-step{position:static;left:auto;bottom:auto;transform:none;margin:5px auto 0;width:max-content;background:transparent;box-shadow:none;padding:0;gap:7px}
+#mcadv #mckb .picker.e4 .pick{padding-bottom:8px}
+#mcadv #mckb .rf3{padding-top:8px}
+#mcadv #mckb .rf3-opt b{font-size:1rem}
+#mcadv #mckb #buybox.step-3 .rf3-opt,#mcadv #mckb .rf3-opt{min-height:50px;padding:10px 6px;overflow:visible}
+#mcadv #mckb .rf3-opt small.rf3-tag,#mcadv #mckb .rf3-opt.on small.rf3-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);margin:0}
+#mcadv #mckb .tiers.t9cols > .tier{margin:0 !important}
+#mcadv #mckb .s9-freq-head,#mcadv #mckb #buybox.step-3 .s9-freq-head{text-align:center;font-size:.92rem;margin:2px 0 8px}
+#mcadv #mckb .tier.t9c3 .t9s-n{font-size:.95rem;font-weight:800;line-height:1.1}
+@media (min-width:700px){#mcadv #mckb .tier.t9c3 .t9s-n{font-size:1.1rem}}
+#mcadv #mckb .tier.t9c3 .t9s-each{font-family:'Outfit',sans-serif;font-weight:600;font-size:.66rem;color:#5C4F46;line-height:1.2;margin:3px 0 6px}
+#mcadv #mckb .tier.t9c3 .t9s-gift{font-family:'Outfit',sans-serif;font-weight:800;font-size:.76rem;line-height:1.15;color:#141414}
+@media (min-width:700px){#mcadv #mckb .tier.t9c3 .t9s-each{font-size:.74rem}
+#mcadv #mckb .tier.t9c3 .t9s-gift{font-size:.86rem}}
+#mcadv #mckb .t9s-how{list-style:none;margin:0 0 10px;padding:10px 14px 10px 20px;padding-left:20px !important;background:#FAF7F3;border:1px solid #EFE8E0;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.74rem;line-height:1.35;color:#2A221E;display:grid;gap:5px}
+#mcadv #mckb .t9s-how li{position:relative;padding-left:22px;margin:0}
+#mcadv #mckb .t9s-how li::before{content:"\2713";position:absolute;left:0;top:0;color:#1E7A46;font-weight:800}
+@media (min-width:700px){#mcadv #mckb .t9s-how{font-size:.84rem;padding:12px 16px 12px 22px;padding-left:22px !important}}
+#mcadv #mckb .tier.t9c3 .t9p2-free{color:#1E7A1E;font-weight:800}
+#mcadv #mckb .tier.t9c3 .t9p2-pic{position:relative;display:block;flex:none;margin:0 0 4px}
+#mcadv #mckb .tier.t9c3 .t9p2-pic > .ph.sq{width:64px !important;height:64px !important;min-height:0 !important;flex:none;margin:0 !important;border-radius:10px !important;background:#fff;border:1px solid #ECE9E4;overflow:hidden}
+#mcadv #mckb .tier.t9c3 .t9p2-pic > .ph.sq img{object-fit:cover}
+#mcadv #mckb .tier.t9c3 .t9p2-val{font-family:'Outfit',sans-serif;font-size:.64rem;font-weight:600;color:#5C4F46;line-height:1.2;margin-top:2px}
+#mcadv #mckb .tier.t9c3 .t9p2-val s{color:#9A8B80;font-weight:700;margin-right:2px}
+@media (min-width:700px){#mcadv #mckb .tier.t9c3 .t9p2-pic > .ph.sq{width:84px !important;height:84px !important}
+#mcadv #mckb .tier.t9c3 .t9p2-val{font-size:.72rem}}
+#mcadv #mckb .tier.t9c3 .t9f-framed{margin-top:6px}
+#mcadv #mckb .tier.t9c3 .t9f-framed > .ph.sq{border:2px solid #1E7A1E !important}
+#mcadv #mckb .tier.t9c3 .t9f-pill{position:absolute;z-index:2;top:-8px;left:50%;transform:translateX(-50%);background:#1E7A1E;color:#fff;font-family:'Outfit',sans-serif;font-style:normal;font-weight:800;font-size:.54rem;letter-spacing:.12em;line-height:1;padding:4px 8px;border-radius:999px;border:2px solid #fff;white-space:nowrap}
+#mcadv #mckb .tier.t9c3.on .t9f-pill{border-color:#F3E9E6}
+@media (min-width:700px){#mcadv #mckb .tier.t9c3 .t9f-pill{font-size:.62rem;padding:4px 10px;top:-9px}}
+#mcadv #mckb #buybox.step-3 .t9s-how{margin:12px 0 14px}
+#mcadv #mckb .mc-ic{display:inline-flex;align-items:center;justify-content:center;flex:none}
+#mcadv #mckb .mc-ic svg{width:100%;height:100%;display:block}
+#mcadv #mckb .atc-chip .mc-ic.atc-chip-ic{width:26px;height:26px;font-size:0;margin:0 auto 4px}
+#mcadv #mckb #buybox.step-1 .atc-chip .mc-ic.atc-chip-ic{width:26px;height:26px;font-size:0}
+#mcadv #mckb .buybox .dk-eta .mc-ic.dk-eta-ic{width:18px;height:18px;vertical-align:-4px;margin-right:6px;display:inline-flex}
+#mcadv #mckb .place-room{display:inline-flex !important;align-items:center;gap:5px}
+#mcadv #mckb .place-room .mc-ic.pr-ic{width:15px;height:15px}
+#mcadv #mckb .e4-bar .e4-sw{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:7px;vertical-align:-1px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+#mcadv #mckb .e4-bar .mc-ic.e4-arrow{width:17px;height:17px;vertical-align:-3px;margin-right:4px;display:inline-flex}
+#mcadv #mckb .tier.t9c3 .t9f-pill{background:#111 !important}
+#mcadv #mckb .s9-due .s9-due-each{display:block;margin-top:2px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:#5C4F46;letter-spacing:.01em}
+#mcadv #mckb .buybox .dk-eta{margin:9px 0 0;text-align:center;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:500;color:#3A322D;line-height:1.3}
+#mcadv #mckb .buybox .dk-eta b{font-weight:800;color:#141414}
+#mcadv #mckb .buybox .dk-eta-ic{margin-right:6px}
+@media (min-width:700px){#mcadv #mckb .buybox .dk-eta{font-size:.82rem}}
+#mcadv #mckb{margin:18px -16px 0;padding:18px 16px 20px;background:#F4F4F4;text-align:left}
+#mcadv #mckb .pdp-buy{padding:0 !important}
+#mcadv #mckb .pdp-buy .wrap,#mcadv #mckb .pdp-buy > .wrap{display:block !important;max-width:none;margin:0;padding:0}
+#mcadv #mckb .pdp-buy .buybox{margin-top:0}
+#mcadv #mckb .step-title:focus{outline:none}
+#mcadv #mckb{scroll-margin-top:12px}
+#mcadv #mckb{letter-spacing:-.16px}
+#mcadv #mckb div+div{margin-top:12px}
+#mcadv #mckb .s9-title{text-wrap:balance}
+#mcadv #mckb .btn.atc,#mcadv #mckb .btn.secondary{background-color:#141414 !important;color:#fff !important;box-shadow:none !important}
+#mcadv #mckb .navrow .btn.secondary{border-width:1px}
+#mcadv #mckb .kr-pr .inc{display:inline-block}
+#mcadv #mckb .kb-done{font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.4;text-align:center;color:#241C18;background:#F3EBE1;border-radius:14px;padding:10px 14px}
+@media (max-width:479px){#mcadv #mckb{padding-left:8px;padding-right:8px}}
+#mcadv #offer > .trust{margin:0 -16px -16px;padding:2px 16px 18px;background:#F4F4F4}
+#mcadv #mckb .step-eyebrow{font-size:.86rem}
+#mcadv #mckb .buybox .step-eyebrow{margin-top:14px !important}
+#mcadv #mckb .buybox .kb-logo{display:block;width:96px;height:auto;margin:14px auto 0}
+#mcadv #mckb .buybox .kb-logo + .step-eyebrow{margin-top:10px !important}
+#mcadv #mckb .tier.t9c3 .t9s-gift{text-transform:uppercase;color:#1E7A1E;letter-spacing:.02em}
+#mcadv #mckb .buybox .s9-title .t1-em{white-space:nowrap}
+#mcadv #mckb .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center;font-weight:700;color:#241C18}</style>
+<div id="mcadv">
+<div class="ann" id="top"><div class="wrap">Read this before you light another candle</div></div>
+<div class="site"><div class="wrap">
+  <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+  <a class="logo" href="#top" aria-label="The Indoor Air Report"><svg class="mark" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="17.5" fill="#000"/><g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M7 12.5q3-2.6 6 0t6 0t6 0t5 0"/><path d="M7 18q3-2.6 6 0t6 0t6 0t5 0"/><path d="M7 23.5q3-2.6 6 0t6 0t6 0t5 0"/></g></svg><span class="lt" aria-hidden="true"><span class="l0">THE</span><span class="l1">Indoor Air</span><span class="l2">REPORT</span></span></a>
+  <svg class="search" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="#111" stroke-width="2"/><path d="M13 13l5 5" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+</div></div>
+
+<div class="wrap amain">
+  <header class="top">
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li>Health</li><li>Healthy Home</li><li aria-current="page">Indoor Air Quality</li></ol></nav>
+    <h1>The Candle In The Kitchen, The Spray In The Living Room, The Plug-In In The Bedroom: Here’s What They Actually Leave In The Air Your Kids And Pets Breathe.</h1>
+    <p class="desc">Why fill your home with smoke and chemicals just because they smell good? <strong>Read these 5 alerts before you do it again.</strong></p>
+    <div class="author"><img class="av" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-pat-face.jpg?v=1793302792" width="68" height="68" alt=""><span>By <b>Patricia T.</b><br>Updated Oct 29, 2026 · 5 min read</span></div>
+    <figure class="hero">
+      <img fetchpriority="high" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-smoke.jpg?v=1793302792" width="1200" height="675" alt="Late-afternoon sun through a living-room window showing a haze of smoke above burning candles and an incense stick">
+    </figure>
+    <a class="btn" href="#alert-1">Read the alerts · 5 min read ↓</a>
+  </header>
+
+  <article>
+    <p class="lede"><strong>The EPA lists burning candles and incense among the sources of fine particles in your home: particles small enough to get deep into the lungs.</strong> Now look at who's sitting closest to the candle tonight.</p>
+    <p>And it doesn't stop at candles. The spray before guests arrive, the plug-in in the bedroom, even the water diffuser on the nightstand that's supposed to be the healthy choice: <strong>every one of them leaves something behind in the air your kids and pets breathe.</strong></p>
+    <aside class="ednote" aria-label="Editor's note"><p class="k">Editor's note</p><div class="row"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="144" height="144" alt="The Maison Croyez waterless diffuser"><p>Short on time? The fix most of these alerts point to is a diffuser with <strong>no water, no flame and no spray</strong>. The first 1,000 are free with your scents.</p></div><a class="btn" href="#mckb" data-cta="note">See the waterless diffuser ➔</a></aside>
+    <p class="hook">Here are the five alerts most people miss. Save the last one for the end: it's the one that matters most.</p>
+
+    <section class="alert" id="alert-1" aria-labelledby="a1">
+      <p class="alabel">Alert #1</p>
+      <h2 id="a1">The “Healthy” Diffuser On Your Nightstand May Be Growing Mold.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-mold.jpg?v=1793302792" width="680" height="400" alt="The inside of a water diffuser's tank with a ring of grey residue and pink buildup"><figcaption>The tank of a water diffuser after a few weeks of use.</figcaption></figure>
+      <p>Water diffusers feel like the clean option. Just water and a few drops of oil, right?</p>
+      <p>That tank sits full of <strong>standing water for days, warm and in the dark</strong>. It's exactly where <strong>mold and bacteria grow</strong>. And every time the diffuser runs, <strong>whatever is growing in there goes into the mist you breathe while you sleep.</strong></p>
+      <p>That's why the EPA's advice for humidifiers, which mist water the same way, is so strict: <strong>empty it every day, clean it every third day.</strong> Skip a week and you're misting whatever grew in there.</p>
+      <p class="note">Be honest: when did you last scrub yours?</p>
+      <a class="fixrow" href="#mckb" data-cta="fix-1"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> No water and no tank. Nothing to grow, nothing to scrub. <span class="go">See how it works →</span></span></a>
+      <p class="hook">And that's the one people buy because it seems like the healthy choice. The rest of the house isn't doing any better.</p>
+    </section>
+
+    <section class="alert" id="alert-2" aria-labelledby="a2">
+      <p class="alabel">Alert #2</p>
+      <h2 id="a2">It's Costing You $2,500+ A Year, And Your Home Shows It.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-leak.jpg?v=1793302792" width="720" height="720" alt="A white water diffuser leaking on a walnut dresser, water rings in the finish and books getting wet"></figure>
+      <p>Nobody budgets for scent. A $30 candle every week. Refills for three plug-ins. A few cans of spray. Reed refills, oils, incense. <strong>None of it feels like much on its own.</strong> Now add it up for a year:</p>
+      <div class="receipt" role="table" aria-label="A typical year of scent">
+        <div role="row"><span role="cell">Candles<small>one a week at $30</small></span><span role="cell">$1,560</span></div>
+        <div role="row"><span role="cell">Plug-in refills<small>3 outlets, $9 a month each</small></span><span role="cell">$324</span></div>
+        <div role="row"><span role="cell">Room sprays<small>3 cans a month at $8</small></span><span role="cell">$288</span></div>
+        <div role="row"><span role="cell">Oils, reeds and incense<small>about $30 a month</small></span><span role="cell">$360</span></div>
+        <div role="row"><span role="cell">Every year</span><span role="cell">$2,532</span></div>
+      </div>
+      <p>And your home pays twice. Look up at the ceiling above the spot where you burn candles. That grey shadow is <strong>soot</strong>, and it doesn't wipe off. Water diffusers get bumped and overfilled, leaving <strong>white rings and warped spots</strong> on the dresser. Reed diffusers tip over and the oil strips the finish off wood.</p>
+      <a class="fixrow" href="#mckb" data-cta="fix-2"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> One 100 ml bottle lasts about 15 days. No soot, and the bottle locks in, so nothing spills. <span class="go">See how it works →</span></span></a>
+      <p class="hook">If this is what it does to wood and paint, what is it doing to the people who breathe it? Start with what's actually in it.</p>
+    </section>
+
+    <section class="alert" id="alert-3" aria-labelledby="a3">
+      <p class="alabel">Alert #3</p>
+      <h2 id="a3">What's In That “Fresh” Scent Isn't On The Label.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-tried.jpg?v=1793302792" width="640" height="640" alt="A plug-in air freshener, a candle and a room spray on a stone counter"></figure>
+      <p>Turn over an air freshener, a room spray or a candle. You'll usually find one word: <strong>“fragrance.”</strong> In the U.S., that single word can stand for dozens of ingredients that companies don't have to name.</p>
+      <p>When researchers tested 25 popular fragranced products, air fresheners included, <strong>they found 133 different chemicals released into the air. 24 of them are classified as toxic or hazardous under U.S. federal law, and only one of the 133 was listed on any label.</strong></p>
+      <p class="note">You can't avoid what nobody tells you is there.</p>
+      <a class="fixrow" href="#mckb" data-cta="fix-3"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> 100% organic oils with notes you can name on every bottle. <span class="go">See how it works →</span></span></a>
+      <p class="hook">And if grown adults react to it, think about the smallest lungs in the house.</p>
+    </section>
+
+    <section class="alert" id="alert-4" aria-labelledby="a4">
+      <p class="alabel">Alert #4</p>
+      <h2 id="a4">The Sneezing And Headaches You Blame On The Season May Be Coming From Your Candle.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-allergy.jpg?v=1793302792" width="720" height="720" alt="A mother holding a tissue to her nose next to her daughter and a golden retriever, an air freshener spray and a lit candle in front"></figure>
+      <p>Itchy eyes. A stuffy nose that shows up every evening. A headache by 9 p.m. Most of us blame pollen, the weather or a long day.</p>
+      <p>But <strong>fragrance is one of the most common triggers.</strong> In a national U.S. survey, <strong>about one in three adults said fragranced products like air fresheners and scented candles gave them health problems, from headaches to asthma attacks.</strong></p>
+      <p class="note">Now think about who else is in that room.</p>
+      <p><strong>Kids breathe in more air for their body size than adults do</strong>, so the same candle reaches them harder. And <strong>vets warn that smoke and aerosol sprays irritate pets' airways too</strong>, birds and cats most of all.</p>
+      <a class="fixrow" href="#mckb" data-cta="fix-4"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> Hypoallergenic oils, with three strength settings. <span class="go">See how it works →</span></span></a>
+      <p class="hook">And the last alert is the one almost nobody hears about.</p>
+    </section>
+
+    <section class="alert" id="alert-5" aria-labelledby="a5">
+      <p class="alabel">Alert #5</p>
+      <h2 id="a5">Every Night You Light A Candle, Your Lungs Breathe What It Leaves Behind.</h2>
+      <figure><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-soot.jpg?v=1793302792" width="640" height="640" alt="A three-wick candle in a glass jar with a thread of smoke rising from the flame"></figure>
+      <p>This is the one that matters most.</p>
+      <p>Candles and incense don't only release scent. Every flame releases smoke and soot. <strong>The EPA lists burning candles and incense among the sources of fine particles indoors</strong>, particles small enough to <strong>get deep into your lungs, and some can even reach your bloodstream.</strong></p>
+      <p>One candle won't hurt you. But it's never one candle. It's every evening, in a closed room, all winter, for years. Add the propellants and synthetic fragrance chemicals from sprays and plug-ins, and it adds up where you spend the most time: <strong>indoor air can hold 2 to 5 times more of some pollutants than the air outside, and Americans spend about 90% of their time indoors</strong>, according to the EPA.</p>
+      <p>And then there's the flame itself:</p>
+      <div class="stats">
+        <div><b>7,400</b><span>home fires started by candles each year in the U.S.</span></div>
+        <div><b>~20</b><span>candle fires a day</span></div>
+        <div><b>36%</b><span>of them start in a bedroom</span></div>
+      </div>
+      <p class="small" style="text-align:left;margin:-10px 0 18px">National Fire Protection Association, yearly averages for 2015–2019.</p>
+      <a class="fixrow" href="#mckb" data-cta="fix-5"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> No flame, no smoke, no soot. Safe to leave on overnight. <span class="go">See how it works →</span></span></a>
+      <p class="hook">So what do you do? Give up a home that smells good?</p>
+      <p>No. You change how the scent gets into the air.</p>
+    </section>
+
+    <section class="alert" id="fix" aria-labelledby="fx">
+      <p class="alabel dark">The fix</p>
+      <h2 id="fx">“I Couldn't Find A Safe Way To Make My Home Smell Good, So I Made One.”</h2>
+      <div class="founder">
+        <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-patricia.jpg?v=1793302792" width="640" height="640" alt="Patricia, founder of Maison Croyez, at home with her dog">
+        <p>“I loved coming home to a house that smelled beautiful. Then I started reading about what I was actually breathing: the soot from my candles, the sprays, the water diffuser on my nightstand that I never cleaned as often as I should have.</p>
+        <p>I couldn't find anything that made my home smell the way I wanted without one of those trade-offs. So I set out to change it.</p>
+        <p>Maison Croyez diffusers are <strong>waterless and leakproof</strong>: no water, no tank, no flame, nothing to spill. Our fragrances are <strong>100% organic and hypoallergenic, made with ingredients from France</strong>, and every scent is tested in my own living room first.</p>
+        <p>I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</p>
+        <p class="sig">Patricia T.<span>Founder &amp; Creative Director, Maison Croyez</span></p>
+      </div>
+      <figure><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792" width="720" height="720" alt="The Maison Croyez diffuser releasing a fine dry mist on a stone coffee table, with bottles and boxes of Maison Croyez scents"><figcaption>The Maison Croyez diffuser: pure fragrance oil turned into a dry mist. No water, no flame.</figcaption></figure>
+      <p>It works like the diffusers in luxury hotel lobbies: <strong>it turns pure fragrance oil into a fine, dry mist</strong> and moves it through the whole room. Nothing burns. Nothing sprays. There's no water. One diffuser fills up to 600 square feet in about ten minutes.</p>
+      <h3 class="bigt">Here's How It Fixes All 5 Alerts.</h3>
+      <ul class="fix-list">
+        <li><span class="fl">Alert #1 · Mold</span><span class="fa">No water and no tank. Nothing to grow, nothing to scrub.</span></li>
+        <li><span class="fl">Alert #2 · Your money and home</span><span class="fa">One 100 ml bottle lasts about 15 days. No soot, and the bottle locks in, so nothing spills.</span></li>
+        <li><span class="fl">Alert #3 · Hidden chemicals</span><span class="fa">100% organic oils with notes you can name on every bottle.</span></li>
+        <li><span class="fl">Alert #4 · Allergies</span><span class="fa">Hypoallergenic oils, with three strength settings.</span></li>
+        <li><span class="fl">Alert #5 · Your lungs</span><span class="fa">No flame, no smoke, no soot. Safe to leave on overnight.</span></li>
+      </ul>
+      <p class="fr-h">Every Maison Croyez fragrance is:</p>
+      <div class="fr">
+        <div><b>IFRA 51 compliant</b><span>Meets the International Fragrance Association's safety standards (51st Amendment).</span></div>
+        <div><b>Paraben-free</b><span>No parabens in any of our oils.</span></div>
+        <div><b>Cruelty-free</b><span>Never tested on animals.</span></div>
+      </div>
+      <a class="btn" href="#mckb" data-cta="fix-all">Get my free diffusers ➔</a>
+      <p class="trust">Loved by 2,500+ homes in America<svg class="flag" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#fff"/><path d="M0 0h19v.77H0zM0 1.54h19v.77H0zM0 3.08h19v.77H0zM0 4.62h19v.77H0zM0 6.15h19v.77H0zM0 7.69h19v.77H0zM0 9.23h19V10H0z" fill="#B22234"/><rect width="7.6" height="5.38" fill="#3C3B6E"/><g fill="#fff"><circle cx="1.3" cy="1.1" r=".38"/><circle cx="3.8" cy="1.1" r=".38"/><circle cx="6.3" cy="1.1" r=".38"/><circle cx="2.55" cy="2.7" r=".38"/><circle cx="5.05" cy="2.7" r=".38"/><circle cx="1.3" cy="4.3" r=".38"/><circle cx="3.8" cy="4.3" r=".38"/><circle cx="6.3" cy="4.3" r=".38"/></g></svg></p>
+    </section>
+
+    <div class="pics">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc1.jpg?v=1793311480" width="720" height="720" alt="A woman smiling next to her Maison Croyez diffuser as it releases a dry mist on the kitchen counter">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc2.jpg?v=1793311480" width="720" height="720" alt="A woman at her table with the Maison Croyez diffuser, the logo facing the camera">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc3.jpg?v=1793311480" width="720" height="720" alt="A woman waving and holding a Maison Croyez scent box, the diffuser glowing on the shelf behind her">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc4.jpg?v=1793311480" width="720" height="720" alt="A woman in silk pajamas holding a bottle of Maison Croyez scent next to her diffuser">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc5.jpg?v=1793311480" width="720" height="720" alt="A woman in glasses pointing to the Maison Croyez diffuser glowing in her living room">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc6.jpg?v=1793311480" width="720" height="720" alt="A smiling woman at home with the Maison Croyez diffuser beside her">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc7.jpg?v=1793311480" width="720" height="720" alt="A woman with her hair in a towel holding the Maison Croyez diffuser in her bathroom">
+      <img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-ugc8.jpg?v=1793311480" width="720" height="720" alt="A woman talking about candles, the Maison Croyez diffuser glowing on the side table next to her">
+    </div>
+    <p class="pics-cap">Maison Croyez at home.</p>
+    <blockquote><p>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</p><cite>Maison Croyez customer survey · switched from reed sticks</cite></blockquote>
+    <blockquote><p>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</p><cite>Maison Croyez customer survey · bought it for safety and no mold</cite></blockquote>
+    <blockquote><p>“It does not need water, which means no spills, no damp residue, no constantly refilling it like I am caring for a very needy plant.”</p><cite>Amazon review</cite></blockquote>
+
+    <section class="offer" id="offer" aria-labelledby="of">
+      <p class="alabel">Launch offer</p>
+      <h2 id="of">We're New, So The First 1,000 Diffusers Are On Us.</h2>
+      <p>Maison Croyez is a young brand, and we know trying something new in your home takes trust. So <strong>we're taking the risk instead of you: the first 1,000 diffusers are free</strong> when you pick your scents.</p>
+      <p><strong>After the first 1,000, diffusers go back to $89.95.</strong></p>
+      <div class="mckb" id="mckb"><section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox"></div></div></section></div>
+      <p class="trust">Loved by 2,500+ homes in America<svg class="flag" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#fff"/><path d="M0 0h19v.77H0zM0 1.54h19v.77H0zM0 3.08h19v.77H0zM0 4.62h19v.77H0zM0 6.15h19v.77H0zM0 7.69h19v.77H0zM0 9.23h19V10H0z" fill="#B22234"/><rect width="7.6" height="5.38" fill="#3C3B6E"/><g fill="#fff"><circle cx="1.3" cy="1.1" r=".38"/><circle cx="3.8" cy="1.1" r=".38"/><circle cx="6.3" cy="1.1" r=".38"/><circle cx="2.55" cy="2.7" r=".38"/><circle cx="5.05" cy="2.7" r=".38"/><circle cx="1.3" cy="4.3" r=".38"/><circle cx="3.8" cy="4.3" r=".38"/><circle cx="6.3" cy="4.3" r=".38"/></g></svg></p>
+    </section>
+
+    <details><summary>Is it a good fit if someone at home has allergies or asthma?</summary><p>Nothing burns and nothing is sprayed, and the oils are hypoallergenic. If someone is sensitive to fragrance, start on the subtle setting. You have 30 days to send everything back for a full refund.</p></details>
+    <details><summary>Is it safe around kids and pets?</summary><p>There's no flame, no smoke, no heat and no water, so it's safe to leave on overnight, in a kid's room or near pets. Start on the subtle setting in the room where your pet sleeps.</p></details>
+    <details><summary>Am I locked in?</summary><p>No. Your scents ship every 30, 60 or 90 days, your choice, and you can swap, pause or cancel anytime.</p></details>
+
+    <div class="bio"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-pat-face.jpg?v=1793302792" width="104" height="104" alt=""><p><b>About the author.</b> Patricia T. is the founder and creative director of Maison Croyez.</p></div>
+  </article>
+</div>
+
+<footer><div class="wrap">
+  <p><b>Advertorial.</b> This article is paid content from Maison Croyez. It is general information, not medical advice. If you have asthma or allergies, ask your doctor what's right for your home.</p>
+  <p>Sources:</p>
+  <ol>
+    <li>U.S. Environmental Protection Agency: Indoor Particulate Matter; Particulate Matter Basics; The Inside Story, A Guide to Indoor Air Quality.</li>
+    <li>Steinemann, A. Fragranced consumer products: exposures and effects from emissions. Air Quality, Atmosphere &amp; Health, 2016.</li>
+    <li>U.S. Environmental Protection Agency, Use and Care of Home Humidifiers.</li>
+    <li>Steinemann, A. et al. Fragranced consumer products: Chemicals emitted, ingredients unlisted. Environmental Impact Assessment Review, 2011.</li>
+    <li>National Fire Protection Association, Home Candle Fires (2015–2019 averages).</li>
+  </ol>
+  <p>The yearly costs in Alert #2 are an example. Customer quotes come from the Maison Croyez customer survey and Amazon reviews.</p>
+</div></footer>
+
+<div class="bar" id="bar"><a class="btn" href="#mckb" data-cta="bar">Get my free diffusers ➔</a></div>
+</div>
+<script>(function(){
+  var bar=document.getElementById('bar'), first=document.getElementById('alert-1'), offer=document.getElementById('offer');
+  function upd(){
+    var vh=window.innerHeight||800, f=first.getBoundingClientRect(), o=offer.getBoundingClientRect();
+    bar.classList.toggle('on', f.top<vh*0.5 && !(o.top<vh && o.bottom>0));
+  }
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
+})();
+(function(){
+  /* Launch-offer kit builder: the /pages/diffuser-kits buy box (steps 1-3), same markup and classes, styled by the kits CSS under #mckb. */
+  var root = document.getElementById('mckb'); if (!root) return;
+  var sec = root.querySelector('#buybox'), box = root.querySelector('.buybox');
+  var DIFF = 89.95, SCENT = 39.95;
+  /* the store's cart: the same kit variants, scents and Subi refill plans as /pages/diffuser-kits (CART3 + CONFIG.fragrances in mc-dk-app.js) */
+  var KITV = { 1: 45900240257133, 2: 45900240289901, 3: 45900240322669 };
+  var PLAN = { 30: 7883817069, 60: 7883849837, 90: 7883882605 };
+  var VAR = { love: 41212020457581, abundance: 41212018655341, focus: 41212021506157, ideas: 41212021342317, energy: 41212020752493, purify: 41212021669997, midnight: 41212019933293 };
+  var onStore = /(^|\.)maisoncroyez\.com$/.test(location.hostname);
+  var KIT = ['https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit1.jpg?v=1786479536&width=240', 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit2.jpg?v=1786479536&width=240', 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-kit3.jpg?v=1786479536&width=240'];
+  var TIERS = [
+    { key: 'one', n: 1, name: 'Living Room', scents: 2, tag: '', pop: false, rooms: ['Studio', 'Bathroom', 'Entry'], where: '<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand.' },
+    { key: 'two', n: 2, name: 'Living Room & Bedroom', scents: 3, tag: 'Most popular', pop: true, rooms: ['Living Room', 'Bedroom', 'Kitchen'], where: '<b>Two diffusers for one bigger room</b>, up to 1,200 sq ft: the living room, the bedroom or the kitchen.' },
+    { key: 'three', n: 3, name: 'Living Room, Bedroom & Kitchen', scents: 5, tag: 'Best value', pop: false, rooms: ['1+ Rooms', 'Large Spaces'], where: '<b>Three diffusers, up to 1,800 sq ft:</b> two in the living room, one in the bedroom, or any split you like.' }
+  ];
+  var FR = [
+    { key: 'love', name: 'Golden Blossom Harmony', int: 'Love', str: 'medium', sm: 'Fresh flowers and a little honey. Like walking into a florist.', notes: 'Buttercup, Honeysuckle & Sunflower', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/golden_blossom.png?v=1791993010&width=320' },
+    { key: 'abundance', name: 'Crisp Citrus Scape', int: 'Abundance', str: 'soft', sm: 'Fresh citrus peel and green leaves. Like a clean hotel lobby.', notes: 'Yuzu Leaf, Green Mandarin & Cypress', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/crisp_citruss.png?v=1791993011&width=320' },
+    { key: 'focus', name: 'Chilled Citrus', int: 'Relaxation & Concentration', str: 'soft', sm: 'Lavender and eucalyptus. Like a day spa.', notes: 'Chilled Lavender, Eucalyptus & White Citrus', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/chilled_citrusss.png?v=1791993010&width=320' },
+    { key: 'ideas', name: 'Honey Nectar', int: 'Turn Ideas Into Reality', str: 'medium', sm: 'Warm milk and honey. Like a café on a slow morning.', notes: 'Ginger Milk, White Birch & Eucalyptus Honey', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/honey_nectarr.png?v=1791993011&width=320' },
+    { key: 'energy', name: 'Euphoric Bloom', int: 'Raise Energy', str: 'medium', sm: 'White peach and jasmine tea. Fruity and bright, never sugary.', notes: 'Jasmine Tea, White Peach & Sandalwood Crème', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/euphoric_bloom.png?v=1791993010&width=320' },
+    { key: 'purify', name: 'Wildwood Mystique', int: 'Purification', str: 'bold', sm: 'Pine and juniper. Like a walk in the woods after rain.', notes: 'Huckleberry, Wild Juniper & Mountain Fern', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/wilwood_mistiqye.png?v=1791993011&width=320' },
+    { key: 'midnight', name: 'Midnight Sensation', int: 'Love Manifestation', str: 'bold', sm: 'White flowers and soft musk. Like perfume on warm skin.', notes: 'Moonflower, Night Lily & Skin Musk', img: 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/midnight_sensation.png?v=1791993011&width=320' }
+  ];
+  var SW = { love: 'linear-gradient(160deg,#F26A3D,#F7C948)', abundance: 'linear-gradient(160deg,#F5E04E,#8EC9F0)', focus: 'linear-gradient(160deg,#E9A6D0,#D7B5E8)', ideas: 'linear-gradient(160deg,#9ED9D3,#EE4F8E)', energy: 'linear-gradient(160deg,#E9BFDB,#F3895F)', purify: 'linear-gradient(160deg,#F2E15A,#D873B4)', midnight: 'linear-gradient(160deg,#A9D8EE,#E7A6D2)' };
+  var FREQS = [{ d: 60 }, { d: 30, tag: 'Most popular' }, { d: 90 }];
+  var PLANS = {"one": "<svg viewBox=\"0 0 320 210\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Floor plan: one diffuser in a studio\"><rect x=\"8\" y=\"8\" width=\"304\" height=\"194\" rx=\"3\" fill=\"#FAFAF8\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"8\" y1=\"150\" x2=\"8\" y2=\"188\" stroke=\"#FAFAF8\" stroke-width=\"4\"/><path d=\"M8 188 a38 38 0 0 1 38 -38\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><rect x=\"30\" y=\"118\" width=\"98\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"40\" y=\"110\" width=\"78\" height=\"12\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"26\" y=\"24\" width=\"120\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"36\" width=\"80\" height=\"112\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"36\" width=\"80\" height=\"26\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"222\" y=\"42\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"258\" y=\"42\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"214\" y=\"160\" width=\"30\" height=\"24\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><circle cx=\"170\" cy=\"100\" r=\"86\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"170\" cy=\"100\" r=\"9\" fill=\"#141414\"/><circle cx=\"170\" cy=\"100\" r=\"3.5\" fill=\"#fff\"/><text x=\"22\" y=\"176\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">STUDIO</text><text x=\"22\" y=\"191\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"8.5\" font-weight=\"600\" letter-spacing=\".8\" fill=\"#5C4F46\">ONE ROOM, UP TO 600 SQ FT</text></svg>", "two": "<svg viewBox=\"0 0 320 210\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Floor plan: two diffusers in one large room\"><rect x=\"8\" y=\"8\" width=\"304\" height=\"194\" rx=\"3\" fill=\"#FAFAF8\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"8\" y1=\"150\" x2=\"8\" y2=\"188\" stroke=\"#FAFAF8\" stroke-width=\"4\"/><path d=\"M8 188 a38 38 0 0 1 38 -38\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><rect x=\"26\" y=\"24\" width=\"130\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"56\" y=\"64\" width=\"60\" height=\"26\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"30\" y=\"118\" width=\"98\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"40\" y=\"110\" width=\"78\" height=\"12\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"212\" y=\"78\" width=\"72\" height=\"44\" rx=\"6\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"222\" y=\"66\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"254\" y=\"66\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"222\" y=\"124\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"254\" y=\"124\" width=\"20\" height=\"10\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"262\" y=\"160\" width=\"36\" height=\"28\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><circle cx=\"98\" cy=\"80\" r=\"64\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"98\" cy=\"80\" r=\"9\" fill=\"#141414\"/><circle cx=\"98\" cy=\"80\" r=\"3.5\" fill=\"#fff\"/><circle cx=\"226\" cy=\"124\" r=\"64\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"226\" cy=\"124\" r=\"9\" fill=\"#141414\"/><circle cx=\"226\" cy=\"124\" r=\"3.5\" fill=\"#fff\"/><text x=\"22\" y=\"176\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">LIVING ROOM</text><text x=\"22\" y=\"191\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"8.5\" font-weight=\"600\" letter-spacing=\".8\" fill=\"#5C4F46\">OR THE BEDROOM, OR THE KITCHEN</text></svg>", "three": "<svg viewBox=\"0 0 320 210\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Floor plan: two diffusers in the living room, one in the bedroom\"><rect x=\"8\" y=\"8\" width=\"304\" height=\"194\" rx=\"3\" fill=\"#FAFAF8\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"196\" y1=\"8\" x2=\"196\" y2=\"88\" stroke=\"#241C18\" stroke-width=\"3\"/><line x1=\"196\" y1=\"124\" x2=\"196\" y2=\"202\" stroke=\"#241C18\" stroke-width=\"3\"/><path d=\"M196 88 a36 36 0 0 1 36 36\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><line x1=\"196\" y1=\"88\" x2=\"232\" y2=\"88\" stroke=\"#241C18\" stroke-width=\"1.4\"/><line x1=\"8\" y1=\"150\" x2=\"8\" y2=\"188\" stroke=\"#FAFAF8\" stroke-width=\"4\"/><path d=\"M8 188 a38 38 0 0 1 38 -38\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"/><rect x=\"30\" y=\"118\" width=\"98\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"40\" y=\"110\" width=\"78\" height=\"12\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"56\" y=\"62\" width=\"60\" height=\"28\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"26\" y=\"24\" width=\"150\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"40\" width=\"80\" height=\"112\" rx=\"5\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"214\" y=\"40\" width=\"80\" height=\"26\" rx=\"4\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><rect x=\"222\" y=\"46\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"258\" y=\"46\" width=\"28\" height=\"14\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.2\"/><rect x=\"214\" y=\"166\" width=\"30\" height=\"24\" rx=\"3\" fill=\"none\" stroke=\"#5C4F46\" stroke-width=\"1.6\"/><circle cx=\"100\" cy=\"64\" r=\"52\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"64\" r=\"9\" fill=\"#141414\"/><circle cx=\"100\" cy=\"64\" r=\"3.5\" fill=\"#fff\"/><circle cx=\"150\" cy=\"150\" r=\"46\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"150\" cy=\"150\" r=\"9\" fill=\"#141414\"/><circle cx=\"150\" cy=\"150\" r=\"3.5\" fill=\"#fff\"/><circle cx=\"254\" cy=\"118\" r=\"46\" fill=\"rgba(31,107,58,.08)\" stroke=\"#1F6B3A\" stroke-width=\"1.2\" stroke-dasharray=\"4 4\"/><circle cx=\"254\" cy=\"118\" r=\"9\" fill=\"#141414\"/><circle cx=\"254\" cy=\"118\" r=\"3.5\" fill=\"#fff\"/><text x=\"22\" y=\"176\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">LIVING ROOM</text><text x=\"208\" y=\"196\" font-family=\"Outfit,Arial,sans-serif\" font-size=\"11\" font-weight=\"700\" letter-spacing=\"1.2\" fill=\"#241C18\">BEDROOM</text></svg>"}, RIC = {"Studio": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 11V8.5A2.5 2.5 0 0 1 7 6h10a2.5 2.5 0 0 1 2.5 2.5V11\"/><path d=\"M3 11.5a1.5 1.5 0 0 1 3 0V14h12v-2.5a1.5 1.5 0 0 1 3 0V17H3z\"/><path d=\"M5 17v2M19 17v2\" stroke=\"#A3874A\"/></svg>", "Living Room": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 11V8.5A2.5 2.5 0 0 1 7 6h10a2.5 2.5 0 0 1 2.5 2.5V11\"/><path d=\"M3 11.5a1.5 1.5 0 0 1 3 0V14h12v-2.5a1.5 1.5 0 0 1 3 0V17H3z\"/><path d=\"M5 17v2M19 17v2\" stroke=\"#A3874A\"/></svg>", "Bedroom": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 18.5V6\"/><path d=\"M3 14h18v4.5\"/><path d=\"M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11v5\"/><circle cx=\"7\" cy=\"11.2\" r=\"1.8\" stroke=\"#A3874A\"/></svg>", "Kitchen": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"14\" r=\"6\"/><path d=\"M16 14h5.5\"/><path d=\"M8 6.2c0-1 .8-1.2.8-2.2M11.6 6.2c0-1 .8-1.2.8-2.2\" stroke=\"#A3874A\"/></svg>", "Bathroom": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 12h18v2.5a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 14.5z\"/><path d=\"M6 12V6a2 2 0 0 1 3.6-1.2\"/><path d=\"M7 19l-1 2M17 19l1 2\" stroke=\"#A3874A\"/></svg>", "Entry": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21\"/><path d=\"M4 21h16\"/><circle cx=\"15\" cy=\"12.5\" r=\"1\" stroke=\"#A3874A\"/></svg>", "1+ Rooms": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3.5 11L12 4l8.5 7\"/><path d=\"M5.5 9.5V20h13V9.5\"/><path d=\"M10 20v-5h4v5\" stroke=\"#A3874A\"/></svg>", "Large Spaces": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2.5\" y=\"8\" width=\"19\" height=\"8\" rx=\"1.5\"/><path d=\"M6.5 8v3M10 8v4.5M13.5 8v3M17 8v4.5\" stroke=\"#A3874A\"/></svg>"}, IC = {"truck": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.5 6.5h11v10h-11z\"/><path d=\"M13.5 9.5h4.2l2.8 3.2v3.8h-7\"/><circle cx=\"6.5\" cy=\"17.2\" r=\"1.8\" fill=\"#fff\" stroke=\"#A3874A\"/><circle cx=\"17\" cy=\"17.2\" r=\"1.8\" fill=\"#fff\" stroke=\"#A3874A\"/></svg>", "shield": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z\"/><path d=\"M8.6 12.2l2.4 2.4 4.4-4.6\" stroke=\"#A3874A\"/></svg>", "lifetime": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"M12 12c-1.2-1.6-2.1-2.8-3.6-2.8a2.8 2.8 0 0 0 0 5.6c1.5 0 2.4-1.2 3.6-2.8s2.1-2.8 3.6-2.8a2.8 2.8 0 0 1 0 5.6c-1.5 0-2.4-1.2-3.6-2.8z\" stroke=\"#A3874A\"/></svg>", "up": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#241C18\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 19V5M6.5 10.5L12 5l5.5 5.5\"/></svg>"};
+  var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false, busy: false, err: false };
+
+  var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  var usd = function (v) { return '$' + (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)); };
+  var ic = function (k, cls) { return '<span class="mc-ic ' + cls + '" aria-hidden="true">' + IC[k] + '</span>'; };
+  var img = function (src, alt) { return '<div class="ph sq"><img class="simg" src="' + src + '" alt="' + esc(alt) + '" decoding="async"></div>'; };
+  var T = function () { return TIERS[st.t]; };
+  var left = function () { return Math.max(0, T().scents - st.keys.length); };
+  var qty = function (k) { return st.keys.filter(function (x) { return x === k; }).length; };
+  var fr = function (k) { return FR.filter(function (f) { return f.key === k; })[0]; };
+  var grouped = function () { var m = [], seen = {}; st.keys.forEach(function (k) { if (!seen[k]) { seen[k] = 1; m.push({ f: fr(k), q: qty(k) }); } }); return m; };
+  var today = function () { return st.keys.length * SCENT; };
+  var value = function () { return T().n * DIFF + st.keys.length * SCENT; };
+
+  /* owner (2026-11-02): the Maison Croyez logo above "Step N of 3" on every step */
+  var LOGO = '<img class="kb-logo" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-kb-logo.png?v=1786479535&width=240" alt="Maison Croyez" width="96" height="39" decoding="async">';
+  var eta = '<p class="dk-eta">' + ic('truck', 'dk-eta-ic') + 'Estimated delivery: <b>3–5 business days</b></p>';
+  var chips = '<div class="atc-chips">' +
+    '<span class="atc-chip">' + ic('truck', 'atc-chip-ic') + '<span><b>Free Shipping</b><small>On Every Order</small></span></span>' +
+    '<span class="atc-chip">' + ic('shield', 'atc-chip-ic') + '<span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>' +
+    '<span class="atc-chip">' + ic('lifetime', 'atc-chip-ic') + '<span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span></div>';
+
+  function step1() {
+    var t = T();
+    return LOGO + '<div class="step-eyebrow">Step 1 of 3</div>' +
+      '<div class="picker-title step-title s9-title">Buy more scents = <em class="t1-em">Get more FREE Diffusers:</em></div>' + /* kits dk11 (owner, 2026-11-01) */
+      '<div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents">' + TIERS.map(function (x, i) {
+        var on = i === st.t;
+        return '<div class="tier t9c3' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" tabindex="0" data-t="' + i + '" data-k="t' + i + '" aria-label="' + esc(x.scents + ' scents at ' + usd(SCENT) + ' each, ' + x.n + ' free diffuser' + (x.n > 1 ? 's' : '') + ', ' + usd(x.scents * SCENT) + ' today (' + x.name + ')') + '">' +
+          (x.tag ? '<span class="kg-tag t9-tag' + (x.pop ? ' pop' : '') + '">' + x.tag + '</span>' : '') +
+          '<span class="t9-n t9s-n">' + x.scents + ' Scents</span><span class="t9s-each">' + usd(SCENT) + ' each</span>' +
+          '<span class="t9s-gift">+ ' + x.n + ' <b class="t9p2-free">FREE</b> Diffuser' + (x.n > 1 ? 's' : '') + '</span>' +
+          '<span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i>' + img(KIT[i], x.n + ' free diffuser' + (x.n > 1 ? 's' : '')) + '</span>' +
+          '<span class="t9p2-val"><s>' + usd(x.n * DIFF) + '</s> value</span></div>';
+      }).join('') + '</div>' +
+      '<div class="place"><div class="place-grid"><div class="plan place-plan">' + PLANS[t.key] + '</div><div class="place-side"><div class="place-head">Where it goes:</div><div class="place-rooms">' +
+        t.rooms.map(function (r) { return '<span class="place-room"><span class="mc-ic pr-ic" aria-hidden="true">' + (RIC[r] || '') + '</span>' + r + '</span>'; }).join('') +
+      '</div><p class="place-cap">' + t.where + '</p></div></div></div>' +
+      '<button type="button" class="btn atc step-next" data-go="2" data-k="g2"><span>Pick your scents ➔</span></button>' + eta + chips;
+  }
+
+  function step2() {
+    var t = T(), l = left(), full = l === 0, lf = st.last ? fr(st.last) : null;
+    return LOGO + '<div class="step-eyebrow">Step 2 of 3</div>' +
+      '<div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ' + t.scents + ' scents:</div><span class="pick-pill">' + (t.scents - l) + ' of ' + t.scents + ' picked</span></div>' +
+      '<div class="s9-res">' + img(KIT[st.t], t.name) + '<span class="s9-res-tx"><b>' + t.n + ' FREE DIFFUSER' + (t.n > 1 ? 'S' : '') + ' RESERVED</b><small>' + esc(t.name) + ' · <s>' + usd(t.n * DIFF) + '</s> <b class="s9-free">FREE!</b></small></span></div></div>' +
+      '<div class="picker e4" role="group" aria-label="Pick your scents">' + FR.map(function (f) {
+        var q = qty(f.key), on = q > 0;
+        return '<div class="pick e4t' + (on ? ' on' : '') + (!on && full ? ' full' : '') + (st.last === f.key ? ' peek' : '') + '" role="group" aria-label="' + esc(f.name) + '" tabindex="0" data-peek="' + f.key + '" data-k="p' + f.key + '">' +
+          '<div class="e4-ph">' + img(f.img, f.name) + '</div><span class="pick-scent e4-name">' + f.name + '</span>' +
+          '<span class="pick-str e4-str s-' + f.str + '" title="Scent strength"><i></i><i></i><i></i>' + f.str + '</span>' +
+          '<span class="e4-step"><button type="button" aria-label="Remove one ' + esc(f.name) + '" data-rm="' + f.key + '" data-k="r' + f.key + '"' + (q === 0 ? ' disabled' : '') + '>−</button><b>' + q + '</b>' +
+          '<button type="button" aria-label="Add one ' + esc(f.name) + '" data-add="' + f.key + '" data-k="a' + f.key + '"' + (full ? ' disabled' : '') + '>+</button></span></div>';
+      }).join('') + '</div>' +
+      '<div class="e4-bar" aria-live="polite">' + (lf
+        ? '<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style="background:' + SW[lf.key] + '"></span> <b>' + lf.name + '</b> · ' + esc(lf.int) + '</span><br><b>Smells like:</b> ' + lf.sm + '<br><b>Notes:</b> ' + esc(lf.notes) + '</span>'
+        : '<span class="e4-txt"><b class="e4-l1">' + ic('up', 'e4-arrow') + ' Tap a scent to read more about it.</b></span>') + '</div>' +
+      '<div class="navrow"><button type="button" class="btn secondary" aria-label="Back to the diffusers" data-go="1" data-k="g1">←</button>' +
+      (l > 0 ? '<p class="pick-hint">Pick ' + l + ' more scent' + (l > 1 ? 's' : '') + ' above to review your kit.</p>' : '<button type="button" class="btn atc" data-go="3" data-k="g3"><span>Review my kit ➔</span></button>') +
+      '</div>' + eta + chips;
+  }
+
+  function step3() {
+    var t = T();
+    return LOGO + '<div class="step-eyebrow">Step 3 of 3</div><div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>' +
+      '<div class="kitrev k9">' + grouped().map(function (g) {
+        return '<div class="kr-row">' + img(g.f.img, g.f.name) + '<span class="kr-tx"><b>' + g.q + '× ' + g.f.name + '</b><span class="kr-sub">' + esc(g.f.int) + ' · 100ml</span></span><span class="kr-pr">' + usd(g.q * SCENT) + '</span></div>';
+      }).join('') +
+        '<div class="kr-row kr-kit"><img class="kr-img" src="' + KIT[st.t] + '" alt="" decoding="async"><span class="kr-tx"><b>' + t.n + '× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span><span class="kr-pr"><s>' + usd(t.n * DIFF) + '</s><span class="inc">FREE</span></span></div></div>' +
+      '<p class="s9-value">That’s <b class="s9-val-green">' + usd(value()) + ' of value</b>, you pay ' + usd(today()) + ' today.</p>' +
+      '<div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>' + today().toFixed(2) + '</span><span class="s9-due-each">' + usd(SCENT) + '/scent</span></div>' +
+      /* kits dk11 (owner, 2026-11-01): the refill buttons first under the unlock line, then one explanation (no notes, no swap / pause / cancel note) */
+      '<div class="s9-freq-head">Select your auto-refill frequency to unlock your FREE Diffusers:</div>' +
+      '<div class="rf3" role="radiogroup" aria-label="Refill frequency">' + FREQS.map(function (o) {
+        var on = st.freq === o.d;
+        return '<button type="button" class="rf3-opt' + (on ? ' on' : '') + '" role="radio" aria-checked="' + on + '" data-f="' + o.d + '" data-k="f' + o.d + '"><b>' + o.d + ' days</b>' + (o.tag ? '<small class="rf3-tag">' + o.tag + '</small>' : '') + '</button>';
+      }).join('') + '</div>' +
+      '<p class="t9s-how t9s-expl">Your diffuser' + (t.n > 1 ? 's are' : ' is') + ' free (' + usd(DIFF) + (t.n > 1 ? ' each' : '') + ') when you select any auto-refill option. You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.</p>' +
+      '<button type="button" class="btn atc" data-cart="1" data-k="cart"' + (left() > 0 || st.busy ? ' disabled' : '') + '><span>' + (st.busy ? 'One moment…' : 'UNLOCK FREE DIFFUSERS ➔') + '</span></button>' +
+      (st.added ? '<p class="kb-done" role="status">Preview only: on the live page this button adds your kit to the cart and opens it.</p>' : '') +
+      (st.err ? '<p class="kb-done" role="alert">Your kit couldn’t be added. Please try again.</p>' : '') +
+      eta + chips +
+      '<div class="navrow back-only"><button type="button" class="btn secondary wide" data-go="2" data-k="g2b">← Change my scents</button></div>';
+  }
+
+  function render() {
+    var a = document.activeElement, fk = a && box.contains(a) ? a.getAttribute('data-k') : null;
+    sec.className = 'section pdp-buy step-' + st.step;
+    box.innerHTML = st.step === 1 ? step1() : st.step === 2 ? step2() : step3();
+    if (fk) { var el = box.querySelector('[data-k="' + fk + '"]'); if (el && !el.disabled) el.focus({ preventScroll: true }); }
+  }
+  function go(n) {
+    st.step = n; st.added = false; render();
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: root.getBoundingClientRect().top + window.scrollY - 12, behavior: still ? 'auto' : 'smooth' });
+    var f = box.querySelector('.step-title'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
+  }
+  /* Add to cart on the store: the kit variant + each scent on the chosen refill plan (the free-diffuser discounts zero the kit
+     at checkout, as on the kits page). A kit this page or the kits page added earlier is replaced, not doubled: the page's own
+     lines are removed first. One /cart/update.js call per round with the keys from a fresh /cart.js read, up to three rounds,
+     because removing a line can merge or re-key the others (the kits page sees the same; qa-adv run 1, 2026-11-02, got a 400 on
+     the second sequential /cart/change.js). Shopify's Meta channel fires AddToCart from /cart/add.js; the 800 ms wait before
+     leaving keeps its beacons. */
+  function addCart() {
+    if (st.busy || left() > 0) return;
+    st.busy = true; st.err = false; render();
+    var plan = PLAN[st.freq] || PLAN[30], items = [{ id: KITV[T().n], quantity: 1 }];
+    grouped().forEach(function (g) { items.push({ id: VAR[g.f.key], quantity: g.q, selling_plan: plan }); });
+    var mine = [KITV[1], KITV[2], KITV[3]].concat(FR.map(function (f) { return VAR[f.key]; }));
+    var post = function (u, b) { return fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(b) }).then(function (r) { if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }); };
+    var getCart = function () { return fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function (r) { if (!r.ok) throw new Error('/cart.js ' + r.status); return r.json(); }); };
+    var removeMine = function (round) {
+      return getCart().then(function (c) {
+        var lines = (c.items || []).filter(function (l) { return mine.indexOf(l.variant_id) > -1; });
+        if (!lines.length) return;
+        if (round >= 3) throw new Error('earlier kit lines could not be removed');
+        var updates = {}; lines.forEach(function (l) { updates[l.key] = 0; });
+        return post('/cart/update.js', { updates: updates }).catch(function () {}).then(function () { return removeMine(round + 1); });
+      });
+    };
+    removeMine(0)
+      .then(function () { return post('/cart/add.js', { items: items }); })
+      .then(function () {
+        var drawer = document.getElementById('cart-drawer');
+        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true, detail: { open: true } }));
+        setTimeout(function () {
+          if (drawer && typeof drawer.show === 'function') { try { drawer.show(); } catch (e) {} st.busy = false; render(); }
+          else window.location.href = '/cart';
+        }, 800);
+      })
+      .catch(function () { st.busy = false; st.err = true; render(); });
+  }
+  function act(el) {
+    var d = el.dataset;
+    if (d.t !== undefined) { st.t = +d.t; st.keys = st.keys.slice(0, TIERS[st.t].scents); render(); return; }
+    if (d.go) { go(+d.go); return; }
+    if (d.f) { st.freq = +d.f; render(); return; }
+    if (d.add) { if (st.keys.length < T().scents) { st.keys.push(d.add); st.last = d.add; } render(); return; }
+    if (d.rm) { st.last = d.rm; var i = st.keys.indexOf(d.rm); if (i > -1) st.keys.splice(i, 1); render(); return; }
+    if (d.peek) { st.last = d.peek; render(); return; }
+    if (d.cart) { if (!onStore) { st.added = true; render(); return; } addCart(); }
+  }
+  box.addEventListener('click', function (e) {
+    if (e.target.closest('.e4-step') && !e.target.closest('button')) return;
+    var el = e.target.closest('button,[data-t],[data-peek]');
+    if (el && box.contains(el)) act(el);
+  });
+  box.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target; if (el.tagName === 'BUTTON' || !(el.dataset.t !== undefined || el.dataset.peek)) return;
+    e.preventDefault(); act(el);
+  });
+  render();
+})();</script>

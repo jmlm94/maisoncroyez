@@ -2,7 +2,7 @@
 """Turns the advertorial (../src/page.html) into a Shopify page body.
 
   python3 build.py img                 writes img/mc-cs-<key>.jpg (the files to upload to Shopify Files)
-  python3 build.py body [urls.json]    writes page-body.html; urls.json maps key -> Shopify CDN URL.
+  [KEY=cs16-<sha>] python3 build.py body [urls.json]    writes page-body.html (+ mc-cs-adv.css / .js and page-body-inline.html); urls.json maps key -> Shopify CDN URL.
                                        Without it, images point at raw GitHub (for the preview workflow).
 
 On Shopify the article sits inside the theme: the store header, announcement bar and footer are hidden, the
@@ -150,11 +150,25 @@ def build_body(urls_path=None):
         elif 'class="av"' not in tag: tag = tag.replace("<img ", '<img loading="lazy" decoding="async" ')
         return tag
     markup = re.sub(r"<img [^>]+>", img, markup)
-    style = "<style>" + THEME.strip() + "\n" + scope_css(css) + "</style>"
-    body = "\n".join([fonts, style, '<div id="mcadv">', markup, "</div>", "<script>" + js + "</script>"]) + "\n"
+    # v16 (2026-11-02): like the kits page, the big parts live on the Shopify CDN as Files (fetched by fileCreate / fileUpdate from a
+    # raw GitHub URL, nothing retyped): mc-cs-adv.css (the scoped article + builder styles) and mc-cs-adv.js (sticky bar + builder).
+    # page-body.html = the fonts link, the small theme-hiding rules inline (so the store header never flashes), the stylesheet with a
+    # version key, the markup, and the deferred script. KEY (e.g. cs16-abc1234) is the cache key on both URLs; without it the body
+    # says cs16-dev. page-body-inline.html keeps everything inline for the injected previews (adv-preview.yml, qa-adv.yml INJECT=yes).
+    key = os.environ.get("KEY", "cs16-dev")
+    ext_css = scope_css(css)
+    open(os.path.join(HERE, "mc-cs-adv.css"), "w", encoding="utf-8").write(ext_css + "\n")
+    open(os.path.join(HERE, "mc-cs-adv.js"), "w", encoding="utf-8").write(js + "\n")
+    inline = "\n".join([fonts, "<style>" + THEME.strip() + "\n" + ext_css + "</style>", '<div id="mcadv">', markup, "</div>", "<script>" + js + "</script>"]) + "\n"
+    open(os.path.join(HERE, "page-body-inline.html"), "w", encoding="utf-8").write(inline)
+    body = "\n".join([fonts, "<style>" + THEME.strip() + "</style>",
+                      '<link rel="preload" as="style" href="%smc-cs-adv.css?v=%s">' % (CDN, key),
+                      '<link rel="stylesheet" href="%smc-cs-adv.css?v=%s">' % (CDN, key),
+                      '<div id="mcadv">', markup, "</div>",
+                      '<script src="%smc-cs-adv.js?v=%s" defer></script>' % (CDN, key)]) + "\n"
     out = os.path.join(HERE, "page-body.html")
     open(out, "w", encoding="utf-8").write(body)
-    print(out, len(body) // 1024, "KB")
+    print(out, len(body) // 1024, "KB (key %s); mc-cs-adv.css %d KB, mc-cs-adv.js %d KB, page-body-inline.html %d KB" % (key, len(ext_css) // 1024, len(js) // 1024, len(inline) // 1024))
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "body"

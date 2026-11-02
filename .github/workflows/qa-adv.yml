@@ -5,7 +5,8 @@ name: qa-adv
 # theme's cart drawer on the page (no /cart page), a second add replaces the first kit instead of doubling it, the sticky bar shows after
 # Alert #1 and hides on the offer. INJECT=yes drops shopify/page-body.html into a plain store page on the real theme (before the deploy);
 # INJECT=no runs on URL (the live page). Edit this line and push to run. Run 1 (2026-11-02): INJECT, v16 body before pageUpdate (35/58: test-script
-# mistakes + the second add left stale lines, fixed in kb.js). Run 2: INJECT, kb.js removal in rounds, script fixes, 4xx URLs recorded.
+# mistakes + the second add left stale lines, fixed in kb.js). Run 2: INJECT, kb.js removal in rounds, script fixes, 4xx URLs recorded (42/60: the page passed everywhere; the rest was the
+# harness: host-probe 404s, a pathname compared with a URL, the desktop cart on the headless browser signature). Run 3: live page after the deploy.
 on:
   workflow_dispatch:
   push:
@@ -21,7 +22,7 @@ jobs:
     env:
       URL: https://maisoncroyez.com/pages/indoor-air-alerts
       INJECT: 'yes'
-      BODY: lp-factory/pages/adv-kits/shopify/page-body.html
+      BODY: lp-factory/pages/adv-kits/shopify/page-body-inline.html  # v16: everything inline for injection; page-body.html (live) loads mc-cs-adv.css / .js from the CDN
       OUT: lp-factory/pages/adv-kits/qa
     steps:
       - uses: actions/checkout@v4
@@ -49,11 +50,11 @@ jobs:
           const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
           const b = await chromium.launch();
           const open = async (mobile) => {
-            const ctx = await b.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA } : { viewport: { width: 1366, height: 900 }, deviceScaleFactor: 1 });
+            const ctx = await b.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA } : { viewport: { width: 1366, height: 900 }, deviceScaleFactor: 1, userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' });
             const pg = await ctx.newPage(); const errs = [];
             pg.on('pageerror', (e) => errs.push(e.message.slice(0, 160)));
             pg.on('console', (m) => { if (m.type() === 'error' && !/Clear-Site-Data|frame-ancestors|shop\.app|Failed to load resource/.test(m.text())) errs.push('console: ' + m.text().slice(0, 140)); });
-            const bad = []; pg.on('response', (r) => { const st = r.status(), u = r.url(); if (st >= 400 && !/facebook|shop\.app|doubleclick|google|klaviyo|clarity|postscript|gorgias|9gtb|subi|tiktok|pinterest/i.test(u)) bad.push(st + ' ' + u.replace(/^https?:\/\//, '').split('?')[0].slice(0, 120)); });
+            const bad = []; let found = false; pg.on('response', (r) => { const st = r.status(), u = r.url(); if (found && st >= 400 && !/facebook|shop\.app|doubleclick|google|klaviyo|clarity|postscript|gorgias|9gtb|subi|tiktok|pinterest/i.test(u)) bad.push(st + ' ' + u.replace(/^https?:\/\//, '').split('?')[0].slice(0, 120)); });
             let host = null;
             for (const u of HOSTS) {
               let ok = false;
@@ -65,6 +66,7 @@ jobs:
               if (ok) { host = u; break; }
             }
             if (!host) throw new Error('no page loaded');
+            found = true;
             if (INJECT) {
               await pg.evaluate((html) => {
                 const page = document.querySelector('.shopify-section--main-page .page');
@@ -72,7 +74,7 @@ jobs:
                 if (!prose) { prose = document.createElement('div'); prose.className = 'prose'; page.appendChild(prose); }
                 [...page.children].forEach((c) => { if (c !== prose && c.tagName !== 'H1') c.remove(); });
                 prose.innerHTML = html;
-                prose.querySelectorAll('script').forEach((s) => { const n = document.createElement('script'); n.textContent = s.textContent; s.replaceWith(n); });
+                prose.querySelectorAll('script').forEach((s) => { const n = document.createElement('script'); if (s.src) n.src = s.src; else n.textContent = s.textContent; s.replaceWith(n); });
               }, BODY);
             }
             await pg.waitForSelector('#mckb .tiers .tier', { timeout: 30000 });
@@ -110,7 +112,7 @@ jobs:
             await tap(pg, '#mckb .navrow .btn.atc'); await pg.waitForTimeout(900);
           };
           const run = async (vp) => {
-            const mobile = vp === 'phone'; const { ctx, pg, errs, bad, path } = await open(mobile);
+            const mobile = vp === 'phone'; const { ctx, pg, errs, bad, path } = await open(mobile); const pathname = new URL(path).pathname;
             let s = await state(pg);
             ck(`${vp}-mount`, 'article + builder mount: "Step 1 of 3" with the logo 14px above it (10px between), three cards, 2 diffusers selected, no one-time option', /Step 1 of 3/i.test(s.step || '') && s.logo && s.logo.loaded && s.logo.beforeStep && s.logo.w >= 80 && s.logo.w <= 110 && s.logo.mt === '14px' && s.tiers.length === 3 && /2 free diffusers.*Living Room & Bedroom/.test(s.tierOn || '') && s.oneTime === 0 && s.eyeMt === '10px', { step: s.step, logo: s.logo, tiers: s.tiers.length, on: s.tierOn, oneTime: s.oneTime, eyeMt: s.eyeMt });
             // every article button scrolls to the builder (no navigation)
@@ -122,7 +124,7 @@ jobs:
               await pg.waitForTimeout(300);
               const clicked = await pg.evaluate((c) => { const a = document.querySelector(`[data-cta="${c}"]`); if (!a) return false; a.click(); return true; }, c); await pg.waitForTimeout(900);
               const after = await state(pg);
-              ck(`${vp}-cta-${c}`, `"${(shown || {}).text}" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)`, shown && shown.vis && shown.href === '#mckb' && clicked && after.scrollY > 300 && after.path === path && after.mckbTop >= 0 && after.mckbTop <= 60, { shown, clicked, scrollY: after.scrollY, hash: after.hash, path: after.path, mckbTop: after.mckbTop }); /* the theme intercepts in-page anchors and scrolls without setting the hash */
+              ck(`${vp}-cta-${c}`, `"${(shown || {}).text}" scrolls to the builder (href #mckb, lands within 60px of the top, stays on the page)`, shown && shown.vis && shown.href === '#mckb' && clicked && after.scrollY > 300 && after.path === pathname && after.mckbTop >= 0 && after.mckbTop <= 60, { shown, clicked, scrollY: after.scrollY, hash: after.hash, path: after.path, mckbTop: after.mckbTop }); /* the theme intercepts in-page anchors and scrolls without setting the hash */
             }
             const read = await pg.evaluate(async () => { window.scrollTo(0, 0); await new Promise((r) => setTimeout(r, 300)); const a = document.querySelector('header.top a.btn'); const href = a && a.getAttribute('href'); if (a) a.click(); await new Promise((r) => setTimeout(r, 800)); const t = document.getElementById('alert-1'); return { href, top: t ? Math.round(t.getBoundingClientRect().top) : null }; });
             ck(`${vp}-cta-read`, '"Read the alerts" still goes to Alert #1', read.href === '#alert-1' && read.top !== null && read.top >= 0 && read.top <= 60, read);
@@ -166,7 +168,7 @@ jobs:
             await ctx.close();
           };
           // real cart: Add to cart -> drawer opens on the page, cart.js holds the kit (zeroed by the free-diffuser discount) + scents on the plan
-          const cartCheck = async (pg, errs, path, name, tier, freqIdx, exp) => {
+          const cartCheck = async (pg, errs, bad, path, name, tier, freqIdx, exp) => {
             if (freqIdx !== 1) { await tap(pg, '#mckb .rf3-opt', freqIdx); await pg.waitForTimeout(250); }
             const before = await state(pg); const errsAtClick = errs.length;
             await tap(pg, '#mckb [data-cart]'); await pg.waitForTimeout(300);
@@ -178,16 +180,16 @@ jobs:
             const merged = Object.values(c.items.reduce((m, l) => { const k = l.v + '|' + l.plan + '|' + l.price; if (m[k]) { m[k].q += l.q; m[k].line = Math.round((m[k].line + l.line) * 100) / 100; } else m[k] = { ...l }; return m; }, {}));
             const match = merged.length === exp.lines.length && c.total === exp.total && exp.lines.every((e) => merged.some((l) => l.v === e.v && l.q === e.q && l.price === e.price && l.line === e.line && l.plan === e.plan));
             const kitLine = c.items.find((l) => [KITS[0].v, KITS[1].v, KITS[2].v].includes(l.v));
-            ck(`cart-${name}`, exp.name, before.btn === BTN && /One moment/i.test(busy.btn || '') && landed === path && !!(drawer && drawer.open && drawer.visible) && match && after.btn === BTN && !after.done && !after.hash.includes('cart') && (errs.length - errsAtClick) === 0 && !!kitLine && kitLine.disc.some((d) => /FREE DIFFUSER/i.test(d)), { btnBefore: before.btn, btnBusy: busy.btn, btnAfter: after.btn, landed, drawer, total: c.total, lines: c.items, kitDiscount: kitLine && kitLine.disc, errs: errs.slice(errsAtClick, errsAtClick + 4) });
+            ck(`cart-${name}`, exp.name, before.btn === BTN && /One moment/i.test(busy.btn || '') && landed === path && !!(drawer && drawer.open && drawer.visible) && match && after.btn === BTN && !after.done && !after.hash.includes('cart') && (errs.length - errsAtClick) === 0 && !!kitLine && kitLine.disc.some((d) => /FREE DIFFUSER/i.test(d)), { btnBefore: before.btn, btnBusy: busy.btn, btnAfter: after.btn, note: after.done, landed, drawer, total: c.total, cartErr: c.err, lines: c.items, kitDiscount: kitLine && kitLine.disc, errs: errs.slice(errsAtClick, errsAtClick + 4), failedRequests: bad.slice(-6) });
           };
           const cartPhone = async () => {
-            const { ctx, pg, errs, path } = await open(true);
+            const { ctx, pg, errs, bad, path } = await open(true);
             await clearCart(pg);
             await tap(pg, '.fixrow[data-cta="fix-3"]'); await pg.waitForTimeout(800); /* a visitor who tapped a fix row */
             const empty = await cartJs(pg); ck('cart-start', 'cart empty before the walk', empty.n === 0, empty);
             await walkTo3(pg, 1, ['focus', 'purify', 'love']);
             const afterReview = await cartJs(pg); ck('cart-2d-30-review', 'nothing is in the cart after "Review my kit" (the kit is added at UNLOCK FREE DIFFUSERS)', afterReview.n === 0, afterReview);
-            await cartCheck(pg, errs, path, '2d-30', 1, 1, { total: 119.85, name: 'phone: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days -> drawer opens on the page, three scents $39.95 on Every 30 days, kit $179.90 -> $0.00, total $119.85', lines: [{ v: SCENTS.focus.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: SCENTS.purify.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: SCENTS.love.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: KITS[1].v, q: 1, price: KITS[1].p, line: 0, plan: null }] });
+            await cartCheck(pg, errs, bad, path, '2d-30', 1, 1, { total: 119.85, name: 'phone: 2 diffusers + Chilled Citrus, Wildwood Mystique, Golden Blossom Harmony every 30 days -> drawer opens on the page, three scents $39.95 on Every 30 days, kit $179.90 -> $0.00, total $119.85', lines: [{ v: SCENTS.focus.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: SCENTS.purify.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: SCENTS.love.v, q: 1, price: SP, line: SP, plan: 'Every 30 days' }, { v: KITS[1].v, q: 1, price: KITS[1].p, line: 0, plan: null }] });
             // close the drawer, change the kit, add again: the first kit must be replaced, not doubled
             await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (d && typeof d.hide === 'function') { try { d.hide(); } catch (e) {} } else if (d) d.removeAttribute('open'); }); await pg.waitForTimeout(600);
             await tap(pg, '#mckb .navrow.back-only .btn'); await pg.waitForTimeout(1000);
@@ -198,17 +200,17 @@ jobs:
             ck('cart-swap-picks', 'step 2 keeps the first two picks (Chilled Citrus, Wildwood Mystique), 2 of 2 picked', s.on.length === 2 && /2 of 2 picked/i.test(s.pill || '') && /Review my kit/i.test(s.review || ''), { on: s.on, pill: s.pill, review: s.review });
             await tap(pg, '#mckb .navrow .btn.atc'); await pg.waitForTimeout(1000); s = await state(pg);
             ck('cart-swap-s3', 'step 3 for 1 diffuser: "1× Maison Croyez Diffuser $89.95 FREE", $169.85 of value, $79.90 today, singular explanation', s.rows.length === 3 && /1× Maison Croyez Diffuser.*\$89\.95.*FREE/.test(s.rows[2] || '') && /\$169\.85 of value, you pay \$79\.90 today/.test(s.value || '') && s.expl === EXPL(1), { rows: s.rows, value: s.value, expl: s.expl });
-            await cartCheck(pg, errs, path, '1d-90-replace', 0, 2, { total: 79.90, name: 'phone, second add: 1 diffuser + Chilled Citrus + Wildwood Mystique every 90 days replaces the first kit (no doubling): two scents on Every 90 days, kit $89.95 -> $0.00, total $79.90', lines: [{ v: SCENTS.focus.v, q: 1, price: SP, line: SP, plan: 'Every 90 days' }, { v: SCENTS.purify.v, q: 1, price: SP, line: SP, plan: 'Every 90 days' }, { v: KITS[0].v, q: 1, price: KITS[0].p, line: 0, plan: null }] });
+            await cartCheck(pg, errs, bad, path, '1d-90-replace', 0, 2, { total: 79.90, name: 'phone, second add: 1 diffuser + Chilled Citrus + Wildwood Mystique every 90 days replaces the first kit (no doubling): two scents on Every 90 days, kit $89.95 -> $0.00, total $79.90', lines: [{ v: SCENTS.focus.v, q: 1, price: SP, line: SP, plan: 'Every 90 days' }, { v: SCENTS.purify.v, q: 1, price: SP, line: SP, plan: 'Every 90 days' }, { v: KITS[0].v, q: 1, price: KITS[0].p, line: 0, plan: null }] });
             await clearCart(pg);
             await ctx.close();
           };
           const cartDesktop = async () => {
-            await new Promise((r) => setTimeout(r, 75000)); /* run 1: the desktop cart calls right after the phone's got 429 (Shopify's per-IP cart rate limit); a visitor never makes that many */
-            const { ctx, pg, errs, path } = await open(false);
+            await new Promise((r) => setTimeout(r, 30000));
+            const { ctx, pg, errs, bad, path } = await open(false);
             await clearCart(pg);
             await tap(pg, '[data-cta="fix-all"]'); await pg.waitForTimeout(800);
             await walkTo3(pg, 2, ['focus', 'focus', 'midnight', 'energy', 'ideas']);
-            await cartCheck(pg, errs, path, '3d-60-desktop', 2, 0, { total: 199.75, name: 'desktop: 3 diffusers + Chilled Citrus x2, Midnight Sensation, Euphoric Bloom, Honey Nectar every 60 days -> drawer, kit $269.85 -> $0.00, total $199.75', lines: [{ v: SCENTS.focus.v, q: 2, price: SP, line: 79.90, plan: 'Every 60 days' }, { v: SCENTS.midnight.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: SCENTS.energy.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: SCENTS.ideas.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: KITS[2].v, q: 1, price: KITS[2].p, line: 0, plan: null }] });
+            await cartCheck(pg, errs, bad, path, '3d-60-desktop', 2, 0, { total: 199.75, name: 'desktop: 3 diffusers + Chilled Citrus x2, Midnight Sensation, Euphoric Bloom, Honey Nectar every 60 days -> drawer, kit $269.85 -> $0.00, total $199.75', lines: [{ v: SCENTS.focus.v, q: 2, price: SP, line: 79.90, plan: 'Every 60 days' }, { v: SCENTS.midnight.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: SCENTS.energy.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: SCENTS.ideas.v, q: 1, price: SP, line: SP, plan: 'Every 60 days' }, { v: KITS[2].v, q: 1, price: KITS[2].p, line: 0, plan: null }] });
             await clearCart(pg);
             await ctx.close();
           };

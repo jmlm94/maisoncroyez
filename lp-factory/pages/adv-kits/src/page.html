@@ -483,8 +483,11 @@ footer ol{margin:0 0 8px;padding-left:18px}
     var f = box.querySelector('.step-title'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
   }
   /* Add to cart on the store: the kit variant + each scent on the chosen refill plan (the free-diffuser discounts zero the kit
-     at checkout, as on the kits page). A kit this page or the kits page added earlier is replaced, not doubled. Shopify's
-     Meta channel fires AddToCart from /cart/add.js; the 800 ms wait before leaving keeps its beacons. */
+     at checkout, as on the kits page). A kit this page or the kits page added earlier is replaced, not doubled: the page's own
+     lines are removed first. One /cart/update.js call per round with the keys from a fresh /cart.js read, up to three rounds,
+     because removing a line can merge or re-key the others (the kits page sees the same; qa-adv run 1, 2026-11-02, got a 400 on
+     the second sequential /cart/change.js). Shopify's Meta channel fires AddToCart from /cart/add.js; the 800 ms wait before
+     leaving keeps its beacons. */
   function addCart() {
     if (st.busy || left() > 0) return;
     st.busy = true; st.err = false; render();
@@ -492,11 +495,17 @@ footer ol{margin:0 0 8px;padding-left:18px}
     grouped().forEach(function (g) { items.push({ id: VAR[g.f.key], quantity: g.q, selling_plan: plan }); });
     var mine = [KITV[1], KITV[2], KITV[3]].concat(FR.map(function (f) { return VAR[f.key]; }));
     var post = function (u, b) { return fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(b) }).then(function (r) { if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }); };
-    fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function (r) { return r.json(); })
-      .then(function (c) {
-        return (c.items || []).filter(function (l) { return mine.indexOf(l.variant_id) > -1; })
-          .reduce(function (p, l) { return p.then(function () { return post('/cart/change.js', { id: l.key, quantity: 0 }); }); }, Promise.resolve());
-      })
+    var getCart = function () { return fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function (r) { if (!r.ok) throw new Error('/cart.js ' + r.status); return r.json(); }); };
+    var removeMine = function (round) {
+      return getCart().then(function (c) {
+        var lines = (c.items || []).filter(function (l) { return mine.indexOf(l.variant_id) > -1; });
+        if (!lines.length) return;
+        if (round >= 3) throw new Error('earlier kit lines could not be removed');
+        var updates = {}; lines.forEach(function (l) { updates[l.key] = 0; });
+        return post('/cart/update.js', { updates: updates }).catch(function () {}).then(function () { return removeMine(round + 1); });
+      });
+    };
+    removeMine(0)
       .then(function () { return post('/cart/add.js', { items: items }); })
       .then(function () {
         var drawer = document.getElementById('cart-drawer');

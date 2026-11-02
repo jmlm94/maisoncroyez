@@ -179,3 +179,8 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Meta: the three Candle Swap ad sets optimise for Purchase (checked 2026-11-02), so moving the buttons in-page does not change
   delivery; the codeless "Clicked to PDP" event now fires on an in-page scroll, not a kits-page visit. pixel-adv.yml follows the
   new path (fix row -> builder -> UNLOCK FREE DIFFUSERS -> drawer -> checkout).
+- pixel-adv run 2 (live, 2026-11-02 00:40 UTC, pixel/pixel-adv-20261102T004.json), phone + desktop: PageView on load,
+  SubscribedButtonClick on the fix-row tap and on the builder buttons, 4x AddToCart at UNLOCK FREE DIFFUSERS (one per cart line,
+  as on the kits page), PageView + InitiateCheckout on the checkout reached from the drawer. Consent granted (US), one pixel
+  980908600592309, no JS errors. The codeless "Clicked to PDP" event does not fire any more (no link to the kits page is left);
+  AddToCart on this page is the event to read instead.

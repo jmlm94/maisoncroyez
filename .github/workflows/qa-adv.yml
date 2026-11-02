@@ -6,7 +6,7 @@ name: qa-adv
 # Alert #1 and hides on the offer. INJECT=yes drops shopify/page-body.html into a plain store page on the real theme (before the deploy);
 # INJECT=no runs on URL (the live page). Edit this line and push to run. Run 1 (2026-11-02): INJECT, v16 body before pageUpdate (35/58: test-script
 # mistakes + the second add left stale lines, fixed in kb.js). Run 2: INJECT, kb.js removal in rounds, script fixes, 4xx URLs recorded (42/60: the page passed everywhere; the rest was the
-# harness: host-probe 404s, a pathname compared with a URL, the desktop cart on the headless browser signature). Run 3 (2026-11-02): the live page after the v16 deploy (files mc-cs-adv.css / .js on the CDN, body key cs16-a20283e). 60/60; run 4: body check compares with &amp; normalised.
+# harness: host-probe 404s, a pathname compared with a URL, the desktop cart on the headless browser signature). Run 3 (2026-11-02): the live page after the v16 deploy (files mc-cs-adv.css / .js on the CDN, body key cs16-a20283e). 60/60; run 4: 60/60; run 5: body check = text + URLs + key (Shopify re-serialises the markup).
 on:
   workflow_dispatch:
   push:
@@ -38,17 +38,22 @@ jobs:
           mkdir -p "$OUT"
           curl -sSL -A "Mozilla/5.0" "$URL?cb=$(date +%s)" -o live.html || true
           python3 - <<'PY' | tee "$OUT/body-check-latest.txt"
-          import hashlib, os, re
+          import hashlib, html, re
+          # Shopify re-serialises page content (bare & -> &amp;, viewBox -> viewbox, <circle/> -> <circle></circle>), so the check is:
+          # the version key is on the page, and the article's visible text and its set of src / href URLs equal the repo body's.
           live = open('live.html', encoding='utf-8').read(); repo = open('lp-factory/pages/adv-kits/shopify/page-body.html', encoding='utf-8').read()
-          nl = lambda t: t.replace('\n', '').replace('\r', '').replace('&amp;', '&')  # Shopify renders a bare & in attributes as &amp;
-          found = nl(live).find(nl(repo)) >= 0
-          key = re.search(r'mc-cs-adv\.js\?v=([\w-]+)', live); md5 = lambda t: hashlib.md5(t.encode()).hexdigest()
-          print('bodyInLive(ignoringNewlines):', found, 'liveLen:', len(live), 'repoLen:', len(repo), 'liveKey:', key.group(1) if key else None, 'repoMd5:', md5(repo))
-          if not found:
-              a, b = nl(live), nl(repo); i = a.find(b[:200]); j = 0
-              if i >= 0:
-                  while j < len(b) and i + j < len(a) and a[i + j] == b[j]: j += 1
-              print('first difference at', j, 'live:', a[i + j:i + j + 120] if i >= 0 else 'START NOT FOUND', '| repo:', b[j:j + 120])
+          i = live.find('<div id="mcadv">'); j = live.find('<script src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-adv.js', i)
+          seg = live[i:j] if i >= 0 and j > i else ''; rseg = repo[repo.find('<div id="mcadv">'):repo.find('<script src=')]
+          text = lambda t: re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', t))).strip()
+          urls = lambda t: sorted(set(html.unescape(u) for u in re.findall(r'(?:src|href)="([^"]+)"', t)))
+          key = re.search(r'mc-cs-adv\.js\?v=([\w-]+)', live); rkey = re.search(r'mc-cs-adv\.js\?v=([\w-]+)', repo)
+          ok = bool(seg) and text(seg) == text(rseg) and urls(seg) == urls(rseg) and key and rkey and key.group(1) == rkey.group(1)
+          print('bodyMatch(text+urls+key):', ok, 'liveKey:', key.group(1) if key else None, 'repoKey:', rkey.group(1) if rkey else None, 'urls:', len(urls(rseg)), 'liveLen:', len(live), 'repoMd5:', hashlib.md5(repo.encode()).hexdigest())
+          if seg and text(seg) != text(rseg):
+              a, b = text(seg), text(rseg); k = 0
+              while k < min(len(a), len(b)) and a[k] == b[k]: k += 1
+              print('text differs at', k, 'live:', a[k:k + 120], '| repo:', b[k:k + 120])
+          if seg and urls(seg) != urls(rseg): print('url difference:', sorted(set(urls(seg)) ^ set(urls(rseg)))[:10])
           PY
       - name: Advertorial QA
         run: |

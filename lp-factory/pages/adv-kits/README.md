@@ -66,10 +66,19 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   Without `urls.json` the images point at raw GitHub (preview only); with it, at the Shopify CDN.
 - `.github/workflows/adv-preview.yml` drops the body into a plain store page on the real theme and saves screenshots + checks to `shopify/preview/`.
 
-## LIVE 2026-10-29: https://maisoncroyez.com/pages/indoor-air-alerts
+## LIVE 2026-11-02 (v16, key cs16-a20283e, 00:36:53 UTC): https://maisoncroyez.com/pages/indoor-air-alerts
+- Page gid://shopify/Page/163225075821. The body is now the markup + links (25 KB, shopify/page-body.html); the styles and the
+  script are Shopify Files fetched from GitHub, nothing retyped: mc-cs-adv.css = GenericFile 46657364525165 (49,487 B),
+  mc-cs-adv.js = GenericFile 46657364557933 (30,508 B), both created by fileCreate from raw @ a20283e (READY 00:34 UTC),
+  cached by `?v=cs16-<sha>` on both URLs like the kits page. Images: the 13 mc-cs-*.jpg from 2026-10-29 (shopify/urls.json).
+- To change the article now: edit src/page.html (or kb.js + `python3 src/kitscss/inline_js.py`), commit, then
+  `KEY=cs16-<sha> python3 shopify/build.py body shopify/urls.json`, fileUpdate the two GenericFiles from raw @ <sha>, wait READY,
+  commit the body, pageUpdate it (25 KB) through the connector after get-shop-info says Maison Croyez.
+- The old inline deploy (2026-10-29, 13 images + a 42 KB body) is in git history (v12).
+
+## LIVE 2026-10-29 (v12): https://maisoncroyez.com/pages/indoor-air-alerts
 - Page gid://shopify/Page/163225075821, title "Your “Healthy” Diffuser May Be Growing Mold", default page template, published.
 - Images: 13 Shopify Files (mc-cs-*.jpg, ?v=1793302792), map in `shopify/urls.json`; body = `shopify/page-body.html` built with it.
-- To change the article: edit `src/page.html`, run `python3 shopify/build.py body shopify/urls.json`, then pageUpdate the body.
 
 ## Speed 2026-10-29 (perf/lh-20261029T1959Z.md)
 - Lighthouse 3x: mobile 46 / 58 / 54 (LCP 6.3–7.0 s, TBT 680–1,700 ms), desktop 95 / 96 / 98 (LCP 1.1–1.4 s).
@@ -162,6 +171,11 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   fix-row tap lands on the builder, cart = 3 scents on Every 30 days + kit $179.90 -> $0.00, total $119.85, drawer on the page.
   `.github/workflows/qa-adv.yml` is the full QA (every article button scrolls to #mckb, steps 1–3, cart drawer, a second add
   replaces the first kit, sticky bar); INJECT=yes before the deploy, INJECT=no on the live page after it.
+- qa-adv runs 1–2 (injected): the page passed everywhere once the harness was right (uppercased button text, the theme scrolls
+  to #mckb without setting the hash, host-probe 404s, the desktop cart on the headless browser signature). One real find: a
+  second UNLOCK FREE DIFFUSERS left the first kit's lines in place (a sequential /cart/change.js got a 400 after the first
+  removal re-keyed the others). kb.js now removes its lines in rounds with /cart/update.js and fresh keys (the fake-cart harness
+  in the session scratchpad covers add / replace / unrelated line kept).
 - Meta: the three Candle Swap ad sets optimise for Purchase (checked 2026-11-02), so moving the buttons in-page does not change
   delivery; the codeless "Clicked to PDP" event now fires on an in-page scroll, not a kits-page visit. pixel-adv.yml follows the
   new path (fix row -> builder -> UNLOCK FREE DIFFUSERS -> drawer -> checkout).

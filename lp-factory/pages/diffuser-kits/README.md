@@ -14,6 +14,26 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
+
+Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py
+from the dk11 files (the round-by-round copy is in that folder's README):
+- Scents $29.95 each (SCENT_ONE); the kits need 3 / 4 / 7 scents (were 2 / 3 / 5), due today $89.85 / $119.80 / $209.65.
+- Step 2, above the scent tiles: "Each scent lasts 15–21 days, depending on use." (bold, .92rem), the Organic Ingredients /
+  Paraben-Free / Cruelty-Free badges with heavier line icons, then "All IFRA 51 compliant.".
+- The two FAQ answers and the comparison row: about 15–21 days per bottle (were 30+ days).
+- Cart code unchanged from dk11.
+Deploy (Shopify connector, store confirmed Maison Croyez before every write), in this order so no live cart hit a bad window:
+1. The 7 scent variants' price 39.95 → 29.95 (productVariantsBulkUpdate per product; compare-at $49.95 untouched; the page's
+   30 / 60 / 90 plans take 0% off, so checkout charges the variant price).
+2. fileUpdate 46262619439213 mc-dk-app.js (136,421 B) + 46262619471981 mc-dk.css (156,436 B) from raw @ f208dca, READY
+   within the minute (checked by originalFileSize); pageUpdate 161846919277 with the dk12-f208dca body (42,154 B, sent as a
+   GraphQL variable: the connector caps the document at 16 KB; updatedAt 01:19:36Z). The Candle Swap page followed (adv-kits
+   README, v17).
+3. The three "N FREE DIFFUSER(S) — SCENT SUBSCRIPTION" discounts (1389794623597 / 1389794852973 / 1389794951277):
+   customerBuys quantity 2 / 3 / 5 → 3 / 4 / 7 (discountAutomaticBxgyUpdate; the 7 scent products and the free kit variant kept).
+Then qa-kits (qa-kits-dk12.patch applied), page-shot and pixel-adv on the live page from commit 1fab4ca. Existing subscribers'
+prices live in Subi (not touched).
 ## 2026-11-01 — dk11 (key dk11-7dade96, LIVE 23:41 UTC): step 1 title, bigger step labels, step 3 unlock copy + button
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v49 to v58), then "AND DEPLOY". Built by

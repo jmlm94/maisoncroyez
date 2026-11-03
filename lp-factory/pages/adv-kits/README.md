@@ -66,13 +66,25 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   Without `urls.json` the images point at raw GitHub (preview only); with it, at the Shopify CDN.
 - `.github/workflows/adv-preview.yml` drops the body into a plain store page on the real theme and saves screenshots + checks to `shopify/preview/`.
 
+## LIVE 2026-11-03 (v17 = dk12, key cs17-f208dca, 01:22:44 UTC): https://maisoncroyez.com/pages/indoor-air-alerts
+- The launch-offer builder follows the kits page's dk12 (owner: same deploy): scents $29.95 each, 3 / 4 / 7 scents per
+  1 / 2 / 3 free diffusers (due today $89.85 / $119.80 / $209.65); step 2 opens with "Each scent lasts 15–21 days, depending
+  on use." + the Organic Ingredients / Paraben-Free / Cruelty-Free badges + "All IFRA 51 compliant.". Article: Alert #2's fix
+  row and the fix list say "One 100 ml bottle lasts about 15–21 days." (were 30+ days). Source: kb.js + page.html, commits
+  9ffca4b / be409b7 (owner rounds 2–4 in diffuser-kits/variants/dk12-scents2995/README.md).
+- Deploy: fileUpdate GenericFile 46657364525165 mc-cs-adv.css (51,042 B) + 46657364557933 mc-cs-adv.js (31,789 B) from raw
+  @ f208dca, READY; `KEY=cs17-f208dca python3 shopify/build.py body shopify/urls.json`; pageUpdate 163225075821 with the
+  25,371 B body as a GraphQL variable (the connector caps the document at 16 KB). The scent price ($29.95) and the BXGY
+  minimums (3 / 4 / 7) changed in Shopify the same night: see the kits README, dk12 entry. qa-adv (qa-adv-dk12.patch,
+  INJECT=no) + pixel-adv run 3 on the live page from commit 1fab4ca.
+
 ## LIVE 2026-11-02 (v16, key cs16-a20283e, 00:36:53 UTC): https://maisoncroyez.com/pages/indoor-air-alerts
 - Page gid://shopify/Page/163225075821. The body is now the markup + links (25 KB, shopify/page-body.html); the styles and the
   script are Shopify Files fetched from GitHub, nothing retyped: mc-cs-adv.css = GenericFile 46657364525165 (49,487 B),
   mc-cs-adv.js = GenericFile 46657364557933 (30,508 B), both created by fileCreate from raw @ a20283e (READY 00:34 UTC),
   cached by `?v=cs16-<sha>` on both URLs like the kits page. Images: the 13 mc-cs-*.jpg from 2026-10-29 (shopify/urls.json).
 - To change the article now: edit src/page.html (or kb.js + `python3 src/kitscss/inline_js.py`), commit, then
-  `KEY=cs16-<sha> python3 shopify/build.py body shopify/urls.json`, fileUpdate the two GenericFiles from raw @ <sha>, wait READY,
+  `KEY=cs<N>-<sha> python3 shopify/build.py body shopify/urls.json`, fileUpdate the two GenericFiles from raw @ <sha>, wait READY,
   commit the body, pageUpdate it (25 KB) through the connector after get-shop-info says Maison Croyez.
 - The old inline deploy (2026-10-29, 13 images + a 42 KB body) is in git history (v12).
 

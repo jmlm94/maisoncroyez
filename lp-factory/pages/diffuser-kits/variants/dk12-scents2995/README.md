@@ -1,4 +1,4 @@
-# dk12 — scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers (preview, owner 2026-11-03)
+# dk12 — scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers (owner 2026-11-03; LIVE the same night, see the end)
 
 Owner: "Scents are $29.95 each and now they need 3 for 1 diffuser, 4 for 2 diffusers and 7 for 3 diffusers. You can include
 that each scent lasts aprox 15-21+ days." Previewed on MC LP Draft Copy 3 (https://claude.ai/artifact/TK1GvMvzMi69pP4wiLMfyN).
@@ -33,3 +33,11 @@ that each scent lasts aprox 15-21+ days." Previewed on MC LP Draft Copy 3 (https
   labels 800 and the badge icons drawn heavier (stroke 2.3 instead of 1.6). Same on the Candle Swap builder.
 - Round 4 (owner comments, 2026-11-03): "15% bigger. 15-21 DAYS." — the line is .92rem (was .8) and says 15–21 days (the "+" is
   gone there, in the FAQ and the comparison row); "this below the 3" — "All IFRA 51 compliant." now sits under the three badges.
+
+## LIVE 2026-11-03 (kits key dk12-f208dca 01:19 UTC, Candle Swap key cs17-f208dca 01:22 UTC)
+Done through the Shopify connector in this order (store confirmed Maison Croyez before each write): 1. the 7 scent variants to
+$29.95 (compare-at $49.95 kept), 2. both pages (the four Shopify Files from raw @ f208dca, then the page bodies), 3. the three
+BXGY discounts' customerBuys quantity 2 / 3 / 5 → 3 / 4 / 7 (1389794623597 / 1389794852973 / 1389794951277). The section above
+was the pre-deploy checklist; qa-kits-dk12.patch and qa-adv-dk12.patch were applied in commit 1fab4ca (live QA runs). Existing
+subscribers keep their Subi prices (Subi not touched). Full deploy notes: ../../README.md (dk12 entry) and
+../../../adv-kits/README.md (v17).

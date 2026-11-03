@@ -9,8 +9,14 @@ that each scent lasts aprox 15-21+ days." Previewed on MC LP Draft Copy 3 (https
 | 2 diffusers (Living Room & Bedroom, Most popular) | 4 | $119.80 | $299.70 |
 | 3 diffusers (whole home, Best value) | 7 | $209.65 | $479.50 |
 
-- Page: SCENT_ONE 29.95, TIERS 3 / 4 / 7, step-1 cards "Lasts 15–21+ days" under "$29.95 each", the two FAQ answers and the
-  comparison row now say about 15–21+ days per bottle (were 30+ days).
+- Page: SCENT_ONE 29.95, TIERS 3 / 4 / 7; the two FAQ answers and the comparison row now say about 15–21+ days per bottle
+  (were 30+ days).
+- Round 2 (owner, 2026-11-03): "the lasts 15-21+ days depending on use should appear on the second step ... above the actual
+  variants ... three icons like step 1: Organic Ingredients, Parabens-Free, Cruelty-Free. they're also ifra51 compliant".
+  Step 2, between the title row and the scent tiles: "Each scent lasts 15–21+ days, depending on use. All IFRA 51 compliant."
+  and three badges in the step-1 colours with line icons (leaf / crossed-out drop / rabbit): Organic Ingredients,
+  Paraben-Free, Cruelty-Free. Nothing about days on the step-1 cards any more.
+- The Candle Swap builder (adv-kits/src/kitscss/kb.js + page.html) has the same changes (owner: same deploy).
 - Not changed: the review quote "One bottle lasted five weeks" (Kate D.) — a customer's words; owner to decide.
 - Build: `python3 patch.py <dir>` then `APP=<dir>/mc-dk-app.js CSS=<dir>/mc-dk.css node ../dk9s-step1-scents/build-variant.mjs <out> "MC LP Draft Copy 3"`.
 
@@ -19,4 +25,7 @@ that each scent lasts aprox 15-21+ days." Previewed on MC LP Draft Copy 3 (https
   selling plan's price), or the page shows $119.80 while checkout charges $159.80.
 - The automatic "N FREE DIFFUSERS — SCENT SUBSCRIPTION" discounts free the kit variant for 2 / 3 / 5 subscribed scents; they
   should require 3 / 4 / 7.
-- qa-kits.yml cart totals ($119.85 / $79.90) and copy checks need the new numbers.
+- QA: qa-kits-dk12.patch and qa-adv-dk12.patch hold the new numbers + a step-2 check; `git apply` them at deploy (pushing
+  them earlier would run real carts against the old live pages).
+- Store-wide price (owner, 2026-11-03: "Store-wide"): the 7 scent variants go to $29.95, so product pages and one-time
+  buyers pay $29.95 too.

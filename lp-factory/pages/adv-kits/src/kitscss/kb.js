@@ -2,7 +2,7 @@
   /* Launch-offer kit builder: the /pages/diffuser-kits buy box (steps 1-3), same markup and classes, styled by the kits CSS under #mckb. */
   var root = document.getElementById('mckb'); if (!root) return;
   var sec = root.querySelector('#buybox'), box = root.querySelector('.buybox');
-  var DIFF = 89.95, SCENT = 39.95;
+  var DIFF = 89.95, SCENT = 29.95; /* 2026-11-03 (owner): scents $29.95 each, store-wide */
   /* the store's cart: the same kit variants, scents and Subi refill plans as /pages/diffuser-kits (CART3 + CONFIG.fragrances in mc-dk-app.js) */
   var KITV = { 1: 45900240257133, 2: 45900240289901, 3: 45900240322669 };
   var PLAN = { 30: 7883817069, 60: 7883849837, 90: 7883882605 };
@@ -10,9 +10,9 @@
   var onStore = /(^|\.)maisoncroyez\.com$/.test(location.hostname);
   var KIT = ['{{kb_kit1}}', '{{kb_kit2}}', '{{kb_kit3}}'];
   var TIERS = [
-    { key: 'one', n: 1, name: 'Living Room', scents: 2, tag: '', pop: false, rooms: ['Studio', 'Bathroom', 'Entry'], where: '<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand.' },
-    { key: 'two', n: 2, name: 'Living Room & Bedroom', scents: 3, tag: 'Most popular', pop: true, rooms: ['Living Room', 'Bedroom', 'Kitchen'], where: '<b>Two diffusers for one bigger room</b>, up to 1,200 sq ft: the living room, the bedroom or the kitchen.' },
-    { key: 'three', n: 3, name: 'Living Room, Bedroom & Kitchen', scents: 5, tag: 'Best value', pop: false, rooms: ['1+ Rooms', 'Large Spaces'], where: '<b>Three diffusers, up to 1,800 sq ft:</b> two in the living room, one in the bedroom, or any split you like.' }
+    { key: 'one', n: 1, name: 'Living Room', scents: 3, tag: '', pop: false, rooms: ['Studio', 'Bathroom', 'Entry'], where: '<b>One diffuser fills one room</b>, up to 600 sq ft, in about ten minutes. A shelf, a counter or a nightstand.' },
+    { key: 'two', n: 2, name: 'Living Room & Bedroom', scents: 4, tag: 'Most popular', pop: true, rooms: ['Living Room', 'Bedroom', 'Kitchen'], where: '<b>Two diffusers for one bigger room</b>, up to 1,200 sq ft: the living room, the bedroom or the kitchen.' },
+    { key: 'three', n: 3, name: 'Living Room, Bedroom & Kitchen', scents: 7, tag: 'Best value', pop: false, rooms: ['1+ Rooms', 'Large Spaces'], where: '<b>Three diffusers, up to 1,800 sq ft:</b> two in the living room, one in the bedroom, or any split you like.' }
   ];
   var FR = [
     { key: 'love', name: 'Golden Blossom Harmony', int: 'Love', str: 'medium', sm: 'Fresh flowers and a little honey. Like walking into a florist.', notes: 'Buttercup, Honeysuckle & Sunflower', img: '{{s_love}}' },
@@ -26,6 +26,13 @@
   var SW = { love: 'linear-gradient(160deg,#F26A3D,#F7C948)', abundance: 'linear-gradient(160deg,#F5E04E,#8EC9F0)', focus: 'linear-gradient(160deg,#E9A6D0,#D7B5E8)', ideas: 'linear-gradient(160deg,#9ED9D3,#EE4F8E)', energy: 'linear-gradient(160deg,#E9BFDB,#F3895F)', purify: 'linear-gradient(160deg,#F2E15A,#D873B4)', midnight: 'linear-gradient(160deg,#A9D8EE,#E7A6D2)' };
   var FREQS = [{ d: 60 }, { d: 30, tag: 'Most popular' }, { d: 90 }];
   var PLANS = /*PLANS*/{}, RIC = /*RIC*/{}, IC = /*IC*/{};
+  /* kits dk12 round 2 (owner, 2026-11-03): step 2 badges, the page's line-icon style */
+  var S2 = function (b) { return '<svg viewBox="0 0 24 24" fill="none" stroke="#241C18" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + b + '</svg>'; };
+  var S2B = [
+    [S2('<path d="M5 19c0-8.2 5.2-13.3 14-14-.6 8.8-5.8 14-14 14z"/><path d="M5 19c2.8-4.1 5.8-6.9 9-9" stroke="#A3874A"/>'), 'Organic Ingredients'],
+    [S2('<path d="M12 3.5c3 3.6 5 6.4 5 9.3a5 5 0 0 1-10 0c0-2.9 2-5.7 5-9.3z"/><path d="M4.5 4.5l15 15" stroke="#A3874A"/>'), 'Paraben-Free'],
+    [S2('<path d="M9.6 10.6C8.7 7.2 8.9 3.5 10.1 3.5s1.7 3.5 1.3 7.1"/><path d="M14.4 10.6c.9-3.4.7-7.1-.5-7.1s-1.7 3.5-1.3 7.1"/><circle cx="12" cy="15.2" r="5"/><path d="M11.2 16.6h1.6" stroke="#A3874A"/>'), 'Cruelty-Free']
+  ];
   var st = { t: 1, keys: [], last: null, step: 1, freq: 30, added: false, busy: false, err: false };
 
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
@@ -72,6 +79,8 @@
     return LOGO + '<div class="step-eyebrow">Step 2 of 3</div>' +
       '<div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ' + t.scents + ' scents:</div><span class="pick-pill">' + (t.scents - l) + ' of ' + t.scents + ' picked</span></div>' +
       '<div class="s9-res">' + img(KIT[st.t], t.name) + '<span class="s9-res-tx"><b>' + t.n + ' FREE DIFFUSER' + (t.n > 1 ? 'S' : '') + ' RESERVED</b><small>' + esc(t.name) + ' · <s>' + usd(t.n * DIFF) + '</s> <b class="s9-free">FREE!</b></small></span></div></div>' +
+      '<div class="s2-facts"><p class="s2-life"><b>Each scent lasts 15–21+ days</b>, depending on use. <span class="s2-ifra">All IFRA 51 compliant.</span></p>' + /* kits dk12 round 2 (owner) */
+        '<div class="s2-badges">' + S2B.map(function (x) { return '<span class="s2-b"><span class="mc-ic s2-b-ic" aria-hidden="true">' + x[0] + '</span><span>' + x[1] + '</span></span>'; }).join('') + '</div></div>' +
       '<div class="picker e4" role="group" aria-label="Pick your scents">' + FR.map(function (f) {
         var q = qty(f.key), on = q > 0;
         return '<div class="pick e4t' + (on ? ' on' : '') + (!on && full ? ' full' : '') + (st.last === f.key ? ' peek' : '') + '" role="group" aria-label="' + esc(f.name) + '" tabindex="0" data-peek="' + f.key + '" data-k="p' + f.key + '">' +

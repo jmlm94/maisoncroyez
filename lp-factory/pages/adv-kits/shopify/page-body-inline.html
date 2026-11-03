@@ -590,16 +590,19 @@ html{-webkit-text-size-adjust:100%}
 #mcadv #mckb .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center;font-weight:700;color:#241C18}
 #mcadv #mckb .buybox .s2-facts{display:flex;flex-direction:column;gap:8px;margin:0}
 #mcadv #mckb .buybox .s2-facts > div{margin-top:0}
-#mcadv #mckb .buybox .s2-life{margin:0;text-align:center;font-family:'Outfit',sans-serif;font-size:.8rem;line-height:1.35;color:#3A322D !important}
+#mcadv #mckb .buybox .s2-life{margin:0;text-align:center;font-family:'Outfit',sans-serif;line-height:1.35}
 #mcadv #mckb .buybox .s2-life b{color:#141414;font-weight:800}
-#mcadv #mckb .buybox .s2-life .s2-ifra{white-space:nowrap}
+#mcadv #mckb .buybox .s2-life{font-size:.92rem;font-weight:800;color:#141414 !important}
+#mcadv #mckb .buybox .s2-b .s2-b-ic svg{stroke-width:2.3}
+#mcadv #mckb .buybox .s2-ifra{margin:0;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.74rem;line-height:1.3;color:#141414}
 #mcadv #mckb .buybox .s2-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 #mcadv #mckb .buybox .s2-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border-radius:12px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;line-height:1.15;letter-spacing:.03em;text-transform:uppercase;color:#111}
 #mcadv #mckb .buybox .s2-b:nth-child(1){background:linear-gradient(135deg,#FDEBDD,#F8DCE6)}
 #mcadv #mckb .buybox .s2-b:nth-child(2){background:linear-gradient(135deg,#E0F0FA,#E2F4EA)}
 #mcadv #mckb .buybox .s2-b:nth-child(3){background:linear-gradient(135deg,#EEE5F8,#F9E3EF)}
 #mcadv #mckb .buybox .s2-b .s2-b-ic{width:20px;height:20px}
-@media (min-width:700px){#mcadv #mckb .buybox .s2-life{font-size:.86rem}
+@media (min-width:700px){#mcadv #mckb .buybox .s2-life{font-size:.99rem}
+#mcadv #mckb .buybox .s2-ifra{font-size:.8rem}
 #mcadv #mckb .buybox .s2-b{flex-direction:row;gap:6px;font-size:.66rem;padding:9px 6px}}</style>
 <div id="mcadv">
 <div class="ann" id="top"><div class="wrap">Read this before you light another candle</div></div>
@@ -652,7 +655,7 @@ html{-webkit-text-size-adjust:100%}
         <div role="row"><span role="cell">Every year</span><span role="cell">$2,532</span></div>
       </div>
       <p>And your home pays twice. Look up at the ceiling above the spot where you burn candles. That grey shadow is <strong>soot</strong>, and it doesn't wipe off. Water diffusers get bumped and overfilled, leaving <strong>white rings and warped spots</strong> on the dresser. Reed diffusers tip over and the oil strips the finish off wood.</p>
-      <a class="fixrow" href="#mckb" data-cta="fix-2"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> One 100 ml bottle lasts about 15–21+ days. No soot, and the bottle locks in, so nothing spills. <span class="go">See how it works →</span></span></a>
+      <a class="fixrow" href="#mckb" data-cta="fix-2"><img loading="lazy" decoding="async" src="https://cdn.shopify.com/s/files/1/0020/3636/7469/files/mc-cs-d92.jpg?v=1793302792&width=144" width="112" height="112" alt=""><span><span class="ok">✓ The fix:</span> One 100 ml bottle lasts about 15–21 days. No soot, and the bottle locks in, so nothing spills. <span class="go">See how it works →</span></span></a>
       <p class="hook">If this is what it does to wood and paint, what is it doing to the people who breathe it? Start with what's actually in it.</p>
     </section>
 
@@ -714,7 +717,7 @@ html{-webkit-text-size-adjust:100%}
       <h3 class="bigt">Here's How It Fixes All 5 Alerts.</h3>
       <ul class="fix-list">
         <li><span class="fl">Alert #1 · Mold</span><span class="fa">No water and no tank. Nothing to grow, nothing to scrub.</span></li>
-        <li><span class="fl">Alert #2 · Your money and home</span><span class="fa">One 100 ml bottle lasts about 15–21+ days. No soot, and the bottle locks in, so nothing spills.</span></li>
+        <li><span class="fl">Alert #2 · Your money and home</span><span class="fa">One 100 ml bottle lasts about 15–21 days. No soot, and the bottle locks in, so nothing spills.</span></li>
         <li><span class="fl">Alert #3 · Hidden chemicals</span><span class="fa">100% organic oils with notes you can name on every bottle.</span></li>
         <li><span class="fl">Alert #4 · Allergies</span><span class="fa">Hypoallergenic oils, with three strength settings.</span></li>
         <li><span class="fl">Alert #5 · Your lungs</span><span class="fa">No flame, no smoke, no soot. Safe to leave on overnight.</span></li>
@@ -865,8 +868,8 @@ html{-webkit-text-size-adjust:100%}
     return LOGO + '<div class="step-eyebrow">Step 2 of 3</div>' +
       '<div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ' + t.scents + ' scents:</div><span class="pick-pill">' + (t.scents - l) + ' of ' + t.scents + ' picked</span></div>' +
       '<div class="s9-res">' + img(KIT[st.t], t.name) + '<span class="s9-res-tx"><b>' + t.n + ' FREE DIFFUSER' + (t.n > 1 ? 'S' : '') + ' RESERVED</b><small>' + esc(t.name) + ' · <s>' + usd(t.n * DIFF) + '</s> <b class="s9-free">FREE!</b></small></span></div></div>' +
-      '<div class="s2-facts"><p class="s2-life"><b>Each scent lasts 15–21+ days</b>, depending on use. <span class="s2-ifra">All IFRA 51 compliant.</span></p>' + /* kits dk12 round 2 (owner) */
-        '<div class="s2-badges">' + S2B.map(function (x) { return '<span class="s2-b"><span class="mc-ic s2-b-ic" aria-hidden="true">' + x[0] + '</span><span>' + x[1] + '</span></span>'; }).join('') + '</div></div>' +
+      '<div class="s2-facts"><p class="s2-life">Each scent lasts 15–21 days, depending on use.</p>' + /* kits dk12 rounds 2-4 (owner) */
+        '<div class="s2-badges">' + S2B.map(function (x) { return '<span class="s2-b"><span class="mc-ic s2-b-ic" aria-hidden="true">' + x[0] + '</span><span>' + x[1] + '</span></span>'; }).join('') + '</div><p class="s2-ifra">All IFRA 51 compliant.</p></div>' +
       '<div class="picker e4" role="group" aria-label="Pick your scents">' + FR.map(function (f) {
         var q = qty(f.key), on = q > 0;
         return '<div class="pick e4t' + (on ? ' on' : '') + (!on && full ? ' full' : '') + (st.last === f.key ? ' peek' : '') + '" role="group" aria-label="' + esc(f.name) + '" tabindex="0" data-peek="' + f.key + '" data-k="p' + f.key + '">' +

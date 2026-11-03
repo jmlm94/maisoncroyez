@@ -574,14 +574,17 @@ html{-webkit-text-size-adjust:100%}
 #mcadv #mckb .t9s-how.t9s-expl{display:block;padding:12px 14px !important;font-size:.8rem;line-height:1.45;text-align:center;font-weight:700;color:#241C18}
 #mcadv #mckb .buybox .s2-facts{display:flex;flex-direction:column;gap:8px;margin:0}
 #mcadv #mckb .buybox .s2-facts > div{margin-top:0}
-#mcadv #mckb .buybox .s2-life{margin:0;text-align:center;font-family:'Outfit',sans-serif;font-size:.8rem;line-height:1.35;color:#3A322D !important}
+#mcadv #mckb .buybox .s2-life{margin:0;text-align:center;font-family:'Outfit',sans-serif;line-height:1.35}
 #mcadv #mckb .buybox .s2-life b{color:#141414;font-weight:800}
-#mcadv #mckb .buybox .s2-life .s2-ifra{white-space:nowrap}
+#mcadv #mckb .buybox .s2-life{font-size:.92rem;font-weight:800;color:#141414 !important}
+#mcadv #mckb .buybox .s2-b .s2-b-ic svg{stroke-width:2.3}
+#mcadv #mckb .buybox .s2-ifra{margin:0;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.74rem;line-height:1.3;color:#141414}
 #mcadv #mckb .buybox .s2-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 #mcadv #mckb .buybox .s2-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border-radius:12px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;line-height:1.15;letter-spacing:.03em;text-transform:uppercase;color:#111}
 #mcadv #mckb .buybox .s2-b:nth-child(1){background:linear-gradient(135deg,#FDEBDD,#F8DCE6)}
 #mcadv #mckb .buybox .s2-b:nth-child(2){background:linear-gradient(135deg,#E0F0FA,#E2F4EA)}
 #mcadv #mckb .buybox .s2-b:nth-child(3){background:linear-gradient(135deg,#EEE5F8,#F9E3EF)}
 #mcadv #mckb .buybox .s2-b .s2-b-ic{width:20px;height:20px}
-@media (min-width:700px){#mcadv #mckb .buybox .s2-life{font-size:.86rem}
+@media (min-width:700px){#mcadv #mckb .buybox .s2-life{font-size:.99rem}
+#mcadv #mckb .buybox .s2-ifra{font-size:.8rem}
 #mcadv #mckb .buybox .s2-b{flex-direction:row;gap:6px;font-size:.66rem;padding:9px 6px}}

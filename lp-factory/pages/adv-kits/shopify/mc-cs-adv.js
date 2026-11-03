@@ -87,8 +87,8 @@
     return LOGO + '<div class="step-eyebrow">Step 2 of 3</div>' +
       '<div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ' + t.scents + ' scents:</div><span class="pick-pill">' + (t.scents - l) + ' of ' + t.scents + ' picked</span></div>' +
       '<div class="s9-res">' + img(KIT[st.t], t.name) + '<span class="s9-res-tx"><b>' + t.n + ' FREE DIFFUSER' + (t.n > 1 ? 'S' : '') + ' RESERVED</b><small>' + esc(t.name) + ' · <s>' + usd(t.n * DIFF) + '</s> <b class="s9-free">FREE!</b></small></span></div></div>' +
-      '<div class="s2-facts"><p class="s2-life"><b>Each scent lasts 15–21+ days</b>, depending on use. <span class="s2-ifra">All IFRA 51 compliant.</span></p>' + /* kits dk12 round 2 (owner) */
-        '<div class="s2-badges">' + S2B.map(function (x) { return '<span class="s2-b"><span class="mc-ic s2-b-ic" aria-hidden="true">' + x[0] + '</span><span>' + x[1] + '</span></span>'; }).join('') + '</div></div>' +
+      '<div class="s2-facts"><p class="s2-life">Each scent lasts 15–21 days, depending on use.</p>' + /* kits dk12 rounds 2-4 (owner) */
+        '<div class="s2-badges">' + S2B.map(function (x) { return '<span class="s2-b"><span class="mc-ic s2-b-ic" aria-hidden="true">' + x[0] + '</span><span>' + x[1] + '</span></span>'; }).join('') + '</div><p class="s2-ifra">All IFRA 51 compliant.</p></div>' +
       '<div class="picker e4" role="group" aria-label="Pick your scents">' + FR.map(function (f) {
         var q = qty(f.key), on = q > 0;
         return '<div class="pick e4t' + (on ? ' on' : '') + (!on && full ? ' full' : '') + (st.last === f.key ? ' peek' : '') + '" role="group" aria-label="' + esc(f.name) + '" tabindex="0" data-peek="' + f.key + '" data-k="p' + f.key + '">' +

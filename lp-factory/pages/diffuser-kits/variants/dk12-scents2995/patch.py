@@ -45,28 +45,32 @@ app = rep(app, "const MCI = {\n",
           "  bunny: mci('<path d=\"M9.6 10.6C8.7 7.2 8.9 3.5 10.1 3.5s1.7 3.5 1.3 7.1\"/><path d=\"M14.4 10.6c.9-3.4.7-7.1-.5-7.1s-1.7 3.5-1.3 7.1\"/><circle cx=\"12\" cy=\"15.2\" r=\"5\"/><path d=\"M11.2 16.6h1.6\" ' + MCI_A + '/>'), /* dk12: cruelty-free */\n")
 app = rep(app, '          <div class="picker e4" role="group" aria-label="Pick your scents">',
           '          <div class="s2-facts"> <!-- dk12 (owner, 2026-11-03): how long a scent lasts + the three promises, above the scents -->\n'
-          '            <p class="s2-life"><b>Each scent lasts 15\u201321+ days</b>, depending on use. <span class="s2-ifra">All IFRA 51 compliant.</span></p>\n'
+          '            <p class="s2-life">Each scent lasts 15\u201321 days, depending on use.</p> <!-- round 4 (owner): all bold, 15% bigger, 15-21 days -->\n'
           '            <div class="s2-badges">${[["leaf", "Organic Ingredients"], ["noparaben", "Paraben-Free"], ["bunny", "Cruelty-Free"]].map(([k, t]) => html`<span class="s2-b" key=${k}>${ic(k, "s2-b-ic")}<span>${t}</span></span>`)}</div>\n'
+          '            <p class="s2-ifra">All IFRA 51 compliant.</p> <!-- round 4 (owner): below the three badges -->\n'
           '          </div>\n'
           '          <div class="picker e4" role="group" aria-label="Pick your scents">')
 
 # bottle life
-app = rep(app, 'One bottle lasts 30+ days on the everyday setting.', 'Each bottle lasts about 15–21+ days.', n=2)
-app = rep(app, 'v: "30+ days per bottle on the everyday setting."', 'v: "About 15–21+ days per bottle."')
+app = rep(app, 'One bottle lasts 30+ days on the everyday setting.', 'Each bottle lasts about 15–21 days.', n=2)
+app = rep(app, 'v: "30+ days per bottle on the everyday setting."', 'v: "About 15–21 days per bottle."')
 
 css += '''
 /* dk12 round 2 (2026-11-03, owner): step 2, between the title row and the scents: the bottle life + three badges (step-1 colours) */
 #root .buybox .s2-facts{display:flex;flex-direction:column;gap:8px;margin:0}
 #root .buybox .s2-life{margin:0;text-align:center;font-family:'Outfit',sans-serif;font-size:.8rem;line-height:1.35;color:#3A322D}
 #root .buybox .s2-life b{color:#141414;font-weight:800}
-#root .buybox .s2-life .s2-ifra{white-space:nowrap}
+/* round 3-4 (owner): the line all bold and 15% bigger, the icons heavier, IFRA 51 under the three badges */
+#root .buybox .s2-life{font-size:.92rem;font-weight:800;color:#141414}
+#root .buybox .s2-b .s2-b-ic svg{stroke-width:2.3}
+#root .buybox .s2-ifra{margin:0;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.74rem;line-height:1.3;color:#141414}
 #root .buybox .s2-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 #root .buybox .s2-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border-radius:12px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;line-height:1.15;letter-spacing:.03em;text-transform:uppercase;color:#111}
 #root .buybox .s2-b:nth-child(1){background:linear-gradient(135deg,#FDEBDD,#F8DCE6)}
 #root .buybox .s2-b:nth-child(2){background:linear-gradient(135deg,#E0F0FA,#E2F4EA)}
 #root .buybox .s2-b:nth-child(3){background:linear-gradient(135deg,#EEE5F8,#F9E3EF)}
 #root .buybox .s2-b .s2-b-ic{width:20px;height:20px}
-@media (min-width:700px){#root .buybox .s2-life{font-size:.86rem}#root .buybox .s2-b{flex-direction:row;gap:6px;font-size:.66rem;padding:9px 6px}}
+@media (min-width:700px){#root .buybox .s2-life{font-size:.99rem}#root .buybox .s2-ifra{font-size:.8rem}#root .buybox .s2-b{flex-direction:row;gap:6px;font-size:.66rem;padding:9px 6px}}
 '''
 os.makedirs(out, exist_ok=True)
 open(os.path.join(out, "mc-dk-app.js"), "w", encoding="utf-8").write(app)

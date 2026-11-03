@@ -13,7 +13,7 @@ that each scent lasts aprox 15-21+ days." Previewed on MC LP Draft Copy 3 (https
   (were 30+ days).
 - Round 2 (owner, 2026-11-03): "the lasts 15-21+ days depending on use should appear on the second step ... above the actual
   variants ... three icons like step 1: Organic Ingredients, Parabens-Free, Cruelty-Free. they're also ifra51 compliant".
-  Step 2, between the title row and the scent tiles: "Each scent lasts 15–21+ days, depending on use. All IFRA 51 compliant."
+  Step 2, between the title row and the scent tiles: "Each scent lasts 15–21 days, depending on use." (round 4: no "+")
   and three badges in the step-1 colours with line icons (leaf / crossed-out drop / rabbit): Organic Ingredients,
   Paraben-Free, Cruelty-Free. Nothing about days on the step-1 cards any more.
 - The Candle Swap builder (adv-kits/src/kitscss/kb.js + page.html) has the same changes (owner: same deploy).
@@ -29,3 +29,7 @@ that each scent lasts aprox 15-21+ days." Previewed on MC LP Draft Copy 3 (https
   them earlier would run real carts against the old live pages).
 - Store-wide price (owner, 2026-11-03: "Store-wide"): the 7 scent variants go to $29.95, so product pages and one-time
   buyers pay $29.95 too.
+- Round 3 (owner comment, 2026-11-03): "all bold please, same for the icons" — the whole step-2 line is bold (800), the badge
+  labels 800 and the badge icons drawn heavier (stroke 2.3 instead of 1.6). Same on the Candle Swap builder.
+- Round 4 (owner comments, 2026-11-03): "15% bigger. 15-21 DAYS." — the line is .92rem (was .8) and says 15–21 days (the "+" is
+  gone there, in the FAQ and the comparison row); "this below the 3" — "All IFRA 51 compliant." now sits under the three badges.

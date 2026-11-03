@@ -4,7 +4,7 @@ name: qa-adv
 # refill buttons / bold explanation / UNLOCK FREE DIFFUSERS), Add to cart puts the kit + scents on the Subi plan in the real cart and opens the
 # theme's cart drawer on the page (no /cart page), a second add replaces the first kit instead of doubling it, the sticky bar shows after
 # Alert #1 and hides on the offer. INJECT=yes drops shopify/page-body.html into a plain store page on the real theme (before the deploy);
-# INJECT=no runs on URL (the live page). Edit this line and push to run. Run 1 (2026-11-02): INJECT, v16 body before pageUpdate (35/58: test-script
+# INJECT=no runs on URL (the live page). Edit this line and push to run. Run 1 (2026-11-02): INJECT, v16 body before pageUpdate (35/58: test-script Run 3 (2026-11-03 01:26 UTC, live, dk12): 55/62, the three carts charged the kit (BXGY customerBuys isSubscription reset by the minimum update, restored 01:3x UTC) + the kept-picks checks still expected 3 (now 4). Run 4: live, after the fix.
 # mistakes + the second add left stale lines, fixed in kb.js). Run 2: INJECT, kb.js removal in rounds, script fixes, 4xx URLs recorded (42/60: the page passed everywhere; the rest was the
 # harness: host-probe 404s, a pathname compared with a URL, the desktop cart on the headless browser signature). Next run (2026-11-03): scents $29.95, 3 / 4 / 7 scents, step-2 bottle life + badges (dk12 copy). Run 3 (2026-11-02): the live page after the v16 deploy (files mc-cs-adv.css / .js on the CDN, body key cs16-a20283e). 60/60; run 4: 60/60; run 5: body check = text + URLs + key (Shopify re-serialises the markup).
 on:
@@ -177,7 +177,7 @@ jobs:
             await tap(pg, '#mckb .navrow .btn.secondary'); await pg.waitForTimeout(1200); s = await state(pg);
             ck(`${vp}-s2-back`, '"←" returns to step 1 with the 3-scent card still selected', /Step 1 of 3/i.test(s.step || '') && /2 free diffusers/.test(s.tierOn || ''), { step: s.step, on: s.tierOn });
             await tap(pg, '#mckb .btn.step-next'); await pg.waitForTimeout(1200); s = await state(pg);
-            ck(`${vp}-s2-kept`, 'forward again: the three picks are kept', s.on.length === 3 && /Review my kit/i.test(s.review || ''), { on: s.on, review: s.review });
+            ck(`${vp}-s2-kept`, 'forward again: the three picks are kept', s.on.length === 4 && /Review my kit/i.test(s.review || ''), { on: s.on, review: s.review });
             await tap(pg, '#mckb .navrow .btn.atc'); await pg.waitForTimeout(1200); s = await state(pg);
             ck(`${vp}-s3-mount`, 'step 3: logo + "Step 3 of 3", no picture, congratulations title, 4 scent rows + "2× Maison Croyez Diffuser $179.90 FREE"', /Step 3 of 3/i.test(s.step || '') && s.logo && s.logo.loaded && !s.banner && /Congratulations, your free diffusers have been reserved/.test(s.title || '') && s.rows.length === 5 && /2× Maison Croyez Diffuser.*\$179\.90.*FREE/.test(s.rows[4] || '') && /Chilled Citrus/.test(s.rows[0] || ''), { step: s.step, logo: s.logo, banner: s.banner, title: s.title, rows: s.rows });
             ck(`${vp}-s3-due`, 'value line + DUE TODAY $119.80, $29.95/scent', /\$299\.70 of value, you pay \$119\.80 today/.test(s.value || '') && /Due today:\s*\$119\.80/i.test(s.due || '') && /\$29\.95\/scent$/.test(s.due || ''), { value: s.value, due: s.due });
@@ -186,7 +186,7 @@ jobs:
             ck(`${vp}-s3-90`, '90 days selects, explanation unchanged', /^90 days/.test(s.freqOn || '') && s.expl === EXPL(2), { on: s.freqOn, expl: (s.expl || '').slice(0, 50) });
             await (await pg.$('#mckb')).screenshot({ path: `${OUT}/${vp}-step3.png` });
             await tap(pg, '#mckb .navrow.back-only .btn'); await pg.waitForTimeout(1200); s = await state(pg);
-            ck(`${vp}-s3-back`, '"Change my scents" returns to step 2 with the picks kept', /Step 2 of 3/i.test(s.step || '') && s.on.length === 3, { step: s.step, on: s.on });
+            ck(`${vp}-s3-back`, '"Change my scents" returns to step 2 with the picks kept', /Step 2 of 3/i.test(s.step || '') && s.on.length === 4, { step: s.step, on: s.on });
             ck(`${vp}-errors`, 'no JavaScript or console errors', errs.length === 0, errs.slice(0, 5));
             ck(`${vp}-4xx`, 'no failed requests for the store\'s own files (other failed requests listed for information)', bad.filter((u) => /cdn\.shopify\.com\/s\/files|maisoncroyez\.com\//.test(u)).length === 0, bad.slice(0, 8));
             await ctx.close();

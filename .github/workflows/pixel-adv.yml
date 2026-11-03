@@ -3,7 +3,7 @@ name: pixel-adv
 # /pages/indoor-air-alerts (with Facebook ad-click params) -> reads -> taps the offer button -> /pages/diffuser-kits -> builds a
 # kit -> ADD TO CART -> checkout, and records every Meta pixel beacon (PageView / ViewContent / AddToCart / InitiateCheckout) and
 # the time from the tap to the kits page being usable. [run 1] v16 (2026-11-02): the path is now article -> fix row (in-page scroll
-# to the kit builder) -> kit -> UNLOCK FREE DIFFUSERS (cart drawer on the article) -> checkout. Edit this line and push to run. [run 3: after the dk12 deploy (scents $29.95, 3 / 4 / 7 scents, key cs17-f208dca)]
+# to the kit builder) -> kit -> UNLOCK FREE DIFFUSERS (cart drawer on the article) -> checkout. Edit this line and push to run. [run 3: after the dk12 deploy (scents $29.95, 3 / 4 / 7 scents, key cs17-f208dca) — crashed: the 2-diffuser kit needs 4 scents now, the script picked 3. run 3b: 4 scents, after the BXGY isSubscription fix]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -55,8 +55,8 @@ jobs:
             await snap('builder in view after the fix-row tap (+3s)');
             await pg.click('#mckb .tier:nth-child(2)'); await pg.waitForTimeout(300);
             await pg.evaluate(() => document.querySelector('#mckb .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#mckb .step-next').click(); await pg.waitForTimeout(1000);
-            for (const k of ['focus', 'purify', 'love']) { await pg.evaluate((k) => { const bt = document.querySelector('#mckb [data-add="' + k + '"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(250); }
-            await pg.waitForTimeout(1000); await snap('step 2: three scents picked');
+            for (const k of ['focus', 'purify', 'love', 'energy']) { await pg.evaluate((k) => { const bt = document.querySelector('#mckb [data-add="' + k + '"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(250); }
+            await pg.waitForTimeout(1000); await snap('step 2: four scents picked');
             await pg.evaluate(() => { const bt = document.querySelector('#mckb .navrow .btn.atc'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); tReview = Date.now(); await pg.waitForTimeout(6000);
             await snap('step 3 (+6s after Review my kit)');
             await pg.evaluate(() => document.querySelector('#mckb [data-cart]').scrollIntoView({ block: 'center' })); tClick = Date.now(); await pg.locator('#mckb [data-cart]').click();

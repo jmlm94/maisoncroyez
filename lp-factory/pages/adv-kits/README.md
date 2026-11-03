@@ -75,8 +75,13 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
 - Deploy: fileUpdate GenericFile 46657364525165 mc-cs-adv.css (51,042 B) + 46657364557933 mc-cs-adv.js (31,789 B) from raw
   @ f208dca, READY; `KEY=cs17-f208dca python3 shopify/build.py body shopify/urls.json`; pageUpdate 163225075821 with the
   25,371 B body as a GraphQL variable (the connector caps the document at 16 KB). The scent price ($29.95) and the BXGY
-  minimums (3 / 4 / 7) changed in Shopify the same night: see the kits README, dk12 entry. qa-adv (qa-adv-dk12.patch,
-  INJECT=no) + pixel-adv run 3 on the live page from commit 1fab4ca.
+  minimums (3 / 4 / 7) changed in Shopify the same night: see the kits README, dk12 entry. qa-adv run 3 (qa-adv-dk12.patch,
+  INJECT=no, 01:26 UTC, 55/62): the three carts charged the kit (the BXGY customerBuys isSubscription had been reset by the
+  minimum update, see the kits README dk12 entry) + the kept-picks checks still expected 3. Run 4 (01:34 UTC, after the fix,
+  qa/20261103T0134): 62/62, carts $119.80 / $89.85 (the second add replaces the first kit) / $209.65 with the kit at $0.00,
+  drawer on the article, body match. pixel-adv run 3 crashed (the script picked 3 scents for the 4-scent kit); run 3b
+  (pixel/pixel-adv-20261103T013.json), phone + desktop: PageView, SubscribedButtonClick on the taps, 5x AddToCart at UNLOCK
+  FREE DIFFUSERS (one per cart line), PageView + InitiateCheckout on the checkout, no errors.
 
 ## LIVE 2026-11-02 (v16, key cs16-a20283e, 00:36:53 UTC): https://maisoncroyez.com/pages/indoor-air-alerts
 - Page gid://shopify/Page/163225075821. The body is now the markup + links (25 KB, shopify/page-body.html); the styles and the

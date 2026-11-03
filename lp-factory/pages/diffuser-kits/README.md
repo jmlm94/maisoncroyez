@@ -39,7 +39,10 @@ Deploy (Shopify connector, store confirmed Maison Croyez before every write), in
    Always send the two flags with any customerBuys change.
 Then qa-kits (qa-kits-dk12.patch applied), page-shot and pixel-adv on the live page: first run from commit 1fab4ca (the cart
 failures above + harness slips: the step-2 badges key shadowed the step-1 one, "Change my scents" keeps 4 picks now, pixel-adv
-picked 3 scents for the 4-scent kit), rerun from f3cf4ae after the fix. Existing subscribers' prices live in Subi (not touched).
+picked 3 scents for the 4-scent kit), rerun from f3cf4ae after the fix. Rerun 01:34 UTC: qa-kits 45/49 (qa-kits/20261103T0134:
+both carts right, $119.80 / $89.85 with the kit line at $0.00 by the BXGY; the four left are the old fold checks + the shop.app
+console noise), page-shot (shots/20261103T0135): body match, both drawer carts $119.80 with the kit at $0.00, no JS errors on
+phone / small / desktop. Existing subscribers' prices live in Subi (not touched). No order was placed in the bad window.
 ## 2026-11-01 — dk11 (key dk11-7dade96, LIVE 23:41 UTC): step 1 title, bigger step labels, step 3 unlock copy + button
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v49 to v58), then "AND DEPLOY". Built by

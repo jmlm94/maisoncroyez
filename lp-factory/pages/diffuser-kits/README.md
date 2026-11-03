@@ -32,8 +32,14 @@ Deploy (Shopify connector, store confirmed Maison Croyez before every write), in
    README, v17).
 3. The three "N FREE DIFFUSER(S) — SCENT SUBSCRIPTION" discounts (1389794623597 / 1389794852973 / 1389794951277):
    customerBuys quantity 2 / 3 / 5 → 3 / 4 / 7 (discountAutomaticBxgyUpdate; the 7 scent products and the free kit variant kept).
-Then qa-kits (qa-kits-dk12.patch applied), page-shot and pixel-adv on the live page from commit 1fab4ca. Existing subscribers'
-prices live in Subi (not touched).
+   TRAP (second time, after 2026-10-21): an update that passes customerBuys without isSubscription / isOneTimePurchase resets
+   them to isOneTimePurchase true / isSubscription false, and the kit stops being free on the subscription carts. The first
+   live QA (01:26 UTC, 39/49) caught it: every cart charged the kit ($299.70 instead of $119.80, $179.80 instead of $89.85).
+   Restored 01:3x UTC with customerBuys {isSubscription: true, isOneTimePurchase: false, value {quantity}} on all three.
+   Always send the two flags with any customerBuys change.
+Then qa-kits (qa-kits-dk12.patch applied), page-shot and pixel-adv on the live page: first run from commit 1fab4ca (the cart
+failures above + harness slips: the step-2 badges key shadowed the step-1 one, "Change my scents" keeps 4 picks now, pixel-adv
+picked 3 scents for the 4-scent kit), rerun from f3cf4ae after the fix. Existing subscribers' prices live in Subi (not touched).
 ## 2026-11-01 — dk11 (key dk11-7dade96, LIVE 23:41 UTC): step 1 title, bigger step labels, step 3 unlock copy + button
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v49 to v58), then "AND DEPLOY". Built by

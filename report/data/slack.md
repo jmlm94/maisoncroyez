@@ -1,29 +1,27 @@
-*Maison Croyez — Daily Report · Monday, November 2, 2026*
+*Maison Croyez — Daily Report · Tuesday, November 3, 2026*
 
-:gear: *Ad account changes yesterday (Nov 2, ET):*
-• *Audience Test* is now *paused* (last change 9:44 AM). It spent $81 before stopping, with 3 Meta-attributed purchases ($240): Interest Stack 2, LAL 1.
-• *Creator Ads* budget raised to *$450/day* (last change 7:15 PM), and 2 new ad sets started: Story (Kelsey + Bianca) $54, Product (Elise + Jenni) $48, no add-to-carts yet.
-• *New campaign: "MC | Offer Images | Broad | CBO"*, $100/day, live 8:06 PM. $21 spent so far across 4 ad sets.
-:dart: *Creator Ads yesterday:* $490 spent, 1 Meta-attributed purchase worth $50. It is most likely the $49.95 Diffuser Keep Fee order, not a new subscriber. Crystal B had 12 add-to-carts on $102; Nana spent $142 with none. Shopify shows 3 new subscribers yesterday.
-:warning: *Native Ads Test is still buying clicks that don't shop:* $130 yesterday (budget $100/day), 2,565 clicks at $0.05, 0 add-to-carts. Since launch: $514 spent, 6,078 clicks, 0 add-to-carts, 0 purchases. Its cheap clicks are why account CPM, CPC and CTR look so different from the other campaigns.
+:warning: *Partial report: Shopify orders for Nov 3 NOT pulled.* The Shopify connector is pointed at *Carbinox Co.* (shopcarbinox.com) again, so I skipped the pull per the runbook guard. Orders are complete through Nov 2. Yesterday's $0 sales, $0 profit and "0 new" subscribers are not real, the $358 cost-per-sub may be overstated, and the 7-day and longer windows are missing Nov 3 orders. (1 renewal order worth $50 was already seen early on Nov 3.) Please re-connect Shopify to *Maison Croyez* and reply "Run again" so I can backfill.
+:dart: *Creator Ads had its most purchases in a day so far: $500 spent, 6 Meta-attributed purchases worth $569* (about $83 per purchase). Crystal B 3 ($240 on $96), Nana 2 ($210 on $158), Adriana 1 ($120 on $62). The new Product (Elise + Jenni) ad set had 5 add-to-carts on $62; Story (Kelsey + Bianca) spent $68 with none. Audience Test stayed paused.
+:new: *Offer Images, first full day:* $150 spent, 11 add-to-carts, 0 purchases yet. Free Offer led with 7 add-to-carts on $52.
+:warning: *Native Ads Test:* $68 yesterday, 2,177 clicks at $0.03, still 0 add-to-carts. Since launch: $583 spent, 8,266 clicks, 0 add-to-carts, 0 purchases.
 
-Hello Jose — yesterday we sold *$744* on Shopify across *8 orders* (*$694* subscription · *$50* one-time). COGS were *$335*, shipping ≈*$60*, processing fees *$23.40*, handling *$8.00*, and Meta ad spend *$723* (CPM $41.55 · CPC $0.27 · CTR 15.42%).
+Hello Jose — yesterday we sold *$0* on Shopify across *0 orders* (*$0* subscription · *$0* one-time). COGS were *$0*, shipping ≈*$0*, processing fees *$0.00*, handling *$0.00*, and Meta ad spend *$718* (CPM $58.70 · CPC $0.31 · CTR 18.73%).
 
-:red_circle: *Contribution profit yesterday: −$405* · Blended ROAS *1.03×*
+:red_circle: *Contribution profit yesterday: −$718* · Blended ROAS *—*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $744 | $723 | −$405 (+24.8%) | 1.03× |
-| 7 days | $5,748 | $4,292 | −$1,487 (−234.4%) | 1.34× |
-| 14 days | $8,085 | $4,638 | −$380 (+78.2%) | 1.74× |
-| 28 days | $14,244 | $9,533 | −$2,129 (+71.4%) | 1.49× |
-| 45 days | $22,190 | $15,542 | −$4,610 (+76.1%) | 1.43× |
-| 90 days | $48,750 | $42,484 | −$23,895  | 1.15× |
+| Yesterday | $0 | $718 | −$718 (−72.6%) | — |
+| 7 days | $4,799 | $4,923 | −$2,667 (−263.1%) | 0.97× |
+| 14 days | $7,645 | $5,021 | −$1,031 (+37.6%) | 1.52× |
+| 28 days | $14,144 | $10,017 | −$2,683 (+61.2%) | 1.41× |
+| 45 days | $21,321 | $15,729 | −$5,147 (+73.1%) | 1.36× |
+| 90 days | $48,070 | $42,576 | −$24,279  | 1.13× |
 
-:seedling: *Subscriptions:* 317 acquired · est. MRR *$19,083* (ceiling — cancels not visible via API) · 3 new yesterday · 117 renewal orders in 28d
-:vs: *Meta vs day before:* CPM +13.5% · CPC +2.1% · CTR +11.1% · spend −2.0%
-:scales: *Worth it yet?* Almost — each sub costs $329, returns ~$178 in 180d (0.54×). Break-even CAC: $178.
+:seedling: *Subscriptions:* 317 acquired · est. MRR *$19,083* (ceiling — cancels not visible via API) · 0 new yesterday · 117 renewal orders in 28d
+:vs: *Meta vs day before:* CPM +39.9% · CPC +15.1% · CTR +21.5% · spend −2.1%
+:scales: *Worth it yet?* Almost — each sub costs $358, returns ~$178 in 180d (0.50×). Break-even CAC: $178.
 
-:test_tube: *LP Test final tally (Oct 5–20, Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase. Break-even is now $178 per new subscriber, which is the bar the new campaigns need to beat.
+:test_tube: *LP Test final tally (Oct 5–20, Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase. Break-even is $178 per new subscriber, which is the bar the new campaigns need to beat.
 
 :bar_chart: Full interactive report: https://claude.ai/code/artifact/28ae4798-4f4b-43d5-aeb5-15ce7d07b039

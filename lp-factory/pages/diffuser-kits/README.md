@@ -101,7 +101,12 @@ Page speed after dk13 (owner, 22:3x UTC: "page speed?"):
   wpm: boot-up 458 ms, was 322), the document's inline scripts 1,158 ms (was 850), 947 DOM nodes, Shopify-hosted transfer
   745 KB (was 454: the step-3 webp + the seven tiles now land inside Lighthouse's window). Nothing of dk13 itself is in the
   critical path (mc-dk-app.js 32 KB / mc-dk.css 23 KB transfer, same as before).
-- PSI (psi.yml, Google's hardware + CrUX field data): see perf/psi-20261106T22xx.md in adv-kits/perf (both pages).
+- PSI (psi.yml, Google's hardware + CrUX field data): failed for all four calls (adv-kits/perf/psi-20261106T2233.md) — HTTP
+  429 "Quota exceeded … 'Queries per day' … consumer project_number:583797351": the keyless PSI endpoint shares one daily
+  quota across every anonymous caller and it is spent (same as 2026-10-29). To make psi.yml work it needs a PageSpeed
+  Insights API key (free, Google Cloud console → APIs → PageSpeed Insights API → credentials) stored as the repo secret
+  PSI_KEY, then `&key=${process.env.PSI_KEY}` on the request; until then the owner can run https://pagespeed.web.dev/ on
+  the URL by hand (the web UI has its own quota).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py

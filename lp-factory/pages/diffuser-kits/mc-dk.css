@@ -1781,20 +1781,3 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .buybox .s2-b:nth-child(3){background:linear-gradient(135deg,#EEE5F8,#F9E3EF)}
 #root .buybox .s2-b .s2-b-ic{width:20px;height:20px}
 @media (min-width:700px){#root .buybox .s2-life{font-size:.99rem}#root .buybox .s2-ifra{font-size:.8rem}#root .buybox .s2-b{flex-direction:row;gap:6px;font-size:.66rem;padding:9px 6px}}
-
-/* dk13 (2026-11-06, owner): step 3, Auto-refill (save 25%) vs One-time purchase; the diffusers free either way */
-#root .plan2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-top:10px}
-#root .plan2-opt{position:relative;border:1.5px solid #E6E0D8;border-radius:12px;background:#fff;padding:13px 8px 10px;text-align:center;cursor:pointer;font-family:'Outfit',sans-serif;color:#241C18;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;margin:0;min-height:96px;overflow:visible}
-#root .plan2-opt b{font-weight:800;font-size:.9rem;line-height:1.15}
-#root .plan2-opt .plan2-pr{font-weight:800;font-size:1.08rem;line-height:1.1;color:#141414;white-space:nowrap}
-#root .plan2-opt .plan2-pr s{font-weight:600;color:#8A8079;font-size:.78rem;margin-right:5px}
-#root .plan2-opt .plan2-pr em{font-style:normal;font-weight:600;font-size:.68rem;color:#5C4F46;margin-left:1px}
-#root .plan2-opt .plan2-note{font-size:.6rem;line-height:1.25;color:#5C4F46;font-weight:600}
-#root .plan2-opt.on{border-color:#141414;box-shadow:0 0 0 1px #141414 inset}
-#root .plan2-opt.p2-sub.on{background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
-#root .plan2-opt.p2-one.on{background:linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)}
-#root .plan2-opt.p2-sub .plan2-pr{color:#1E7A1E}
-#root .plan2-opt small.plan2-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);margin:0;background:#1E7A1E;color:#fff;border:1.5px solid #1E7A1E;border-radius:999px;padding:3px 10px;font-size:.62rem;letter-spacing:.08em;line-height:1.2;font-weight:800;white-space:nowrap;text-transform:uppercase} /* round 2 (owner comment): 10% bigger; round 3 (owner comment): green background, white letters */
-#root .s9-due-each s{color:#8A8079;font-weight:600;margin-right:2px}
-#root .s9-freq-head.plan2-head{margin-top:6px}
-@media (min-width:700px){#root .plan2-opt b{font-size:1rem}#root .plan2-opt .plan2-note{font-size:.68rem}#root .plan2-opt .plan2-pr{font-size:1.15rem}}

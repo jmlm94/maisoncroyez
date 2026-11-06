@@ -40,6 +40,20 @@ one-time cart) from commit 11dee7e and page-shot from b5adfc5. Candle Swap untou
 lines at $39.95 − $10 (same $119.80 total); qa-adv's line-price expectations (29.95) must change before its next run.
 To verify: one real subscription order, then the contract in Subi must show $29.95 per bottle on renewals (Shopify carries the
 discount into the contract; if it does not, fall back to a Subi fixed price of $29.95).
+
+**ROLLED BACK 21:36 UTC — the $10 discount never applies.** qa-kits (qa-kits/20261106T2111) and page-shot both showed the
+auto-refill carts at $39.95 per scent ($159.80 / $119.85 instead of $119.80 / $89.85): the kit was free, but no "AUTO-REFILL"
+allocation on the scent lines. Shopify's docs (DiscountCombinesWithInput): "By default, only one product discount applies per
+line … Buy X Get Y discounts stack only on the customer-gets products (GY), not the customer-buys products (BX)." The scents
+are the BX of the free-diffuser BXGYs, so no second product discount can ever touch them (the tag-based same-line stacking is
+Plus-only and also excludes BX). Done, in order: scents back to $29.95 (21:1x UTC; auto-refill carts right again), the $10
+discount deactivated (status EXPIRED, 21:18:54Z — left active it would have given $19.95 scents to product-page subscribers),
+the dk12 files back on the CDN from raw @ f208dca, the dk12 body (key dk12-f208dca) on page 161846919277 (21:35:52Z), the
+qa-kits patch reverted. Left as is: the BXGYs still accept one-time scent lines (harmless on dk12, needed again for dk13).
+Live window: dk13 was up 21:09–21:36 UTC; from 21:1x the scents were $29.95, so its one-time option charged $29.95 instead of
+the $39.95 shown (customer-favourable). Next for dk13: the subscription price must be the selling plan's price (Subi: the
+30 / 60 / 90 plans of "04/10 Sub for Offer #2 and #3" at a fixed $29.95), then variants $39.95, then the dk13 files + body
+(variants/dk13-sub-vs-onetime, qa-kits-dk13.patch needs its "-10" disc expectations removed: the lines will read price 29.95).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py

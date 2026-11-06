@@ -85,6 +85,23 @@ cart flows). page-shot (shots/20261106T2225): key dk13-525274f on phone / small 
 at $29.95 ("now" 29.95, "perDelivery" 29.95), no JS errors.
 Still to confirm with one real auto-refill order: the Subi contract must renew at $29.95 per bottle (the plan's $10 off
 is what the contract carries; the page promises "Every 30, 60 or 90 days" at $29.95).
+
+Page speed after dk13 (owner, 22:3x UTC: "page speed?"):
+- paint-trace run 4 (perf/paint-20261106T2240Z.json, real CDP throttling 1.6 Mbps / 150 ms / 4× CPU) vs run 3 of 10-22
+  (dk9r): slow phone — hero visible 1.12 / 1.19 s (was 0.63 / 1.17), app mount 2.95 / 3.00 s (was 3.00 / 3.00), first tap →
+  step 2 268 / 529 ms (was 222 / 269; the 529 is one run with three long tasks after the tap); fast phone — hero 0.38 s, mount
+  0.30 s (was 0.31 / 0.34); desktop — hero 0.30 s, mount 0.45 s. HTML 62 KB (was 53–54: dk12 step-2 badges, dk13 cards, the
+  Triple Whale snippet). Long tasks on the slow phone 9–12 (were 6–7), two of them before 0.5 s (theme / pixel scripts), none
+  touching the hero paint. The real page is where it was.
+- Lighthouse 12, simulated throttling (perf/lh-20261106T2235Z.md): desktop 96 / 97 / 95 (10-22: 97 / 96 / 98); mobile
+  49 / 73 / 70 (10-22: 45 / 92 / 91) with a modelled LCP of 5.9–6.4 s (was 2.9–3.1 s) — the lantern model, not a measured
+  paint: the LCP element it picks is the adopted hero <img> (class "simg hv-poster", i.e. after the app mount) and it now
+  models that paint ~3 s later; the real trace above paints the same image at 1.2 s. Heavier inputs since 10-22: the Triple
+  Whale pixel (theme app embed "triple_pixel_snippet", new; api.config-security.com 61 KB XHR at 243 ms + its share of
+  wpm: boot-up 458 ms, was 322), the document's inline scripts 1,158 ms (was 850), 947 DOM nodes, Shopify-hosted transfer
+  745 KB (was 454: the step-3 webp + the seven tiles now land inside Lighthouse's window). Nothing of dk13 itself is in the
+  critical path (mc-dk-app.js 32 KB / mc-dk.css 23 KB transfer, same as before).
+- PSI (psi.yml, Google's hardware + CrUX field data): see perf/psi-20261106T22xx.md in adv-kits/perf (both pages).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py

@@ -14,7 +14,7 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
-## 2026-11-06 — dk13 (key dk13-525274f, LIVE 21:09 UTC): step 3 Auto-refill (save 25%) vs One-Time Purchase, diffusers free either way
+## 2026-11-06 — dk13 (key dk13-525274f, LIVE 22:20 UTC, take 2; first live 21:09–21:36): step 3 Auto-refill (save 25%) vs One-Time Purchase, diffusers free either way
 
 Owner: two options on step 3, "assuming we'll do $39.95 per scent again … in terms of % off if they subscribe"; asked: the
 diffusers stay free either way; kits page only (the Candle Swap builder stays subscription-only); the return-label sentence
@@ -61,6 +61,22 @@ Live window: dk13 was up 21:09–21:36 UTC; from 21:1x the scents were $29.95, s
 the $39.95 shown (customer-favourable). Next for dk13: the subscription price must be the selling plan's price (Subi: the
 30 / 60 / 90 plans of "04/10 Sub for Offer #2 and #3" at a fixed $29.95), then variants $39.95, then the dk13 files + body
 (variants/dk13-sub-vs-onetime, qa-kits-dk13.patch needs its "-10" disc expectations removed: the lines will read price 29.95).
+
+**LIVE AGAIN 22:20 UTC (take 2) — the $10 off lives on the Subi plans.** Owner (Subi, "done here"): the three plans of
+"04/10 Sub for Offer #2 and #3" (7883817069 / 7883849837 / 7883882605) now carry a fixed $10.00 discount, every cycle —
+read back through the connector as pricingPolicies FIXED_AMOUNT 10.0 (sellingPlanGroupUpdate itself is denied to the
+connector: "Required access: write_products + write_own_subscription_contracts/write_purchase_options"). Then, store
+confirmed Maison Croyez before each write: 1. the 7 scent variants 29.95 → 39.95 (compare-at $49.95 kept) — store-wide, so
+product-page one-time buyers pay $39.95 and product-page subscribers $29.95 too; 2. fileUpdate 46262619439213 mc-dk-app.js
+(138,466 B) + 46262619471981 mc-dk.css (158,443 B) from raw @ 525274f, READY; 3. pageUpdate 161846919277 with the
+dk13-525274f body (updatedAt 22:20:40Z). Untouched: the BXGYs (customerBuys isSubscription + isOneTimePurchase true,
+minimums 3 / 4 / 7, customerGets one-time only = the kit line), the old $10 discount (EXPIRED, keep it off), the Candle Swap
+builder. Cart lines on a plan now read price 29.95 with no discount allocation (the plan price), one-time lines 39.95;
+the kit line is free on both paths. qa-kits was rebuilt for that (commit c2e2568: SP 29.95 on the plan lines, LP 39.95 on
+the one-time cart, no "-10" disc expectation; the shop.app frame's CSP notice + its 403 no longer count as page errors).
+Live QA (qa-kits + page-shot on c2e2568) triggered 22:23 UTC; results appended below when in.
+Still to confirm with one real auto-refill order: the Subi contract must renew at $29.95 per bottle (the plan's $10 off
+is what the contract carries; the page promises "Every 30, 60 or 90 days" at $29.95).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py

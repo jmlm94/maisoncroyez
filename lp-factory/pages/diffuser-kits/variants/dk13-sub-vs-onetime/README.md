@@ -1,4 +1,11 @@
-# dk13 — step 3: Auto-refill (save 25%) vs One-time purchase (owner 2026-11-06; LIVE 21:09 UTC, kits page only)
+# dk13 — step 3: Auto-refill (save 25%) vs One-time purchase (owner 2026-11-06; LIVE 22:20 UTC take 2, kits page only)
+
+LIVE: key dk13-525274f on /pages/diffuser-kits (first live 21:09–21:36 UTC, rolled back; live again 22:20 UTC). Shopify:
+scent variants $39.95 store-wide, the three Subi plans of "04/10 Sub for Offer #2 and #3" at a fixed $10 off every cycle
+(set by the owner in Subi; read back as pricingPolicies FIXED_AMOUNT 10.0), the FREE DIFFUSERS BXGYs accepting one-time and
+subscription scent lines. The first attempt — an automatic "AUTO-REFILL — $10 OFF EVERY SCENT" discount — never applied
+(Shopify stacks no second product discount on BXGY buy lines) and is EXPIRED; keep it off. Deploy notes, order and the renewal
+check: ../../README.md (dk13 entry). The "Before it can go live" section below was the pre-deploy plan.
 
 LIVE: key dk13-525274f on /pages/diffuser-kits. Shopify: automatic discount "AUTO-REFILL — $10 OFF EVERY SCENT" (subscription
 lines, every renewal) + scent variants $39.95 + the FREE DIFFUSERS BXGYs accepting one-time scent lines. Deploy notes, order

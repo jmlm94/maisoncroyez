@@ -83,10 +83,13 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   (pixel/pixel-adv-20261103T013.json), phone + desktop: PageView, SubscribedButtonClick on the taps, 5x AddToCart at UNLOCK
   FREE DIFFUSERS (one per cart line), PageView + InitiateCheckout on the checkout, no errors.
 
-- 2026-11-06: the kits page went dk13 (scents $39.95 in Shopify + an automatic $10 off on subscription lines; one-time option on
-  its step 3). This page's builder is unchanged (subscription only, "$29.95 each") and its carts still total $119.80 / $89.85 /
-  $209.65, but the scent lines now read $39.95 with a −$10 "AUTO-REFILL" discount each. qa-adv's line expectations (price
-  29.95) must become price 39.95 / line 29.95 (+ a "-10" disc) before its next run.
+- 2026-11-06: the kits page went dk13 (one-time option on its step 3 at $39.95/scent, auto-refill $29.95). Shopify: the 7
+  scent variants are $39.95 store-wide and the three Subi plans of "04/10 Sub for Offer #2 and #3" take a fixed $10 off every
+  cycle (the first attempt, an automatic $10-off discount on subscription lines, never applied: Shopify stacks no second
+  product discount on the BXGY buy lines; it was rolled back the same evening). This page's builder is unchanged
+  (subscription only, "$29.95 each"): its scent lines still read $29.95 (the plan price, no discount allocation) and its carts
+  still total $119.80 / $89.85 / $209.65, so qa-adv's line expectations (price 29.95) still hold. Product-page one-time
+  buyers now pay $39.95 a bottle.
 
 ## LIVE 2026-11-02 (v16, key cs16-a20283e, 00:36:53 UTC): https://maisoncroyez.com/pages/indoor-air-alerts
 - Page gid://shopify/Page/163225075821. The body is now the markup + links (25 KB, shopify/page-body.html); the styles and the

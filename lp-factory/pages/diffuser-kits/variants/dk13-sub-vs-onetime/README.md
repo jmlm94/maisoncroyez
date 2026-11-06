@@ -6,12 +6,16 @@ they subscribe". Asked whether one-time buyers still get the diffusers free: "Fr
 (https://claude.ai/artifact/TK1GvMvzMi69pP4wiLMfyN). The live page (dk12) is unchanged.
 
 Step 3, under the Due today block: "How do you want your scents?" and two cards —
-- **Auto-refill** (preselected, SAVE 25% pill): ~~$39.95~~ **$29.95**/scent, "Every 30, 60 or 90 days · swap, pause or cancel
-  anytime". The 60 / 30 / 90 buttons show under it ("Select your auto-refill frequency:").
-- **One-time purchase**: **$39.95**/scent, "No refills, full price". No frequency buttons.
+- **Auto-refill** (preselected, SAVE 25% pill): ~~$39.95~~ **$29.95**/scent, "Every 30, 60 or 90 days. Cancel anytime."
+  The 60 / 30 / 90 buttons show under it ("Select your auto-refill frequency:").
+- **One-Time Purchase**: **$39.95**/scent, "No auto-refills, full price." No frequency buttons.
 
-The kit rows, Due today ("~~$39.95~~ $29.95/scent · 25% off" on auto-refill) and the explanation follow the choice; the value
-line counts the scents at $39.95 either way ("That's $339.70 of value, you pay $119.80 / $159.80 today"). Button unchanged.
+The kit rows, Due today ("~~$39.95~~ $29.95/scent" on auto-refill) and the explanation follow the choice; the value line
+counts the scents at $39.95 either way ("That's $339.70 of value, you pay $119.80 / $159.80 today"). Button unchanged.
+
+Round 2 (owner comments on v62, 2026-11-06; artifact v63): "One-Time Purchase" (title case), "No auto-refills, full price.",
+"Every 30, 60 or 90 days. Cancel anytime.", the SAVE 25% pill 10% bigger on a white background (green text + border), and the
+"· 25% off" after "$29.95/scent" under Due today deleted.
 
 | Kit | Scents | Auto-refill today | One-time today | Value shown |
 |---|---|---|---|---|

@@ -8,10 +8,11 @@ if they subscribe" — and, asked: the diffusers stay free on both options ("Fre
 Built on the live dk12 files (../../mc-dk-app.js, ../../mc-dk.css). Changes:
 - SCENT_LIST 39.95 (one-time), SUB_OFF 25; SCENT_ONE stays 29.95 (the auto-refill price, what steps 1-2 show).
 - selStore: plan "sub" | "one" drives scentPrice() (29.95 / 39.95), today(), oneTime(); value() counts the scents at $39.95.
-- Step 3, under Due today: "How do you want your scents?" + two cards (Auto-refill, SAVE 25% pill, ~~$39.95~~ $29.95/scent,
-  "Every 30, 60 or 90 days · swap, pause or cancel anytime" | One-time purchase, $39.95/scent, "No refills, full price").
-  The 60 / 30 / 90 buttons show only with auto-refill. The kit rows, Due today (with ~~$39.95~~ on auto-refill) and the
-  explanation follow the choice. Button unchanged (UNLOCK FREE DIFFUSERS ➔).
+- Step 3, under Due today: "How do you want your scents?" + two cards (Auto-refill, SAVE 25% pill (white, green text),
+  ~~$39.95~~ $29.95/scent, "Every 30, 60 or 90 days. Cancel anytime." | One-Time Purchase, $39.95/scent, "No auto-refills,
+  full price."). The 60 / 30 / 90 buttons show only with auto-refill. The kit rows, Due today (with ~~$39.95~~ on auto-refill)
+  and the explanation follow the choice. Button unchanged (UNLOCK FREE DIFFUSERS ➔). Round 2 (owner comments, 2026-11-06):
+  the card copy above, the pill 10% bigger on white, no "· 25% off" under Due today.
 - Cart: on one-time the scents go in without a selling plan (kitItems + addToCart); the preview toast says so.
 Shopify side before this can go live (not done): scent variants back to $39.95 with the 30 / 60 / 90 plans at $29.95 (25% off,
 Subi), and the three FREE DIFFUSERS BXGYs must also match one-time scent lines (customerBuys isOneTimePurchase: true as well as
@@ -45,7 +46,7 @@ app = rep(app, '  value() { return this.tier().n * DIFF_VALUE + this.keys.length
 app = rep(app, '                <span class="kr-pr">${usd(q * SCENT_ONE)}</span>',
           '                <span class="kr-pr">${usd(q * sel.scentPrice())}</span>')
 app = rep(app, '<span class="s9-due-each">${usd(SCENT_ONE)}/scent</span></div>',
-          '<span class="s9-due-each">${sel.oneTime() ? usd(SCENT_LIST) + "/scent" : html`<s>${usd(SCENT_LIST)}</s> ${usd(SCENT_ONE)}/scent · ${SUB_OFF}% off`}</span></div>')
+          '<span class="s9-due-each">${sel.oneTime() ? usd(SCENT_LIST) + "/scent" : html`<s>${usd(SCENT_LIST)}</s> ${usd(SCENT_ONE)}/scent`}</span></div>') # round 2 (owner comment): no "· 25% off" here
 
 # step 3: the two cards, the frequency buttons only with auto-refill
 app = rep(app,
@@ -53,8 +54,8 @@ app = rep(app,
           '          <div class="rf3" role="radiogroup" aria-label="Refill frequency">\n',
           '          <div class="s9-freq-head plan2-head">How do you want your scents?</div> <!-- dk13 (2026-11-06, owner): auto-refill (25% off) vs one-time; the diffusers free either way -->\n'
           '          <div class="plan2" role="radiogroup" aria-label="Scent plan">\n'
-          '            <button type="button" class=${"plan2-opt p2-sub" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} onClick=${() => sel.setPlan("sub")}><small class="plan2-tag">Save ${SUB_OFF}%</small><b>Auto-refill</b><span class="plan2-pr"><s>${usd(SCENT_LIST)}</s>${usd(SCENT_ONE)}<em>/scent</em></span><span class="plan2-note">Every 30, 60 or 90 days · swap, pause or cancel anytime</span></button>\n'
-          '            <button type="button" class=${"plan2-opt p2-one" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} onClick=${() => sel.setPlan("one")}><b>One-time purchase</b><span class="plan2-pr">${usd(SCENT_LIST)}<em>/scent</em></span><span class="plan2-note">No refills, full price</span></button>\n'
+          '            <button type="button" class=${"plan2-opt p2-sub" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} onClick=${() => sel.setPlan("sub")}><small class="plan2-tag">Save ${SUB_OFF}%</small><b>Auto-refill</b><span class="plan2-pr"><s>${usd(SCENT_LIST)}</s>${usd(SCENT_ONE)}<em>/scent</em></span><span class="plan2-note">Every 30, 60 or 90 days. Cancel anytime.</span></button>\n' # round 2 (owner comment)
+          '            <button type="button" class=${"plan2-opt p2-one" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} onClick=${() => sel.setPlan("one")}><b>One-Time Purchase</b><span class="plan2-pr">${usd(SCENT_LIST)}<em>/scent</em></span><span class="plan2-note">No auto-refills, full price.</span></button>\n' # round 2 (owner comments): title case, "No auto-refills, full price."
           '          </div>\n'
           '          ${sel.oneTime() ? null : html`<div class="s9-freq-head">Select your auto-refill frequency:</div>\n'
           '          <div class="rf3" role="radiogroup" aria-label="Refill frequency">\n')
@@ -91,7 +92,7 @@ css += '''
 #root .plan2-opt.p2-sub.on{background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
 #root .plan2-opt.p2-one.on{background:linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)}
 #root .plan2-opt.p2-sub .plan2-pr{color:#1E7A1E}
-#root .plan2-opt small.plan2-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);margin:0;background:#1E7A1E;color:#fff;border-radius:999px;padding:3px 9px;font-size:.56rem;letter-spacing:.08em;line-height:1.2;font-weight:800;white-space:nowrap;text-transform:uppercase}
+#root .plan2-opt small.plan2-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);margin:0;background:#fff;color:#1E7A1E;border:1.5px solid #1E7A1E;border-radius:999px;padding:3px 10px;font-size:.62rem;letter-spacing:.08em;line-height:1.2;font-weight:800;white-space:nowrap;text-transform:uppercase} /* round 2 (owner comment): 10% bigger, white background */
 #root .s9-due-each s{color:#8A8079;font-weight:600;margin-right:2px}
 #root .s9-freq-head.plan2-head{margin-top:6px}
 @media (min-width:700px){#root .plan2-opt b{font-size:1rem}#root .plan2-opt .plan2-note{font-size:.68rem}#root .plan2-opt .plan2-pr{font-size:1.15rem}}

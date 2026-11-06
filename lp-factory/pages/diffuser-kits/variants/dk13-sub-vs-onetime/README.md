@@ -15,7 +15,8 @@ counts the scents at $39.95 either way ("That's $339.70 of value, you pay $119.8
 
 Round 2 (owner comments on v62, 2026-11-06; artifact v63): "One-Time Purchase" (title case), "No auto-refills, full price.",
 "Every 30, 60 or 90 days. Cancel anytime.", the SAVE 25% pill 10% bigger on a white background (green text + border), and the
-"· 25% off" after "$29.95/scent" under Due today deleted.
+"· 25% off" after "$29.95/scent" under Due today deleted. Round 3 (owner comment on v63; v64): the pill back to a green
+background with white letters, still 10% bigger.
 
 | Kit | Scents | Auto-refill today | One-time today | Value shown |
 |---|---|---|---|---|

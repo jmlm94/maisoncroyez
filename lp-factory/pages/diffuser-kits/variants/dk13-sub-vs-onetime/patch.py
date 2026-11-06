@@ -92,7 +92,7 @@ css += '''
 #root .plan2-opt.p2-sub.on{background:linear-gradient(135deg,#E4F3EA 0%,#D9ECF7 100%)}
 #root .plan2-opt.p2-one.on{background:linear-gradient(135deg,#FBEBDD 0%,#F6D9C4 100%)}
 #root .plan2-opt.p2-sub .plan2-pr{color:#1E7A1E}
-#root .plan2-opt small.plan2-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);margin:0;background:#fff;color:#1E7A1E;border:1.5px solid #1E7A1E;border-radius:999px;padding:3px 10px;font-size:.62rem;letter-spacing:.08em;line-height:1.2;font-weight:800;white-space:nowrap;text-transform:uppercase} /* round 2 (owner comment): 10% bigger, white background */
+#root .plan2-opt small.plan2-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);margin:0;background:#1E7A1E;color:#fff;border:1.5px solid #1E7A1E;border-radius:999px;padding:3px 10px;font-size:.62rem;letter-spacing:.08em;line-height:1.2;font-weight:800;white-space:nowrap;text-transform:uppercase} /* round 2 (owner comment): 10% bigger; round 3 (owner comment): green background, white letters */
 #root .s9-due-each s{color:#8A8079;font-weight:600;margin-right:2px}
 #root .s9-freq-head.plan2-head{margin-top:6px}
 @media (min-width:700px){#root .plan2-opt b{font-size:1rem}#root .plan2-opt .plan2-note{font-size:.68rem}#root .plan2-opt .plan2-pr{font-size:1.15rem}}

@@ -49,7 +49,14 @@ are the BX of the free-diffuser BXGYs, so no second product discount can ever to
 Plus-only and also excludes BX). Done, in order: scents back to $29.95 (21:1x UTC; auto-refill carts right again), the $10
 discount deactivated (status EXPIRED, 21:18:54Z — left active it would have given $19.95 scents to product-page subscribers),
 the dk12 files back on the CDN from raw @ f208dca, the dk12 body (key dk12-f208dca) on page 161846919277 (21:35:52Z), the
-qa-kits patch reverted. Left as is: the BXGYs still accept one-time scent lines (harmless on dk12, needed again for dk13).
+qa-kits patch reverted. Verified 21:38–21:41 UTC: qa-kits (qa-kits/20261106T2138) carts $119.80 / $89.85 with the kit at
+$0.00 and every scent line $29.95 (marked FAIL only because the harness now counts two console notices — the shop.app frame's
+CSP line and a 403 resource — as page errors before the click; to fix in cartFlow: drop "console:" entries from perr);
+page-shot (shots/20261106T213x) body match, live md5 identical to the 2026-11-03 run, both drawer carts $119.80 with the kit
+at $0.00, no JS errors. Left as is: the BXGYs still accept one-time scent lines (harmless on dk12, needed again for dk13).
+The plans read 0% off (they inherit the variant price): Subi must hold a fixed $29.95 (or $10 off) on the three plans before
+the variant can go to $39.95. Order #MC27255 (21:06 UTC, a product-page one-time scent) paid $39.95 — owner's call on a $10
+refund.
 Live window: dk13 was up 21:09–21:36 UTC; from 21:1x the scents were $29.95, so its one-time option charged $29.95 instead of
 the $39.95 shown (customer-favourable). Next for dk13: the subscription price must be the selling plan's price (Subi: the
 30 / 60 / 90 plans of "04/10 Sub for Offer #2 and #3" at a fixed $29.95), then variants $39.95, then the dk13 files + body

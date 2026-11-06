@@ -5,6 +5,7 @@ name: psi
 # 2026-09-25 v2 — LP only, mobile then desktop, 75 s apart, to stay under the anonymous quota (v1 hit 429 on 6 rapid calls).
 #            Reality check of fd16-280dce7 against Google's own Lighthouse hardware.
 # 2026-10-29 — the new advertorial /pages/indoor-air-alerts (owner asked for a page speed test).
+# 2026-11-06 — /pages/diffuser-kits live after dk13 (key dk13-525274f) + the advertorial again (owner: "page speed?").
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -24,6 +25,7 @@ jobs:
           cat > psi.mjs <<'EOF2'
           import fs from 'fs';
           const URLS = [
+            ['kits', 'https://maisoncroyez.com/pages/diffuser-kits'],
             ['adv', 'https://maisoncroyez.com/pages/indoor-air-alerts'],
           ];
           const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);

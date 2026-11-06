@@ -74,7 +74,15 @@ minimums 3 / 4 / 7, customerGets one-time only = the kit line), the old $10 disc
 builder. Cart lines on a plan now read price 29.95 with no discount allocation (the plan price), one-time lines 39.95;
 the kit line is free on both paths. qa-kits was rebuilt for that (commit c2e2568: SP 29.95 on the plan lines, LP 39.95 on
 the one-time cart, no "-10" disc expectation; the shop.app frame's CSP notice + its 403 no longer count as page errors).
-Live QA (qa-kits + page-shot on c2e2568) triggered 22:23 UTC; results appended below when in.
+Verified 22:25–22:3x UTC on c2e2568: qa-kits (qa-kits/20261106T2225) 52/57 — the three real carts match to the cent:
+auto-refill 2 diffusers + 4 scents every 30 days $119.80 (lines 29.95 on "Every 30 days", kit 179.90 → 0.00), auto-refill
+1 diffuser + Chilled Citrus ×3 every 90 days $89.85 (kit 89.95 → 0.00), one-time 2 diffusers + 4 scents $159.80 (lines 39.95,
+no plan, kit 179.90 → 0.00); step 3 shows the two cards, the one-time toggle ($159.80, no frequency buttons) and the way
+back ($119.80, 90 days kept). The 5 non-passes are the same as since dk12 (phone-s2-fold, phone/desktop-s3-fold: the page
+is longer than one screen; phone/desktop-errors: the shop.app frame's CSP notice + its 403, counted by run() but not by the
+cart flows). page-shot (shots/20261106T2225): key dk13-525274f on phone / small / desktop, body match ignoring newlines
+(live 42,165 B vs repo 42,154 B, same without newlines), both drawer carts $119.80 with the kit at $0.00 and the plan lines
+at $29.95 ("now" 29.95, "perDelivery" 29.95), no JS errors.
 Still to confirm with one real auto-refill order: the Subi contract must renew at $29.95 per bottle (the plan's $10 off
 is what the contract carries; the page promises "Every 30, 60 or 90 days" at $29.95).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts

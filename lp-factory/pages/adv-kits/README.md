@@ -83,6 +83,11 @@ the photo grid uses four kits-page lifestyle photos (img/kp-compare, kp-spaces, 
   (pixel/pixel-adv-20261103T013.json), phone + desktop: PageView, SubscribedButtonClick on the taps, 5x AddToCart at UNLOCK
   FREE DIFFUSERS (one per cart line), PageView + InitiateCheckout on the checkout, no errors.
 
+- 2026-11-06: the kits page went dk13 (scents $39.95 in Shopify + an automatic $10 off on subscription lines; one-time option on
+  its step 3). This page's builder is unchanged (subscription only, "$29.95 each") and its carts still total $119.80 / $89.85 /
+  $209.65, but the scent lines now read $39.95 with a −$10 "AUTO-REFILL" discount each. qa-adv's line expectations (price
+  29.95) must become price 39.95 / line 29.95 (+ a "-10" disc) before its next run.
+
 ## LIVE 2026-11-02 (v16, key cs16-a20283e, 00:36:53 UTC): https://maisoncroyez.com/pages/indoor-air-alerts
 - Page gid://shopify/Page/163225075821. The body is now the markup + links (25 KB, shopify/page-body.html); the styles and the
   script are Shopify Files fetched from GitHub, nothing retyped: mc-cs-adv.css = GenericFile 46657364525165 (49,487 B),

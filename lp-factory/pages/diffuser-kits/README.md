@@ -14,6 +14,32 @@ Cart wiring still open (`CART3.kitsFreeScent` is null → preview toast): needs 
 a way to make the first scent $0 on the subscription path (a Subi plan group whose first payment is 100% off, then $15 / $10 / $5
 off), and an automatic discount for the no-subscription path (buy a kit → 1 scent free).
 
+## 2026-11-06 — dk13 (key dk13-525274f, LIVE 21:09 UTC): step 3 Auto-refill (save 25%) vs One-Time Purchase, diffusers free either way
+
+Owner: two options on step 3, "assuming we'll do $39.95 per scent again … in terms of % off if they subscribe"; asked: the
+diffusers stay free either way; kits page only (the Candle Swap builder stays subscription-only); the return-label sentence
+kept; steps 1–2 keep "$29.95 each". Built by variants/dk13-sub-vs-onetime/patch.py from the dk12 files (owner rounds 1–3 in
+that folder's README; preview MC LP Draft Copy 3 v62–v64).
+- Step 3 under Due today: "How do you want your scents?" + two cards — Auto-refill (SAVE 25% pill, ~~$39.95~~ $29.95/scent,
+  "Every 30, 60 or 90 days. Cancel anytime.", preselected, the 60 / 30 / 90 buttons under it) and One-Time Purchase
+  ($39.95/scent, "No auto-refills, full price."). The rows, Due today, the value line ($339.70 for the 2-diffuser kit) and the
+  explanation follow the choice; one-time adds the scents without a selling plan.
+Shopify (connector, store confirmed Maison Croyez before the writes) — the owner's "two discounts in the order" instead of a
+Subi price change:
+1. New automatic discount 1543808581741 "AUTO-REFILL — $10 OFF EVERY SCENT": the 7 scents, $10 off each bottle, subscription
+   lines only, recurringCycleLimit 0 (= every renewal; Shopify defaults it to 1 = first payment only, so set it explicitly),
+   combines with product / order / shipping discounts.
+2. Scent variants 29.95 → 39.95 seconds later (compare-at $49.95 kept). Net: auto-refill $29.95, one-time $39.95.
+3. The three FREE DIFFUSERS BXGYs: customerBuys isSubscription true AND isOneTimePurchase true (both sent), minimums 3 / 4 / 7
+   kept. The old "FREE SCENT — Diffuser Kits (no subscription)" discount targets another product (8245945434221), not the
+   page's kit variants (product 8277082341485, unlisted), so one-time kit carts get no extra free scent.
+4. fileUpdate 46262619439213 mc-dk-app.js (138,466 B) + 46262619471981 mc-dk.css (158,443 B) from raw @ 525274f, READY;
+   pageUpdate 161846919277 with the dk13-525274f body (updatedAt 21:08:58Z).
+Then qa-kits (qa-kits-dk13.patch: $39.95 lines with "-10" on the subscription lines, the two cards, a one-time toggle, a
+one-time cart) from commit 11dee7e and page-shot from b5adfc5. Candle Swap untouched: its subscription carts now show scent
+lines at $39.95 − $10 (same $119.80 total); qa-adv's line-price expectations (29.95) must change before its next run.
+To verify: one real subscription order, then the contract in Subi must show $29.95 per bottle on renewals (Shopify carries the
+discount into the contract; if it does not, fall back to a Subi fixed price of $29.95).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py

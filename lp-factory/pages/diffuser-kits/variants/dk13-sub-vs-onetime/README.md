@@ -1,4 +1,9 @@
-# dk13 — step 3: Auto-refill (save 25%) vs One-time purchase (preview, owner 2026-11-06)
+# dk13 — step 3: Auto-refill (save 25%) vs One-time purchase (owner 2026-11-06; LIVE 21:09 UTC, kits page only)
+
+LIVE: key dk13-525274f on /pages/diffuser-kits. Shopify: automatic discount "AUTO-REFILL — $10 OFF EVERY SCENT" (subscription
+lines, every renewal) + scent variants $39.95 + the FREE DIFFUSERS BXGYs accepting one-time scent lines. Deploy notes, order
+and the renewal check: ../../README.md (dk13 entry). The "Before it can go live" section below is the pre-deploy plan (the Subi
+route was not used).
 
 Owner: "do a change on the third step on the landing page that gives them two options, assuming we'll do $39.95 per scent
 again? Option 1. 30 60 90 days of supply, $29.95. Option 2 one time purchase $39.95 each scent. but do it in terms of % off if

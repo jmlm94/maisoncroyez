@@ -10,7 +10,7 @@ name: qa-ad
 # UNLOCK FREE DIFFUSERS, the cart drawer with its checkout button inside the small viewport, cart.js $119.80 (kit $0.00, scents $29.95
 # on Every 30 days), AddToCart beacons, the checkout page ($119.80, Every 30 days) with InitiateCheckout. One-Time Purchase variant
 # ($159.80, no plan) on the Facebook iOS browser. The advertorial (/pages/indoor-air-alerts) with the same ad parameters on the two
-# Facebook in-app browsers: fix row -> in-page builder -> kit -> UNLOCK -> drawer -> checkout. Edit this line and push to run. [run 1]
+# Facebook in-app browsers: fix row -> in-page builder -> kit -> UNLOCK -> drawer -> checkout. Edit this line and push to run. [run 1: harness slip, OUT was not exported to the step's own shell] [run 2]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -35,7 +35,7 @@ jobs:
       - name: QA
         run: |
           STAMP=$(date -u +%Y%m%dT%H%M)
-          OUT=lp-factory/qa-ad/$STAMP
+          export OUT=lp-factory/qa-ad/$STAMP
           mkdir -p "$OUT"
           echo "OUT=$OUT" >> "$GITHUB_ENV"
           cat > qa.mjs <<'EOF'

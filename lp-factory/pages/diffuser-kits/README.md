@@ -107,6 +107,27 @@ Page speed after dk13 (owner, 22:3x UTC: "page speed?"):
   Insights API key (free, Google Cloud console → APIs → PageSpeed Insights API → credentials) stored as the repo secret
   PSI_KEY, then `&key=${process.env.PSI_KEY}` on the request; until then the owner can run https://pagespeed.web.dev/ on
   the URL by hand (the web UI has its own quota).
+
+QA as a Facebook-ad visitor (owner, 2026-11-07: "make sure everything is working especially if you're coming from a facebook
+ad") - `.github/workflows/qa-ad.yml`, reports in lp-factory/qa-ad/<stamp>/. Every active ad (37 in act_522507185818783 that day)
+lands on /pages/diffuser-kits with the account's URL parameters (utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}
+&utm_term={{adset.name}}&utm_content={{ad.name}}&fbadid={{ad.id}}&tw_source={{site_source_name}}&tw_adid={{ad.id}}) + Facebook's
+fbclid; the run opens that URL rendered for "MC | Winners | CBO (11/06)" / "MC | Winners | Broad 18-65+ US" / "PATRICIA FILLING |
+Winners" in the Facebook iOS in-app browser (390x664), the Instagram iOS in-app browser, the Facebook Android in-app WebView
+(412x780), iPhone Safari and desktop Chrome, walks 2 diffusers + 4 scents -> step 3 -> UNLOCK -> drawer -> cart.js -> the checkout
+page, records every Meta beacon, and repeats One-Time Purchase (Facebook iOS) and the advertorial path (both Facebook browsers).
+Run 3 (qa-ad/20261107T1553, 87/94; the 7 left were a harness regex on the checkout's kit title, fixed for run 4): on all
+browsers the ad URL lands in one request with the parameters kept, the app renders (key dk13-525274f), no horizontal overflow, the
+sticky CTA on screen, Meta PageView + _fbp + _fbc built from the fbclid, the Triple Whale pixel (api.config-security.com), step 3
+$119.80 with Auto-refill selected, UNLOCK -> /cart/add.js 200 -> drawer open with its checkout button inside the small viewport ->
+cart $119.80 (4 x $29.95 on Every 30 days + kit $0.00) -> AddToCart x5 (179.9, 29.95 x4) -> checkout page $299.70 struck, $119.80
+due, the scents "Every 30 days", the kit line "Home Diffusers FREE Pack" $179.90 struck, FREE -> PageView + InitiateCheckout.
+One-time: $159.80 (4 x $39.95, no plan) -> checkout $339.70 struck, $159.80 due. Advertorial: PageView + _fbc, fix row -> builder
+-> $119.80 -> checkout, the same beacons. Findings for the owner: (1) Shopify answers a %20-encoded query (spaces in the UTM
+names) with one 302 to the same URL re-encoded with "+" before serving the page - the parameters survive; the "+" form lands in
+one request. (2) On the FB_IAB/FB4A user agent fbevents asks properties://browser/ebpaap - the real Facebook app answers it, plain
+Chromium logs a CORS error (harness noise). Real ad orders confirm the path: #MC27254 / #MC27255 (11-06) landed on
+/pages/diffuser-kits from Facebook with these UTMs (customerJourneySummary).
 ## 2026-11-03 — dk12 (key dk12-f208dca, LIVE 01:19 UTC): scents $29.95, 3 / 4 / 7 scents per 1 / 2 / 3 free diffusers, step-2 facts
 
 Owner rounds on the preview (MC LP Draft Copy 3, artifact v59 to v61), then "deploy". Built by variants/dk12-scents2995/patch.py

@@ -1,0 +1,207 @@
+name: qa-ad
+# QA as a Facebook-ad visitor (owner, 2026-11-07: "make sure everything is working especially if you're coming from a facebook ad").
+# Every active ad (37 in act_522507185818783 on 2026-11-07) lands on /pages/diffuser-kits with the account's URL parameters
+# (utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}&fbadid={{ad.id}}
+# &tw_source={{site_source_name}}&tw_adid={{ad.id}}) and Facebook's fbclid. This run opens exactly that URL (real campaign / ad set / ad
+# names of the "MC | Winners" campaign) in the browsers an ad click really opens — the Facebook iOS in-app browser, the Instagram iOS
+# in-app browser, the Facebook Android in-app WebView (small viewports: the apps' chrome eats ~180 px) — plus iPhone Safari and desktop
+# Chrome as controls, and walks the funnel: landing (200, parameters kept), the app renders (key), no horizontal overflow, sticky CTA,
+# Meta pixel PageView + the _fbc cookie built from the fbclid, the Triple Whale pixel, 2 diffusers + 4 scents, step 3 (dk13 cards),
+# UNLOCK FREE DIFFUSERS, the cart drawer with its checkout button inside the small viewport, cart.js $119.80 (kit $0.00, scents $29.95
+# on Every 30 days), AddToCart beacons, the checkout page ($119.80, Every 30 days) with InitiateCheckout. One-Time Purchase variant
+# ($159.80, no plan) on the Facebook iOS browser. The advertorial (/pages/indoor-air-alerts) with the same ad parameters on the two
+# Facebook in-app browsers: fix row -> in-page builder -> kit -> UNLOCK -> drawer -> checkout. Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/qa-ad.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: qa-ad
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: QA
+        run: |
+          STAMP=$(date -u +%Y%m%dT%H%M)
+          OUT=lp-factory/qa-ad/$STAMP
+          mkdir -p "$OUT"
+          echo "OUT=$OUT" >> "$GITHUB_ENV"
+          cat > qa.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = process.env.OUT, stamp = OUT.split('/').pop();
+          /* the real ad click: the account's URL parameters rendered with the "MC | Winners" campaign names + a Facebook fbclid */
+          const AD = { campaign: 'MC | Winners | CBO (11/06)', adset: 'MC | Winners | Broad 18-65+ US', ad: 'PATRICIA FILLING | Winners', adId: '120247340616250662' };
+          const fbclid = () => 'IwAR' + Array.from({ length: 58 }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'[Math.floor(Math.random() * 64)]).join('');
+          const adUrl = (page, fbc) => `https://maisoncroyez.com${page}?utm_source=facebook&utm_medium=paid&utm_campaign=${encodeURIComponent(AD.campaign)}&utm_term=${encodeURIComponent(AD.adset)}&utm_content=${encodeURIComponent(AD.ad)}&fbadid=${AD.adId}&tw_source=fb&tw_adid=${AD.adId}&fbclid=${fbc}`;
+          const PIXEL = '980908600592309';
+          const PROFILES = {
+            'fb-ios': { ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBAV/470.0.0.31.108;FBBV/613457364;FBDV/iPhone15,2;FBMD/iPhone;FBSN/iOS;FBSV/17.5;FBSS/3;FBID/phone;FBLC/en_US;FBOP/5;FBRV/0]', w: 390, h: 664, dsf: 3, mobile: true, label: 'Facebook iOS in-app browser' },
+            'ig-ios': { ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 330.0.0.33.98 (iPhone15,2; iOS 17_5; en_US; en; scale=3.00; 1179x2556; 598897321)', w: 390, h: 664, dsf: 3, mobile: true, label: 'Instagram iOS in-app browser' },
+            'fb-android': { ua: 'Mozilla/5.0 (Linux; Android 14; Pixel 8 Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.179 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/470.0.0.31.108;]', w: 412, h: 780, dsf: 2.6, mobile: true, label: 'Facebook Android in-app WebView' },
+            'safari-ios': { ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1', w: 390, h: 844, dsf: 3, mobile: true, label: 'iPhone Safari (control)' },
+            'desktop': { ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', w: 1366, h: 900, dsf: 1, mobile: false, label: 'desktop Chrome (control)' },
+          };
+          const checks = [];
+          const ck = (id, name, ok, got) => { checks.push({ id, name, ok: !!ok, got }); console.log((ok ? 'PASS' : 'FAIL') + ' ' + id + ' — ' + name + (ok ? '' : ' => ' + JSON.stringify(got).slice(0, 600))); };
+          const b = await chromium.launch();
+          const open = async (pid) => {
+            const P = PROFILES[pid];
+            const ctx = await b.newContext({ viewport: { width: P.w, height: P.h }, deviceScaleFactor: P.dsf, isMobile: P.mobile, hasTouch: P.mobile, userAgent: P.ua, locale: 'en-US', timezoneId: 'America/New_York' });
+            await ctx.addInitScript(() => { try { Object.defineProperty(navigator, 'webdriver', { get: () => undefined }); } catch (e) {} });
+            /* in-page hook: every Meta beacon (sendBeacon / fetch / XHR / image) from every frame -> localStorage.__mcFbHits (survives the checkout navigation) */
+            await ctx.addInitScript(() => { try {
+              const rec = (u, body) => { try { const s = String(u); if (!/facebook\.com\/tr/.test(s)) return; const q = {}; try { new URL(s).searchParams.forEach((v, k) => { q[k] = v; }); } catch (e) {} try { if (body && typeof body === 'string') new URLSearchParams(body).forEach((v, k) => { q[k] = v; }); } catch (e) {} const h = { ev: q.ev || '?', id: q.id, eid: q.eid, ids: q['cd[content_ids]'], val: q['cd[value]'], t: Date.now(), top: window === window.top, f: location.pathname.slice(0, 40) }; try { const a = JSON.parse(localStorage.getItem('__mcFbHits') || '[]'); a.push(h); localStorage.setItem('__mcFbHits', JSON.stringify(a)); } catch (e) {} } catch (e) {} };
+              const sb = navigator.sendBeacon; if (sb) navigator.sendBeacon = function (u, d) { let body = null; try { body = d instanceof URLSearchParams ? d.toString() : (typeof d === 'string' ? d : null); } catch (e) {} rec(u, body); return sb.apply(this, arguments); };
+              const f = window.fetch; if (f) window.fetch = function (u, o) { rec(u && u.url ? u.url : u, o && typeof o.body === 'string' ? o.body : null); return f.apply(this, arguments); };
+              const xo = XMLHttpRequest.prototype.open, xs = XMLHttpRequest.prototype.send; XMLHttpRequest.prototype.open = function (m, u) { this.__u = u; return xo.apply(this, arguments); }; XMLHttpRequest.prototype.send = function (d) { rec(this.__u, typeof d === 'string' ? d : null); return xs.apply(this, arguments); };
+              const d = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src'); if (d && d.set) Object.defineProperty(HTMLImageElement.prototype, 'src', { set(v) { rec(v, null); return d.set.call(this, v); }, get() { return d.get.call(this); }, configurable: true });
+            } catch (e) {} });
+            const pg = await ctx.newPage();
+            const errs = [], net = { fbtr: [], tw: [], addjs: [], doc: [] };
+            pg.on('pageerror', (e) => errs.push('pageerror: ' + e.message.slice(0, 160)));
+            pg.on('console', (m) => { if (m.type() === 'error') errs.push('console: ' + m.text().slice(0, 160)); });
+            pg.on('request', (rq) => { const u = rq.url(); if (/facebook\.com\/tr/.test(u)) net.fbtr.push({ t: Date.now(), u: u.slice(0, 160), post: (rq.postData() || '').slice(0, 300) }); if (/config-security\.com/.test(u)) net.tw.push(u.slice(0, 120)); });
+            pg.on('response', (r) => { const u = r.url(); if (/\/cart\/add\.js/.test(u)) net.addjs.push({ t: Date.now(), status: r.status() }); if (r.request().resourceType() === 'document') net.doc.push({ u: u.slice(0, 120), status: r.status(), from: r.request().redirectedFrom() ? r.request().redirectedFrom().url().slice(0, 120) : null }); });
+            return { ctx, pg, errs, net, P };
+          };
+          const tap = (pg, q, i = 0) => pg.evaluate(([q, i]) => { const e = document.querySelectorAll(q)[i]; if (!e) return false; e.scrollIntoView({ block: 'center' }); e.click(); return true; }, [q, i]);
+          const hits = (pg) => pg.evaluate(() => { try { return JSON.parse(localStorage.getItem('__mcFbHits') || '[]'); } catch (e) { return []; } });
+          const cartJs = (pg) => pg.evaluate(async () => { let c; try { c = await (await fetch('/cart.js')).json(); } catch (e) { return { n: null, total: null, items: [], err: String(e).slice(0, 80) }; } return { n: c.item_count, total: c.total_price / 100, items: c.items.map((i) => ({ v: i.variant_id, t: i.product_title + (i.variant_title && i.variant_title !== 'Default Title' ? ' / ' + i.variant_title : ''), q: i.quantity, price: i.price / 100, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? i.selling_plan_allocation.selling_plan.name : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
+          const tx = (e) => (e ? (e.innerText || e.textContent || '').replace(/\s+/g, ' ').trim() : null);
+          const noise = (e) => /console: (Refused to frame 'https:\/\/shop\.app\/'|Failed to load resource: the server responded with a status of 403)/.test(e); /* theme noise (shop.app frame CSP + its 403), not page errors */
+          const cookieMap = async (ctx) => { const m = {}; for (const c of await ctx.cookies('https://maisoncroyez.com')) m[c.name] = c.value; return m; };
+          const merged = (items) => Object.values(items.reduce((m, l) => { const k = l.v + '|' + l.plan + '|' + l.price; if (m[k]) { m[k].q += l.q; m[k].line = Math.round((m[k].line + l.line) * 100) / 100; } else m[k] = { ...l }; return m; }, {}));
+          const SCENTS = { love: 41212020457581, abundance: 41212018655341, focus: 41212021506157, ideas: 41212021342317, energy: 41212020752493, purify: 41212021669997, midnight: 41212019933293 };
+          const KIT2 = 45900240289901;
+
+          /* ---- the kits page (every active ad's destination) ---- */
+          const kits = async (pid, plan) => {
+            const tag = pid + (plan === 'one' ? '-onetime' : ''); const { ctx, pg, errs, net, P } = await open(pid); const fbc = fbclid(); const t0 = Date.now();
+            let s = {};
+            try {
+              await pg.goto(adUrl('/pages/diffuser-kits', fbc), { waitUntil: 'domcontentloaded', timeout: 90000 });
+              const mounted = await pg.waitForSelector('#buybox .tiers', { timeout: 60000 }).then(() => Date.now() - t0).catch(() => null);
+              await pg.waitForTimeout(8000);
+              const u = new URL(pg.url());
+              ck(`${tag}-land`, `${P.label}: the ad URL answers 200 with no redirect and keeps fbclid + the UTM / fbadid / tw parameters`, net.doc.length >= 1 && net.doc[0].status === 200 && !net.doc[0].from && u.pathname === '/pages/diffuser-kits' && u.searchParams.get('fbclid') === fbc && u.searchParams.get('utm_source') === 'facebook' && u.searchParams.get('utm_campaign') === AD.campaign && u.searchParams.get('fbadid') === AD.adId && u.searchParams.get('tw_adid') === AD.adId, { doc: net.doc.slice(0, 3), url: pg.url().slice(0, 200) });
+              s = await pg.evaluate(() => ({ key: (document.querySelector('script[src*="mc-dk-app.js"]') || { src: '' }).src.split('?v=')[1] || null, btn: (document.querySelector('#buybox .btn.step-next') || {}).innerText || null, tiers: document.querySelectorAll('#buybox .tier').length, sticky: (() => { const e = document.querySelector('.sticky'); if (!e) return null; const r = e.getBoundingClientRect(); return { shown: getComputedStyle(e).display !== 'none', top: Math.round(r.top), bottom: Math.round(r.bottom), text: (e.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 60) }; })(), vw: innerWidth, vh: innerHeight, sw: document.documentElement.scrollWidth, fbq: typeof window.fbq, pixels: (window.fbq && window.fbq.instance && window.fbq.instance.pixelsByID) ? Object.keys(window.fbq.instance.pixelsByID) : null, h1: (document.querySelector('#root h1') || {}).innerText || null }));
+              await pg.screenshot({ path: `${OUT}/${tag}-landing.png` });
+              ck(`${tag}-render`, 'the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)', mounted !== null && s.tiers === 3 && /PICK YOUR SCENTS/.test(s.btn || '') && s.key === 'dk13-525274f', { msToMount: mounted, tiers: s.tiers, btn: s.btn, key: s.key });
+              ck(`${tag}-layout`, `no horizontal overflow at ${P.w}×${P.h}${P.mobile ? ', sticky CTA on screen' : ''}`, s.sw <= s.vw + 1 && (!P.mobile || (s.sticky && s.sticky.shown && s.sticky.bottom <= s.vh + 1)), { vw: s.vw, vh: s.vh, scrollWidth: s.sw, sticky: s.sticky });
+              const cookies = await cookieMap(ctx); const h0 = await hits(pg);
+              const pv = h0.filter((h) => h.ev === 'PageView' && h.id === PIXEL);
+              ck(`${tag}-pixel-pageview`, `Meta pixel ${PIXEL} loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid`, s.fbq === 'function' && (s.pixels || []).includes(PIXEL) && pv.length >= 1 && !!cookies._fbp && !!cookies._fbc && cookies._fbc.endsWith('.' + fbc), { fbq: s.fbq, pixels: s.pixels, hits: h0.map((h) => h.ev + (h.top ? '' : '(frame)')), fbtr: net.fbtr.length, _fbp: cookies._fbp ? cookies._fbp.slice(0, 24) : null, _fbc: cookies._fbc ? cookies._fbc.slice(0, 30) + '…' : null });
+              ck(`${tag}-pixel-triplewhale`, 'Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)', true, { requests: net.tw.slice(0, 3) });
+              /* the funnel: 2 diffusers, 4 scents, step 3 */
+              await tap(pg, '#buybox .tier', 1); await pg.waitForTimeout(300); await tap(pg, '#buybox .btn.step-next'); await pg.waitForTimeout(900);
+              for (const k of [2, 5, 0, 3]) { await pg.evaluate((k) => { const bt = document.querySelectorAll('#buybox .picker .pick')[k].querySelector('.e4-step button[aria-label^="Add one"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(250); }
+              await pg.waitForTimeout(600);
+              const s2 = await pg.evaluate(() => ({ step: (document.querySelector('#buybox .step-eyebrow') || {}).innerText || null, on: document.querySelectorAll('#buybox .picker .pick.on').length, review: (document.querySelector('#buybox .navrow .btn.atc') || {}).innerText || null }));
+              await tap(pg, '#buybox .navrow .btn.atc'); await pg.waitForTimeout(1200);
+              if (plan === 'one') { await tap(pg, '#buybox .plan2-opt.p2-one'); await pg.waitForTimeout(400); }
+              const s3 = await pg.evaluate(() => ({ step: (document.querySelector('#buybox .step-eyebrow') || {}).innerText || null, due: (document.querySelector('#buybox .s9-due') || {}).innerText || null, plan2: [...document.querySelectorAll('#buybox .plan2-opt')].map((e) => (e.innerText || '').replace(/\s+/g, ' ').trim() + (e.classList.contains('on') ? ' [ON]' : '')), freqOn: (document.querySelector('#buybox .rf3-opt.on') || {}).innerText || null, btn: (document.querySelector('#buybox .btn.atc') || {}).innerText || null, sw: document.documentElement.scrollWidth, vw: innerWidth }));
+              await pg.screenshot({ path: `${OUT}/${tag}-step3.png` });
+              const expDue = plan === 'one' ? /159\.80/ : /119\.80/;
+              ck(`${tag}-flow`, `2 diffusers + 4 scents -> step 3: ${plan === 'one' ? 'One-Time Purchase selected, DUE TODAY $159.80, no frequency buttons' : 'Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80'}, UNLOCK FREE DIFFUSERS, no overflow`, /Step 2 of 3/i.test(s2.step || '') && s2.on === 4 && /Step 3 of 3/i.test(s3.step || '') && expDue.test(s3.due || '') && s3.plan2.length === 2 && (plan === 'one' ? /One-Time Purchase.*\[ON\]$/.test(s3.plan2[1]) && !s3.freqOn : /Auto-refill.*\[ON\]$/.test(s3.plan2[0]) && /^30 days/.test(s3.freqOn || '')) && /UNLOCK FREE DIFFUSERS/.test(s3.btn || '') && s3.sw <= s3.vw + 1, { s2, s3 });
+              /* UNLOCK FREE DIFFUSERS -> /cart/add.js -> the theme's cart drawer */
+              const errsAtClick = errs.length; const hAt = (await hits(pg)).length; const tClick = Date.now();
+              await tap(pg, '#buybox .btn.atc'); await pg.waitForTimeout(9000);
+              const drawer = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; const ck = d.querySelector('button[name="checkout"], a[href$="/checkout"]'); const r = ck ? ck.getBoundingClientRect() : null; return { open: d.hasAttribute('open') || !!d.open, text: (d.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 400), checkoutBtn: r ? { top: Math.round(r.top), bottom: Math.round(r.bottom), visible: r.width > 0 && r.height > 0 } : null, vh: innerHeight }; });
+              await pg.screenshot({ path: `${OUT}/${tag}-drawer.png` });
+              const c = await cartJs(pg); const m = merged(c.items); const h1 = (await hits(pg)).slice(hAt); const atc = h1.filter((h) => h.ev === 'AddToCart');
+              const scentOk = (l) => Object.values(SCENTS).includes(l.v) && l.q === 1 && (plan === 'one' ? l.price === 39.95 && l.line === 39.95 && l.plan === null : l.price === 29.95 && l.line === 29.95 && l.plan === 'Every 30 days');
+              const kit = m.find((l) => l.v === KIT2);
+              ck(`${tag}-unlock`, `UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the ${P.h} px viewport`, net.addjs.length >= 1 && net.addjs.every((a) => a.status === 200) && /\/pages\/diffuser-kits/.test(pg.url()) && drawer && drawer.open && drawer.checkoutBtn && drawer.checkoutBtn.visible && drawer.checkoutBtn.bottom <= drawer.vh + 1, { addjs: net.addjs, url: pg.url().slice(0, 80), drawer: drawer && { open: drawer.open, checkoutBtn: drawer.checkoutBtn, vh: drawer.vh, text: drawer.text.slice(0, 160) } });
+              ck(`${tag}-cart`, `cart.js: ${plan === 'one' ? '4 scents $39.95 one-time' : '4 scents $29.95 on Every 30 days'} + the 2-diffuser kit $179.90 -> $0.00, total $${plan === 'one' ? '159.80' : '119.80'}`, m.length === 5 && c.total === (plan === 'one' ? 159.8 : 119.8) && m.filter(scentOk).length === 4 && kit && kit.q === 1 && kit.price === 179.9 && kit.line === 0 && kit.plan === null, { total: c.total, n: c.n, lines: c.items });
+              ck(`${tag}-pixel-addtocart`, 'Meta AddToCart beacon(s) after UNLOCK (one per cart line)', atc.length >= 1 && atc.every((h) => h.id === PIXEL), { afterClick: h1.map((h) => h.ev + (h.val ? ' ' + h.val : '')), fbtrTotal: net.fbtr.length });
+              /* the drawer's checkout button -> the checkout page */
+              const ckb = pg.locator('#cart-drawer button[name="checkout"]:visible, #cart-drawer a[href$="/checkout"]:visible, button[name="checkout"]:visible').first(); let clicked = false;
+              try { await ckb.scrollIntoViewIfNeeded({ timeout: 8000 }); await ckb.click({ timeout: 10000 }); clicked = true; } catch (e) {}
+              await pg.waitForURL(/checkouts?\//, { timeout: 45000 }).catch(() => {}); await pg.waitForTimeout(10000);
+              const co = await pg.evaluate(() => ({ url: location.href.slice(0, 120), text: (document.body.innerText || '').replace(/\s+/g, ' ').trim(), sw: document.documentElement.scrollWidth, vw: innerWidth }));
+              await pg.screenshot({ path: `${OUT}/${tag}-checkout.png` });
+              const h2 = (await hits(pg)).filter((h) => h.t >= tClick); const ic = h2.filter((h) => h.ev === 'InitiateCheckout');
+              const expTotal = plan === 'one' ? /\$159\.80/ : /\$119\.80/;
+              ck(`${tag}-checkout`, `checkout page from the drawer button: total $${plan === 'one' ? '159.80' : '119.80'}${plan === 'one' ? ', no subscription line' : ', "Every 30 days" on the scents'}, the 4 scents + the free kit listed`, clicked && /\/checkouts?\//.test(co.url) && expTotal.test(co.text) && (plan === 'one' ? !/every 30 days/i.test(co.text) : /every 30 days/i.test(co.text)) && /Maison Croyez Home Diffuser/.test(co.text) && (co.text.match(/\(100ml\)/g) || []).length >= 4, { clicked, url: co.url, totals: (co.text.match(/\$\d+\.\d\d/g) || []).slice(0, 12), sub: (co.text.match(/every \d+ days[^.]{0,40}/ig) || []).slice(0, 3), textHead: co.text.slice(0, 200) });
+              ck(`${tag}-pixel-checkout`, 'Meta InitiateCheckout (and PageView) on the checkout page', ic.length >= 1 && h2.some((h) => h.ev === 'PageView' && /checkout/.test(h.f || '')), { sinceClick: h2.map((h) => h.ev + '@' + (h.f || '')) });
+              const perr = errs.slice(0, errsAtClick).filter((e) => !noise(e));
+              ck(`${tag}-errors`, 'no JavaScript errors on the kits page up to UNLOCK', perr.length === 0, perr.slice(0, 6));
+            } catch (e) { ck(`${tag}-crash`, 'the flow completed', false, { error: String(e).slice(0, 300), url: pg.url().slice(0, 120) }); await pg.screenshot({ path: `${OUT}/${tag}-crash.png` }).catch(() => {}); }
+            await ctx.close(); await new Promise((r) => setTimeout(r, 4000));
+          };
+
+          /* ---- the advertorial with the same ad parameters (fix row -> in-page builder -> kit -> UNLOCK -> drawer -> checkout) ---- */
+          const adv = async (pid) => {
+            const tag = 'adv-' + pid; const { ctx, pg, errs, net, P } = await open(pid); const fbc = fbclid(); const t0 = Date.now();
+            try {
+              await pg.goto(adUrl('/pages/indoor-air-alerts', fbc), { waitUntil: 'domcontentloaded', timeout: 90000 });
+              const mounted = await pg.waitForSelector('#mcadv', { timeout: 60000 }).then(() => Date.now() - t0).catch(() => null);
+              await pg.waitForTimeout(8000);
+              const u = new URL(pg.url());
+              const s = await pg.evaluate(() => ({ key: (document.querySelector('script[src*="mc-cs-adv.js"]') || { src: '' }).src.split('?v=')[1] || null, h1: (document.querySelector('#mcadv h1') || {}).innerText || null, fixrows: document.querySelectorAll('.fixrow').length, vw: innerWidth, vh: innerHeight, sw: document.documentElement.scrollWidth, fbq: typeof window.fbq }));
+              await pg.screenshot({ path: `${OUT}/${tag}-landing.png` });
+              const cookies = await cookieMap(ctx); const h0 = await hits(pg);
+              ck(`${tag}-land`, `${P.label}: the advertorial ad URL answers 200, keeps the parameters, renders (key cs17), no overflow, PageView + _fbc from the fbclid`, net.doc[0] && net.doc[0].status === 200 && !net.doc[0].from && u.searchParams.get('fbclid') === fbc && mounted !== null && /^cs17-/.test(s.key || '') && s.fixrows >= 3 && s.sw <= s.vw + 1 && h0.some((h) => h.ev === 'PageView' && h.id === PIXEL) && !!cookies._fbc && cookies._fbc.endsWith('.' + fbc), { doc: net.doc.slice(0, 2), msToMount: mounted, s, hits: h0.map((h) => h.ev), _fbc: cookies._fbc ? cookies._fbc.slice(0, 30) + '…' : null });
+              await pg.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { window.scrollTo({ top: y, behavior: 'instant' }); await new Promise((r) => setTimeout(r, 80)); } });
+              await pg.evaluate(() => document.querySelector('.fixrow[data-cta="fix-3"]').scrollIntoView({ block: 'center', behavior: 'instant' })); await pg.waitForTimeout(600);
+              const tTap = Date.now(); await pg.locator('.fixrow[data-cta="fix-3"]').click(); await pg.waitForTimeout(1500);
+              const okB = await pg.waitForSelector('#mckb .tiers', { timeout: 30000 }).then(() => Date.now() - tTap).catch(() => null);
+              await pg.click('#mckb .tier:nth-child(2)'); await pg.waitForTimeout(300);
+              await pg.evaluate(() => document.querySelector('#mckb .step-next').scrollIntoView({ block: 'center' })); await pg.locator('#mckb .step-next').click(); await pg.waitForTimeout(1000);
+              for (const k of ['focus', 'purify', 'love', 'energy']) { await pg.evaluate((k) => { const bt = document.querySelector('#mckb [data-add="' + k + '"]'); bt.scrollIntoView({ block: 'center' }); bt.click(); }, k); await pg.waitForTimeout(250); }
+              await pg.waitForTimeout(600);
+              await pg.evaluate(() => { const bt = document.querySelector('#mckb .navrow .btn.atc'); bt.scrollIntoView({ block: 'center' }); bt.click(); }); await pg.waitForTimeout(1500);
+              const s3 = await pg.evaluate(() => ({ step: (document.querySelector('#mckb .step-eyebrow') || {}).innerText || null, due: (document.querySelector('#mckb .s9-due') || {}).innerText || null, btn: (document.querySelector('#mckb [data-cart]') || {}).innerText || null, hash: location.hash }));
+              await pg.screenshot({ path: `${OUT}/${tag}-step3.png` });
+              ck(`${tag}-flow`, 'fix row -> in-page builder -> 2 diffusers + 4 scents -> step 3 DUE TODAY $119.80, UNLOCK FREE DIFFUSERS', okB !== null && /Step 3 of 3/i.test(s3.step || '') && /119\.80/.test(s3.due || '') && /UNLOCK FREE DIFFUSERS/.test(s3.btn || ''), { msToBuilder: okB, s3 });
+              const errsAtClick = errs.length; const hAt = (await hits(pg)).length; const tClick = Date.now();
+              await pg.evaluate(() => document.querySelector('#mckb [data-cart]').scrollIntoView({ block: 'center' })); await pg.locator('#mckb [data-cart]').click(); await pg.waitForTimeout(9000);
+              const drawer = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; const ck = d.querySelector('button[name="checkout"], a[href$="/checkout"]'); const r = ck ? ck.getBoundingClientRect() : null; return { open: d.hasAttribute('open') || !!d.open, checkoutBtn: r ? { top: Math.round(r.top), bottom: Math.round(r.bottom), visible: r.width > 0 && r.height > 0 } : null, vh: innerHeight }; });
+              await pg.screenshot({ path: `${OUT}/${tag}-drawer.png` });
+              const c = await cartJs(pg); const m = merged(c.items); const atc = (await hits(pg)).slice(hAt).filter((h) => h.ev === 'AddToCart'); const kit = m.find((l) => l.v === KIT2);
+              ck(`${tag}-cart`, 'UNLOCK -> drawer on the article (checkout button in the viewport), cart.js $119.80: 4 scents $29.95 on Every 30 days + the kit $0.00, AddToCart beacon(s)', net.addjs.length >= 1 && net.addjs.every((a) => a.status === 200) && /indoor-air-alerts/.test(pg.url()) && drawer && drawer.open && drawer.checkoutBtn && drawer.checkoutBtn.visible && drawer.checkoutBtn.bottom <= drawer.vh + 1 && m.length === 5 && c.total === 119.8 && m.filter((l) => Object.values(SCENTS).includes(l.v) && l.q === 1 && l.price === 29.95 && l.plan === 'Every 30 days').length === 4 && kit && kit.line === 0 && atc.length >= 1, { addjs: net.addjs, drawer, total: c.total, lines: c.items, atc: atc.length });
+              const ckb = pg.locator('#cart-drawer button[name="checkout"]:visible, #cart-drawer a[href$="/checkout"]:visible, button[name="checkout"]:visible').first(); let clicked = false;
+              try { await ckb.scrollIntoViewIfNeeded({ timeout: 8000 }); await ckb.click({ timeout: 10000 }); clicked = true; } catch (e) {}
+              await pg.waitForURL(/checkouts?\//, { timeout: 45000 }).catch(() => {}); await pg.waitForTimeout(10000);
+              const co = await pg.evaluate(() => ({ url: location.href.slice(0, 120), text: (document.body.innerText || '').replace(/\s+/g, ' ').trim() }));
+              await pg.screenshot({ path: `${OUT}/${tag}-checkout.png` });
+              const h2 = (await hits(pg)).filter((h) => h.t >= tClick);
+              ck(`${tag}-checkout`, 'checkout page: $119.80, Every 30 days, InitiateCheckout', clicked && /\/checkouts?\//.test(co.url) && /\$119\.80/.test(co.text) && /every 30 days/i.test(co.text) && h2.some((h) => h.ev === 'InitiateCheckout'), { clicked, url: co.url, totals: (co.text.match(/\$\d+\.\d\d/g) || []).slice(0, 10), sinceClick: h2.map((h) => h.ev) });
+              const perr = errs.slice(0, errsAtClick).filter((e) => !noise(e));
+              ck(`${tag}-errors`, 'no JavaScript errors on the article up to UNLOCK', perr.length === 0, perr.slice(0, 6));
+            } catch (e) { ck(`${tag}-crash`, 'the flow completed', false, { error: String(e).slice(0, 300), url: pg.url().slice(0, 120) }); await pg.screenshot({ path: `${OUT}/${tag}-crash.png` }).catch(() => {}); }
+            await ctx.close(); await new Promise((r) => setTimeout(r, 4000));
+          };
+
+          for (const pid of ['fb-ios', 'ig-ios', 'fb-android', 'safari-ios', 'desktop']) await kits(pid, 'sub');
+          await kits('fb-ios', 'one');
+          for (const pid of ['fb-ios', 'fb-android']) await adv(pid);
+          await b.close();
+          const pass = checks.filter((c) => c.ok).length;
+          const md = [`# Facebook-ad visitor QA ${stamp}`, '', `Landing: the real ad URL (campaign "${AD.campaign}", ad set "${AD.adset}", ad "${AD.ad}" ${AD.adId}) + fbclid, in the Facebook / Instagram in-app browsers and two controls.`, '', `${pass}/${checks.length} checks passed.`, '', '| # | check | result | details |', '|---|---|---|---|', ...checks.map((c) => `| ${c.id} | ${c.name} | ${c.ok ? 'PASS' : 'FAIL'} | ${JSON.stringify(c.got).replace(/\|/g, '\\|').slice(0, 500)} |`)].join('\n') + '\n';
+          fs.writeFileSync(`${OUT}/report.md`, md); fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ stamp, ad: AD, pass, total: checks.length, checks }, null, 1));
+          console.log(`\n${pass}/${checks.length} passed`);
+          EOF
+          node qa.mjs
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/qa-ad
+          git commit -m "qa-ad: Facebook-ad visitor QA (kits page + advertorial, in-app browsers, pixel through checkout)" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

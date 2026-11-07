@@ -1,0 +1,2138 @@
+{
+ "stamp": "20261107T1603",
+ "ad": {
+  "campaign": "MC | Winners | CBO (11/06)",
+  "adset": "MC | Winners | Broad 18-65+ US",
+  "ad": "PATRICIA FILLING | Winners",
+  "adId": "120247340616250662"
+ },
+ "pass": 94,
+ "total": 94,
+ "checks": [
+  {
+   "id": "fb-ios-land",
+   "name": "Facebook iOS in-app browser: the ad URL (+ for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept, in one request (no redirect)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11%2F06)&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fbadid"
+   }
+  },
+  {
+   "id": "fb-ios-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 1119,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "fb-ios-layout",
+   "name": "no horizontal overflow at 390×664, sticky CTA on screen",
+   "ok": true,
+   "got": {
+    "vw": 390,
+    "vh": 664,
+    "scrollWidth": 390,
+    "sticky": {
+     "shown": true,
+     "top": 601,
+     "bottom": 664,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "fb-ios-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067431919.74748",
+    "_fbc": "fb.1.1794067431914.IwARDWidLqt…"
+   }
+  },
+  {
+   "id": "fb-ios-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-flow",
+   "name": "2 diffusers + 4 scents -> step 3: Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$39.95 $29.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime. [ON]",
+      "One-Time Purchase $39.95/scent No auto-refills, full price."
+     ],
+     "freqOn": "30 days\nMOST POPULAR",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 390,
+     "vw": 390
+    }
+   }
+  },
+  {
+   "id": "fb-ios-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 664 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067440050,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 504,
+      "bottom": 557,
+      "visible": true
+     },
+     "vh": 664,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $29.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "fb-ios-cart",
+   "name": "cart.js: 4 scents $29.95 on Every 30 days + the 2-diffuser kit $179.90 -> $0.00, total $119.80",
+   "ok": true,
+   "got": {
+    "total": 119.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95"
+    ],
+    "fbtrTotal": 13
+   }
+  },
+  {
+   "id": "fb-ios-checkout",
+   "name": "checkout page from the drawer button: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSVeE4KC4LlrcopfqOIy/en-us?_r=AQABE5M4MFzCARuT1lYiz9BdtddfL2q4sT6DvAtY4VMZmIqp",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80",
+     "$179.90",
+     "$299.70"
+    ],
+    "sub": [
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT "
+    ],
+    "textHead": "Skip to content Navigate to Online Store Order summary Total price $299.70 Discounted price $119.80 Order summary Your Cart Product image Description Quantity Price Quantity 1 Honey Nectar – Turning I"
+   }
+  },
+  {
+   "id": "fb-ios-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSVeE4KC4LlrcopfqOIy/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSVeE4KC4LlrcopfqOIy/e",
+     "SubscribedButtonClick@/checkouts/cn/hWNIsSVeE4KC4LlrcopfqOIy/e"
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "ig-ios-land",
+   "name": "Instagram iOS in-app browser: the ad URL (+ for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept, in one request (no redirect)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11%2F06)&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fbadid"
+   }
+  },
+  {
+   "id": "ig-ios-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 570,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "ig-ios-layout",
+   "name": "no horizontal overflow at 390×664, sticky CTA on screen",
+   "ok": true,
+   "got": {
+    "vw": 390,
+    "vh": 664,
+    "scrollWidth": 390,
+    "sticky": {
+     "shown": true,
+     "top": 601,
+     "bottom": 664,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "ig-ios-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067471305.59787",
+    "_fbc": "fb.1.1794067471299.IwAR5Xpv9wa…"
+   }
+  },
+  {
+   "id": "ig-ios-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "ig-ios-flow",
+   "name": "2 diffusers + 4 scents -> step 3: Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$39.95 $29.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime. [ON]",
+      "One-Time Purchase $39.95/scent No auto-refills, full price."
+     ],
+     "freqOn": "30 days\nMOST POPULAR",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 390,
+     "vw": 390
+    }
+   }
+  },
+  {
+   "id": "ig-ios-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 664 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067479279,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 504,
+      "bottom": 557,
+      "visible": true
+     },
+     "vh": 664,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $29.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "ig-ios-cart",
+   "name": "cart.js: 4 scents $29.95 on Every 30 days + the 2-diffuser kit $179.90 -> $0.00, total $119.80",
+   "ok": true,
+   "got": {
+    "total": 119.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "ig-ios-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95"
+    ],
+    "fbtrTotal": 13
+   }
+  },
+  {
+   "id": "ig-ios-checkout",
+   "name": "checkout page from the drawer button: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSZlk0MSU2zKSsTipCeW/en-us?_r=AQABscqmcQwWPoHiIhYEuSGOfx52eqCjsZcmQqAXMiUPeQiC",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80",
+     "$179.90",
+     "$299.70"
+    ],
+    "sub": [
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT "
+    ],
+    "textHead": "Skip to content Navigate to Online Store Order summary Total price $299.70 Discounted price $119.80 Order summary Your Cart Product image Description Quantity Price Quantity 1 Honey Nectar – Turning I"
+   }
+  },
+  {
+   "id": "ig-ios-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSZlk0MSU2zKSsTipCeW/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSZlk0MSU2zKSsTipCeW/e",
+     "SubscribedButtonClick@/checkouts/cn/hWNIsSZlk0MSU2zKSsTipCeW/e"
+    ]
+   }
+  },
+  {
+   "id": "ig-ios-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "fb-android-land",
+   "name": "Facebook Android in-app WebView: the ad URL (+ for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept, in one request (no redirect)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11%2F06)&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fbadid"
+   }
+  },
+  {
+   "id": "fb-android-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 615,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "fb-android-layout",
+   "name": "no horizontal overflow at 412×780, sticky CTA on screen",
+   "ok": true,
+   "got": {
+    "vw": 412,
+    "vh": 780,
+    "scrollWidth": 412,
+    "sticky": {
+     "shown": true,
+     "top": 717,
+     "bottom": 780,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "fb-android-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067510923.76598",
+    "_fbc": "fb.1.1794067510917.IwARz2STpnx…"
+   }
+  },
+  {
+   "id": "fb-android-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "fb-android-flow",
+   "name": "2 diffusers + 4 scents -> step 3: Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$39.95 $29.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime. [ON]",
+      "One-Time Purchase $39.95/scent No auto-refills, full price."
+     ],
+     "freqOn": "30 days\nMOST POPULAR",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 412,
+     "vw": 412
+    }
+   }
+  },
+  {
+   "id": "fb-android-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 780 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067519254,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 620,
+      "bottom": 673,
+      "visible": true
+     },
+     "vh": 780,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $29.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "fb-android-cart",
+   "name": "cart.js: 4 scents $29.95 on Every 30 days + the 2-diffuser kit $179.90 -> $0.00, total $119.80",
+   "ok": true,
+   "got": {
+    "total": 119.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "fb-android-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95"
+    ],
+    "fbtrTotal": 13
+   }
+  },
+  {
+   "id": "fb-android-checkout",
+   "name": "checkout page from the drawer button: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSdwrKd1TjGqKQFMMOkq/en-us?_r=AQABqd9OE4uVoTOSAa4bKpiYG-dPsTcqV0aMPyZRkBHBcFmG",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80",
+     "$179.90",
+     "$299.70"
+    ],
+    "sub": [
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT "
+    ],
+    "textHead": "Skip to content Navigate to Online Store Order summary Total price $299.70 Discounted price $119.80 Order summary Your Cart Product image Description Quantity Price Quantity 1 Honey Nectar – Turning I"
+   }
+  },
+  {
+   "id": "fb-android-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSdwrKd1TjGqKQFMMOkq/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSdwrKd1TjGqKQFMMOkq/e",
+     "SubscribedButtonClick@/checkouts/cn/hWNIsSdwrKd1TjGqKQFMMOkq/e"
+    ]
+   }
+  },
+  {
+   "id": "fb-android-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "safari-ios-land",
+   "name": "iPhone Safari (control): the ad URL (+ for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept, in one request (no redirect)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11%2F06)&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fbadid"
+   }
+  },
+  {
+   "id": "safari-ios-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 506,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "safari-ios-layout",
+   "name": "no horizontal overflow at 390×844, sticky CTA on screen",
+   "ok": true,
+   "got": {
+    "vw": 390,
+    "vh": 844,
+    "scrollWidth": 390,
+    "sticky": {
+     "shown": true,
+     "top": 781,
+     "bottom": 844,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "safari-ios-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067549867.65531",
+    "_fbc": "fb.1.1794067549861.IwARV4HEcq2…"
+   }
+  },
+  {
+   "id": "safari-ios-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "safari-ios-flow",
+   "name": "2 diffusers + 4 scents -> step 3: Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$39.95 $29.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime. [ON]",
+      "One-Time Purchase $39.95/scent No auto-refills, full price."
+     ],
+     "freqOn": "30 days\nMOST POPULAR",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 390,
+     "vw": 390
+    }
+   }
+  },
+  {
+   "id": "safari-ios-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 844 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067558424,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 684,
+      "bottom": 737,
+      "visible": true
+     },
+     "vh": 844,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $29.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "safari-ios-cart",
+   "name": "cart.js: 4 scents $29.95 on Every 30 days + the 2-diffuser kit $179.90 -> $0.00, total $119.80",
+   "ok": true,
+   "got": {
+    "total": 119.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "safari-ios-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95"
+    ],
+    "fbtrTotal": 15
+   }
+  },
+  {
+   "id": "safari-ios-checkout",
+   "name": "checkout page from the drawer button: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSi3UwHOmt9sxfoTNzUu/en-us?_r=AQAB4k4YqmYimhmwIMEOOJFZnO-x3voIV6jDWwMMeCiq4FQu",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80",
+     "$179.90",
+     "$299.70"
+    ],
+    "sub": [
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT "
+    ],
+    "textHead": "Skip to content Navigate to Online Store Order summary Total price $299.70 Discounted price $119.80 Order summary Your Cart Product image Description Quantity Price Quantity 1 Honey Nectar – Turning I"
+   }
+  },
+  {
+   "id": "safari-ios-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSi3UwHOmt9sxfoTNzUu/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSi3UwHOmt9sxfoTNzUu/e",
+     "SubscribedButtonClick@/checkouts/cn/hWNIsSi3UwHOmt9sxfoTNzUu/e"
+    ]
+   }
+  },
+  {
+   "id": "safari-ios-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "desktop-land",
+   "name": "desktop Chrome (control): the ad URL (+ for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept, in one request (no redirect)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11%2F06)&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fbadid"
+   }
+  },
+  {
+   "id": "desktop-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 558,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "desktop-layout",
+   "name": "no horizontal overflow at 1366×900",
+   "ok": true,
+   "got": {
+    "vw": 1366,
+    "vh": 900,
+    "scrollWidth": 1366,
+    "sticky": {
+     "shown": true,
+     "top": 837,
+     "bottom": 900,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "desktop-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067589451.17492",
+    "_fbc": "fb.1.1794067589446.IwAROSbt1Bn…"
+   }
+  },
+  {
+   "id": "desktop-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "desktop-flow",
+   "name": "2 diffusers + 4 scents -> step 3: Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$39.95 $29.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime. [ON]",
+      "One-Time Purchase $39.95/scent No auto-refills, full price."
+     ],
+     "freqOn": "30 days\nMOST POPULAR",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 1366,
+     "vw": 1366
+    }
+   }
+  },
+  {
+   "id": "desktop-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 900 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067598557,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 714,
+      "bottom": 769,
+      "visible": true
+     },
+     "vh": 900,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $29.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "desktop-cart",
+   "name": "cart.js: 4 scents $29.95 on Every 30 days + the 2-diffuser kit $179.90 -> $0.00, total $119.80",
+   "ok": true,
+   "got": {
+    "total": 119.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "desktop-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95"
+    ],
+    "fbtrTotal": 15
+   }
+  },
+  {
+   "id": "desktop-checkout",
+   "name": "checkout page from the drawer button: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSm969QQjOwlLhJsEA4O/en-us?_r=AQABnyTPhudthsD-JIzpVyj3ru3ocSdk4BjE7kZVQRwwnF7B",
+    "totals": [
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80",
+     "$179.90"
+    ],
+    "sub": [
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT "
+    ],
+    "textHead": "Skip to content Navigate to Online Store Maison Croyez PROCEED TO CHECKOUT ➔ Express checkout By continuing with your payment, you agree to the future charges listed on this page and the cancellation "
+   }
+  },
+  {
+   "id": "desktop-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSm969QQjOwlLhJsEA4O/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSm969QQjOwlLhJsEA4O/e"
+    ]
+   }
+  },
+  {
+   "id": "desktop-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "fb-ios-onetime-land",
+   "name": "Facebook iOS in-app browser: the ad URL (+ for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept, in one request (no redirect)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+(11%2F06)&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fbadid"
+   }
+  },
+  {
+   "id": "fb-ios-onetime-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 507,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "fb-ios-onetime-layout",
+   "name": "no horizontal overflow at 390×664, sticky CTA on screen",
+   "ok": true,
+   "got": {
+    "vw": 390,
+    "vh": 664,
+    "scrollWidth": 390,
+    "sticky": {
+     "shown": true,
+     "top": 601,
+     "bottom": 664,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "fb-ios-onetime-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067629524.35483",
+    "_fbc": "fb.1.1794067629517.IwARYrDHXly…"
+   }
+  },
+  {
+   "id": "fb-ios-onetime-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-onetime-flow",
+   "name": "2 diffusers + 4 scents -> step 3: One-Time Purchase selected, DUE TODAY $159.80, no frequency buttons, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$159.80\n$39.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime.",
+      "One-Time Purchase $39.95/scent No auto-refills, full price. [ON]"
+     ],
+     "freqOn": null,
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 390,
+     "vw": 390
+    }
+   }
+  },
+  {
+   "id": "fb-ios-onetime-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 664 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067637993,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 504,
+      "bottom": 557,
+      "visible": true
+     },
+     "vh": 664,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $39.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "fb-ios-onetime-cart",
+   "name": "cart.js: 4 scents $39.95 one-time + the 2-diffuser kit $179.90 -> $0.00, total $159.80",
+   "ok": true,
+   "got": {
+    "total": 159.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 39.95,
+      "line": 39.95,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-onetime-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 39.95",
+     "AddToCart 39.95",
+     "AddToCart 39.95",
+     "AddToCart 39.95"
+    ],
+    "fbtrTotal": 14
+   }
+  },
+  {
+   "id": "fb-ios-onetime-checkout",
+   "name": "checkout page from the drawer button: $159.80 due, 4 scents at $39.95 one-time, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSqNrfUa0iyO7yoWYbPs/en-us?_r=AQABimkdZ0yH1Yfeulcc8fAyG0JMwf-I2tYvajvkHS_7sPZT",
+    "totals": [
+     "$339.70",
+     "$159.80",
+     "$39.95",
+     "$39.95",
+     "$39.95",
+     "$39.95",
+     "$179.90",
+     "$179.90",
+     "$159.80",
+     "$159.80",
+     "$179.90",
+     "$339.70"
+    ],
+    "sub": [],
+    "textHead": "Skip to content Navigate to Online Store Order summary Total price $339.70 Discounted price $159.80 Order summary Your Cart Product image Description Quantity Price Quantity 1 Honey Nectar – Turning I"
+   }
+  },
+  {
+   "id": "fb-ios-onetime-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSqNrfUa0iyO7yoWYbPs/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSqNrfUa0iyO7yoWYbPs/e",
+     "SubscribedButtonClick@/checkouts/cn/hWNIsSqNrfUa0iyO7yoWYbPs/e"
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-onetime-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "fb-ios-pct20-land",
+   "name": "Facebook iOS in-app browser: the ad URL (%20 for the spaces) lands on the kits page with fbclid + the UTM / fbadid / tw parameters kept (Shopify may answer a %20 query with one 302 to the + form: recorded)",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC%20%7C%20Winners%20%7C%2",
+      "status": 302,
+      "from": null
+     },
+     {
+      "u": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+%28",
+      "status": 200,
+      "from": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC%20%7C%20Winners%20%7C%2"
+     }
+    ],
+    "redirects": 1,
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO+%2811%2F06%29&utm_term=MC+%7C+Winners+%7C+Broad+18-65%2B+US&utm_content=PATRICIA+FILLING+%7C+Winners&fb"
+   }
+  },
+  {
+   "id": "fb-ios-pct20-render",
+   "name": "the kits app renders (3 option cards, PICK YOUR SCENTS, key dk13-525274f)",
+   "ok": true,
+   "got": {
+    "msToMount": 602,
+    "tiers": 3,
+    "btn": "PICK YOUR SCENTS ➔",
+    "key": "dk13-525274f"
+   }
+  },
+  {
+   "id": "fb-ios-pct20-layout",
+   "name": "no horizontal overflow at 390×664, sticky CTA on screen",
+   "ok": true,
+   "got": {
+    "vw": 390,
+    "vh": 664,
+    "scrollWidth": 390,
+    "sticky": {
+     "shown": true,
+     "top": 601,
+     "bottom": 664,
+     "text": "PICK YOUR SCENTS ➔"
+    }
+   }
+  },
+  {
+   "id": "fb-ios-pct20-pixel-pageview",
+   "name": "Meta pixel 980908600592309 loaded, PageView sent, _fbp set and _fbc built from the ad's fbclid",
+   "ok": true,
+   "got": {
+    "fbq": "function",
+    "pixels": [
+     "980908600592309"
+    ],
+    "hits": [
+     "PageView"
+    ],
+    "fbtr": 1,
+    "_fbp": "fb.1.1794067669826.18327",
+    "_fbc": "fb.1.1794067669820.IwARcrGdpj4…"
+   }
+  },
+  {
+   "id": "fb-ios-pct20-pixel-triplewhale",
+   "name": "Triple Whale pixel loaded (api.config-security.com) — the tw_adid attribution path (informational)",
+   "ok": true,
+   "got": {
+    "requests": [
+     "https://conf.config-security.com/model",
+     "https://api.config-security.com/first?host=patshion.myshopify.com&plat=SHOPIFY",
+     "https://api.config-security.com/event"
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-pct20-flow",
+   "name": "2 diffusers + 4 scents -> step 3: Auto-refill selected (SAVE 25%), 30 days, DUE TODAY $119.80, UNLOCK FREE DIFFUSERS, no overflow",
+   "ok": true,
+   "got": {
+    "s2": {
+     "step": "STEP 2 OF 3",
+     "on": 4,
+     "review": "REVIEW MY KIT ➔"
+    },
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$39.95 $29.95/scent",
+     "plan2": [
+      "SAVE 25% Auto-refill $39.95$29.95/scent Every 30, 60 or 90 days. Cancel anytime. [ON]",
+      "One-Time Purchase $39.95/scent No auto-refills, full price."
+     ],
+     "freqOn": "30 days\nMOST POPULAR",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "sw": 390,
+     "vw": 390
+    }
+   }
+  },
+  {
+   "id": "fb-ios-pct20-unlock",
+   "name": "UNLOCK -> /cart/add.js 200 -> cart drawer open on the page, its checkout button inside the 664 px viewport",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067678196,
+      "status": 200
+     }
+    ],
+    "url": "https://maisoncroyez.com/pages/diffuser-kits?utm_source=facebook&utm_medium=paid",
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 504,
+      "bottom": 557,
+      "visible": true
+     },
+     "vh": 664,
+     "text": "Congrats, your order is reserved! ✓ 5 Close ✓ FREE SHIPPING UNLOCKED · SHIPS IN 24H Honey Nectar – Turning Ideas into Reality (100ml) ×1 Sale price $29.95 ✕ Gol"
+    }
+   }
+  },
+  {
+   "id": "fb-ios-pct20-cart",
+   "name": "cart.js: 4 scents $29.95 on Every 30 days + the 2-diffuser kit $179.90 -> $0.00, total $119.80",
+   "ok": true,
+   "got": {
+    "total": 119.8,
+    "n": 5,
+    "lines": [
+     {
+      "v": 41212021342317,
+      "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-pct20-pixel-addtocart",
+   "name": "Meta AddToCart beacon(s) after UNLOCK (one per cart line)",
+   "ok": true,
+   "got": {
+    "afterClick": [
+     "SubscribedButtonClick",
+     "AddToCart 179.9",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95",
+     "AddToCart 29.95"
+    ],
+    "fbtrTotal": 13
+   }
+  },
+  {
+   "id": "fb-ios-pct20-checkout",
+   "name": "checkout page from the drawer button: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line \"Home Diffusers FREE Pack\" $179.90 struck, FREE (order summary expanded)",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSuZH6C2ldvfBws5ONr6/en-us?_r=AQABPWH376AVllyb-qs6XuS3kgHtE12_dvPpCmH64ZnU0ZiR",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80",
+     "$179.90",
+     "$299.70"
+    ],
+    "sub": [
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT ",
+     "Every 30 days Discount code 2 FREE DIFFUSERS — SCENT "
+    ],
+    "textHead": "Skip to content Navigate to Online Store Order summary Total price $299.70 Discounted price $119.80 Order summary Your Cart Product image Description Quantity Price Quantity 1 Honey Nectar – Turning I"
+   }
+  },
+  {
+   "id": "fb-ios-pct20-pixel-checkout",
+   "name": "Meta InitiateCheckout (and PageView) on the checkout page",
+   "ok": true,
+   "got": {
+    "sinceClick": [
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "AddToCart@/pages/diffuser-kits",
+     "SubscribedButtonClick@/pages/diffuser-kits",
+     "PageView@/checkouts/cn/hWNIsSuZH6C2ldvfBws5ONr6/e",
+     "InitiateCheckout@/checkouts/cn/hWNIsSuZH6C2ldvfBws5ONr6/e",
+     "SubscribedButtonClick@/checkouts/cn/hWNIsSuZH6C2ldvfBws5ONr6/e"
+    ]
+   }
+  },
+  {
+   "id": "fb-ios-pct20-errors",
+   "name": "no JavaScript errors on the kits page up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "adv-fb-ios-land",
+   "name": "Facebook iOS in-app browser: the advertorial ad URL lands in one request, keeps the parameters, renders (key cs17), no overflow, PageView + _fbc from the fbclid",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/indoor-air-alerts?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "msToMount": 683,
+    "s": {
+     "key": "cs17-f208dca",
+     "h1": "The Candle In The Kitchen, The Spray In The Living Room, The Plug-In In The Bedroom: Here’s What They Actually Leave In The Air Your Kids And Pets Breathe.",
+     "fixrows": 5,
+     "vw": 390,
+     "vh": 664,
+     "sw": 390,
+     "fbq": "function"
+    },
+    "hits": [
+     "PageView"
+    ],
+    "_fbc": "fb.1.1794067704721.IwAR8lafmxW…"
+   }
+  },
+  {
+   "id": "adv-fb-ios-flow",
+   "name": "fix row -> in-page builder -> 2 diffusers + 4 scents -> step 3 DUE TODAY $119.80, UNLOCK FREE DIFFUSERS",
+   "ok": true,
+   "got": {
+    "msToBuilder": 1550,
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$29.95/scent",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "hash": ""
+    }
+   }
+  },
+  {
+   "id": "adv-fb-ios-cart",
+   "name": "UNLOCK -> drawer on the article (checkout button in the viewport), cart.js $119.80: 4 scents $29.95 on Every 30 days + the kit $0.00, AddToCart beacon(s)",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067724381,
+      "status": 200
+     }
+    ],
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 504,
+      "bottom": 557,
+      "visible": true
+     },
+     "vh": 664
+    },
+    "total": 119.8,
+    "lines": [
+     {
+      "v": 41212020752493,
+      "t": "Euphoric Bloom – Energy Raise (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ],
+    "atc": 5
+   }
+  },
+  {
+   "id": "adv-fb-ios-checkout",
+   "name": "checkout page: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line FREE (summary expanded), InitiateCheckout",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsSzPlxaS6UxGWovL5JsW/en-us?_r=AQABZsteMunHoAv3PzkF0CIJKVGawwz294PgJP0PHdZSSdV1",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80"
+    ],
+    "sinceClick": [
+     "SubscribedButtonClick",
+     "AddToCart",
+     "AddToCart",
+     "AddToCart",
+     "AddToCart",
+     "AddToCart",
+     "SubscribedButtonClick",
+     "PageView",
+     "InitiateCheckout",
+     "SubscribedButtonClick"
+    ]
+   }
+  },
+  {
+   "id": "adv-fb-ios-errors",
+   "name": "no JavaScript errors on the article up to UNLOCK",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "adv-fb-android-land",
+   "name": "Facebook Android in-app WebView: the advertorial ad URL lands in one request, keeps the parameters, renders (key cs17), no overflow, PageView + _fbc from the fbclid",
+   "ok": true,
+   "got": {
+    "docs": [
+     {
+      "u": "https://maisoncroyez.com/pages/indoor-air-alerts?utm_source=facebook&utm_medium=paid&utm_campaign=MC+%7C+Winners+%7C+CBO",
+      "status": 200,
+      "from": null
+     }
+    ],
+    "redirects": 0,
+    "msToMount": 866,
+    "s": {
+     "key": "cs17-f208dca",
+     "h1": "The Candle In The Kitchen, The Spray In The Living Room, The Plug-In In The Bedroom: Here’s What They Actually Leave In The Air Your Kids And Pets Breathe.",
+     "fixrows": 5,
+     "vw": 412,
+     "vh": 780,
+     "sw": 412,
+     "fbq": "function"
+    },
+    "hits": [
+     "PageView"
+    ],
+    "_fbc": "fb.1.1794067751658.IwARGXESpxS…"
+   }
+  },
+  {
+   "id": "adv-fb-android-flow",
+   "name": "fix row -> in-page builder -> 2 diffusers + 4 scents -> step 3 DUE TODAY $119.80, UNLOCK FREE DIFFUSERS",
+   "ok": true,
+   "got": {
+    "msToBuilder": 1557,
+    "s3": {
+     "step": "STEP 3 OF 3",
+     "due": "DUE TODAY:\n$119.80\n$29.95/scent",
+     "btn": "UNLOCK FREE DIFFUSERS ➔",
+     "hash": ""
+    }
+   }
+  },
+  {
+   "id": "adv-fb-android-cart",
+   "name": "UNLOCK -> drawer on the article (checkout button in the viewport), cart.js $119.80: 4 scents $29.95 on Every 30 days + the kit $0.00, AddToCart beacon(s)",
+   "ok": true,
+   "got": {
+    "addjs": [
+     {
+      "t": 1794067770644,
+      "status": 200
+     }
+    ],
+    "drawer": {
+     "open": true,
+     "checkoutBtn": {
+      "top": 620,
+      "bottom": 673,
+      "visible": true
+     },
+     "vh": 780
+    },
+    "total": 119.8,
+    "lines": [
+     {
+      "v": 41212020752493,
+      "t": "Euphoric Bloom – Energy Raise (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212020457581,
+      "t": "Golden Blossom Harmony – Love (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021669997,
+      "t": "Wildwood Mystique – Purification (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 41212021506157,
+      "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+      "q": 1,
+      "price": 29.95,
+      "line": 29.95,
+      "plan": "Every 30 days",
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -0"
+      ]
+     },
+     {
+      "v": 45900240289901,
+      "t": "Home Diffusers FREE Pack 🎁 / 2 Diffusers",
+      "q": 1,
+      "price": 179.9,
+      "line": 0,
+      "plan": null,
+      "disc": [
+       "2 FREE DIFFUSERS — SCENT SUBSCRIPTION -179.9"
+      ]
+     }
+    ],
+    "atc": 5
+   }
+  },
+  {
+   "id": "adv-fb-android-checkout",
+   "name": "checkout page: $119.80 due, 4 scents at $29.95 on Every 30 days, the kit line FREE (summary expanded), InitiateCheckout",
+   "ok": true,
+   "got": {
+    "clicked": true,
+    "expanded": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIsT4GmcJ5tQGoNZAhlqvo/en-us?_r=AQABQrX63esXXPgff7RV51CPyehi48DG0zgGB6CW6ZfVce0q",
+    "totals": [
+     "$299.70",
+     "$119.80",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$29.95",
+     "$179.90",
+     "$179.90",
+     "$119.80",
+     "$119.80"
+    ],
+    "sinceClick": [
+     "SubscribedButtonClick",
+     "AddToCart",
+     "AddToCart",
+     "AddToCart",
+     "AddToCart",
+     "AddToCart",
+     "SubscribedButtonClick",
+     "PageView",
+     "InitiateCheckout",
+     "SubscribedButtonClick"
+    ]
+   }
+  },
+  {
+   "id": "adv-fb-android-errors",
+   "name": "no JavaScript errors on the article up to UNLOCK",
+   "ok": true,
+   "got": []
+  }
+ ]
+}

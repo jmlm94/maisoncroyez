@@ -116,7 +116,8 @@ fbclid; the run opens that URL rendered for "MC | Winners | CBO (11/06)" / "MC |
 Winners" in the Facebook iOS in-app browser (390x664), the Instagram iOS in-app browser, the Facebook Android in-app WebView
 (412x780), iPhone Safari and desktop Chrome, walks 2 diffusers + 4 scents -> step 3 -> UNLOCK -> drawer -> cart.js -> the checkout
 page, records every Meta beacon, and repeats One-Time Purchase (Facebook iOS) and the advertorial path (both Facebook browsers).
-Run 3 (qa-ad/20261107T1553, 87/94; the 7 left were a harness regex on the checkout's kit title, fixed for run 4): on all
+Run 3 (qa-ad/20261107T1553, 87/94; the 7 left were a harness regex on the checkout's kit title) and run 4 (qa-ad/20261107T1603,
+94/94): on all
 browsers the ad URL lands in one request with the parameters kept, the app renders (key dk13-525274f), no horizontal overflow, the
 sticky CTA on screen, Meta PageView + _fbp + _fbc built from the fbclid, the Triple Whale pixel (api.config-security.com), step 3
 $119.80 with Auto-refill selected, UNLOCK -> /cart/add.js 200 -> drawer open with its checkout button inside the small viewport ->

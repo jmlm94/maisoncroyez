@@ -8,3 +8,7 @@ Files: mc-dk2-app.js + mc-dk2.css (the k2 build of the kits-2 app), page-body.ht
 SAVE UP TO $80"), qa-kits-2-k2.yml (the QA workflow for this flow: two real checkouts; copy it over .github/workflows/qa-kits-2.yml
 when the build is live). The Shopify ids in K2 (product 15430881673325, variants, codes 2SCENTS / 3SCENTS) were deleted on
 2026-11-08 — nothing is created on Shopify until the owner says so. Details and the rollback in ../README.md.
+
+Last QA of this build while it was live (2026-11-08 17:29 UTC, ../qa/20261108T1729): 30/30 — phone + desktop render, the
+three tiers, the quantity strip, the smell labels, both real checkouts (one-time 2 diffusers + 3 scents $204.80 with 3SCENTS;
+Subscribe 1 diffuser + 2 scents $129.85 with 2SCENTS + the 04/10 plan's $10).

@@ -34,6 +34,10 @@ node lp-factory/pages/diffuser-kits/variants/dk9s-step1-scents/build-variant.mjs
 inlined). Rule from here: nothing is created or deployed on Shopify for this offer until the owner says so; on his go-ahead the
 product, the two codes and (from him, in Subi) the 0%-today / 25%-off-renewals plan group are created again and the ids in K2 updated.
 The rest of this section describes the build as it was deployed that afternoon (ids now deleted).
+Rollback verified 18:13 UTC on the live copy: qa-kits-2 run 3 (qa/20261108T1813) 52/57 with the same five known non-passes as
+run 2 (two fold checks, the desktop fold, the shop.app CSP console line on phone and desktop); both drawer carts $119.80 (4 x $29.95
+on Every 30 / 90 days + the kit at $0.00); page-shot-2 run 3 body match (ignoring newlines) on key dk2a-bd9ca46, sticky
+"PICK YOUR SCENTS". The k2 build's own last QA while it was live (k2 run 3, qa/20261108T1729) was 30/30.
 Owner: "1. Everything in one page, diffusers then scents then final checkout. 2. Offer changes: 1 Diffuser $89.95 / 2 Diffusers
 $129.95 / 3 Diffusers $189.95, then 1 Scent $39.95 each / 2 Scents $29.95 each / 3 Scents $24.95 each, then Subscribe and get 25%
 OFF on next refill / One time payment. For the scents: above the boldness, the main smell of each … SWEET & CITRIC, VANILLA …

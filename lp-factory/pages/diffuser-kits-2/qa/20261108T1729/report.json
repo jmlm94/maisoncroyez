@@ -1,0 +1,644 @@
+{
+ "stamp": "20261108T1729",
+ "url": "https://maisoncroyez.com/pages/diffuser-kits-2",
+ "pass": 30,
+ "total": 30,
+ "checks": [
+  {
+   "id": "phone-mount",
+   "name": "the k2 page renders: key dk2b-*, \"BUILD YOUR KIT & SAVE UP TO $80\", the title, Steps 1–3 all on one page, no horizontal overflow",
+   "ok": true,
+   "got": {
+    "key": "dk2b-3deef01",
+    "pill": "BUILD YOUR KIT & SAVE UP TO $80",
+    "eyebrows": [
+     "STEP 1 OF 3",
+     "STEP 2 OF 3",
+     "STEP 3 OF 3"
+    ],
+    "sw": 390,
+    "vw": 390
+   }
+  },
+  {
+   "id": "phone-ann",
+   "name": "the store's \"100% ON US\" announcement bar is hidden on this page",
+   "ok": true,
+   "got": {
+    "ann": "hidden"
+   }
+  },
+  {
+   "id": "phone-tiers",
+   "name": "Step 1: 1 Diffuser $89.95 · 2 Diffusers $129.95 (Most popular, selected, ~~$179.90~~ Save $49.95) · 3 Diffusers $189.95 (Best value, ~~$269.85~~ Save $79.90)",
+   "ok": true,
+   "got": {
+    "tiers": [
+     "1 Diffuser $89.95 $89.95 each 1 room · up to 600 sq ft",
+     "MOST POPULAR 2 Diffusers $129.95 $179.90 Save $49.95 2 rooms · up to 1,200 sq ft [ON]",
+     "BEST VALUE 3 Diffusers $189.95 $269.85 Save $79.90 Whole home · up to 1,800 sq ft"
+    ]
+   }
+  },
+  {
+   "id": "phone-scents-head",
+   "name": "Step 2: quantity strip 1 scent $39.95 (on) · 2 scents $29.95 each · 3+ scents $24.95 each, \"0 picked\", \"Each scent lasts 15+ days.\", the three badges, IFRA",
+   "ok": true,
+   "got": {
+    "strip": [
+     "1 scent $39.95 [ON]",
+     "2 scents $29.95 each",
+     "3+ scents $24.95 each"
+    ],
+    "pickPill": "0 PICKED",
+    "life": "Each scent lasts 15+ days.",
+    "badges": [
+     "ORGANIC INGREDIENTS",
+     "PARABEN-FREE",
+     "CRUELTY-FREE"
+    ],
+    "ifra": "All IFRA 51 compliant."
+   }
+  },
+  {
+   "id": "phone-tiles",
+   "name": "the seven tiles each carry the smell label above the strength (HONEY FLORAL, FRESH CITRUS, LAVENDER, MILK & HONEY, PEACH & TEA, PINE FOREST, FLORAL MUSK)",
+   "ok": true,
+   "got": {
+    "tiles": [
+     {
+      "name": "Golden Blossom Harmony",
+      "smell": "HONEY FLORAL",
+      "str": "MEDIUM",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Crisp Citrus Scape",
+      "smell": "FRESH CITRUS",
+      "str": "SOFT",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Chilled Citrus",
+      "smell": "LAVENDER",
+      "str": "SOFT",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Honey Nectar",
+      "smell": "MILK & HONEY",
+      "str": "MEDIUM",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Euphoric Bloom",
+      "smell": "PEACH & TEA",
+      "str": "MEDIUM",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Wildwood Mystique",
+      "smell": "PINE FOREST",
+      "str": "BOLD",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Midnight Sensation",
+      "smell": "FLORAL MUSK",
+      "str": "BOLD",
+      "q": "0",
+      "on": false
+     }
+    ],
+    "above": true
+   }
+  },
+  {
+   "id": "phone-refills-0",
+   "name": "Step 3: Subscribe (25% off refills, selected, \"$39.95/scent today, $29.96 on every refill\") · One-time payment ($39.95/scent); 60 / 30 (Most popular, selected) / 90",
+   "ok": true,
+   "got": {
+    "plan2": [
+     "25% OFF REFILLS Subscribe 25% OFF every refill $39.95/scent today, $29.96 on every refill. Every 30, 60 or 90 days. Cancel anytime. [ON]",
+     "One-time payment $39.95 /scent Pay once. No refills."
+    ],
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR"
+   }
+  },
+  {
+   "id": "phone-summary-0",
+   "name": "summary with no scent: the 2-diffuser line ~~$179.90~~ $129.95, \"No scents yet\", Due today $129.95, the button disabled (\"PICK A SCENT TO CONTINUE\")",
+   "ok": true,
+   "got": {
+    "rows": [
+     "2× Maison Croyez Diffuser $179.90 $129.95",
+     "No scents yet —"
+    ],
+    "due": "DUE TODAY: $129.95 2 diffusers $129.95",
+    "btn": "PICK A SCENT TO CONTINUE",
+    "disabled": true
+   }
+  },
+  {
+   "id": "phone-three",
+   "name": "3 scents picked → strip \"3+ scents $24.95 each\" on, \"3 picked · $24.95 each\", rows ~~$39.95~~ $24.95, value $299.75, Due today $204.80 (2 diffusers $129.95 + 3 scents × $24.95), \"CHECKOUT · $204.80\", the Subscribe sentence ($18.71 each, $56.13 per refill)",
+   "ok": true,
+   "got": {
+    "strip": [
+     "1 scent $39.95",
+     "2 scents $29.95 each",
+     "3+ scents $24.95 each [ON]"
+    ],
+    "pickPill": "3 PICKED · $24.95 EACH",
+    "rows": [
+     "2× Maison Croyez Diffuser $179.90 $129.95",
+     "1× Chilled Citrus $39.95 $24.95",
+     "1× Wildwood Mystique $39.95 $24.95",
+     "1× Golden Blossom Harmony $39.95 $24.95"
+    ],
+    "value": "That’s $299.75 of value, you pay $204.80 today.",
+    "due": "DUE TODAY: $204.80 2 diffusers $129.95 + 3 scents × $24.95",
+    "btn": "CHECKOUT · $204.80 ➔",
+    "expl": "Subscribe: $204.80 today. Then your scents renew every 30 days at $18.71 each (25% off), $56.13 per refill. Swap, pause or cancel anytime."
+   }
+  },
+  {
+   "id": "phone-testnote",
+   "name": "the test note about the pending Subi plan shows while K2.plans is empty (informational)",
+   "ok": true,
+   "got": {
+    "note": "Test page: the new refill plan is not in Subi yet, so the checkout still shows the current plan’s $10 off per scent today."
+   }
+  },
+  {
+   "id": "phone-onetime",
+   "name": "One-time payment → no frequency buttons, the one-time sentence, no test note, Due today unchanged $204.80",
+   "ok": true,
+   "got": {
+    "plan2": [
+     "25% OFF REFILLS Subscribe 25% OFF every refill $24.95/scent today, $18.71 on every refill. Every 30, 60 or 90 days. Cancel anytime.",
+     "One-time payment $24.95 /scent Pay once. No refills. [ON]"
+    ],
+    "freqs": [],
+    "expl": "One-time payment: $204.80 today, nothing after. Free shipping, 30-day money-back guarantee, lifetime warranty on the diffusers.",
+    "note": null,
+    "due": "DUE TODAY: $204.80 2 diffusers $129.95 + 3 scents × $24.95"
+   }
+  },
+  {
+   "id": "phone-three-diff",
+   "name": "3 Diffusers selected → Due today $264.80 (3 diffusers $189.95 + 3 scents × $24.95), value $389.70, the picks kept",
+   "ok": true,
+   "got": {
+    "tiers": [
+     "1 Diffuser $89.95 $89.95 each 1 room · u",
+     "MOST POPULAR 2 Diffusers $129.95 $179.90",
+     "BEST VALUE 3 Diffusers $189.95 $269.85 S"
+    ],
+    "due": "DUE TODAY: $264.80 3 diffusers $189.95 + 3 scents × $24.95",
+    "value": "That’s $389.70 of value, you pay $264.80 today.",
+    "pickPill": "3 PICKED · $24.95 EACH"
+   }
+  },
+  {
+   "id": "phone-two",
+   "name": "− on Chilled Citrus → 2 scents: strip \"2 scents $29.95 each\" on, rows ~~$39.95~~ $29.95, Due today $249.85 (3 diffusers $189.95 + 2 scents × $29.95)",
+   "ok": true,
+   "got": {
+    "strip": [
+     "1 scent $39.95",
+     "2 scents $29.95 each [ON]",
+     "3+ scents $24.95 each"
+    ],
+    "rows": [
+     "3× Maison Croyez Diffuser $269.85 $189.95",
+     "1× Wildwood Mystique $39.95 $29.95",
+     "1× Golden Blossom Harmony $39.95 $29.95"
+    ],
+    "due": "DUE TODAY: $249.85 3 diffusers $189.95 + 2 scents × $29.95"
+   }
+  },
+  {
+   "id": "phone-sticky",
+   "name": "back at the top the sticky bar shows \"CHECKOUT · $249.85 ➔\"",
+   "ok": true,
+   "got": {
+    "sticky": "CHECKOUT · $249.85 ➔",
+    "shown": true
+   }
+  },
+  {
+   "id": "phone-errors",
+   "name": "no JavaScript errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "desktop-mount",
+   "name": "the k2 page renders: key dk2b-*, \"BUILD YOUR KIT & SAVE UP TO $80\", the title, Steps 1–3 all on one page, no horizontal overflow",
+   "ok": true,
+   "got": {
+    "key": "dk2b-3deef01",
+    "pill": "BUILD YOUR KIT & SAVE UP TO $80",
+    "eyebrows": [
+     "STEP 1 OF 3",
+     "STEP 2 OF 3",
+     "STEP 3 OF 3"
+    ],
+    "sw": 1366,
+    "vw": 1366
+   }
+  },
+  {
+   "id": "desktop-ann",
+   "name": "the store's \"100% ON US\" announcement bar is hidden on this page",
+   "ok": true,
+   "got": {
+    "ann": "hidden"
+   }
+  },
+  {
+   "id": "desktop-tiers",
+   "name": "Step 1: 1 Diffuser $89.95 · 2 Diffusers $129.95 (Most popular, selected, ~~$179.90~~ Save $49.95) · 3 Diffusers $189.95 (Best value, ~~$269.85~~ Save $79.90)",
+   "ok": true,
+   "got": {
+    "tiers": [
+     "1 Diffuser $89.95 $89.95 each 1 room · up to 600 sq ft",
+     "MOST POPULAR 2 Diffusers $129.95 $179.90 Save $49.95 2 rooms · up to 1,200 sq ft [ON]",
+     "BEST VALUE 3 Diffusers $189.95 $269.85 Save $79.90 Whole home · up to 1,800 sq ft"
+    ]
+   }
+  },
+  {
+   "id": "desktop-scents-head",
+   "name": "Step 2: quantity strip 1 scent $39.95 (on) · 2 scents $29.95 each · 3+ scents $24.95 each, \"0 picked\", \"Each scent lasts 15+ days.\", the three badges, IFRA",
+   "ok": true,
+   "got": {
+    "strip": [
+     "1 scent $39.95 [ON]",
+     "2 scents $29.95 each",
+     "3+ scents $24.95 each"
+    ],
+    "pickPill": "0 PICKED",
+    "life": "Each scent lasts 15+ days.",
+    "badges": [
+     "ORGANIC INGREDIENTS",
+     "PARABEN-FREE",
+     "CRUELTY-FREE"
+    ],
+    "ifra": "All IFRA 51 compliant."
+   }
+  },
+  {
+   "id": "desktop-tiles",
+   "name": "the seven tiles each carry the smell label above the strength (HONEY FLORAL, FRESH CITRUS, LAVENDER, MILK & HONEY, PEACH & TEA, PINE FOREST, FLORAL MUSK)",
+   "ok": true,
+   "got": {
+    "tiles": [
+     {
+      "name": "Golden Blossom Harmony",
+      "smell": "HONEY FLORAL",
+      "str": "MEDIUM",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Crisp Citrus Scape",
+      "smell": "FRESH CITRUS",
+      "str": "SOFT",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Chilled Citrus",
+      "smell": "LAVENDER",
+      "str": "SOFT",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Honey Nectar",
+      "smell": "MILK & HONEY",
+      "str": "MEDIUM",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Euphoric Bloom",
+      "smell": "PEACH & TEA",
+      "str": "MEDIUM",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Wildwood Mystique",
+      "smell": "PINE FOREST",
+      "str": "BOLD",
+      "q": "0",
+      "on": false
+     },
+     {
+      "name": "Midnight Sensation",
+      "smell": "FLORAL MUSK",
+      "str": "BOLD",
+      "q": "0",
+      "on": false
+     }
+    ],
+    "above": true
+   }
+  },
+  {
+   "id": "desktop-refills-0",
+   "name": "Step 3: Subscribe (25% off refills, selected, \"$39.95/scent today, $29.96 on every refill\") · One-time payment ($39.95/scent); 60 / 30 (Most popular, selected) / 90",
+   "ok": true,
+   "got": {
+    "plan2": [
+     "25% OFF REFILLS Subscribe 25% OFF every refill $39.95/scent today, $29.96 on every refill. Every 30, 60 or 90 days. Cancel anytime. [ON]",
+     "One-time payment $39.95 /scent Pay once. No refills."
+    ],
+    "freqs": [
+     "60 days",
+     "30 days MOST POPULAR",
+     "90 days"
+    ],
+    "on": "30 days MOST POPULAR"
+   }
+  },
+  {
+   "id": "desktop-summary-0",
+   "name": "summary with no scent: the 2-diffuser line ~~$179.90~~ $129.95, \"No scents yet\", Due today $129.95, the button disabled (\"PICK A SCENT TO CONTINUE\")",
+   "ok": true,
+   "got": {
+    "rows": [
+     "2× Maison Croyez Diffuser $179.90 $129.95",
+     "No scents yet —"
+    ],
+    "due": "DUE TODAY: $129.95 2 diffusers $129.95",
+    "btn": "PICK A SCENT TO CONTINUE",
+    "disabled": true
+   }
+  },
+  {
+   "id": "desktop-three",
+   "name": "3 scents picked → strip \"3+ scents $24.95 each\" on, \"3 picked · $24.95 each\", rows ~~$39.95~~ $24.95, value $299.75, Due today $204.80 (2 diffusers $129.95 + 3 scents × $24.95), \"CHECKOUT · $204.80\", the Subscribe sentence ($18.71 each, $56.13 per refill)",
+   "ok": true,
+   "got": {
+    "strip": [
+     "1 scent $39.95",
+     "2 scents $29.95 each",
+     "3+ scents $24.95 each [ON]"
+    ],
+    "pickPill": "3 PICKED · $24.95 EACH",
+    "rows": [
+     "2× Maison Croyez Diffuser $179.90 $129.95",
+     "1× Chilled Citrus $39.95 $24.95",
+     "1× Wildwood Mystique $39.95 $24.95",
+     "1× Golden Blossom Harmony $39.95 $24.95"
+    ],
+    "value": "That’s $299.75 of value, you pay $204.80 today.",
+    "due": "DUE TODAY: $204.80 2 diffusers $129.95 + 3 scents × $24.95",
+    "btn": "CHECKOUT · $204.80 ➔",
+    "expl": "Subscribe: $204.80 today. Then your scents renew every 30 days at $18.71 each (25% off), $56.13 per refill. Swap, pause or cancel anytime."
+   }
+  },
+  {
+   "id": "desktop-testnote",
+   "name": "the test note about the pending Subi plan shows while K2.plans is empty (informational)",
+   "ok": true,
+   "got": {
+    "note": "Test page: the new refill plan is not in Subi yet, so the checkout still shows the current plan’s $10 off per scent today."
+   }
+  },
+  {
+   "id": "desktop-onetime",
+   "name": "One-time payment → no frequency buttons, the one-time sentence, no test note, Due today unchanged $204.80",
+   "ok": true,
+   "got": {
+    "plan2": [
+     "25% OFF REFILLS Subscribe 25% OFF every refill $24.95/scent today, $18.71 on every refill. Every 30, 60 or 90 days. Cancel anytime.",
+     "One-time payment $24.95 /scent Pay once. No refills. [ON]"
+    ],
+    "freqs": [],
+    "expl": "One-time payment: $204.80 today, nothing after. Free shipping, 30-day money-back guarantee, lifetime warranty on the diffusers.",
+    "note": null,
+    "due": "DUE TODAY: $204.80 2 diffusers $129.95 + 3 scents × $24.95"
+   }
+  },
+  {
+   "id": "desktop-three-diff",
+   "name": "3 Diffusers selected → Due today $264.80 (3 diffusers $189.95 + 3 scents × $24.95), value $389.70, the picks kept",
+   "ok": true,
+   "got": {
+    "tiers": [
+     "1 Diffuser $89.95 $89.95 each 1 room · u",
+     "MOST POPULAR 2 Diffusers $129.95 $179.90",
+     "BEST VALUE 3 Diffusers $189.95 $269.85 S"
+    ],
+    "due": "DUE TODAY: $264.80 3 diffusers $189.95 + 3 scents × $24.95",
+    "value": "That’s $389.70 of value, you pay $264.80 today.",
+    "pickPill": "3 PICKED · $24.95 EACH"
+   }
+  },
+  {
+   "id": "desktop-two",
+   "name": "− on Chilled Citrus → 2 scents: strip \"2 scents $29.95 each\" on, rows ~~$39.95~~ $29.95, Due today $249.85 (3 diffusers $189.95 + 2 scents × $29.95)",
+   "ok": true,
+   "got": {
+    "strip": [
+     "1 scent $39.95",
+     "2 scents $29.95 each [ON]",
+     "3+ scents $24.95 each"
+    ],
+    "rows": [
+     "3× Maison Croyez Diffuser $269.85 $189.95",
+     "1× Wildwood Mystique $39.95 $29.95",
+     "1× Golden Blossom Harmony $39.95 $29.95"
+    ],
+    "due": "DUE TODAY: $249.85 3 diffusers $189.95 + 2 scents × $29.95"
+   }
+  },
+  {
+   "id": "desktop-sticky",
+   "name": "back at the top the sticky bar shows \"CHECKOUT · $249.85 ➔\"",
+   "ok": true,
+   "got": {
+    "sticky": "CHECKOUT · $249.85 ➔",
+    "shown": true
+   }
+  },
+  {
+   "id": "desktop-errors",
+   "name": "no JavaScript errors",
+   "ok": true,
+   "got": []
+  },
+  {
+   "id": "flow-one-2d-3s",
+   "name": "one-time checkout: 2 diffusers $129.95 + 3 scents (code 3SCENTS: $39.95 → $24.95 each) = $204.80, no subscription",
+   "ok": true,
+   "got": {
+    "btn": "CHECKOUT · $204.80 ➔",
+    "due": "DUE TODAY: $204.80 2 diffusers $129.95 + 3 scents × $24.95",
+    "addjs": [
+     200
+    ],
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIux8iEcKyDw1QJeE4uoGP/en-us?_r=AQABeQ58OmshXRoT8BmJV3Zjovgh0g_ezQy7bGV6GaHJpxC5",
+    "cart": {
+     "total": 204.8,
+     "lines": [
+      {
+       "v": 41212020457581,
+       "t": "Golden Blossom Harmony – Love (100ml)",
+       "q": 1,
+       "price": 39.95,
+       "line": 24.95,
+       "plan": null,
+       "disc": [
+        "3SCENTS -15"
+       ]
+      },
+      {
+       "v": 41212021669997,
+       "t": "Wildwood Mystique – Purification (100ml)",
+       "q": 1,
+       "price": 39.95,
+       "line": 24.95,
+       "plan": null,
+       "disc": [
+        "3SCENTS -15"
+       ]
+      },
+      {
+       "v": 41212021506157,
+       "t": "Chilled Citrus – Relaxation & Concentration (100ml)",
+       "q": 1,
+       "price": 39.95,
+       "line": 24.95,
+       "plan": null,
+       "disc": [
+        "3SCENTS -15"
+       ]
+      },
+      {
+       "v": 67973611323501,
+       "t": "Maison Croyez Home Diffuser / 2 Diffusers",
+       "q": 1,
+       "price": 129.95,
+       "line": 129.95,
+       "plan": null,
+       "disc": []
+      }
+     ]
+    },
+    "totals": [
+     "$249.80",
+     "$204.80",
+     "$15.00",
+     "$39.95",
+     "$24.95",
+     "$15.00",
+     "$39.95",
+     "$24.95",
+     "$15.00",
+     "$39.95",
+     "$24.95",
+     "$129.95",
+     "$204.80",
+     "$204.80"
+    ],
+    "code": [
+     "3SCENTS",
+     "3SCENTS"
+    ],
+    "sub": [],
+    "errs": []
+   }
+  },
+  {
+   "id": "flow-sub-1d-2s",
+   "name": "subscribe checkout: 1 diffuser $89.95 + 2 scents every 30 days (code 2SCENTS $10 + the 04/10 plan's $10 = $19.95 each) = $129.85, \"Every 30 days\" on the scents",
+   "ok": true,
+   "got": {
+    "btn": "CHECKOUT · $149.85 ➔",
+    "due": "DUE TODAY: $149.85 1 diffuser $89.95 + 2 scents × $29.95",
+    "addjs": [
+     200
+    ],
+    "url": "https://maisoncroyez.com/checkouts/cn/hWNIuxAiDWebMMgutltpgIUr/en-us?_r=AQABldXa-DTuWKFTPA5HxshOpl8RB6quYbx_m5xN4U02LaDI",
+    "cart": {
+     "total": 129.85,
+     "lines": [
+      {
+       "v": 41212020752493,
+       "t": "Euphoric Bloom – Energy Raise (100ml)",
+       "q": 1,
+       "price": 29.95,
+       "line": 19.95,
+       "plan": "Every 30 days",
+       "disc": [
+        "2SCENTS -10"
+       ]
+      },
+      {
+       "v": 41212021342317,
+       "t": "Honey Nectar – Turning Ideas into Reality (100ml)",
+       "q": 1,
+       "price": 29.95,
+       "line": 19.95,
+       "plan": "Every 30 days",
+       "disc": [
+        "2SCENTS -10"
+       ]
+      },
+      {
+       "v": 67973611290733,
+       "t": "Maison Croyez Home Diffuser / 1 Diffuser",
+       "q": 1,
+       "price": 89.95,
+       "line": 89.95,
+       "plan": null,
+       "disc": []
+      }
+     ]
+    },
+    "totals": [
+     "$149.85",
+     "$129.85",
+     "$10.00",
+     "$29.95",
+     "$19.95",
+     "$10.00",
+     "$29.95",
+     "$19.95",
+     "$89.95",
+     "$129.85",
+     "$129.85",
+     "$20.00",
+     "$149.85",
+     "$129.85"
+    ],
+    "code": [
+     "2SCENTS",
+     "2SCENTS"
+    ],
+    "sub": [
+     "Every 30 days",
+     "Every 30 days"
+    ],
+    "errs": []
+   }
+  }
+ ]
+}

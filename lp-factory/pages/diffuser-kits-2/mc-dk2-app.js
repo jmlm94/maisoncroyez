@@ -117,8 +117,8 @@ const CONFIG = {
     trustStrip: [
     ],
     accordions: [ /* dk9c (2026-10-20): the four subscription questions from /pages/build-your-kit first (owner to confirm the policies) */
-      { q: "When am I charged?", a: "Today you pay for your diffusers and your scents. If you chose Subscribe, your scents renew at the frequency you picked (every 30, 60 or 90 days) at 25% off, as each new box ships. You get an email reminder before every renewal." },
-      { q: "What exactly do I get?", a: "Your diffusers (1, 2 or 3: waterless, leakproof, lifetime warranty) and the scents you picked, 100ml bottles that each last 15+ days. Subscribe and every refill is 25% off; pay once and nothing renews. Cancel in the first 30 days and we refund every dollar and send a prepaid return label." },
+      { q: "When am I charged?", a: "Today you pay only for your scents. Then your scents renew at the frequency you picked (every 30, 60 or 90 days) as each new box ships. You get an email reminder before every renewal." },
+      { q: "Are the diffusers really free?", a: "Yes. Today you pay only for your scents, the diffusers ship free with your first box, and on your third delivery they\u2019re permanently yours. Cancel in the first 30 days and we refund every dollar and send a prepaid return label for the diffusers." },
       { q: "Can I swap scents?", a: "Yes, swap any of your intentions before any delivery, right from your delivery email. No calls, no forms." },
       { q: "What if I cancel?", a: "Cancel anytime from any delivery email. Within the first 30 days we refund every dollar and send a prepaid label for the diffusers, the scents stay with you." },
       { q: "Is this a better alternative than plug-ins, candles & room sprays?", a: "Yes, and that is the whole reason it exists. Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, a spray masks a smell for a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day. Each bottle lasts about 15–21 days." },
@@ -552,31 +552,53 @@ async function syncKitCart() {
   })();
   try { return await KITCART.pending; } finally { KITCART.pending = null; }
 }
-async function addToCart(setBusy, setToast) { return k2AddToCart(setBusy, setToast); }
-/* k2 (2026-11-08, owner): the kits-2 checkout. The diffuser variant (paid) + the scents (with the refill plan or one-time) go in with
-   one /cart/add.js (the Meta channel pixel fires AddToCart per line from it), then the page leaves for the checkout; from two scents
-   it goes through /discount/CODE?redirect=/checkout so the quantity price (2SCENTS / 3SCENTS) is applied. Lines this page owns from
-   an earlier visit (its diffuser variants, the ad page's kit variants, the seven scents) are removed first, so the checkout holds
-   exactly what the summary shows. */
-async function k2AddToCart(setBusy, setToast) {
-  const n = selStore.keys.length;
-  if (n === 0) { setToast("Pick at least one scent to continue."); return; }
-  const Dk = selStore.diff(); const vid = K2.variants[Dk.key];
-  const plans = K2.plans || K2.plansFallback; const planId = selStore.oneTime() ? null : (plans[selStore.freq] || plans[30]); const code = selStore.k2Code();
-  const items = [{ id: vid, quantity: 1 }];
-  selStore.grouped().forEach(({ f, q }) => items.push(Object.assign({ id: f.variant, quantity: q }, planId ? { selling_plan: planId } : {})));
-  if (!onStore()) {
-    setToast("Preview mode. On the live store this adds " + Dk.n + " diffuser" + (Dk.n > 1 ? "s" : "") + " (" + usd(Dk.price) + ") + " + selStore.label() + (planId ? " on the every-" + selStore.freq + "-days plan" : " one-time") + ", " + usd(selStore.k2Today()) + " today" + (code ? " (code " + code + ")" : "") + ", and goes to the checkout.");
+async function addToCart(setBusy, setToast) {
+  const left = selStore.left();
+  if (left > 0) {
+    setToast("Pick " + left + " more scent" + (left > 1 ? "s" : "") + " to complete your kit.");
     return;
   }
+  const T = selStore.tier();
+  /* dk9 (2026-10-20, owner): kit line = the unlisted Free Diffuser Kit variant for 1 / 2 / 3 diffusers, made free by the
+     automatic "FREE DIFFUSER(S) — N scent subscription" BXGYs; the scents ride on the owner's Subi group "02/10 Official Plan"
+     at the picked frequency (same price at 30 / 60 / 90). No one-time path. */
+  const kitId = CART3.kitVariants && CART3.kitVariants[T.key];
+  const planId = (CART3.kitsPlans && CART3.kitsPlans[selStore.freq]) || CART3.kitsPlans[30]; /* dk9q (2026-10-21, owner): the kits page rides the Subi group "04/10 Sub for Offer #2 and #3" (Every 30 / 60 / 90 days, full price every cycle), not the ritual page's "02/10 Official Plan" with its after-first-payment discounts */
+  const items = [{ id: kitId, quantity: 1 }];
+  selStore.grouped().forEach(({ f, q }) => items.push(Object.assign({ id: f.variant, quantity: q }, selStore.oneTime() ? {} : { selling_plan: planId })) /* dk13: one-time = no selling plan */);
+  if (onStore() && !kitId) { setToast("This offer isn\u2019t open for checkout yet. Check back shortly."); return; }
+  if (!onStore() || !kitId) {
+    setToast("Preview mode. On the live store this adds " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") + " + " + selStore.label() + (selStore.oneTime() ? " one-time (no refills), " : " on the every-" + selStore.freq + "-days plan, ") + usd(selStore.today()) + " today, and opens the cart drawer.");
+    return;
+  }
+  /* fd8 (2026-09-20): no custom fbq AddToCart here — Shopify's Facebook & Instagram channel already fires AddToCart per line
+     from the same /cart/add.js call (pixel audit 00:04 UTC showed 4 AddToCart beacons per click with this line in place). */
   try {
     setBusy(true);
-    const mine = Object.values(K2.variants).concat(Object.values(CART3.kitVariants), CONFIG.fragrances.map((f) => f.variant));
-    const cart = await cartGet();
-    for (const l of (cart.items || [])) { if (mine.includes(l.variant_id)) { try { await cartPost("/cart/change.js", { id: l.key, quantity: 0 }); } catch (e) {} } }
-    await cartPost("/cart/add.js", { items });
-    /* 800 ms before leaving: the channel pixel's AddToCart beacons go out right after /cart/add.js (fd13 measurement, 15–35 ms) */
-    setTimeout(() => { window.location.href = code ? "/discount/" + code + "?redirect=/checkout" : "/checkout"; }, 800);
+    const added = await syncKitCart(); /* dk9y (2026-10-28, owner): the whole kit is added here, at ADD TO CART, so the AddToCart beacons fire as the cart opens, not at "Review my kit"; a kit already in the cart from an earlier visit is only adjusted. Was (dk9m/dk9n): usually nothing left to do (the kit went in at "Review my kit"); a changed frequency is a plan change, not a new add */
+    const wait = added ? 800 : Math.max(0, 800 - (Date.now() - KITCART.addedAt));
+    /* fd13 (2026-09-25, owner): straight to checkout — the drawer was an extra screen where 42% of add-to-carts stopped.
+       Shopify's Meta channel pixel fires one AddToCart per cart line from the /cart/add.js call above; measured
+       2026-09-25 (pixel-diag): the beacons leave 15-35 ms after the add response, via sendBeacon (survives unload).
+       The 800 ms wait is a ~25x margin before the page unloads. The cart icon / drawer still work for anyone who wants
+       to add more. */
+    /* dk5 (2026-10-04, owner): open the theme's cart drawer instead of leaving for /cart. The live theme (Impact) renders
+       <cart-drawer id="cart-drawer"> in the overlay group with cart type "drawer"; its show() opens it and the theme re-renders
+       the drawer on the cart:refresh event (same mechanism the page used before fd13). Falls back to /cart if the drawer is
+       missing. rt14 history: "Add to cart" went to the cart page; fd13 before that went straight to checkout. */
+    /* dk9l (2026-10-21, owner): straight to checkout again ("Secure checkout"); the 800 ms wait keeps the fd13 margin for the
+       channel pixel's AddToCart beacons. The drawer path above is history. */
+    /* dk9x (2026-10-27, owner): the cart step is back ("include the cart step and not going straight to checkout"): the theme's
+       cart page, same 800 ms margin for the channel pixel's AddToCart beacons. History: fd13 measured 42% of add-to-carts
+       stopping at the drawer; dk9l went straight to checkout. */
+    /* dk9z (2026-10-28, owner): open the theme's cart drawer on this page instead of the cart page (dk5 mechanism). */
+    const drawer = document.getElementById("cart-drawer");
+    if (drawer && typeof drawer.show === "function") {
+      document.documentElement.dispatchEvent(new CustomEvent("cart:refresh", { bubbles: true, detail: { open: true } }));
+      setTimeout(() => { try { drawer.show(); } catch (e) {} setBusy(false); }, 150);
+    } else {
+      setTimeout(() => { window.location.href = "/cart"; }, wait);
+    }
   } catch (e) {
     setBusy(false);
     setToast("Something hiccuped adding to your cart. Please try again.");
@@ -613,30 +635,6 @@ const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying eac
 const STARTER3 = ["focus", "ideas", "midnight"]; /* owner 2026-09-30: preselected "top three" = Chilled Citrus, Honey Nectar, Midnight Sensation */
 const FILL_ORDER = ["love","abundance","midnight","energy","focus","purify","ideas"];
 const fillKeys = (n) => Array.from({ length: n }, (_, i) => FILL_ORDER[i % FILL_ORDER.length]);
-
-/* k2 (2026-11-08, owner): the kits-2 copy — one page (diffusers, then scents, then refills and the checkout). The diffusers are
-   paid ($89.95 / $129.95 / $189.95 for 1 / 2 / 3), the scents are priced by quantity ($39.95 for one, $29.95 each from two,
-   $24.95 each from three), and Subscribe takes 25% off every refill after today; One-time payment renews nothing.
-   Shopify: product 15430881673325 "Maison Croyez Home Diffuser" (unlisted, this page only) with the three variants; the scent
-   tiers are the discount codes 2SCENTS ($10 off each scent from 2) / 3SCENTS ($15 off each from 3), applied by this page on the
-   way to the checkout (/discount/CODE?redirect=/checkout), so product pages and the ad page keep their own pricing. */
-const K2 = {
-  product: 15430881673325,
-  variants: { one: 67973611290733, two: 67973611323501, three: 67973611356269 },
-  diffusers: [
-    { key: "one", n: 1, price: 89.95, was: 89.95, tag: "", pop: false, line: "1 room · up to 600 sq ft" },
-    { key: "two", n: 2, price: 129.95, was: 179.90, tag: "Most popular", pop: true, line: "2 rooms · up to 1,200 sq ft" },
-    { key: "three", n: 3, price: 189.95, was: 269.85, tag: "Best value", pop: false, line: "Whole home · up to 1,800 sq ft" },
-  ],
-  scentTiers: [{ min: 1, each: 39.95, code: null }, { min: 2, each: 29.95, code: "2SCENTS" }, { min: 3, each: 24.95, code: "3SCENTS" }],
-  refillOff: 25,
-  plans: null, /* the new Subi group for this offer (0% today, 25% off every refill): { 30: id, 60: id, 90: id } — the owner creates it in Subi; until then the subscribe path rides the 04/10 plans below and the page shows a test note */
-  plansFallback: { 30: 7883817069, 60: 7883849837, 90: 7883882605 },
-  maxScents: 7,
-  smell: { love: "Honey floral", abundance: "Fresh citrus", focus: "Lavender", ideas: "Milk & honey", energy: "Peach & tea", purify: "Pine forest", midnight: "Floral musk" }, /* owner: the main smell of each scent above the strength, in plain words */
-};
-const k2Tier = (n) => { let t = K2.scentTiers[0]; K2.scentTiers.forEach((x) => { if (n >= x.min) t = x; }); return t; };
-const r2 = (v) => Math.round(v * 100) / 100;
 const selStore = {
   tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* dk1: 2 diffusers preselected (most popular); dk9p (2026-10-21): ?kit=one|two|three (or 1|2|3) preselects, used by the home page cards */
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
@@ -649,7 +647,7 @@ const selStore = {
   tier() { return TIERS[this.tierIdx]; },
   get mode() { return this.plan; },
   get count() { return this.tier().scents; },
-  setTier(i) { this.tierIdx = i; this.emit(); }, /* k2: the scents are independent of the diffuser count */
+  setTier(i) { this.tierIdx = i; this.keys = this.keys.slice(0, TIERS[i].scents); this.emit(); }, /* dk9: picks survive a kit change, trimmed to the new count */
   setPlan(p) { this.plan = p; this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return this.plan === "one" ? SCENT_LIST : SCENT_ONE; }, /* dk13: $39.95 one-time, $29.95 with auto-refill */
@@ -661,14 +659,6 @@ const selStore = {
   value() { return this.tier().n * DIFF_VALUE + this.keys.length * SCENT_LIST; }, /* dk13: the scents count at the one-time price, so auto-refill shows its 25% */
   savings() { return Math.max(0, this.value() - this.today()); },
   renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.keys.length * FREQ_PRICE(this.freq) : 0; },
-  /* k2 (2026-11-08): the kits-2 offer */
-  diff() { return K2.diffusers[this.tierIdx]; },
-  k2Each() { return k2Tier(this.keys.length).each; },
-  k2Code() { return k2Tier(this.keys.length).code || null; },
-  k2Scents() { return r2(this.keys.length * this.k2Each()); },
-  k2Today() { return r2(this.diff().price + this.k2Scents()); },
-  k2Value() { return r2(this.diff().was + this.keys.length * K2.scentTiers[0].each); },
-  k2RefillEach() { return r2(this.k2Each() * (1 - K2.refillOff / 100)); },
   scents() { return this.keys.map((k) => CONFIG.fragrances.find((f) => f.key === k)); },
   qty(k) { return this.keys.filter((x) => x === k).length; },
   grouped() {
@@ -680,7 +670,7 @@ const selStore = {
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
   setKeys(ks) { this.keys = ks.slice(0, this.tier().scents); this.emit(); },
-  add(k) { const cap = K2.maxScents; if (this.keys.length >= cap) return false; /* k2: up to seven bottles, any mix */ this.keys = [...this.keys, k]; this.last = k; this.emit(); return true; }, /* dk9: up to the kit's count, duplicates allowed */
+  add(k) { const cap = this.tier().scents; if (this.keys.length >= cap) return false; this.keys = [...this.keys, k]; this.last = k; this.emit(); return true; }, /* dk9: up to the kit's count, duplicates allowed */
   toggle(k) { this.last = k; if (this.qty(k) > 0) { this.remove(k); return; } this.add(k); }, /* dk9: a tap on a picked tile removes one bottle */
   peek(k) { this.last = k; this.emit(); }, /* dk9f (owner): a tap on a tile only shows the scent; + adds */
   remove(k) {
@@ -945,51 +935,57 @@ function Reviews6() {
 /* dk8 (2026-10-14): nothing is pre-selected any more, so a tap on Add to cart without a scent scrolls to Step 2 and outlines the grid for a moment */
 const nudgePicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); setTimeout(() => el.classList.remove("nudge"), 1700); };
 function BuyBox() {
-  /* k2 (2026-11-08, owner): one page — 1. diffusers (paid, 1 / 2 / 3), 2. scents (priced by quantity), 3. refills (Subscribe = 25% off
-     every refill | One-time payment), then the summary and the checkout button. Nothing is hidden behind steps any more. */
+  /* dk9 (2026-10-20, owner): three steps again (as the free-diffusers page): 1 diffusers (no prices), 2 scents, 3 confirmation.
+     Steps 2 and 3 fit under the announcement bar + header on a phone (the hero stays on desktop, left column). */
   const B = CONFIG.buybox;
   const sel = useSelection();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
-  const T = sel.tier(); const Dk = sel.diff();
-  const n = sel.keys.length, each = sel.k2Each(), tier = k2Tier(n), full = n >= K2.maxScents, LIST = K2.scentTiers[0].each;
+  const T = sel.tier();
+  const left = sel.left();
+  const step = sel.step || 1;
+  const goReviews = () => { let n = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (n++ < 40) setTimeout(f, 50); }; f(); };
+  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* steps start at the top: announcement bar, header, then the step */
+  const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
   const rows = sel.grouped();
   const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
-  const goReviews = () => { let k = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (k++ < 40) setTimeout(f, 50); }; f(); };
+  const nextDate = (d) => new Date(Date.now() + d * 864e5).toLocaleDateString("en-US", { month: "short", day: "numeric" }); /* dk9f: computed at view time, so always current */
   const chips = html`
           <div class="atc-chips">
             <span class="atc-chip">${ic("truck", "atc-chip-ic")}<span><b>Free Shipping</b><small>On Every Order</small></span></span>
             <span class="atc-chip">${ic("shield", "atc-chip-ic")}<span><b>30-Day Money-Back</b><small>Full Refund, Prepaid Return</small></span></span>
             <span class="atc-chip">${ic("lifetime", "atc-chip-ic")}<span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
           </div>`;
-  const eta = html`<p class="dk-eta">${ic("truck", "dk-eta-ic")}Estimated delivery: <b>3–5 business days</b></p>`;
+  const eta = html`<p class="dk-eta">${ic("truck", "dk-eta-ic")}Estimated delivery: <b>3–5 business days</b></p>`; /* dk9x (owner): under the button of every step */
   const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
-  const refillTotal = r2(n * sel.k2RefillEach());
   return html`
-    <section class="section pdp-buy step-1 k2" id="buybox">
+    <section class=${"section pdp-buy step-" + step} id="buybox">
       <div class="wrap">
         <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
+          ${step === 1 ? html`<${Fragment} key="step1">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <p class="dk-freebar">BUILD YOUR KIT & SAVE UP TO $80</p>
-          <h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1>
-          <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}>${h.short}</span>`)}</div>
+          <p class="dk-freebar">JUST FOR TODAY: THE DIFFUSERS ARE 100% FREE!</p> <!-- dk9x (owner): smaller headline on black, above the title; wording from the artifact comment -->
+          <h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1> <!-- dk9x (2026-10-27, owner; wording from the artifact comment) -->
+          <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}>${h.short}</span>`)}</div> <!-- dk9f (owner): the three badges under the title -->
+          <!-- dk9 (owner): no prices on Step 1 — the "From $…" line is gone; dk9c: the health strip replaces the three USP tiles -->
 
-          <div class="step-eyebrow" id="k2-diffusers">Step 1 of 3</div>
-          <div class="picker-title step-title s9-title">How many diffusers?</div>
-          <div class="tiers t9 t9cols k2-tiers" role="radiogroup" aria-label="How many diffusers">
-            ${K2.diffusers.map((d, i) => { const on = sel.tierIdx === i; const pick = () => sel.setTier(i); const save = r2(d.was - d.price); return html`
-              <div key=${d.key} class=${"tier t9c3 k2-tier" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${d.n + " diffuser" + (d.n > 1 ? "s" : "") + " for " + usd(d.price)} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
-                ${d.tag ? html`<span class=${"kg-tag t9-tag" + (d.pop ? " pop" : "")}>${d.tag}</span>` : null}
-                <span class="t9-n t9s-n">${d.n} Diffuser${d.n > 1 ? "s" : ""}</span>
-                <span class="k2-price">${usd(d.price)}</span>
-                ${save > 0 ? html`<span class="k2-was"><s>${usd(d.was)}</s> Save ${usd(save)}</span>` : html`<span class="k2-was k2-was-0">${usd(d.price)} each</span>`}
-                <span class="t9p2-pic k2-pic"><${Img} slot=${"kit" + d.n} alt=${d.n + " diffuser" + (d.n > 1 ? "s" : "")}/></span>
-                <span class="k2-line">${d.line}</span>
+          <div class="step-eyebrow">Step 1 of 3</div>
+          <div class="picker-title step-title s9-title">Buy more scents = <em class="t1-em">Get more FREE Diffusers:</em></div><!-- dk10 (2026-10-28, owner): the sub-line under the step-1 title is gone -->
+          <div class="tiers t9 t9cols" role="radiogroup" aria-label="How many scents"> <!-- dk9d (owner): one row, three option cards -->
+            ${TIERS.map((t, i) => { const on = sel.tierIdx === i; const val = t.n * DIFF_VALUE; const pick = () => sel.setTier(i); return html`
+              <div key=${t.key} class=${"tier t9c3" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${t.scents + " scents at " + usd(SCENT_ONE) + " each, " + t.n + " free diffuser" + (t.n > 1 ? "s" : "") + ", " + usd(t.price) + " today (" + t.name + ")"} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}> <!-- dk9k (2026-10-21, owner): no room name on the card (it is in "Where it goes"); dk9l: all three the same size, "Requires N scents", Best value on the third -->
+                ${t.tag ? html`<span class=${"kg-tag t9-tag" + (t.pop ? " pop" : "")}>${t.tag}</span>` : null}
+                <span class="t9-n t9s-n">${t.scents} Scents</span>
+                <span class="t9s-each">${usd(SCENT_ONE)} each</span>
+                <span class="t9s-gift">+ ${t.n} <b class="t9p2-free">FREE</b> Diffuser${t.n > 1 ? "s" : ""}</span>
+                <span class="t9p2-pic t9f-framed"><i class="t9f-pill" aria-hidden="true">FREE</i><${Img} slot=${"kit" + t.n} alt=${t.n + " free diffuser" + (t.n > 1 ? "s" : "")}/></span>
+                <span class="t9p2-val"><s>${usd(val)}</s> value</span>
               </div>`; })}
           </div>
-          <div class="place" key=${T.key}>
+
+          <div class="place" key=${T.key}> <!-- dk8 (owner): compact — small plan on the left, title + rooms + caption on the right; dk9d: back under the options -->
             <div class="place-grid">
               <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
               <div class="place-side">
@@ -1000,71 +996,10 @@ function BuyBox() {
             </div>
           </div>
 
-          <div class="step-eyebrow" id="k2-scents">Step 2 of 3</div>
-          <div class="k2-scents-head"><div class="picker-title step-title s9-title">Pick your scents:</div><span class="pick-pill">${n} picked${n ? " · " + usd(each) + " each" : ""}</span></div>
-          <div class="k2-strip" role="list" aria-label="Scent pricing by quantity">
-            ${K2.scentTiers.map((t, i) => html`<span key=${t.min} class=${"k2-strip-t" + (tier === t ? " on" : "")} role="listitem"><b>${t.min}${i === K2.scentTiers.length - 1 ? "+" : ""} scent${t.min > 1 ? "s" : ""}</b><span>${usd(t.each)}${t.min > 1 ? " each" : ""}</span></span>`)}
-          </div>
-          <div class="s2-facts">
-            <p class="s2-life">Each scent lasts 15+ days.</p>
-            <div class="s2-badges">${[["leaf", "Organic Ingredients"], ["noparaben", "Paraben-Free"], ["bunny", "Cruelty-Free"]].map(([k, t]) => html`<span class="s2-b" key=${k}>${ic(k, "s2-b-ic")}<span>${t}</span></span>`)}</div>
-            <p class="s2-ifra">All IFRA 51 compliant.</p>
-          </div>
-          <div class="picker e4" role="group" aria-label="Pick your scents">
-            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
-              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}>
-                <div class="e4-ph"><${Img} slot=${f.pimg || f.img} alt=${f.name}/></div>
-                <span class="pick-scent e4-name">${f.name}</span>
-                <span class="k2-smell">${K2.smell[f.key] || ""}</span>
-                ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null}
-                <span class="e4-step" onClick=${(e) => e.stopPropagation()}>
-                  <button type="button" aria-label=${"Remove one " + f.name} disabled=${q === 0} onClick=${() => { sel.last = f.key; sel.remove(f.key); }}>−</button>
-                  <b>${q}</b>
-                  <button type="button" aria-label=${"Add one " + f.name} disabled=${full} onClick=${more}>+</button>
-                </span>
-              </div>`; })}
-          </div>
-          <div class="e4-bar" aria-live="polite">${lastF
-            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style=${{ background: SCENT_SWATCH[lastF.key] || "#E6E3DE" }}></span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
-            : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it, + adds it.</b></span>`}</div>
-          ${n === 0 ? html`<p class="pick-hint k2-hint">Pick at least one scent above to continue.</p>` : null}
-
-          <div class="step-eyebrow" id="k2-refills">Step 3 of 3</div>
-          <div class="picker-title step-title s9-title">How do you want your refills?</div>
-          <div class="plan2" role="radiogroup" aria-label="Refills">
-            <button type="button" class=${"plan2-opt p2-sub" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} onClick=${() => sel.setPlan("sub")}><small class="plan2-tag">${K2.refillOff}% off refills</small><b>Subscribe</b><span class="plan2-pr">${K2.refillOff}% OFF<em>every refill</em></span><span class="plan2-note">${usd(each)}/scent today, ${usd(sel.k2RefillEach())} on every refill. Every 30, 60 or 90 days. Cancel anytime.</span></button>
-            <button type="button" class=${"plan2-opt p2-one" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} onClick=${() => sel.setPlan("one")}><b>One-time payment</b><span class="plan2-pr">${usd(each)}<em>/scent</em></span><span class="plan2-note">Pay once. No refills.</span></button>
-          </div>
-          ${sel.oneTime() ? null : html`<div class="s9-freq-head">Refill frequency:</div>
-          <div class="rf3" role="radiogroup" aria-label="Refill frequency">
-            ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
-          </div>`}
-
-          <div class="kitrev k9 k2-rev" id="k2-summary">
-            <div class="kr-row kr-kit">
-              <img class="kr-img" src=${(CONFIG.images["kit" + Dk.n] || {}).src || ""} alt="" decoding="async"/>
-              <span class="kr-tx"><b>${Dk.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
-              <span class="kr-pr">${Dk.was > Dk.price ? html`<s>${usd(Dk.was)}</s> ` : null}${usd(Dk.price)}</span>
-            </div>
-            ${rows.map(({ f, q }) => html`
-              <div class="kr-row" key=${f.key}>
-                <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
-                <span class="kr-tx"><b>${q}× ${f.name}</b><span class="kr-sub">${f.intention} · 100ml</span></span>
-                <span class="kr-pr">${each < LIST ? html`<s>${usd(r2(q * LIST))}</s> ` : null}${usd(r2(q * each))}</span>
-              </div>`)}
-            ${n === 0 ? html`<div class="kr-row kr-empty"><span class="kr-tx"><b>No scents yet</b><span class="kr-sub">Pick at least one above.</span></span><span class="kr-pr">—</span></div>` : null}
-          </div>
-          ${sel.k2Value() > sel.k2Today() ? html`<p class="s9-value">That’s <b class="s9-val-green">${usd(sel.k2Value())} of value</b>, you pay ${usd(sel.k2Today())} today.</p>` : null}
-          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.k2Today().toFixed(2)}</span><span class="s9-due-each">${Dk.n} diffuser${Dk.n > 1 ? "s" : ""} ${usd(Dk.price)}${n ? " + " + n + " scent" + (n > 1 ? "s" : "") + " × " + usd(each) : ""}</span></div>
-          <p class="t9s-how t9s-expl">${sel.oneTime()
-            ? html`One-time payment: ${usd(sel.k2Today())} today, nothing after. Free shipping, 30-day money-back guarantee, lifetime warranty on the diffuser${Dk.n > 1 ? "s" : ""}.`
-            : html`Subscribe: ${usd(sel.k2Today())} today. Then your ${n === 1 ? "scent renews" : "scents renew"} every ${sel.freq} days at ${usd(sel.k2RefillEach())} each (${K2.refillOff}% off)${n ? ", " + usd(refillTotal) + " per refill" : ""}. Swap, pause or cancel anytime.`}</p>
-          ${(!K2.plans && !sel.oneTime()) ? html`<p class="k2-testnote">Test page: the new refill plan is not in Subi yet, so the checkout still shows the current plan’s $10 off per scent today.</p>` : null}
-          <button class="btn atc" disabled=${busy || n === 0} onClick=${() => k2AddToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : n === 0 ? "PICK A SCENT TO CONTINUE" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔"}</span>
-          </button>
+          <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick your scents ➔</span></button> <!-- dk9l (owner): fixed label -->
           ${eta}
           ${chips}
+
           <${Reviews6}/>
           <div class="acc faq">
             ${B.accordions.map((f, i) => html`
@@ -1076,6 +1011,82 @@ function BuyBox() {
               </div>`)}
           </div>
           <${PatriciaCard}/>
+          <//>` : step === 2 ? html`<${Fragment} key="step2">
+          <div class="step-eyebrow">Step 2 of 3</div>
+          <div class="s9-head s9-head2"><div class="s9-head-tx"><div class="picker-title step-title s9-title">Pick your ${T.scents} scents:</div><span class="pick-pill">${T.scents - left} of ${T.scents} picked</span></div><div class="s9-res"><${Img} slot=${"kit" + T.n} alt=${T.name}/><span class="s9-res-tx"><b>${T.n} FREE DIFFUSER${T.n > 1 ? "S" : ""} RESERVED</b><small>${T.name} \u00b7 <s>${usd(T.n * DIFF_VALUE)}</s> <b class="s9-free">FREE!</b></small></span></div></div> <!-- dk9e (owner): the kit the visitor is taking, reserved; dk9f (CRO #1 + #3): the price in the card, the top-picks shortcut under the pill --> <!-- dk9d (owner): the main picture stays present on step 2 (phones: a square beside the title; desktop keeps the left column) -->
+          <div class="s2-facts"> <!-- dk12 (owner, 2026-11-03): how long a scent lasts + the three promises, above the scents -->
+            <p class="s2-life">Each scent lasts 15–21 days, depending on use.</p> <!-- round 4 (owner): all bold, 15% bigger, 15-21 days -->
+            <div class="s2-badges">${[["leaf", "Organic Ingredients"], ["noparaben", "Paraben-Free"], ["bunny", "Cruelty-Free"]].map(([k, t]) => html`<span class="s2-b" key=${k}>${ic(k, "s2-b-ic")}<span>${t}</span></span>`)}</div>
+            <p class="s2-ifra">All IFRA 51 compliant.</p> <!-- round 4 (owner): below the three badges -->
+          </div>
+          <div class="picker e4" role="group" aria-label="Pick your scents"> <!-- dk8c option E tiles; dk9: multi-select up to the kit's count, +1 for a second bottle of the same scent -->
+            ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const full = left === 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
+              <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}> <!-- dk9f (owner): a tap only shows the scent; + adds -->
+                <div class="e4-ph"><${Img} slot=${f.pimg || f.img} alt=${f.name}/></div>
+                <span class="pick-scent e4-name">${f.name}</span>
+                ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null} <!-- dk9k (owner): strength on the tile, not in the bar -->
+                <span class="e4-step" onClick=${(e) => e.stopPropagation()}> <!-- dk9c (owner): quantity selector; dk9l (owner): under the strength label -->
+                  <button type="button" aria-label=${"Remove one " + f.name} disabled=${q === 0} onClick=${() => { sel.last = f.key; sel.remove(f.key); }}>\u2212</button>
+                  <b>${q}</b>
+                  <button type="button" aria-label=${"Add one " + f.name} disabled=${full} onClick=${more}>+</button>
+                </span>
+              </div>`; })}
+          </div>
+          <div class="e4-bar" aria-live="polite">${lastF
+            ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style=${{ background: SCENT_SWATCH[lastF.key] || "#E6E3DE" }}></span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
+            : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it.</b></span>`}</div> <!-- dk9k (2026-10-21, owner): emoji next to the name on a bigger first line; strength moved onto the tiles; ingredients link gone -->
+          <div class="navrow">
+            <button class="btn secondary" aria-label="Back to the diffusers" onClick=${() => go(1)}>←</button>
+            ${left > 0 ? html`<p class="pick-hint">Pick ${left} more scent${left > 1 ? "s" : ""} above to review your kit.</p>` : html`<button class="btn atc" onClick=${() => go(3)}><span>Review my kit ➔</span></button>`} <!-- dk9y (owner): nothing goes into the cart here any more; the kit is added at ADD TO CART -->
+          </div>
+          ${eta}
+          ${chips}
+          <//>` : html`<${Fragment} key="step3">
+          <div class="s9-banner"><img src=${(typeof MC_STEP3_IMG !== "undefined") ? MC_STEP3_IMG : ""} alt="Friends in a living room with a Maison Croyez diffuser" width="1600" height="900" decoding="async"/></div> <!-- dk9i (owner): the 16:9 picture, shown 2:1 (centre crop) so Add to cart stays in the first screen -->
+          <div class="step-eyebrow">Step 3 of 3</div>
+          <div class="picker-title step-title s9-title">Congratulations, your free diffusers have been reserved.</div>
+          <div class="kitrev k9">
+            ${rows.map(({ f, q }) => html`
+              <div class="kr-row" key=${f.key}>
+                <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
+                <span class="kr-tx"><b>${q}× ${f.name}</b><span class="kr-sub">${f.intention} · 100ml</span></span>
+                <span class="kr-pr">${usd(q * sel.scentPrice())}</span>
+              </div>`)}
+            <div class="kr-row kr-kit">
+              <img class="kr-img" src=${(CONFIG.images["kit" + T.n] || {}).src || ""} alt="" decoding="async"/>
+              <span class="kr-tx"><b>${T.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
+              <span class="kr-pr"><s>${usd(T.n * DIFF_VALUE)}</s><span class="inc">FREE</span></span>
+            </div>
+          </div>
+          <p class="s9-value">That\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>
+          <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.today().toFixed(2)}</span><span class="s9-due-each">${sel.oneTime() ? usd(SCENT_LIST) + "/scent" : html`<s>${usd(SCENT_LIST)}</s> ${usd(SCENT_ONE)}/scent`}</span></div> <!-- dk9i (owner): the value line + big due-today block -->
+          <div class="s9-freq-head plan2-head">How do you want your scents?</div> <!-- dk13 (2026-11-06, owner): auto-refill (25% off) vs one-time; the diffusers free either way -->
+          <div class="plan2" role="radiogroup" aria-label="Scent plan">
+            <button type="button" class=${"plan2-opt p2-sub" + (sel.oneTime() ? "" : " on")} role="radio" aria-checked=${!sel.oneTime()} onClick=${() => sel.setPlan("sub")}><small class="plan2-tag">Save ${SUB_OFF}%</small><b>Auto-refill</b><span class="plan2-pr"><s>${usd(SCENT_LIST)}</s>${usd(SCENT_ONE)}<em>/scent</em></span><span class="plan2-note">Every 30, 60 or 90 days. Cancel anytime.</span></button>
+            <button type="button" class=${"plan2-opt p2-one" + (sel.oneTime() ? " on" : "")} role="radio" aria-checked=${sel.oneTime()} onClick=${() => sel.setPlan("one")}><b>One-Time Purchase</b><span class="plan2-pr">${usd(SCENT_LIST)}<em>/scent</em></span><span class="plan2-note">No auto-refills, full price.</span></button>
+          </div>
+          ${sel.oneTime() ? null : html`<div class="s9-freq-head">Select your auto-refill frequency:</div>
+          <div class="rf3" role="radiogroup" aria-label="Refill frequency">
+            ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
+          </div>`}
+          <p class="t9s-how t9s-expl">${sel.oneTime() ? html`Your diffuser${T.n > 1 ? "s are" : " is"} free (${usd(DIFF_VALUE)}${T.n > 1 ? " each" : ""}) either way. One-time scents are ${usd(SCENT_LIST)} each; choose auto-refill above and they’re ${usd(SCENT_ONE)} (${SUB_OFF}% off), and you can swap, pause or cancel anytime.` : html`Your diffuser${T.n > 1 ? "s are" : " is"} free (${usd(DIFF_VALUE)}${T.n > 1 ? " each" : ""}). With auto-refill you save ${SUB_OFF}% on every scent (${usd(SCENT_ONE)} instead of ${usd(SCENT_LIST)}). You can swap, pause or cancel your auto-refill anytime, and we’ll send you a prepaid return label.`}</p>
+          <button class="btn atc" disabled=${busy || left > 0} onClick=${() => addToCart(setBusy, setToast)}>
+            <span>${busy ? "One moment…" : "UNLOCK FREE DIFFUSERS ➔"}</span> <!-- dk9x (owner): the cart step is back -->
+          </button>
+          ${eta}
+          ${chips}
+          <${Reviews6}/> <!-- dk9c (owner): testimonials on the confirmation step -->
+          <div class="acc faq">
+            ${B.accordions.map((f, i) => html`
+              <div class=${"qa" + (open === i ? " open" : "")} key=${f.q}>
+                <button class="qbtn" aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}>
+                  ${f.q}<span class="plus">+</span>
+                </button>
+                <div class="ans"><p>${f.a}</p>${f.list ? html`<ul class="faq-list">${f.list.map((t) => html`<li key=${t}>${t}</li>`)}</ul>` : null}</div>
+              </div>`)}
+          </div>
+          <div class="navrow back-only"><button class="btn secondary wide" onClick=${() => go(2)}>← Change my scents</button></div>
+          <//>`}
         </div>
       </div>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
@@ -1219,37 +1230,38 @@ function Faq() {
 }
 
 function StickyBar() {
-  /* k2: one page — the bar shows whenever the checkout button is off screen; with no scent picked it scrolls to the scents */
   const [show, setShow] = useState(false);
   const sel = useSelection();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
+  const step = sel.step || 1;
+  const T = sel.tier();
   useEffect(() => {
     let raf = 0;
     const calc = () => {
       raf = 0;
-      const a = document.querySelector("#buybox .btn.atc");
-      if (!a) return setShow(false);
-      const ar = a.getBoundingClientRect();
-      setShow(!(ar.bottom > 0 && ar.top < window.innerHeight));
+      const t = document.querySelector("#buybox .tiers, #buybox .picker, #buybox .kitrev"); /* dk9: the step's main block */
+      const a = document.querySelector("#buybox .step-next, #buybox .navrow .btn:not(.secondary), #buybox .btn.atc");
+      if (!t || !a) return setShow(false);
+      const tr = t.getBoundingClientRect(), ar = a.getBoundingClientRect();
+      const past = step === 1 ? true : tr.bottom < 0; /* dk9f (owner, CRO #2): step 1 shows the bar right away */
+      const btnVisible = ar.bottom > 0 && ar.top < window.innerHeight;
+      setShow(past && !btnVisible);
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(calc); };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     calc();
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
-  }, []);
-  const n = sel.keys.length;
-  const label = busy ? "One moment…" : n === 0 ? "BUILD MY KIT ➔" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔";
-  const act = () => {
-    if (n > 0) return k2AddToCart(setBusy, setToast);
-    const d = document.getElementById("k2-diffusers"), s = document.getElementById("k2-scents");
-    const el = (d && d.getBoundingClientRect().top > window.innerHeight) ? d : s; /* the diffusers first if they are still below, else the scents */
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  }, [step]);
+  const left = sel.left();
+  const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* dk9 */
+  const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+  const label = busy ? "One moment\u2026" : step === 1 ? "Pick your scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my kit \u2794") : "UNLOCK FREE DIFFUSERS \u2794"; /* dk9: step-aware; dk9x: the cart step is back */
+  const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); return go(3); } addToCart(setBusy, setToast); }; /* dk9y: review only reviews; ADD TO CART adds */
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
-      <button class="btn" disabled=${busy} onClick=${act}>
+      <button class="btn" disabled=${busy || (step === 2 && left > 0)} onClick=${act}>
         <span>${label}</span>
       </button>
       <${Toast} msg=${toast} onClose=${() => setToast("")}/>
@@ -1510,10 +1522,3 @@ const StaticOnce = (window.preact && window.preact.Component) /* the React shim 
 })();
 
 })();
-
-/* k2 (2026-11-08): the store's announcement bar announces the ad page's offer ("THE DIFFUSERS ARE 100% ON US…"); on this page
-   (paid diffusers) it is hidden. The theme files are not touched. */
-(function () { try {
-  const hide = () => { const g = document.querySelector(".shopify-section-group-header-group"); if (!g) return false; const el = [...g.querySelectorAll("*")].find((e) => e.children.length === 0 && /100% ON US/i.test(e.textContent || "")); if (!el) return false; const sec = el.closest(".shopify-section") || el.closest("section") || el; sec.style.display = "none"; return true; };
-  if (!hide()) { let k = 0; const t = setInterval(() => { if (hide() || k++ > 40) clearInterval(t); }, 250); }
-} catch (e) {} })();

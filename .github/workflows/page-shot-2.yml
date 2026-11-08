@@ -1,5 +1,5 @@
 name: page-shot-2
-# page-shot pointed at the working copy /pages/diffuser-kits-2: screenshots, the body check against lp-factory/pages/diffuser-kits-2/page-body.html and the two drawer carts, results in lp-factory/pages/diffuser-kits-2/shots/. Edit this line and push to run. [run 1: the copy at creation, key dk2a-bd9ca46] [run 2: k2 one-page offer, key dk2b-3deef01 — the drawer cart check is off (CART=no): the k2 page goes straight to the checkout; qa-kits-2 covers the two checkouts]
+# page-shot pointed at the working copy /pages/diffuser-kits-2: screenshots, the body check against lp-factory/pages/diffuser-kits-2/page-body.html and the two drawer carts, results in lp-factory/pages/diffuser-kits-2/shots/. Edit this line and push to run. [run 1: the copy at creation, key dk2a-bd9ca46] [run 2: the k2 one-page build, key dk2b-3deef01, CART=no] [run 3: after the k2 rollback - the copy back on dk2a-bd9ca46, CART=yes]
 on:
   workflow_dispatch:
     inputs:
@@ -28,7 +28,7 @@ jobs:
       URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits-2' }}
       OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits-2/shots' }}
       BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits-2/page-body.html' }}
-      CART: ${{ github.event.inputs.cart || 'no' }}
+      CART: ${{ github.event.inputs.cart || 'yes' }}
     steps:
       - uses: actions/checkout@v4
         with:

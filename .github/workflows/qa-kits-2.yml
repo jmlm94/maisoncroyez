@@ -6,7 +6,7 @@ name: qa-kits-2
 # refill sentence), "CHECKOUT · $X". Then two real checkouts: one-time 2 diffusers + 3 scents (→ /discount/3SCENTS → checkout $204.80:
 # $129.95 + 3 × $24.95) and Subscribe 1 diffuser + 2 scents every 30 days (→ /discount/2SCENTS → checkout; the scents also carry the
 # 04/10 plan's $10 off until the owner's new Subi group exists: 2 × $19.95 + $89.95 = $129.85). The store's "100% ON US" announcement
-# bar must be hidden on this page. Edit this line and push to run. [k2 run 1: key dk2b-3deef01, 29/30 — the one miss was the harness expecting $39.95 on the plan lines; cart.js reports the plan-adjusted $29.95] [k2 run 2]
+# bar must be hidden on this page. Edit this line and push to run. [k2 run 1: key dk2b-3deef01, 29/30 — the one miss was the harness expecting $39.95 on the plan lines; cart.js reports the plan-adjusted $29.95] [k2 run 2: 29/30 again — 39.95 − 10 is not === 29.95 in floating point] [k2 run 3]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -127,7 +127,7 @@ jobs:
             await pg.screenshot({ path: `${OUT}/checkout-${name}.png` });
             const totals = (co.text.match(/\$\d+\.\d\d/g) || []);
             const perr = errs.slice(0, errsAtClick).filter((e) => !noise(e));
-            ck(`flow-${name}`, exp.name, /CHECKOUT · \$/.test(before.btn || '') && addjs.length >= 1 && addjs.every((x) => x === 200) && /\/checkouts?\//.test(co.url) && c.items.length === exp.cartLines && c.items.some((l) => l.v === exp.diffV && l.price === exp.diffP) && exp.scentV.every((v) => c.items.some((l) => l.v === v && l.price === (exp.plan ? LP - PLAN_OFF : LP) && (exp.plan ? l.plan === exp.plan : l.plan === null))) /* cart.js reports the plan-adjusted price on a plan line */ && exp.checkoutText.every((re) => re.test(co.text)) && perr.length === 0, { btn: before.btn, due: before.due, addjs, url: co.url, cart: { total: c.total, lines: c.items }, totals: totals.slice(0, 14), code: (co.text.match(/\b[23]SCENTS\b/g) || []).slice(0, 2), sub: (co.text.match(/every \d+ days/ig) || []).slice(0, 3), errs: perr });
+            ck(`flow-${name}`, exp.name, /CHECKOUT · \$/.test(before.btn || '') && addjs.length >= 1 && addjs.every((x) => x === 200) && /\/checkouts?\//.test(co.url) && c.items.length === exp.cartLines && c.items.some((l) => l.v === exp.diffV && l.price === exp.diffP) && exp.scentV.every((v) => c.items.some((l) => l.v === v && Math.abs(l.price - (exp.plan ? LP - PLAN_OFF : LP)) < 0.005 && (exp.plan ? l.plan === exp.plan : l.plan === null))) /* cart.js reports the plan-adjusted price on a plan line */ && exp.checkoutText.every((re) => re.test(co.text)) && perr.length === 0, { btn: before.btn, due: before.due, addjs, url: co.url, cart: { total: c.total, lines: c.items }, totals: totals.slice(0, 14), code: (co.text.match(/\b[23]SCENTS\b/g) || []).slice(0, 2), sub: (co.text.match(/every \d+ days/ig) || []).slice(0, 3), errs: perr });
             await ctx.close();
           };
 

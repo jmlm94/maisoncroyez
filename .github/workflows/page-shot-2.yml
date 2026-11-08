@@ -1,0 +1,161 @@
+name: page-shot-2
+# page-shot pointed at the working copy /pages/diffuser-kits-2: screenshots, the body check against lp-factory/pages/diffuser-kits-2/page-body.html and the two drawer carts, results in lp-factory/pages/diffuser-kits-2/shots/. Edit this line and push to run. [run 1: the copy at creation, key dk2a-bd9ca46]
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Page URL
+        default: https://maisoncroyez.com/pages/diffuser-kits-2
+      out:
+        description: Output folder (repo path)
+        default: lp-factory/pages/diffuser-kits-2/shots
+      body:
+        description: Repo path of the page body to compare the live page against
+        default: lp-factory/pages/diffuser-kits-2/page-body.html
+      cart:
+        description: Run the live add-to-cart check (yes/no)
+        default: 'yes'
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/page-shot-2.yml']
+permissions:
+  contents: write
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      URL: ${{ github.event.inputs.url || 'https://maisoncroyez.com/pages/diffuser-kits-2' }}
+      OUT: ${{ github.event.inputs.out || 'lp-factory/pages/diffuser-kits-2/shots' }}
+      BODY: ${{ github.event.inputs.body || 'lp-factory/pages/diffuser-kits-2/page-body.html' }}
+      CART: ${{ github.event.inputs.cart || 'yes' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Body check (live page body vs repo page-body.html, byte for byte)
+        run: |
+          curl -sSL -A "Mozilla/5.0" "$URL" -o live.html
+          node -e '
+            const fs=require("fs"),c=require("crypto");
+            const live=fs.readFileSync("live.html","utf8"), repo=fs.readFileSync(process.env.BODY,"utf8");
+            const head="<style>.shopify-section--main-page", tail="hide();})();\n</script>";
+            const i=live.indexOf(head), j=live.indexOf(tail,i); const seg=i>=0&&j>=0?live.slice(i,j+tail.length):"";
+            const md5=(x)=>c.createHash("md5").update(x).digest("hex");
+            const key=(seg.match(/var v=\x27([^\x27]+)\x27/)||[])[1];
+            const nl=(x)=>x.replace(/\n/g,""); const out=`bodyMatch: ${seg===repo} bodyMatchIgnoringNewlines: ${nl(seg)===nl(repo)} liveLen: ${seg.length} repoLen: ${repo.length} liveNoNl: ${nl(seg).length} repoNoNl: ${nl(repo).length} liveMd5: ${md5(seg)} repoMd5: ${md5(repo)} key: ${key}`;
+            if(nl(seg)!==nl(repo)){const a=nl(seg),b=nl(repo);let k=0;while(k<a.length&&k<b.length&&a[k]===b[k])k++;console.log("first diff (newlines ignored) at",k,JSON.stringify(a.slice(k-20,k+40)),"vs",JSON.stringify(b.slice(k-20,k+40)));}
+            console.log(out); fs.mkdirSync(process.env.OUT,{recursive:true}); fs.writeFileSync(process.env.OUT+"/body-check-latest.txt",out+"\n");
+          '
+      - name: Shoot
+        run: |
+          mkdir -p "$OUT"
+          cat > shot.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          const URL_ = process.env.URL, OUT = process.env.OUT;
+          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 13);
+          const b = await chromium.launch();
+          const notes = [];
+          for (const [W, H, name, mobile] of [[390, 844, 'phone', true], [360, 740, 'small', true], [1366, 900, 'desktop', false]]) {
+            const ctx = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: mobile, hasTouch: mobile, userAgent: mobile ? 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' : undefined });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            const consoleErrs = []; pg.on('console', (m) => { if (m.type() === 'error') consoleErrs.push(m.text().slice(0, 140)); });
+            const failedOwn = []; pg.on('requestfailed', (r) => { const u = r.url(); if (/maisoncroyez\.com|cdn\.shopify\.com\/s\/files/.test(u)) failedOwn.push(u.slice(-70) + ' ' + ((r.failure() || {}).errorText || '')); });
+            await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+            try { await pg.waitForSelector('#buybox .picker, #buybox .tiers .tier', { timeout: 30000 }); } catch (e) { notes.push(`${name}: buy box did not mount`); } /* dk9: step 1 has the option cards, the picker only appears on step 2 */
+            await pg.waitForTimeout(2500);
+            const d = await pg.evaluate(() => ({ logoDeco: (() => { const a = document.querySelector('.rit-logo-a'); if (!a) return null; const c = getComputedStyle(a); return [c.textDecorationLine, c.backgroundImage.slice(0, 30), c.boxShadow.slice(0, 30), getComputedStyle(a, '::after').content]; })(), key: (([...document.scripts].find((x) => /mc-(rt|dk|lb)-app\.js/.test(x.src)) || {}).src || 'none').split('v=')[1], themeHeader: [...document.querySelectorAll('.shopify-section-group-header-group')].map((e) => getComputedStyle(e).display), ownHeader: !!document.querySelector('.rit-hdr'), ann: (document.querySelector('.rit-ann') || {}).innerText, logoW: (document.querySelector('.rit-logo') || {}).naturalWidth, h1: (document.querySelector('#buybox h1') || {}).innerText, price: ((document.querySelector('.hd-price') || {}).innerText || '').replace(/\s+/g, ' '), picks: document.querySelectorAll('#buybox .pick').length, fq: document.querySelectorAll('.fq').length, hero: (() => { const v = document.querySelector('#root video'); return v ? [v.readyState, v.paused, (v.currentSrc || '').slice(-30)] : null; })(), prehero: [...document.querySelectorAll('#mc-prehero')].map((e) => getComputedStyle(e).display), title: document.title, bodyPad: getComputedStyle(document.body).paddingTop, firstTop: (() => { const e = document.querySelector('.rit-ann'); return e ? Math.round(e.getBoundingClientRect().top + scrollY) : null; })() }));
+            await pg.screenshot({ path: `${OUT}/${stamp}-${name}-top.png` });
+            try { const hb = await pg.locator('.rit-hdr').boundingBox(); if (hb) await pg.screenshot({ path: `${OUT}/${stamp}-${name}-header.png`, clip: hb }); } catch (e) {}
+            const picks = await pg.$$('#buybox .pick .pick-qty button[aria-label="Add one"]:not([disabled])'); for (let i = 0; i < Math.min(3, picks.length); i++) { if (await picks[i].isDisabled()) break; await picks[i].click({ timeout: 3000 }).catch(() => {}); await pg.waitForTimeout(150); }
+            await pg.waitForTimeout(400);
+            await pg.mouse.wheel(0, 400); await pg.waitForTimeout(1500); await pg.waitForSelector('#sec-reviews', { timeout: 15000 }).catch(() => {});
+            const PH = await pg.evaluate(() => document.documentElement.scrollHeight); for (let y = 0; y < PH + 800; y += 600) { await pg.evaluate((yy) => window.scrollTo(0, yy), y); await pg.waitForTimeout(120); } await pg.waitForTimeout(2500);
+            await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(300);
+            await pg.screenshot({ path: `${OUT}/${stamp}-${name}-full.png`, fullPage: true });
+            const after = await pg.evaluate(() => ({ pill: ((document.querySelector('.pick-pill') || {}).innerText || ''), preselected: [...document.querySelectorAll('#buybox .pick.on .pick-scent')].map((e) => e.innerText), btn: ((document.querySelector('#buybox .btn.atc') || {}).innerText || ''), sticky: ((document.querySelector('.sticky .btn') || {}).innerText || ''), sections: [...document.querySelectorAll('[id^=sec-]')].map((e) => e.id.slice(4)), heroSrc: (() => { const v = document.querySelector('#root video, #mc-hero-v'); return v ? (v.currentSrc || v.getAttribute('data-src') || v.src || '').slice(-40) : null; })(), cmpRows: document.querySelectorAll('.cmp tbody tr').length, rvs: document.querySelectorAll('.rv').length, faq: document.querySelectorAll('#sec-faq .qa').length, tried: (() => { const im = document.querySelector('#sec-enemyStack .split-half img'); return im ? [im.naturalWidth, (im.currentSrc || '').slice(-28)] : null; })(), h2px: (() => { const h = document.querySelector('#sec-goodbye h2'); return h ? getComputedStyle(h).fontSize : null; })(), gap: (() => { const h = document.querySelector('.rit-hdr'), g = document.querySelector('.gal'); return h && g ? Math.round(g.getBoundingClientRect().top - h.getBoundingClientRect().bottom) : null; })(), ratingTag: ((document.querySelector('.tb-rating') || {}).tagName), ratingGap: (() => { const g = document.querySelector('.gal'), r = document.querySelector('.tb-rating'); return g && r ? Math.round(r.getBoundingClientRect().top - g.getBoundingClientRect().bottom) : null; })(), pics: [...new Set([...document.querySelectorAll('#buybox .pick .ph img')].map((im) => im.naturalWidth + 'x' + im.naturalHeight + '@' + Math.round(im.getBoundingClientRect().width)))], steps: [...document.querySelectorAll('.hstep .ph')].map((e) => e.querySelector('video') ? 'video' : e.querySelector('img') ? 'img' : 'none'), galW: Math.round((document.querySelector('.gal') || document.body).getBoundingClientRect().width), loop: (() => { const v = document.querySelector('#root video'); return v ? v.loop : null; })(), imgs: (() => { const a = [...document.querySelectorAll('#root img')]; const bad = a.filter((i) => !i.complete || i.naturalWidth === 0); return { n: a.length, notLoaded: bad.length, notLoadedSrc: bad.slice(0, 5).map((i) => (i.currentSrc || i.src || i.dataset.src || '').slice(-50)) }; })(), sevenScents: ([...document.querySelectorAll('#sec-scentsStory p')].map((p) => p.innerText).find((t) => /comes? .*(with|today)/.test(t)) || '').slice(-120), stickyShown: (() => { const e = document.querySelector('.sticky'); return e ? getComputedStyle(e).display !== 'none' : null; })(), pageH: document.documentElement.scrollHeight }));
+            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, ...after, errs, consoleErrs: consoleErrs.slice(0, 8), failedOwn: failedOwn.slice(0, 8) })}`);
+            await ctx.close();
+          }
+          await b.close();
+          const fs = await import('fs'); fs.writeFileSync(`${OUT}/${stamp}-notes.txt`, notes.join('\n') + '\n'); console.log(notes.join('\n'));
+          EOF2
+          node shot.mjs
+      - name: Cart check (click the live Add to cart at 30 days / 90 days / one-time, expect the cart drawer to open, read /cart.js)
+        if: env.CART == 'yes'
+        run: |
+          cat > cart.mjs <<'EOF3'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL_ = process.env.URL, OUT = process.env.OUT;
+          const b = await chromium.launch(); const out = [];
+          for (const [name, prep] of [['sub-30', null], ['sub-90', '.fq:not(.dkt):nth-child(3)'], ['one-time', '.rf-link, .rf2 .fq-one']]) {
+            const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' });
+            const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+            await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+            await pg.waitForSelector('#buybox .btn.atc', { timeout: 30000 }); await pg.waitForTimeout(1500);
+            // dk9 (2026-10-20): the kits page is three steps again — go to step 2, press + on scents until the kit is full, review, then pick the frequency on step 3; the ritual / bundle pages keep the old prep
+            const threeStep = await pg.evaluate(() => !!document.querySelector('#buybox .btn.step-next'));
+            if (threeStep) {
+              if (name === 'one-time') { out.push(`${name}: n/a (subscription only on this page)`); console.log(out[out.length - 1]); await ctx.close(); continue; }
+              await pg.evaluate(() => document.querySelector('#buybox .btn.step-next').click()); await pg.waitForTimeout(600);
+              for (const i of [2, 5, 0, 6, 1, 3, 4]) { const full = await pg.evaluate(() => !document.querySelector('#buybox .pick-hint')); if (full) break; await pg.evaluate((i) => { const b = document.querySelectorAll('#buybox .picker .pick')[i].querySelector('.e4-step button[aria-label^="Add one"]'); b.scrollIntoView({ block: 'center' }); b.click(); }, i); await pg.waitForTimeout(200); }
+              await pg.evaluate(() => { const b = document.querySelector('#buybox .navrow .btn.atc'); b.scrollIntoView({ block: 'center' }); b.click(); }); await pg.waitForTimeout(600);
+              if (name === 'sub-90') { await pg.evaluate(() => { const b = document.querySelectorAll('#buybox .rf3-opt')[2]; b.scrollIntoView({ block: 'center' }); b.click(); }); await pg.waitForTimeout(300); }
+            } else {
+            // dk8: nothing is pre-selected on the kits page any more — pick the third scent (Chilled Citrus) when no scent is on; pages with pre-selected scents are left alone
+            await pg.evaluate(() => { if (!document.querySelector('#buybox .pick.on')) { const p = document.querySelector('#buybox .picker .pick:nth-child(3)'); if (p) { p.scrollIntoView({ block: 'center' }); p.click(); } } }); await pg.waitForTimeout(400);
+            if (prep) { const hit = await pg.evaluate((q) => { const e = document.querySelector(q); if (e) { e.scrollIntoView({ block: 'center' }); e.click(); return true; } return false; }, prep); await pg.waitForTimeout(400); if (!hit && name === 'sub-90') { out.push(`${name}: n/a (no 90-day option on this page)`); console.log(out[out.length - 1]); await ctx.close(); continue; } }
+            }
+            const before = await pg.evaluate(() => ({ btn: (document.querySelector('#buybox .btn.atc') || {}).innerText, alt: (document.querySelector('.rf-alt') || {}).innerText || null, freqOn: (document.querySelector('.fq.on:not(.dkt)') || document.querySelector('.rf3-opt.on') || {}).innerText || null, step: (document.querySelector('#buybox .step-eyebrow') || {}).innerText || null }));
+            await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
+            await pg.waitForTimeout(4000);
+            const landed = pg.url();
+            const drawer = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); if (!d) return null; const r = d.getBoundingClientRect(); const cs = getComputedStyle(d); return { open: d.hasAttribute('open') || !!d.open, visible: r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none', box: [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height)], text: (d.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 400) }; });
+            const cart = await pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { total: c.total_price / 100, itemsSubtotal: c.items_subtotal_price / 100, original: c.original_total_price / 100, discount: c.total_discount / 100, n: c.item_count, cartDiscounts: (c.cart_level_discount_applications || []).map((d) => d.title), items: c.items.map((i) => ({ t: i.product_title + (i.variant_title && i.variant_title !== 'Default Title' ? ' / ' + i.variant_title : ''), q: i.quantity, price: i.price / 100, line: i.final_line_price / 100, plan: i.selling_plan_allocation ? { name: i.selling_plan_allocation.selling_plan.name, now: i.selling_plan_allocation.price / 100, perDelivery: i.selling_plan_allocation.per_delivery_price / 100 } : null, disc: (i.line_level_discount_allocations || []).map((d) => d.discount_application.title + ' -' + d.amount / 100) })) }; });
+            const toast = await pg.evaluate(() => { const els = [...document.querySelectorAll('body *')].filter((e) => !/^(SCRIPT|STYLE)$/.test(e.tagName) && e.children.length === 0 && /Preview mode|hiccuped/.test(e.textContent || '')); return els.length ? els[els.length - 1].textContent : null; });
+            const drawerHtml = await pg.evaluate(() => { const d = document.getElementById('cart-drawer'); return d ? d.outerHTML.slice(0, 150000) : ''; });
+            fs.writeFileSync(`${OUT}/drawer-html-${name}.txt`, drawerHtml);
+            out.push(`${name}: ${JSON.stringify({ before, landed, drawer, toast, cart, errs })}`); console.log(out[out.length - 1]);
+            await pg.screenshot({ path: `${OUT}/cart-${name}.png` }).catch(() => {});
+            await ctx.close();
+          }
+          await b.close();
+          fs.writeFileSync(`${OUT}/cart-check-latest.txt`, out.join('\n') + '\n');
+          EOF3
+          node cart.mjs
+      - name: Button check (pages whose offer is not wired yet - tap Add to cart, expect the not-open-yet toast and no navigation)
+        if: env.CART != 'yes'
+        run: |
+          cat > btn.mjs <<'EOF4'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL_ = process.env.URL, OUT = process.env.OUT;
+          const b = await chromium.launch();
+          const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36' });
+          const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
+          await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+          await pg.waitForSelector('#buybox .btn.atc', { timeout: 30000 }); await pg.waitForTimeout(1500);
+          const before = await pg.evaluate(() => ({ btn: (document.querySelector('#buybox .btn.atc') || {}).innerText, pill: (document.querySelector('.pick-pill') || {}).innerText || null, tiers: [...document.querySelectorAll('.fq.dkt')].map((e) => e.innerText.replace(/\s+/g, ' ')), pack: !!document.querySelector('.pack'), qty: document.querySelectorAll('.cell-qty').length }));
+          await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
+          await pg.waitForTimeout(2500);
+          const toast = await pg.evaluate(() => { const els = [...document.querySelectorAll('body *')].filter((e) => !/^(SCRIPT|STYLE)$/.test(e.tagName) && e.children.length === 0 && /Preview mode|hiccuped|isn.t open|not open/.test(e.textContent || '')); return els.length ? els[els.length - 1].textContent : null; });
+          const cart = await pg.evaluate(async () => { const c = await (await fetch('/cart.js')).json(); return { n: c.item_count, total: c.total_price / 100 }; });
+          const line = JSON.stringify({ before, landed: pg.url(), toast, cart, errs }); console.log(line);
+          await pg.screenshot({ path: `${OUT}/btn-check.png` }).catch(() => {});
+          fs.writeFileSync(`${OUT}/btn-check-latest.txt`, line + '\n');
+          await b.close();
+          EOF4
+          node btn.mjs
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "page-shot: $URL" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

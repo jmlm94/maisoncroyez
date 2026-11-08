@@ -6,6 +6,12 @@ mc-dk.css @ dk13-525274f), the shared mc-lp-vendor.js / mc-lp-diffuser-assets.js
 variants, the 04/10 Subi plans, the FREE DIFFUSERS BXGYs), same Meta pixel. The key in page-body.html names the commit the two
 files were uploaded from.
 
+Created 2026-11-08 16:11 UTC through the connector (store confirmed Maison Croyez): fileCreate mc-dk2-app.js = GenericFile
+46750702370925 (138,466 B) and mc-dk2.css = GenericFile 46750702403693 (158,443 B) from raw @ bd9ca46, both READY; pageCreate
+"Diffuser Kits 2 — Maison Croyez" = Page 163782164589, handle diffuser-kits-2, published, no template suffix, metafield seo.hidden = 1,
+body = page-body.html @ key dk2a-bd9ca46 (sent as a GraphQL variable; Shopify re-serialises the markup with extra newlines, so the
+page-shot body check compares ignoring newlines). URL: https://maisoncroyez.com/pages/diffuser-kits-2
+
 Not on the theme's fast path: the speed-round-3 layout (lp-factory/theme-speed3) injects the scripts and hides the header only
 for page.handle diffuser-kits / manifestation-ritual / living-room-bedroom-bundle, and API writes to the live theme are blocked,
 so this handle runs on the page body's own loader (TH = false: the body adds mc-dk2.css + the three scripts itself). Same

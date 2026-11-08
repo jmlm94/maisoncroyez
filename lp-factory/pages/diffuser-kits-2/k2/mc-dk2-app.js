@@ -946,6 +946,30 @@ function Reviews6() {
 
 /* dk8 (2026-10-14): nothing is pre-selected any more, so a tap on Add to cart without a scent scrolls to Step 2 and outlines the grid for a moment */
 const nudgePicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); setTimeout(() => el.classList.remove("nudge"), 1700); };
+/* k2 round 3 (2026-11-08, owner: "send me 3 proposals and then we'll decide" for above the fold, after five Reels examples):
+   window.__K2_VARIANT__ = "a" picker-first (short hero, three-beat headline + subtitle, compact diffuser cards in the first screen),
+   "b" buy-more-save-more (the same top; Step 1 as a 1 | 2 | 3 segmented control with a selected-kit row, so the scent strip reaches the
+   first screen), "c" plan-first (the same top; Auto-refill vs One-time as the first decision, Subscribe card dominant with check
+   bullets, One-time a slim row; diffusers = Step 2, scents = Step 3). Anything else = "0", the page as published in v66. */
+const K2V = (typeof window !== "undefined" && /^[abc]$/.test(window.__K2_VARIANT__ || "")) ? window.__K2_VARIANT__ : "0";
+function PlanPick({ sel, each }) {
+  const one = sel.oneTime();
+  const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
+  return html`
+    <div class="step-eyebrow" id="k2-refills">Step 1 of 3</div>
+    <div class="picker-title step-title s9-title">Choose your plan:</div>
+    <div class="k2-plan" role="radiogroup" aria-label="Plan">
+      <div class=${"k2-plan-sub" + (one ? "" : " on")} role="radio" aria-checked=${!one} tabindex="0" onClick=${() => sel.setPlan("sub")} onKeyDown=${(e) => key(e, () => sel.setPlan("sub"))}>
+        <span class="k2-plan-band">Most popular · ${K2.refillOff}% off every refill</span>
+        <span class="k2-plan-row"><i class="k2-radio" aria-hidden="true"></i><span class="k2-plan-tx"><b>Auto-refill</b><small>Scents at today’s price now, ${K2.refillOff}% off on every refill. Every 30, 60 or 90 days.</small></span><span class="k2-plan-pr"><b>${K2.refillOff}% OFF</b><em>refills</em></span></span>
+        <span class="k2-checks"><span>${K2.refillOff}% off every scent refill</span><span>Swap, pause or cancel anytime</span><span>Free shipping + lifetime warranty on the diffusers</span></span>
+      </div>
+      <div class=${"k2-plan-one" + (one ? " on" : "")} role="radio" aria-checked=${one} tabindex="0" onClick=${() => sel.setPlan("one")} onKeyDown=${(e) => key(e, () => sel.setPlan("one"))}><i class="k2-radio" aria-hidden="true"></i><span class="k2-plan-tx"><b>One-time payment</b><small>Pay once. No refills.</small></span><span class="k2-plan-pr k2-plan-pr-one">${usd(each)}<em>/scent</em></span></div>
+    </div>
+    ${one ? null : html`<div class="rf3 k2-rf3" role="radiogroup" aria-label="Refill frequency">
+      ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>Every ${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
+    </div>`}`;
+}
 function BuyBox() {
   /* k2 (2026-11-08, owner): one page — 1. diffusers (paid, 1 / 2 / 3), 2. scents (priced by quantity), 3. refills (Subscribe = 25% off
      every refill | One-time payment), then the summary and the checkout button. Nothing is hidden behind steps any more.
@@ -971,17 +995,30 @@ function BuyBox() {
   const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
   const refillTotal = r2(n * sel.k2RefillEach());
   return html`
-    <section class="section pdp-buy step-1 k2" id="buybox">
+    <section class=${"section pdp-buy step-1 k2 k2-v" + K2V} id="buybox">
       <div class="wrap">
         <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1>
+          ${K2V === "0" ? html`<h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1>`
+            : html`<h1 class="h1-9e k2-h1">Smells Incredible.<br/>Looks Beautiful.<br/>Safe For Your Home.</h1><p class="k2-sub">Maison Croyez waterless home diffuser + 100% organic scents.</p>`}
           <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}>${h.short}</span>`)}</div>
 
-          <div class="step-eyebrow" id="k2-diffusers">Step 1 of 3</div>
+          ${K2V === "c" ? html`<${PlanPick} sel=${sel} each=${each}/>` : null}
+          <div class="step-eyebrow" id="k2-diffusers">Step ${K2V === "c" ? 2 : 1} of 3</div>
+          ${K2V === "b" ? html`
           <div class="picker-title step-title s9-title">How many diffusers?</div>
-          <div class="tiers t9 t9cols k2-tiers" role="radiogroup" aria-label="How many diffusers">
+          <div class="k2-bmsm-row"><span class="pick-pill k2-bmsm">Buy more. Save more.</span></div>
+          <div class="k2-seg k2-tiers" role="radiogroup" aria-label="How many diffusers">
+            ${K2.diffusers.map((d, i) => { const on = sel.tierIdx === i; return html`<button type="button" key=${d.key} class=${"k2-seg-b k2-tier" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setTier(i)}>${d.tag ? html`<small class="k2-seg-tag">${d.tag}</small>` : null}<b>${d.n}</b><span>${d.n > 1 ? "diffusers" : "diffuser"}</span><em>${usd(d.price)}</em></button>`; })}
+          </div>
+          <div class="k2-selrow">
+            <span class="k2-selrow-pic"><${Img} slot=${"kit" + Dk.n} alt=${Dk.n + " diffuser" + (Dk.n > 1 ? "s" : "")}/></span>
+            <span class="k2-selrow-tx"><b>${Dk.n} Diffuser${Dk.n > 1 ? "s" : ""} · ${usd(Dk.price)}</b>${Dk.was > Dk.price ? html`<span class="k2-was"><s>${usd(Dk.was)}</s> Save ${usd(r2(Dk.was - Dk.price))}</span>` : html`<span class="k2-was k2-was-0">Lifetime warranty</span>`}</span>
+            <span class="k2-cov"><b>${Dk.cov}</b><small>coverage</small></span>
+          </div>` : html`
+          <div class="picker-title step-title s9-title">How many diffusers?</div>
+          <div class=${"tiers t9 t9cols k2-tiers" + (K2V === "0" ? "" : " k2-tiers-c")} role="radiogroup" aria-label="How many diffusers">
             ${K2.diffusers.map((d, i) => { const on = sel.tierIdx === i; const pick = () => sel.setTier(i); const save = r2(d.was - d.price); return html`
               <div key=${d.key} class=${"tier t9c3 k2-tier" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-label=${d.n + " diffuser" + (d.n > 1 ? "s" : "") + " for " + usd(d.price)} tabindex="0" onClick=${pick} onKeyDown=${(e) => key(e, pick)}>
                 ${d.tag ? html`<span class=${"kg-tag t9-tag" + (d.pop ? " pop" : "")}>${d.tag}</span>` : null}
@@ -992,8 +1029,9 @@ function BuyBox() {
                 <span class="k2-cov"><b>${d.cov}</b><small>coverage</small></span>
               </div>`; })}
           </div>
+          `}
 
-          <div class="step-eyebrow" id="k2-scents">Step 2 of 3</div>
+          <div class="step-eyebrow" id="k2-scents">Step ${K2V === "c" ? 3 : 2} of 3</div>
           <div class="k2-scents-head"><div class="picker-title step-title s9-title">Pick your scents:</div><span class="pick-pill">${n} picked${n ? " · " + usd(each) + " each" : ""}</span></div>
           <div class="k2-strip" role="list" aria-label="Scent pricing by quantity">
             ${K2.scentTiers.map((t, i) => html`<span key=${t.min} class=${"k2-strip-t" + (tier === t ? " on" : "")} role="listitem"><b>${t.min}${i === K2.scentTiers.length - 1 ? "+" : ""} scent${t.min > 1 ? "s" : ""}</b><span>${usd(t.each)}${t.min > 1 ? " each" : ""}</span></span>`)}
@@ -1019,6 +1057,7 @@ function BuyBox() {
             : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it, + adds it.</b></span>`}</div>
           ${n === 0 ? html`<p class="pick-hint k2-hint">Pick at least one scent above to continue.</p>` : null}
 
+          ${K2V === "c" ? null : html`
           <div class="step-eyebrow" id="k2-refills">Step 3 of 3</div>
           <div class="picker-title step-title s9-title">How do you want your refills?</div>
           <div class="plan2" role="radiogroup" aria-label="Refills">
@@ -1029,6 +1068,7 @@ function BuyBox() {
           <div class="rf3" role="radiogroup" aria-label="Refill frequency">
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
           </div>`}
+          `}
 
           ${sel.k2Value() > sel.k2Today() ? html`<p class="s9-value">That’s <b class="s9-val-green">${usd(sel.k2Value())} of value</b>, you pay ${usd(sel.k2Today())} today.</p>` : null}
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.k2Today().toFixed(2)}</span><span class="s9-due-each">${Dk.n} diffuser${Dk.n > 1 ? "s" : ""} ${usd(Dk.price)}${n ? " + " + n + " scent" + (n > 1 ? "s" : "") + " × " + usd(each) : ""}</span></div>

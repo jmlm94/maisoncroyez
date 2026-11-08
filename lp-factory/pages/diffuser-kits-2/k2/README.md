@@ -15,3 +15,6 @@ Subscribe 1 diffuser + 2 scents $129.85 with 2SCENTS + the 04/10 plan's $10).
 
 Round 2 (2026-11-08, the owner's artifact comments): no pill, coverage badges on the diffuser cards, no "Where it goes" block, no
 bottle-life / badges / IFRA block, the scents as a list, no summary block. Details in ../README.md.
+
+Round 3 (2026-11-08): three above-the-fold variants in the app, picked by window.__K2_VARIANT__ = "a" | "b" | "c" (default = the v66
+page). Local build of a variant: build the page, then insert <script>window.__K2_VARIANT__="b"</script> before <title>. Details in ../README.md.

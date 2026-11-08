@@ -82,3 +82,14 @@ rooms) deleted; (4) "Each scent lasts 15+ days." deleted and (5) the badges + "A
 (same classes, the k2 QA checks the rows span the picker); (7) the order-summary block (#k2-summary) deleted - the value line, Due
 today with its breakdown and the sentence carry the total. Rendered locally phone 390 + desktop 1366: no errors, no overflow, rows
 350 / 538 px wide, Due today $204.80 for 2 diffusers + 3 scents. Still preview only - nothing on Shopify.
+
+Round 3 (2026-11-08, owner: "send me 3 proposals and then we'll decide" for above the fold, after five Reels he sent - visual salience /
+compromise effect / price anchoring + bonus value / "buy more save more" toggle / three-beat headline): the k2 app now carries three
+first-screen variants picked by window.__K2_VARIANT__ (a / b / c; anything else = the v66 page). All three: hero cut to a 190 px band on
+the phone, headline "Smells Incredible. Looks Beautiful. Safe For Your Home." with the owner's sentence as the subtitle, his three pills.
+A picker-first (compact diffuser cards, all three in the first screen: cards end 40 px above the fold on 390x844 minus the sticky bar);
+B buy-more-save-more (Step 1 = a 1 | 2 | 3 segmented control with the price under each number, a "Buy more. Save more." pill and a
+selected-kit row with picture, saving and the coverage badge; 29 px above the fold); C plan-first (Auto-refill card with a Most popular
+band, 25% OFF and three check bullets vs One-time payment as a slim row, frequency under it; diffusers = Step 2, scents = Step 3, the
+old Step 3 block gone; the picker ends 8 px above the fold). Published as a separate artifact "Three Above-the-Fold Proposals" with the
+three live pages (a.html / b.html / c.html) and phone + desktop shots; the main preview (v66) is untouched. Preview only.

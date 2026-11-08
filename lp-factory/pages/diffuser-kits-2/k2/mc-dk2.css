@@ -1823,3 +1823,20 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .k2 .plan2-opt .plan2-pr em{display:block;font-size:.6rem;margin-left:0}
 #root .k2 .s9-due-each s{color:#8A8079;font-weight:600;margin-right:2px}
 @media (min-width:700px){#root .k2-tier .k2-price{font-size:1.45rem}#root .k2-strip-t{font-size:.8rem}#root .k2-strip-t b{font-size:.85rem}#root .picker.e4 .k2-smell{font-size:.58rem}#root .k2-tier .k2-line{font-size:.68rem}}
+/* k2 round 2 (2026-11-08, owner's artifact comments): coverage badge on the diffuser cards; the scents as a list; the pill, the "Where it goes" block, the bottle-life block and the summary block are gone */
+#root .k2-tier .k2-cov{display:inline-flex;flex-direction:column;align-items:center;gap:0;margin-top:7px;padding:4px 9px;border-radius:9px;background:#141414;color:#fff;font-family:'Outfit',sans-serif;line-height:1.15;max-width:100%}
+#root .k2-tier .k2-cov b{font-weight:800;font-size:.66rem;letter-spacing:.02em;white-space:nowrap}
+#root .k2-tier .k2-cov small,#root .tier.k2-tier .k2-cov small{color:#fff !important;font-weight:700;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;opacity:.9}
+#root .k2-tier.on .k2-cov{background:#1E7A1E}
+#root .picker.e4.k2-list{display:flex !important;flex-direction:column;gap:8px}
+#root .picker.e4.k2-list .pick{display:grid !important;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 10px 7px 7px;text-align:left;border-radius:12px}
+#root .picker.e4.k2-list .pick .e4-ph{width:64px;height:64px}
+#root .picker.e4.k2-list .pick .e4-ph .ph{width:64px !important;height:64px !important;aspect-ratio:auto;border-radius:8px}
+#root .picker.e4.k2-list .k2-row-tx{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+#root .picker.e4.k2-list .e4-name,#root #buybox.step-2 .picker.e4.k2-list .e4-name{font-size:13px;line-height:1.2;margin:0;min-height:0}
+#root .picker.e4.k2-list .k2-smell{font-size:.6rem;margin:0}
+#root .picker.e4.k2-list .e4-str{margin:1px 0 0;justify-content:flex-start;font-size:.52rem}
+#root .picker.e4.k2-list .e4-step,#root .picker.e4.k2-list .e4-ph .e4-step{position:static;left:auto;bottom:auto;transform:none;margin:0;width:auto;background:transparent;box-shadow:none;padding:0;gap:8px}
+#root .picker.e4.k2-list .e4-step button{width:30px;height:30px;font-size:17px}
+#root .picker.e4.k2-list .e4-step b{font-size:15px;min-width:16px}
+@media (min-width:700px){#root .picker.e4.k2-list{display:flex !important;gap:9px}#root .picker.e4.k2-list .e4-name{font-size:14px}#root .picker.e4.k2-list .k2-smell{font-size:.64rem}#root .k2-tier .k2-cov{flex-direction:row;gap:5px;padding:4px 11px}#root .k2-tier .k2-cov b{font-size:.74rem}#root .k2-tier .k2-cov small{font-size:.52rem}}

@@ -72,3 +72,13 @@ Each scent lasts 15+ days."
   163782164589 with the dk2b-3deef01 body (17:18:48Z). QA: qa-kits-2.yml rewritten for the one-page flow (two real checkouts:
   one-time 2 diffusers + 3 scents = $204.80 with 3SCENTS; Subscribe 1 diffuser + 2 scents = $129.85 with 2SCENTS + the plan's $10),
   page-shot-2 (body check; the drawer cart check is off).
+
+Round 2 (2026-11-08 18:24-18:25 UTC, the owner's seven comments on the artifact, all applied in k2/ and published as v66 "k2 one-page v2
+(comments 1)"; the comments were not sent to Claude, so they stay open on the artifact): (1) the "BUILD YOUR KIT & SAVE UP TO $80"
+pill deleted (app + the pre-hero in k2/page-body.html); (2) the coverage line under each diffuser card replaced by a badge - "600 sq
+ft / 1,200 sq ft / 1,800 sq ft COVERAGE", black, green on the selected card, nothing else; (3) the "Where it goes" block (plan line +
+rooms) deleted; (4) "Each scent lasts 15+ days." deleted and (5) the badges + "All IFRA 51 compliant." deleted (the whole block);
+(6) the scents as a list instead of the tile grid - one full-width row per scent: photo 64px, name, smell label, strength, - n +
+(same classes, the k2 QA checks the rows span the picker); (7) the order-summary block (#k2-summary) deleted - the value line, Due
+today with its breakdown and the sentence carry the total. Rendered locally phone 390 + desktop 1366: no errors, no overflow, rows
+350 / 538 px wide, Due today $204.80 for 2 diffusers + 3 scents. Still preview only - nothing on Shopify.

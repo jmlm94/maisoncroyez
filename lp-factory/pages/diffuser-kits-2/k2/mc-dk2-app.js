@@ -626,9 +626,9 @@ const K2 = {
   product: 15430881673325,
   variants: { one: 67973611290733, two: 67973611323501, three: 67973611356269 },
   diffusers: [
-    { key: "one", n: 1, price: 89.95, was: 89.95, tag: "", pop: false, line: "1 room · up to 600 sq ft" },
-    { key: "two", n: 2, price: 129.95, was: 179.90, tag: "Most popular", pop: true, line: "2 rooms · up to 1,200 sq ft" },
-    { key: "three", n: 3, price: 189.95, was: 269.85, tag: "Best value", pop: false, line: "Whole home · up to 1,800 sq ft" },
+    { key: "one", n: 1, price: 89.95, was: 89.95, tag: "", pop: false, cov: "600 sq ft" },
+    { key: "two", n: 2, price: 129.95, was: 179.90, tag: "Most popular", pop: true, cov: "1,200 sq ft" },
+    { key: "three", n: 3, price: 189.95, was: 269.85, tag: "Best value", pop: false, cov: "1,800 sq ft" },
   ],
   scentTiers: [{ min: 1, each: 39.95, code: null }, { min: 2, each: 29.95, code: "2SCENTS" }, { min: 3, each: 24.95, code: "3SCENTS" }],
   refillOff: 25,
@@ -948,15 +948,17 @@ function Reviews6() {
 const nudgePicker = () => { const el = document.querySelector("#buybox .picker"); if (!el) return; el.classList.remove("nudge"); void el.offsetWidth; el.classList.add("nudge"); setTimeout(() => el.classList.remove("nudge"), 1700); };
 function BuyBox() {
   /* k2 (2026-11-08, owner): one page — 1. diffusers (paid, 1 / 2 / 3), 2. scents (priced by quantity), 3. refills (Subscribe = 25% off
-     every refill | One-time payment), then the summary and the checkout button. Nothing is hidden behind steps any more. */
+     every refill | One-time payment), then the summary and the checkout button. Nothing is hidden behind steps any more.
+     Round 2 (2026-11-08, owner's artifact comments): no pill, the diffuser cards carry a coverage badge (600 / 1,200 / 1,800 sq ft)
+     instead of the room line, no "Where it goes" block, no bottle-life / badges / IFRA block, the scents as a list (photo, name,
+     smell, strength, − n +), no order-summary block (the Due today line carries the total). */
   const B = CONFIG.buybox;
   const sel = useSelection();
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState("");
   const [open, setOpen] = useState(-1);
-  const T = sel.tier(); const Dk = sel.diff();
-  const n = sel.keys.length, each = sel.k2Each(), tier = k2Tier(n), full = n >= K2.maxScents, LIST = K2.scentTiers[0].each;
-  const rows = sel.grouped();
+  const Dk = sel.diff();
+  const n = sel.keys.length, each = sel.k2Each(), tier = k2Tier(n), full = n >= K2.maxScents;
   const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
   const goReviews = () => { let k = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (k++ < 40) setTimeout(f, 50); }; f(); };
   const chips = html`
@@ -974,7 +976,6 @@ function BuyBox() {
         <div class="gal-col"><${Gallery}/></div>
         <div class="buybox">
           <button type="button" class="tb-rating tb-rating-btn" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews" onClick=${goReviews}><span class="stars5" aria-hidden="true"><span class="stars-fill" style=${{ width: "94%" }}>★★★★★</span>★★★★★</span><b>4.7 Rated (124 reviews)</b></button>
-          <p class="dk-freebar">BUILD YOUR KIT & SAVE UP TO $80</p>
           <h1 class="h1-9e">Maison Croyez Home Diffuser & 100% Organic Scents: Make your spaces look and feel great and safe again.</h1>
           <div class="hs3 hs3-under">${HEALTH3.map((h) => html`<span class="hs" key=${h.short}>${h.short}</span>`)}</div>
 
@@ -988,18 +989,8 @@ function BuyBox() {
                 <span class="k2-price">${usd(d.price)}</span>
                 ${save > 0 ? html`<span class="k2-was"><s>${usd(d.was)}</s> Save ${usd(save)}</span>` : html`<span class="k2-was k2-was-0">${usd(d.price)} each</span>`}
                 <span class="t9p2-pic k2-pic"><${Img} slot=${"kit" + d.n} alt=${d.n + " diffuser" + (d.n > 1 ? "s" : "")}/></span>
-                <span class="k2-line">${d.line}</span>
+                <span class="k2-cov"><b>${d.cov}</b><small>coverage</small></span>
               </div>`; })}
-          </div>
-          <div class="place" key=${T.key}>
-            <div class="place-grid">
-              <div class="plan place-plan" dangerouslySetInnerHTML=${{ __html: PLANS[T.key] }}></div>
-              <div class="place-side">
-                <div class="place-head">Where it goes:</div>
-                <div class="place-rooms">${T.rooms.map((r) => { const l = r.replace(/^[^A-Za-z0-9]+/, ""); return html`<span key=${r} class="place-room"><span class="mc-ic pr-ic" aria-hidden="true" dangerouslySetInnerHTML=${{ __html: ROOM_IC[l] || "" }}></span>${l}</span>`; })}</div>
-                <p class="place-cap" dangerouslySetInnerHTML=${{ __html: T.where }}></p>
-              </div>
-            </div>
           </div>
 
           <div class="step-eyebrow" id="k2-scents">Step 2 of 3</div>
@@ -1007,18 +998,15 @@ function BuyBox() {
           <div class="k2-strip" role="list" aria-label="Scent pricing by quantity">
             ${K2.scentTiers.map((t, i) => html`<span key=${t.min} class=${"k2-strip-t" + (tier === t ? " on" : "")} role="listitem"><b>${t.min}${i === K2.scentTiers.length - 1 ? "+" : ""} scent${t.min > 1 ? "s" : ""}</b><span>${usd(t.each)}${t.min > 1 ? " each" : ""}</span></span>`)}
           </div>
-          <div class="s2-facts">
-            <p class="s2-life">Each scent lasts 15+ days.</p>
-            <div class="s2-badges">${[["leaf", "Organic Ingredients"], ["noparaben", "Paraben-Free"], ["bunny", "Cruelty-Free"]].map(([k, t]) => html`<span class="s2-b" key=${k}>${ic(k, "s2-b-ic")}<span>${t}</span></span>`)}</div>
-            <p class="s2-ifra">All IFRA 51 compliant.</p>
-          </div>
-          <div class="picker e4" role="group" aria-label="Pick your scents">
+          <div class="picker e4 k2-list" role="group" aria-label="Pick your scents">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}>
                 <div class="e4-ph"><${Img} slot=${f.pimg || f.img} alt=${f.name}/></div>
-                <span class="pick-scent e4-name">${f.name}</span>
-                <span class="k2-smell">${K2.smell[f.key] || ""}</span>
-                ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null}
+                <span class="k2-row-tx">
+                  <span class="pick-scent e4-name">${f.name}</span>
+                  <span class="k2-smell">${K2.smell[f.key] || ""}</span>
+                  ${f.strength ? html`<span class=${"pick-str e4-str s-" + f.strength} title="Scent strength"><i></i><i></i><i></i>${f.strength}</span>` : null}
+                </span>
                 <span class="e4-step" onClick=${(e) => e.stopPropagation()}>
                   <button type="button" aria-label=${"Remove one " + f.name} disabled=${q === 0} onClick=${() => { sel.last = f.key; sel.remove(f.key); }}>−</button>
                   <b>${q}</b>
@@ -1042,20 +1030,6 @@ function BuyBox() {
             ${FREQS.map((o) => { const on = sel.freq === o.days; return html`<button type="button" key=${o.days} class=${"rf3-opt" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setFreq(o.days)}><b>${o.days} days</b>${o.tag ? html`<small class="rf3-tag">${o.tag}</small>` : null}</button>`; })}
           </div>`}
 
-          <div class="kitrev k9 k2-rev" id="k2-summary">
-            <div class="kr-row kr-kit">
-              <img class="kr-img" src=${(CONFIG.images["kit" + Dk.n] || {}).src || ""} alt="" decoding="async"/>
-              <span class="kr-tx"><b>${Dk.n}× Maison Croyez Diffuser</b><span class="kr-sub">Waterless, leakproof, lifetime warranty.</span></span>
-              <span class="kr-pr">${Dk.was > Dk.price ? html`<s>${usd(Dk.was)}</s> ` : null}${usd(Dk.price)}</span>
-            </div>
-            ${rows.map(({ f, q }) => html`
-              <div class="kr-row" key=${f.key}>
-                <${Img} slot=${f.pimg || f.img} alt=${f.name}/>
-                <span class="kr-tx"><b>${q}× ${f.name}</b><span class="kr-sub">${f.intention} · 100ml</span></span>
-                <span class="kr-pr">${each < LIST ? html`<s>${usd(r2(q * LIST))}</s> ` : null}${usd(r2(q * each))}</span>
-              </div>`)}
-            ${n === 0 ? html`<div class="kr-row kr-empty"><span class="kr-tx"><b>No scents yet</b><span class="kr-sub">Pick at least one above.</span></span><span class="kr-pr">—</span></div>` : null}
-          </div>
           ${sel.k2Value() > sel.k2Today() ? html`<p class="s9-value">That’s <b class="s9-val-green">${usd(sel.k2Value())} of value</b>, you pay ${usd(sel.k2Today())} today.</p>` : null}
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.k2Today().toFixed(2)}</span><span class="s9-due-each">${Dk.n} diffuser${Dk.n > 1 ? "s" : ""} ${usd(Dk.price)}${n ? " + " + n + " scent" + (n > 1 ? "s" : "") + " × " + usd(each) : ""}</span></div>
           <p class="t9s-how t9s-expl">${sel.oneTime()

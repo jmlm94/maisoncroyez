@@ -1,24 +1,24 @@
-*Maison Croyez — Daily Report · Friday, November 6, 2026*
+*Maison Croyez — Daily Report · Saturday, November 7, 2026*
 
-:white_check_mark: *Shopify is back on Maison Croyez, so Nov 3–5 are filled in.* Nov 3: $624 in sales from 6 orders, 5 new subscribers, profit −$580. Nov 4: $499 from 5 orders, 1 new subscriber, profit −$342. Nov 5: $375 from 5 orders, 1 new subscriber, profit −$512. The 7-day and longer windows below are complete again.
-:dart: *Ads yesterday ($869 spent, 2 Meta-attributed purchases worth $156):* Only the two Winners campaigns ran. They were paused overnight and turned back on around 6:22 AM ET. Winners spent $530 for 2 purchases: the "Winners" ad set got 1 ($120) on $263 and "Creator Best 3" got 1 ($36) on $267, with 10 add-to-carts. The "Winners" ad set also drew 757 clicks at $0.35 each but only 6 add-to-carts, the same cheap-click pattern as the Native ads. Winners LAL spent $340 for 11 add-to-carts and 0 purchases; its 3–6% lookalike spent $186 with no add-to-carts. Shopify shows 1 new subscriber yesterday, so the ads cost $869 per new subscriber.
+:rotating_light: *No new customers yesterday.* The only Shopify order was a $49.95 renewal. Meta counted 0 purchases on $631 of spend, but it did count 61 add-to-carts and 5 checkouts started from the "Winners" ad set. That ad set had 6 add-to-carts the day before. A jump to 61 with no sales is unusual, so it's worth placing a test order to make sure checkout is working.
+:dart: *Ads yesterday ($631 spent, 0 Meta-attributed purchases):* Only the two Winners campaigns ran. Winners spent $488: the "Winners" ad set $396 (237 clicks, 61 add-to-carts) and "Creator Best 3" $92 (8 add-to-carts). Winners LAL spent $143 across its three lookalikes with no add-to-carts. Since launch on Nov 5, the two Winners campaigns have spent $1,791 for 3 Meta-attributed purchases, about $597 per purchase.
 
-Hello Jose — yesterday we sold *$326* on Shopify across *5 orders* (*$260* subscription · *$66* one-time). COGS were *$133*, shipping ≈*$38*, processing fees *$10.89*, handling *$5.00*, and Meta ad spend *$869* (CPM $94.82 · CPC $0.98 · CTR 9.72%).
+Hello Jose — yesterday we sold *$50* on Shopify across *1 order* (*$50* subscription · *$0* one-time). COGS were *$9*, shipping ≈*$8*, processing fees *$1.65*, handling *$1.00*, and Meta ad spend *$631* (CPM $212.72 · CPC $2.17 · CTR 9.81%).
 
-:red_circle: *Contribution profit yesterday: −$730* · Blended ROAS *0.37×*
+:red_circle: *Contribution profit yesterday: −$600* · Blended ROAS *0.08×*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $326 | $869 | −$730 (−42.6%) | 0.37× |
-| 7 days | $4,280 | $4,954 | −$3,007 (−2526.1%) | 0.86× |
-| 14 days | $8,430 | $7,233 | −$3,122 (−493.2%) | 1.17× |
-| 28 days | $15,043 | $11,238 | −$3,648 (+40.0%) | 1.34× |
-| 45 days | $20,727 | $16,201 | −$5,960 (+66.1%) | 1.28× |
-| 90 days | $48,354 | $42,295 | −$23,538  | 1.14× |
+| Yesterday | $50 | $631 | −$600 (+18.1%) | 0.08× |
+| 7 days | $3,122 | $5,035 | −$3,722 (−2304.0%) | 0.62× |
+| 14 days | $8,240 | $7,867 | −$3,877 (−823.2%) | 1.05× |
+| 28 days | $14,314 | $11,650 | −$4,297 (+19.9%) | 1.23× |
+| 45 days | $19,968 | $16,296 | −$6,484 (+61.1%) | 1.23× |
+| 90 days | $47,837 | $41,762 | −$23,150  | 1.15× |
 
-:seedling: *Subscriptions:* 325 acquired · est. MRR *$19,922* (ceiling — cancels not visible via API) · 1 new yesterday · 126 renewal orders in 28d
-:vs: *Meta vs day before:* CPM −5.2% · CPC +34.7% · CTR −29.6% · spend +26.1%
-:scales: *Worth it yet?* Almost — each sub costs $331, returns ~$180 in 180d (0.55×). Break-even CAC: $180.
+:seedling: *Subscriptions:* 325 acquired · est. MRR *$19,922* (ceiling — cancels not visible via API) · 0 new yesterday · 122 renewal orders in 28d
+:vs: *Meta vs day before:* CPM +125.3% · CPC +123.1% · CTR +0.9% · spend −27.6%
+:scales: *Worth it yet?* Almost — each sub costs $388, returns ~$180 in 180d (0.46×). Break-even CAC: $180.
 
 :test_tube: *LP Test final tally (Oct 5–20, Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase. Break-even is $180 per new subscriber, which is the bar the new campaigns need to beat.
 

@@ -1,5 +1,5 @@
 name: qa-kits-2
-# qa-kits pointed at the working copy /pages/diffuser-kits-2 (lp-factory/pages/diffuser-kits-2): the same checks and the same three real carts as qa-kits.yml, results in lp-factory/pages/diffuser-kits-2/qa/<stamp>/. Edit this line and push to run. [run 1: the copy at creation, key dk2a-bd9ca46]
+# qa-kits pointed at the working copy /pages/diffuser-kits-2 (lp-factory/pages/diffuser-kits-2): the same checks and the same three real carts as qa-kits.yml, results in lp-factory/pages/diffuser-kits-2/qa/<stamp>/. Edit this line and push to run. [run 1: skipped — the gate only knew dk9*/dk1* keys] [run 2: the copy at creation, key dk2a-bd9ca46]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -27,7 +27,7 @@ jobs:
           curl -sSL -A "Mozilla/5.0" https://maisoncroyez.com/pages/diffuser-kits-2 -o live.html || true
           KEY=$(grep -o "var v='[^']*'" live.html | head -1 | cut -d"'" -f2)
           echo "live key: $KEY"
-          if [[ "$KEY" == dk9* || "$KEY" == dk1* ]]; then echo "run=yes" >> "$GITHUB_OUTPUT"; else echo "run=no" >> "$GITHUB_OUTPUT"; echo "live page is not on dk9 yet — skipping"; fi
+          if [[ "$KEY" == dk9* || "$KEY" == dk1* || "$KEY" == dk2* ]]; then echo "run=yes" >> "$GITHUB_OUTPUT"; else echo "run=no" >> "$GITHUB_OUTPUT"; echo "live page is not on dk9 yet — skipping"; fi
       - name: Kits QA
         if: steps.gate.outputs.run == 'yes'
         run: |

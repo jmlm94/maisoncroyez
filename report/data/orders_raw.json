@@ -78468,5 +78468,488 @@
     }
    ]
   }
+ },
+ {
+  "name": "#MC27257",
+  "createdAt": "2026-11-08T08:11:11Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #2",
+   "Subi Subscription"
+  ],
+  "customer": {
+   "id": "gid://shopify/Customer/8797456498797"
+  },
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "79.9"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "79.9"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "2.46"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Midnight Sensation – Love Manifestation (100ml)",
+      "quantity": 2,
+      "sellingPlan": {
+       "name": "Every 30 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC27258",
+  "createdAt": "2026-11-08T13:29:16Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "First Subscription Order",
+   "Subi Subscription"
+  ],
+  "customer": {
+   "id": "gid://shopify/Customer/31341639434349"
+  },
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "119.8"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "179.9"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "119.8"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "3.53"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Wildwood Mystique – Purification (100ml)",
+      "quantity": 2,
+      "sellingPlan": {
+       "name": "Every 90 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "29.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 2,
+      "sellingPlan": {
+       "name": "Every 90 days"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "29.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "node": {
+      "title": "Home Diffusers FREE Pack 🎁",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "179.9"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "52.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC27259",
+  "createdAt": "2026-11-08T14:51:01Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [],
+  "customer": {
+   "id": "gid://shopify/Customer/8689094066285"
+  },
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "39.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "AUTHORIZATION",
+    "status": "SUCCESS",
+    "fees": []
+   },
+   {
+    "kind": "CAPTURE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.38"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Maison Croyez - Manifestation Scents (100ml)",
+      "quantity": 1,
+      "sellingPlan": null,
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "39.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "name": "#MC27260",
+  "createdAt": "2026-11-08T19:24:51Z",
+  "cancelledAt": null,
+  "displayFinancialStatus": "PAID",
+  "tags": [
+   "Recurring Order #2",
+   "Subi Subscription"
+  ],
+  "customer": {
+   "id": "gid://shopify/Customer/8677460410477"
+  },
+  "subtotalPriceSet": {
+   "shopMoney": {
+    "amount": "49.95"
+   }
+  },
+  "totalDiscountsSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalShippingPriceSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalTaxSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "totalPriceSet": {
+   "shopMoney": {
+    "amount": "49.95"
+   }
+  },
+  "totalRefundedSet": {
+   "shopMoney": {
+    "amount": "0.0"
+   }
+  },
+  "refunds": [],
+  "transactions": [
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "FAILURE",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   },
+   {
+    "kind": "SALE",
+    "status": "SUCCESS",
+    "fees": [
+     {
+      "amount": {
+       "amount": "1.65"
+      }
+     }
+    ]
+   }
+  ],
+  "lineItems": {
+   "edges": [
+    {
+     "node": {
+      "title": "Golden Blossom Harmony – Love (100ml)",
+      "quantity": 1,
+      "sellingPlan": {
+       "name": "Delivered every 45 days ❤️"
+      },
+      "originalUnitPriceSet": {
+       "shopMoney": {
+        "amount": "49.95"
+       }
+      },
+      "variant": {
+       "inventoryItem": {
+        "unitCost": {
+         "amount": "9.0"
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
  }
 ]

@@ -560,13 +560,13 @@ async function addToCart(setBusy, setToast) { return k2AddToCart(setBusy, setToa
    exactly what the summary shows. */
 async function k2AddToCart(setBusy, setToast) {
   const n = selStore.keys.length;
-  if (n === 0) { setToast("Pick at least one scent to continue."); return; }
+  if (n === 0 && selStore.want !== 0) { setToast("Pick at least one scent to continue."); return; }
   const Dk = selStore.diff(); const vid = K2.variants[Dk.key];
-  const plans = K2.plans || K2.plansFallback; const planId = selStore.oneTime() ? null : (plans[selStore.freq] || plans[30]); const code = selStore.k2Code();
+  const plans = K2.plans || K2.plansFallback; const planId = (selStore.oneTime() || n === 0) ? null : (plans[selStore.freq] || plans[30]); const code = selStore.k2Code();
   const items = [{ id: vid, quantity: 1 }];
   selStore.grouped().forEach(({ f, q }) => items.push(Object.assign({ id: f.variant, quantity: q }, planId ? { selling_plan: planId } : {})));
   if (!onStore()) {
-    setToast("Preview mode. On the live store this adds " + Dk.n + " diffuser" + (Dk.n > 1 ? "s" : "") + " (" + usd(Dk.price) + ") + " + selStore.label() + (planId ? " on the every-" + selStore.freq + "-days plan" : " one-time") + ", " + usd(selStore.k2Today()) + " today" + (code ? " (code " + code + ")" : "") + ", and goes to the checkout.");
+    setToast("Preview mode. On the live store this adds " + Dk.n + " diffuser" + (Dk.n > 1 ? "s" : "") + " (" + usd(Dk.price) + ")" + (n ? " + " + selStore.label() + (planId ? " on the every-" + selStore.freq + "-days plan" : " one-time") : " only") + ", " + usd(selStore.k2Today()) + " today, and goes to the checkout" + (code ? " with " + code : "") + ".");
     return;
   }
   try {
@@ -627,8 +627,8 @@ const K2 = {
   variants: { one: 67973611290733, two: 67973611323501, three: 67973611356269 },
   diffusers: [
     { key: "one", n: 1, price: 89.95, was: 89.95, tag: "", pop: false, cov: "600 sq ft" },
-    { key: "two", n: 2, price: 129.95, was: 179.90, tag: "Most popular", pop: true, cov: "1,200 sq ft" },
-    { key: "three", n: 3, price: 189.95, was: 269.85, tag: "Best value", pop: false, cov: "1,800 sq ft" },
+    { key: "two", n: 2, price: 139.95, was: 179.90, tag: "Most popular", pop: true, cov: "1,200 sq ft" },
+    { key: "three", n: 3, price: 209.95, was: 269.85, tag: "Best value", pop: false, cov: "1,800 sq ft" },
   ],
   scentTiers: [{ min: 1, each: 39.95, code: null }, { min: 2, each: 29.95, code: "2SCENTS" }, { min: 3, each: 24.95, code: "3SCENTS" }],
   refillOff: 25,
@@ -639,12 +639,14 @@ const K2 = {
 };
 const k2Tier = (n) => { let t = K2.scentTiers[0]; K2.scentTiers.forEach((x) => { if (n >= x.min) t = x; }); return t; };
 const r2 = (v) => Math.round(v * 100) / 100;
+const k2PerEach = (d) => Math.round(Math.round(d.price * 100) / d.n) / 100; /* k2 round 4: the cost per diffuser shown on each option */
 const selStore = {
   tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* dk1: 2 diffusers preselected (most popular); dk9p (2026-10-21): ?kit=one|two|three (or 1|2|3) preselects, used by the home page cards */
   plan: "sub",            /* scents: "sub" = auto-refill / Subscribe & Save 20% | "one" = one-time (default tier is 2D => sub) */
   freq: 30,
   keys: [],               /* dk8 (2026-10-14, owner): nothing pre-selected, the customer picks the free scent (was Chilled Citrus since dk1) */
   last: null,             /* dk9: the scent tapped last (the smells-like bar describes it) */
+  want: null,             /* k2 round 4 (2026-11-10, owner): the quantity tile tapped under "How many scents?" (1 / 2 / 3), 0 = "No thank you, I don't want scents", null = not chosen yet */
   step: 1,                /* ritual (2026-09-26): one screen; kept at 1 so the sections below still mount */
   setStep(n) { this.step = n; this.emit(); setTimeout(() => window.dispatchEvent(new Event("resize")), 60); },
   listeners: new Set(),
@@ -653,6 +655,7 @@ const selStore = {
   get count() { return this.tier().scents; },
   setTier(i) { this.tierIdx = i; this.emit(); }, /* k2: the scents are independent of the diffuser count */
   setPlan(p) { this.plan = p; this.emit(); },
+  setWant(w) { this.want = w; if (w === 0) { this.keys = []; this.last = null; } else if (this.keys.length > w) { this.keys = this.keys.slice(0, w); } this.emit(); },
   setFreq(d) { this.freq = d; this.emit(); },
   scentPrice() { return this.plan === "one" ? SCENT_LIST : SCENT_ONE; }, /* dk13: $39.95 one-time, $29.95 with auto-refill */
   included() { return Math.min(this.keys.length, this.tier().scents); },
@@ -682,7 +685,7 @@ const selStore = {
   complete() { return this.left() === 0; },
   emit() { this.listeners.forEach((fn) => fn()); },
   setKeys(ks) { this.keys = ks.slice(0, this.tier().scents); this.emit(); },
-  add(k) { const cap = K2.maxScents; if (this.keys.length >= cap) return false; /* k2: up to seven bottles, any mix */ this.keys = [...this.keys, k]; this.last = k; this.emit(); return true; }, /* dk9: up to the kit's count, duplicates allowed */
+  add(k) { const cap = K2.maxScents; if (this.keys.length >= cap) return false; /* k2: up to seven bottles, any mix */ this.keys = [...this.keys, k]; this.last = k; if (this.want !== null && this.keys.length > this.want) this.want = this.keys.length; this.emit(); return true; }, /* dk9: up to the kit's count, duplicates allowed */
   toggle(k) { this.last = k; if (this.qty(k) > 0) { this.remove(k); return; } this.add(k); }, /* dk9: a tap on a picked tile removes one bottle */
   peek(k) { this.last = k; this.emit(); }, /* dk9f (owner): a tap on a tile only shows the scent; + adds */
   remove(k) {
@@ -838,7 +841,7 @@ function Gallery() {
   const trackRef = useRef(null);
   const go = (n) => {
     const el = trackRef.current;
-    const i = Math.max(0, Math.min(urls.length - 1, n));
+    const i = Math.max(0, Math.min(urls.length, n)); /* + the hero slide */
     if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
     setIdx(i);
   };
@@ -847,13 +850,17 @@ function Gallery() {
     const n = Math.round(el.scrollLeft / el.clientWidth);
     if (n !== idx) setIdx(n);
   };
+  const total = urls.length + 1; /* k2 round 4 (2026-11-10, owner): the main image is a carousel — the hero still, then the six store gallery pictures, full width */
+  const hero = (typeof MC_HERO_STILL !== "undefined" && MC_HERO_STILL) ? html`<${HeroStill} poster=${urls[0]}/>` : (typeof MC_HERO_VIDEO !== "undefined") ? html`<${HeroVideo} poster=${urls[0]}/>` : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`;
   return html`
-    <div class="gal">
-      <div class="gal-track">
-        <div class="gal-slide ph sq">
-          ${(typeof MC_HERO_STILL !== "undefined" && MC_HERO_STILL) ? html`<${HeroStill} poster=${urls[0]}/>` : (typeof MC_HERO_VIDEO !== "undefined") ? html`<${HeroVideo} poster=${urls[0]}/>` : html`<img class="simg" src=${urls[0]} alt="Maison Croyez diffuser"/>`}
-        </div>
+    <div class="gal k2-gal">
+      <div class="gal-track" ref=${trackRef} onScroll=${onScroll}>
+        <div class="gal-slide ph sq" key="hero">${hero}</div>
+        ${urls.map((u, i) => html`<div class="gal-slide ph sq" key=${u}><img class="simg" src=${u} alt=${"Maison Croyez diffuser, picture " + (i + 2)} loading="lazy" decoding="async"/></div>`)}
       </div>
+      <button type="button" class=${"gal-btn gal-prev" + (idx === 0 ? " off" : "")} aria-label="Previous picture" onClick=${() => go(idx - 1)}>‹</button>
+      <button type="button" class=${"gal-btn gal-next" + (idx >= total - 1 ? " off" : "")} aria-label="Next picture" onClick=${() => go(idx + 1)}>›</button>
+      <div class="gal-dots" role="tablist" aria-label="Pictures">${Array.from({ length: total }, (_, i) => html`<button type="button" key=${i} role="tab" class=${"gal-dot" + (i === idx ? " on" : "")} aria-label=${"Picture " + (i + 1)} aria-selected=${i === idx} onClick=${() => go(i)}></button>`)}</div>
     </div>`;
 }
 
@@ -983,6 +990,7 @@ function BuyBox() {
   const [open, setOpen] = useState(-1);
   const Dk = sel.diff();
   const n = sel.keys.length, each = sel.k2Each(), tier = k2Tier(n), full = n >= K2.maxScents;
+  const want = sel.want; /* k2 round 4 */
   const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
   const goReviews = () => { let k = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (k++ < 40) setTimeout(f, 50); }; f(); };
   const chips = html`
@@ -1010,11 +1018,11 @@ function BuyBox() {
           <div class="picker-title step-title s9-title">How many diffusers?</div>
           <div class="k2-bmsm-row"><span class="pick-pill k2-bmsm">Buy more. Save more.</span></div>
           <div class="k2-seg k2-tiers" role="radiogroup" aria-label="How many diffusers">
-            ${K2.diffusers.map((d, i) => { const on = sel.tierIdx === i; return html`<button type="button" key=${d.key} class=${"k2-seg-b k2-tier" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setTier(i)}>${d.tag ? html`<small class="k2-seg-tag">${d.tag}</small>` : null}<b>${d.n}</b><span>${d.n > 1 ? "diffusers" : "diffuser"}</span><em>${usd(d.price)}</em></button>`; })}
+            ${K2.diffusers.map((d, i) => { const on = sel.tierIdx === i; return html`<button type="button" key=${d.key} class=${"k2-seg-b k2-tier" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setTier(i)}>${d.tag ? html`<small class="k2-seg-tag">${d.tag}</small>` : null}<b>${d.n}</b><span>${d.n > 1 ? "diffusers" : "diffuser"}</span><em>${usd(d.price)}</em><i class="k2-seg-each">${usd(k2PerEach(d))} each</i></button>`; })}
           </div>
           <div class="k2-selrow">
             <span class="k2-selrow-pic"><${Img} slot=${"kit" + Dk.n} alt=${Dk.n + " diffuser" + (Dk.n > 1 ? "s" : "")}/></span>
-            <span class="k2-selrow-tx"><b>${Dk.n} Diffuser${Dk.n > 1 ? "s" : ""} · ${usd(Dk.price)}</b>${Dk.was > Dk.price ? html`<span class="k2-was"><s>${usd(Dk.was)}</s> Save ${usd(r2(Dk.was - Dk.price))}</span>` : html`<span class="k2-was k2-was-0">Lifetime warranty</span>`}</span>
+            <span class="k2-selrow-tx"><b>${Dk.n} Diffuser${Dk.n > 1 ? "s" : ""} · ${usd(Dk.price)}</b><span class="k2-was"><em class="k2-sel-each">${usd(k2PerEach(Dk))} each</em>${Dk.was > Dk.price ? html` · <s>${usd(Dk.was)}</s> Save ${usd(r2(Dk.was - Dk.price))}` : null}</span></span>
             <span class="k2-cov"><b>${Dk.cov}</b><small>coverage</small></span>
           </div>` : html`
           <div class="picker-title step-title s9-title">How many diffusers?</div>
@@ -1024,7 +1032,8 @@ function BuyBox() {
                 ${d.tag ? html`<span class=${"kg-tag t9-tag" + (d.pop ? " pop" : "")}>${d.tag}</span>` : null}
                 <span class="t9-n t9s-n">${d.n} Diffuser${d.n > 1 ? "s" : ""}</span>
                 <span class="k2-price">${usd(d.price)}</span>
-                ${save > 0 ? html`<span class="k2-was"><s>${usd(d.was)}</s> Save ${usd(save)}</span>` : html`<span class="k2-was k2-was-0">${usd(d.price)} each</span>`}
+                <span class="k2-each">${usd(k2PerEach(d))} each</span>
+                ${save > 0 ? html`<span class="k2-was"><s>${usd(d.was)}</s> Save ${usd(save)}</span>` : html`<span class="k2-was k2-was-0">${"\u00a0"}</span>`}
                 <span class="t9p2-pic k2-pic"><${Img} slot=${"kit" + d.n} alt=${d.n + " diffuser" + (d.n > 1 ? "s" : "")}/></span>
                 <span class="k2-cov"><b>${d.cov}</b><small>coverage</small></span>
               </div>`; })}
@@ -1032,10 +1041,13 @@ function BuyBox() {
           `}
 
           <div class="step-eyebrow" id="k2-scents">Step ${K2V === "c" ? 3 : 2} of 3</div>
-          <div class="k2-scents-head"><div class="picker-title step-title s9-title">Pick your scents:</div><span class="pick-pill">${n} picked${n ? " · " + usd(each) + " each" : ""}</span></div>
-          <div class="k2-strip" role="list" aria-label="Scent pricing by quantity">
-            ${K2.scentTiers.map((t, i) => html`<span key=${t.min} class=${"k2-strip-t" + (tier === t ? " on" : "")} role="listitem"><b>${t.min}${i === K2.scentTiers.length - 1 ? "+" : ""} scent${t.min > 1 ? "s" : ""}</b><span>${usd(t.each)}${t.min > 1 ? " each" : ""}</span></span>`)}
+          <div class="picker-title step-title s9-title">How many scents?</div>
+          <div class="k2-bmsm-row"><span class="pick-pill k2-npick">${want === 0 ? "No scents" : n + (want && want > n ? " of " + want : "") + " picked" + (n ? " · " + usd(each) + " each" : "")}</span></div>
+          <div class="k2-strip" role="radiogroup" aria-label="How many scents">
+            ${K2.scentTiers.map((t, i) => { const lastT = i === K2.scentTiers.length - 1; const on = want === null ? (n > 0 && tier === t) : (want > 0 && (lastT ? want >= t.min : want === t.min)); return html`<button type="button" key=${t.min} class=${"k2-strip-t" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setWant(t.min)}><b>${t.min}${lastT ? "+" : ""} Scent${t.min > 1 ? "s" : ""}</b><span class="k2-strip-pr">${usd(t.each)}</span><small>each</small></button>`; })}
           </div>
+          <button type="button" class=${"k2-noscent" + (want === 0 ? " on" : "")} aria-pressed=${want === 0} onClick=${() => sel.setWant(0)}>${want === 0 ? "✓ No scents · diffusers only" : "No thank you, I don’t want scents"}</button>
+          ${want === 0 ? html`<p class="k2-noscent-note">Diffusers only. Tap a quantity above to add scents.</p>` : html`
           <div class="picker e4 k2-list" role="group" aria-label="Pick your scents">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}>
@@ -1055,9 +1067,10 @@ function BuyBox() {
           <div class="e4-bar" aria-live="polite">${lastF
             ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style=${{ background: SCENT_SWATCH[lastF.key] || "#E6E3DE" }}></span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
             : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it, + adds it.</b></span>`}</div>
-          ${n === 0 ? html`<p class="pick-hint k2-hint">Pick at least one scent above to continue.</p>` : null}
+          `}
+          ${want === 0 ? null : (want && want > n) ? html`<p class="pick-hint k2-hint">Pick ${want - n} more scent${want - n > 1 ? "s" : ""} above for ${usd(k2Tier(want).each)} each.</p>` : n === 0 ? html`<p class="pick-hint k2-hint">Pick at least one scent above to continue, or choose “No thank you”.</p>` : null}
 
-          ${K2V === "c" ? null : html`
+          ${(K2V === "c" || want === 0) ? null : html`
           <div class="step-eyebrow" id="k2-refills">Step 3 of 3</div>
           <div class="picker-title step-title s9-title">How do you want your refills?</div>
           <div class="plan2" role="radiogroup" aria-label="Refills">
@@ -1072,12 +1085,12 @@ function BuyBox() {
 
           ${sel.k2Value() > sel.k2Today() ? html`<p class="s9-value">That’s <b class="s9-val-green">${usd(sel.k2Value())} of value</b>, you pay ${usd(sel.k2Today())} today.</p>` : null}
           <div class="s9-due"><span class="s9-due-l">Due today:</span><span class="s9-due-n"><sup>$</sup>${sel.k2Today().toFixed(2)}</span><span class="s9-due-each">${Dk.n} diffuser${Dk.n > 1 ? "s" : ""} ${usd(Dk.price)}${n ? " + " + n + " scent" + (n > 1 ? "s" : "") + " × " + usd(each) : ""}</span></div>
-          <p class="t9s-how t9s-expl">${sel.oneTime()
+          <p class="t9s-how t9s-expl">${(n === 0 && want === 0) ? html`Diffusers only: ${usd(sel.k2Today())} today, nothing after. Free shipping, 30-day money-back guarantee, lifetime warranty on the diffuser${Dk.n > 1 ? "s" : ""}.` : sel.oneTime()
             ? html`One-time payment: ${usd(sel.k2Today())} today, nothing after. Free shipping, 30-day money-back guarantee, lifetime warranty on the diffuser${Dk.n > 1 ? "s" : ""}.`
             : html`Subscribe: ${usd(sel.k2Today())} today. Then your ${n === 1 ? "scent renews" : "scents renew"} every ${sel.freq} days at ${usd(sel.k2RefillEach())} each (${K2.refillOff}% off)${n ? ", " + usd(refillTotal) + " per refill" : ""}. Swap, pause or cancel anytime.`}</p>
-          ${(!K2.plans && !sel.oneTime()) ? html`<p class="k2-testnote">Test page: the new refill plan is not in Subi yet, so the checkout still shows the current plan’s $10 off per scent today.</p>` : null}
-          <button class="btn atc" disabled=${busy || n === 0} onClick=${() => k2AddToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : n === 0 ? "PICK A SCENT TO CONTINUE" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔"}</span>
+          ${(!K2.plans && !sel.oneTime() && want !== 0) ? html`<p class="k2-testnote">Test page: the new refill plan is not in Subi yet, so the checkout still shows the current plan’s $10 off per scent today.</p>` : null}
+          <button class="btn atc" disabled=${busy || (n === 0 && want !== 0)} onClick=${() => k2AddToCart(setBusy, setToast)}>
+            <span>${busy ? "One moment…" : (n === 0 && want !== 0) ? "PICK A SCENT TO CONTINUE" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔"}</span>
           </button>
           ${eta}
           ${chips}
@@ -1255,10 +1268,10 @@ function StickyBar() {
     calc();
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, []);
-  const n = sel.keys.length;
-  const label = busy ? "One moment…" : n === 0 ? "BUILD MY KIT ➔" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔";
+  const n = sel.keys.length, want = sel.want;
+  const label = busy ? "One moment…" : (n === 0 && want !== 0) ? "BUILD MY KIT ➔" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔";
   const act = () => {
-    if (n > 0) return k2AddToCart(setBusy, setToast);
+    if (n > 0 || want === 0) return k2AddToCart(setBusy, setToast);
     const d = document.getElementById("k2-diffusers"), s = document.getElementById("k2-scents");
     const el = (d && d.getBoundingClientRect().top > window.innerHeight) ? d : s; /* the diffusers first if they are still below, else the scents */
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });

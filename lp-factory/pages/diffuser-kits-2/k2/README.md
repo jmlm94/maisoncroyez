@@ -1,6 +1,6 @@
 # k2 — the one-page paid-diffuser offer (preview only, not deployed)
 
-Owner's spec (2026-11-08): one page, diffusers (1 $89.95 / 2 $129.95 / 3 $189.95) then scents (1 $39.95 / 2 $29.95 / 3+ $24.95
+Owner's spec (2026-11-08): one page, diffusers (1 $89.95 / 2 $139.95 / 3 $209.95 since 2026-11-10; first spec 2 $129.95 / 3 $189.95) then scents (1 $39.95 / 2 $29.95 / 3+ $24.95
 each, the main smell above the strength, "Each scent lasts 15+ days") then Subscribe 25% off every refill | One-time payment,
 then the checkout. Preview: artifact "MC LP Draft Copy 3" (https://claude.ai/artifact/TK1GvMvzMi69pP4wiLMfyN).
 
@@ -18,3 +18,7 @@ bottle-life / badges / IFRA block, the scents as a list, no summary block. Detai
 
 Round 3 (2026-11-08): three above-the-fold variants in the app, picked by window.__K2_VARIANT__ = "a" | "b" | "c" (default = the v66
 page). Local build of a variant: build the page, then insert <script>window.__K2_VARIANT__="b"</script> before <title>. Details in ../README.md.
+
+Round 4 (2026-11-10): hero carousel (7 slides, full size), 2 / 3 diffusers $139.95 / $209.95 with the cost per diffuser, "How many
+scents?" centred with three tappable quantity tiles and "No thank you, I don't want scents" (diffusers-only checkout). Details in
+../README.md. qa-kits-2-k2.yml carries the new amounts; the carousel and the no-scents path still need checks before it goes live.

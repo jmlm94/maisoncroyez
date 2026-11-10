@@ -1843,7 +1843,7 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 /* k2 round 3 (2026-11-08): three above-the-fold proposals, picked with window.__K2_VARIANT__ (a / b / c); "0" = the v66 page */
 #root .buybox h1.k2-h1{font-size:1.78rem !important;line-height:1.06 !important;letter-spacing:-.02em;margin-top:6px}
 #root .buybox .k2-sub{margin:7px 0 10px;text-align:center;font-family:'Outfit',sans-serif;font-size:.8rem;line-height:1.35;color:#5C4F46;font-weight:500}
-@media (max-width:699px){#root .k2-va .gal,#root .k2-vb .gal,#root .k2-vc .gal,#root .k2-va .gal-track,#root .k2-vb .gal-track,#root .k2-vc .gal-track,#root .k2-va .gal .gal-slide,#root .k2-vb .gal .gal-slide,#root .k2-vc .gal .gal-slide{aspect-ratio:auto !important;height:190px !important;max-height:190px}}
+/* (round 4: the 190 px phone hero band of proposals a / b / c is gone; the carousel is full size on every variant) */
 @media (min-width:700px){#root .buybox h1.k2-h1{font-size:2.3rem !important}#root .buybox .k2-sub{font-size:.9rem}}
 #root .k2-cov{display:inline-flex;flex-direction:column;align-items:center;gap:0;padding:4px 9px;border-radius:9px;background:#141414;color:#fff;font-family:'Outfit',sans-serif;line-height:1.15;max-width:100%}
 #root .k2-cov b{font-weight:800;font-size:.66rem;letter-spacing:.02em;white-space:nowrap}
@@ -1901,3 +1901,57 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .k2-rf3 .rf3-opt b{font-size:.92rem;white-space:nowrap}
 @media (min-width:700px){#root .k2-rf3 .rf3-opt b{font-size:1.05rem}}
 @media (min-width:700px){#root .k2-plan-tx b{font-size:1.1rem}#root .k2-plan-tx small{font-size:.74rem}#root .k2-checks span{font-size:.8rem}#root .k2-seg .k2-seg-b b{font-size:1.8rem}}
+/* k2 round 4 (2026-11-10, owner): the main image as a carousel (hero + the six gallery pictures), 2 / 3 diffusers $139.95 / $209.95 with the cost per diffuser, "How many scents?" centred with tappable quantity tiles + "No thank you, I don't want scents", bigger scent rows */
+#root .k2-gal{position:relative}
+#root .k2-gal .gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#root .k2-gal .gal-track::-webkit-scrollbar{display:none}
+#root .k2-gal .gal-slide{flex:0 0 100%;scroll-snap-align:start;position:relative;aspect-ratio:1/1;background:#F7F3EE;min-width:0}
+#root .k2-gal .gal-slide .simg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#root .k2-gal .gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#141414;font-family:'Outfit',sans-serif;font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);z-index:2;padding:0 0 4px;margin:0}
+#root .k2-gal .gal-prev{left:10px}
+#root .k2-gal .gal-next{right:10px}
+#root .k2-gal .gal-btn.off{opacity:0;pointer-events:none}
+#root .k2-gal .gal-dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;z-index:2;margin:0}
+#root .k2-gal .gal-dot{width:8px;height:8px;border-radius:50%;border:0;padding:0;margin:0;background:rgba(255,255,255,.75);box-shadow:0 0 0 1px rgba(0,0,0,.18);cursor:pointer}
+#root .k2-gal .gal-dot.on{background:#141414;box-shadow:0 0 0 1.5px #fff}
+#root .k2-tier{display:flex;flex-direction:column;align-items:center}
+#root .k2-tier .k2-cov{margin-top:auto}
+#root .k2-tier .k2-each{display:block;font-family:'Outfit',sans-serif;font-weight:700;font-size:.62rem;color:#5C4F46;margin-top:2px;line-height:1.2}
+#root .k2-tier .k2-was-0{min-height:1em}
+#root .k2-seg .k2-seg-b .k2-seg-each{font-style:normal;font-size:.5rem;font-weight:700;color:#5C4F46;letter-spacing:.02em;margin-top:1px}
+#root .k2-selrow .k2-sel-each{font-style:normal;color:#141414;font-weight:800}
+#root .k2-strip{margin:10px 0 4px}
+#root .k2-strip .k2-strip-t{appearance:none;-webkit-appearance:none;font:inherit;cursor:pointer;margin:0;font-size:.66rem;color:#5C4F46;font-weight:600}
+#root .k2-strip .k2-strip-t:focus-visible{outline:2px solid #141414;outline-offset:2px}
+#root .k2-noscent{display:block;margin:0 auto 10px;background:none;border:1.5px solid transparent;padding:6px 12px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:#5C4F46;text-decoration:underline;text-underline-offset:3px;cursor:pointer;border-radius:999px;line-height:1.3}
+#root .k2-noscent.on{color:#1E7A1E;text-decoration:none;font-weight:800;border-color:#1E7A1E;background:#F1FAF3}
+#root .k2-noscent-note{margin:4px 0 10px;text-align:center;font-family:'Outfit',sans-serif;font-size:.8rem;color:#5C4F46}
+#root .picker.e4.k2-list{gap:10px}
+#root .picker.e4.k2-list .pick{grid-template-columns:88px minmax(0,1fr) auto;gap:12px;padding:9px 12px 9px 9px;border-radius:14px}
+#root .picker.e4.k2-list .pick .e4-ph{width:88px;height:88px}
+#root .picker.e4.k2-list .pick .e4-ph .ph{width:88px !important;height:88px !important;border-radius:10px}
+#root .picker.e4.k2-list .k2-row-tx{gap:3px}
+#root .picker.e4.k2-list .e4-name,#root #buybox.step-2 .picker.e4.k2-list .e4-name{font-size:15px}
+#root .picker.e4.k2-list .k2-smell{font-size:.68rem}
+#root .picker.e4.k2-list .e4-str{font-size:.56rem}
+#root .picker.e4.k2-list .e4-step{gap:9px}
+#root .picker.e4.k2-list .e4-step button{width:34px;height:34px;font-size:19px}
+#root .picker.e4.k2-list .e4-step b{font-size:17px;min-width:18px}
+@media (min-width:700px){#root .picker.e4.k2-list .e4-name{font-size:16px}#root .picker.e4.k2-list .pick{grid-template-columns:96px minmax(0,1fr) auto}#root .picker.e4.k2-list .pick .e4-ph{width:96px;height:96px}#root .picker.e4.k2-list .pick .e4-ph .ph{width:96px !important;height:96px !important}#root .picker.e4.k2-list .k2-smell{font-size:.72rem}#root .k2-tier .k2-each{font-size:.7rem}}
+/* k2 round 4b: slides full size (the single hero used to sit at 90%), pictures and badges bottom-aligned on the diffuser cards, the three scent-quantity tiles bigger */
+#root #buybox.step-1 .k2-gal .gal-slide.ph.sq,#root .k2-gal .gal-slide.ph.sq{flex:0 0 100% !important;width:100% !important;max-width:none !important;margin:0 !important;border-radius:0 !important;aspect-ratio:1/1}
+#root .k2-gal .gal-slide.ph.sq .simg,#root .k2-gal .gal-slide .simg{border-radius:0 !important}
+@media (min-width:700px){#root .k2-gal{border-radius:16px;overflow:hidden}}
+#root .k2-tier .k2-pic{margin-top:auto;padding-top:6px}
+#root .k2-tier .k2-cov{margin-top:7px}
+#root .k2-strip{gap:8px;margin:12px 0 6px}
+#root .k2-strip .k2-strip-t{padding:14px 4px 12px;border-radius:14px;gap:2px;border-width:1.5px}
+#root .k2-strip .k2-strip-t b{font-size:1rem;font-weight:800;color:#141414;line-height:1.15}
+#root .k2-strip .k2-strip-t .k2-strip-pr{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.22rem;color:#141414;line-height:1.1;margin-top:3px}
+#root .k2-strip .k2-strip-t small{font-size:.62rem;font-weight:700;color:#5C4F46;letter-spacing:.04em;text-transform:uppercase;line-height:1.2}
+#root .k2-strip .k2-strip-t.on .k2-strip-pr{color:#1E7A1E}
+#root .picker.e4.k2-list .pick{grid-template-columns:80px minmax(0,1fr) auto}
+#root .picker.e4.k2-list .pick .e4-ph{width:80px;height:80px}
+#root .picker.e4.k2-list .pick .e4-ph .ph{width:80px !important;height:80px !important}
+@media (min-width:700px){#root .k2-strip .k2-strip-t b{font-size:1.1rem}#root .k2-strip .k2-strip-t .k2-strip-pr{font-size:1.4rem}#root .picker.e4.k2-list .pick{grid-template-columns:92px minmax(0,1fr) auto}#root .picker.e4.k2-list .pick .e4-ph{width:92px;height:92px}#root .picker.e4.k2-list .pick .e4-ph .ph{width:92px !important;height:92px !important}}
+@media (max-width:699px){#root .k2-tier .k2-was{min-height:2.4em}}

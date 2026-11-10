@@ -93,3 +93,19 @@ selected-kit row with picture, saving and the coverage badge; 29 px above the fo
 band, 25% OFF and three check bullets vs One-time payment as a slim row, frequency under it; diffusers = Step 2, scents = Step 3, the
 old Step 3 block gone; the picker ends 8 px above the fold). Published as a separate artifact "Three Above-the-Fold Proposals" with the
 three live pages (a.html / b.html / c.html) and phone + desktop shots; the main preview (v66) is untouched. Preview only.
+
+Round 4 (2026-11-10, owner, on the main preview: "Let's keep working in this page" - he did not pick A / B / C; published as v67
+"k2 one-page v3"): (1) the main image is a carousel - the hero still plus the six store gallery pictures (CONFIG.gallery), seven
+slides, full size (390 x 390 edge to edge on a phone, the whole left column on desktop), swipe + arrows + dots; (2) 2 diffusers
+$139.95 and 3 diffusers $209.95 (were $129.95 / $189.95; 1 stays $89.95), with the cost per diffuser on each card ($89.95 / $69.98 /
+$69.98 each, rounded in cents) - savings now $39.95 and $59.90 against $179.90 / $269.85; (3) the Step 2 title is "How many scents?",
+centred like Step 1, the count pill under it; (4) the three quantity options are tappable tiles and bigger ("1 Scent $39.95 each",
+"2 Scents $29.95 each", "3+ Scents $24.95 each"; none selected at the start, a tap sets the target and the hint says "Pick N more
+scents above for $X each"), and the scent rows are a little bigger too (80 px photo); (5) under the three tiles "No thank you, I
+don't want scents" - it clears the picks, hides the scent list and Step 3, and the button becomes "CHECKOUT - $139.95" (diffusers
+only, one-time, no code). The 190 px phone hero band of proposals a / b / c is dropped in the code (a carousel of infographic slides
+cannot be cropped); the proposals artifact itself was not republished and still shows the 11-08 state. Local build of the preview:
+build-variant.mjs, then scratch k2-build-art.py inlines the seven scent photos (lp-factory/assets/cdn/*.png) and the six gallery
+pictures (lp-factory/assets/cdn/diffuser/d92, d1, d2, d3, d24, d6 -> window.MC_GALLERY_EMBED); on the store the gallery loads from
+the CDN. Rendered phone 390 + desktop 1366: no errors, no overflow; 2 diffusers + 3 scents = $214.80, 3 diffusers alone $209.95.
+For a deploy the prices live on the paid-diffuser product (deleted 11-08, to re-create only on the owner's go-ahead). Preview only.

@@ -109,3 +109,11 @@ build-variant.mjs, then scratch k2-build-art.py inlines the seven scent photos (
 pictures (lp-factory/assets/cdn/diffuser/d92, d1, d2, d3, d24, d6 -> window.MC_GALLERY_EMBED); on the store the gallery loads from
 the CDN. Rendered phone 390 + desktop 1366: no errors, no overflow; 2 diffusers + 3 scents = $214.80, 3 diffusers alone $209.95.
 For a deploy the prices live on the paid-diffuser product (deleted 11-08, to re-create only on the owner's go-ahead). Preview only.
+
+Round 5 (2026-11-10, owner: "make the how many scents closed and let people select their option before we show all the scents",
+published as v68 "k2 one-page v4"): the seven-scent list is closed at load. Step 2 shows only the title, the three quantity tiles,
+"No thank you, I don't want scents" and the line "Choose an option to see the 7 scents."; a tap on a tile opens the list (short
+fade, the page scrolls the step to the top if the list would start low on the screen) and the count pill appears ("0 of 2 picked").
+"No thank you" keeps it closed. The button reads "CHOOSE YOUR SCENTS TO CONTINUE" until an option is chosen. Measured on a phone
+390 x 844: the checkout button sits 1,930 px down the page with the list closed against 2,811 px open (881 px shorter); desktop
+1,562 against 2,539. No errors, no overflow. Preview only.

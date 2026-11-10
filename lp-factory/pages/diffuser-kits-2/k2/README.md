@@ -22,3 +22,5 @@ page). Local build of a variant: build the page, then insert <script>window.__K2
 Round 4 (2026-11-10): hero carousel (7 slides, full size), 2 / 3 diffusers $139.95 / $209.95 with the cost per diffuser, "How many
 scents?" centred with three tappable quantity tiles and "No thank you, I don't want scents" (diffusers-only checkout). Details in
 ../README.md. qa-kits-2-k2.yml carries the new amounts; the carousel and the no-scents path still need checks before it goes live.
+
+Round 5 (2026-11-10): the scent list is closed until one of the three quantity tiles is tapped. Details in ../README.md.

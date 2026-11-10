@@ -991,6 +991,13 @@ function BuyBox() {
   const Dk = sel.diff();
   const n = sel.keys.length, each = sel.k2Each(), tier = k2Tier(n), full = n >= K2.maxScents;
   const want = sel.want; /* k2 round 4 */
+  /* k2 round 5 (2026-11-10, owner): the scent list is closed until an option is chosen ("How many scents?" shows only the three
+     tiles and "No thank you"), so the page is shorter; a tap on a tile opens the seven scents. */
+  const listOpen = want !== 0 && (want !== null || n > 0);
+  const pickWant = (w) => {
+    const wasClosed = !listOpen; sel.setWant(w);
+    if (wasClosed) setTimeout(() => { const l = document.querySelector("#buybox .k2-list"); if (!l) return; if (l.getBoundingClientRect().top > window.innerHeight * 0.55) { const h = document.getElementById("k2-scents"); if (h) h.scrollIntoView({ behavior: "smooth", block: "start" }); } }, 80);
+  };
   const lastF = sel.last ? CONFIG.fragrances.find((f) => f.key === sel.last) : null;
   const goReviews = () => { let k = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (k++ < 40) setTimeout(f, 50); }; f(); };
   const chips = html`
@@ -1042,12 +1049,12 @@ function BuyBox() {
 
           <div class="step-eyebrow" id="k2-scents">Step ${K2V === "c" ? 3 : 2} of 3</div>
           <div class="picker-title step-title s9-title">How many scents?</div>
-          <div class="k2-bmsm-row"><span class="pick-pill k2-npick">${want === 0 ? "No scents" : n + (want && want > n ? " of " + want : "") + " picked" + (n ? " · " + usd(each) + " each" : "")}</span></div>
+          ${(want === null && n === 0) ? null : html`<div class="k2-bmsm-row"><span class="pick-pill k2-npick">${want === 0 ? "No scents" : n + (want && want > n ? " of " + want : "") + " picked" + (n ? " · " + usd(each) + " each" : "")}</span></div>`}
           <div class="k2-strip" role="radiogroup" aria-label="How many scents">
-            ${K2.scentTiers.map((t, i) => { const lastT = i === K2.scentTiers.length - 1; const on = want === null ? (n > 0 && tier === t) : (want > 0 && (lastT ? want >= t.min : want === t.min)); return html`<button type="button" key=${t.min} class=${"k2-strip-t" + (on ? " on" : "")} role="radio" aria-checked=${on} onClick=${() => sel.setWant(t.min)}><b>${t.min}${lastT ? "+" : ""} Scent${t.min > 1 ? "s" : ""}</b><span class="k2-strip-pr">${usd(t.each)}</span><small>each</small></button>`; })}
+            ${K2.scentTiers.map((t, i) => { const lastT = i === K2.scentTiers.length - 1; const on = want === null ? (n > 0 && tier === t) : (want > 0 && (lastT ? want >= t.min : want === t.min)); return html`<button type="button" key=${t.min} class=${"k2-strip-t" + (on ? " on" : "")} role="radio" aria-checked=${on} aria-expanded=${listOpen} onClick=${() => pickWant(t.min)}><b>${t.min}${lastT ? "+" : ""} Scent${t.min > 1 ? "s" : ""}</b><span class="k2-strip-pr">${usd(t.each)}</span><small>each</small></button>`; })}
           </div>
           <button type="button" class=${"k2-noscent" + (want === 0 ? " on" : "")} aria-pressed=${want === 0} onClick=${() => sel.setWant(0)}>${want === 0 ? "✓ No scents · diffusers only" : "No thank you, I don’t want scents"}</button>
-          ${want === 0 ? html`<p class="k2-noscent-note">Diffusers only. Tap a quantity above to add scents.</p>` : html`
+          ${want === 0 ? html`<p class="k2-noscent-note">Diffusers only. Tap a quantity above to add scents.</p>` : !listOpen ? html`<p class="k2-noscent-note k2-closed-note">Choose an option to see the 7 scents.</p>` : html`
           <div class="picker e4 k2-list" role="group" aria-label="Pick your scents">
             ${CONFIG.fragrances.map((f) => { const q = sel.qty(f.key); const on = q > 0; const more = () => { sel.add(f.key); }; const show = () => { sel.peek(f.key); }; return html`
               <div key=${f.key} class=${"pick e4t" + (on ? " on" : "") + (!on && full ? " full" : "") + (sel.last === f.key ? " peek" : "")} role="group" aria-label=${f.name} tabindex="0" onClick=${show} onKeyDown=${(e) => key(e, show)}>
@@ -1068,7 +1075,7 @@ function BuyBox() {
             ? html`<span class="e4-txt"><span class="e4-l1"><span class="e4-sw" aria-hidden="true" style=${{ background: SCENT_SWATCH[lastF.key] || "#E6E3DE" }}></span> <b>${lastF.name}</b> · ${lastF.intention}</span><br/><b>Smells like:</b> ${lastF.smells2}<br/><b>Notes:</b> ${(lastF.chips && lastF.chips[0] ? lastF.chips[0] : "").replace(/\.$/, "")}</span>`
             : html`<span class="e4-txt"><b class="e4-l1">${ic("up", "e4-arrow")} Tap a scent to read more about it, + adds it.</b></span>`}</div>
           `}
-          ${want === 0 ? null : (want && want > n) ? html`<p class="pick-hint k2-hint">Pick ${want - n} more scent${want - n > 1 ? "s" : ""} above for ${usd(k2Tier(want).each)} each.</p>` : n === 0 ? html`<p class="pick-hint k2-hint">Pick at least one scent above to continue, or choose “No thank you”.</p>` : null}
+          ${(want === 0 || !listOpen) ? null : (want && want > n) ? html`<p class="pick-hint k2-hint">Pick ${want - n} more scent${want - n > 1 ? "s" : ""} above for ${usd(k2Tier(want).each)} each.</p>` : n === 0 ? html`<p class="pick-hint k2-hint">Pick at least one scent above to continue, or choose “No thank you”.</p>` : null}
 
           ${(K2V === "c" || want === 0) ? null : html`
           <div class="step-eyebrow" id="k2-refills">Step 3 of 3</div>
@@ -1090,7 +1097,7 @@ function BuyBox() {
             : html`Subscribe: ${usd(sel.k2Today())} today. Then your ${n === 1 ? "scent renews" : "scents renew"} every ${sel.freq} days at ${usd(sel.k2RefillEach())} each (${K2.refillOff}% off)${n ? ", " + usd(refillTotal) + " per refill" : ""}. Swap, pause or cancel anytime.`}</p>
           ${(!K2.plans && !sel.oneTime() && want !== 0) ? html`<p class="k2-testnote">Test page: the new refill plan is not in Subi yet, so the checkout still shows the current plan’s $10 off per scent today.</p>` : null}
           <button class="btn atc" disabled=${busy || (n === 0 && want !== 0)} onClick=${() => k2AddToCart(setBusy, setToast)}>
-            <span>${busy ? "One moment…" : (n === 0 && want !== 0) ? "PICK A SCENT TO CONTINUE" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔"}</span>
+            <span>${busy ? "One moment…" : (n === 0 && want === null) ? "CHOOSE YOUR SCENTS TO CONTINUE" : (n === 0 && want !== 0) ? "PICK A SCENT TO CONTINUE" : "CHECKOUT · " + usd(sel.k2Today()) + " ➔"}</span>
           </button>
           ${eta}
           ${chips}

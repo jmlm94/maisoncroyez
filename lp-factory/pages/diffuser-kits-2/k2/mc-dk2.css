@@ -1955,3 +1955,8 @@ h1 em{background:none;-webkit-background-clip:initial;background-clip:initial;co
 #root .picker.e4.k2-list .pick .e4-ph .ph{width:80px !important;height:80px !important}
 @media (min-width:700px){#root .k2-strip .k2-strip-t b{font-size:1.1rem}#root .k2-strip .k2-strip-t .k2-strip-pr{font-size:1.4rem}#root .picker.e4.k2-list .pick{grid-template-columns:92px minmax(0,1fr) auto}#root .picker.e4.k2-list .pick .e4-ph{width:92px;height:92px}#root .picker.e4.k2-list .pick .e4-ph .ph{width:92px !important;height:92px !important}}
 @media (max-width:699px){#root .k2-tier .k2-was{min-height:2.4em}}
+/* k2 round 5 (2026-11-10, owner): the scent list stays closed until an option is chosen */
+#root .k2-closed-note{margin:2px 0 6px;font-size:.78rem}
+@keyframes k2open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+#root .picker.e4.k2-list{animation:k2open .22s ease-out}
+@media (prefers-reduced-motion:reduce){#root .picker.e4.k2-list{animation:none}}

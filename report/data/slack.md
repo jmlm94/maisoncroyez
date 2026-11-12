@@ -1,24 +1,24 @@
-*Maison Croyez — Daily Report · Tuesday, November 10, 2026*
+*Maison Croyez — Daily Report · Wednesday, November 11, 2026*
 
-:double_vertical_bar: *No Meta campaigns are running this morning.* Winners, the last one active, is now paused. It still spent $386 yesterday, so expect little or no ad spend today.
-:dart: *Ads yesterday ($386 spent, 1 Meta-attributed purchase worth $270):* The purchase was a one-time Scent Supply Package order ($269.55) from a new customer, credited to the "Winners" ad set ($314 spent, 14 add-to-carts). "Creator Best 3" spent $72 with no add-to-carts. No new subscribers. The other 4 orders were renewals ($260). Winners stands at $2,568 spent for 9 Meta-attributed purchases since Nov 5, about $285 each; with Winners LAL it's $3,228 for 9, about $359 each.
+:warning: *Partial report: Shopify orders for Nov 11 NOT pulled.* The Shopify connector is pointed at *Carbinox Co.* (shopcarbinox.com) again, so I skipped the pull per the runbook guard. Orders are complete through Nov 10. Yesterday's $0 sales, $0 profit and "0 new" subscribers are not real, and the 7-day and longer windows are missing 1 day of orders. Please re-connect Shopify to *Maison Croyez* and reply "Run again" so I can backfill it.
+:double_vertical_bar: *No ad spend yesterday.* Every Meta campaign is paused, so Nov 11 was the first day with $0 spend since Oct 26. Meta still counted 5 add-to-carts from people who clicked earlier. Winners stands at $2,570 spent for 9 Meta-attributed purchases since Nov 5, about $286 each.
 
-Hello Jose — yesterday we sold *$529* on Shopify across *5 orders* (*$260* subscription · *$270* one-time). COGS were *$170*, shipping ≈*$38*, processing fees *$15.80*, handling *$5.00*, and Meta ad spend *$386* (CPM $287.93 · CPC $4.65 · CTR 6.20%).
+Hello Jose — yesterday we sold *$0* on Shopify across *0 orders* (*$0* subscription · *$0* one-time). COGS were *$0*, shipping ≈*$0*, processing fees *$0.00*, handling *$0.00*, and Meta ad spend *$0* (CPM — · CPC — · CTR —).
 
-:red_circle: *Contribution profit yesterday: −$85* · Blended ROAS *1.37×*
+:large_green_circle: *Contribution profit yesterday: $0* · Blended ROAS *—*
 
 | Window | Net sales | Ad spend | Profit | ROAS |
 |---|---|---|---|---|
-| Yesterday | $529 | $386 | −$85 (+62.4%) | 1.37× |
-| 7 days | $2,647 | $4,281 | −$3,018 (−19.4%) | 0.62× |
-| 14 days | $8,070 | $9,205 | −$5,546 (−1078.0%) | 0.88× |
-| 28 days | $13,968 | $11,977 | −$4,979 (−13.4%) | 1.17× |
-| 45 days | $19,698 | $16,253 | −$6,505 (+57.9%) | 1.21× |
-| 90 days | $48,585 | $41,220 | −$21,957  | 1.18× |
+| Yesterday | $0 | $0 | $0 (+100.0%) | — |
+| 7 days | $2,148 | $3,631 | −$2,677 (−14.3%) | 0.59× |
+| 14 days | $7,616 | $8,449 | −$5,019 (−8463.8%) | 0.90× |
+| 28 days | $13,639 | $11,796 | −$4,959 (−20.0%) | 1.16× |
+| 45 days | $18,854 | $15,709 | −$6,315 (+58.0%) | 1.20× |
+| 90 days | $48,186 | $40,531 | −$21,341  | 1.19× |
 
-:seedling: *Subscriptions:* 328 acquired · est. MRR *$20,281* (ceiling — cancels not visible via API) · 0 new yesterday · 118 renewal orders in 28d
-:vs: *Meta vs day before:* CPM +8.9% · CPC +8.2% · CTR +0.7% · spend −5.5%
-:scales: *Worth it yet?* Almost — each sub costs $399, returns ~$182 in 180d (0.46×). Break-even CAC: $182.
+:seedling: *Subscriptions:* 328 acquired · est. MRR *$20,281* (ceiling — cancels not visible via API) · 0 new yesterday · 115 renewal orders in 28d
+
+:scales: *Worth it yet?* Almost — each sub costs $393, returns ~$182 in 180d (0.46×). Break-even CAC: $182.
 
 :test_tube: *LP Test final tally (Oct 5–20, Meta-attributed):* $5,552 spent · 24 purchases ($2,299) · $231 per purchase. Break-even is $182 per new subscriber, which is the bar the new campaigns need to beat.
 

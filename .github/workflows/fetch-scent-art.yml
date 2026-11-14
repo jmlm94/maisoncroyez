@@ -1,5 +1,5 @@
 name: fetch-scent-art
-# Downloads the generated note illustrations for the seven scent cards into lp-factory/assets/scent-notes/raw/ (the session container cannot reach the image host). One "name url" pair per line in LIST below. Edit the list and push to run. [run 1: the Golden Blossom Harmony test]
+# Downloads the generated note illustrations for the seven scent cards into lp-factory/assets/scent-notes/raw/ (the session container cannot reach the image host). One "name url" pair per line in LIST below. Edit the list and push to run. [run 1: the Golden Blossom Harmony test] [run 2: all seven]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -13,6 +13,12 @@ jobs:
     env:
       LIST: |
         love https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200207_aa6a0772-6fac-435b-8e02-d3c423503b71.png
+        abundance https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200736_9517689a-c564-46ee-8486-52ae55ce4ae4.png
+        focus https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200736_60a9a506-236b-401f-b7bb-d1e5ba0067a0.png
+        ideas https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200737_a61ffdc6-8989-4b31-94ec-1180c7a28a68.png
+        energy https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200735_d181f3d0-f147-466c-873e-99cd5611d79d.png
+        purify https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200736_a56a2985-26bf-4048-83a9-e989f75d42af.png
+        midnight https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200734_6fab3332-074f-4df1-a5d9-6d6cc420a247.png
     steps:
       - uses: actions/checkout@v4
         with:

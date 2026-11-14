@@ -1,0 +1,34 @@
+name: fetch-scent-art
+# Downloads the generated note illustrations for the seven scent cards into lp-factory/assets/scent-notes/raw/ (the session container cannot reach the image host). One "name url" pair per line in LIST below. Edit the list and push to run. [run 1: the Golden Blossom Harmony test]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-scent-art.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      LIST: |
+        love https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261114_200207_aa6a0772-6fac-435b-8e02-d3c423503b71.png
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch
+        run: |
+          D=lp-factory/assets/scent-notes/raw; mkdir -p "$D"
+          echo "$LIST" | while read -r name url; do
+            [ -z "$name" ] && continue
+            code=$(curl -sSL -A "Mozilla/5.0" --max-time 120 -o "$D/$name.png" -w "%{http_code}" "$url" || true)
+            echo "$name http $code $(wc -c < "$D/$name.png" 2>/dev/null) bytes $(file -b "$D/$name.png" | cut -c1-60)"
+          done
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/assets/scent-notes
+          git commit -m "scent-notes: fetched the generated note illustrations" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push && break || sleep 3; done

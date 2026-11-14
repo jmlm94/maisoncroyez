@@ -22,3 +22,22 @@ easily identifies the 3 ingredients each scent has."
   whole shapes, and sets the scent name (Unna 700) and the note names (Outfit 700) from the brand font files in ../cdn.
 - "Skin Musk" has no plant to draw; it is shown as a cotton boll with a soft blush swirl (soft, clean, skin-like).
 - Not on the store and not used on any page yet.
+
+## Photo version (2026-11-14, the current one)
+
+Owner, after seeing the illustrated cards: "Instead of being the graphic representation, can we make it with full background?
+Like for eucalyptus a colored real eucalyptus background... if its mandarin then a mandarin full orange background with
+mandarins... really colorful images."
+
+- `photo/<scent-name>.jpg` (2000 x 2000) and `photo/<scent-name>-1080.jpg`: three full-bleed photo panels per card, one per note,
+  the real ingredient filling the panel on a matching bold colour; the scent name on a white plate at the top, each note's name
+  on a white pill at the bottom. `photo/overview.jpg` shows all seven.
+- `photo/raw/<key>-<1|2|3>.jpg`: the 21 panels, 1520 x 2688, no lettering (generated on the Higgsfield account, 21 generations
+  at 2.75 credits; fetched by `.github/workflows/fetch-scent-art.yml` run 4).
+- `compose_photo.py` builds the cards (cover-crops each panel, sets the names in the brand fonts).
+- Panel colours: buttercup yellow, honeysuckle coral, sunflower golden orange / yuzu leaf lime, green mandarin orange, cypress
+  emerald / chilled lavender violet with ice, eucalyptus teal, white citrus aqua / ginger milk apricot, white birch spring
+  green, eucalyptus honey golden yellow / jasmine tea jade, white peach pink, sandalwood creme terracotta / huckleberry violet
+  blue, wild juniper teal blue, mountain fern emerald / moonflower midnight blue, night lily purple, skin musk rose pink
+  (cotton bolls on pink silk).
+- The illustrated set above stays in this folder as an alternative. Neither set is on the store or on any page yet.

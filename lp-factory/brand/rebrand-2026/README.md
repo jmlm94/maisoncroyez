@@ -99,6 +99,10 @@ launch. Ask me questions if needed." (The pattern is now a plain part of the boa
   fifties holding the bottle; generated, no reference photo of a person was passed to the generator).
 - The page now shows both rows and a comparison. Asked him: row 1, row 2 or a mix (big wordmark on full color); the soak
   pack (stand-up pouch, single-bath sachet or jar); keep the three colors; pump in cream or in the bottle color.
+- DECIDED (2026-11-15): after seeing both rows he wrote "Revert, we like the prior design really." Read as: row 1 (the mood
+  leads, full color, pouch / carton / bottle) is the pack direction, and row 2 is dropped. The page and the artifact are
+  back to row 1 only. Row 2's artwork, script and pictures stay in mockups/ (labels/r2-*, img/r2-*, make-labels-r2.js) as
+  a record of what was tried; they are not used anywhere. Still open: pump in cream or in the pack color.
 - Higgsfield so far for the rebrand: 21 generations at 2.75 credits.
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)

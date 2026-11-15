@@ -7,14 +7,14 @@
 :root{
   --cream:#F9F6EE; --paper:#FFFDF9; --sand:#EAE1D1; --stone:#CFC4B1; --drift:#6E655B;
   --night:#161210; --dusk:#231D19; --alert:#B4432B;
-  --sig:#7A82E7; --sig-ink:#4B55D6; --sig-light:#A9AEF7; --sig-wash:#E9EAFB; --on-sig:#161210;
+  --sig:#6169DF; --sig-ink:#4B55D6; --sig-light:#A9AEF7; --sig-wash:#E7E8FB; --on-sig:#FFFFFF;
   --scent-1:#D9A790; --scent-2:#AEBB9F; --scent-3:#B8B3DD;
   --f-body:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   --f-label:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
   --f-head:var(--f-body); --h-w:700; --h-track:-0.035em; --h-case:none; --h-k:1; --h-lh:1.03;
   color-scheme:light;
 }
-:root[data-sig="deep"]{--sig:#4B55D6;--sig-wash:#E6E7FA;--on-sig:#FFFFFF}
+:root[data-sig="soft"]{--sig:#7A82E7;--sig-wash:#E9EAFB}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--night);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;
@@ -81,23 +81,13 @@ a.choice:hover b{color:var(--sig-ink)}
 .card .lab{color:var(--accent);display:block;margin-bottom:12px}
 .card h3{--fs:clamp(22px,2.2vw,27px);margin-bottom:10px}
 .card p{color:var(--muted);font-size:16px}
-.tagline{margin-top:clamp(14px,1.6vw,24px);background:var(--night);color:var(--cream);border-color:var(--night);--muted:#B8AD9F;--rule:#3F3832}
+.tagline{margin-top:clamp(14px,1.6vw,24px);background:var(--night);color:var(--cream);border-color:var(--night);--muted:#B8AD9F;--rule:#3F3832;--accent:var(--sig-light);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center}
 .tagline .lab{color:var(--sig-light)}
-.tg-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px 40px;margin-bottom:16px}
-.tg-head .lab{margin-bottom:0}
-.tg-head p{max-width:50ch;font-size:16px}
-.cands{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,4vw,64px)}
-.cands li{border-top:1px solid var(--rule);padding:18px 0 20px;min-width:0}
-.cands b{display:block;font-family:var(--f-head);font-weight:var(--h-w);letter-spacing:var(--h-track);font-size:clamp(26px,3.1vw,40px);line-height:1.05;color:var(--cream);margin-bottom:8px;text-wrap:balance}
-.cands span{color:var(--muted);font-size:15.5px;display:block;max-width:42ch}
-.pickchip{font:600 10.5px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase;font-style:normal;color:var(--night);background:var(--sig-light);border-radius:4px;padding:5px 7px;display:inline-block}
-.cands .pickchip{margin-top:10px}
-@media (max-width:760px){.cands{grid-template-columns:minmax(0,1fr)}}
-.popt{border-top:2px solid var(--night);padding:16px 0 clamp(28px,3.6vw,48px)}
-.popt-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-bottom:22px}
-.popt-h .lab{color:var(--sig-ink)}
-.popt-h .muted{font-size:15.5px}
-.popt + .voice{margin-top:0}
+.tg-big{--fs:clamp(44px,6.6vw,92px);color:var(--cream);margin:6px 0 18px}
+.tagline p{max-width:40ch}
+.tagline .spec dd{color:var(--cream);font-size:15.5px}
+.tagline .spec>div{grid-template-columns:minmax(80px,110px) minmax(0,1fr)}
+@media (max-width:820px){.tagline{grid-template-columns:minmax(0,1fr)}}
 .pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
 .pillar{padding:4px clamp(16px,2.2vw,32px) 4px 0;margin-right:clamp(16px,2.2vw,32px);border-right:1px solid var(--rule);min-width:0}
 .pillar:last-child{border-right:0;margin-right:0;padding-right:0}
@@ -157,6 +147,14 @@ a.choice:hover b{color:var(--sig-ink)}
 .fav.m{background:var(--night);color:var(--cream);border-radius:4px;padding:2.5px}
 .tabrow .lab{margin:0;color:var(--drift);font-size:10.5px}
 .appicon{width:56px;height:56px;border-radius:13px;background:var(--night);color:var(--cream);padding:11px;flex:none}
+
+.pat-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr);gap:clamp(14px,1.6vw,24px);align-items:stretch}
+.pat-tile{border-radius:10px;border:1px solid var(--rule);overflow:hidden;min-height:clamp(150px,16vw,210px)}
+.pat-tile svg{width:100%;height:100%;min-height:inherit}
+.pat-txt{display:flex;flex-direction:column;justify-content:center}
+.pat-txt .lab{color:var(--sig-ink);margin-bottom:10px}
+.pat-txt p{font-size:16px;max-width:34em}
+@media (max-width:820px){.pat-row{grid-template-columns:1fr 1fr}.pat-txt{grid-column:1/3}}
 
 /* compare control */
 .pick{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;background:var(--paper);border:1px solid var(--stone);border-radius:10px;padding:16px clamp(16px,2vw,24px);margin-bottom:clamp(8px,1vw,12px)}
@@ -305,7 +303,8 @@ a.choice:hover b{color:var(--sig-ink)}
 .bar{background:var(--night);color:var(--cream);text-align:center;font:500 .88cqw/1 var(--f-label);letter-spacing:.14em;text-transform:uppercase;padding:.85cqw 0}
 .hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:1.5cqw 3.4cqw;background:var(--cream)}
 .hdr .lg{width:9.5cqw}
-.hdr nav{display:flex;gap:2.6cqw;font-weight:500;font-size:1.22cqw}
+.hdr nav{display:flex;gap:2.4cqw;font-weight:500;font-size:1.22cqw}
+.hdr .lg{justify-self:center}
 .hdr nav .cur{color:var(--sig-ink)}
 .hdr .icons{display:flex;gap:1.6cqw;justify-content:flex-end;font-size:1.65cqw}
 .hero{position:relative;aspect-ratio:1200/500;background:var(--night) url(img/hero.webp) center 12%/cover no-repeat;color:var(--cream);display:flex;align-items:center}
@@ -380,9 +379,9 @@ a.choice:hover b{color:var(--sig-ink)}
     </div>
     <div class="cover-foot">
       <dl class="meta">
-        <div><dt>Version</dt><dd>1.1 · November 2026</dd></div>
+        <div><dt>Version</dt><dd>1.2 · November 2026</dd></div>
         <div><dt>Document</dt><dd>Brand Board / Website</dd></div>
-        <div><dt>Status</dt><dd>Second draft · your changes are in</dd></div>
+        <div><dt>Status</dt><dd>Third draft · tagline, pillars and blue decided</dd></div>
       </dl>
       <nav class="jump" aria-label="Parts of the board">
         <a href="#brand">01 Brand</a><a href="#logo">02 Logo</a><a href="#color">03 Color</a><a href="#type">04 Type</a><a href="#imagery">05 Imagery</a><a href="#icons">06 Icons</a><a href="#ui">07 UI</a>
@@ -393,11 +392,11 @@ a.choice:hover b{color:var(--sig-ink)}
 
 <section class="choices-band">
   <div class="w">
-    <p class="sub">Version 1.1 · what is decided and what is open</p>
+    <p class="sub">Version 1.2 · what changed</p>
     <div class="g3">
-      <div class="choice done"><span class="n">DECIDED</span><b>Bold sans, one logo, your colors</b><span class="t">Headlines stay in bold DM Sans. The two-line wordmark is the only logo. Background, signature and Night follow your mix.</span></div>
-      <a class="choice" href="#tagline"><span class="n">OPEN · PART 01</span><b>Tagline</b><span class="t">Eight candidates, set in the brand type so you can judge them as they would appear.</span></a>
-      <a class="choice" href="#pillars"><span class="n">OPEN · PART 01</span><b>Brand pillars</b><span class="t">Three ways to build them, side by side.</span></a>
+      <a class="choice" href="#tagline"><span class="n">DECIDED · PART 01</span><b>Exhale the day.</b><span class="t">The tagline. The pillars are now four things Maison believes.</span></a>
+      <a class="choice" href="#color"><span class="n">DECIDED · PART 03</span><b>White on a deeper blue</b><span class="t">Button text is white again. The blue is a step darker so that text stays readable.</span></a>
+      <a class="choice" href="#logo"><span class="n">NEW · PARTS 02 AND 05</span><b>Three ideas from Hanni</b><span class="t">A centered logo in the header, women up to 70 and over in the pictures, and an optional M pattern.</span></a>
     </div>
   </div>
 </section>
@@ -415,46 +414,24 @@ a.choice:hover b{color:var(--sig-ink)}
       <div class="card"><span class="lab">Personality</span><h3 class="hd">Calm and plain-spoken.</h3><p>Warm, assured, a little wry. Never mystical and never loud. Maison talks like a friend who has her evenings figured out.</p></div>
     </div>
     <div class="card tagline" id="tagline">
-      <div class="tg-head"><span class="lab">Tagline · still open</span><p>Eight candidates from six angles. Tell me which two are closest and which two are wrong.</p></div>
-      <ol class="cands">
-        <li><b>Exhale the day.</b><span>Scent is breath, and this is the breath out. Three words.</span><em class="pickchip">My pick</em></li>
-        <li><b>Leave the day at the door.</b><span>Maison means house. This one puts the name to work.</span><em class="pickchip">My pick</em></li>
-        <li><b>The evening is yours.</b><span>About her, and about time for herself.</span></li>
-        <li><b>Believe in the evening.</b><span>Croyez means believe. The first proposal.</span></li>
-        <li><b>Unwind in 3, 2, 1.</b><span>Your “simple as 1, 2, 3”, turned into a countdown.</span></li>
-        <li><b>Scent for the end of the day.</b><span>The plainest one. It says what the brand is.</span></li>
-        <li><b>The day ends here.</b><span>Plain and final. Strong on night sections.</span></li>
-        <li><b>Stress, meet your match.</b><span>The line you liked. More of a campaign headline.</span></li>
-      </ol>
+      <div>
+        <span class="lab">Tagline · decided</span>
+        <div class="hd tg-big">Exhale the day.</div>
+        <p>Scent is breath, and this is the breath out. Three words say what Maison is for, and they hold for every scent and every room.</p>
+      </div>
+      <dl class="spec">
+        <div><dt>Where</dt><dd>Under the logo in the footer, at the end of emails and ads, and as the closing line of the home page.</dd></div>
+        <div><dt>How</dt><dd>Always these three words, with the period. Never reworded, never a button label.</dd></div>
+        <div><dt>Headlines</dt><dd>“Stress, meet your match.” and “Leave the day at the door.” stay in use as campaign headlines.</dd></div>
+      </dl>
     </div>
 
-    <p class="sub" id="pillars">Brand pillars · still open · three ways to build them</p>
-    <div class="popt">
-      <div class="popt-h"><span class="lab">A · Short phrases</span><span class="muted">The first draft.</span></div>
-      <div class="pillars">
-        <div class="pillar"><span class="n">01</span><h3 class="hd">Evening first.</h3><p>Everything is made for the hours after the day is done. Night is our time, our light and our mood.</p></div>
-        <div class="pillar"><span class="n">02</span><h3 class="hd">Scent leads.</h3><p>Mood arrives through scent. Relaxing leads to being present, and being present leads to sleep.</p></div>
-        <div class="pillar"><span class="n">03</span><h3 class="hd">Simple as 1, 2, 3.</h3><p>Few choices, few steps, few words. If something needs explaining twice, it gets cut.</p></div>
-        <div class="pillar"><span class="n">04</span><h3 class="hd">High-end, within reach.</h3><p>It looks and feels premium. It never sounds precious and it never shouts.</p></div>
-      </div>
-    </div>
-    <div class="popt">
-      <div class="popt-h"><span class="lab">B · One word each</span><span class="muted">The way the reference board does it. Fast to remember, easy to check work against.</span></div>
-      <div class="pillars">
-        <div class="pillar"><span class="n">01</span><h3 class="hd">Calm.</h3><p>Everything we make and say lowers the volume.</p></div>
-        <div class="pillar"><span class="n">02</span><h3 class="hd">Sensory.</h3><p>Scent comes first. She feels it before she reads a word.</p></div>
-        <div class="pillar"><span class="n">03</span><h3 class="hd">Simple.</h3><p>One step, few words, no homework.</p></div>
-        <div class="pillar"><span class="n">04</span><h3 class="hd">Elevated.</h3><p>It looks and feels premium, at a price within reach.</p></div>
-      </div>
-    </div>
-    <div class="popt">
-      <div class="popt-h"><span class="lab">C · As beliefs</span><em class="pickchip" style="background:var(--sig-wash);color:var(--sig-ink)">My pick</em><span class="muted">Croyez means believe, so every pillar is something Maison believes.</span></div>
-      <div class="pillars">
-        <div class="pillar"><span class="n">01</span><h3 class="hd">The evening is hers.</h3><p>We believe the night belongs to the woman who gave the day away.</p></div>
-        <div class="pillar"><span class="n">02</span><h3 class="hd">Scent is the shortcut.</h3><p>We believe nothing changes a mood faster.</p></div>
-        <div class="pillar"><span class="n">03</span><h3 class="hd">Rest should be easy.</h3><p>We believe it should take one step, as simple as 1, 2, 3.</p></div>
-        <div class="pillar"><span class="n">04</span><h3 class="hd">Premium, within reach.</h3><p>We believe it can feel expensive without being expensive.</p></div>
-      </div>
+    <p class="sub" id="pillars">Brand pillars · what Maison believes</p>
+    <div class="pillars">
+      <div class="pillar"><span class="n">01</span><h3 class="hd">The evening is hers.</h3><p>We believe the night belongs to the woman who gave the day away.</p></div>
+      <div class="pillar"><span class="n">02</span><h3 class="hd">Scent is the shortcut.</h3><p>We believe nothing changes a mood faster.</p></div>
+      <div class="pillar"><span class="n">03</span><h3 class="hd">Rest should be easy.</h3><p>We believe it should take one step, as simple as 1, 2, 3.</p></div>
+      <div class="pillar"><span class="n">04</span><h3 class="hd">Premium, within reach.</h3><p>We believe it can feel expensive without being expensive.</p></div>
     </div>
 
     <div class="card voice">
@@ -462,7 +439,7 @@ a.choice:hover b{color:var(--sig-ink)}
       <div class="chips"><span class="chip">Calm</span><span class="chip">Plain</span><span class="chip">Warm</span><span class="chip">Assured</span><span class="chip">Lightly wry</span></div>
     </div>
     <div class="g2" style="margin-top:clamp(14px,1.6vw,24px)">
-      <div class="card say"><h3><span class="tag-ok">We say</span>Lines that sound like Maison</h3><ul><li>Stress, meet your match.</li><li>A calmer evening, as simple as 1, 2, 3.</li><li>Bonsoir. Let’s slow this down.</li><li>Helps you unwind. Eases tired shoulders.</li></ul></div>
+      <div class="card say"><h3><span class="tag-ok">We say</span>Lines that sound like Maison</h3><ul><li>Exhale the day.</li><li>Stress, meet your match.</li><li>Bonsoir. Let’s slow this down.</li><li>Helps you unwind. Eases tired shoulders.</li></ul></div>
       <div class="card say no"><h3><span class="tag-no">We don’t</span>Lines that never ship</h3><ul><li>Manifest the life you deserve.</li><li>Attract what you sense.</li><li>Clinically proven to end anxiety.</li><li>THE BEST BATH OF YOUR LIFE!!!</li></ul></div>
     </div>
     <div class="g3 rules3">
@@ -487,22 +464,28 @@ a.choice:hover b{color:var(--sig-ink)}
     <div class="on-color">
       <div style="background:var(--cream);color:var(--night)">{{logo:two}}<span class="lab">Night on Cream</span></div>
       <div style="background:var(--night);color:var(--cream)">{{logo:two}}<span class="lab">Cream on Night</span></div>
-      <div style="background:var(--sig);color:var(--on-sig)">{{logo:two}}<span class="lab"><span data-bind="sig.onName">Night</span> on <span data-bind="sig.name">Blue Hour</span></span></div>
+      <div style="background:var(--sig);color:var(--on-sig)">{{logo:two}}<span class="lab"><span data-bind="sig.onName">White</span> on <span data-bind="sig.name">Blue Hour</span></span></div>
     </div>
     <p class="sub">Rules</p>
     <dl class="spec">
       <div><dt>Clear space</dt><dd>The height of the wordmark’s M on every side.</dd></div>
       <div><dt>Minimum width</dt><dd>72 px on screen.</dd></div>
-      <div><dt>Placement</dt><dd>Header: left on desktop, centered on phones, about 104 px wide. Footer: 160 px.</dd></div>
-      <div><dt>Color</dt><dd>Night on light grounds and on Blue Hour. Cream on Night and on photos. Nothing else.</dd></div>
+      <div><dt>Placement</dt><dd>Header: centered, about 104 px wide, with the menu on its left and the icons on its right. Footer: 160 px.</dd></div>
+      <div><dt>Color</dt><dd>Night on light grounds. Cream or white on Night, on Blue Hour and on photos. Nothing else.</dd></div>
       <div><dt>Never</dt><dd>Split the two lines, set it on one line, stretch it, recolor it, add effects or retype it.</dd></div>
     </dl>
     <div class="exception">
-      <div><span class="lab">The one exception · needs your OK</span><p>A browser tab icon is 16 px square, and two lines of lettering cannot be read at that size. For that single spot I suggest the M of the wordmark on its own. Everywhere else it is the full two-line logo.</p></div>
+      <div><span class="lab">Browser tab icon · the one exception</span><p>A browser tab icon is 16 px square, and two lines of lettering cannot be read at that size. In that single spot the M of the wordmark stands alone. Everywhere else it is the full two-line logo.</p></div>
       <div class="tabs">
         <div class="tabrow"><div class="tab"><span class="fav">{{logo:two}}</span>Maison Croyez</div><span class="lab">Two lines at 16 px</span></div>
-        <div class="tabrow"><div class="tab"><span class="fav m">{{logo:m}}</span>Maison Croyez</div><span class="lab">The M alone</span><div class="appicon">{{logo:m}}</div></div>
+        <div class="tabrow"><div class="tab"><span class="fav m">{{logo:m}}</span>Maison Croyez</div><span class="lab">The M alone · in use</span><div class="appicon">{{logo:m}}</div></div>
       </div>
+    </div>
+    <p class="sub">Pattern · optional · needs your OK</p>
+    <div class="pat-row">
+      <div class="pat-tile" style="background:var(--cream)"><svg aria-hidden="true"><defs><pattern id="mpat-l" width="76" height="76" patternUnits="userSpaceOnUse"><use href="#mc-m" x="9" y="9" width="22" height="22" style="fill:#E6DCCB" fill-rule="evenodd"/><use href="#mc-m" x="47" y="47" width="22" height="22" style="fill:#E6DCCB" fill-rule="evenodd"/></pattern></defs><rect width="100%" height="100%" fill="url(#mpat-l)"/></svg></div>
+      <div class="pat-tile" style="background:var(--night);border-color:var(--night)"><svg aria-hidden="true"><defs><pattern id="mpat-d" width="76" height="76" patternUnits="userSpaceOnUse"><use href="#mc-m" x="9" y="9" width="22" height="22" style="fill:#2E2620" fill-rule="evenodd"/><use href="#mc-m" x="47" y="47" width="22" height="22" style="fill:#2E2620" fill-rule="evenodd"/></pattern></defs><rect width="100%" height="100%" fill="url(#mpat-d)"/></svg></div>
+      <div class="pat-txt"><span class="lab">The M, tone on tone</span><p>The M of the wordmark repeated quietly, one shade off its background. It is a texture and never a second logo. Use it for gift moments, an email header or the footer band, and never behind paragraphs.</p></div>
     </div>
     <p class="note">The vector is traced from the 1080 px original, which is right for screens. Print will need a hand-finished master.</p>
   </div>
@@ -517,16 +500,16 @@ a.choice:hover b{color:var(--sig-ink)}
     <div class="pick">
       <span class="lab">Compare the signature shade</span>
       <div class="seg" data-group="sig">
-        <button type="button" data-val="soft" aria-pressed="true"><i style="background:#7A82E7"></i>Blue Hour <em>your mix</em></button>
-        <button type="button" data-val="deep" aria-pressed="false"><i style="background:#4B55D6"></i>Blue Hour Deep <em>first draft</em></button>
+        <button type="button" data-val="main" aria-pressed="true"><i style="background:#6169DF"></i>Blue Hour <em>decided</em></button>
+        <button type="button" data-val="soft" aria-pressed="false"><i style="background:#7A82E7"></i>Lighter <em>your earlier mix</em></button>
       </div>
     </div>
-    <p class="why" data-bind="sig.why">Your mix, halfway between the first Blue Hour and its light tint. It is softer and friendlier. White text is too faint on it, so button text is Night, and links and small labels use the deeper blue.</p>
+    <p class="why" data-bind="sig.why">A step darker than your mix. It is the lightest blue on which white button text still reads properly, at 4.6 to 1. Links and small labels keep the deeper blue.</p>
 
     <p class="sub">Core · nine tenths of every page</p>
     <div class="g3">
       <div class="sw" style="background:var(--cream);color:var(--night)"><span class="role">Primary</span><div><div class="nm">Cream</div><div class="hex">#F9F6EE</div><div class="rgb">R 249 &nbsp;G 246 &nbsp;B 238</div><div class="use">Page backgrounds</div></div></div>
-      <div class="sw" style="background:var(--sig);color:var(--on-sig);border-color:var(--sig)"><span class="role">Signature</span><div><div class="nm" data-bind="sig.name">Blue Hour</div><div class="hex" data-bind="sig.hex">#7A82E7</div><div class="rgb" data-bind="sig.rgb">R 122 &nbsp;G 130 &nbsp;B 231</div><div class="use">Buttons · highlights · link underlines</div></div></div>
+      <div class="sw" style="background:var(--sig);color:var(--on-sig);border-color:var(--sig)"><span class="role">Signature</span><div><div class="nm" data-bind="sig.name">Blue Hour</div><div class="hex" data-bind="sig.hex">#6169DF</div><div class="rgb" data-bind="sig.rgb">R 97 &nbsp;G 105 &nbsp;B 223</div><div class="use">Buttons · highlights · large type</div></div></div>
       <div class="sw" style="background:var(--night);color:var(--cream);border-color:var(--night)"><span class="role">Primary</span><div><div class="nm">Night</div><div class="hex">#161210</div><div class="rgb">R 22 &nbsp;G 18 &nbsp;B 16</div><div class="use">Text · dark sections</div></div></div>
     </div>
 
@@ -539,7 +522,7 @@ a.choice:hover b{color:var(--sig-ink)}
       <div class="sw small" style="background:var(--dusk);color:var(--cream);border-color:var(--dusk)"><span class="role">Surface · dark</span><div><div class="nm">Dusk</div><div class="hex">#231D19</div><div class="use">Cards on Night</div></div></div>
       <div class="sw small" style="background:var(--sig-ink);color:#fff;border-color:var(--sig-ink)"><span class="role">Text · links</span><div><div class="nm">Blue Hour Deep</div><div class="hex">#4B55D6</div><div class="use">Links · small labels</div></div></div>
       <div class="sw small" style="background:var(--sig-light);color:var(--night);border-color:var(--sig-light)"><span class="role">Accent · dark</span><div><div class="nm">Blue Hour Light</div><div class="hex">#A9AEF7</div><div class="use">Signature on Night</div></div></div>
-      <div class="sw small" style="background:var(--sig-wash);color:var(--night)"><span class="role">Highlight</span><div><div class="nm">Blue Hour Wash</div><div class="hex" data-bind="sig.wash">#E9EAFB</div><div class="use">Tags · selected states</div></div></div>
+      <div class="sw small" style="background:var(--sig-wash);color:var(--night)"><span class="role">Highlight</span><div><div class="nm">Blue Hour Wash</div><div class="hex" data-bind="sig.wash">#E7E8FB</div><div class="use">Tags · selected states</div></div></div>
     </div>
 
     <p class="sub">Dominance ratio</p>
@@ -552,16 +535,16 @@ a.choice:hover b{color:var(--sig-ink)}
     <p class="sub">Contrast &amp; accessibility</p>
     <div class="g3" id="contrast">
       <div class="cx" data-fg="night" data-bg="cream"><div class="aa">Aa</div><div class="info"><div class="pair">Night on Cream · text</div><div class="val"><span class="r">17.2 : 1</span><span class="badge">AAA</span></div></div></div>
-      <div class="cx" data-fg="on-sig" data-bg="sig"><div class="aa">Aa</div><div class="info"><div class="pair"><span data-bind="sig.onName">Night</span> on <span data-bind="sig.name">Blue Hour</span> · buttons</div><div class="val"><span class="r">5.5 : 1</span><span class="badge">AA</span></div></div></div>
+      <div class="cx" data-fg="on-sig" data-bg="sig"><div class="aa">Aa</div><div class="info"><div class="pair"><span data-bind="sig.onName">White</span> on <span data-bind="sig.name">Blue Hour</span> · buttons</div><div class="val"><span class="r">4.6 : 1</span><span class="badge">AA</span></div></div></div>
       <div class="cx" data-fg="sig-ink" data-bg="cream"><div class="aa">Aa</div><div class="info"><div class="pair">Blue Hour Deep on Cream · links</div><div class="val"><span class="r">5.4 : 1</span><span class="badge">AA</span></div></div></div>
-      <div class="cx" data-fg="sig" data-bg="cream"><div class="aa">Aa</div><div class="info"><div class="pair"><span data-bind="sig.name">Blue Hour</span> on Cream · fills only</div><div class="val"><span class="r">3.1 : 1</span><span class="badge">AA · large &amp; UI only</span></div></div></div>
+      <div class="cx" data-fg="sig" data-bg="cream"><div class="aa">Aa</div><div class="info"><div class="pair"><span data-bind="sig.name">Blue Hour</span> on Cream · fills and large type</div><div class="val"><span class="r">4.2 : 1</span><span class="badge">AA · large &amp; UI only</span></div></div></div>
       <div class="cx" data-fg="sig-light" data-bg="night"><div class="aa">Aa</div><div class="info"><div class="pair">Blue Hour Light on Night</div><div class="val"><span class="r">8.9 : 1</span><span class="badge">AAA</span></div></div></div>
       <div class="cx" data-fg="drift" data-bg="cream"><div class="aa">Aa</div><div class="info"><div class="pair">Driftwood on Cream</div><div class="val"><span class="r">5.3 : 1</span><span class="badge">AA</span></div></div></div>
     </div>
 
     <p class="sub">Color beyond the signature</p>
     <div class="scents">
-      <p>Every other color comes from the pictures and the scents, never from the page itself. Each scent brings one soft tint, used only on its own tile. The three shown here are placeholders until the scents are chosen.</p>
+      <p>Every other color comes from the pictures and the scents, never from the page itself. Each scent brings one soft tint, used only on its own tile. The three shown here are placeholders until the scents are chosen. A seasonal campaign may bring one guest color and a pattern into the hero and the top bar, and the rest of the page stays as it is.</p>
       <div class="dots"><span style="background:var(--scent-1)"></span><span style="background:var(--scent-2)"></span><span style="background:var(--scent-3)"></span></div>
     </div>
   </div>
@@ -592,7 +575,7 @@ a.choice:hover b{color:var(--sig-ink)}
     <p class="sub">Type scale</p>
     <div class="scale" id="scale">
       <div class="srow"><div class="k"><b>Hero</b><span>DM Sans · Bold · 64 px · line 1.03 · tracking -3.5%</span></div><div class="v"><div class="hd" style="--fs:clamp(36px,5.4vw,64px)">Stress, meet your match.</div></div></div>
-      <div class="srow"><div class="k"><b>H1</b><span>DM Sans · Bold · 48 px · line 1.03 · tracking -3.5%</span></div><div class="v"><div class="hd" style="--fs:clamp(31px,4.2vw,48px)">The day ends here.</div></div></div>
+      <div class="srow"><div class="k"><b>H1</b><span>DM Sans · Bold · 48 px · line 1.03 · tracking -3.5%</span></div><div class="v"><div class="hd" style="--fs:clamp(31px,4.2vw,48px)">Exhale the day.</div></div></div>
       <div class="srow"><div class="k"><b>H2</b><span>DM Sans · Bold · 36 px · line 1.03 · tracking -3.5%</span></div><div class="v"><div class="hd" style="--fs:clamp(27px,3.2vw,36px)">As simple as 1, 2, 3.</div></div></div>
       <div class="srow"><div class="k"><b>H3</b><span>DM Sans · Bold · 26 px · line 1.03 · tracking -3.5%</span></div><div class="v"><div class="hd" style="--fs:26px">Meet our scents.</div></div></div>
       <div class="srow"><div class="k"><b>Lead</b><span>DM Sans · Regular · 21 px · line 1.45</span></div><div class="v" style="font-size:clamp(18px,1.8vw,21px);line-height:1.45">Scent that helps you slow down, be here, and sleep.</div></div>
@@ -616,12 +599,12 @@ a.choice:hover b{color:var(--sig-ink)}
     <div class="split">
       <div>
         <h3 class="hd">The hour the day lets go.</h3>
-        <p>Maison Croyez pictures live at dusk and after. One warm lamp, deep soft shadows and a trace of blue at the window. Real women of 35 and over, caught mid-exhale and never posing. Around them there is water, steam, linen and plaster.</p>
+        <p>Maison Croyez pictures live at dusk and after. One warm lamp, deep soft shadows and a trace of blue at the window. Real women from 35 to 70 and over, styled with care, caught mid-exhale and never posing. Around them there is water, steam, linen and plaster.</p>
       </div>
       <dl class="spec">
         <div><dt>Light</dt><dd>One warm lamp · blue dusk at the window</dd></div>
         <div><dt>Grade</dt><dd>Low-key, warm, soft grain</dd></div>
-        <div><dt>Subject</dt><dd>Women 35+ at home · hands, shoulders, profiles</dd></div>
+        <div><dt>Subject</dt><dd>Women from 35 to 70+ at home · hands, shoulders, profiles</dd></div>
         <div><dt>Detail</dt><dd>Water, steam, salt and linen on plain warm grounds</dd></div>
         <div><dt>Mood</dt><dd>Quiet, unhurried, a little indulgent</dd></div>
       </dl>
@@ -629,7 +612,7 @@ a.choice:hover b{color:var(--sig-ink)}
 
     <p class="sub">Look &amp; feel · reference pictures</p>
     <div class="g4">
-      <div class="shot"><div class="ph"><img src="img/woman-window.webp" alt="A woman in her fifties holds a mug by a window at dusk, lit by a warm lamp" loading="lazy"></div><span class="lab">Evening scene</span><p>One person, one lamp, one quiet moment.</p></div>
+      <div class="shot"><div class="ph"><img src="img/woman-silver.webp" alt="A woman in her sixties with long silver hair sits in profile by a window at dusk, eyes closed, lit by a warm lamp" loading="lazy"></div><span class="lab">Evening scene</span><p>One person, one lamp, one quiet moment. Age shown as elegance.</p></div>
       <div class="shot"><div class="ph"><img src="img/hand-water.webp" alt="A hand resting on warm bath water with thin steam" loading="lazy"></div><span class="lab">Hands &amp; water</span><p>Close enough to feel the warmth.</p></div>
       <div class="shot"><div class="ph"><img src="img/linen.webp" alt="Folded linen and a small ceramic dish on a plaster ledge" loading="lazy"></div><span class="lab">Texture · light ground</span><p>Plain warm backgrounds for detail.</p></div>
       <div class="shot"><div class="ph"><img src="img/steam.webp" alt="Steam rising against a dark background" loading="lazy"></div><span class="lab">Texture · dark ground</span><p>Steam and shadow for night sections.</p></div>
@@ -637,14 +620,14 @@ a.choice:hover b{color:var(--sig-ink)}
 
     <p class="sub">Treatments</p>
     <div class="g4">
-      <div class="shot"><div class="ph scrim"><img src="img/woman-armchair.webp" alt="A woman resting in an armchair by a window at dusk" loading="lazy"><div class="over"><span class="lab">Tonight</span><b>The day ends here.</b></div></div><span class="lab">Night scrim</span><p>Night at 90% fading to 0 from the text side, on any photo that carries type.</p></div>
+      <div class="shot"><div class="ph scrim"><img src="img/woman-window.webp" alt="A woman in her fifties holds a mug by a window at dusk, lit by a warm lamp" loading="lazy"><div class="over"><span class="lab">Tonight</span><b>Exhale the day.</b></div></div><span class="lab">Night scrim</span><p>Night at 90% fading to 0 from the text side, on any photo that carries type.</p></div>
       <div class="shot"><div class="ph crops"><div class="a"><span>16:9</span></div><div class="b"><span>4:5</span></div><div class="c"><span>1:1</span></div></div><span class="lab">Crops &amp; corners</span><p>Three ratios only. Corners at 12 px, or square when a picture runs edge to edge.</p></div>
       <div class="shot"><div class="ph numrule"><div class="nr"><b class="on">01</b><i></i><b>02</b><i></i><b>03</b></div><p><b>Relax.</b>Then be here. Then sleep.</p><div class="nr"><b>01</b><i></i><b class="on">02</b><i></i><b>03</b></div></div><span class="lab">Numbered rule</span><p>A hairline with mono numbers. It divides sections and walks through any three steps.</p></div>
       <div class="shot"><div class="ph tex"><img src="img/salt.webp" alt="Salt flakes on a sand-colored surface" loading="lazy"><div class="over"><span class="lab">Bonne nuit</span><b>Sleep well.</b></div></div><span class="lab">Texture ground</span><p>A texture at low contrast behind one short line. Never behind paragraphs.</p></div>
     </div>
 
     <div class="g2 dodont" style="margin-top:clamp(44px,5.5vw,72px)">
-      <div class="card"><h3><span class="tag-ok">Do</span>Shoot it like this</h3><ul><li>Keep it dusk or later, and protect the shadows.</li><li>Use one warm light, plus the blue of the window.</li><li>Show real skin, real age and a real home.</li><li>Leave empty space where the words will go.</li></ul></div>
+      <div class="card"><h3><span class="tag-ok">Do</span>Shoot it like this</h3><ul><li>Keep it dusk or later, and protect the shadows.</li><li>Use one warm light, plus the blue of the window.</li><li>Cast across ages, silver hair included. Real skin, real homes.</li><li>Leave empty space where the words will go.</li></ul></div>
       <div class="card no"><h3><span class="tag-no">Don’t</span>Avoid this</h3><ul><li>Bright, white, midday bathrooms.</li><li>Models smiling at the camera.</li><li>Crystals, altars or anything mystical.</li><li>Busy flat lays and rainbow color.</li></ul></div>
     </div>
     <p class="note">Every picture on this board is a generated reference for the direction. None of them is final photography.</p>
@@ -693,7 +676,7 @@ a.choice:hover b{color:var(--sig-ink)}
       <h2 class="hd sec-title">UI &amp; touchpoints.</h2>
     </div>
     <div class="g4 stack">
-      <div class="ui-tile"><span class="lab">CTA · primary</span><div class="ui-stage"><span class="btn p">Start your evening {{i:arrow-right}}</span></div><p class="specs">Fill <span data-bind="sig.name">Blue Hour</span> <span data-bind="sig.hex">#7A82E7</span> · text <span data-bind="sig.onName">Night</span> · radius 8 · height 52 · padding 24 · DM Sans SemiBold 16</p></div>
+      <div class="ui-tile"><span class="lab">CTA · primary</span><div class="ui-stage"><span class="btn p">Start your evening {{i:arrow-right}}</span></div><p class="specs">Fill <span data-bind="sig.name">Blue Hour</span> <span data-bind="sig.hex">#7A82E7</span> · text <span data-bind="sig.onName">White</span> · radius 8 · height 52 · padding 24 · DM Sans SemiBold 16</p></div>
       <div class="ui-tile"><span class="lab">CTA · secondary</span><div class="ui-stage"><span class="btn s">Meet our scents</span></div><p class="specs">Transparent · 1.5 px Night border · radius 8 · height 52 · on Night the border and text turn Cream</p></div>
       <div class="ui-tile"><span class="lab">Chip · mood tag</span><div class="ui-stage"><span class="mood sel">Relax</span><span class="mood">Presence</span><span class="mood">Sleep</span></div><p class="specs">Roboto Mono Medium 12 uppercase · Stone border · radius 6 · padding 8/10 · selected: wash fill, signature border</p></div>
       <div class="ui-tile"><span class="lab">Benefit item</span><div class="ui-stage"><div class="benefits"><div>{{i:check}}Helps you unwind</div><div>{{i:check}}Ready in minutes</div></div></div><p class="specs">Check icon 18 px in Blue Hour Deep · DM Sans SemiBold 16 · gap 8</p></div>
@@ -705,13 +688,13 @@ a.choice:hover b{color:var(--sig-ink)}
 
     <p class="sub">In the wild · sample applications</p>
     <div class="browser" aria-label="Sample home page on desktop">
-      <div class="bar">Bonsoir. Your evening starts here.</div>
-      <div class="hdr">{{logo:two}}<nav><span>Shop</span><span class="cur">Scents</span><span>Our story</span><span>Journal</span></nav><div class="icons">{{i:search}}{{i:user}}{{i:shopping-bag}}</div></div>
+      <div class="bar">Bonsoir. Exhale the day.</div>
+      <div class="hdr"><nav><span>Shop</span><span class="cur">Scents</span><span>Our story</span><span>Journal</span></nav>{{logo:two}}<div class="icons">{{i:search}}{{i:user}}{{i:shopping-bag}}</div></div>
       <div class="hero"><div class="hero-in"><div class="eb">01 · Relax</div><h4>Stress, meet your match.</h4><p>A calmer evening, as simple as 1, 2, 3. Scent that helps you slow down, be here, and sleep.</p><div class="bens"><span>{{i:check}}Helps you unwind</span><span>{{i:check}}Ready in minutes</span><span>{{i:check}}Made for nights in</span></div><div class="cta"><span class="p">Start your evening {{i:arrow-right}}</span><span class="s">Meet our scents</span></div></div></div>
       <div class="steps"><div><i>01</i><b>Relax.</b><span>Let the day go.</span></div><div><i>02</i><b>Be here.</b><span>Come back to the moment.</span></div><div><i>03</i><b>Sleep.</b><span>Drift off sooner.</span></div></div>
     </div>
     <div class="wild">
-      <div class="phone-wrap"><div class="phone" aria-label="Sample night section on a phone"><div class="ph-in"><div class="ph-top">{{i:menu}}{{logo:two}}{{i:shopping-bag}}</div><div class="pic"></div><div class="eb">Tonight</div><h4>The day ends here.</h4><p>Low light, warm water, one deep breath.</p><div class="p">Start your evening {{i:arrow-right}}</div></div></div></div>
+      <div class="phone-wrap"><div class="phone" aria-label="Sample night section on a phone"><div class="ph-in"><div class="ph-top">{{i:menu}}{{logo:two}}{{i:shopping-bag}}</div><div class="pic"></div><div class="eb">Tonight</div><h4>Exhale the day.</h4><p>Low light, warm water, one deep breath.</p><div class="p">Start your evening {{i:arrow-right}}</div></div></div></div>
       <div class="tiles-col">
         <div class="tiles-head"><h4>Meet our scents.</h4><span class="lab" style="color:var(--drift)">One tint per scent · names to come</span></div>
         <div class="tiles">
@@ -727,9 +710,9 @@ a.choice:hover b{color:var(--sig-ink)}
 <footer class="night foot">
   <div class="w">
     <div class="foot-in">
-      <div>{{logo:two}}<p>Brand Board · Website identity system</p></div>
+      <div>{{logo:two}}<p class="hd" style="--fs:24px;color:var(--cream);margin-bottom:8px">Exhale the day.</p><p>Brand Board · Website identity system</p></div>
       <dl class="meta">
-        <div><dt>Version</dt><dd>1.1 · 2026</dd></div>
+        <div><dt>Version</dt><dd>1.2 · 2026</dd></div>
         <div><dt>Showing</dt><dd><span data-bind="sig.name">Blue Hour</span> · DM Sans Bold</dd></div>
         <div><dt>Made with</dt><dd>Claude</dd></div>
       </dl>
@@ -740,17 +723,17 @@ a.choice:hover b{color:var(--sig-ink)}
 <script>
 (function(){
   var SIG={
-    soft:{name:'Blue Hour',hex:'#7A82E7',wash:'#E9EAFB',on:'#161210',onName:'Night',why:'Your mix, halfway between the first Blue Hour and its light tint. It is softer and friendlier. White text is too faint on it, so button text is Night, and links and small labels use the deeper blue.'},
-    deep:{name:'Blue Hour Deep',hex:'#4B55D6',wash:'#E6E7FA',on:'#FFFFFF',onName:'White',why:'The first draft, kept for comparison. Stronger and more serious. White button text stays readable on it, so buttons and links can share one blue.'}
+    main:{name:'Blue Hour',hex:'#6169DF',wash:'#E7E8FB',on:'#FFFFFF',onName:'White',why:'A step darker than your mix. It is the lightest blue on which white button text still reads properly, at 4.6 to 1. Links and small labels keep the deeper blue.'},
+    soft:{name:'Blue Hour, lighter',hex:'#7A82E7',wash:'#E9EAFB',on:'#FFFFFF',onName:'White',why:'Your earlier mix, kept so you can compare. White button text is faint on it, at 3.4 to 1, which is why the decided blue is a step darker.'}
   };
-  var root=document.documentElement,state={sig:'soft'};
-  try{var s=JSON.parse(localStorage.getItem('mc-board')||'{}');if(SIG[s.sig])state.sig=s.sig}catch(e){}
+  var root=document.documentElement,state={sig:'main'};
+  try{var s=JSON.parse(localStorage.getItem('mc-board-12')||'{}');if(SIG[s.sig])state.sig=s.sig}catch(e){}
   function rgb(h){h=h.replace('#','');return [0,2,4].map(function(i){return parseInt(h.substr(i,2),16)})}
   function lum(h){var c=rgb(h).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
   function ratio(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
   function apply(){
     var sg=SIG[state.sig];
-    if(state.sig==='soft')root.removeAttribute('data-sig');else root.setAttribute('data-sig',state.sig);
+    if(state.sig==='main')root.removeAttribute('data-sig');else root.setAttribute('data-sig',state.sig);
     var c=rgb(sg.hex);
     var v={'sig.name':sg.name,'sig.hex':sg.hex,'sig.wash':sg.wash,'sig.onName':sg.onName,'sig.why':sg.why,'sig.rgb':'R '+c[0]+' \u00a0G '+c[1]+' \u00a0B '+c[2]};
     document.querySelectorAll('[data-bind]').forEach(function(el){var k=el.getAttribute('data-bind');if(k in v)el.textContent=v[k]});
@@ -764,7 +747,7 @@ a.choice:hover b{color:var(--sig-ink)}
   }
   document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){
     state[b.parentNode.getAttribute('data-group')]=b.getAttribute('data-val');
-    try{localStorage.setItem('mc-board',JSON.stringify(state))}catch(e){}
+    try{localStorage.setItem('mc-board-12',JSON.stringify(state))}catch(e){}
     apply();
   })});
   apply();

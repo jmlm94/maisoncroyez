@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads the generated reference pictures for the rebrand board into lp-factory/brand/rebrand-2026/board/img/ as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run.
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -13,15 +13,7 @@ jobs:
     timeout-minutes: 8
     env:
       LIST: |
-        hero https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_0d52ce82-db8c-4203-859b-4ceba7238410.png
-        woman-window https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_59518806-d4b0-44f2-b2b9-ffe947554688.png
-        woman-armchair https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_211017_5639d737-1879-4b55-b505-76c66e15871a.png
-        hand-water https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_99501c99-0c75-4642-bd63-a6d228fc1d05.png
-        steam https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_ad632d1c-44e8-4621-9a06-ec0898b8be97.png
-        ripples https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_339291c9-42ff-47a8-904b-ef5a1d93be16.png
-        salt https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_b818b1ac-1c53-4ce8-8812-a0797a080eb7.png
-        linen https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_95c617d1-bcca-4c96-ba21-cfdc8fe05c44.png
-        dusk-room https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_f6fc6e54-c651-495e-8998-bc4b8f3f26ea.png
+        woman-silver https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_220008_d3331cd4-f86c-4377-9179-b77a4c9afe8d.png
     steps:
       - uses: actions/checkout@v4
         with:

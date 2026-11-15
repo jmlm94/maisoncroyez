@@ -107,7 +107,10 @@ launch. Ask me questions if needed." (The pattern is now a plain part of the boa
   and notes in lp-factory/pages/bath-soak/ (README there lists every placeholder). https://claude.ai/artifact/AviMUuKqQSgBeMufQFpJ19
   Version 2 the same day: after he asked whether I had checked the reference product pages for conversion elements (I had
   not), I read all five and added the ones that need no new decision or invented fact (list in that README).
-- Higgsfield so far for the rebrand: 26 generations at 2.75 credits.
+- Second page in the new brand (2026-11-15): the diffuser kits one-page offer, artifact only. His words: "create an artifact
+  now for the diffuser-kits but now with this branding and principles applied just to see how it looks". Source and notes
+  in lp-factory/pages/diffuser-kits-rebrand/. Eight new pictures of the real diffuser in the dusk look.
+- Higgsfield so far for the rebrand: 34 generations at 2.75 credits.
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
 - Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·

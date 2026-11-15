@@ -1,0 +1,612 @@
+<title>Maison Croyez Diffuser Kits</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Roboto+Mono:wght@400..700&display=swap">
+<style>
+/* The diffuser kits page (k2 offer: diffusers, then scents by quantity, then refills) in the new brand. A three-step buy box
+   (gallery left, steps right on desktop), then the long-form sections. One committed look: the brand's own colors in either viewer theme. */
+:root{
+  --cream:#F9F6EE; --paper:#FFFDF9; --sand:#EAE1D1; --stone:#CFC4B1; --drift:#6E655B;
+  --night:#161210; --dusk:#231D19; --alert:#B4432B;
+  --sig:#6169DF; --ink:#4B55D6; --sig-light:#A9AEF7; --wash:#E7E8FB;
+  --c1:#8F6410; --c2:#4F6B2A; --c3:#5A4694; --c4:#7A4A2A; --c5:#B04E4A; --c6:#2F5D4B; --c7:#2A2E63;
+  --f:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --m:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--night);font-family:var(--f);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+img,svg{display:block;max-width:100%}
+[hidden]{display:none!important}
+p{margin:0}
+button{font-family:inherit;color:inherit}
+.w{max-width:1240px;margin:0 auto;padding-left:max(clamp(16px,4vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,48px),env(safe-area-inset-right,0px))}
+.lab{font:500 12px/1.4 var(--m);letter-spacing:.12em;text-transform:uppercase}
+.hd{font-weight:700;letter-spacing:-.035em;line-height:1.04;text-wrap:balance;margin:0}
+.lg{width:100%;height:auto;fill:currentColor}
+.ic{width:1em;height:1em;flex:none}
+:focus-visible{outline:2px solid var(--sig);outline-offset:3px}
+
+/* top */
+.note{background:var(--sand);color:var(--drift);text-align:center;font:500 11px/1.4 var(--m);letter-spacing:.1em;text-transform:uppercase;padding:7px 12px}
+.bar{background:var(--night);color:var(--cream);text-align:center;font:500 12px/1.4 var(--m);letter-spacing:.14em;text-transform:uppercase;padding:9px 12px}
+.hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding-block:14px;border-bottom:1px solid var(--stone)}
+.hdr .lg{width:104px;justify-self:center}
+.hdr nav{display:flex;gap:26px;font-weight:500;font-size:16px}
+.hdr nav .cur{color:var(--ink);box-shadow:0 2px 0 var(--sig);padding-bottom:3px}
+.hdr .menu{display:none;font-size:24px}
+.hdr .icons{display:flex;gap:18px;justify-content:flex-end;font-size:22px}
+@media (max-width:860px){.hdr nav{display:none}.hdr .menu{display:block}.hdr .icons .u{display:none}}
+
+/* buy box */
+.bb{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);padding-block:clamp(16px,2.6vw,36px) clamp(40px,5vw,72px);align-items:start}
+@media (max-width:860px){.bb{grid-template-columns:minmax(0,1fr);gap:20px}}
+.gal{position:relative;min-width:0}
+@media (min-width:861px){.gal{position:sticky;top:16px}}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:14px;background:var(--sand)}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;aspect-ratio:1/1;min-width:0}
+.slide img{width:100%;height:100%;object-fit:cover}
+.gbtn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(249,246,238,.92);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 2px 10px rgba(22,18,16,.18)}
+.gbtn.prev{left:12px}.gbtn.prev .ic{transform:rotate(180deg)}.gbtn.next{right:12px}
+.dots{display:flex;gap:7px;justify-content:center;margin-top:12px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--stone)}
+.dots i.on{background:var(--night)}
+.slide{position:relative}
+.cap{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);background:rgba(22,18,16,.86);color:var(--cream);border-radius:8px;padding:9px 12px;font-weight:600;font-size:15.5px;letter-spacing:-.01em;line-height:1.25}
+.eyebrow{color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.new{background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
+h1.hd{font-size:clamp(34px,4.6vw,54px)}
+.lede{font-size:clamp(17px,1.6vw,19px);margin-top:14px;max-width:34em}
+.bens{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 18px;font-weight:600;font-size:15.5px}
+.bens li{display:flex;align-items:center;gap:7px}
+.bens .ic{color:var(--ink);font-size:18px}
+.step{border-top:1px solid var(--stone);margin-top:26px;padding-top:20px}
+.step-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 14px;margin-bottom:14px}
+.step-h .lab{color:var(--drift);flex:0 0 100%}
+.step-h h2{font-size:24px}
+.pill{font:600 11px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--night);color:var(--cream);border-radius:999px;padding:7px 11px;white-space:nowrap}
+.count{font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--drift)}
+.count.ok{color:var(--euca)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cardb{position:relative;text-align:left;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:22px 12px 14px;cursor:pointer;min-width:0}
+.cardb[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#fff}
+.cardb .tag{position:absolute;top:-10px;left:10px;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--sig);color:#fff;border-radius:5px;padding:5px 7px;white-space:nowrap}
+.cardb b{display:block;font-size:18px;letter-spacing:-.02em}
+.cardb .p{font-weight:700;font-size:22px;letter-spacing:-.03em;margin-top:6px;display:block}
+.cardb .was{color:var(--drift);text-decoration:line-through;font-size:13.5px;margin-left:5px;font-weight:500}
+.cardb .each{display:block;font:500 11.5px/1.4 var(--m);color:var(--drift);margin-top:4px}
+.cardb .sv{display:inline-block;margin-top:8px;font:600 10.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 6px;white-space:nowrap}
+.cardb .sv.none{background:transparent;color:var(--drift);padding-left:0}
+.each1{display:flex;align-items:center;gap:8px;margin-top:10px;background:transparent;border:0;padding:6px 0;min-height:44px;font:600 15.5px var(--f);color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
+.each1 .ic{font-size:18px}
+.rows{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--paper);border:1px solid var(--stone);border-radius:12px;padding:10px 12px 10px 10px}
+.sw{width:64px;height:64px;border-radius:9px;color:var(--cream);display:flex;align-items:flex-end;padding:7px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
+.row b{display:block;font-size:19px;letter-spacing:-.02em;line-height:1.15}
+.row span{color:var(--drift);font-size:14.5px;display:block}
+.stepper{display:flex;align-items:center;gap:4px}
+.stepper button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--night);background:transparent;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer}
+.stepper button:disabled{border-color:var(--stone);color:var(--stone);cursor:default}
+.stepper output{min-width:26px;text-align:center;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.plans{display:grid;gap:8px}
+.plan{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:12px;align-items:start;text-align:left;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:14px;cursor:pointer}
+.plan[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#fff}
+.plan .radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--night);margin-top:2px;display:flex;align-items:center;justify-content:center}
+.plan[aria-pressed="true"] .radio::after{content:"";display:block;width:10px;height:10px;border-radius:50%;background:var(--night)}
+.plan b{display:block;font-size:17.5px;letter-spacing:-.01em;color:var(--night)}
+.plan span{color:var(--drift);font-size:14.5px;display:block}
+.plan .amt{font-weight:700;font-size:18px;white-space:nowrap;color:var(--night)}
+.plan{position:relative}
+.plan .tag{position:absolute;top:-10px;right:12px;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--sig);color:#fff;border-radius:5px;padding:5px 7px;white-space:nowrap}
+.plan .incl{display:none;margin-top:10px;gap:7px}
+.plan[aria-pressed="true"] .incl{display:grid}
+.plan .incl span{display:flex;gap:8px;align-items:flex-start;color:var(--night);font-size:15px;line-height:1.35}
+.plan .incl .ic{color:var(--ink);font-size:17px;margin-top:2px}
+.freq{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:15px;color:var(--drift)}
+.freq select{font:500 15px var(--f);color:var(--night);background:#fff;border:1px solid var(--stone);border-radius:8px;height:44px;padding:0 10px}
+.cta{width:100%;margin-top:20px;min-height:58px;border:0;border-radius:8px;background:var(--sig);color:#fff;font:600 18px/1 var(--f);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.cta:disabled{background:var(--stone);color:var(--night);cursor:default}
+.cta .ic{font-size:20px}
+.trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;text-align:center}
+.trust div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13.5px;font-weight:600;line-height:1.25}
+.trust .ic{font-size:22px;color:var(--ink)}
+.faq.acc{margin-top:22px;max-width:none}
+.faq.acc summary{font-size:16.5px;padding:15px 0}
+.faq.acc p{font-size:15.5px;padding-bottom:16px}
+
+/* sections */
+section.s{padding-block:clamp(52px,7vw,104px)}
+.sand{background:var(--sand)}
+.night{background:var(--night);color:var(--cream)}
+.sec-e{color:var(--ink);display:block;margin-bottom:14px}
+.night .sec-e{color:var(--sig-light)}
+.sec-h{font-size:clamp(32px,4.8vw,58px);max-width:16em}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+@media (max-width:860px){.split{grid-template-columns:minmax(0,1fr)}}
+.pic{border-radius:14px;overflow:hidden;aspect-ratio:4/5;background:var(--dusk)}
+.pic.sq{aspect-ratio:1/1}
+.pic img{width:100%;height:100%;object-fit:cover}
+.items{display:grid;gap:0;margin-top:clamp(22px,3vw,36px)}
+.item{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;padding:18px 0;border-top:1px solid var(--stone)}
+.item:last-child{border-bottom:1px solid var(--stone)}
+.item i{font:600 12px var(--m);letter-spacing:.1em;color:var(--ink);font-style:normal;padding-top:6px}
+.item b{display:block;font-size:20px;letter-spacing:-.02em}
+.item span{color:var(--drift);font-size:16px}
+.vs{margin-top:clamp(24px,3.4vw,44px);border:1px solid var(--stone);border-radius:14px;overflow:hidden;background:var(--paper)}
+.vs-h,.vs-r{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.vs-h div{padding:14px clamp(14px,2vw,24px);font:600 12px/1.4 var(--m);letter-spacing:.1em;text-transform:uppercase}
+.vs-h div:first-child{color:var(--drift)}
+.vs-h div:last-child{background:var(--night);color:var(--cream)}
+.vs-r{border-top:1px solid var(--stone)}
+.vs-r>div{padding:16px clamp(14px,2vw,24px);min-width:0}
+.vs-r>div:last-child{background:#fff;border-left:1px solid var(--stone);font-weight:600}
+.vs-r .k{grid-column:1/3;padding-bottom:0;font:600 11px var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent!important;border:0!important}
+.vs-r.kr{border-top:1px solid var(--stone)}
+.vs-r.kr + .vs-r{border-top:0}
+.vs-r .x{color:var(--drift);font-size:16px}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,28px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:760px){.how{grid-template-columns:minmax(0,1fr)}}
+.how .pic{aspect-ratio:1/1}
+.how .n{display:flex;align-items:center;gap:10px;font:600 12px var(--m);letter-spacing:.1em;color:var(--ink);margin:16px 0 8px}
+.how .n i{flex:1;height:1px;background:var(--night);opacity:.4}
+.how b{display:block;font-size:24px;letter-spacing:-.03em;line-height:1.1}
+.how p{color:var(--drift);font-size:16px;margin-top:6px}
+.tl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.4vw,36px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:760px){.tl{grid-template-columns:minmax(0,1fr);gap:26px}}
+.tl .n{display:flex;align-items:center;gap:10px;font:600 12px var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
+.tl .n::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--sig);flex:none}
+.tl .n i{flex:1;height:1px;background:var(--night);opacity:.4}
+.tl b{display:block;font-size:24px;letter-spacing:-.03em;line-height:1.12}
+.tl p{color:var(--drift);font-size:16px;margin-top:8px;max-width:26em}
+.txt p{font-size:17.5px;max-width:34em}
+.txt p + p{margin-top:14px}
+.ticks{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px;font-weight:600}
+.ticks li{display:flex;gap:9px;align-items:center}
+.ticks .ic{color:var(--ink);font-size:19px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:760px){.tiles{grid-template-columns:minmax(0,1fr)}}
+.tile{border-radius:14px;color:var(--cream);padding:clamp(18px,2vw,26px);min-height:clamp(250px,30vw,400px);display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.tile .lab{display:flex;justify-content:space-between}
+.tile h3{font-weight:700;font-size:clamp(32px,3.6vw,48px);letter-spacing:-.04em;line-height:1;margin:0 0 6px}
+.tile p{font-size:16px;margin-bottom:16px;max-width:22em}
+.tile button{align-self:flex-start;background:transparent;border:1.5px solid var(--cream);color:var(--cream);border-radius:8px;min-height:46px;padding:0 16px;font:600 15.5px var(--f);display:flex;align-items:center;gap:8px;cursor:pointer}
+.g-wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+@media (max-width:760px){.g-wrap{grid-template-columns:minmax(0,1fr)}}
+.seal{width:clamp(150px,18vw,210px);aspect-ratio:1/1;border-radius:50%;border:1.5px solid var(--sig-light);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--cream)}
+.seal b{font-size:clamp(56px,7vw,84px);letter-spacing:-.05em;line-height:.9}
+.seal span{font:600 11px/1.5 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--sig-light);margin-top:6px}
+.night .ticks{font-weight:500}
+.night .ticks .ic{color:var(--sig-light)}
+.night .ticks li{align-items:flex-start}
+.night .ticks .ic{margin-top:4px}
+.btn2{display:inline-flex;align-items:center;gap:10px;margin-top:26px;min-height:54px;padding:0 24px;border-radius:8px;background:var(--sig);color:#fff;font:600 17px var(--f);border:0;cursor:pointer}
+.revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:760px){.revs{grid-template-columns:minmax(0,1fr)}}
+.rev{border:1.5px dashed var(--stone);border-radius:14px;padding:22px;min-height:190px;display:flex;flex-direction:column;gap:12px}
+.rev .st{display:flex;gap:3px;font-size:18px;color:var(--stone)}
+.rev i{display:block;height:10px;border-radius:5px;background:var(--sand)}
+.rev .lab{color:var(--drift);margin-top:auto}
+.proof{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:860px){.proof{grid-template-columns:minmax(0,1fr)}}
+.slot{border:1.5px dashed var(--stone);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.slot .sk{display:block;width:92px;height:46px;border-radius:8px;background:var(--sand)}
+.slot .st{display:flex;gap:3px;font-size:18px;color:var(--stone)}
+.slot p{color:var(--drift);font-size:14.5px;line-height:1.4}
+.slot .lab{color:var(--drift);margin-top:auto;padding-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.6vw,22px);align-content:start}
+.stats .slot{padding:clamp(12px,2vw,20px)}
+.stats .sk{width:min(92px,100%)}
+.stats>p{grid-column:1/-1;color:var(--drift);font-size:14.5px;line-height:1.4}
+.vids{display:flex;gap:clamp(10px,1.6vw,22px);margin-top:clamp(10px,1.6vw,22px);overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.vids::-webkit-scrollbar{display:none}
+.vid{flex:0 0 clamp(150px,22vw,230px);aspect-ratio:9/16;border:1.5px dashed var(--stone);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:14px;text-align:center}
+.vid .ic{font-size:30px;color:var(--stone)}
+.vid .lab{color:var(--drift)}
+.revs{margin-top:clamp(10px,1.6vw,22px)!important}
+.also{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:640px){.also{grid-template-columns:minmax(0,1fr)}}
+.also a{display:grid;grid-template-columns:minmax(0,1fr);background:var(--paper);border:1px solid var(--stone);border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;cursor:pointer}
+.also .pic{border-radius:0;aspect-ratio:3/2}
+.also .tx{padding:clamp(14px,2vw,24px);display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:0}
+.also .lab{color:var(--ink)}
+.also b{font-size:clamp(20px,2.2vw,26px);letter-spacing:-.03em;line-height:1.1}
+.also p{color:var(--drift);font-size:15.5px}
+.also .go{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;font-size:15.5px;color:var(--ink)}
+.faq{margin-top:clamp(20px,3vw,36px);max-width:860px}
+.faq details{border-top:1px solid var(--stone)}
+.faq details:last-child{border-bottom:1px solid var(--stone)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .ic{font-size:20px;transition:transform .15s}
+.faq details[open] summary .ic{transform:rotate(45deg)}
+.faq p{padding:0 0 20px;color:var(--drift);max-width:44em}
+footer{background:var(--night);color:var(--cream);padding-block:clamp(40px,5vw,64px)}
+.f-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 48px}
+footer .lg{width:150px;margin-bottom:16px}
+footer b{display:block;font-size:24px;letter-spacing:-.03em}
+footer p{color:#B8AD9F;font-size:15px;max-width:34em}
+footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--sig-light)}
+
+/* sticky bar + toast */
+.stick{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--stone);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;justify-content:center;transform:translateY(110%);transition:transform .2s;z-index:20}
+.stick.on{transform:none}
+.stick-in{width:100%;max-width:1144px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.stick b{display:block;font-size:16px;letter-spacing:-.01em;line-height:1.2}
+.stick span{color:var(--drift);font-size:13.5px}
+.stick button{min-height:50px;padding:0 20px;border-radius:8px;border:0;background:var(--sig);color:#fff;font:600 16px var(--f);white-space:nowrap;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--night);color:var(--cream);border-radius:10px;padding:13px 18px;font-size:15px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.stick,.toast,.faq summary .ic{transition:none}}
+
+/* kits */
+.rate{display:flex;align-items:center;gap:9px;margin-bottom:12px;font-size:14.5px;font-weight:500;color:var(--night);text-decoration:none;cursor:pointer;background:transparent;border:0;padding:0;min-height:28px}
+.rate u{text-underline-offset:3px;color:var(--drift)}
+.stars{position:relative;display:inline-flex;font-size:17px;line-height:0}
+.stars span{display:flex;gap:2px}
+.stars .ic{fill:currentColor;stroke-width:0}
+.stars .bk{color:var(--stone)}
+.stars .ft{position:absolute;left:0;top:0;overflow:hidden;color:var(--night);white-space:nowrap}
+.cardb{padding:20px 10px 12px;display:flex;flex-direction:column;align-items:flex-start}
+.cardb .sv{margin-bottom:8px}
+.cardb b{font-size:34px;letter-spacing:-.05em;line-height:.95}
+.cardb .u{display:block;font-weight:600;font-size:14.5px;letter-spacing:-.01em;margin-top:2px}
+.cardb .p{font-size:20px;margin-top:10px}
+.cardb .was{display:block;margin-left:0;font-size:13px}
+.cardb .cov{display:block;width:100%;margin-top:auto;padding-top:8px;border-top:1px solid var(--stone);font:600 10.5px/1.3 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--night)}
+.qty{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.qtyb{position:relative;text-align:center;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:18px 8px 14px;cursor:pointer;min-width:0;min-height:92px}
+.qtyb[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#fff}
+.qtyb b{display:block;font-size:18px;letter-spacing:-.02em}
+.qtyb span{display:block;font:500 12px/1.4 var(--m);color:var(--drift);margin-top:5px}
+.qtyb .tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--sig);color:#fff;border-radius:5px;padding:5px 7px;white-space:nowrap;margin:0}
+.nope{display:block;margin:12px auto 0;background:transparent;border:0;min-height:44px;padding:6px 8px;font:500 15px var(--f);color:var(--drift);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.nope[aria-pressed="true"]{color:var(--night);font-weight:600}
+.hint{text-align:center;color:var(--drift);font-size:15px;margin-top:4px}
+#scents{margin-top:14px}
+.row b{font-size:17.5px}
+.row .sw{align-items:flex-end}
+.plan .amt small{display:block;font:500 11px/1.3 var(--m);letter-spacing:.04em;color:var(--drift);text-align:right}
+.due{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin-top:20px;padding-top:16px;border-top:1px solid var(--stone);font-size:15px;color:var(--drift)}
+.due b{color:var(--night);font-size:16px;white-space:nowrap}
+.due + .cta{margin-top:12px}
+.tiles.seven{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tiles.seven .tile{min-height:clamp(250px,24vw,320px)}
+.tiles.seven h3{font-size:clamp(25px,2.4vw,32px);line-height:1.05;letter-spacing:-.035em;margin-bottom:8px}
+.tiles.seven p{font-size:15.5px;margin-bottom:14px}
+.tile .chip{display:inline-block;font:600 10.5px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(249,246,238,.6);border-radius:999px;padding:5px 8px;margin-bottom:14px}
+@media (max-width:1040px){.tiles.seven{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.tiles.seven{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-right:16px}
+  .tiles.seven::-webkit-scrollbar{display:none}
+  .tiles.seven .tile{flex:0 0 76%;scroll-snap-align:start;min-height:270px}}
+.swipe{display:none;color:var(--drift);font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase;margin-top:12px}
+@media (max-width:760px){.swipe{display:block}}
+@media (min-width:761px) and (max-width:900px){#quotes + .swipe{display:block}}
+.rating{display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:22px;min-width:0}
+.rating .big{font-weight:700;font-size:clamp(48px,5.6vw,72px);letter-spacing:-.05em;line-height:.9}
+.rating .stars{font-size:22px;align-self:flex-start}
+.rating p{color:var(--drift);font-size:15px}
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(10px,1.6vw,22px)}
+@media (max-width:900px){.quotes{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-right:16px}
+  .quotes::-webkit-scrollbar{display:none}
+  .quotes .q{flex:0 0 82%;scroll-snap-align:start}}
+.q{background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.q .stars{font-size:16px;align-self:flex-start}
+.q blockquote{margin:0;font-size:16.5px;line-height:1.5}
+.q .who{margin-top:auto;padding-top:6px;font-size:14.5px;font-weight:600}
+.q .who span{display:block;font:500 11px/1.5 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--drift);margin-top:3px}
+.proof.kit{grid-template-columns:minmax(0,1fr) minmax(0,2fr);align-items:stretch}
+@media (max-width:860px){.proof.kit{grid-template-columns:minmax(0,1fr)}}
+.proof.kit .vids{margin-top:0}
+.proof.kit .vid{flex:0 0 clamp(120px,15vw,168px)}
+.also.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.also.three{grid-template-columns:minmax(0,1fr)}
+  .also.three a{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+  .also.three .pic{aspect-ratio:1/1}}
+.faq ul{margin:-8px 0 20px;padding-left:20px;color:var(--drift);max-width:44em}
+.faq li{margin:4px 0}
+</style>
+
+<!--SYMBOLS-->
+
+<div class="note">Preview · working copy, generated pictures, nothing on the store</div>
+<div class="bar">Bonsoir. Exhale the day.</div>
+<div class="w"><header class="hdr">
+  <div><span class="menu">{{i:menu}}</span><nav><span class="cur">Shop</span><span>Scents</span><span>Our story</span></nav></div>
+  {{logo:two}}
+  <div class="icons"><span>{{i:search}}</span><span class="u">{{i:user}}</span><span>{{i:shopping-bag}}</span></div>
+</header></div>
+
+<main>
+<div class="w"><div class="bb" id="buybox">
+  <div class="gal">
+    <div class="track" id="track">
+      <div class="slide"><img id="hero-img" src="img/dk-two.webp" alt="The Maison Croyez waterless diffuser" width="2000" height="2000"></div>
+      <div class="slide"><img src="img/dk-living.webp" alt="The diffuser on a console table at dusk, a fine mist rising" loading="lazy"><span class="cap">Fills the room in about ten minutes.</span></div>
+      <div class="slide"><img src="img/dk-woman.webp" alt="A woman resting in an armchair at dusk beside the diffuser" loading="lazy"><span class="cap">Made for the end of the day.</span></div>
+      <div class="slide"><img src="img/dk-bedroom.webp" alt="The diffuser on a nightstand at night" loading="lazy"><span class="cap">No water. No flame. No heat.</span></div>
+      <div class="slide"><img src="img/dk-bottle.webp" alt="A hand holding a bottle of scent beside the diffuser" loading="lazy"><span class="cap">One bottle lasts 15+ days.</span></div>
+      <div class="slide"><img src="img/dk-button.webp" alt="A finger pressing the button on the diffuser" loading="lazy"><span class="cap">One button. Three strengths.</span></div>
+    </div>
+    <button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button>
+    <button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button>
+    <div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+
+  <div>
+    <button class="rate" type="button" data-to="reviews" aria-label="Rated 4.5 out of 5 on Amazon from 44 ratings. Jump to the reviews"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:90%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span><b>4.5</b> on Amazon · <u>44 ratings</u></span></button>
+    <p class="lab eyebrow">Waterless scent diffuser</p>
+    <h1 class="hd">Leave the day at the door.</h1>
+    <p class="lede">A waterless diffuser that fills the room with scent in about ten minutes. Plug it in, press once, exhale.</p>
+    <ul class="bens"><li>{{i:check}}Fills up to 600 sq ft</li><li>{{i:check}}No water, no flame</li><li>{{i:check}}Lifetime warranty</li></ul>
+
+    <div class="step">
+      <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many diffusers?</h2><span class="pill">Buy more. Save more.</span></div>
+      <div class="cards" id="diffs">
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1</b><span class="u">diffuser</span><span class="p">$89.95</span><span class="each">$89.95 each</span><span class="sv none">One room</span><span class="cov">600 sq ft</span></button>
+        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2</b><span class="u">diffusers</span><span class="p">$139.95<span class="was">$179.90</span></span><span class="each">$69.98 each</span><span class="sv">Save $39.95</span><span class="cov">1,200 sq ft</span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Whole home</span><b>3</b><span class="u">diffusers</span><span class="p">$209.95<span class="was">$269.85</span></span><span class="each">$69.98 each</span><span class="sv">Save $59.90</span><span class="cov">1,800 sq ft</span></button>
+      </div>
+    </div>
+
+    <div class="step" id="step2">
+      <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd">How many scents?</h2><span class="count" id="count" hidden></span></div>
+      <div class="qty" id="qty">
+        <button class="qtyb" type="button" data-q="1" aria-pressed="false"><b>1 scent</b><span>$39.95 each</span></button>
+        <button class="qtyb" type="button" data-q="2" aria-pressed="false"><b>2 scents</b><span>$29.95 each</span></button>
+        <button class="qtyb" type="button" data-q="3" aria-pressed="false"><span class="tag">Best price</span><b>3+ scents</b><span>$24.95 each</span></button>
+      </div>
+      <button class="nope" type="button" id="nope" aria-pressed="false">No thank you, I don’t want scents</button>
+      <p class="hint" id="hint">Choose an option to see the 7 scents.</p>
+      <div id="list" hidden>
+      <div class="rows" id="scents">
+        <div class="row" data-k="golden"><div class="sw" style="background:var(--c1)">01</div><div><b>Golden Blossom Harmony</b><span>Honey floral · medium</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Golden Blossom Harmony">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Golden Blossom Harmony">{{i:plus}}</button></div></div>
+        <div class="row" data-k="crisp"><div class="sw" style="background:var(--c2)">02</div><div><b>Crisp Citrus Scape</b><span>Fresh citrus · soft</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Crisp Citrus Scape">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Crisp Citrus Scape">{{i:plus}}</button></div></div>
+        <div class="row" data-k="chilled"><div class="sw" style="background:var(--c3)">03</div><div><b>Chilled Citrus</b><span>Lavender · soft</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Chilled Citrus">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Chilled Citrus">{{i:plus}}</button></div></div>
+        <div class="row" data-k="honey"><div class="sw" style="background:var(--c4)">04</div><div><b>Honey Nectar</b><span>Milk & honey · medium</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Honey Nectar">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Honey Nectar">{{i:plus}}</button></div></div>
+        <div class="row" data-k="euphoric"><div class="sw" style="background:var(--c5)">05</div><div><b>Euphoric Bloom</b><span>Peach & tea · medium</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Euphoric Bloom">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Euphoric Bloom">{{i:plus}}</button></div></div>
+        <div class="row" data-k="wildwood"><div class="sw" style="background:var(--c6)">06</div><div><b>Wildwood Mystique</b><span>Pine forest · bold</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Wildwood Mystique">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Wildwood Mystique">{{i:plus}}</button></div></div>
+        <div class="row" data-k="midnight"><div class="sw" style="background:var(--c7)">07</div><div><b>Midnight Sensation</b><span>Floral musk · bold</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Midnight Sensation">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Midnight Sensation">{{i:plus}}</button></div></div>
+      </div>
+      <button class="each1" type="button" id="each1">Can’t decide? Take one soft, one medium, one bold. {{i:arrow-right}}</button>
+      </div>
+    </div>
+
+    <div class="step" id="step3" hidden>
+      <div class="step-h"><span class="lab">Step 3 of 3</span><h2 class="hd">How do you want your refills?</h2></div>
+      <div class="plans" id="plans">
+        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="tag">Best deal</span><span class="radio"></span><span><b>Subscribe and save 25% on every refill</b><span>Delivered on your schedule.</span><span class="incl"><span>{{i:check}}<span id="sub-each">$24.95 a scent today, $18.71 on every refill</span></span><span>{{i:check}}25% off every refill, not only the first</span><span>{{i:check}}Free shipping every time</span><span>{{i:check}}Skip, swap scents or cancel any time</span><span>{{i:check}}Covered by the 30-day money-back promise</span></span></span><span class="amt"><span id="amt-sub">$18.71</span><small>a refill</small></span></button>
+        <button class="plan" type="button" data-p="once" aria-pressed="false"><span class="radio"></span><span><b>One-time payment</b><span>Pay once. Nothing renews.</span></span><span class="amt"></span></button>
+      </div>
+      <div class="freq" id="freq"><label for="freq-sel">Refill every</label><select id="freq-sel"><option>30 days</option><option>60 days</option><option>90 days</option></select></div>
+    </div>
+
+    <div class="due"><b>Due today</b><span id="due">2 diffusers $139.95</span></div>
+    <button class="cta" type="button" id="cta" disabled><span id="cta-t">Choose your scents to continue</span><span id="cta-amt"></span> {{i:arrow-right}}</button>
+    <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:rotate-ccw}}30-day money-back</div><div>{{i:shield-check}}Lifetime warranty</div></div>
+    <div class="faq acc">
+      <details><summary>What’s in the box{{i:plus}}</summary><p>Your diffusers (1, 2 or 3) and the scents you picked, in 100 ml bottles that each last 15+ days. The diffuser is waterless and leakproof, with a lifetime warranty.</p></details>
+      <details><summary>How it works + tips{{i:plus}}</summary><p>Pour in your 100 ml bottle, press once and walk away. One button, three strengths: soft for every day, full for company. It takes about ten minutes to fill the room.</p></details>
+      <details><summary>When am I charged?{{i:plus}}</summary><p>Today you pay for your diffusers and your scents. If you subscribe, your scents renew every 30, 60 or 90 days at 25% off, as each new box ships. You get an email reminder before every renewal.</p></details>
+      <details><summary>Shipping, returns + warranty{{i:plus}}</summary><p>Free shipping. Within 30 days we refund every dollar and send a prepaid label. Don’t love one scent? We swap it free. The diffuser is covered for life.</p></details>
+    </div>
+  </div>
+</div></div>
+
+<section class="s sand"><div class="w"><div class="split">
+  <div>
+    <span class="lab sec-e">Why this one</span>
+    <h2 class="hd sec-h">Say goodbye to sprays, plug-ins and candles.</h2>
+    <div class="items">
+      <div class="item"><i>01</i><div><b>Easy</b><span>Plug it in, press once, walk away. No water to measure, no flame to watch, no app.</span></div></div>
+      <div class="item"><i>02</i><div><b>Room-filling</b><span>Pure fragrance oil as a fine, dry mist that reaches the whole room, not the four feet around the device. You smell it from the front door.</span></div></div>
+      <div class="item"><i>03</i><div><b>Clean</b><span>No water, no tank, no soot. Nothing to grow, nothing to scrub, nothing to refill every week.</span></div></div>
+    </div>
+  </div>
+  <div class="pic"><img src="img/dk-living.webp" alt="The diffuser on a console table at dusk" loading="lazy"></div>
+</div></div></section>
+
+<section class="s"><div class="w">
+  <span class="lab sec-e">What you’ve tried</span>
+  <h2 class="hd sec-h">Plug-ins fade in a week. Candles die by dessert.</h2>
+  <div class="vs">
+    <div class="vs-h"><div>What you’ve tried</div><div>Maison Croyez</div></div>
+    <div class="vs-r kr"><div class="k">How long the scent lasts</div></div>
+    <div class="vs-r"><div class="x">Plug-ins. Strong for a week, then they fade into the wallpaper.</div><div>15+ days from every bottle.</div></div>
+    <div class="vs-r kr"><div class="k">How far it reaches</div></div>
+    <div class="vs-r"><div class="x">Candles. The four feet around the flame, for about an hour.</div><div>The whole room in about ten minutes. Up to 600 sq ft.</div></div>
+    <div class="vs-r kr"><div class="k">Water, tanks, mold</div></div>
+    <div class="vs-r"><div class="x">Water diffusers. A tank you never actually clean.</div><div>No water. No tank. Nothing to grow.</div></div>
+    <div class="vs-r kr"><div class="k">Flame and soot</div></div>
+    <div class="vs-r"><div class="x">An open flame you can’t leave alone, and soot on the ceiling.</div><div>No flame. Nothing to watch.</div></div>
+    <div class="vs-r kr"><div class="k">The effort</div></div>
+    <div class="vs-r"><div class="x">Refills, wicks, cartridges, batteries, charging.</div><div>Plug it in and forget it. Covered for life.</div></div>
+  </div>
+</div></section>
+
+<section class="s sand"><div class="w">
+  <span class="lab sec-e">How it works</span>
+  <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
+  <div class="how">
+    <div><div class="pic"><img src="img/dk-bottle.webp" alt="A hand holding a bottle of scent beside the diffuser" loading="lazy"></div><div class="n">01<i></i></div><b>Pour it in.</b><p>Your 100 ml bottle of scent. No water, no measuring.</p></div>
+    <div><div class="pic"><img src="img/dk-button.webp" alt="A finger pressing the button on the diffuser" loading="lazy"></div><div class="n">02<i></i></div><b>Press once.</b><p>One button, three strengths. Soft for every day, full for company.</p></div>
+    <div><div class="pic"><img src="img/dk-woman.webp" alt="A woman resting in an armchair at dusk beside the diffuser" loading="lazy"></div><div class="n">03<i></i></div><b>Exhale.</b><p>About ten minutes to fill the room. Weeks before you think about it again.</p></div>
+  </div>
+</div></section>
+
+<section class="s"><div class="w">
+  <span class="lab sec-e">What to expect</span>
+  <h2 class="hd sec-h">Ten minutes tonight. Every evening after.</h2>
+  <div class="tl">
+    <div><div class="n">Minute ten<i></i></div><b>The room smells like the evening.</b><p>Corner to corner, not only the few feet around the diffuser.</p></div>
+    <div><div class="n">Week one<i></i></div><b>You stop noticing the diffuser.</b><p>You notice the room. You walk in, breathe out, and the day stays outside.</p></div>
+    <div><div class="n">Day fifteen<i></i></div><b>The bottle runs low.</b><p>Each one lasts 15+ days. If you subscribe, the next is already on its way, at 25% off.</p></div>
+  </div>
+  <button class="btn2" type="button" data-top>Build my kit {{i:arrow-right}}</button>
+</div></section>
+
+<section class="s sand"><div class="w"><div class="split">
+  <div class="pic"><img src="img/dk-bedroom.webp" alt="The diffuser on a nightstand at night" loading="lazy"></div>
+  <div class="txt">
+    <span class="lab sec-e">Where it goes</span>
+    <h2 class="hd sec-h" style="margin-bottom:20px">Living room, bedroom, hallway.</h2>
+    <p>One diffuser reaches up to 600 square feet, so the living room smells like something the moment you walk in and the bedroom is ready by the time you are.</p>
+    <p>Two cover where you host and where you rest. Three cover the whole home.</p>
+    <ul class="ticks"><li>{{i:check}}Fills the room in about ten minutes</li><li>{{i:check}}No flame, no water, no heat</li><li>{{i:check}}Soft for every day, full for company</li></ul>
+  </div>
+</div></div></section>
+
+<section class="s"><div class="w">
+  <span class="lab sec-e">Seven scents</span>
+  <h2 class="hd sec-h">Pick by smell.</h2>
+  <p class="lede" style="color:var(--drift)">Every bottle is 100 ml. Soft, medium or bold tells you how far it carries.</p>
+  <div class="tiles seven">
+    <div class="tile" style="background:var(--c1)"><span class="lab"><span>01</span><span>Honey floral</span></span><div><h3>Golden Blossom Harmony.</h3><p>Fresh flowers and a little honey. Like walking into a florist.</p><span class="chip">Medium</span><button type="button" data-add="golden">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--c2)"><span class="lab"><span>02</span><span>Fresh citrus</span></span><div><h3>Crisp Citrus Scape.</h3><p>Fresh citrus peel and green leaves. Like a clean hotel lobby.</p><span class="chip">Soft</span><button type="button" data-add="crisp">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--c3)"><span class="lab"><span>03</span><span>Lavender</span></span><div><h3>Chilled Citrus.</h3><p>Lavender and eucalyptus. Like a day spa.</p><span class="chip">Soft</span><button type="button" data-add="chilled">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--c4)"><span class="lab"><span>04</span><span>Milk & honey</span></span><div><h3>Honey Nectar.</h3><p>Warm milk and honey. Like a café on a slow morning.</p><span class="chip">Medium</span><button type="button" data-add="honey">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--c5)"><span class="lab"><span>05</span><span>Peach & tea</span></span><div><h3>Euphoric Bloom.</h3><p>White peach and jasmine tea. Fruity and bright, never sugary.</p><span class="chip">Medium</span><button type="button" data-add="euphoric">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--c6)"><span class="lab"><span>06</span><span>Pine forest</span></span><div><h3>Wildwood Mystique.</h3><p>Pine and juniper. Like a walk in the woods after rain.</p><span class="chip">Bold</span><button type="button" data-add="wildwood">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--c7)"><span class="lab"><span>07</span><span>Floral musk</span></span><div><h3>Midnight Sensation.</h3><p>White flowers and soft musk. Like perfume on warm skin.</p><span class="chip">Bold</span><button type="button" data-add="midnight">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="tile" style="background:var(--night)"><span class="lab"><span>Not sure</span><span>Start here</span></span><div><h3>One soft, one medium, one bold.</h3><p>Chilled Citrus, Honey Nectar and Midnight Sensation.</p><button type="button" id="trio2">Take the three {{i:arrow-right}}</button></div></div>
+  </div>
+  <p class="swipe">Swipe for all seven</p>
+</div></section>
+
+<section class="s night"><div class="w"><div class="g-wrap">
+  <div class="seal"><b>30</b><span>Day<br>money-back</span></div>
+  <div>
+    <span class="lab sec-e">The promise</span>
+    <h2 class="hd sec-h">Love the way your home feels in 30 days, or every dollar back.</h2>
+    <ul class="ticks"><li>{{i:check}}Plug it in. Live with it. Let people walk in.</li><li>{{i:check}}Not for you? Send it back within 30 days with our prepaid label and we refund everything.</li><li>{{i:check}}Don’t love one scent? We swap it free.</li><li>{{i:check}}The diffuser is covered for life.</li></ul>
+    <button class="btn2" type="button" data-top>Build my kit {{i:arrow-right}}</button>
+  </div>
+</div></div></section>
+
+<section class="s" id="reviews"><div class="w">
+  <span class="lab sec-e">Reviews</span>
+  <h2 class="hd sec-h">What customers told us.</h2>
+  <p class="lede" style="color:var(--drift)">Verified buyers, from our customer survey and our Amazon listing. Lightly trimmed for length.</p>
+  <div class="proof kit">
+    <div class="rating"><span class="big">4.5</span><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:90%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><p>out of 5 on Amazon · 44 ratings</p></div>
+    <div class="vids">
+      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
+      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
+      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
+      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
+    </div>
+  </div>
+  <div class="quotes" id="quotes">
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that. I can’t believe how they make every room smell fresh without changing wax, cans and refills.”</blockquote><div class="who">Verified buyer<span>Customer survey · switched from reed sticks</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells. I highly recommend this item!”</blockquote><div class="who">Michael C.<span>Amazon · verified purchase</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</blockquote><div class="who">Verified buyer<span>Customer survey · bought it for safety and no mold</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</blockquote><div class="who">Verified buyer<span>Customer survey · lives in an apartment</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Absolutely amazing. Just purchase and let this fill your home with comforting smells! Trust me, I bought it for my mom, and she simply loves it!”</blockquote><div class="who">Simon F.<span>Amazon · verified purchase</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.”</blockquote><div class="who">Verified buyer<span>Customer survey · switched from sprays, plug-ins and candles</span></div></div>
+  </div>
+  <p class="swipe">Swipe for more</p>
+</div></section>
+
+<section class="s sand"><div class="w">
+  <span class="lab sec-e">Pairs well with</span>
+  <h2 class="hd sec-h">Complete the evening.</h2>
+  <div class="also three">
+    <a data-soon><div class="pic"><img src="img/also-soak.webp" alt="The Maison Croyez magnesium bath soak in three scents" loading="lazy"></div><div class="tx"><span class="lab">The long bath</span><b>Magnesium bath soak</b><p>Run the water, pour it in, exhale.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
+    <a data-soon><div class="pic"><img src="img/also-steamers.webp" alt="The Maison Croyez shower steamers in three scents" loading="lazy"></div><div class="tx"><span class="lab">No bath tonight</span><b>Shower steamers</b><p>For the nights there is only time for a shower.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
+    <a data-soon><div class="pic"><img src="img/also-spray.webp" alt="The Maison Croyez magnesium body spray in three scents" loading="lazy"></div><div class="tx"><span class="lab">Before bed</span><b>Magnesium body spray</b><p>The last step of the evening.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
+  </div>
+</div></section>
+
+<section class="s"><div class="w">
+  <span class="lab sec-e">FAQ</span>
+  <h2 class="hd sec-h">Questions? Answered.</h2>
+  <div class="faq">
+    <details open><summary>Is this better than plug-ins, candles and room sprays?{{i:plus}}</summary><p>Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, and a spray lasts a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day.</p></details>
+    <details><summary>Will it grow mold or leak like my last one?{{i:plus}}</summary><p>No. There is no water in it: no tank, no standing water, nothing that can grow. The bottle locks into the diffuser, so nothing spills and there is nothing to clean.</p></details>
+    <details><summary>How many diffusers do I need?{{i:plus}}</summary><p>One covers up to 600 square feet: an open-plan main floor or a large bedroom. For a two-storey home most customers run two, one near the entrance and one upstairs.</p></details>
+    <details><summary>What is in the scents?{{i:plus}}</summary><p>Each 100 ml bottle is pure fragrance oil built on notes you can name:</p><ul><li>Golden Blossom Harmony: buttercup, honeysuckle and sunflower.</li><li>Crisp Citrus Scape: yuzu leaf, green mandarin and cypress.</li><li>Chilled Citrus: chilled lavender, eucalyptus and white citrus.</li><li>Honey Nectar: ginger milk, white birch and eucalyptus honey.</li><li>Euphoric Bloom: jasmine tea, white peach and sandalwood crème.</li><li>Wildwood Mystique: huckleberry, wild juniper and mountain fern.</li><li>Midnight Sensation: moonflower, night lily and skin musk.</li></ul></details>
+    <details><summary>Can I swap scents or cancel?{{i:plus}}</summary><p>Yes. Swap any scent before any delivery and cancel any time, right from your delivery email.</p></details>
+    <details><summary>What if I don’t like it?{{i:plus}}</summary><p>Live with it for 30 days. If your home doesn’t feel different, send the diffuser and the scents back with our prepaid label and we refund everything. The diffuser itself is covered for life.</p></details>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="w"><div class="f-in">
+  <div>{{logo:two}}<b>Exhale the day.</b></div>
+  <div><p class="bn">Bonne nuit.</p><p style="margin-top:8px">Preview page. The offer and the facts are carried over from the current kits preview, the pictures are generated, and nothing here is on the store.</p></div>
+</div></div></footer>
+
+<div class="stick" id="stick"><div class="stick-in"><div><b>Diffuser kit</b><span id="stick-sum">2 diffusers · $139.95</span></div><button type="button" data-top>Build my kit</button></div></div>
+<div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
+
+<script>
+(function(){
+  var DIFF={1:89.95,2:139.95,3:209.95},IMG={1:'one',2:'two',3:'three'};
+  var ORDER=['golden','crisp','chilled','honey','euphoric','wildwood','midnight'];
+  var NAME={golden:'Golden Blossom Harmony',crisp:'Crisp Citrus Scape',chilled:'Chilled Citrus',honey:'Honey Nectar',euphoric:'Euphoric Bloom',wildwood:'Wildwood Mystique',midnight:'Midnight Sensation'};
+  var TRIO=['chilled','honey','midnight']; /* one soft, one medium, one bold */
+  /* target: null = nothing chosen yet, 0 = no scents, 1 / 2 = exactly that many, 3 = three or more (up to 7) */
+  var st={diff:2,target:null,picks:{},plan:'sub'};
+  ORDER.forEach(function(k){st.picks[k]=0});
+  var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
+  function count(){return ORDER.reduce(function(a,k){return a+st.picks[k]},0)}
+  function each(n){return n>=3?24.95:n===2?29.95:39.95}
+  function limit(){return st.target===3?7:(st.target||0)}
+  function money(v){return '$'+(Math.round(v*100)/100).toFixed(2)}
+  function pl(n,w){return n+' '+w+(n===1?'':'s')}
+  function trim(){while(count()>limit()){var k=ORDER.slice().reverse().reduce(function(b,c){return st.picks[c]>st.picks[b]?c:b});st.picks[k]--}}
+  function isTrio(){return st.target===3&&count()===3&&TRIO.every(function(k){return st.picks[k]===1})}
+  function render(){
+    var n=count(),on=st.target>0,per=each(Math.max(n,st.target||0)),left=on?Math.max(0,st.target-n):0,total=DIFF[st.diff]+n*per;
+    $$('#diffs .cardb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.diff))});
+    var hero=$('#hero-img'),src='img/dk-'+IMG[st.diff]+'.webp';if(hero.getAttribute('src')!==src)hero.setAttribute('src',src);
+    $$('#qty .qtyb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.q===st.target))});
+    $('#nope').setAttribute('aria-pressed',String(st.target===0));
+    $('#list').hidden=!on;$('#step3').hidden=!on;
+    var hint=$('#hint');hint.hidden=on&&left===0;
+    hint.textContent=st.target===null?'Choose an option to see the 7 scents.':st.target===0?'No scents. Your diffusers ship on their own.':'Pick '+left+' more scent'+(left>1?'s':'')+' below for '+money(per)+' each.';
+    var c=$('#count');c.hidden=!on;c.textContent=st.target===3?(n+' picked'):(n+' of '+st.target+' picked');c.className='count'+(on&&left===0?' ok':'');
+    $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=n>=limit()});
+    $('#each1').hidden=isTrio();
+    $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
+    $('#sub-each').textContent=money(per)+' a scent today, '+money(per*.75)+' on every refill';$('#amt-sub').textContent=money(per*.75);$('#freq').hidden=st.plan!=='sub';
+    $('#due').textContent=pl(st.diff,'diffuser')+' '+money(DIFF[st.diff])+(n?' + '+pl(n,'scent')+' × '+money(per):'');
+    var cta=$('#cta'),ready=st.target===0||(on&&left===0);cta.disabled=!ready;
+    $('#cta-t').textContent=ready?'Checkout · ':st.target===null?'Choose your scents to continue':'Pick '+left+' more scent'+(left>1?'s':'');
+    $('#cta-amt').textContent=ready?money(total):'';
+    $('#stick-sum').textContent=pl(st.diff,'diffuser')+(n?' + '+pl(n,'scent'):'')+' · '+money(total);
+  }
+  $$('#diffs .cardb').forEach(function(b){b.addEventListener('click',function(){st.diff=+b.dataset.n;render()})});
+  $$('#qty .qtyb').forEach(function(b){b.addEventListener('click',function(){st.target=+b.dataset.q;trim();render()})});
+  $('#nope').addEventListener('click',function(){st.target=0;trim();render()});
+  $$('#scents .row').forEach(function(r){var k=r.dataset.k;
+    r.querySelector('.inc').addEventListener('click',function(){if(count()<limit()){st.picks[k]++;render()}});
+    r.querySelector('.dec').addEventListener('click',function(){if(st.picks[k]>0){st.picks[k]--;render()}});
+  });
+  $$('#plans .plan').forEach(function(b){b.addEventListener('click',function(){st.plan=b.dataset.p;render()})});
+  var toast=$('#toast'),tt=0;
+  function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
+  function go(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+  function trio(){st.target=3;ORDER.forEach(function(k){st.picks[k]=TRIO.indexOf(k)>-1?1:0});render();say('One soft, one medium, one bold.')}
+  $('#each1').addEventListener('click',trio);
+  $('#trio2').addEventListener('click',function(){trio();go('step2')});
+  $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});
+  $$('[data-top]').forEach(function(b){b.addEventListener('click',function(){go('buybox')})});
+  $$('[data-to]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.to)})});
+  $$('[data-soon]').forEach(function(a){a.addEventListener('click',function(){say('Preview only. This page is not built yet.')})});
+  $$('[data-add]').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.add;
+    if(!(st.target>0))st.target=1;
+    if(count()>=limit()&&st.target<3)st.target++;
+    if(count()<limit()){st.picks[k]++;say(NAME[k]+' added to your kit.')}else{say('Seven bottles is the most one kit holds.')}
+    render();go('step2')})});
+  /* gallery */
+  var track=$('#track'),dots=$$('#dots i');
+  function idx(){return Math.round(track.scrollLeft/track.clientWidth)}
+  function slide(i){var n=dots.length;i=(i+n)%n;track.scrollTo({left:i*track.clientWidth,behavior:'smooth'})}
+  $('#g-prev').addEventListener('click',function(){slide(idx()-1)});$('#g-next').addEventListener('click',function(){slide(idx()+1)});
+  track.addEventListener('scroll',function(){var i=idx();dots.forEach(function(d,j){d.className=j===i?'on':''})},{passive:true});
+  /* sticky bar shows once the main button is out of view */
+  var stick=$('#stick');
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){stick.classList.toggle('on',!es[0].isIntersecting&&es[0].boundingClientRect.top<0)}).observe($('#cta'))}
+  render();
+})();
+</script>

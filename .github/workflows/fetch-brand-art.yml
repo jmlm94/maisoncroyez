@@ -1,0 +1,59 @@
+name: fetch-brand-art
+# Downloads the generated reference pictures for the rebrand board into lp-factory/brand/rebrand-2026/board/img/ as WebP
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run.
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-brand-art.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      LIST: |
+        hero https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_0d52ce82-db8c-4203-859b-4ceba7238410.png
+        woman-window https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_59518806-d4b0-44f2-b2b9-ffe947554688.png
+        woman-armchair https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_211017_5639d737-1879-4b55-b505-76c66e15871a.png
+        hand-water https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_99501c99-0c75-4642-bd63-a6d228fc1d05.png
+        steam https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_ad632d1c-44e8-4621-9a06-ec0898b8be97.png
+        ripples https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_339291c9-42ff-47a8-904b-ef5a1d93be16.png
+        salt https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_b818b1ac-1c53-4ce8-8812-a0797a080eb7.png
+        linen https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210738_95c617d1-bcca-4c96-ba21-cfdc8fe05c44.png
+        dusk-room https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_210739_f6fc6e54-c651-495e-8998-bc4b8f3f26ea.png
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch and convert
+        run: |
+          pip install -q pillow
+          D=lp-factory/brand/rebrand-2026/board/img
+          mkdir -p "$D" /tmp/raw
+          echo "$LIST" | while read -r name url; do
+            [ -z "$name" ] && continue
+            code=$(curl -sSL -A "Mozilla/5.0" --max-time 120 -o "/tmp/raw/$name.png" -w "%{http_code}" "$url" || true)
+            echo "$name http $code $(wc -c < "/tmp/raw/$name.png" 2>/dev/null) bytes $(file -b "/tmp/raw/$name.png" | cut -c1-60)"
+          done
+          python3 - <<'PY'
+          import glob, os
+          from PIL import Image
+          D='lp-factory/brand/rebrand-2026/board/img'
+          for f in sorted(glob.glob('/tmp/raw/*.png')):
+              try:
+                  im=Image.open(f).convert('RGB')
+              except Exception as e:
+                  print('skip',f,e); continue
+              im.thumbnail((2000,2000), Image.LANCZOS)
+              out=os.path.join(D, os.path.basename(f)[:-4]+'.webp')
+              im.save(out,'WEBP',quality=84,method=6)
+              print(out, im.size, os.path.getsize(out))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add lp-factory/brand/rebrand-2026/board/img
+          git commit -m "rebrand board: fetched the generated reference pictures" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push && break || sleep 3; done

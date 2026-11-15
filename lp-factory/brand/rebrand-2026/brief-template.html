@@ -1,0 +1,413 @@
+<title>Maison Rebrand Brief</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Unna:ital,wght@0,400;0,700;1,700&family=Outfit:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap">
+<style>
+/* layout: one column, numbered sections in the order of the work: today, gaps, references, the board to build, questions */
+:root{
+  --bg:#F4F4F0; --surface:#FFFFFF; --ink:#17191C; --mute:#5C626A; --line:#DADBD3; --soft:#EAEBE4;
+  --accent:#2F49F0; --on-accent:#FFFFFF; --ok:#1B7F4B; --warn:#A8501A;
+  --paper:#FBF8F3; --paper-ink:#1C1A17; --paper-line:#E7E1D6;
+  --display:'Bricolage Grotesque',system-ui,sans-serif; --body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#111315; --surface:#1A1D20; --ink:#ECEEF0; --mute:#9AA2AB; --line:#2D3237; --soft:#22262A;
+  --accent:#93A2FF; --on-accent:#0C1033; --ok:#5BD08F; --warn:#F0A064;
+  --paper:#FBF8F3; --paper-ink:#1C1A17; --paper-line:#E7E1D6; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#111315; --surface:#1A1D20; --ink:#ECEEF0; --mute:#9AA2AB; --line:#2D3237; --soft:#22262A;
+  --accent:#93A2FF; --on-accent:#0C1033; --ok:#5BD08F; --warn:#F0A064;
+  --paper:#FBF8F3; --paper-ink:#1C1A17; --paper-line:#E7E1D6; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-block:28px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.015em}
+h1{font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.02;font-weight:700}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);line-height:1.08;font-weight:700}
+h3{font-size:1.12rem;line-height:1.2;font-weight:700}
+p{margin:0;max-width:68ch}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.mute{color:var(--mute)} .small{font-size:.88rem}
+.mono{font-family:var(--mono);font-size:.78rem}
+header.top{display:flex;flex-direction:column;gap:16px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:6px}
+.step{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background:var(--surface);min-width:0}
+.step b{font-family:var(--display);font-size:1rem}
+.step.now{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.step .mono{color:var(--mute)}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--surface)}
+nav.toc a:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{display:flex;flex-direction:column;gap:22px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card h3 .mono{font-weight:400;color:var(--mute);margin-left:6px;letter-spacing:.04em}
+.paper{background:var(--paper);color:var(--paper-ink);border:1px solid var(--paper-line);border-radius:12px;padding:18px}
+.logo-tile{display:grid;place-items:center;min-height:170px}
+.logo-tile img{width:min(240px,70%);height:auto}
+.tagline{font-family:'Unna',Georgia,serif;font-size:1.5rem;line-height:1.1;text-align:center;margin-top:10px}
+.tagline i{font-weight:700}
+.sw-group{display:flex;flex-direction:column;gap:8px}
+.sw-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.sws{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.sw{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);display:flex;flex-direction:column;min-width:0}
+.sw i{display:block;height:46px;border-bottom:1px solid var(--line)}
+.sw b{font-family:var(--mono);font-size:.7rem;font-weight:500;padding:6px 8px 0}
+.sw span{font-size:.72rem;color:var(--mute);padding:0 8px 7px;line-height:1.25}
+.spec{display:flex;flex-direction:column;gap:14px}
+.spec .row{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;border-top:1px solid var(--paper-line);padding-top:12px}
+.spec .row:first-child{border-top:0;padding-top:0}
+.spec .lab{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#7A7166}
+.f-unna{font-family:'Unna',Georgia,serif;font-weight:700;font-size:2rem;line-height:1;letter-spacing:-.03em}
+.f-unna i{font-style:italic}
+.f-outfit{font-family:'Outfit',sans-serif;font-weight:700;font-size:.92rem;letter-spacing:.14em;text-transform:uppercase}
+.f-bvp{font-family:'Be Vietnam Pro',sans-serif;font-size:.95rem;line-height:1.5}
+.imgs{display:grid;gap:8px}
+.imgs.c7{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (min-width:700px){.imgs.c7{grid-template-columns:repeat(7,minmax(0,1fr))}}
+.grid2c{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+@media (min-width:700px){.grid2c{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.imgs.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.imgs img,.shot img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);max-width:100%}
+.cap{font-size:.84rem;color:var(--mute)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:500}
+tr:last-child td{border-bottom:0}
+.quotes{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.quotes li{font-size:.95rem;padding-left:14px;border-left:2px solid var(--line)}
+.two-voices{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.gaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:0;padding:0;list-style:none;counter-reset:g}
+.gaps li{counter-increment:g;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 52px;position:relative;font-size:.95rem}
+.gaps li::before{content:counter(g);position:absolute;left:14px;top:13px;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--ink);font-family:var(--mono);font-size:.76rem;display:grid;place-items:center}
+.gaps b{display:block;font-family:var(--display);font-size:1rem;margin-bottom:2px}
+.ref{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:860px){.ref{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.ref-shots{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.ref-shots .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ref-body{display:flex;flex-direction:column;gap:12px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 4px;font-family:var(--mono);font-size:.7rem;background:var(--surface)}
+.chip i{width:18px;height:18px;border-radius:50%;border:1px solid var(--line);display:block}
+.kv{display:grid;grid-template-columns:86px minmax(0,1fr);gap:4px 12px;font-size:.92rem;margin:0}
+.kv dt{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);padding-top:3px}
+.kv dd{margin:0}
+.borrow{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.92rem}
+.borrow b{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--accent);margin-bottom:2px;font-weight:500}
+.thread{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:72ch}
+.scale{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;text-align:center}
+.scale span{padding:8px 4px;border-radius:8px;background:var(--soft)}
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:0;padding:0;list-style:none}
+.board li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface);font-size:.92rem}
+.board li b{display:block;font-family:var(--display)}
+.board li .mono{color:var(--accent)}
+.board li.add{border-style:dashed}
+/* questions */
+.qbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.qbar .grow{flex:1 1 220px;min-width:0}
+.status{font-family:var(--mono);font-size:.74rem;color:var(--mute)}
+.status.ok{color:var(--ok)} .status.warn{color:var(--warn)}
+.btn{font-family:var(--body);font-weight:600;font-size:.9rem;border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:999px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.qgroup{display:flex;flex-direction:column;gap:12px}
+.qgroup>h3{margin-top:10px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.q.done{border-color:var(--ok)}
+.q-head{display:flex;gap:10px;align-items:baseline}
+.q-n{font-family:var(--mono);font-size:.74rem;color:var(--mute);flex:none;min-width:26px}
+.q-t{font-weight:600;font-size:1.02rem;line-height:1.3}
+.q-star{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:2px 8px;margin-left:8px;white-space:nowrap;vertical-align:2px}
+.q-hint{font-size:.88rem;color:var(--mute);max-width:70ch}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font-family:var(--body);font-size:.9rem;line-height:1.25;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer;max-width:100%}
+.opt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+textarea{width:100%;min-height:44px;resize:vertical;font-family:var(--body);font-size:.92rem;line-height:1.4;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+textarea::placeholder{color:var(--mute)}
+#copybox{display:block;width:100%;min-height:160px;font-family:var(--mono);font-size:.76rem}
+footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:var(--mute);display:flex;flex-direction:column;gap:8px}
+@media (max-width:560px){.steps{grid-template-columns:minmax(0,1fr)}.imgs.c3{gap:6px}.scale{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">Maison Croyez · rebrand · 15 Nov 2026</span>
+  <h1>Where the brand stands today, and what I need from you to rebuild it.</h1>
+  <p class="mute">I read every brand document in the repo, the pages we built, the packaging photos, the four sites you sent and the Carbinox brand board. This page is the starting point. Your answers at the bottom decide the direction.</p>
+  <div class="steps">
+    <div class="step now"><span class="mono">Step 1 · now</span><b>Audit and questions</b><span class="small mute">This page.</span></div>
+    <div class="step"><span class="mono">Step 2 · after your answers</span><b>Two or three directions</b><span class="small mute">Each as a short board: name, colour, type, packaging, one page.</span></div>
+    <div class="step"><span class="mono">Step 3 · after you pick</span><b>The brand board</b><span class="small mute">Full system in the Carbinox format, then the roll-out.</span></div>
+  </div>
+  <nav class="toc" aria-label="Sections"><a href="#today">01 Today</a><a href="#gaps">02 Gaps</a><a href="#references">03 References</a><a href="#board">04 The board</a><a href="#questions">05 Questions</a></nav>
+</header>
+
+<section id="today">
+  <div class="sec-head"><span class="eyebrow">01 / The brand today</span><h2>What Maison Croyez looks and sounds like right now</h2>
+  <p class="mute">Luxury home fragrance: one waterless diffuser and seven scents, each tied to an intention. Written for women 30 and up. The promise on the boxes and the store is “Attract what you sense.”</p></div>
+
+  <div class="grid2">
+    <div class="card"><h3>Logo and tagline</h3>
+      <div class="paper logo-tile"><div><img src="%%logo%%" alt="Maison Croyez wordmark, two lines, with a looped M" style="margin:0 auto"><div class="tagline">Attract what <i>you</i> sense</div></div></div>
+      <p class="small mute">Two-line wordmark in a light geometric sans with a looped M. An outlined MC monogram sits on every box and bottle. The 2023 toolkit describes four logo versions, but the repo holds only this one PNG.</p>
+    </div>
+    <div class="card"><h3>Typography</h3>
+      <div class="paper spec">
+        <div class="row"><span class="lab">Unna · headlines</span><div class="f-unna">Attract what you want, with what you <i>sense.</i></div></div>
+        <div class="row"><span class="lab">Outfit · labels, buttons, prices</span><div class="f-outfit">Unlock free diffusers ➔</div></div>
+        <div class="row"><span class="lab">Be Vietnam Pro · body</span><div class="f-bvp">Every scent is crafted with a specific intention, so your space supports what you want more of.</div></div>
+      </div>
+      <p class="small mute">The same three families since the 2023 toolkit. This is the one part of the brand that is consistent everywhere.</p>
+    </div>
+  </div>
+
+  <div class="card"><h3>Colour <span class="mono">four systems in use</span></h3>
+    <div class="grid2c">
+      <div class="sw-group"><span class="sw-title">Toolkit 2023</span>
+        <div class="sws"><div class="sw"><i style="background:#ECDFDE"></i><b>#ECDFDE</b><span>Blush</span></div><div class="sw"><i style="background:#C4A59F"></i><b>#C4A59F</b><span>Rosewood</span></div></div>
+        <img src="%%tk_grad%%" alt="Multi-colour gradients from the 2023 toolkit" style="border-radius:8px;border:1px solid var(--line);width:100%;height:auto">
+        <span class="cap">Plus a family of multi-colour gradients, meant to read “elegant, modern and spiritual.”</span></div>
+      <div class="sw-group"><span class="sw-title">Store theme (live home page)</span>
+        <div class="sws"><div class="sw"><i style="background:linear-gradient(90deg,#E8ABB4,#EB6D4A)"></i><b>#E8ABB4 → #EB6D4A</b><span>Top bar</span></div><div class="sw"><i style="background:#FCFBF7"></i><b>#FCFBF7</b><span>Page</span></div><div class="sw"><i style="background:#1F1F1F"></i><b>#1F1F1F</b><span>Buttons</span></div></div></div>
+      <div class="sw-group"><span class="sw-title">Landing pages, mid 2026</span>
+        <div class="sws"><div class="sw"><i style="background:#ECDFDE"></i><b>#ECDFDE</b><span>Blush bands</span></div><div class="sw"><i style="background:#8A5B52"></i><b>#8A5B52</b><span>Rosewood deep</span></div><div class="sw"><i style="background:#0A9400"></i><b>#0A9400</b><span>Buy buttons</span></div><div class="sw"><i style="background:linear-gradient(92deg,#7C3AED,#C0589B 48%,#F59E0B)"></i><b>#7C3AED → #F59E0B</b><span>Emphasis gradient</span></div><div class="sw"><i style="background:#F5B301"></i><b>#F5B301</b><span>Stars</span></div></div></div>
+      <div class="sw-group"><span class="sw-title">Landing pages, now (the kits page)</span>
+        <div class="sws"><div class="sw"><i style="background:#141414"></i><b>#141414</b><span>Ink, buttons</span></div><div class="sw"><i style="background:#241C18"></i><b>#241C18</b><span>Warm ink</span></div><div class="sw"><i style="background:#FDFBF8"></i><b>#FDFBF8</b><span>Cream</span></div><div class="sw"><i style="background:#A3874A"></i><b>#A3874A</b><span>Gold labels</span></div><div class="sw"><i style="background:#1E7A1E"></i><b>#1E7A1E</b><span>Savings green</span></div><div class="sw"><i style="background:linear-gradient(135deg,#FDEBDD,#F8DCE6)"></i><b>pastel pills</b><span>3 soft gradients</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="card"><h3>Packaging <span class="mono">the strongest asset</span></h3>
+    <div class="imgs c7"><img src="%%pack1%%" alt="Golden Blossom Harmony box and bottle"><img src="%%pack2%%" alt="Crisp Citrus Scape box and bottle"><img src="%%pack3%%" alt="Chilled Citrus box and bottle"><img src="%%pack4%%" alt="Honey Nectar box and bottle"><img src="%%pack5%%" alt="Euphoric Bloom box and bottle"><img src="%%pack6%%" alt="Wildwood Mystique box and bottle"><img src="%%pack7%%" alt="Midnight Sensation box and bottle"></div>
+    <p class="small mute">One gradient per scent on a finely textured box, the outlined monogram, the scent name in caps, its intention and three notes. Inside, a matte black aluminium bottle, 100 ml. The diffuser is a grey woven-fabric cylinder with a matte white top.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h3>Photography</h3>
+      <div class="imgs c3"><img src="%%flat1%%" alt="Ingredient flat lay on blush"><img src="%%flat2%%" alt="Ingredient flat lay on blush"><img src="%%flat3%%" alt="Ingredient flat lay on blush"></div>
+      <div class="imgs c3"><img src="%%life1%%" alt="Creator at home with the diffuser"><img src="%%life2%%" alt="Diffuser on a styled shelf"><img src="%%life3%%" alt="Creator holding the diffuser"></div>
+      <p class="small mute">Three looks: ingredient flat lays on blush, concrete-grey studio shots of the boxes, and creator-style scenes in warm neutral homes.</p>
+    </div>
+    <div class="card"><h3>On screen</h3>
+      <div class="imgs" style="grid-template-columns:repeat(2,minmax(0,1fr))"><figure style="margin:0"><img src="%%site_home%%" alt="Live store home page on a phone"><figcaption class="cap">Store home</figcaption></figure><figure style="margin:0"><img src="%%site_lp%%" alt="The kits landing page on a phone"><figcaption class="cap">Kits landing page</figcaption></figure></div>
+      <p class="small mute">The store and the landing pages share the fonts and little else: different colours, buttons and tone.</p>
+    </div>
+  </div>
+
+  <div class="card"><h3>Voice <span class="mono">two voices today</span></h3>
+    <div class="two-voices">
+      <div><span class="sw-title">In the brand documents</span><ul class="quotes" style="margin-top:8px"><li>“Your home. But five-star.”</li><li>“The scent that makes guests stop mid-sentence.”</li><li>“This isn’t fragrance. It’s alignment in a bottle.”</li></ul><p class="small mute" style="margin-top:8px">Elegant, warm, quiet luxury. Intention, not hype. No emojis.</p></div>
+      <div><span class="sw-title">On the pages that sell</span><ul class="quotes" style="margin-top:8px"><li>“Just for today: the diffusers are 100% free!”</li><li>“No smoke, no harm. No water, no mold.”</li><li>“Reduce stress &amp; anxiety.”</li></ul><p class="small mute" style="margin-top:8px">Direct response: safety, savings, urgency, proof.</p></div>
+    </div>
+  </div>
+
+  <div class="card"><h3>The scent system</h3>
+    <div class="tablewrap"><table><thead><tr><th>Scent</th><th>Intention on the box</th><th>Notes</th></tr></thead><tbody>
+      <tr><td>Golden Blossom Harmony</td><td>Love</td><td>Buttercup, honeysuckle, sunflower</td></tr>
+      <tr><td>Crisp Citrus Scape</td><td>Abundance</td><td>Yuzu leaf, green mandarin, cypress</td></tr>
+      <tr><td>Chilled Citrus</td><td>Relaxation &amp; concentration</td><td>Chilled lavender, eucalyptus, white citrus</td></tr>
+      <tr><td>Honey Nectar</td><td>Turn ideas into reality</td><td>Ginger milk, white birch, eucalyptus honey</td></tr>
+      <tr><td>Euphoric Bloom</td><td>Raise energy</td><td>Jasmine tea, white peach, sandalwood crème</td></tr>
+      <tr><td>Wildwood Mystique</td><td>Purification</td><td>Huckleberry, wild juniper, mountain fern</td></tr>
+      <tr><td>Midnight Sensation</td><td>Love manifestation</td><td>Moonflower, night lily, skin musk</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<section id="gaps">
+  <div class="sec-head"><span class="eyebrow">02 / Where it does not line up</span><h2>Eight things the rebrand has to settle</h2>
+  <p class="mute">None of these are design problems yet. They are decisions, and most of the questions below come from them.</p></div>
+  <ol class="gaps">
+    <li><b>Four colour systems at once.</b>Toolkit blush and gradients, the per-scent boxes, the store’s pink-to-coral bar, and the landing pages’ black, gold and green.</li>
+    <li><b>Two voices.</b>Quiet luxury in the documents, hard-selling health and savings on the pages that bring the orders.</li>
+    <li><b>Rules against reality.</b>The brand bible (Project Heart, May 2026) forbids free-diffuser offers, medical-sounding claims and emojis. The live pages use all three.</li>
+    <li><b>The intentions disagree.</b>Golden Blossom Harmony is “Love” on the box, “Peace” in Project Heart and “Prosperity &amp; Harmony” in the character bible.</li>
+    <li><b>The category rule.</b>Project Heart defines Maison as a home fragrance brand for women 30 and up, and rules out candles, room sprays and perfume. Shower steamers, bath soaks and creams take the brand to the body.</li>
+    <li><b>The name.</b>“Maison” means house. It fits a diffuser. Whether it fits a body cream is your call.</li>
+    <li><b>Origin claims conflict.</b>One guide says “100% organic ingredients from France,” another says never claim “Made in France,” and Project Heart names a U.S. supplier.</li>
+    <li><b>Missing source files.</b>The toolkit PDF in the repo lost its images: the logo versions, palette, patterns and packaging renders are blank. There is no vector logo.</li>
+  </ol>
+</section>
+
+<section id="references">
+  <div class="sec-head"><span class="eyebrow">03 / Your references</span><h2>What the four sites do</h2>
+  <p class="mute">Captured today on phone and desktop, with the fonts and colours read from the pages themselves.</p></div>
+
+  <div class="card"><div class="ref">
+    <div class="ref-shots"><div class="shot"><img src="%%ref_primallypure_d%%" alt="Primally Pure home page, desktop"></div><div class="pair"><div class="shot"><img src="%%ref_primallypure_p%%" alt="Primally Pure home page, phone"></div><div class="shot"><img src="%%ref_primallypure_pdp%%" alt="Primally Pure product page, phone"></div></div></div>
+    <div class="ref-body"><h3>Primally Pure <span class="mono">calm, natural, premium</span></h3>
+      <p class="small">Non-toxic skincare. “100% natural and toxin-free.”</p>
+      <div class="chips"><span class="chip"><i style="background:#505B43"></i>#505B43</span><span class="chip"><i style="background:#CBBEA5"></i>#CBBEA5</span><span class="chip"><i style="background:#E9E3DB"></i>#E9E3DB</span><span class="chip"><i style="background:#2F3433"></i>#2F3433</span></div>
+      <dl class="kv"><dt>Type</dt><dd>Silk Serif Light for headlines, Apercu for text, Apercu Mono in caps for labels and buttons.</dd><dt>Shapes</dt><dd>Square buttons, wide-spaced wordmark, lots of air.</dd><dt>Voice</dt><dd>“Holistic Staples.” “Over 40,000 5-Star Reviews.” “No artificial anything.”</dd></dl>
+      <div class="borrow"><b>Worth borrowing</b>Ritual sets, a signature scent told as a story, the calm earthy palette that still feels expensive.</div>
+    </div></div></div>
+
+  <div class="card"><div class="ref">
+    <div class="ref-shots"><div class="shot"><img src="%%ref_ketroskin_d%%" alt="Ketro home page, desktop"></div><div class="pair"><div class="shot"><img src="%%ref_ketroskin_p%%" alt="Ketro home page, phone"></div><div class="shot"><img src="%%ref_ketroskin_pdp%%" alt="Ketro product page, phone"></div></div></div>
+    <div class="ref-body"><h3>Ketro <span class="mono">clean, bold, clinical</span></h3>
+      <p class="small">Topical pain relief, plus a magnesium cream. “Pain relief doesn’t have to be a pill.”</p>
+      <div class="chips"><span class="chip"><i style="background:#ED5A44"></i>#ED5A44</span><span class="chip"><i style="background:#231F20"></i>#231F20</span><span class="chip"><i style="background:#F8F8F6"></i>#F8F8F6</span><span class="chip"><i style="background:#ECE9E2"></i>#ECE9E2</span></div>
+      <dl class="kv"><dt>Type</dt><dd>Roboto Mono in caps for every headline, DM Sans for text.</dd><dt>Shapes</dt><dd>Huge wordmark on the tube, 8 px buttons, black and white with one coral.</dd><dt>Voice</dt><dd>“Choose your strength.” “Us / Them.” “Originally formulated for the Boston Red Sox.”</dd></dl>
+      <div class="borrow"><b>Worth borrowing</b>One accent colour, proof stacked high (advisory board, comparison), one origin line repeated everywhere.</div>
+    </div></div></div>
+
+  <div class="card"><div class="ref">
+    <div class="ref-shots"><div class="shot"><img src="%%ref_flewd_d%%" alt="Flewd home page, desktop"></div><div class="pair"><div class="shot"><img src="%%ref_flewd_p%%" alt="Flewd home page, phone"></div><div class="shot"><img src="%%ref_flewd_pdp%%" alt="Flewd product page, phone"></div></div></div>
+    <div class="ref-body"><h3>Flewd Stresscare <span class="mono">loud, playful, colourful</span></h3>
+      <p class="small">15-minute magnesium bath soaks. “Put stress on notice.”</p>
+      <div class="chips"><span class="chip"><i style="background:#E0FE2C"></i>#E0FE2C</span><span class="chip"><i style="background:#B800FF"></i>#B800FF</span><span class="chip"><i style="background:#ECD5EC"></i>#ECD5EC</span><span class="chip"><i style="background:#FFF5EF"></i>#FFF5EF</span><span class="chip"><i style="background:#000000"></i>#000000</span></div>
+      <dl class="kv"><dt>Type</dt><dd>Gilmer, very heavy and all lowercase, plus a bubbly display face.</dd><dt>Shapes</dt><dd>Pill buttons with a hard shadow, chrome and iridescent pouches.</dd><dt>Voice</dt><dd>Products named after the problem: “cramp deleting soak,” “anxiety destroying soak,” “rage squashing.”</dd></dl>
+      <div class="borrow"><b>Worth borrowing</b>Benefit-first names, the stress quiz, the sampler pack and trios, owning one word for the category (“stresscare”).</div>
+    </div></div></div>
+
+  <div class="card"><div class="ref">
+    <div class="ref-shots"><div class="shot"><img src="%%ref_moziwash_d%%" alt="Mozi Wash home page, desktop"></div><div class="pair"><div class="shot"><img src="%%ref_moziwash_p%%" alt="Mozi Wash home page, phone"></div><div class="shot"><img src="%%ref_moziwash_pdp%%" alt="Mozi Wash product page, phone"></div></div></div>
+    <div class="ref-body"><h3>Mozi Wash <span class="mono">friendly, colourful, scent-led</span></h3>
+      <p class="small">“The world’s first concentrated, perfume-inspired laundry detergent.”</p>
+      <div class="chips"><span class="chip"><i style="background:#13ACAC"></i>#13ACAC</span><span class="chip"><i style="background:#EBECFF"></i>#EBECFF</span><span class="chip"><i style="background:#FAF3E0"></i>#FAF3E0</span><span class="chip"><i style="background:#262525"></i>#262525</span></div>
+      <dl class="kv"><dt>Type</dt><dd>Degular for everything, with a tall condensed wordmark.</dd><dt>Shapes</dt><dd>One bottle shape, one colour per scent, 8 px buttons, icon badges.</dd><dt>Voice</dt><dd>“Meet Our Scents”: Signature Cozy, Vanilla Moon, Malibu Mornings. “Smell the hype.”</dd></dl>
+      <div class="borrow"><b>Worth borrowing</b>Scent as the organising system across products, colour-coded packs, a sample kit as the first purchase.</div>
+    </div></div></div>
+
+  <div class="card"><h3>What all four share</h3>
+    <ol class="thread">
+      <li><b>One owned colour on calm neutrals.</b> Olive, coral, lime, teal. Maison has no single colour today.</li>
+      <li><b>A type voice you would recognise without the logo.</b></li>
+      <li><b>Packaging is the hero of every picture</b>, and it is colour-coded.</li>
+      <li><b>Product names in plain words</b>: a benefit, or a scent you can imagine.</li>
+      <li><b>Proof near the top</b>: review counts, press, experts, short “no ___” lists.</li>
+      <li><b>Few products and clear first offers</b>: sets, trios, a sample kit, a quiz.</li>
+    </ol>
+    <p class="small mute">They differ in temperature. Where Maison should sit on this line is the first question.</p>
+    <div class="scale"><span>Primally Pure · calm</span><span>Ketro · clinical</span><span>Mozi Wash · friendly</span><span>Flewd · loud</span></div>
+  </div>
+</section>
+
+<section id="board">
+  <div class="sec-head"><span class="eyebrow">04 / The board to build</span><h2>The final document, in the Carbinox format</h2>
+  <p class="mute">The Carbinox board has six numbered parts. Maison needs the same six, plus three it does not show.</p></div>
+  <ul class="board">
+    <li><span class="mono">Cover</span><b>Brand guidelines</b>One-line description, version, source.</li>
+    <li><span class="mono">01</span><b>The brand</b>Statement, mission, audience, personality, four pillars, voice and tone.</li>
+    <li><span class="mono">02</span><b>Colour</b>Core colours, neutrals, 70 / 20 / 10 ratio, contrast checks.</li>
+    <li><span class="mono">03</span><b>Typography</b>Families, licences and fallbacks, the full type scale.</li>
+    <li><span class="mono">04</span><b>Imagery</b>Art direction, light and grade, treatments, do and do not.</li>
+    <li><span class="mono">05</span><b>Marks and elements</b>Icon grid, stroke, the core icon set.</li>
+    <li><span class="mono">06</span><b>UI and touchpoints</b>Buttons, chips, ratings, FAQ rows, navigation, sample pages on desktop and phone.</li>
+    <li class="add"><span class="mono">+ Maison</span><b>Logo system</b>Wordmark, monogram, clear space, minimum sizes.</li>
+    <li class="add"><span class="mono">+ Maison</span><b>Scent system</b>How each scent is named and coloured across every product.</li>
+    <li class="add"><span class="mono">+ Maison</span><b>Packaging</b>Diffuser, oils, shower steamers, bath soaks, creams.</li>
+  </ul>
+</section>
+
+<section id="questions">
+  <div class="sec-head"><span class="eyebrow">05 / Questions</span><h2>Thirty questions. Seven unblock the work.</h2>
+  <p class="mute">Tap an answer and add a note where it helps. Start with the ones marked “first.” Everything saves as you go, and I read your answers from here. You can also just reply in the chat.</p></div>
+  <div class="qbar"><div class="grow"><b id="progress">0 of 30 answered</b><div class="status" id="status" role="status">Connecting…</div></div><button class="btn ghost" id="copybtn" type="button">Copy my answers</button></div>
+  <textarea id="copybox" hidden readonly aria-label="Your answers as text"></textarea>
+  <div id="qroot"></div>
+</section>
+
+<footer>
+  <span><b>Read for this page:</b> Brand Identity Guidelines · Toolkit 2023 · Content Guidelines · Marketing Angles · Scripts (Feb 25) · AI Character Bible (Apr 2026) · Project Heart v2.0 (May 2026) · the landing-page brand kit and design system · the live store capture · the packaging and product photos · the Carbinox brand board.</span>
+  <span>Reference sites captured 15 Nov 2026. Colours and fonts are the values their pages reported.</span>
+</footer>
+</div>
+
+<script>
+(function(){
+var G=[
+ ["Direction",[
+  {id:"q01",first:1,t:"Which reference is closest to how the new Maison should feel?",o:["Primally Pure: calm, natural, premium","Ketro: clean, bold, clinical","Mozi Wash: friendly, colourful, scent-led","Flewd: loud, playful","A mix (say which parts)"]},
+  {id:"q02",t:"What do you like, and dislike, in each of the four?",h:"Colours, type, packaging, photos, names, layout, tone. A few words per site is enough.",o:[]},
+  {id:"q03",first:1,t:"What is the new brand about, in one line?",o:["Scent that changes how you feel (mood and stress care)","Scent with an intention (manifestation stays the core)","Clean, non-toxic scent for home and body","Affordable luxury: five-star scent at home","Something else"]},
+  {id:"q04",first:1,t:"Intentions and manifestation (love, abundance, purification): what happens to them?",h:"Today every scent carries one, and it is the main idea in the brand documents.",o:["They stay the core idea","They stay, softened into moods (calm, energy, focus, sleep)","They go","Not sure yet"]},
+  {id:"q05",t:"Who is the customer now?",h:"The documents say women only, 30 and up.",o:["The same woman, 35+, her home is her sanctuary","Younger, 25 to 40, wellness and self-care","Women 25 to 55","Everyone, including men and gifting"]},
+  {id:"q06",t:"Where should prices sit for the new products?",o:["Accessible: $15 to $30 an item","Middle: $30 to $50","Premium: $50 and up","Depends on the product"]}
+ ]],
+ ["Name and logo",[
+  {id:"q07",first:1,t:"Does the name stay?",h:"“Maison” means house, and the new products are for the body.",o:["Maison Croyez stays","Keep it, shorten it in use (Croyez, or Maison)","Open to a new name","Not sure"]},
+  {id:"q08",t:"The logo",o:["Keep the wordmark and MC monogram as they are","Keep the idea, redraw and refine it","New logo from scratch","Show me options"]},
+  {id:"q09",t:"The tagline “Attract what you sense”",o:["Keep it","Replace it","Keep it for the home products only","Show me options"]}
+ ]],
+ ["Products",[
+  {id:"q10",first:1,multi:1,t:"Which products are in the brand at launch?",o:["Diffuser","Scent oils","Shower steamers","Magnesium bath soaks","Scented creams","Other (note)"]},
+  {id:"q11",t:"What is the hero product from now on?",o:["The diffuser, as today","The scents themselves, in every format","A new product (say which)","No single hero"]},
+  {id:"q12",first:1,t:"How many scents, and are they the same across products?",o:["The same seven everywhere","Three or four hero scents everywhere","Different scents per product","Not decided"]},
+  {id:"q13",t:"Scent names",o:["Keep the current names","Keep the scents, give them simpler names","New scents, new names","Show me options"]},
+  {id:"q14",t:"How should products be named?",o:["By scent, like Mozi (Vanilla Moon)","By benefit, like Flewd (anxiety destroying soak)","By intention, as today (Love, Abundance)","Scent and benefit together"]},
+  {id:"q15",t:"Packaging for the new products",h:"Formats, sizes and supplier, if you know them.",o:["We design it from scratch","Supplier stock packaging with our label","Not decided"]},
+  {id:"q16",t:"Today’s packaging: gradient boxes and the black bottle",o:["Keep as is","Evolve it into the new look","Replace when stock runs out","Replace now"]}
+ ]],
+ ["Look",[
+  {id:"q17",first:1,t:"Colour",o:["One signature colour for the whole brand","One colour per scent, as on the boxes","A signature colour plus a colour per scent","Show me options"]},
+  {id:"q18",t:"Light or dark?",o:["Light and airy","Dark and rich","Light, with one dark moment","No preference"]},
+  {id:"q19",t:"Typography",o:["Elegant serif headlines, as today","Modern, clean sans","Bold and characterful (heavy, or mono)","Show me options"]},
+  {id:"q20",multi:1,t:"What must survive from today’s brand?",o:["The gradient boxes","The MC monogram","The black bottle","Blush and cream tones","The grey fabric diffuser","The scent names","Nothing is sacred"]},
+  {id:"q21",multi:1,t:"Photography from here on",o:["A new studio shoot of the products","Lifestyle with real people","Ingredient-led, like the scent cards","Generated images are fine","Creators’ content"]}
+ ]],
+ ["Voice and claims",[
+  {id:"q22",t:"How should the brand talk?",o:["Quiet, elegant, feminine (as in the documents)","Warm and plain, like a friend","Bold and funny, like Flewd","Expert and direct, like Ketro"]},
+  {id:"q23",multi:1,t:"Which claims can you prove today?",h:"The board will only list claims you confirm here.",o:["100% organic","IFRA compliant","Paraben-free","Cruelty-free","Pet-friendly","Hypoallergenic","Made in the USA","Ingredients from France","Other (note)"]},
+  {id:"q24",t:"Stress, sleep and anxiety language",h:"Project Heart forbids medical-sounding claims. The live page says “Reduce stress & anxiety.”",o:["Yes, it is central (“stress care”)","Only softly (“helps you unwind”)","Avoid it"]},
+  {id:"q25",t:"Emojis",o:["Never","Only in ads and social","Fine everywhere"]}
+ ]],
+ ["Scope and files",[
+  {id:"q26",multi:1,t:"What should the brand board cover?",o:["Brand story and voice","Logo system","Colour","Typography","Photography","Icons","Website UI","Packaging","Emails","Ads and social"]},
+  {id:"q27",multi:1,t:"Where does the new brand go live first?",o:["Shopify store theme","Landing pages","Packaging","Emails (Klaviyo)","Ads","Amazon","TikTok Shop"]},
+  {id:"q28",t:"Who decides, and by when?",h:"Other decision makers, a deadline, and whether a designer or agency is involved (Glued made the Carbinox board).",o:[]},
+  {id:"q29",multi:1,t:"Which original files can you send?",h:"The toolkit PDF in the repo lost its images.",o:["The logo as a vector (SVG, AI, EPS)","The toolkit working files","Packaging dielines","Full-size product photos","I do not have them"]},
+  {id:"q30",t:"Anything else I should know?",o:[]}
+ ]]
+];
+var Q=[],byId={};G.forEach(function(g){g[1].forEach(function(q){Q.push(q);byId[q.id]=q;});});
+var state={},els={},db=null,writing={},dirty={},timers={},canWrite=true;
+var LS="mc-rebrand-brief-v1";
+function loadLocal(){try{var s=JSON.parse(localStorage.getItem(LS)||"{}");Object.keys(s).forEach(function(k){if(byId[k])state[k]={sel:s[k].sel||[],note:s[k].note||""};});}catch(e){}}
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
+function get(id){return state[id]||(state[id]={sel:[],note:""});}
+function answered(id){var s=get(id);return s.sel.length>0||s.note.trim().length>0;}
+function setStatus(kind,text){var e=document.getElementById("status");e.textContent=text;e.className="status"+(kind?" "+kind:"");}
+function progress(){var n=Q.filter(function(q){return answered(q.id);}).length;document.getElementById("progress").textContent=n+" of "+Q.length+" answered";}
+function paint(id,skipNote){var q=byId[id],s=get(id),e=els[id];if(!e)return;
+  e.opts.forEach(function(b,i){b.setAttribute("aria-pressed",s.sel.indexOf(q.o[i])>=0?"true":"false");});
+  if(!skipNote&&document.activeElement!==e.note&&e.note.value!==s.note)e.note.value=s.note;
+  e.card.classList.toggle("done",answered(id));progress();}
+function push(id){saveLocal();if(!db||!canWrite)return;if(writing[id]){dirty[id]=true;return;}
+  writing[id]=true;var s=get(id);
+  db.doc("answers/"+id).set({q:byId[id].t,sel:s.sel.slice(),note:s.note,at:new Date().toISOString()}).then(function(){setStatus("ok","Saved");},function(err){if(err&&err.code==="invalid_argument"){canWrite=false;setStatus("warn","This view cannot save. Use “Copy my answers” and paste them in the chat.");}else setStatus("warn","Could not save just now. Your answers are kept on this device.");})
+  .then(function(){writing[id]=false;if(dirty[id]){dirty[id]=false;push(id);}});}
+function build(){var root=document.getElementById("qroot"),n=0;
+  G.forEach(function(g){var box=document.createElement("div");box.className="qgroup";var h=document.createElement("h3");h.textContent=g[0];box.appendChild(h);
+    g[1].forEach(function(q){n++;var card=document.createElement("div");card.className="q";
+      var head=document.createElement("div");head.className="q-head";var num=document.createElement("span");num.className="q-n";num.textContent=(n<10?"0":"")+n;var tt=document.createElement("span");tt.className="q-t";tt.textContent=q.t;
+      if(q.first){var st=document.createElement("span");st.className="q-star";st.textContent="first";tt.appendChild(st);}
+      head.appendChild(num);head.appendChild(tt);card.appendChild(head);
+      if(q.h){var hint=document.createElement("div");hint.className="q-hint";hint.textContent=q.h;card.appendChild(hint);}
+      var opts=[];if(q.o.length){var ow=document.createElement("div");ow.className="opts";ow.setAttribute("role","group");ow.setAttribute("aria-label",q.multi?"Pick any":"Pick one");
+        q.o.forEach(function(label){var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=label;b.setAttribute("aria-pressed","false");
+          b.addEventListener("click",function(){var s=get(q.id),i=s.sel.indexOf(label);if(q.multi){if(i>=0)s.sel.splice(i,1);else s.sel.push(label);}else{s.sel=i>=0?[]:[label];}paint(q.id,true);push(q.id);});
+          ow.appendChild(b);opts.push(b);});card.appendChild(ow);}
+      var ta=document.createElement("textarea");ta.id="note-"+q.id;ta.rows=q.o.length?1:3;ta.placeholder=q.o.length?"Add a note (optional)":"Type your answer";ta.setAttribute("aria-label","Note for question "+n);
+      ta.addEventListener("input",function(){get(q.id).note=ta.value;paint(q.id,true);clearTimeout(timers[q.id]);timers[q.id]=setTimeout(function(){push(q.id);},900);});
+      ta.addEventListener("blur",function(){clearTimeout(timers[q.id]);if(get(q.id).note!==(ta.dataset.saved||"")){ta.dataset.saved=get(q.id).note;push(q.id);}});
+      card.appendChild(ta);box.appendChild(card);els[q.id]={card:card,opts:opts,note:ta};});
+    root.appendChild(box);});}
+function asText(){var out=["Maison rebrand: my answers",""],n=0;G.forEach(function(g){out.push("## "+g[0]);g[1].forEach(function(q){n++;var s=get(q.id);if(!answered(q.id))return;out.push(n+". "+q.t);if(s.sel.length)out.push("   → "+s.sel.join("; "));if(s.note.trim())out.push("   Note: "+s.note.trim());});out.push("");});return out.join("\n");}
+document.getElementById("copybtn").addEventListener("click",function(){var t=asText(),box=document.getElementById("copybox");box.value=t;box.hidden=false;
+  var done=function(){setStatus("ok","Copied. Paste it in the chat.");},fall=function(){box.focus();box.select();setStatus("","Select the text below and copy it.");};
+  try{navigator.clipboard.writeText(t).then(done,fall);}catch(e){fall();}});
+loadLocal();build();Q.forEach(function(q){paint(q.id);});
+(async function(){
+  try{db=(window.claude&&window.claude.use)?await window.claude.use("db"):null;}catch(e){db=null;}
+  if(!db){setStatus("","Answers are kept on this device. Use “Copy my answers” to send them.");return;}
+  var slow=setTimeout(function(){setStatus("warn","Still connecting. Your answers are kept on this device meanwhile.");},10000);
+  db.collection("answers").onSnapshot(function(snap){
+    if(!snap.metadata.fromCache)clearTimeout(slow);
+    snap.docs.forEach(function(d){var v=d.data();if(!v||!byId[d.id]||writing[d.id]||dirty[d.id])return;state[d.id]={sel:Array.isArray(v.sel)?v.sel.filter(function(x){return byId[d.id].o.indexOf(x)>=0;}):[],note:typeof v.note==="string"?v.note:""};paint(d.id);});
+    saveLocal();if(!snap.metadata.fromCache)setStatus("ok",snap.empty?"Ready. Answers save as you go.":"Saved answers loaded.");
+  },function(){clearTimeout(slow);db=null;setStatus("warn","Saving is unavailable here. Use “Copy my answers” and paste them in the chat.");});
+})();
+})();
+</script>

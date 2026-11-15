@@ -88,8 +88,18 @@ launch. Ask me questions if needed." (The pattern is now a plain part of the boa
 - Working colors: clay #A9512F, eucalyptus green #2F5D4B, violet #5A4694 (cream text 5.0 / 7.0 / 7.1 to 1).
 - Five pictures in mockups/img: family, soak, steamers, spray, dusk. Page: mockups/pack-mockups.html, artifact
   "Maison Croyez Pack Mockups" https://claude.ai/artifact/HYroMJ4kuuYez3UPRd9jRW (not watched).
-- Asked him: keep the three colors? mood as the big name or the scent? pump in cream or in the pack color (the pictures
-  show both)? keep the three shapes?
+- Row 2, same day. While round 1 was being finished he sent four pack references and wrote: "What if I give you these
+  references as a second row after you're done with this?" The four: a Saltair body wash (deep matte pump bottle, giant
+  wordmark at the base, tiny text block), a Melabody toner held by a model (tonal brown, typewriter "[ 02 ] tone"), an OSEA
+  body scrub jar with a swatch of the product behind it, and an Alo single-use magnesium bath soak sachet (cream, centered
+  logo). What they share: the wordmark is the hero, small type, tonal color. Row 1 did the opposite (mood big, logo small).
+- Row 2 artwork (mockups/make-labels-r2.js -> labels/r2-*.png): deep bottle and carton with a small text block high up and
+  the two-line wordmark across the base; cream single-bath sachet, centered, the mood in the scent color; pale-tint jar
+  with the wordmark centered. Pictures in mockups/img: r2-family, r2-sachets, r2-jar, r2-bottles, r2-model (a woman in her
+  fifties holding the bottle; generated, no reference photo of a person was passed to the generator).
+- The page now shows both rows and a comparison. Asked him: row 1, row 2 or a mix (big wordmark on full color); the soak
+  pack (stand-up pouch, single-bath sachet or jar); keep the three colors; pump in cream or in the bottle color.
+- Higgsfield so far for the rebrand: 21 generations at 2.75 credits.
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
 - Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·

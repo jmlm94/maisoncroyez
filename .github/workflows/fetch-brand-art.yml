@@ -1,6 +1,6 @@
 name: fetch-brand-art
-# Downloads the generated reference pictures for the rebrand board into lp-factory/brand/rebrand-2026/board/img/ as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference]
+# Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -12,8 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
+      DEST: lp-factory/brand/rebrand-2026/mockups/img
       LIST: |
-        woman-silver https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_220008_d3331cd4-f86c-4377-9179-b77a4c9afe8d.png
+        family https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221107_d1a0410a-ce9a-433b-8470-8387652be7bd.png
+        soak https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221108_b82209a8-f825-4397-969b-e1fe3620f3ba.png
+        steamers https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221109_19acb2e0-5579-40f4-9e90-78978d26dd41.png
+        spray https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221109_b15b2dc7-29a7-40a2-b525-4aad68785e9f.png
+        dusk https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221107_8dd99b21-c869-44c9-9249-f1c8f1da4058.png
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,7 +26,7 @@ jobs:
       - name: Fetch and convert
         run: |
           pip install -q pillow
-          D=lp-factory/brand/rebrand-2026/board/img
+          D="$DEST"
           mkdir -p "$D" /tmp/raw
           echo "$LIST" | while read -r name url; do
             [ -z "$name" ] && continue
@@ -31,7 +36,7 @@ jobs:
           python3 - <<'PY'
           import glob, os
           from PIL import Image
-          D='lp-factory/brand/rebrand-2026/board/img'
+          D=os.environ['DEST']
           for f in sorted(glob.glob('/tmp/raw/*.png')):
               try:
                   im=Image.open(f).convert('RGB')
@@ -46,6 +51,6 @@ jobs:
         run: |
           git config user.name "mc-recon"
           git config user.email "actions@users.noreply.github.com"
-          git add lp-factory/brand/rebrand-2026/board/img
+          git add "$DEST"
           git commit -m "rebrand board: fetched the generated reference pictures" || exit 0
           for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push && break || sleep 3; done

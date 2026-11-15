@@ -12,6 +12,9 @@ from his other brand as the format the final result should follow. That file is 
 - Step 1, round two (open): the owner answered the seven priority questions in the chat (decisions below) and said "Keep asking
   questions, you shouldn't be able to build anything yet. Let's do it alright and use all our resources." The brief now shows
   the decisions, the buyer numbers and 44 new questions (ids r01..r44, nine marked "first").
+  Later the same day he answered the nine "first" questions in the chat (round-two decisions below) and asked for the rest
+  there: "Send me the other remaining questions here please." Sent as chat questions 10 to 46 (map at the end). The brief
+  page still shows all 44 as open; the chat is the record.
   Artifact "Maison Rebrand Brief": https://claude.ai/artifact/GkEWZF1tzmEjV1jJhT5sEj (v2; source: brief-template.html here; the
   published page embeds images from the repo's own photos and captures). Answers save in the page's database, collection
   `answers`, one document per question id: `{q, sel[], note, at}`. The session is not notified when he answers; he says so in
@@ -34,6 +37,29 @@ from his other brand as the format the final result should follow. That file is 
   four colour systems, both voices, Project Heart's never-list and the live pages' counter-practices, all three intention maps,
   the home-only / women-30+ rule, both origin claims. These are blank in the new brand. The live pages are untouched.
 
+## Decisions (owner, 2026-11-15, round two: the nine "first" questions, answered in the chat)
+- r01 audience: "women from 35+ if possible, which is more or less what we wanted for Maison at the beginning". My reading,
+  told to him: aimed at 35 to 55, still comfortable to read for the 55+ woman who buys today.
+- r03 why now: "we don't have a strong branding and there's no congruence anywhere + whatever we did doesn't look as
+  professional and consistent as the references I shared".
+- r05 promise: "Relaxation after a whole day with scented products that enhance your mood and make you stay present. The
+  affordable luxury is more for the branding." Relaxation leads the message; affordable luxury is the look, not the words.
+- r09 three scents for the new products: "Haven't decided." r10 scent names: "Haven't decided."
+- r14 colour: "one colour everywhere, the other mix of colors should be given by the products, but the site should be really
+  sober. I think Mozi is the perfect example for this."
+- r17 Ketro: "the black and white plus the bold and modern headlines and descriptions. I think those are the perfect fonts for
+  Maison but open to what you say." Ketro's fonts as captured: Roboto Mono 600/700 (headlines, capitals) + DM Sans (text),
+  both free. My note to him: DM Sans yes; Roboto Mono is what makes Ketro look clinical and it is heavy next to the thin
+  logo, so compare it with one softer bold option in step 2 before locking it.
+- r24 new products: "Ideas only. Need to develop the new branding in order to continue."
+- r33 tone: "between stress, meet your match and calmer evening as simple as 1, 2, 3". Reading: short, plain, benefit first,
+  a light smile allowed.
+- "Drop sales by scent, orders, reviews. It doesn't mater to the context. Drive doesn't matter either." No store data and no
+  Drive files are needed for the rebrand; the connectors stay as they are.
+- "Logo is the only thing we're preserving here." Everything else is new. Open: which logo pieces and a vector redraw (chat
+  questions 23 to 25).
+- "Also we'll do spray instead." Magnesium spray is in, scented creams are out.
+
 ## What the data says (read-only, 2026-11-15)
 - Meta Ads, account "Maison Croyez Ad Account ['25]" (act_522507185818783), last 90 days (17 Aug to 14 Nov 2026), purchases
   credited to ads: 231 purchases on $38,129 spend. By age: 18-24 0 · 25-34 8 (3%) · 35-44 13 (6%) · 45-54 36 (16%) ·
@@ -52,7 +78,7 @@ One long page in numbered parts: cover · 01 the brand (statement, mission, audi
 02 colour (core, neutrals, dominance ratio, contrast checks) · 03 typography (families, licences and fallbacks, type scale) ·
 04 imagery (art direction, treatments, do and do not) · 05 iconography · 06 UI and touchpoints (buttons, chips, ratings, FAQ
 rows, navigation, sample pages on desktop and phone). For Maison add: logo system, scent system (naming and colour across
-products), packaging (diffuser, oils, steamers, soaks, creams).
+products), packaging (diffuser, oils, steamers, soaks, spray).
 
 ## The brand today
 Sources: Brand Identity Guidelines, Toolkit 2023, Content Guidelines, Marketing Angles, Scripts Feb 25, AI Character Bible
@@ -108,6 +134,13 @@ Rest: what she comes for, success in a year, tagline, "Croyez" = believe, French
 signature colour and neutrals, parts of Mozi and Flewd, serif, font licences, short name on packs, monogram, soak format,
 steamers per pack, spray, target prices, pack printing, launch hero, current stock, diffuser hardware, provable claims, body
 claims, offers, proof, emojis, live pages, channels, who makes the final files, mockups, approvers and deadline, anything else.
+
+Chat numbering of what was still open (sent 2026-11-15; answers arrive like "10ab, 11: ..., 12a"):
+10 r02 · 11 r04 · 12 r06 · 13 r07 · 14 r08 · 15 new: who picks the three scents and the names (stands in for r09 and r10) ·
+16 r11 · 17 r12 · 18 r13 · 19 r15 · 20 r16 · 21 r20 · 22 r21 · 23 r23 reworded: which logo pieces stay · 24 new: redraw the
+logo as a vector · 25 r22 · 26 r18 · 27 r19 · 28 r25 · 29 r26 · 30 r27 · 31 r28 · 32 r29 · 33 r30 · 34 r31 · 35 r32 · 36 r34 ·
+37 r35 · 38 r36 · 39 r37 · 40 r38 · 41 r39 · 42 r40 · 43 r41 · 44 r42 (mockups, since the products are ideas only) ·
+45 r43 · 46 r44.
 
 ## Round-one questions (30; superseded by round two)
 q01 which reference is closest · q03 the brand in one line · q04 what happens to intentions and manifestation · q07 does the

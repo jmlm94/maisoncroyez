@@ -1,0 +1,77 @@
+name: fetch-kit-media
+# Copies the old kits page's own media (hero video, section photos, kit and scent pictures) from the store CDN into the repo
+# so the rebrand preview can use them (the session container cannot reach the CDN). Pictures become WebP (max 1600 px);
+# video and existing WebP files are kept as they are. One "name url" pair per line. Edit and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/fetch-kit-media.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      DEST: lp-factory/pages/diffuser-kits-rebrand/old
+      BASE: https://cdn.shopify.com/s/files/1/0020/3636/7469/files/
+      LIST: |
+        hero.mp4 mc-pdp-hero-720.mp4?v=1790870731
+        hero-poster.jpg mc-dk-hero-800.jpg?v=1792945162
+        goodbye1.png 1_3.png?v=1790973646&width=1400
+        compare1.png 10_d0bd8853-eb83-4c2b-8dcd-6b2f8cb80e75.png?v=1790973647&width=1400
+        spaces1.png 8_1_b6dcf934-45c5-4fb3-87f0-5a83f0ed8737.png?v=1790973647&width=1400
+        scents1.png 7_2.png?v=1790973646&width=1400
+        badge1.png 3_2.png?v=1790973647
+        patricia1.png 9_1_6aa98675-dedd-467c-9458-4794ab7e13c3.png?v=1790973646&width=1000
+        step1.webp mc-rt-step1-540.webp?v=1790887657
+        step2.webp mc-rt-step2-540.webp?v=1790887658
+        step3.webp mc-rt-step3-540.webp?v=1790887657
+        kit1.jpg mc-kb-kit1.jpg?v=1786479536
+        kit2.jpg mc-kb-kit2.jpg?v=1786479536
+        kit3.jpg mc-kb-kit3.jpg?v=1786479536
+        pick-golden.png golden_blossom.png?v=1791993010&width=800
+        pick-crisp.png crisp_citruss.png?v=1791993011&width=800
+        pick-chilled.png chilled_citrusss.png?v=1791993010&width=800
+        pick-honey.png honey_nectarr.png?v=1791993011&width=800
+        pick-euphoric.png euphoric_bloom.png?v=1791993010&width=800
+        pick-wildwood.png wilwood_mistiqye.png?v=1791993011&width=800
+        pick-midnight.png midnight_sensation.png?v=1791993011&width=800
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Fetch and convert
+        run: |
+          pip install -q pillow
+          mkdir -p "$DEST" /tmp/raw
+          echo "$LIST" | while read -r name path; do
+            [ -z "$name" ] && continue
+            code=$(curl -sSL -A "Mozilla/5.0" --max-time 120 -o "/tmp/raw/$name" -w "%{http_code}" "$BASE$path" || true)
+            echo "$name http $code $(wc -c < "/tmp/raw/$name" 2>/dev/null) bytes $(file -b "/tmp/raw/$name" | cut -c1-70)"
+          done
+          sha256sum /tmp/raw/hero.mp4 lp-factory/pages/kits-lp/deploy-ready/mc-hero-loop-720.mp4 || true
+          python3 - <<'PY'
+          import glob, os, shutil
+          from PIL import Image
+          D=os.environ['DEST']
+          for f in sorted(glob.glob('/tmp/raw/*')):
+              b=os.path.basename(f); stem,ext=os.path.splitext(b)
+              if os.path.getsize(f) < 500: print('skip small',b); continue
+              if ext in ('.mp4','.webp'):
+                  shutil.copy(f, os.path.join(D,b)); print(b,'kept',os.path.getsize(f)); continue
+              try:
+                  im=Image.open(f); mode='RGBA' if im.mode in ('RGBA','LA','P') else 'RGB'; im=im.convert(mode)
+              except Exception as e:
+                  print('skip',b,e); continue
+              w,h=im.size; im.thumbnail((1600,1600), Image.LANCZOS)
+              out=os.path.join(D, stem+'.webp'); im.save(out,'WEBP',quality=86,method=6)
+              print(out,(w,h),'->',im.size,os.path.getsize(out))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$DEST"
+          git commit -m "kits rebrand preview: the old page's own media from the store CDN" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push && break || sleep 3; done

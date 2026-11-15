@@ -72,6 +72,25 @@ darker. for the browser tab do whatyou think it's better. Exhale the day is bett
   of the wordmark's M, awaiting his OK; (4) a rule that a seasonal campaign may bring one guest color and a pattern into
   the hero and top bar only. Not taken: the serif (he locked bold sans), the loud color and wallpaper as the base look.
 
+## Pack mockups, round 1 (2026-11-15)
+His words: "Yes to the M pattern. Now, with higgsfield, let's create a mock up for the three products we're planning to
+launch. Ask me questions if needed." (The pattern is now a plain part of the board, no longer "optional".)
+- His picks in a question dialog: formats "Pouch, box, bottle" (soak in a matte stand-up pouch, steamers in a slim upright
+  carton, spray in an aluminum mist bottle); color "Rich color per scent" (logo in cream); working names "Sandalwood,
+  Eucalyptus, Lavender" under the moods Unwind / Be here / Drift off.
+- Method that worked: draw the flat front artwork with the real wordmark and fonts (mockups/make-labels.js ->
+  mockups/labels/<product>-<scent>.png, nine files), push, import them into Higgsfield by raw GitHub link
+  (media_import_url; the repo is public), then generate with gpt_image_2_6 (2k, high) passing three labels as
+  image_references and a prompt that says to reproduce each reference exactly. Logo and every word came out right first
+  time. Results fetched by fetch-brand-art.yml with DEST = mockups/img.
+- Pack front: wordmark top left, "01 / 03" top right, mood name in DM Sans Bold, scent under it, numbered rule, product in
+  mono capitals bottom left, "Exhale the day." bottom right. No weights, counts or claims printed.
+- Working colors: clay #A9512F, eucalyptus green #2F5D4B, violet #5A4694 (cream text 5.0 / 7.0 / 7.1 to 1).
+- Five pictures in mockups/img: family, soak, steamers, spray, dusk. Page: mockups/pack-mockups.html, artifact
+  "Maison Croyez Pack Mockups" https://claude.ai/artifact/HYroMJ4kuuYez3UPRd9jRW (not watched).
+- Asked him: keep the three colors? mood as the big name or the scent? pump in cream or in the pack color (the pictures
+  show both)? keep the three shapes?
+
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
 - Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·
   05 Imagery · 06 Iconography · 07 UI & touchpoints (eight components, a desktop home hero, a phone night section, three

@@ -1,0 +1,118 @@
+name: brand-refs
+# Rebrand research (owner 2026-11-15): screenshots, fonts, colours and copy of the four reference sites he sent (Primally Pure, Ketro Skin, Flewd Stresscare, Mozi Wash), home page + the first product page, phone + desktop, into lp-factory/recon-brand/<site>/. The session container cannot reach these sites. Edit this line and push to run. [run 1]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/brand-refs.yml']
+permissions:
+  contents: write
+env:
+  OUT: lp-factory/recon-brand
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Shoot
+        run: |
+          mkdir -p "$OUT"
+          cat > refs.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = process.env.OUT;
+          const SITES = [['primallypure', 'https://primallypure.com/'], ['ketroskin', 'https://ketroskin.com/'], ['flewd', 'https://www.flewdstresscare.com/'], ['moziwash', 'https://www.moziwash.com/']];
+          const UA_M = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          const UA_D = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+          const clean = async (pg) => {
+            await pg.keyboard.press('Escape').catch(() => {});
+            await pg.evaluate(() => {
+              const vw = innerWidth, vh = innerHeight;
+              for (const e of document.querySelectorAll('body *')) {
+                const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+                const r = e.getBoundingClientRect(); const z = parseInt(cs.zIndex) || 0;
+                const covers = r.width * r.height > vw * vh * 0.25; const isHeader = r.top <= 2 && r.height < 220 && r.width > vw * 0.8;
+                const txt = (e.innerText || '').toLowerCase();
+                if (!isHeader && (covers || (z > 50 && /subscribe|sign up|% off|unlock|email|cookie|consent|accept/.test(txt) && r.height > 60))) e.style.setProperty('display', 'none', 'important');
+              }
+              document.documentElement.style.overflow = 'auto'; document.body.style.overflow = 'auto';
+            }).catch(() => {});
+          };
+          const tokens = () => {
+            const tx = (e) => (e ? (e.innerText || e.textContent || '').replace(/\s+/g, ' ').trim() : null);
+            const vis = (e) => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return r.width > 2 && r.height > 2 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
+            const st = (e) => { if (!e) return null; const c = getComputedStyle(e); return { font: c.fontFamily.slice(0, 90), size: c.fontSize, weight: c.fontWeight, style: c.fontStyle, ls: c.letterSpacing, tt: c.textTransform, lh: c.lineHeight, color: c.color, bg: c.backgroundColor, radius: c.borderRadius, border: c.borderTopWidth + ' ' + c.borderTopColor, pad: c.padding, text: tx(e).slice(0, 90) }; };
+            const first = (q) => [...document.querySelectorAll(q)].find(vis);
+            const all = [...document.querySelectorAll('body *')].filter(vis).slice(0, 6000);
+            const colors = {}, bgs = {}, fonts = {};
+            for (const e of all) {
+              const c = getComputedStyle(e); const r = e.getBoundingClientRect(); const area = Math.min(r.width * r.height, 4e5);
+              const hasText = [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1);
+              if (hasText) { colors[c.color] = (colors[c.color] || 0) + 1; const f = c.fontFamily.split(',')[0].replace(/["']/g, '').trim() + ' ' + c.fontWeight + (c.fontStyle === 'italic' ? 'i' : ''); fonts[f] = (fonts[f] || 0) + (tx(e).length || 1); }
+              if (c.backgroundColor !== 'rgba(0, 0, 0, 0)' && c.backgroundColor !== 'transparent') bgs[c.backgroundColor] = (bgs[c.backgroundColor] || 0) + area;
+            }
+            const top = (o, n) => Object.entries(o).sort((a, b) => b[1] - a[1]).slice(0, n).map(([k, v]) => k + ' ×' + Math.round(v));
+            const btns = [...document.querySelectorAll('a,button')].filter(vis).filter((e) => { const c = getComputedStyle(e); const r = e.getBoundingClientRect(); return c.backgroundColor !== 'rgba(0, 0, 0, 0)' && r.width > 90 && r.height > 30 && r.height < 90 && tx(e).length > 2 && tx(e).length < 40; }).slice(0, 6).map(st);
+            const vars = {}; try { const rs = getComputedStyle(document.documentElement); for (const sh of document.styleSheets) { let rules; try { rules = sh.cssRules; } catch (e) { continue; } for (const r of rules) { if (r.selectorText && /^(:root|html|body)$/.test(r.selectorText.trim())) for (const p of r.style) if (p.startsWith('--') && Object.keys(vars).length < 70) { const v = rs.getPropertyValue(p).trim(); if (/#|rgb|hsl/.test(v) || /font/i.test(p)) vars[p] = v.slice(0, 80); } } } } catch (e) {}
+            return {
+              url: location.href, title: document.title, desc: (document.querySelector('meta[name="description"]') || {}).content || null,
+              loadedFonts: [...new Set([...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/["']/g, '') + ' ' + f.weight + (f.style === 'italic' ? 'i' : '')))].slice(0, 40),
+              fontsByTextVolume: top(fonts, 12), textColors: top(colors, 10), backgroundsByArea: top(bgs, 14),
+              body: st(document.body), h1: st(first('h1')), h2: st(first('h2')), h3: st(first('h3')), p: st(first('main p, p')), nav: st(first('header nav a, nav a, header a')), buttons: btns,
+              announcement: tx(first('[class*="announcement" i], [id*="announcement" i]')), navItems: [...document.querySelectorAll('header nav a, header a')].filter(vis).map(tx).filter((t) => t && t.length < 30).slice(0, 24),
+              headings: [...document.querySelectorAll('h1,h2,h3')].filter(vis).map((e) => e.tagName + ': ' + tx(e).slice(0, 110)).slice(0, 40),
+              buttonLabels: [...new Set([...document.querySelectorAll('a,button')].filter(vis).map(tx).filter((t) => t && t.length > 2 && t.length < 28))].slice(0, 50),
+              logo: (() => { const l = first('header img, header svg, a[href="/"] img, a[href="/"] svg'); return l ? (l.currentSrc || l.src || 'svg') .slice(0, 160) : null; })(),
+              productLinks: [...new Set([...document.querySelectorAll('a[href*="/products/"]')].map((a) => a.href.split('?')[0]))].slice(0, 12), cssVars: vars,
+              paragraphs: [...document.querySelectorAll('main p, p')].filter(vis).map(tx).filter((t) => t.length > 40 && t.length < 400).slice(0, 14),
+            };
+          };
+          const b = await chromium.launch();
+          for (const [slug, url] of SITES) {
+            const dir = `${OUT}/${slug}`; fs.mkdirSync(dir, { recursive: true }); const res = {};
+            for (const [vp, W, H, mobile] of [['desktop', 1440, 900, false], ['phone', 390, 844, true]]) {
+              try {
+                const ctx = await b.newContext(mobile ? { viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA_M, locale: 'en-US' } : { viewport: { width: W, height: H }, deviceScaleFactor: 1, userAgent: UA_D, locale: 'en-US' });
+                const pg = await ctx.newPage();
+                await pg.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 }); await pg.waitForTimeout(7000); await clean(pg); await pg.waitForTimeout(600);
+                await pg.screenshot({ path: `${dir}/home-${vp}-top.jpg`, type: 'jpeg', quality: 78 });
+                for (let y = 0; y < 14000; y += 700) { await pg.evaluate((y) => window.scrollTo(0, y), y); await pg.waitForTimeout(140); }
+                await clean(pg); await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(900); await clean(pg);
+                const t = await pg.evaluate(tokens); res[vp + 'Home'] = t;
+                const h = await pg.evaluate(() => Math.min(document.documentElement.scrollHeight, 9000));
+                await pg.setViewportSize({ width: W, height: Math.min(h, 9000) }).catch(() => {}); await pg.waitForTimeout(700);
+                await pg.screenshot({ path: `${dir}/home-${vp}-full.jpg`, type: 'jpeg', quality: mobile ? 55 : 62 });
+                await pg.setViewportSize({ width: W, height: H }).catch(() => {});
+                const pl = (t.productLinks || [])[0];
+                if (pl) {
+                  await pg.goto(pl, { waitUntil: 'domcontentloaded', timeout: 90000 }); await pg.waitForTimeout(6000); await clean(pg); await pg.waitForTimeout(500);
+                  await pg.screenshot({ path: `${dir}/pdp-${vp}-top.jpg`, type: 'jpeg', quality: 78 });
+                  for (let y = 0; y < 9000; y += 700) { await pg.evaluate((y) => window.scrollTo(0, y), y); await pg.waitForTimeout(120); }
+                  await clean(pg); await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(700); await clean(pg);
+                  res[vp + 'Pdp'] = await pg.evaluate(tokens);
+                  const h2 = await pg.evaluate(() => Math.min(document.documentElement.scrollHeight, 7000));
+                  await pg.setViewportSize({ width: W, height: Math.min(h2, 7000) }).catch(() => {}); await pg.waitForTimeout(600);
+                  await pg.screenshot({ path: `${dir}/pdp-${vp}-full.jpg`, type: 'jpeg', quality: mobile ? 55 : 62 });
+                }
+                await ctx.close(); console.log(slug, vp, 'ok', t.title, '| fonts', (t.fontsByTextVolume || []).slice(0, 4).join(' / '));
+              } catch (e) { res[vp + 'Error'] = String(e).slice(0, 300); console.log(slug, vp, 'FAILED', String(e).slice(0, 200)); }
+            }
+            fs.writeFileSync(`${dir}/tokens.json`, JSON.stringify(res, null, 1));
+          }
+          await b.close();
+          EOF2
+          node refs.mjs
+          ls -la "$OUT"/* | head -60
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "brand-refs: reference sites for the rebrand" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push && break || sleep 3; done

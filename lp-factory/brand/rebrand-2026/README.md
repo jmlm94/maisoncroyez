@@ -8,14 +8,44 @@ References he sent: primallypure.com, ketroskin.com, flewdstresscare.com, moziwa
 from his other brand as the format the final result should follow. That file is his upload and is not stored in this repo.
 
 ## Status
-- Step 1 (done): audit of the current brand, the four references, the outline of the board, 30 questions.
-  Artifact "Maison Rebrand Brief": https://claude.ai/artifact/GkEWZF1tzmEjV1jJhT5sEj
-  (source: brief-template.html here; the published page embeds images taken from the repo's own photos and captures).
-  The page saves his answers in its database, collection `answers`, one document per question id (q01..q30:
-  `{q, sel[], note, at}`). The session is not notified when he answers; he says so in the chat or pastes "Copy my answers".
-- Step 2 (after his answers): two or three directions, each as a short board (name, colour, type, packaging, one page).
+- Step 1, round one (done 2026-11-15): audit of the current brand, the four references, the outline of the board, 30 questions.
+- Step 1, round two (open): the owner answered the seven priority questions in the chat (decisions below) and said "Keep asking
+  questions, you shouldn't be able to build anything yet. Let's do it alright and use all our resources." The brief now shows
+  the decisions, the buyer numbers and 44 new questions (ids r01..r44, nine marked "first").
+  Artifact "Maison Rebrand Brief": https://claude.ai/artifact/GkEWZF1tzmEjV1jJhT5sEj (v2; source: brief-template.html here; the
+  published page embeds images from the repo's own photos and captures). Answers save in the page's database, collection
+  `answers`, one document per question id: `{q, sel[], note, at}`. The session is not notified when he answers; he says so in
+  the chat or pastes "Copy my answers".
+- Step 2 (only after round two is answered): two or three directions, each as a short board.
 - Step 3 (after he picks): the full brand board, then the roll-out.
-- Nothing on Shopify changes in any of this until he says so.
+- NO design work before he says so. Nothing on Shopify changes in any of this until he says so.
+
+## Decisions (owner, 2026-11-15, round one)
+- Name: still Maison Croyez. He is "open to start our branding process completely from scratch and create a new identity".
+- Feel: "more minimalistic, easy to understand and digest and a sense of high-end affordable branding".
+- Inspiration mix: 50% Ketro, 30% Mozi, 20% Flewd. "Neutral colors as the main ones but making the buttons and some elements
+  more colorful. At the end the packaging we'll use is gonna be colorful as well." Primally Pure gets no weight.
+- One signature colour. (Open: how it lives next to colourful packs, question r14.)
+- "Intentions & Manifestation go, however we'll keep doing scents to enhance mood and increase relaxation and presence."
+- Products: diffusers + scents continue; launching Scented Magnesium Bath Soak, Shower Steamers, "maybe magnesium spray".
+  (Scented creams were in his first message and not in this list.)
+- Scents: 7 for the diffuser "as always"; "only 3 scents" for the other three products.
+- Rule: "If anything has conflicts or contradictions, remove both and let's build again." Applied to the eight gaps below: all
+  four colour systems, both voices, Project Heart's never-list and the live pages' counter-practices, all three intention maps,
+  the home-only / women-30+ rule, both origin claims. These are blank in the new brand. The live pages are untouched.
+
+## What the data says (read-only, 2026-11-15)
+- Meta Ads, account "Maison Croyez Ad Account ['25]" (act_522507185818783), last 90 days (17 Aug to 14 Nov 2026), purchases
+  credited to ads: 231 purchases on $38,129 spend. By age: 18-24 0 · 25-34 8 (3%) · 35-44 13 (6%) · 45-54 36 (16%) ·
+  55-64 74 (32%) · 65+ 100 (43%). By gender: women 216 (94%), men 15 (6%). So 75% of ad purchases come from people 55+,
+  91% from 45+. The three weighted references all speak to a younger shopper: this is question r01.
+- NOT read: the Shopify, Klaviyo and Triple Whale connectors were pointed at the owner's other store (Carbinox) on this date,
+  so no Maison sales by scent, orders or reviews. Do not query or switch them without his say (switching Shopify revokes the
+  current token). Earlier repo notes (pages/free-diffusers/STATUS.md, 2026-10-02) name Golden Blossom Harmony, Crisp Citrus
+  Scape and Midnight Sensation as the three top sellers; unconfirmed today.
+- Google Drive: the complete "TOOLKIT MAISON CROYEZ.pdf" (8.9 MB, with images; file id 1jfz4mQDblLhPkigwe_wrwZIFXczvL7fd) and a
+  "Logos" folder (id 1oYkEwHjHTWf2WnsiEISvmIh0iJnIcz1H) with PNG versions (MC VERSION 1-01 / 1-02 / 2-01 / 2-02, VERSION 4-01 /
+  4-02). No vector logo, no dielines, nothing on the new products. Notion: nothing on the new products.
 
 ## Target format of the final board
 One long page in numbered parts: cover · 01 the brand (statement, mission, audience, personality, pillars, voice and tone) ·
@@ -70,7 +100,16 @@ phone + desktop, tokens.json with fonts, colours, headings, buttons).
 - Shared: one owned colour on calm neutrals, a recognisable type voice, colour-coded packaging as the hero, plain-word product
   names, proof near the top, few products with clear first offers.
 
-## Questions (30; the seven marked "first" unblock step 2)
+## Round-two questions (44; nine marked "first")
+First: r01 who the brand is for (today's buyer is a woman 55+) · r03 why rebrand now · r05 what leads the promise · r09 which
+three scents for the new products · r10 scent names · r14 signature colour vs colourful packs · r17 which parts of Ketro ·
+r24 where the new products stand · r33 pick the line that sounds like the new Maison.
+Rest: what she comes for, success in a year, tagline, "Croyez" = believe, French feel, what a scent carries, moods, formulas,
+signature colour and neutrals, parts of Mozi and Flewd, serif, font licences, short name on packs, monogram, soak format,
+steamers per pack, spray, target prices, pack printing, launch hero, current stock, diffuser hardware, provable claims, body
+claims, offers, proof, emojis, live pages, channels, who makes the final files, mockups, approvers and deadline, anything else.
+
+## Round-one questions (30; superseded by round two)
 q01 which reference is closest · q03 the brand in one line · q04 what happens to intentions and manifestation · q07 does the
 name stay · q10 products at launch · q12 how many scents, shared across products · q17 one signature colour or a colour per
 scent. The rest: likes and dislikes per reference, customer, price, logo, tagline, hero product, scent names, naming scheme,

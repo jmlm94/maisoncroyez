@@ -125,7 +125,9 @@ tr:last-child td{border-bottom:0}
 .opt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 textarea{width:100%;min-height:44px;resize:vertical;font-family:var(--body);font-size:.92rem;line-height:1.4;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 textarea::placeholder{color:var(--mute)}
-#copybox{display:block;width:100%;min-height:160px;font-family:var(--mono);font-size:.76rem}
+#copybox{width:100%;min-height:160px;font-family:var(--mono);font-size:.76rem}
+#copybox:not([hidden]){display:block}
+#copybox[hidden]{display:none}
 footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:var(--mute);display:flex;flex-direction:column;gap:8px}
 @media (max-width:560px){.steps{grid-template-columns:minmax(0,1fr)}.imgs.c3{gap:6px}.scale{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
@@ -133,19 +135,82 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:
 <div class="wrap">
 
 <header class="top">
-  <span class="eyebrow">Maison Croyez · rebrand · 15 Nov 2026</span>
-  <h1>Where the brand stands today, and what I need from you to rebuild it.</h1>
-  <p class="mute">I read every brand document in the repo, the pages we built, the packaging photos, the four sites you sent and the Carbinox brand board. This page is the starting point. Your answers at the bottom decide the direction.</p>
+  <span class="eyebrow">Maison Croyez · rebrand · round two · 15 Nov 2026</span>
+  <h1>Round one is decided. Round two goes deeper before anything is drawn.</h1>
+  <p class="mute">Your nine answers are recorded below. I also pulled what the ad account says about who buys, and searched your Drive for the original files. Nothing gets designed until this round is answered.</p>
   <div class="steps">
-    <div class="step now"><span class="mono">Step 1 · now</span><b>Audit and questions</b><span class="small mute">This page.</span></div>
-    <div class="step"><span class="mono">Step 2 · after your answers</span><b>Two or three directions</b><span class="small mute">Each as a short board: name, colour, type, packaging, one page.</span></div>
+    <div class="step now"><span class="mono">Step 1 · now</span><b>Audit and questions</b><span class="small mute">Round two of the questions.</span></div>
+    <div class="step"><span class="mono">Step 2 · after your answers</span><b>Two or three directions</b><span class="small mute">Each as a short board: colour, type, packaging, one page.</span></div>
     <div class="step"><span class="mono">Step 3 · after you pick</span><b>The brand board</b><span class="small mute">Full system in the Carbinox format, then the roll-out.</span></div>
   </div>
-  <nav class="toc" aria-label="Sections"><a href="#today">01 Today</a><a href="#gaps">02 Gaps</a><a href="#references">03 References</a><a href="#board">04 The board</a><a href="#questions">05 Questions</a></nav>
+  <nav class="toc" aria-label="Sections"><a href="#decided">Decided</a><a href="#numbers">The numbers</a><a href="#questions">Questions</a><a href="#today">Ref · Today</a><a href="#gaps">Ref · Cleared</a><a href="#references">Ref · Sites</a><a href="#board">Ref · The board</a></nav>
 </header>
 
+<section id="decided">
+  <div class="sec-head"><span class="eyebrow">Round two / Decided</span><h2>What you decided in round one</h2>
+  <p class="mute">This is now the brief. Tell me if I read any of it wrong.</p></div>
+  <ul class="board">
+    <li><span class="mono">Name</span><b>Maison Croyez stays</b>The identity can be rebuilt from scratch: logo, colour, type, voice.</li>
+    <li><span class="mono">Feel</span><b>Minimal, easy to digest, high-end but affordable</b>Less to read, fewer ideas per page.</li>
+    <li><span class="mono">Mix</span><b>50% Ketro · 30% Mozi · 20% Flewd</b>Neutral colours lead. Buttons and a few elements carry colour. Packaging is colourful.</li>
+    <li><span class="mono">Colour</span><b>One signature colour</b>How it lives next to colourful packs is question 14.</li>
+    <li><span class="mono">Idea</span><b>Intentions and manifestation go</b>Scents now enhance mood, relaxation and presence.</li>
+    <li><span class="mono">Range</span><b>Diffuser and seven scents continue</b>New: scented magnesium bath soak, shower steamers, maybe a magnesium spray.</li>
+    <li><span class="mono">Scents</span><b>Seven for the diffuser, three for the new products</b>Which three is question 9.</li>
+    <li><span class="mono">Rule</span><b>Where two things contradict, both go</b>We rebuild that part from zero. The cleared list is further down.</li>
+  </ul>
+  <div class="card"><h3>Does 50 / 30 / 20 make sense?</h3>
+    <p>Yes. The three fit together because each one does a different job.</p>
+    <dl class="kv" style="grid-template-columns:110px minmax(0,1fr)">
+      <dt>Ketro · 50%</dt><dd>The frame. Off-white and black, one accent colour, a big confident wordmark, proof near the top, short sentences.</dd>
+      <dt>Mozi · 30%</dt><dd>The scent system. One pack shape, a colour for each scent, and shopping by scent.</dd>
+      <dt>Flewd · 20%</dt><dd>The spark. Names that say the benefit, a little humour, pill buttons, a pop of colour.</dd>
+    </dl>
+    <p class="small mute">Two things to settle. Ketro reads clinical, and all three brands speak to a younger shopper than the one buying from Maison today. Both are in the questions.</p>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="sec-head"><span class="eyebrow">Round two / The numbers</span><h2>Who is buying today</h2>
+  <p class="mute">From the Maison ad account, last 90 days (17 Aug to 14 Nov): 231 purchases on $38,129 of spend. This counts purchases credited to ads, not every order.</p></div>
+  <div class="grid2">
+    <div class="card"><h3>By age</h3>
+      <div class="tablewrap"><table style="min-width:0"><thead><tr><th>Age</th><th>Purchases</th><th>Share</th><th>Cost per purchase</th></tr></thead><tbody>
+        <tr><td>18 to 24</td><td>0</td><td>0%</td><td>n/a</td></tr>
+        <tr><td>25 to 34</td><td>8</td><td>3%</td><td>$141</td></tr>
+        <tr><td>35 to 44</td><td>13</td><td>6%</td><td>$217</td></tr>
+        <tr><td>45 to 54</td><td>36</td><td>16%</td><td>$209</td></tr>
+        <tr><td><b>55 to 64</b></td><td><b>74</b></td><td><b>32%</b></td><td>$167</td></tr>
+        <tr><td><b>65 and up</b></td><td><b>100</b></td><td><b>43%</b></td><td>$141</td></tr>
+      </tbody></table></div>
+      <p class="small">Three of every four purchases come from people 55 and older.</p>
+    </div>
+    <div class="card"><h3>By gender</h3>
+      <div class="tablewrap"><table style="min-width:0"><thead><tr><th>Gender</th><th>Purchases</th><th>Share</th><th>Cost per purchase</th></tr></thead><tbody>
+        <tr><td><b>Women</b></td><td><b>216</b></td><td><b>94%</b></td><td>$158</td></tr>
+        <tr><td>Men</td><td>15</td><td>6%</td><td>$258</td></tr>
+      </tbody></table></div>
+      <p class="small">Ketro, Mozi and Flewd are built for shoppers a generation younger. Whether the new Maison keeps today's buyer or moves to a new one is question 1.</p>
+      <h3 style="margin-top:6px">What I could not read</h3>
+      <p class="small mute">The Shopify, Klaviyo and Triple Whale connections are pointed at Carbinox, so I left them alone. That means no sales by scent, no order data and no reviews yet.</p>
+      <h3 style="margin-top:6px">Found in your Drive</h3>
+      <p class="small mute">The complete 2023 toolkit PDF with its images, and a Logos folder with PNG versions. No vector logo and no packaging dielines. Nothing yet on the bath soak, steamers or spray.</p>
+    </div>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="sec-head"><span class="eyebrow">Round two / Questions</span><h2>Forty-four questions. Nine unblock the work.</h2>
+  <p class="mute">Tap an answer and add a note where it helps. Start with the ones marked “first.” Everything saves as you go. Answering in the chat works just as well.</p></div>
+  <div class="qbar"><div class="grow"><b id="progress">0 of 44 answered</b><div class="status" id="status" role="status">Connecting…</div></div><button class="btn ghost" id="copybtn" type="button">Copy my answers</button></div>
+  <textarea id="copybox" hidden readonly aria-label="Your answers as text"></textarea>
+  <div id="qroot"></div>
+</section>
+
+<div class="sec-head" style="margin-top:8px"><span class="eyebrow">Reference</span><h2>From round one</h2><p class="mute">The audit of today's brand, the cleared contradictions, your four reference sites and the outline of the final board.</p></div>
+
 <section id="today">
-  <div class="sec-head"><span class="eyebrow">01 / The brand today</span><h2>What Maison Croyez looks and sounds like right now</h2>
+  <div class="sec-head"><span class="eyebrow">Reference 01 / The brand today</span><h2>What Maison Croyez looks and sounds like right now</h2>
   <p class="mute">Luxury home fragrance: one waterless diffuser and seven scents, each tied to an intention. Written for women 30 and up. The promise on the boxes and the store is “Attract what you sense.”</p></div>
 
   <div class="grid2">
@@ -216,8 +281,8 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:
 </section>
 
 <section id="gaps">
-  <div class="sec-head"><span class="eyebrow">02 / Where it does not line up</span><h2>Eight things the rebrand has to settle</h2>
-  <p class="mute">None of these are design problems yet. They are decisions, and most of the questions below come from them.</p></div>
+  <div class="sec-head"><span class="eyebrow">Reference 02 / Cleared</span><h2>Eight contradictions, now cleared</h2>
+  <p class="mute">Your ruling: where two things contradict, both go. Every item here is blank in the new brand until we rebuild it. The live pages stay as they are until you say otherwise.</p></div>
   <ol class="gaps">
     <li><b>Four colour systems at once.</b>Toolkit blush and gradients, the per-scent boxes, the store’s pink-to-coral bar, and the landing pages’ black, gold and green.</li>
     <li><b>Two voices.</b>Quiet luxury in the documents, hard-selling health and savings on the pages that bring the orders.</li>
@@ -231,7 +296,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:
 </section>
 
 <section id="references">
-  <div class="sec-head"><span class="eyebrow">03 / Your references</span><h2>What the four sites do</h2>
+  <div class="sec-head"><span class="eyebrow">Reference 03 / Your references</span><h2>What the four sites do</h2>
   <p class="mute">Captured today on phone and desktop, with the fonts and colours read from the pages themselves.</p></div>
 
   <div class="card"><div class="ref">
@@ -285,7 +350,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:
 </section>
 
 <section id="board">
-  <div class="sec-head"><span class="eyebrow">04 / The board to build</span><h2>The final document, in the Carbinox format</h2>
+  <div class="sec-head"><span class="eyebrow">Reference 04 / The board to build</span><h2>The final document, in the Carbinox format</h2>
   <p class="mute">The Carbinox board has six numbered parts. Maison needs the same six, plus three it does not show.</p></div>
   <ul class="board">
     <li><span class="mono">Cover</span><b>Brand guidelines</b>One-line description, version, source.</li>
@@ -301,69 +366,79 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.86rem;color:
   </ul>
 </section>
 
-<section id="questions">
-  <div class="sec-head"><span class="eyebrow">05 / Questions</span><h2>Thirty questions. Seven unblock the work.</h2>
-  <p class="mute">Tap an answer and add a note where it helps. Start with the ones marked “first.” Everything saves as you go, and I read your answers from here. You can also just reply in the chat.</p></div>
-  <div class="qbar"><div class="grow"><b id="progress">0 of 30 answered</b><div class="status" id="status" role="status">Connecting…</div></div><button class="btn ghost" id="copybtn" type="button">Copy my answers</button></div>
-  <textarea id="copybox" hidden readonly aria-label="Your answers as text"></textarea>
-  <div id="qroot"></div>
-</section>
-
 <footer>
   <span><b>Read for this page:</b> Brand Identity Guidelines · Toolkit 2023 · Content Guidelines · Marketing Angles · Scripts (Feb 25) · AI Character Bible (Apr 2026) · Project Heart v2.0 (May 2026) · the landing-page brand kit and design system · the live store capture · the packaging and product photos · the Carbinox brand board.</span>
-  <span>Reference sites captured 15 Nov 2026. Colours and fonts are the values their pages reported.</span>
+  <span>Buyer numbers: Meta Ads, account “Maison Croyez Ad Account [’25]”, 17 Aug to 14 Nov 2026, purchases credited to ads. Reference sites captured 15 Nov 2026. Colours and fonts are the values their pages reported.</span>
 </footer>
 </div>
 
 <script>
 (function(){
 var G=[
- ["Direction",[
-  {id:"q01",first:1,t:"Which reference is closest to how the new Maison should feel?",o:["Primally Pure: calm, natural, premium","Ketro: clean, bold, clinical","Mozi Wash: friendly, colourful, scent-led","Flewd: loud, playful","A mix (say which parts)"]},
-  {id:"q02",t:"What do you like, and dislike, in each of the four?",h:"Colours, type, packaging, photos, names, layout, tone. A few words per site is enough.",o:[]},
-  {id:"q03",first:1,t:"What is the new brand about, in one line?",o:["Scent that changes how you feel (mood and stress care)","Scent with an intention (manifestation stays the core)","Clean, non-toxic scent for home and body","Affordable luxury: five-star scent at home","Something else"]},
-  {id:"q04",first:1,t:"Intentions and manifestation (love, abundance, purification): what happens to them?",h:"Today every scent carries one, and it is the main idea in the brand documents.",o:["They stay the core idea","They stay, softened into moods (calm, energy, focus, sleep)","They go","Not sure yet"]},
-  {id:"q05",t:"Who is the customer now?",h:"The documents say women only, 30 and up.",o:["The same woman, 35+, her home is her sanctuary","Younger, 25 to 40, wellness and self-care","Women 25 to 55","Everyone, including men and gifting"]},
-  {id:"q06",t:"Where should prices sit for the new products?",o:["Accessible: $15 to $30 an item","Middle: $30 to $50","Premium: $50 and up","Depends on the product"]}
+ ["The customer",[
+  {id:"r01",first:1,t:"Who is the new brand for?",h:"In the last 90 days, three of every four ad purchases came from people 55 and older, and 94% of buyers were women.",o:["The same woman, 55 and up: modern, but she must feel at home","Women 35 to 55: accept that today’s buyer may not follow","Both: built for 35 to 55, calm and readable for 55 and up","Wider: men and gift buyers too"]},
+  {id:"r02",multi:1,t:"What does she come to Maison for first?",o:["A home that smells good","To relax and sleep better","A safer swap for candles and sprays","A treat for herself","A gift","Other (note)"]},
+  {id:"r03",first:1,multi:1,t:"Why rebrand now?",o:["The brand looks dated","It looks cheaper than it is","Too many messages, hard to understand","Manifestation limits who buys","The new products do not fit the old brand","Ads cost too much","To get into stores or Amazon","Other (note)"]},
+  {id:"r04",t:"A year from now, what must be true for this to count as a success?",o:[]}
  ]],
- ["Name and logo",[
-  {id:"q07",first:1,t:"Does the name stay?",h:"“Maison” means house, and the new products are for the body.",o:["Maison Croyez stays","Keep it, shorten it in use (Croyez, or Maison)","Open to a new name","Not sure"]},
-  {id:"q08",t:"The logo",o:["Keep the wordmark and MC monogram as they are","Keep the idea, redraw and refine it","New logo from scratch","Show me options"]},
-  {id:"q09",t:"The tagline “Attract what you sense”",o:["Keep it","Replace it","Keep it for the home products only","Show me options"]}
+ ["The promise",[
+  {id:"r05",first:1,t:"With intentions gone, what leads the promise?",o:["Relaxation: scent that helps you slow down","Presence: small rituals that bring you back to the moment","Clean and safe: no smoke, no harsh chemicals","Affordable luxury: a five-star feel at home","Something else (note)"]},
+  {id:"r06",t:"The tagline “Attract what you sense” was written for manifestation.",o:["Retire it","Keep it","Show me options"]},
+  {id:"r07",t:"“Croyez” means “believe” in French. Do we use that?",o:["Yes, it is part of the story","Lightly: an About page only","No, it is just the name"]},
+  {id:"r08",t:"Any French feel in the brand?",h:"The France and U.S. origin claims are both removed until one is documented.",o:["Yes: French words and tone here and there","No French cues, only the name","Not sure"]}
  ]],
- ["Products",[
-  {id:"q10",first:1,multi:1,t:"Which products are in the brand at launch?",o:["Diffuser","Scent oils","Shower steamers","Magnesium bath soaks","Scented creams","Other (note)"]},
-  {id:"q11",t:"What is the hero product from now on?",o:["The diffuser, as today","The scents themselves, in every format","A new product (say which)","No single hero"]},
-  {id:"q12",first:1,t:"How many scents, and are they the same across products?",o:["The same seven everywhere","Three or four hero scents everywhere","Different scents per product","Not decided"]},
-  {id:"q13",t:"Scent names",o:["Keep the current names","Keep the scents, give them simpler names","New scents, new names","Show me options"]},
-  {id:"q14",t:"How should products be named?",o:["By scent, like Mozi (Vanilla Moon)","By benefit, like Flewd (anxiety destroying soak)","By intention, as today (Love, Abundance)","Scent and benefit together"]},
-  {id:"q15",t:"Packaging for the new products",h:"Formats, sizes and supplier, if you know them.",o:["We design it from scratch","Supplier stock packaging with our label","Not decided"]},
-  {id:"q16",t:"Today’s packaging: gradient boxes and the black bottle",o:["Keep as is","Evolve it into the new look","Replace when stock runs out","Replace now"]}
+ ["Scents",[
+  {id:"r09",first:1,t:"The three scents for the soak, steamers and spray",h:"Earlier notes list Golden Blossom Harmony, Crisp Citrus Scape and Midnight Sensation as the three top sellers. I could not confirm that today.",o:["Three of the current seven (say which)","Three new scents made for bath and shower","Not decided"]},
+  {id:"r10",first:1,t:"Scent names",h:"Today: Golden Blossom Harmony, Crisp Citrus Scape, Chilled Citrus, Honey Nectar, Euphoric Bloom, Wildwood Mystique, Midnight Sensation.",o:["Keep them","Same scents, shorter and simpler names","Name them by mood (Calm, Sleep, Focus)","Name them by smell (Lavender & Eucalyptus)","Show me options"]},
+  {id:"r11",t:"With intentions gone, what does each scent carry instead?",o:["One mood each","Only its notes","A mood and its notes"]},
+  {id:"r12",multi:1,t:"Which moods should the range cover?",o:["Relax","Sleep","Focus and presence","Energy","Comfort","Fresh and clean","Romance","Other (note)"]},
+  {id:"r13",t:"The seven diffuser scents themselves",o:["Same formulas, only names and packs change","Some will be reformulated or dropped","Not sure"]}
  ]],
- ["Look",[
-  {id:"q17",first:1,t:"Colour",o:["One signature colour for the whole brand","One colour per scent, as on the boxes","A signature colour plus a colour per scent","Show me options"]},
-  {id:"q18",t:"Light or dark?",o:["Light and airy","Dark and rich","Light, with one dark moment","No preference"]},
-  {id:"q19",t:"Typography",o:["Elegant serif headlines, as today","Modern, clean sans","Bold and characterful (heavy, or mono)","Show me options"]},
-  {id:"q20",multi:1,t:"What must survive from today’s brand?",o:["The gradient boxes","The MC monogram","The black bottle","Blush and cream tones","The grey fabric diffuser","The scent names","Nothing is sacred"]},
-  {id:"q21",multi:1,t:"Photography from here on",o:["A new studio shoot of the products","Lifestyle with real people","Ingredient-led, like the scent cards","Generated images are fine","Creators’ content"]}
+ ["Colour",[
+  {id:"r14",first:1,t:"One signature colour, and colourful packaging. How do they fit together?",o:["One brand colour everywhere, plus one colour per scent on the packs","Every pack in the signature colour, the scent shown by name","One colour per product type (soak, steamers, spray, oils)","Show me options"]},
+  {id:"r15",multi:1,t:"The signature colour",h:"Add any colour you already have in mind, or want to avoid.",o:["Warm (coral, orange, pink)","Cool (blue, green, violet)","Bold and saturated","Soft and muted","Surprise me"]},
+  {id:"r16",t:"The neutrals",o:["Warm: cream, sand, soft black","Cool: white, grey, true black","No preference"]}
  ]],
- ["Voice and claims",[
-  {id:"q22",t:"How should the brand talk?",o:["Quiet, elegant, feminine (as in the documents)","Warm and plain, like a friend","Bold and funny, like Flewd","Expert and direct, like Ketro"]},
-  {id:"q23",multi:1,t:"Which claims can you prove today?",h:"The board will only list claims you confirm here.",o:["100% organic","IFRA compliant","Paraben-free","Cruelty-free","Pet-friendly","Hypoallergenic","Made in the USA","Ingredients from France","Other (note)"]},
-  {id:"q24",t:"Stress, sleep and anxiety language",h:"Project Heart forbids medical-sounding claims. The live page says “Reduce stress & anxiety.”",o:["Yes, it is central (“stress care”)","Only softly (“helps you unwind”)","Avoid it"]},
-  {id:"q25",t:"Emojis",o:["Never","Only in ads and social","Fine everywhere"]}
+ ["Type and logo",[
+  {id:"r17",first:1,multi:1,t:"From Ketro (50%), which parts exactly?",o:["The big bold wordmark on the pack","Typewriter-style capitals for headlines","Black, white and one colour","Proof up top: experts, comparisons, reviews","Short, direct sentences","Clean product shots on plain backgrounds"]},
+  {id:"r18",multi:1,t:"From Mozi (30%), which parts?",o:["One pack shape, one colour per scent","“Meet our scents” as the way to shop","A sample kit as the first purchase","Friendly icons and badges","Build your own bundle"]},
+  {id:"r19",multi:1,t:"From Flewd (20%), which parts?",o:["Names that say the benefit","A playful, funny tone","Pill buttons and loud pops of colour","A quiz","Shiny, standout pouches","Trios and samplers"]},
+  {id:"r20",t:"Serif headlines (Unna today)",o:["Gone: clean sans only","Keep a serif for a touch of elegance","Show me both"]},
+  {id:"r21",t:"Fonts",o:["Free fonts only","Happy to license a typeface","No preference"]},
+  {id:"r22",t:"The name is long for a small pack.",o:["MAISON CROYEZ in full, always","A short form is fine on small packs (MC, or Croyez)","Show me options"]},
+  {id:"r23",t:"The MC monogram",o:["Keep the idea, redraw it","Drop it","Show me options"]}
  ]],
- ["Scope and files",[
-  {id:"q26",multi:1,t:"What should the brand board cover?",o:["Brand story and voice","Logo system","Colour","Typography","Photography","Icons","Website UI","Packaging","Emails","Ads and social"]},
-  {id:"q27",multi:1,t:"Where does the new brand go live first?",o:["Shopify store theme","Landing pages","Packaging","Emails (Klaviyo)","Ads","Amazon","TikTok Shop"]},
-  {id:"q28",t:"Who decides, and by when?",h:"Other decision makers, a deadline, and whether a designer or agency is involved (Glued made the Carbinox board).",o:[]},
-  {id:"q29",multi:1,t:"Which original files can you send?",h:"The toolkit PDF in the repo lost its images.",o:["The logo as a vector (SVG, AI, EPS)","The toolkit working files","Packaging dielines","Full-size product photos","I do not have them"]},
-  {id:"q30",t:"Anything else I should know?",o:[]}
+ ["New products",[
+  {id:"r24",first:1,t:"Where are the soak, steamers and spray today?",h:"Add the supplier and a launch date if you have them.",o:["An idea only","Samples in hand","Supplier chosen, formulas set","In production"]},
+  {id:"r25",t:"Bath soak format",o:["Single-bath pouches","One bag for several baths","A jar or tub","Not decided"]},
+  {id:"r26",t:"Shower steamers per pack",o:["6","8","12","Not decided"]},
+  {id:"r27",t:"Magnesium spray",o:["Scented, same three scents","Unscented","Not decided","Probably not launching"]},
+  {id:"r28",t:"Target price for each new product",h:"Soak, steamers, spray.",o:[]},
+  {id:"r29",t:"How will the new packs be printed?",o:["Custom-printed packs","Stock packs with our label","Not decided"]},
+  {id:"r30",t:"What leads the new brand at launch?",o:["The diffuser stays the hero","The new products lead","The scents as one range, in every format","Not decided"]},
+  {id:"r31",t:"Today’s stock: gradient boxes and black bottles with intentions printed on them",h:"Roughly how many months of stock is left?",o:["Sell through, switch at the next reorder","Switch at launch","Not sure"]},
+  {id:"r32",t:"The diffuser itself (grey fabric, white top)",o:["Stays exactly as it is","Could change colour or finish later","Not sure"]}
+ ]],
+ ["Voice, claims, offers",[
+  {id:"r33",first:1,t:"Which line sounds most like the new Maison?",h:"Written for the bath soak, only to find the tone.",o:["Magnesium bath soak. Twenty minutes to unclench.","The bath that tells your shoulders to drop.","Stress, meet your match.","A calmer evening, in one scoop."]},
+  {id:"r34",multi:1,t:"Claims you can back with a document today",h:"The board will list only these.",o:["100% organic","IFRA compliant","Paraben-free","Cruelty-free","Vegan","Pet-friendly","Hypoallergenic","Made in the USA","Dermatologist tested","None yet"]},
+  {id:"r35",t:"How far can body claims go?",o:["Feelings only (“helps you unwind”)","Feelings and body (“eases tired muscles”)","Ask a lawyer first"]},
+  {id:"r36",t:"Offers, now that the old rules and the free-diffuser pages are both off the table",o:["No discounts: bundles and subscribe-and-save only","Clean promotions are fine (a gift, a percentage off)","Hard-selling offers on ad pages, calm everywhere else"]},
+  {id:"r37",multi:1,t:"Proof we can show",h:"Add the numbers if you know them.",o:["Review count and rating","Number of customers","Press mentions","An expert (perfumer, dermatologist)","Lab or safety tests","None yet"]},
+  {id:"r38",t:"Emojis",o:["Never","Ads and social only","Everywhere"]},
+  {id:"r39",t:"The live pages still carry the removed lines (free diffusers, “reduce stress & anxiety”).",o:["Leave them until the new brand launches","Remove those lines now","Not sure"]}
+ ]],
+ ["How we work",[
+  {id:"r40",multi:1,t:"Where will the brand sell?",o:["Our own site","Amazon","TikTok Shop","Retail stores","Spas, hotels, wholesale"]},
+  {id:"r41",t:"Who makes the final files?",h:"Print-ready packaging needs dielines from the supplier.",o:["Claude, end to end","A designer or agency finishes from the board","Not decided"]},
+  {id:"r42",t:"Pictures of the new products for the board",o:["Generated mockups are fine","Wait for real samples and a shoot"]},
+  {id:"r43",t:"Who else approves, and is there a deadline?",o:[]},
+  {id:"r44",t:"Anything else I should know?",o:[]}
  ]]
 ];
 var Q=[],byId={};G.forEach(function(g){g[1].forEach(function(q){Q.push(q);byId[q.id]=q;});});
 var state={},els={},db=null,writing={},dirty={},timers={},canWrite=true;
-var LS="mc-rebrand-brief-v1";
+var LS="mc-rebrand-brief-r2";
 function loadLocal(){try{var s=JSON.parse(localStorage.getItem(LS)||"{}");Object.keys(s).forEach(function(k){if(byId[k])state[k]={sel:s[k].sel||[],note:s[k].note||""};});}catch(e){}}
 function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
 function get(id){return state[id]||(state[id]={sel:[],note:""});}
@@ -394,7 +469,7 @@ function build(){var root=document.getElementById("qroot"),n=0;
       ta.addEventListener("blur",function(){clearTimeout(timers[q.id]);if(get(q.id).note!==(ta.dataset.saved||"")){ta.dataset.saved=get(q.id).note;push(q.id);}});
       card.appendChild(ta);box.appendChild(card);els[q.id]={card:card,opts:opts,note:ta};});
     root.appendChild(box);});}
-function asText(){var out=["Maison rebrand: my answers",""],n=0;G.forEach(function(g){out.push("## "+g[0]);g[1].forEach(function(q){n++;var s=get(q.id);if(!answered(q.id))return;out.push(n+". "+q.t);if(s.sel.length)out.push("   → "+s.sel.join("; "));if(s.note.trim())out.push("   Note: "+s.note.trim());});out.push("");});return out.join("\n");}
+function asText(){var out=["Maison rebrand, round two: my answers",""],n=0;G.forEach(function(g){out.push("## "+g[0]);g[1].forEach(function(q){n++;var s=get(q.id);if(!answered(q.id))return;out.push(n+". "+q.t);if(s.sel.length)out.push("   → "+s.sel.join("; "));if(s.note.trim())out.push("   Note: "+s.note.trim());});out.push("");});return out.join("\n");}
 document.getElementById("copybtn").addEventListener("click",function(){var t=asText(),box=document.getElementById("copybox");box.value=t;box.hidden=false;
   var done=function(){setStatus("ok","Copied. Paste it in the chat.");},fall=function(){box.focus();box.select();setStatus("","Select the text below and copy it.");};
   try{navigator.clipboard.writeText(t).then(done,fall);}catch(e){fall();}});

@@ -28,9 +28,28 @@ from his other brand as the format the final result should follow. That file is 
 - GO-AHEAD (2026-11-15, question dialog): "Full board now" (he skipped the two-directions step), pictures "Both" (evening
   scenes with a woman plus texture close-ups), "Light + dark sections".
 - Step 3 BUILT, first draft (2026-11-15): artifact "Maison Croyez Brand Board"
-  https://claude.ai/artifact/GdkV9ERQHTegES3nrP3WJ8 (v1). Source in board/ (see "The board" below). Waiting for his review
-  and for three choices the page lets him compare: signature color, headline style, tagline.
+  https://claude.ai/artifact/GdkV9ERQHTegES3nrP3WJ8 (v2 = board v1.1 after his review, see below). Source in board/.
+  The session does not watch this artifact (webhook limit), so comments on the page do not arrive; he replies in chat.
 - Nothing on Shopify changes in any of this until he says so. The live pages are untouched.
+
+## Owner's review of the first draft (2026-11-15) -> board v1.1
+His words: "Primary for background: Between Paper & Cream, something in the middle. Signature for buttons and links: Between
+Blue hour and blue hour light, something in the middle. Primary for text and dark, a little darker than night. We'll stay
+with bold sans type system. Tagline: Let's keep talking to see if we can build the perfect one. Brand pillars, let's also
+talk about this and figure it ut. the logo needs to be the two line wordmark everywhere."
+- DECIDED: bold sans (DM Sans Bold headlines, Roboto Mono labels); the headline switcher and the serif are gone.
+- DECIDED: the two-line wordmark is the only logo. Stamp, monogram and one-line are out of the board (their SVGs stay in
+  board/logo/ unused). My one flagged exception, awaiting his OK: the 16 px browser tab icon, where I suggest the M of the
+  wordmark alone (board/logo/maison-croyez-m.svg).
+- Colors as he asked (exact midpoints): Cream #F9F6EE (was #F6F1E7), signature Blue Hour #7A82E7 (was #4B55D6), Night
+  #161210 (was #1F1B18). Followed from that: Paper #FFFDF9, Dusk #231D19, Wash #E9EAFB. Consequence I told him: white text
+  on #7A82E7 is 3.4:1, so button text is Night (5.5:1), and links and small labels on light use the old blue, kept as
+  "Blue Hour Deep" #4B55D6 (5.4:1); #7A82E7 on Cream is 3.1:1, fills and large UI only. The page keeps one switch: his mix
+  against the first draft's blue.
+- OPEN, in discussion: tagline (eight candidates on the board: Exhale the day. / Leave the day at the door. / The evening
+  is yours. / Believe in the evening. / Unwind in 3, 2, 1. / Scent for the end of the day. / The day ends here. / Stress,
+  meet your match.; my picks are the first two) and brand pillars (three builds on the board: A short phrases, B one word
+  each, C as beliefs "We believe..."; my pick is C).
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
 - Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·

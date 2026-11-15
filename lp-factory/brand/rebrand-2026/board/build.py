@@ -6,10 +6,10 @@ D = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(D, 'board.src.html'), encoding='utf-8').read()
 meta = json.load(open(os.path.join(D, 'logo', 'meta.json')))
 sym = open(os.path.join(D, 'logo', 'symbols.html'), encoding='utf-8').read()
-LOGO = {'two': 'mc-two', 'one': 'mc-one', 'stamp': 'mc-stamp', 'mono-v': 'mc-mono-v', 'mono-h': 'mc-mono-h'}
+LOGO = {'two': 'mc-two', 'm': 'mc-m'}
 def logo(m):
-    k = LOGO[m.group(1)]; w, h = meta[k]['w'], meta[k]['h']
-    return (f'<svg class="lg" viewBox="0 0 {w} {h}" fill-rule="evenodd" role="img" aria-label="Maison Croyez">'
+    k = LOGO[m.group(1)]; vb = meta[k].get('vb') or f"0 0 {meta[k]['w']} {meta[k]['h']}"
+    return (f'<svg class="lg" viewBox="{vb}" fill-rule="evenodd" role="img" aria-label="Maison Croyez">'
             f'<use href="#{k}"/></svg>')
 def icon(m):
     raw = open(os.path.join(D, 'icons', m.group(1) + '.svg'), encoding='utf-8').read()

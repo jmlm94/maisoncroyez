@@ -19,6 +19,12 @@ from his other brand as the format the final result should follow. That file is 
   published page embeds images from the repo's own photos and captures). Answers save in the page's database, collection
   `answers`, one document per question id: `{q, sel[], note, at}`. The session is not notified when he answers; he says so in
   the chat or pastes "Copy my answers".
+- Round two answered in full (2026-11-15, chat questions 10 to 46; decisions below). SCOPE RULE from the owner, same message:
+  "For the rest of answers, please, don't mention anything about the products or the sales or the offer, it's irrelevant, i
+  need to talk ONLY about the branding the website needs, please. Don't make m waste time." So: the deliverable is a WEBSITE
+  brand board (his reference board is one: brand, colour, typography, imagery, iconography, UI and touchpoints), plus the logo
+  he keeps. Do not raise products, formats, prices, stock, sales channels, offers or claims again. Scent system and packaging
+  are out of scope until he brings them up.
 - Step 2 (only after round two is answered): two or three directions, each as a short board.
 - Step 3 (after he picks): the full brand board, then the roll-out.
 - NO design work before he says so. Nothing on Shopify changes in any of this until he says so.
@@ -59,6 +65,29 @@ from his other brand as the format the final result should follow. That file is 
 - "Logo is the only thing we're preserving here." Everything else is new. Open: which logo pieces and a vector redraw (chat
   questions 23 to 25).
 - "Also we'll do spray instead." Magnesium spray is in, scented creams are out.
+
+## Decisions (owner, 2026-11-15, round two: chat questions 10 to 46)
+- 10: she comes for "one of the three products we'll launch. We're dropping diffusers and scents for now. Should be more a
+  treat for herself of course."
+- 11 success in a year: "Revenue and profit (?) Community too..."
+- 12 tagline "Attract what you sense": "Drop it, let's find something new."
+- 13 "Croyez" = believe: yes, part of the story. 14 French feel: "Could be, I like it."
+- 15: finish the branding first; the three scents and the names come after.
+- 16: "Mood mostly, three different options for different tastes. I'm imagining sandalwood, bergamot, eucalyptus, lavender,
+  etc... but not sure as of now."
+- 17 moods: "Relax, which leads to presence, which leads to sleep. I think we'll use the night angle more really."
+- 18 diffuser scents: "Same formulas, same everything, we're not dropping them, just putting them aside. However everything
+  we say and determine should help the diffusers and scents to be sold too."
+- 19 signature colour: "between warm and cool really. You can also surprise me." 20 neutrals: warm (cream, sand, soft black).
+- 21 serif: show both. 22 fonts: happy to license a typeface.
+- 23 logo: all four versions from the old toolkit stay. 24: redraw as a vector, identical. 25: MAISON CROYEZ in full, always.
+- 26 from Mozi: one pack shape with a colour per scent, "Meet our scents" as the way to shop, a sample kit first.
+- 27 from Flewd: names that say the benefit, trios and samplers. (Not the playful tone, pill buttons, quiz or shiny pouches.)
+- 28 to 33: nothing fixed ("It doesn't matter. We're building the branding toolkit."); the new products lead at launch.
+- 35: the diffuser hardware stays as it is. 36: no documented claims yet. 37: feelings and body language are both allowed.
+- 40 emojis: "15% presence emojs only" (reading: rare, about one piece in seven, never the default).
+- 43: Claude makes the final files. 44: "Ideas." (reading: idea-level mockups are fine). 45: he alone approves; no deadline.
+- 34, 38, 39, 41, 42: "Irrelevant."
 
 ## What the data says (read-only, 2026-11-15)
 - Meta Ads, account "Maison Croyez Ad Account ['25]" (act_522507185818783), last 90 days (17 Aug to 14 Nov 2026), purchases

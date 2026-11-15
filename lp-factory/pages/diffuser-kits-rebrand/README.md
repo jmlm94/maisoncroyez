@@ -70,3 +70,29 @@ don't want to refill, scents are still free. Also update prices then to $89, $15
   plus g-*.webp made from lp-factory/assets/cdn/diffuser and hero-frame.webp (first frame of the video).
 - Checked on phone 400 px and desktop 1440 px: no errors, no sideways scroll, the video plays, every path adds up
   (1 = $89, 2 = $159, 3 = $239; refills $39 / $78 / $117).
+
+## Round 3 (2026-11-15, artifact version 3)
+
+His words: "Video full size pleae. / Leave the day at the door. with the . and below It's.... / delete diffuser pictures
+they don't look good. / also for scents make the biggest text the name of the scent and below just the kinda smell Honey
+Floral, Fresh Citrus, etc. / notes add a . at the end of each. / delete smells like. / change can't decide to make it
+automatically our best sellers and thats it. / For the step 3, make them select frequency instead and also the no refills."
+
+- Gallery (video first): edge to edge on phones, no rounded corners, no gap under the header; on desktop the left column
+  is wider (1.25 : 1), the video fills it (604 px at 1440). My reading of "full size".
+- Title "Leave the day at the door." and, below it, "It's time to align yourself to the ultimate relaxation & unwinding
+  experience." as its own line.
+- Diffuser cards: no pictures (old/kit1-3.webp are no longer used).
+- Scents, rows and cards: the name is the big text, the kind of smell below (Honey Floral, Fresh Citrus, Lavender, Milk &
+  Honey, Peach & Tea, Pine Forest, Floral Musk), notes end with a period, "Smells like" removed. Strength shows only as
+  the small corner label on the cards of the scents section.
+- "Can't decide? Take our best sellers." picks Midnight Sensation, then Golden Blossom Harmony, then Crisp Citrus Scape,
+  as many as the kit holds. Source: earlier repo notes (pages/free-diffusers/STATUS.md and pdp-free-diffuser STATUS);
+  NOT checked against current sales.
+- Step 3 "How often do you want refills?": every 4 / 8 / 12 weeks (4 pre-selected, tagged "Most popular" as the old page
+  tagged 30 days) or "No refills, thank you". $39 a scent at every frequency (still my per-scent reading). The weeks are
+  my choice; the old page offered 30 / 60 / 90 days.
+- He also asked what else to add, adjust or remove so the page speaks to the new value proposition; answered in chat
+  (the evening first and the candle comparison later, group the seven scents under Unwind / Be here / Drift off, new
+  gallery slides, feeling words in place of "Reduce stress & anxiety", proof for "100% organic", the "align yourself"
+  wording). Nothing from that list is applied yet.

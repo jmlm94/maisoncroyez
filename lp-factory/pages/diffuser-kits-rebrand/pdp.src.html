@@ -367,6 +367,22 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
 .sc.pickme h3{font-size:30px}
 .sc.pickme p{color:#B8AD9F;font-size:15.5px}
 .sc.pickme button{border-color:var(--cream);color:var(--cream)}
+
+/* round 3: full-size gallery, title + line below, no pictures in the diffuser cards, name first in the scents, frequency in step 3 */
+.bb{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+@media (max-width:860px){.bb{grid-template-columns:minmax(0,1fr);padding-top:0}
+  .gal{margin-inline:calc(-1 * clamp(16px,4vw,48px))}
+  .track{border-radius:0}}
+h1.hd{font-size:clamp(34px,4.6vw,54px)}
+.sub{font-weight:600;font-size:clamp(18px,1.9vw,22px);letter-spacing:-.015em;line-height:1.3;margin-top:12px;max-width:26em;text-wrap:pretty}
+.cardb{padding:22px 8px 12px}
+.row b{font-size:19px;line-height:1.15}
+.row .tx span{font-size:15px;margin-top:2px}
+.sc h3{font-size:23px}
+.sc .nm{font-weight:600;font-size:15.5px;color:var(--ink)}
+.qtyb .ev{font:500 11px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--drift);margin:0 0 5px}
+.qtyb.wide{grid-column:1/-1;min-height:0;padding:14px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:4px 10px}
+.qtyb.wide span{margin:0;font:400 14.5px var(--f);letter-spacing:0;text-transform:none}
 </style>
 
 <!--SYMBOLS-->
@@ -398,15 +414,16 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
   <div>
     <button class="rate" type="button" data-to="reviews" aria-label="Rated 4.5 out of 5 on Amazon from 44 ratings. Jump to the reviews"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:90%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span><b>4.5</b> on Amazon · <u>44 ratings</u></span></button>
     <p class="lab eyebrow">Maison Croyez waterless diffuser &amp; 100% organic scents</p>
-    <h1 class="hd">Leave the day at the door, <span>it’s time to align yourself to the ultimate relaxation &amp; unwinding experience.</span></h1>
+    <h1 class="hd">Leave the day at the door.</h1>
+    <p class="sub">It’s time to align yourself to the ultimate relaxation &amp; unwinding experience.</p>
     <ul class="pills"><li>No smoke, no harm</li><li>No water, no mold</li><li>Reduce stress &amp; anxiety</li></ul>
 
     <div class="step">
       <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many diffusers?</h2><span class="pill">A free scent with each</span></div>
       <div class="cards" id="diffs">
-        <button class="cardb" type="button" data-n="1" aria-pressed="false"><span class="kp"><img src="old/kit1.webp" alt="One diffuser" width="200" height="200"></span><b>1 diffuser</b><span class="p">$89</span><span class="each">$89.00 each</span><span class="sv none">One room</span><span class="free">+ 1 free scent</span><span class="cov"><b>600 sq ft</b><small>coverage</small></span></button>
-        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><span class="kp"><img src="old/kit2.webp" alt="Two diffusers" width="200" height="200"></span><b>2 diffusers</b><span class="p">$159<span class="was">$178</span></span><span class="each">$79.50 each</span><span class="sv">Save $19</span><span class="free">+ 2 free scents</span><span class="cov"><b>1,200 sq ft</b><small>coverage</small></span></button>
-        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Whole home</span><span class="kp"><img src="old/kit3.webp" alt="Three diffusers" width="200" height="200"></span><b>3 diffusers</b><span class="p">$239<span class="was">$267</span></span><span class="each">$79.67 each</span><span class="sv">Save $28</span><span class="free">+ 3 free scents</span><span class="cov"><b>1,800 sq ft</b><small>coverage</small></span></button>
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 diffuser</b><span class="p">$89</span><span class="each">$89.00 each</span><span class="sv none">One room</span><span class="free">+ 1 free scent</span><span class="cov"><b>600 sq ft</b><small>coverage</small></span></button>
+        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 diffusers</b><span class="p">$159<span class="was">$178</span></span><span class="each">$79.50 each</span><span class="sv">Save $19</span><span class="free">+ 2 free scents</span><span class="cov"><b>1,200 sq ft</b><small>coverage</small></span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Whole home</span><b>3 diffusers</b><span class="p">$239<span class="was">$267</span></span><span class="each">$79.67 each</span><span class="sv">Save $28</span><span class="free">+ 3 free scents</span><span class="cov"><b>1,800 sq ft</b><small>coverage</small></span></button>
       </div>
     </div>
 
@@ -414,22 +431,25 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
       <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd" id="s2-h">Pick your 2 free scents.</h2><span class="count" id="count">0 of 2 picked</span></div>
       <p class="def"><b>100% organic scent oil for your diffuser.</b> One 100 ml bottle lasts 15+ days. One comes free with every diffuser, a $39 value each.</p>
       <div class="rows" id="scents">
-        <div class="row" data-k="golden"><div class="ph"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="tx"><b>Honey floral</b><span>Golden Blossom Harmony · medium</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Golden Blossom Harmony">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Golden Blossom Harmony">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Buttercup, honeysuckle &amp; sunflower</span><span><i>Smells like</i>Chloé Eau de Parfum</span></p></div>
-        <div class="row" data-k="crisp"><div class="ph"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="tx"><b>Fresh citrus</b><span>Crisp Citrus Scape · soft</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Crisp Citrus Scape">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Crisp Citrus Scape">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress</span><span><i>Smells like</i>Dolce &amp; Gabbana Light Blue</span></p></div>
-        <div class="row" data-k="chilled"><div class="ph"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="tx"><b>Lavender</b><span>Chilled Citrus · soft</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Chilled Citrus">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Chilled Citrus">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus</span><span><i>Smells like</i>Bath &amp; Body Works Stress Relief</span></p></div>
-        <div class="row" data-k="honey"><div class="ph"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="tx"><b>Milk &amp; honey</b><span>Honey Nectar · medium</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Honey Nectar">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Honey Nectar">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey</span><span><i>Smells like</i>Philosophy Fresh Cream</span></p></div>
-        <div class="row" data-k="euphoric"><div class="ph"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="tx"><b>Peach &amp; tea</b><span>Euphoric Bloom · medium</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Euphoric Bloom">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Euphoric Bloom">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème</span><span><i>Smells like</i>Jo Malone Nectarine Blossom &amp; Honey</span></p></div>
-        <div class="row" data-k="wildwood"><div class="ph"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="tx"><b>Pine forest</b><span>Wildwood Mystique · bold</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Wildwood Mystique">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Wildwood Mystique">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern</span><span><i>Smells like</i>Thymes Frasier Fir</span></p></div>
-        <div class="row" data-k="midnight"><div class="ph"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="tx"><b>Floral musk</b><span>Midnight Sensation · bold</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Midnight Sensation">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Midnight Sensation">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Moonflower, night lily &amp; skin musk</span><span><i>Smells like</i>Narciso Rodriguez For Her</span></p></div>
+        <div class="row" data-k="golden"><div class="ph"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="tx"><b>Golden Blossom Harmony</b><span>Honey Floral</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Golden Blossom Harmony">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Golden Blossom Harmony">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Buttercup, honeysuckle &amp; sunflower.</span></p></div>
+        <div class="row" data-k="crisp"><div class="ph"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="tx"><b>Crisp Citrus Scape</b><span>Fresh Citrus</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Crisp Citrus Scape">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Crisp Citrus Scape">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress.</span></p></div>
+        <div class="row" data-k="chilled"><div class="ph"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="tx"><b>Chilled Citrus</b><span>Lavender</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Chilled Citrus">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Chilled Citrus">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus.</span></p></div>
+        <div class="row" data-k="honey"><div class="ph"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="tx"><b>Honey Nectar</b><span>Milk &amp; Honey</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Honey Nectar">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Honey Nectar">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey.</span></p></div>
+        <div class="row" data-k="euphoric"><div class="ph"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="tx"><b>Euphoric Bloom</b><span>Peach &amp; Tea</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Euphoric Bloom">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Euphoric Bloom">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème.</span></p></div>
+        <div class="row" data-k="wildwood"><div class="ph"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="tx"><b>Wildwood Mystique</b><span>Pine Forest</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Wildwood Mystique">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Wildwood Mystique">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern.</span></p></div>
+        <div class="row" data-k="midnight"><div class="ph"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="tx"><b>Midnight Sensation</b><span>Floral Musk</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Midnight Sensation">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Midnight Sensation">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Moonflower, night lily &amp; skin musk.</span></p></div>
       </div>
-      <button class="each1" type="button" id="each1"><span id="each1-t">Can’t decide? Take one soft, one bold.</span> {{i:arrow-right}}</button>
+      <button class="each1" type="button" id="each1"><span id="each1-t">Can’t decide? Take our best sellers.</span> {{i:arrow-right}}</button>
     </div>
 
     <div class="step" id="step3">
-      <div class="step-h"><span class="lab">Step 3 of 3</span><h2 class="hd">Want them again in 4 weeks?</h2></div>
-      <div class="plans" id="plans">
-        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="tag">Never run out</span><span class="radio"></span><span><b>Yes, send my scents every 4 weeks</b><span>$39 a scent. Today’s scents are free either way.</span><span class="incl"><span>{{i:check}}<span id="sub-each">2 scents every 4 weeks for $78</span></span><span>{{i:check}}Skip, swap scents or cancel any time</span><span>{{i:check}}An email reminder before every refill</span><span>{{i:check}}Free shipping every time</span></span></span><span class="amt"><span id="amt-sub">$39</span><small>a scent</small></span></button>
-        <button class="plan" type="button" data-p="once" aria-pressed="false"><span class="radio"></span><span><b>No refills, thank you</b><span>Today’s scents are still free.</span></span><span class="amt"></span></button>
+      <div class="step-h"><span class="lab">Step 3 of 3</span><h2 class="hd">How often do you want refills?</h2></div>
+      <p class="def"><b>$39 a scent, every refill.</b> Today’s scents are free either way. Skip, swap or cancel any time.</p>
+      <div class="qty" id="freqs">
+        <button class="qtyb" type="button" data-f="4" aria-pressed="true"><span class="tag">Most popular</span><span class="ev">Every</span><b>4 weeks</b><span>$39 a scent</span></button>
+        <button class="qtyb" type="button" data-f="8" aria-pressed="false"><span class="ev">Every</span><b>8 weeks</b><span>$39 a scent</span></button>
+        <button class="qtyb" type="button" data-f="12" aria-pressed="false"><span class="ev">Every</span><b>12 weeks</b><span>$39 a scent</span></button>
+        <button class="qtyb wide" type="button" data-f="0" aria-pressed="false"><b>No refills, thank you</b><span>Today’s scents are still free.</span></button>
       </div>
     </div>
 
@@ -440,7 +460,7 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
     <div class="faq acc">
       <details><summary>What’s in the box{{i:plus}}</summary><p>Your diffusers (1, 2 or 3) and one free 100 ml scent for each. Every bottle lasts 15+ days. The diffuser is waterless and leakproof, with a lifetime warranty.</p></details>
       <details><summary>How it works + tips{{i:plus}}</summary><p>Pour in your 100 ml bottle, press once and walk away. One button, three strengths: soft for every day, full for company. It takes about ten minutes to fill the room.</p></details>
-      <details><summary>When am I charged?{{i:plus}}</summary><p>Today you pay for your diffusers only. The scents are free. If you said yes to refills, your scents come again every 4 weeks for $39 each, and you get an email reminder before every one. Say no and nothing renews.</p></details>
+      <details><summary>When am I charged?{{i:plus}}</summary><p>Today you pay for your diffusers only. The scents are free. If you picked a refill frequency, your scents come again on that schedule for $39 each, and you get an email reminder before every one. Pick no refills and nothing renews.</p></details>
       <details><summary>Shipping, returns + warranty{{i:plus}}</summary><p>Free shipping. Within 30 days we refund every dollar and send a prepaid label. Don’t love one scent? We swap it free. The diffuser is covered for life.</p></details>
     </div>
   </div>
@@ -495,7 +515,7 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
     <div class="tl col">
       <div><div class="n">Minute ten<i></i></div><b>The room smells like the evening.</b><p>Corner to corner, not only the few feet around the diffuser.</p></div>
       <div><div class="n">Week one<i></i></div><b>You stop noticing the diffuser.</b><p>You notice the room. You walk in, breathe out, and the day stays outside.</p></div>
-      <div><div class="n">Week four<i></i></div><b>The next bottles arrive.</b><p>If you said yes to refills, your scents come again every 4 weeks. Skip or cancel any time.</p></div>
+      <div><div class="n">Week four<i></i></div><b>The next bottles arrive.</b><p>On the schedule you picked: every 4, 8 or 12 weeks. Skip or cancel any time.</p></div>
     </div>
     <button class="btn2" type="button" data-top>Build my kit {{i:arrow-right}}</button>
   </div>
@@ -524,14 +544,14 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
     <div class="pic sq"><img src="old/scents1.webp" alt="Maison Croyez scent boxes on a wooden table" loading="lazy"></div>
   </div>
   <div class="sgrid">
-    <div class="sc"><div class="pic"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>01</span><span>medium</span></span><h3>Honey floral.</h3><p class="nm">Golden Blossom Harmony</p><p><i>Notes</i>Buttercup, honeysuckle &amp; sunflower</p><p><i>Smells like</i>Chloé Eau de Parfum</p><button type="button" data-add="golden">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc"><div class="pic"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>02</span><span>soft</span></span><h3>Fresh citrus.</h3><p class="nm">Crisp Citrus Scape</p><p><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress</p><p><i>Smells like</i>Dolce &amp; Gabbana Light Blue</p><button type="button" data-add="crisp">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc"><div class="pic"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>03</span><span>soft</span></span><h3>Lavender.</h3><p class="nm">Chilled Citrus</p><p><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus</p><p><i>Smells like</i>Bath &amp; Body Works Stress Relief</p><button type="button" data-add="chilled">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc"><div class="pic"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>04</span><span>medium</span></span><h3>Milk &amp; honey.</h3><p class="nm">Honey Nectar</p><p><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey</p><p><i>Smells like</i>Philosophy Fresh Cream</p><button type="button" data-add="honey">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc"><div class="pic"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>05</span><span>medium</span></span><h3>Peach &amp; tea.</h3><p class="nm">Euphoric Bloom</p><p><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème</p><p><i>Smells like</i>Jo Malone Nectarine Blossom &amp; Honey</p><button type="button" data-add="euphoric">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc"><div class="pic"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>06</span><span>bold</span></span><h3>Pine forest.</h3><p class="nm">Wildwood Mystique</p><p><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern</p><p><i>Smells like</i>Thymes Frasier Fir</p><button type="button" data-add="wildwood">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc"><div class="pic"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>07</span><span>bold</span></span><h3>Floral musk.</h3><p class="nm">Midnight Sensation</p><p><i>Notes</i>Moonflower, night lily &amp; skin musk</p><p><i>Smells like</i>Narciso Rodriguez For Her</p><button type="button" data-add="midnight">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc pickme"><div class="bd"><span class="lab"><span>Not sure</span><span>Start here</span></span><h3>Can’t decide?</h3><p>We pick a soft one first, then a bold one, then a medium one, as many as your kit holds.</p><button type="button" id="trio2">Pick for me {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>01</span><span>medium</span></span><h3>Golden Blossom Harmony.</h3><p class="nm">Honey Floral</p><p><i>Notes</i>Buttercup, honeysuckle &amp; sunflower.</p><button type="button" data-add="golden">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>02</span><span>soft</span></span><h3>Crisp Citrus Scape.</h3><p class="nm">Fresh Citrus</p><p><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress.</p><button type="button" data-add="crisp">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>03</span><span>soft</span></span><h3>Chilled Citrus.</h3><p class="nm">Lavender</p><p><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus.</p><button type="button" data-add="chilled">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>04</span><span>medium</span></span><h3>Honey Nectar.</h3><p class="nm">Milk &amp; Honey</p><p><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey.</p><button type="button" data-add="honey">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>05</span><span>medium</span></span><h3>Euphoric Bloom.</h3><p class="nm">Peach &amp; Tea</p><p><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème.</p><button type="button" data-add="euphoric">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>06</span><span>bold</span></span><h3>Wildwood Mystique.</h3><p class="nm">Pine Forest</p><p><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern.</p><button type="button" data-add="wildwood">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>07</span><span>bold</span></span><h3>Midnight Sensation.</h3><p class="nm">Floral Musk</p><p><i>Notes</i>Moonflower, night lily &amp; skin musk.</p><button type="button" data-add="midnight">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc pickme"><div class="bd"><span class="lab"><span>Not sure</span><span>Start here</span></span><h3>Can’t decide?</h3><p>Take our best sellers.</p><button type="button" id="trio2">Pick for me {{i:arrow-right}}</button></div></div>
   </div>
   <p class="swipe">Swipe for all seven</p>
 </div></section>
@@ -586,7 +606,7 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
   <div class="faq">
     <details open><summary>Is this better than plug-ins, candles and room sprays?{{i:plus}}</summary><p>Plug-ins fade within a week, a candle scents the four feet around the flame for an hour, and a spray lasts a few minutes. This runs on pure fragrance oil as a fine dry mist, fills a room in about ten minutes and keeps going all day.</p></details>
     <details><summary>Are the scents really free?{{i:plus}}</summary><p>Yes. Every diffuser comes with one 100 ml scent of your choice, free, whether or not you want refills.</p></details>
-    <details><summary>How do refills work?{{i:plus}}</summary><p>Say yes in step 3 and your scents come again every 4 weeks for $39 each, with an email reminder before every one. Skip a delivery, swap scents or cancel any time. Say no and nothing renews.</p></details>
+    <details><summary>How do refills work?{{i:plus}}</summary><p>In step 3 you pick how often: every 4, 8 or 12 weeks. Your scents come again on that schedule for $39 each, with an email reminder before every one. Skip a delivery, swap scents or cancel any time. Pick no refills and nothing renews.</p></details>
     <details><summary>Will it grow mold or leak like my last one?{{i:plus}}</summary><p>No. There is no water in it: no tank, no standing water, nothing that can grow. The bottle locks into the diffuser, so nothing spills and there is nothing to clean.</p></details>
     <details><summary>How many diffusers do I need?{{i:plus}}</summary><p>One covers up to 600 square feet: an open-plan main floor or a large bedroom. For a two-storey home most customers run two, one near the entrance and one upstairs.</p></details>
     <details><summary>What is in the scents?{{i:plus}}</summary><p>Each 100 ml bottle is pure fragrance oil built on notes you can name:</p><ul><li>Golden Blossom Harmony: buttercup, honeysuckle and sunflower.</li><li>Crisp Citrus Scape: yuzu leaf, green mandarin and cypress.</li><li>Chilled Citrus: chilled lavender, eucalyptus and white citrus.</li><li>Honey Nectar: ginger milk, white birch and eucalyptus honey.</li><li>Euphoric Bloom: jasmine tea, white peach and sandalwood crème.</li><li>Wildwood Mystique: huckleberry, wild juniper and mountain fern.</li><li>Midnight Sensation: moonflower, night lily and skin musk.</li></ul></details>
@@ -608,10 +628,10 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
   var DIFF={1:89,2:159,3:239},REFILL=39;
   var ORDER=['golden','crisp','chilled','honey','euphoric','wildwood','midnight'];
   var NAME={golden:'Golden Blossom Harmony',crisp:'Crisp Citrus Scape',chilled:'Chilled Citrus',honey:'Honey Nectar',euphoric:'Euphoric Bloom',wildwood:'Wildwood Mystique',midnight:'Midnight Sensation'};
-  var AUTO=['chilled','midnight','honey']; /* a soft one, then a bold one, then a medium one */
-  var AUTOT={1:'Can’t decide? Start with a soft one.',2:'Can’t decide? Take one soft, one bold.',3:'Can’t decide? Take one soft, one medium, one bold.'};
+  var AUTO=['midnight','golden','crisp']; /* the three the earlier notes name as best sellers, Midnight Sensation first */
+  var AUTOT={1:'Can’t decide? Take our best seller.',2:'Can’t decide? Take our best sellers.',3:'Can’t decide? Take our best sellers.'};
   /* one free scent per diffuser: the picks must add up to the number of diffusers */
-  var st={diff:2,picks:{},plan:'sub'};
+  var st={diff:2,picks:{},freq:4}; /* freq: weeks between refills, 0 = no refills */
   ORDER.forEach(function(k){st.picks[k]=0});
   var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
   function count(){return ORDER.reduce(function(a,k){return a+st.picks[k]},0)}
@@ -620,16 +640,15 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
   function trim(){while(count()>st.diff){var k=ORDER.slice().reverse().reduce(function(b,c){return st.picks[c]>st.picks[b]?c:b});st.picks[k]--}}
   function isAuto(){return count()===st.diff&&AUTO.slice(0,st.diff).every(function(k){return st.picks[k]===1})}
   function render(){
-    var n=count(),need=st.diff,left=need-n,total=DIFF[need],sub=st.plan==='sub';
+    var n=count(),need=st.diff,left=need-n,total=DIFF[need],sub=st.freq>0;
     $$('#diffs .cardb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===need))});
     $('#s2-h').textContent='Pick your '+(need>1?need+' free scents.':'free scent.');
     var c=$('#count');c.textContent=n+' of '+need+' picked';c.className='count'+(left===0?' ok':'');
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     $('#each1').hidden=isAuto();$('#each1-t').textContent=AUTOT[need];
-    $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
-    $('#sub-each').textContent=pl(need,'scent')+' every 4 weeks for '+money(need*REFILL);
+    $$('#freqs .qtyb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.f===st.freq))});
     $('#due').textContent=pl(need,'diffuser')+' '+money(total)+' + '+pl(need,'scent')+' free';
-    $('#renew').textContent=sub?'Then your '+(need>1?need+' scents come':'scent comes')+' again every 4 weeks for '+money(need*REFILL)+(need>1?' ('+money(REFILL)+' each)':'')+'. Skip, swap or cancel any time.':'Nothing renews. Your '+(need>1?need+' scents are':'scent is')+' still free.';
+    $('#renew').textContent=sub?'Then your '+(need>1?need+' scents come':'scent comes')+' again every '+st.freq+' weeks for '+money(need*REFILL)+(need>1?' ('+money(REFILL)+' each)':'')+'. Skip, swap or cancel any time.':'Nothing renews. Your '+(need>1?need+' scents are':'scent is')+' still free.';
     var cta=$('#cta');cta.disabled=left>0;
     $('#cta-t').textContent=left>0?(n===0?'Pick your '+(need>1?need+' free scents':'free scent'):'Pick '+left+' more free scent'+(left>1?'s':'')):'Checkout · ';
     $('#cta-amt').textContent=left>0?'':money(total);
@@ -640,11 +659,11 @@ h1.hd span{display:block;font-size:.56em;font-weight:600;letter-spacing:-.02em;l
     r.querySelector('.inc').addEventListener('click',function(){if(count()<st.diff){st.picks[k]++;render()}});
     r.querySelector('.dec').addEventListener('click',function(){if(st.picks[k]>0){st.picks[k]--;render()}});
   });
-  $$('#plans .plan').forEach(function(b){b.addEventListener('click',function(){st.plan=b.dataset.p;render()})});
+  $$('#freqs .qtyb').forEach(function(b){b.addEventListener('click',function(){st.freq=+b.dataset.f;render()})});
   var toast=$('#toast'),tt=0;
   function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
   function go(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
-  function auto(){ORDER.forEach(function(k){st.picks[k]=0});AUTO.slice(0,st.diff).forEach(function(k){st.picks[k]=1});render();say(pl(st.diff,'free scent')+' picked for you.')}
+  function auto(){ORDER.forEach(function(k){st.picks[k]=0});AUTO.slice(0,st.diff).forEach(function(k){st.picks[k]=1});render();say(st.diff>1?'Our best sellers, picked.':'Our best seller, picked.')}
   $('#each1').addEventListener('click',auto);
   $('#trio2').addEventListener('click',function(){auto();go('step2')});
   $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});

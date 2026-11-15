@@ -25,9 +25,42 @@ from his other brand as the format the final result should follow. That file is 
   brand board (his reference board is one: brand, colour, typography, imagery, iconography, UI and touchpoints), plus the logo
   he keeps. Do not raise products, formats, prices, stock, sales channels, offers or claims again. Scent system and packaging
   are out of scope until he brings them up.
-- Step 2 (only after round two is answered): two or three directions, each as a short board.
-- Step 3 (after he picks): the full brand board, then the roll-out.
-- NO design work before he says so. Nothing on Shopify changes in any of this until he says so.
+- GO-AHEAD (2026-11-15, question dialog): "Full board now" (he skipped the two-directions step), pictures "Both" (evening
+  scenes with a woman plus texture close-ups), "Light + dark sections".
+- Step 3 BUILT, first draft (2026-11-15): artifact "Maison Croyez Brand Board"
+  https://claude.ai/artifact/GdkV9ERQHTegES3nrP3WJ8 (v1). Source in board/ (see "The board" below). Waiting for his review
+  and for three choices the page lets him compare: signature color, headline style, tagline.
+- Nothing on Shopify changes in any of this until he says so. The live pages are untouched.
+
+## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
+- Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·
+  05 Imagery · 06 Iconography · 07 UI & touchpoints (eight components, a desktop home hero, a phone night section, three
+  scent tiles). Cream pages with Night bands. No products, prices, offers or claims in it; sample UI copy stays generic.
+- Brand words: statement, mission "Give her the evening back.", audience "Women 35 and up." (readable for 55+),
+  personality "Calm and plain-spoken.", pillars Evening first / Scent leads / Simple as 1, 2, 3 / High-end, within reach.
+  Tagline proposed "Believe in the evening." (Croyez = believe); alternates "The day ends here." and "Stress, meet your
+  match.". Voice: short, plain, benefit first, a light smile. French touch: "Bonsoir" opens, "Bonne nuit" closes.
+- Color: Cream #F6F1E7, Night #1F1B18, signature Blue Hour #4B55D6 (recommended; on Night #A9AEF7, wash #E6E7FA). Switchable
+  alternates on the page: Ember #E4572E (needs dark button text) and Fig #7D3C74. Neutrals Paper #FCFAF5, Sand #EAE1D1,
+  Stone #CFC4B1, Driftwood #6E655B, Dusk #2B2622; Alert #B4432B. Ratio 70 neutrals / 20 Night / 10 signature. Other color
+  comes only from pictures and scent tiles (three placeholder tints).
+- Type: DM Sans Bold headlines (sentence case, closed with a period), DM Sans text, Roboto Mono capitals for labels. This is
+  Ketro's pair with the mono moved from headlines to labels. Switchable alternates: Roboto Mono capitals as Ketro, and
+  Instrument Serif. All free on Google Fonts.
+- Logo: kept as is. Three source PNGs (1080 px): two-line (repo root "MC VERSION 2-01 (1).png"), stamp (Drive "MC VERSION
+  1-01.png", id 1iVtZaZlUtNUZcklZYf0BlA1P6QDEnSKu), monogram (Drive "VERSION 4-01.png", id 1XDp3NHnNClAIhMZPLRaXB2dl6h7ytC8_).
+  Traced to vectors with vtracer at 6x (board/logo/*.svg). No one-line file exists, so the one-line version is the two-line
+  letters set on one line (word space 0.54 of the cap height, measured on the stamp lettering). Good for screens; print
+  needs a hand-finished master. He chose "identical", so nothing was refined.
+- Imagery: dusk and after, one warm lamp, blue at the window, women 35+, water / steam / salt / linen. Nine generated
+  reference pictures (Higgsfield gpt_image_2_6, 2k, 10 jobs incl. one rejected) in board/img/, fetched by
+  .github/workflows/fetch-brand-art.yml. They are references, not final photography.
+- Icons: Lucide (ISC license), stroke 1.5 px; the 21 used are copied into board/icons/.
+- Files: board/board.src.html (the page, with {{logo:..}} and {{i:..}} placeholders) -> `python3 board/build.py` ->
+  board/maison-brand-board.html (published file). Republish: Artifact publish of that file with root = board/ and the nine
+  img/*.webp as files. A local look needs the publish skeleton around the file (doctype + body) and board/img beside it.
+- Not done yet: the board as a "Design System" artifact for building pages, print masters, the three scents and names,
+  packaging. Roll-out to pages only after he approves the board.
 
 ## Decisions (owner, 2026-11-15, round one)
 - Name: still Maison Croyez. He is "open to start our branding process completely from scratch and create a new identity".

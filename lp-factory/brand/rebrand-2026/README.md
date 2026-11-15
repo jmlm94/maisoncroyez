@@ -105,6 +105,8 @@ launch. Ask me questions if needed." (The pattern is now a plain part of the boa
   a record of what was tried; they are not used anywhere. Still open: pump in cream or in the pack color.
 - First page in the new brand (2026-11-15): a bath soak PDP preview, artifact only, following the kits page structure. Source
   and notes in lp-factory/pages/bath-soak/ (README there lists every placeholder). https://claude.ai/artifact/AviMUuKqQSgBeMufQFpJ19
+  Version 2 the same day: after he asked whether I had checked the reference product pages for conversion elements (I had
+  not), I read all five and added the ones that need no new decision or invented fact (list in that README).
 - Higgsfield so far for the rebrand: 26 generations at 2.75 credits.
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)

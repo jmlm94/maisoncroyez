@@ -16,6 +16,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--night);font-family:var(--f);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:84px}
 img,svg{display:block;max-width:100%}
+[hidden]{display:none!important}
 p{margin:0}
 button{font-family:inherit;color:inherit}
 .w{max-width:1240px;margin:0 auto;padding-left:max(clamp(16px,4vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,48px),env(safe-area-inset-right,0px))}
@@ -50,6 +51,8 @@ button{font-family:inherit;color:inherit}
 .dots{display:flex;gap:7px;justify-content:center;margin-top:12px}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--stone)}
 .dots i.on{background:var(--night)}
+.slide{position:relative}
+.cap{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);background:rgba(22,18,16,.86);color:var(--cream);border-radius:8px;padding:9px 12px;font-weight:600;font-size:15.5px;letter-spacing:-.01em;line-height:1.25}
 .eyebrow{color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .new{background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
 h1.hd{font-size:clamp(34px,4.6vw,54px)}
@@ -72,6 +75,10 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .cardb .p{font-weight:700;font-size:22px;letter-spacing:-.03em;margin-top:6px;display:block}
 .cardb .was{color:var(--drift);text-decoration:line-through;font-size:13.5px;margin-left:5px;font-weight:500}
 .cardb .each{display:block;font:500 11.5px/1.4 var(--m);color:var(--drift);margin-top:4px}
+.cardb .sv{display:inline-block;margin-top:8px;font:600 10.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 6px;white-space:nowrap}
+.cardb .sv.none{background:transparent;color:var(--drift);padding-left:0}
+.each1{display:flex;align-items:center;gap:8px;margin-top:10px;background:transparent;border:0;padding:6px 0;min-height:44px;font:600 15.5px var(--f);color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
+.each1 .ic{font-size:18px}
 .rows{display:grid;gap:8px}
 .row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--paper);border:1px solid var(--stone);border-radius:12px;padding:10px 12px 10px 10px}
 .sw{width:64px;height:64px;border-radius:9px;color:var(--cream);display:flex;align-items:flex-end;padding:7px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
@@ -89,6 +96,12 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .plan b{display:block;font-size:17.5px;letter-spacing:-.01em;color:var(--night)}
 .plan span{color:var(--drift);font-size:14.5px;display:block}
 .plan .amt{font-weight:700;font-size:18px;white-space:nowrap;color:var(--night)}
+.plan{position:relative}
+.plan .tag{position:absolute;top:-10px;right:12px;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--sig);color:#fff;border-radius:5px;padding:5px 7px;white-space:nowrap}
+.plan .incl{display:none;margin-top:10px;gap:7px}
+.plan[aria-pressed="true"] .incl{display:grid}
+.plan .incl span{display:flex;gap:8px;align-items:flex-start;color:var(--night);font-size:15px;line-height:1.35}
+.plan .incl .ic{color:var(--ink);font-size:17px;margin-top:2px}
 .freq{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:15px;color:var(--drift)}
 .freq select{font:500 15px var(--f);color:var(--night);background:#fff;border:1px solid var(--stone);border-radius:8px;height:44px;padding:0 10px}
 .cta{width:100%;margin-top:20px;min-height:58px;border:0;border-radius:8px;background:var(--sig);color:#fff;font:600 18px/1 var(--f);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
@@ -97,6 +110,9 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;text-align:center}
 .trust div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13.5px;font-weight:600;line-height:1.25}
 .trust .ic{font-size:22px;color:var(--ink)}
+.faq.acc{margin-top:22px;max-width:none}
+.faq.acc summary{font-size:16.5px;padding:15px 0}
+.faq.acc p{font-size:15.5px;padding-bottom:16px}
 
 /* sections */
 section.s{padding-block:clamp(52px,7vw,104px)}
@@ -135,6 +151,13 @@ section.s{padding-block:clamp(52px,7vw,104px)}
 .how .n i{flex:1;height:1px;background:var(--night);opacity:.4}
 .how b{display:block;font-size:24px;letter-spacing:-.03em;line-height:1.1}
 .how p{color:var(--drift);font-size:16px;margin-top:6px}
+.tl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.4vw,36px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:760px){.tl{grid-template-columns:minmax(0,1fr);gap:26px}}
+.tl .n{display:flex;align-items:center;gap:10px;font:600 12px var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
+.tl .n::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--sig);flex:none}
+.tl .n i{flex:1;height:1px;background:var(--night);opacity:.4}
+.tl b{display:block;font-size:24px;letter-spacing:-.03em;line-height:1.12}
+.tl p{color:var(--drift);font-size:16px;margin-top:8px;max-width:26em}
 .txt p{font-size:17.5px;max-width:34em}
 .txt p + p{margin-top:14px}
 .ticks{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px;font-weight:600}
@@ -163,6 +186,32 @@ section.s{padding-block:clamp(52px,7vw,104px)}
 .rev .st{display:flex;gap:3px;font-size:18px;color:var(--stone)}
 .rev i{display:block;height:10px;border-radius:5px;background:var(--sand)}
 .rev .lab{color:var(--drift);margin-top:auto}
+.proof{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:860px){.proof{grid-template-columns:minmax(0,1fr)}}
+.slot{border:1.5px dashed var(--stone);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.slot .sk{display:block;width:92px;height:46px;border-radius:8px;background:var(--sand)}
+.slot .st{display:flex;gap:3px;font-size:18px;color:var(--stone)}
+.slot p{color:var(--drift);font-size:14.5px;line-height:1.4}
+.slot .lab{color:var(--drift);margin-top:auto;padding-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.6vw,22px);align-content:start}
+.stats .slot{padding:clamp(12px,2vw,20px)}
+.stats .sk{width:min(92px,100%)}
+.stats>p{grid-column:1/-1;color:var(--drift);font-size:14.5px;line-height:1.4}
+.vids{display:flex;gap:clamp(10px,1.6vw,22px);margin-top:clamp(10px,1.6vw,22px);overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.vids::-webkit-scrollbar{display:none}
+.vid{flex:0 0 clamp(150px,22vw,230px);aspect-ratio:9/16;border:1.5px dashed var(--stone);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:14px;text-align:center}
+.vid .ic{font-size:30px;color:var(--stone)}
+.vid .lab{color:var(--drift)}
+.revs{margin-top:clamp(10px,1.6vw,22px)!important}
+.also{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:640px){.also{grid-template-columns:minmax(0,1fr)}}
+.also a{display:grid;grid-template-columns:minmax(0,1fr);background:var(--paper);border:1px solid var(--stone);border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;cursor:pointer}
+.also .pic{border-radius:0;aspect-ratio:3/2}
+.also .tx{padding:clamp(14px,2vw,24px);display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:0}
+.also .lab{color:var(--ink)}
+.also b{font-size:clamp(20px,2.2vw,26px);letter-spacing:-.03em;line-height:1.1}
+.also p{color:var(--drift);font-size:15.5px}
+.also .go{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;font-size:15.5px;color:var(--ink)}
 .faq{margin-top:clamp(20px,3vw,36px);max-width:860px}
 .faq details{border-top:1px solid var(--stone)}
 .faq details:last-child{border-bottom:1px solid var(--stone)}
@@ -205,11 +254,11 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div class="gal">
     <div class="track" id="track">
       <div class="slide"><img id="hero-img" src="img/soak-unwind.webp" alt="The Maison Croyez magnesium bath soak pouch" width="2000" height="2000"></div>
-      <div class="slide"><img src="img/soak-lineup.webp" alt="The three scents side by side: Unwind, Be here and Drift off" loading="lazy"></div>
-      <div class="slide"><img src="img/soak-dusk.webp" alt="The pouch on a ledge beside a steaming bath at dusk" loading="lazy"></div>
-      <div class="slide"><img src="img/soak-pour.webp" alt="Bath salts pouring from the pouch into warm water" loading="lazy"></div>
-      <div class="slide"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"></div>
-      <div class="slide"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy" style="object-position:center 20%"></div>
+      <div class="slide"><img src="img/soak-lineup.webp" alt="The three scents side by side: Unwind, Be here and Drift off" loading="lazy"><span class="cap">Three scents. Mix them as you like.</span></div>
+      <div class="slide"><img src="img/soak-dusk.webp" alt="The pouch on a ledge beside a steaming bath at dusk" loading="lazy"><span class="cap">Made for the end of the day.</span></div>
+      <div class="slide"><img src="img/soak-pour.webp" alt="Bath salts pouring from the pouch into warm water" loading="lazy"><span class="cap">One step. Pour it in.</span></div>
+      <div class="slide"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"><span class="cap">Magnesium bath salts and scent.</span></div>
+      <div class="slide"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy" style="object-position:center 20%"><span class="cap">Love your evenings in 30 days, or every dollar back.</span></div>
     </div>
     <button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button>
     <button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button>
@@ -225,9 +274,9 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     <div class="step">
       <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many bags?</h2><span class="pill">Buy more. Save more.</span></div>
       <div class="cards" id="bags">
-        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$28</span><span class="each">$28.00 each</span></button>
-        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 bags</b><span class="p">$50<span class="was">$56</span></span><span class="each">$25.00 each</span></button>
-        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Best value</span><b>3 bags</b><span class="p">$66<span class="was">$84</span></span><span class="each">$22.00 each</span></button>
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$28</span><span class="each">$28.00 each</span><span class="sv none">Try it</span></button>
+        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 bags</b><span class="p">$50<span class="was">$56</span></span><span class="each">$25.00 each</span><span class="sv">Save 11%</span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Best value</span><b>3 bags</b><span class="p">$66<span class="was">$84</span></span><span class="each">$22.00 each</span><span class="sv">Save 21%</span></button>
       </div>
     </div>
 
@@ -238,12 +287,13 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
         <div class="row" data-k="be-here"><div class="sw" style="background:var(--euca)">02</div><div><b>Be here.</b><span>Eucalyptus · for the evening you want to notice</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Be here">{{i:plus}}</button></div></div>
         <div class="row" data-k="drift-off"><div class="sw" style="background:var(--lav)">03</div><div><b>Drift off.</b><span>Lavender · for the night that needs to end well</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Drift off">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Drift off">{{i:plus}}</button></div></div>
       </div>
+      <button class="each1" type="button" id="each1">Can’t decide? Take one of each. {{i:arrow-right}}</button>
     </div>
 
     <div class="step">
       <div class="step-h"><span class="lab">Step 3 of 3</span><h2 class="hd">How do you want it?</h2></div>
       <div class="plans" id="plans">
-        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="radio"></span><span><b>Subscribe and save 15%</b><span>Delivered on your schedule. Skip or cancel any time.</span></span><span class="amt" id="amt-sub">$42.50</span></button>
+        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="tag">Best deal</span><span class="radio"></span><span><b>Subscribe and save 15%</b><span>Delivered on your schedule.</span><span class="incl"><span>{{i:check}}<span id="sub-each">$21.25 a bag instead of $25.00</span></span><span>{{i:check}}15% off every delivery, not only the first</span><span>{{i:check}}Free shipping every time</span><span>{{i:check}}Skip, swap scents or cancel any time</span><span>{{i:check}}Covered by the 30-day money-back promise</span></span></span><span class="amt" id="amt-sub">$42.50</span></button>
         <button class="plan" type="button" data-p="once" aria-pressed="false"><span class="radio"></span><span><b>One-time purchase</b><span>Pay once.</span></span><span class="amt" id="amt-once">$50.00</span></button>
       </div>
       <div class="freq" id="freq"><label for="freq-sel">Deliver every</label><select id="freq-sel"><option>30 days</option><option>45 days</option><option>60 days</option></select></div>
@@ -251,6 +301,11 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 
     <button class="cta" type="button" id="cta">Add to bag · <span id="cta-amt">$42.50</span> {{i:arrow-right}}</button>
     <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:rotate-ccw}}30-day money-back</div><div>{{i:calendar-check}}Skip or cancel any time</div></div>
+    <div class="faq acc">
+      <details><summary>What’s inside + the scents{{i:plus}}</summary><p>Magnesium bath salts and scent. Unwind is sandalwood, Be here is eucalyptus and Drift off is lavender. The full ingredient list will be printed here before launch.</p></details>
+      <details><summary>How to use + tips{{i:plus}}</summary><p>Run a warm bath, pour a generous handful under the tap and stay about twenty minutes. Dim the lights while it fills, and leave the phone outside.</p></details>
+      <details><summary>Shipping + returns{{i:plus}}</summary><p>Free shipping on every order. Not for you? Tell us within 30 days and we refund everything. Don’t love a scent? We swap it.</p></details>
+    </div>
   </div>
 </div></div>
 
@@ -293,7 +348,18 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   </div>
 </div></section>
 
-<section class="s"><div class="w"><div class="split">
+<section class="s"><div class="w">
+  <span class="lab sec-e">What to expect</span>
+  <h2 class="hd sec-h">One bath is a treat. A month is a habit.</h2>
+  <div class="tl">
+    <div><div class="n">Night one<i></i></div><b>Twenty minutes that are yours.</b><p>Door closed, phone outside, warm water up to your shoulders. You get out unhurried.</p></div>
+    <div><div class="n">Week one<i></i></div><b>It starts to feel like the end of the day.</b><p>A few baths in, the scent does the work. You smell it and you slow down.</p></div>
+    <div><div class="n">Month one<i></i></div><b>The evening has a shape.</b><p>The bag is nearly empty and the habit has stuck. If you subscribe, the next one is already on its way.</p></div>
+  </div>
+  <button class="btn2" type="button" data-top>Choose your bags {{i:arrow-right}}</button>
+</div></section>
+
+<section class="s sand"><div class="w"><div class="split">
   <div class="pic"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy"></div>
   <div class="txt">
     <span class="lab sec-e">When it fits</span>
@@ -304,7 +370,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   </div>
 </div></div></section>
 
-<section class="s sand"><div class="w">
+<section class="s"><div class="w">
   <span class="lab sec-e">Three scents, three moods</span>
   <h2 class="hd sec-h">Meet the scents.</h2>
   <div class="tiles">
@@ -327,7 +393,22 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 <section class="s"><div class="w">
   <span class="lab sec-e">Reviews</span>
   <h2 class="hd sec-h">What she says.</h2>
-  <p class="lede" style="color:var(--drift)">Reviews open at launch. Only real ones go here.</p>
+  <p class="lede" style="color:var(--drift)">Reviews open at launch. Only real ones go here. Every box below is an empty placeholder until then.</p>
+  <div class="proof">
+    <div class="slot"><i class="sk"></i><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><p>The rating and the number of reviews. The same line also goes beside the product name at the top.</p><span class="lab">Rating slot</span></div>
+    <div class="stats">
+      <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
+      <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
+      <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
+      <p>Three results from a customer survey, with the number of people asked printed underneath.</p>
+    </div>
+  </div>
+  <div class="vids">
+    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
+    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
+    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
+    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
+  </div>
   <div class="revs">
     <div class="rev"><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><i style="width:92%"></i><i style="width:78%"></i><i style="width:55%"></i><span class="lab">Review slot</span></div>
     <div class="rev"><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><i style="width:86%"></i><i style="width:94%"></i><i style="width:40%"></i><span class="lab">Review slot</span></div>
@@ -336,6 +417,15 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 </div></section>
 
 <section class="s sand"><div class="w">
+  <span class="lab sec-e">Pairs well with</span>
+  <h2 class="hd sec-h">Complete the evening.</h2>
+  <div class="also">
+    <a data-soon><div class="pic"><img src="img/also-steamers.webp" alt="The Maison Croyez shower steamers in three scents" loading="lazy"></div><div class="tx"><span class="lab">No bath tonight</span><b>Shower steamers</b><p>The same three scents, for the nights there is only time for a shower.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
+    <a data-soon><div class="pic"><img src="img/also-spray.webp" alt="The Maison Croyez magnesium body spray in three scents" loading="lazy"></div><div class="tx"><span class="lab">After the bath</span><b>Magnesium body spray</b><p>The last step before bed, in the scent you picked for the bath.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
+  </div>
+</div></section>
+
+<section class="s"><div class="w">
   <span class="lab sec-e">FAQ</span>
   <h2 class="hd sec-h">Questions? Answered.</h2>
   <div class="faq">
@@ -343,6 +433,9 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     <details><summary>Which scent should I start with?{{i:plus}}</summary><p>Unwind if you need to come down after the day. Be here if you want a clear head. Drift off if the next stop is bed.</p></details>
     <details><summary>When is the best time?{{i:plus}}</summary><p>In the evening, about an hour before bed.</p></details>
     <details><summary>What is in it?{{i:plus}}</summary><p>Magnesium bath salts and scent. The full ingredient list will be printed here before launch.</p></details>
+    <details><summary>How strong is the scent?{{i:plus}}</summary><p>It fills the bathroom while you soak and fades after. It is made to calm you, not to perfume the house.</p></details>
+    <details><summary>How many baths are in a bag?{{i:plus}}</summary><p>The number of baths per bag will be printed here before launch.</p></details>
+    <details><summary>What if it is not for me?{{i:plus}}</summary><p>Tell us within 30 days and we refund everything. If it is only the scent, we swap it.</p></details>
     <details><summary>Can I change or cancel a subscription?{{i:plus}}</summary><p>Yes. Skip a delivery, swap scents or cancel any time from your account.</p></details>
   </div>
 </div></section>
@@ -373,7 +466,8 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     var c=$('#count');c.textContent=left>0?('Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
     $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
-    $('#amt-sub').textContent=money(sub);$('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
+    $('#amt-sub').textContent=money(sub);$('#sub-each').textContent=money(sub/st.bags)+' a bag instead of '+money(once/st.bags);
+    $('#each1').hidden=st.bags===3&&ORDER.every(function(k){return st.picks[k]===1});$('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
     var cta=$('#cta');cta.disabled=left>0;$('#cta-amt').textContent=money(due);
     if(left>0){cta.firstChild.textContent='Pick '+left+' more scent'+(left>1?'s':'')+' · '}else{cta.firstChild.textContent='Add to bag · '}
     $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · '+money(due);
@@ -386,6 +480,8 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     r.querySelector('.dec').addEventListener('click',function(){if(st.picks[k]>0){st.picks[k]--;render()}});
   });
   $$('#plans .plan').forEach(function(b){b.addEventListener('click',function(){st.plan=b.dataset.p;render()})});
+  $('#each1').addEventListener('click',function(){st.bags=3;ORDER.forEach(function(k){st.picks[k]=1});render();say('One of each. Three bags.')});
+  $$('[data-soon]').forEach(function(a){a.addEventListener('click',function(){say('Preview only. This page is not built yet.')})});
   var toast=$('#toast'),tt=0;
   function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
   $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});

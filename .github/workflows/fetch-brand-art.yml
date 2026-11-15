@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      DEST: lp-factory/brand/rebrand-2026/mockups/img
+      DEST: lp-factory/pages/bath-soak/img
       LIST: |
-        r2-family https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221903_ac9af888-7eb2-4db5-b4d5-edabc94d7488.png
-        r2-sachets https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221902_afb111ed-7b5a-40e7-8b3d-1a498ac82f7c.png
-        r2-jar https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221902_47e9d6e4-838a-46b6-9abe-6e74062393f3.png
-        r2-bottles https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221903_901fb995-6566-46b8-8ab5-421ae34c080a.png
-        r2-model https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_221902_86b1a463-7f17-4eb2-a291-cc4cc7514fcb.png
+        soak-unwind https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_224523_3ff2ccf5-ff4d-4356-8dd4-8756f0ca2ddb.png
+        soak-be-here https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_224523_b2b8b98e-ee0a-4474-98ba-bdf726794abe.png
+        soak-drift-off https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_224523_1e54dd3d-7d9d-45f8-bf3b-48cecd3f8bfe.png
+        soak-dusk https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_224524_798d617a-9122-4773-a64e-4d382a3e5b47.png
+        soak-pour https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_224522_43e9d316-c3bd-4772-b52b-afbd08bad49b.png
     steps:
       - uses: actions/checkout@v4
         with:

@@ -103,7 +103,9 @@ launch. Ask me questions if needed." (The pattern is now a plain part of the boa
   leads, full color, pouch / carton / bottle) is the pack direction, and row 2 is dropped. The page and the artifact are
   back to row 1 only. Row 2's artwork, script and pictures stay in mockups/ (labels/r2-*, img/r2-*, make-labels-r2.js) as
   a record of what was tried; they are not used anywhere. Still open: pump in cream or in the pack color.
-- Higgsfield so far for the rebrand: 21 generations at 2.75 credits.
+- First page in the new brand (2026-11-15): a bath soak PDP preview, artifact only, following the kits page structure. Source
+  and notes in lp-factory/pages/bath-soak/ (README there lists every placeholder). https://claude.ai/artifact/AviMUuKqQSgBeMufQFpJ19
+- Higgsfield so far for the rebrand: 26 generations at 2.75 credits.
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
 - Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·

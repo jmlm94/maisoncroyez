@@ -28,7 +28,7 @@ from his other brand as the format the final result should follow. That file is 
 - GO-AHEAD (2026-11-15, question dialog): "Full board now" (he skipped the two-directions step), pictures "Both" (evening
   scenes with a woman plus texture close-ups), "Light + dark sections".
 - Step 3 BUILT, first draft (2026-11-15): artifact "Maison Croyez Brand Board"
-  https://claude.ai/artifact/GdkV9ERQHTegES3nrP3WJ8 (v2 = board v1.1 after his review, see below). Source in board/.
+  https://claude.ai/artifact/GdkV9ERQHTegES3nrP3WJ8 (v3 = board v1.2 after his two reviews, see below). Source in board/.
   The session does not watch this artifact (webhook limit), so comments on the page do not arrive; he replies in chat.
 - Nothing on Shopify changes in any of this until he says so. The live pages are untouched.
 
@@ -50,6 +50,27 @@ talk about this and figure it ut. the logo needs to be the two line wordmark eve
   is yours. / Believe in the evening. / Unwind in 3, 2, 1. / Scent for the end of the day. / The day ends here. / Stress,
   meet your match.; my picks are the first two) and brand pillars (three builds on the board: A short phrases, B one word
   each, C as beliefs "We believe..."; my pick is C).
+
+## Owner's second review (2026-11-15) -> board v1.2
+His words: "I found another reference which is https://heyhanni.com/ would you get something out of this to make our new
+branding even better. Based on my choice, for the button text make it white than and maybe make the purple a liiiiiitlle
+darker. for the browser tab do whatyou think it's better. Exhale the day is better. With C for the pillars."
+- DECIDED tagline: "Exhale the day." (footer under the logo, end of emails and ads, closing line of the home page; always
+  with the period). "Stress, meet your match." and "Leave the day at the door." stay as campaign headlines.
+- DECIDED pillars, as beliefs: The evening is hers. / Scent is the shortcut. / Rest should be easy. / Premium, within reach.
+- DECIDED signature: white button text, on Blue Hour #6169DF. That is the lightest blue between the first draft (#4B55D6)
+  and his mix (#7A82E7) where white text reaches 4.5:1 (4.57). I told him it is more than "a little" darker and why. Wash
+  #E7E8FB. Links and small labels on light stay Blue Hour Deep #4B55D6 (#6169DF on Cream is 4.2:1, large type and fills
+  only). The page's one switch now compares the decided blue with his lighter mix.
+- DECIDED (he left it to me): the browser tab icon is the M of the wordmark alone; everywhere else the two-line wordmark.
+- Fifth reference, Hanni (captured in lp-factory/recon-brand/heyhanni/; the full-page captures are stretched, the top
+  captures and tokens.json are good). What it does: cream #F4EDE4 with one deep brand color for all text and buttons
+  (#6A1A31), a soft serif display (Cooper Light) over Inter, a 70-year-old model as the hero, its initial repeated as a
+  wallpaper pattern, a centered logo with the menu on the left, short two-word names, small quiet buttons, and a seasonal
+  campaign that takes over only the hero. Taken into v1.2: (1) header with the logo centered; (2) casting from 35 to 70+,
+  "age shown as elegance", with a new reference picture board/img/woman-silver.webp; (3) an OPTIONAL tone-on-tone pattern
+  of the wordmark's M, awaiting his OK; (4) a rule that a seasonal campaign may bring one guest color and a pattern into
+  the hero and top bar only. Not taken: the serif (he locked bold sans), the loud color and wallpaper as the base look.
 
 ## The board (first draft, 2026-11-15; everything in it is a proposal until he confirms)
 - Format: his reference board's parts, plus a logo part. Cover · 01 The brand · 02 Logo · 03 Color · 04 Typography ·

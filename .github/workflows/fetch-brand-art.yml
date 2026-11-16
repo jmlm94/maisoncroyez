@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -12,16 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      DEST: lp-factory/pages/diffuser-kits-rebrand/img
+      DEST: lp-factory/pages/supply/img/variants
       LIST: |
-        dk-one https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231547_1567cb50-5880-45e5-ac00-7fa5b55b3db2.png
-        dk-two https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231549_28eff766-03b8-45c6-81ad-bbe29bc9a528.png
-        dk-three https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231548_90c089eb-8a9a-4c36-a156-a37276fbe3e5.png
-        dk-living https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231547_674b41fb-2759-48d5-8a99-8031ee0c4968.png
-        dk-bedroom https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231547_a5ba1e5a-f23f-4b3c-88dd-69c6a16665dd.png
-        dk-bottle https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231548_62c26052-f6fd-45d7-b8d5-2b6de6cac4a0.png
-        dk-button https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231548_481e914e-1343-4f83-8818-c920eb9030ec.png
-        dk-woman https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261115_231547_5d6c3acf-410e-429d-81ef-b3773b18ddeb.png
+        supply-9-r3 https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155544_74ef56c8-93a7-4fb6-8869-6439c862cce4.png
+        supply-18-r3 https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155543_2de0a5f7-83c0-454c-b0a6-880a0b25b1bb.png
+        supply-24-r3 https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155545_d204278f-7ecb-47ae-9b69-872f36e599de.png
+        supply-24-r3b https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155546_399d00a4-fcbd-4e27-9f54-a7d82fb96edf.png
     steps:
       - uses: actions/checkout@v4
         with:

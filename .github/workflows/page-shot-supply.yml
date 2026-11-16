@@ -1,5 +1,5 @@
 name: page-shot-supply
-# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (9-month supply, scents picked for me, name + email, checkout) that reads /cart.js and clears it. Edit this line and push to run. [run sp5-d40eaf7]
+# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (12-month supply, scents picked for me, name + email, checkout) that reads /cart.js and clears it. Since sp7 the offer opens only from a call link (?t=<unix seconds>), so the run first reads the closed page (no link, expired link) and the link maker (?newlink=1), then opens the page with a fresh link. Edit this line and push to run. [run sp7-21e2d1b]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -52,15 +52,30 @@ jobs:
             const pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(e.message));
             const consoleErrs = []; pg.on('console', (m) => { if (m.type() === 'error') consoleErrs.push(m.text().slice(0, 140)); });
             const failedOwn = []; pg.on('requestfailed', (r) => { const u = r.url(); if (/maisoncroyez\.com|cdn\.shopify\.com\/s\/files/.test(u)) failedOwn.push(u.slice(-70) + ' ' + ((r.failure() || {}).errorText || '')); });
-            await pg.goto(URL_, { waitUntil: 'domcontentloaded' });
+            const T = Math.floor(Date.now() / 1000); const gate = {};
+            try {
+              await pg.goto(URL_, { waitUntil: 'domcontentloaded' }); await pg.waitForSelector('#buybox h1', { timeout: 30000 }); await pg.waitForTimeout(800);
+              gate.noLink = await tx(pg, '#buybox h1'); gate.noLinkTiers = await pg.evaluate(() => document.querySelectorAll('#buybox .tiers [role=radio]').length);
+              await pg.screenshot({ path: `${OUT}/${stamp}-${name}-closed.png` });
+              await pg.goto(URL_ + '?t=' + (T - 25 * 3600), { waitUntil: 'domcontentloaded' }); await pg.waitForSelector('#buybox h1', { timeout: 30000 }); await pg.waitForTimeout(800);
+              gate.expired = await tx(pg, '#buybox h1'); gate.expiredTiers = await pg.evaluate(() => document.querySelectorAll('#buybox .tiers [role=radio]').length);
+              await pg.goto(URL_ + '?newlink=1', { waitUntil: 'domcontentloaded' }); await pg.waitForSelector('.sp-linkbox', { timeout: 30000 }); await pg.waitForTimeout(500);
+              gate.maker = await tx(pg, '#buybox h1'); gate.makerUrl = await pg.evaluate(() => document.querySelector('.sp-linkbox').value);
+              await pg.screenshot({ path: `${OUT}/${stamp}-${name}-maker.png` });
+            } catch (e) { gate.err = e.message.slice(0, 140); }
+            await pg.goto(URL_ + '?t=' + T, { waitUntil: 'domcontentloaded' });
             let mounted = true; try { await pg.waitForSelector('#buybox .tiers [role=radio]', { timeout: 30000 }); } catch (e) { mounted = false; notes.push(`${name}: buy box did not mount`); }
             await pg.waitForTimeout(2000);
             const d = await pg.evaluate(() => ({ key: (([...document.scripts].find((x) => /mc-sp-app\.js/.test(x.src)) || {}).src || 'none').split('v=')[1], title: document.title, h1: (document.querySelector('#buybox h1') || {}).innerText, badge: (document.querySelector('.sp-kicker') || {}).innerText, hero: (() => { const im = document.querySelector('.sp-hero img'); return im ? [im.naturalWidth, im.complete, (im.currentSrc || '').slice(-40)] : null; })(), tiers: [...document.querySelectorAll('#buybox .tiers [role=radio]')].map((e) => (e.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 80)), deadline: (document.querySelector('.sp-deadline') || {}).innerText, cfg: window.MC_SUPPLY || null, imgs: (() => { const a = [...document.querySelectorAll('#root img')]; const bad = a.filter((i) => !i.complete || i.naturalWidth === 0); return { n: a.length, notLoaded: bad.length, notLoadedSrc: bad.slice(0, 5).map((i) => (i.currentSrc || i.src || '').slice(-50)) }; })() }));
             await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step1.png` });
             await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step1-full.png`, fullPage: true });
-            let s2 = null, s3 = null, cart = null;
+            let s2 = null, s3 = null, cart = null, nudge = null;
             if (mounted) {
-              await pg.evaluate(() => document.querySelectorAll('#buybox .tiers [role=radio]')[1].click()); await pg.waitForTimeout(300);
+              await pg.evaluate(() => document.querySelectorAll('#buybox .tiers [role=radio]')[0].click()); await pg.waitForTimeout(300);
+              nudge = await tx(pg, '#buybox .sp-nudge');
+              await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step1-9months.png`, fullPage: true });
+              await pg.evaluate(() => { const n = document.querySelector('#buybox .sp-nudge'); if (n) n.click(); else document.querySelectorAll('#buybox .tiers [role=radio]')[1].click(); }); await pg.waitForTimeout(300);
+              nudge = { text: nudge, selectedAfter: await pg.evaluate(() => [...document.querySelectorAll('#buybox .tiers [role=radio]')].findIndex((e) => e.getAttribute('aria-checked') === 'true' || e.classList.contains('on'))) };
               await pg.evaluate(() => document.querySelector('#buybox .btn.step-next').click()); await pg.waitForTimeout(800);
               await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step2.png` });
               await pg.evaluate(() => document.querySelector('#buybox .sp-pick-btn').click()); await pg.waitForTimeout(400);
@@ -85,7 +100,7 @@ jobs:
                 fs.writeFileSync(`${OUT}/cart-check-latest.txt`, JSON.stringify(cart) + '\n');
               }
             }
-            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ ...d, s2, s3, cart, errs, consoleErrs: consoleErrs.slice(0, 8), failedOwn: failedOwn.slice(0, 8) })}`);
+            notes.push(`${name} ${W}x${H}: ${JSON.stringify({ gate, ...d, nudge, s2, s3, cart, errs, consoleErrs: consoleErrs.slice(0, 8), failedOwn: failedOwn.slice(0, 8) })}`);
             await ctx.close();
           }
           await b.close();

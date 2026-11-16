@@ -96,3 +96,27 @@ automatically our best sellers and thats it. / For the step 3, make them select 
   (the evening first and the candle comparison later, group the seven scents under Unwind / Be here / Drift off, new
   gallery slides, feeling words in place of "Reduce stress & anxiety", proof for "100% organic", the "align yourself"
   wording). Nothing from that list is applied yet.
+
+## Round 4 (2026-11-16, artifact version 4) — "apply all of them" (the eight changes proposed in chat)
+
+1. Evening first. Section order is now: buy box -> "Ten minutes tonight. Every evening after." -> "Living room, bedroom,
+   hallway." -> "As simple as 1, 2, 3." -> night light + timer (new, dark band) -> the scents -> "Say goodbye to sprays,
+   plug-ins and candles." -> the comparison table -> guarantee -> reviews -> pairs well with -> FAQ.
+2. The seven scents sit under the three moods of the new products, in step 2 and in the scents section ("Pick the evening
+   you want."). MY GROUPING, from the notes, to confirm by nose: Unwind = Golden Blossom Harmony, Honey Nectar · Be here =
+   Crisp Citrus Scape, Euphoric Bloom, Wildwood Mystique · Drift off = Chilled Citrus, Midnight Sensation. Mood colors as
+   on the packs: clay #A9512F, green #2F5D4B, violet #5A4694.
+3. Bullets: "Unwind in ten minutes" / "Fills the whole room" / "No water, no flame" (were the old page's three).
+4. Line under the title: "Come home, press once, and let the scent tell you the day is over."
+5. Her evening, not her guests: "Come home to it." in the guarantee, "Soft for a quiet night, fuller when you want more",
+   "where you sit and where you sleep"; the two photos of one woman resting lead, the friends photo sits lower.
+6. Night light and timer: new section "Set it for the evening. It turns itself off." (night light on or off, timer 1 / 3 /
+   6 / 12 hours, three strengths: all read off the old gallery picture lp-factory/assets/cdn/diffuser/d7.png), a line in
+   the "How it works + tips" fold-out and a new FAQ entry "Does it turn itself off?".
+7. Old gallery slides out. Five new ones in the new look, drawn by make-slides.js from the old page's own photos
+   (img/slide-1..5.webp, 1080 px): fills the room / night light + timer / no water, no flame / three moods / the promise.
+   The video stays first.
+8. "100% organic" removed everywhere (label, step 2 line, scents section). It goes back if he has the proof.
+- The guarantee is back to the seal alone; the kitchen photo moved to "Say goodbye". No longer used: old/g-d1, g-d2,
+  g-d3, g-d6 (g-d92 only feeds slide 4), old/kit1-3, old/hero-poster.
+- Checked on phone 400 px and desktop 1440 px: no errors, no sideways scroll, the video plays, every path adds up.

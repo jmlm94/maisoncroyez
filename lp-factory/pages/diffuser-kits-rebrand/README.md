@@ -120,3 +120,12 @@ automatically our best sellers and thats it. / For the step 3, make them select 
 - The guarantee is back to the seal alone; the kitchen photo moved to "Say goodbye". No longer used: old/g-d1, g-d2,
   g-d3, g-d6 (g-d92 only feeds slide 4), old/kit1-3, old/hero-poster.
 - Checked on phone 400 px and desktop 1440 px: no errors, no sideways scroll, the video plays, every path adds up.
+
+## Round 5 (2026-11-16, artifact version 5)
+
+His words: "make them save 25% if they subscribe to refills."
+- Refills on any frequency are 25% off the $39 scent: $29.25 a scent (2 = $58.50, 3 = $87.75 per refill). Step 3 shows
+  "Subscribe. Save 25%.", "$29.25 a scent instead of $39" and the struck $39 on each frequency; the line above the button,
+  the fold-out, the FAQ and the timeline quote the same.
+- MY READING, TO CONFIRM: 25% comes off $39 (so $29.25), not "$39 is already the price after 25% off a $52 scent".
+  Still per scent.

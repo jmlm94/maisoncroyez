@@ -2,7 +2,7 @@
 """Scent Supply page (2026-10-25, owner): a step-by-step page for existing customers who want to stock up and drop
 their subscription. Derived from the live kits app so the branding, components and CSS stay identical:
 
-  step 1  how many months (6 / 9 / 12 / 18) — one payment, free diffusers from 9 months
+  step 1  how many months (9 / 12 / 18 / 24 since 2026-11-16; first 6 / 9 / 12 / 18) — one payment, free diffusers from 12 months
   step 2  pick that many scents (the kits picker, −/+ per scent, "spread evenly" shortcut)
   step 3  review, the name (+ email) on the subscription we cancel for them, secure checkout
 
@@ -44,13 +44,13 @@ if os.path.exists(mosaic) and not LIVE:  # trust 5: provisional hero = a mosaic 
 rex(r'var MC_HERO_POSTER = "[^"]+";', 'var MC_HERO_POSTER = "' + poster + '"; /* supply: placeholder until the owner sends the picture */')
 
 # ---------- the offer ----------
-rex(r"const TIERS = \[.*?\n\];\n", '''const TIERS = [ /* supply (2026-10-25, owner): 6 / 9 / 12 / 18-month supplies for existing customers. One payment, nothing renews; free diffusers from 9 months (1 / 2 / 3). */
-  { key: "m6", months: 6, scents: 6, each: 34.95, n: 0, price: 209.70, name: "6-month supply", tag: "", pop: false },
-  { key: "m9", months: 9, scents: 9, each: 29.95, n: 1, price: 269.55, name: "9-month supply", tag: "Most popular", pop: true },
-  { key: "m12", months: 12, scents: 12, each: 27.95, n: 1, price: 335.40, name: "12-month supply", tag: "", pop: false }, /* owner 2026-10-26: $27.95 a bottle, 1 diffuser (was $24.95 / 2) */
-  { key: "m18", months: 18, scents: 18, each: 24.95, n: 2, price: 449.10, name: "18-month supply", tag: "Best value", pop: false }, /* owner 2026-10-26: $24.95 a bottle, 2 diffusers (was $19.95 / 3) */
+rex(r"const TIERS = \[.*?\n\];\n", '''const TIERS = [ /* supply (2026-10-25, owner): supplies for existing customers. One payment, nothing renews. sp6 (2026-11-16, owner): 9 / 12 / 18 / 24 months at $34.95 / $29.95 / $27.95 / $24.95 a bottle, free diffusers 0 / 1 / 1 / 2 (the first ladder was 6 / 9 / 12 / 18 with the same four prices and 0 / 1 / 1 / 2 diffusers). */
+  { key: "m9", months: 9, scents: 9, each: 34.95, n: 0, price: 314.55, name: "9-month supply", tag: "", pop: false },
+  { key: "m12", months: 12, scents: 12, each: 29.95, n: 1, price: 359.40, name: "12-month supply", tag: "Most popular", pop: true },
+  { key: "m18", months: 18, scents: 18, each: 27.95, n: 1, price: 503.10, name: "18-month supply", tag: "", pop: false },
+  { key: "m24", months: 24, scents: 24, each: 24.95, n: 2, price: 598.80, name: "24-month supply", tag: "Best value", pop: false },
 ];
-const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $30 / $90 / $144 / $270 */
+const TIER_SAVE_SCENTS = (t) => Math.round(t.scents * (SCENT_ONE - t.each) * 100) / 100; /* vs $39.95 a bottle: $45 / $120 / $216 / $360 */
 const SP_STEPS = ["Supply", "Scents", "Checkout"];
 const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
 const SHOP_PAY_INSTALLMENTS = true; /* logic 4 (owner to confirm the store has Shop Pay Installments on): 4 interest-free payments, $50–$999 */
@@ -72,7 +72,7 @@ const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
 
 # selection store: ?months= preselect, the tier price per bottle, no renewals, the cancellation fields
 rep('''  tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("kit"); const i = { one: 0, "1": 0, two: 1, "2": 1, three: 2, "3": 2 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(),''',
-    '''  tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("months"); const i = { "6": 0, "9": 1, "12": 2, "18": 3 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* supply: 9 months preselected; ?months=6|9|12|18 from the email */
+    '''  tierIdx: (() => { try { const k = new URLSearchParams(location.search).get("months"); const i = { "9": 0, "12": 1, "18": 2, "24": 3 }[k]; return i === undefined ? 1 : i; } catch (e) { return 1; } })(), /* supply: 12 months preselected; ?months=9|12|18|24 from the email (an old ?months=6 link lands on 12) */
   cancelName: "", cancelEmail: "", /* supply: the subscription we cancel for them (step 3) */''')
 rep('  scentPrice() { return SCENT_ONE; },', '  scentPrice() { return this.tier().each; },')
 rep('  today() { return this.keys.length * SCENT_ONE; },', '  today() { return this.keys.length * this.tier().each; }, /* supply: the tier price per bottle */')
@@ -154,7 +154,7 @@ rex(r'          <div class="s9-freq-head">How frequently would you like your ref
 rex(r'          \$\{chips\}\n          <\$\{Reviews6\}/> <!-- dk9c.*?\n          </div>\n(?=          <div class="navrow back-only">)', '')
 
 # ---------- checkout: not wired until the SKUs exist ----------
-rex(r'async function addToCart\(setBusy, setToast\) \{.*?\n\}\n', '''const SUPPLY_CART = Object.assign({ variants: { m6: null, m9: null, m12: null, m18: null }, checkoutUrl: "/checkout" }, (window.MC_SUPPLY || {})); /* the page body sets window.MC_SUPPLY = { variants: { m6, m9, m12, m18 }, hero, checkoutUrl } — the "Scent Supply" product, one variant per supply, created 2026-10-26 */
+rex(r'async function addToCart\(setBusy, setToast\) \{.*?\n\}\n', '''const SUPPLY_CART = Object.assign({ variants: { m9: null, m12: null, m18: null, m24: null }, checkoutUrl: "/checkout" }, (window.MC_SUPPLY || {})); /* the page body sets window.MC_SUPPLY = { variants: { m9, m12, m18, m24 }, hero, checkoutUrl } — the "Scent Supply" product, one variant per supply, created 2026-10-26 */
 async function addToCart(setBusy, setToast) {
   const left = selStore.left();
   if (left > 0) { setToast("Pick " + left + " more scent" + (left > 1 ? "s" : "") + " to complete your supply."); return; }
@@ -232,10 +232,10 @@ css += '''
 #root .tier.t9c3.sp-card .t9s-gift.sp-only{color:#141414;font-weight:800;font-size:.92rem;margin:auto 0;padding:14px 0}
 #root .tier.t9c3 .t9s-each.sp-stack{display:grid;gap:2px;margin:3px 0 8px}
 #root .tier.t9c3 .t9s-each.sp-stack b{color:#141414;font-size:.8rem;font-weight:800;line-height:1.15}
-#root .tier.t9c3.sp-card.sp-m6,#root .tier.t9c3.sp-card.sp-m6.on{background:linear-gradient(165deg,#FFFFFF 0%,#F4EBE0 100%)}
-#root .tier.t9c3.sp-card.sp-m9,#root .tier.t9c3.sp-card.sp-m9.on{background:linear-gradient(165deg,#FFF8F4 0%,#F1DCD3 100%)}
-#root .tier.t9c3.sp-card.sp-m12,#root .tier.t9c3.sp-card.sp-m12.on{background:linear-gradient(165deg,#F6FBF7 0%,#DBEEE2 100%)}
-#root .tier.t9c3.sp-card.sp-m18,#root .tier.t9c3.sp-card.sp-m18.on{background:linear-gradient(165deg,#FFFAEE 0%,#F1E2BE 100%)}
+#root .tier.t9c3.sp-card.sp-m9,#root .tier.t9c3.sp-card.sp-m9.on{background:linear-gradient(165deg,#FFFFFF 0%,#F4EBE0 100%)}
+#root .tier.t9c3.sp-card.sp-m12,#root .tier.t9c3.sp-card.sp-m12.on{background:linear-gradient(165deg,#FFF8F4 0%,#F1DCD3 100%)}
+#root .tier.t9c3.sp-card.sp-m18,#root .tier.t9c3.sp-card.sp-m18.on{background:linear-gradient(165deg,#F6FBF7 0%,#DBEEE2 100%)}
+#root .tier.t9c3.sp-card.sp-m24,#root .tier.t9c3.sp-card.sp-m24.on{background:linear-gradient(165deg,#FFFAEE 0%,#F1E2BE 100%)}
 #root .tier.t9c3.sp-card .sp-save{background:rgba(255,255,255,.75)}
 #root #buybox .navrow .pick-hint{color:#141414;font-weight:800}
 #root .s9-res-tx small{font-weight:700;color:#141414}

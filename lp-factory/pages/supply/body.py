@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build page-body.html for /pages/supply from live.json ({"key","hero","variants":{"m6","m9","m12","m18"}}).
+"""Build page-body.html for /pages/supply from live.json ({"key","hero","variants":{"m9","m12","m18","m24"}}).
 
 The body follows the kits page-body pattern (theme overrides on line 1, preloads, the third-party hold script, the loader
 with the cache key) minus the pre-hero: the supply hero is a landscape picture rendered by the app from window.MC_SUPPLY.hero
@@ -9,7 +9,7 @@ import json, os, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 KITS = os.path.join(HERE, "..", "diffuser-kits", "page-body.html")
 cfg = json.load(open(os.path.join(HERE, "live.json")))
-assert cfg["key"] and cfg["hero"] and all(cfg["variants"].get(k) for k in ("m6", "m9", "m12", "m18")), cfg
+assert cfg["key"] and cfg["hero"] and all(cfg["variants"].get(k) for k in ("m9", "m12", "m18", "m24")), cfg
 kits = open(KITS, encoding="utf-8").read()
 style = kits.split("\n")[0]
 assert style.startswith("<style>") and style.endswith("</style>")

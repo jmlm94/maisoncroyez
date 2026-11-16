@@ -124,3 +124,36 @@ padding 9/10 px (compact 7/8 px). LIVE key sp5-d40eaf7 (only mc-sp.css changed).
 `make.py` now reads `base/mc-dk-app.js` + `base/mc-dk.css`, a copy of the kits files at dk9w-fc4b8e5, so the kits dk9x changes
 (new title, cart step, delivery line, icons) do not leak into the supply page. Rebuilding from the base gives byte-identical
 `mc-sp-app.js` / `mc-sp.css` (checked).
+
+## sp6 (2026-11-16, owner) — BUILT AND PREVIEWED, NOT LIVE YET
+
+His words: "Let's do 9 12 18 and 24 months please. We'll preserve 9 with no diffuser, 12 and 18 with one diffuser and 24
+with two! Modify the page as well as the discounts." Prices, from his answer to my question: "9 months 34.95 no diffuser /
+12 months 29.95 1 diffuser / 18 months 27.95 1 diffuser / 24 months 24.95 2 diffuser". The 6-month option: "Remove it".
+
+| supply | scents | each | total today | save vs $39.95 | free diffusers | value shown |
+|---|---|---|---|---|---|---|
+| 9 months | 9 | $34.95 | $314.55 | $45 | none ("Scents only") | $359.55 |
+| 12 months (Most popular, preselected) | 12 | $29.95 | $359.40 | $120 | 1 | $569.35 |
+| 18 months | 18 | $27.95 | $503.10 | $216 | 1 | $809.05 |
+| 24 months (Best value) | 24 | $24.95 | $598.80 | $360 | 2 | $1,138.70 |
+
+- The ladder is the old one moved up a step (same four prices, same 0 / 1 / 1 / 2 diffusers), so "Most popular" + the
+  preselection moved from 9 to 12 and "Best value" from 18 to 24 (my call, told to him). Card tints follow the position.
+- Code: make.py (TIERS, the ?months= map: 9 | 12 | 18 | 24, default 12, an old ?months=6 link lands on 12; SUPPLY_CART
+  keys m9 / m12 / m18 / m24; the four tint rules) and body.py (variant keys). `LIVE=1 python3 make.py` gives the store
+  files in this folder (mc-sp-app.js 132,259 B, mc-sp.css 159,326 B); the only differences from sp5 are those lines.
+- Preview: artifact "MC Scent Supply" https://claude.ai/artifact/JYGDzu63F7bsBSYQqhqVTH (version 12; not watched). Walked
+  on phone 400 px and desktop 1440 px: every supply through the three steps, totals as in the table, no errors.
+- LIVE IS STILL sp5 (key sp5-d40eaf7, the 6 / 9 / 12 / 18 ladder). live.json and page-body.html are untouched.
+- To go live, on his word (store = Maison Croyez, confirm with get-shop-info first):
+  1. Product 15409132994669: variant m9 67864692359277 -> "9-Month Supply", $314.55, compare-at $359.55; m12
+     67864692392045 -> "12-Month Supply + 1 Free Diffuser", $359.40, compare-at $569.35; m18 67864692424813 -> "18-Month
+     Supply + 1 Free Diffuser", $503.10, compare-at $809.05; new variant "24-Month Supply + 2 Free Diffusers", $598.80,
+     compare-at $1,138.70, SKU MC-SUPPLY-24, untracked, continue selling; delete m6 67864692326509 (he chose "Remove it").
+  2. Variant pictures: 9 months shows a diffuser and 18 months shows two today; 24 months has none. New pictures for
+     those three (same method as before, or img/variants/compose.py).
+  3. Commit, fileUpdate mc-sp-app.js 46573254148205 + mc-sp.css 46573254180973 from raw at that commit, live.json (key
+     sp6-<sha7>, variants m9 / m12 / m18 / m24) -> body.py -> pageUpdate 163021881453, then the page-shot-supply check
+     (its cart run must use the new default, 12 months).
+  Order of operations so no buyer hits a mismatch: variants first (prices and the new one), page second, m6 deleted last.

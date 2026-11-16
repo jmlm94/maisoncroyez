@@ -129,3 +129,10 @@ His words: "make them save 25% if they subscribe to refills."
   the fold-out, the FAQ and the timeline quote the same.
 - MY READING, TO CONFIRM: 25% comes off $39 (so $29.25), not "$39 is already the price after 25% off a $52 scent".
   Still per scent.
+
+## Round 6 (2026-11-16, artifact version 6)
+
+His words: "Let's do $29 but maintaining the $29". MY READING (the second number looks like a typo for $39): refills cost
+$29 a scent, shown against the $39 regular price, which stays as the struck price and as the value of the free scents.
+- Refill = $29 a scent (2 = $58, 3 = $87). $10 off $39 is 25.6%, so "Subscribe. Save 25%." stays. Every place that quoted
+  $29.25 now says "$29 instead of $39".

@@ -290,3 +290,9 @@ name stay · q10 products at launch · q12 how many scents, shared across produc
 scent. The rest: likes and dislikes per reference, customer, price, logo, tagline, hero product, scent names, naming scheme,
 packaging (new and current), light or dark, typography, what must survive, photography, voice, provable claims, stress
 language, emojis, board scope, where it goes live first, decision makers and deadline, original files, anything else.
+
+## Connectors, update 2026-11-16
+- Shopify: the owner asked to connect Maison ("Let's get Maison's connected on Shopify"). The connector had dropped off his
+  list; he added it again himself and it now reads the Maison store: get-shop-info = "Maison Croyez", maisoncroyez.com.
+  Only that read was made. The rule stands: confirm the store name before any write, and create or deploy nothing on
+  Shopify until he says so. Triple Whale and Klaviyo were not rechecked (last seen on Carbinox).

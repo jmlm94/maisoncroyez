@@ -552,6 +552,7 @@ async function syncKitCart() {
 }
 const SUPPLY_CART = Object.assign({ variants: { m9: null, m12: null, m18: null, m24: null }, checkoutUrl: "/checkout" }, (window.MC_SUPPLY || {})); /* the page body sets window.MC_SUPPLY = { variants: { m9, m12, m18, m24 }, hero, checkoutUrl } — the "Scent Supply" product, one variant per supply, created 2026-10-26 */
 async function addToCart(setBusy, setToast) {
+  if (offerGate() !== "open") { setToast("This offer has closed. Reply to our message and we will send you a fresh link."); return; } /* sp7 */
   const left = selStore.left();
   if (left > 0) { setToast("Pick " + left + " more scent" + (left > 1 ? "s" : "") + " to complete your supply."); return; }
   const name = (selStore.cancelName || "").trim();
@@ -613,9 +614,21 @@ const SP_STEPS = ["Supply", "Scents", "Checkout"];
 const Steps = ({ n }) => html`<ol class="sp-steps" aria-label=${"Step " + n + " of 3"}>${SP_STEPS.map((s, i) => html`<li key=${s} class=${i + 1 < n ? "done" : i + 1 === n ? "on" : ""} aria-current=${i + 1 === n ? "step" : null}><i>${i + 1 < n ? "\u2713" : i + 1}</i><span>${s}</span></li>`)}</ol>`; /* supply: the progress track replaces the "STEP N OF 3" eyebrow */
 const SHOP_PAY_INSTALLMENTS = true; /* logic 4 (owner to confirm the store has Shop Pay Installments on): 4 interest-free payments, $50–$999 */
 const SHELF_LIFE_MONTHS = 0; /* trust 2: unopened shelf life in months, from the owner; 0 = the sentence is not shown */
-const DEADLINE_HOURS = 24; /* trust 3 (owner): "24 hours to complete", counted from the first visit on this device */
-const deadlineStart = () => { try { const k = "mc_sp_t0"; let v = localStorage.getItem(k); if (!v) { v = String(Date.now()); localStorage.setItem(k, v); } return +v; } catch (e) { return Date.now(); } }; /* owner: the countdown has nothing to do with the emails — it counts from the first visit on this device */
-const DEADLINE_AT = deadlineStart() + DEADLINE_HOURS * 3600 * 1000;
+const DEADLINE_HOURS = 24; /* sp7 (2026-11-16, owner): the price holds for 24 hours from the call. The link sent on the call carries ?t=<unix seconds>; with no link, or 24 hours after it, the offer is closed. It runs in the browser, so it is not tamper-proof; it keeps the promise for everyone who uses the link as sent. */
+const SP_Q = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(""); } })();
+const NEWLINK = !!SP_Q.get("newlink"); /* the team's link maker: /pages/supply?newlink=1 */
+const deadlineStart = () => {
+  const now = Date.now(), k = "mc_sp_call";
+  if (!onStore()) { const st = SP_Q.get("state"); return st === "over" ? now - (DEADLINE_HOURS + 1) * 3600000 : st === "nolink" ? 0 : now; } /* previews are always open; ?state=over|nolink shows the closed screens */
+  let t = 0; const v = +SP_Q.get("t"); if (v > 1.6e9 && v < 4e9) t = v * 1000;
+  if (t > now + 600000) t = now; /* a link stamped in the future counts from now */
+  let s = 0; try { s = +localStorage.getItem(k) || 0; } catch (e) {}
+  if (t > s) { s = t; try { localStorage.setItem(k, String(s)); } catch (e) {} } /* the newest link wins */
+  return s; /* 0 = no link yet */
+};
+const DEADLINE_T0 = deadlineStart();
+const DEADLINE_AT = DEADLINE_T0 ? DEADLINE_T0 + DEADLINE_HOURS * 3600 * 1000 : 0;
+const offerGate = () => (!DEADLINE_T0 ? "nolink" : Date.now() >= DEADLINE_AT ? "over" : "open");
 function Deadline({ compact }) {
   const [now, setNow] = useState(Date.now());
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
@@ -626,6 +639,29 @@ function Deadline({ compact }) {
   return html`<div class=${"sp-deadline" + (compact ? " compact" : "")} role="timer"><span class="sp-dl-lb">Your price is locked for:</span><b class="sp-dl-t">${pad(h)}:${pad(m)}:${pad(sec)}</b></div>`; /* sp4 (owner): the label in caps, the time below it as 00:00:00, on black */
 }
 const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
+function OfferClosed({ why }) { /* sp7: no call link yet, or its 24 hours are over */
+  return html`
+    <section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox">
+      <div class="sp-head"><div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer \u00b7 Subscribers only</span></div>
+        <h1 class="h1-9e sp-h1">${why === "over" ? "Your 24-hour price has ended." : "This offer opens from your personal link."}</h1></div>
+      <div class="sp-closed"><p>${why === "over"
+        ? html`We held your Black Friday price for 24 hours from our call. <b>Want it back?</b> Reply to the message we sent you and we will send you a fresh link.`
+        : html`This Black Friday offer is for our subscribers, and it opens from the link we send you on our call. <b>Already spoke with us?</b> Open the link in our text or email.`}</p></div>
+    </div></div></section>`;
+}
+function LinkMaker() { /* sp7: /pages/supply?newlink=1, for the person making the calls */
+  const mk = () => location.origin + location.pathname + "?t=" + Math.floor(Date.now() / 1000);
+  const [url, setUrl] = useState(mk());
+  const [done, setDone] = useState(false);
+  const copy = () => { const u = mk(); setUrl(u); const ok = () => { setDone(true); setTimeout(() => setDone(false), 2500); }; try { navigator.clipboard.writeText(u).then(ok, () => {}); } catch (e) {} };
+  return html`
+    <section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox">
+      <div class="sp-head"><div class="sp-kicker-row"><span class="sp-kicker">For the team</span></div><h1 class="h1-9e sp-h1">Link for this call</h1></div>
+      <div class="sp-closed"><p>Tap the button while she is on the line, then send her the link by text or email. It opens the offer for <b>24 hours from now</b>. Make a new one for every call.</p>
+        <input class="sp-linkbox" readonly value=${url} aria-label="Link for this call" onFocus=${(e) => e.target.select()}/>
+        <button class="btn atc" onClick=${copy}><span>${done ? "Copied \u2713" : "Copy the link for this call"}</span></button></div>
+    </div></div></section>`;
+}
 /* dk7 (2026-10-13, owner): one refill option (every 30 days, $15 off) or one-time; "Where it goes" floor plans per kit: 1 = one room, 2 = two zones in one bigger room, 3 = two in the living room + one in the bedroom */
 const PLANS = { one: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: one diffuser in a studio"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="120" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="36" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="42" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="160" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="170" cy="100" r="86" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="170" cy="100" r="9" fill="#141414"/><circle cx="170" cy="100" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">STUDIO</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">ONE ROOM, UP TO 600 SQ FT</text></svg>', two: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in one large room"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="26" y="24" width="130" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="64" width="60" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="212" y="78" width="72" height="44" rx="6" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="66" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="222" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="254" y="124" width="20" height="10" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="262" y="160" width="36" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="98" cy="80" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="98" cy="80" r="9" fill="#141414"/><circle cx="98" cy="80" r="3.5" fill="#fff"/><circle cx="226" cy="124" r="64" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="226" cy="124" r="9" fill="#141414"/><circle cx="226" cy="124" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="22" y="191" font-family="Outfit,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing=".8" fill="#5C4F46">OR THE BEDROOM, OR THE KITCHEN</text></svg>', three: '<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan: two diffusers in the living room, one in the bedroom"><rect x="8" y="8" width="304" height="194" rx="3" fill="#FAFAF8" stroke="#241C18" stroke-width="3"/><line x1="196" y1="8" x2="196" y2="88" stroke="#241C18" stroke-width="3"/><line x1="196" y1="124" x2="196" y2="202" stroke="#241C18" stroke-width="3"/><path d="M196 88 a36 36 0 0 1 36 36" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="196" y1="88" x2="232" y2="88" stroke="#241C18" stroke-width="1.4"/><line x1="8" y1="150" x2="8" y2="188" stroke="#FAFAF8" stroke-width="4"/><path d="M8 188 a38 38 0 0 1 38 -38" fill="none" stroke="#241C18" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="30" y="118" width="98" height="30" rx="8" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="40" y="110" width="78" height="12" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="56" y="62" width="60" height="28" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="26" y="24" width="150" height="14" rx="2" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="112" rx="5" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="214" y="40" width="80" height="26" rx="4" fill="none" stroke="#5C4F46" stroke-width="1.6"/><rect x="222" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="258" y="46" width="28" height="14" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.2"/><rect x="214" y="166" width="30" height="24" rx="3" fill="none" stroke="#5C4F46" stroke-width="1.6"/><circle cx="100" cy="64" r="52" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="100" cy="64" r="9" fill="#141414"/><circle cx="100" cy="64" r="3.5" fill="#fff"/><circle cx="150" cy="150" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="150" cy="150" r="9" fill="#141414"/><circle cx="150" cy="150" r="3.5" fill="#fff"/><circle cx="254" cy="118" r="46" fill="rgba(31,107,58,.08)" stroke="#1F6B3A" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="254" cy="118" r="9" fill="#141414"/><circle cx="254" cy="118" r="3.5" fill="#fff"/><text x="22" y="176" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">LIVING ROOM</text><text x="208" y="196" font-family="Outfit,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" fill="#241C18">BEDROOM</text></svg>' };
 const TIER_SAVE = (t) => t.n * DIFF_LIST + SCENT_ONE - t.price; /* vs buying each diffuser at $129.95 + the scent */
@@ -920,6 +956,8 @@ function BuyBox() {
   const T = sel.tier();
   const left = sel.left();
   const step = sel.step || 1;
+  const [gate, setGate] = useState(offerGate());
+  useEffect(() => { const t = setInterval(() => { const g = offerGate(); setGate((p) => (p === g ? p : g)); }, 5000); return () => clearInterval(t); }, []); /* sp7: the page closes when the 24 hours run out */
   const goReviews = () => { let n = 0; const f = () => { const el = document.getElementById("sec-reviews"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; } if (n++ < 40) setTimeout(f, 50); }; f(); };
   const go = (n) => { sel.setStep(n); requestAnimationFrame(() => { window.scrollTo(0, 0); }); }; /* steps start at the top: announcement bar, header, then the step */
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
@@ -933,6 +971,8 @@ function BuyBox() {
             <span class="atc-chip"><span class="atc-chip-ic" aria-hidden="true">🔧</span><span><b>Lifetime Warranty</b><small>On Every Diffuser</small></span></span>
           </div>`;
   const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
+  if (NEWLINK) return html`<${LinkMaker}/>`;
+  if (gate !== "open") return html`<${OfferClosed} why=${gate}/>`;
   return html`
     <section class=${"section pdp-buy step-" + step} id="buybox">
       <div class="wrap">
@@ -940,8 +980,8 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker-row"><span class="sp-kicker">Exclusive for Maison Croyez VIP Customers</span></div>
-            <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
+            <div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer · Subscribers only</span></div>
+            <h1 class="h1-9e sp-h1">One payment. No more monthly charges. We cancel your subscription for you.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
 
@@ -961,6 +1001,7 @@ function BuyBox() {
                 <span class="t9s-total"><small>Total today</small><b>${usd(t.price)}</b>${SHOP_PAY_INSTALLMENTS ? html`<small class="sp-inst">or 4 \u00d7 ${inst(t.price)} with <span class="sp-splogo" aria-label="Shop Pay" dangerouslySetInnerHTML=${{ __html: PAY_ICONS.shop }}></span></small>` : null}</span>
               </div>`; })}
           </div>
+          ${T.key === "m9" ? html`<button type="button" class="sp-nudge" onClick=${() => sel.setTier(1)}><b>12 months is only ${usd(Math.round((TIERS[1].price - T.price) * 100) / 100)} more</b> and adds a free diffuser. <u>Switch to 12 months</u></button>` : null} <!-- sp7 (owner): the first argument of the call guide -->
           <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->
             <li><b>Today:</b> one payment of <b class="t9p4-n">${usd(T.price)}</b>. Nothing renews.</li>
             <li><b>One box</b> with your ${T.scents} scents${T.n ? html` and <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b>` : ""}. Free shipping.</li>
@@ -1197,6 +1238,7 @@ function StickyBar() {
   const goPick = () => { const el = document.querySelector("#buybox .picker"); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
   const label = busy ? "One moment\u2026" : step === 1 ? "Pick my " + T.scents + " scents \u2794" : step === 2 ? (left > 0 ? `${T.scents - left} of ${T.scents} picked \u00b7 ${left} more` : "Review my supply \u2794") : "\ud83d\udd12 SECURE CHECKOUT \u2794"; /* dk9: step-aware; dk9l: straight to checkout */
   const act = () => { if (step === 1) return go(2); if (step === 2) { if (left > 0) return goPick(); return go(3); } addToCart(setBusy, setToast); }; /* dk9m: review = cart add */
+  if (NEWLINK || offerGate() !== "open") return null; /* sp7: no button while the offer is closed */
   return html`
     <div class=${"sticky" + (show ? " show" : "")}>
       <button class="btn" disabled=${busy || (step === 2 && left > 0)} onClick=${act}>

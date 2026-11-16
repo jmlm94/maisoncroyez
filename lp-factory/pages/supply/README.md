@@ -157,3 +157,31 @@ with two! Modify the page as well as the discounts." Prices, from his answer to 
      sp6-<sha7>, variants m9 / m12 / m18 / m24) -> body.py -> pageUpdate 163021881453, then the page-shot-supply check
      (its cart run must use the new default, 12 months).
   Order of operations so no buyer hits a mismatch: variants first (prices and the new one), page second, m6 deleted last.
+
+## sp7 (2026-11-16, owner, after his call guide for Maria) — BUILT AND PREVIEWED, NOT LIVE YET (goes live with sp6)
+
+He sent "Subscriber Switch Call Guide for Maria" (the page is what subscribers see while Maria is on the phone with them)
+and asked what I would add. Of my six suggestions he took: "1. Let's just leave the savings and put them a little bigger.
+That's all. 2. Let's add the Black Friday Banner. Subscribers Only. And the title as well. 3. Add 3 4".
+- Savings: wording unchanged ("On your subscription", "SAVE $X"), bigger: the pill .6 -> .74rem (desktop .78), the
+  "On your subscription" line .6 -> .7rem (desktop .76). He chose to keep them although some subscribers pay less than
+  $39.95 a bottle (his guide tells Maria to skip the saving for those).
+- Banner "Black Friday offer · Subscribers only" (was "Exclusive for Maison Croyez VIP Customers"); title "One payment.
+  No more monthly charges. We cancel your subscription for you."
+- The call link (his guide: "she can only get it on this call", "the price holds for 24 hours from the call"):
+  the offer opens from /pages/supply?t=<unix seconds of the call> and closes 24 hours later. No link (and none stored on
+  the device, key mc_sp_call) -> "This offer opens from your personal link."; older than 24 h -> "Your 24-hour price has
+  ended." with "reply to the message we sent you"; the newest link wins; a link stamped in the future counts from now;
+  the sticky button and the checkout are off while closed. It runs in the browser, so it is not tamper-proof.
+  Maria makes the link at /pages/supply?newlink=1 ("Link for this call", a Copy button; each tap stamps the current time).
+  Previews (any host but maisoncroyez.com) are always open; ?state=over|nolink shows the closed screens.
+  CONSEQUENCE, told to him: the bare /pages/supply no longer shows the offer; any email or ad that links straight to it
+  lands on the "personal link" screen.
+- Nudge under the cards while 9 months is selected: "12 months is only $44.85 more and adds a free diffuser. Switch to
+  12 months" (the amount is computed; a tap selects 12 months).
+- Not taken: "for another room" next to the free diffuser, and a refund promise if the subscription bills before we
+  cancel it.
+- Code: a block at the end of make.py (the gate, OfferClosed, LinkMaker, the nudge, their CSS) plus the three text / size
+  edits. Store build 136,255 B / 160,277 B. Tested with the preview served as maisoncroyez.com: no link, expired, one hour
+  left, fresh, bare URL after a link, the nudge, the link maker; phone and desktop, no errors.
+- For the go-live check: page-shot-supply must open the page with ?t=<now>.

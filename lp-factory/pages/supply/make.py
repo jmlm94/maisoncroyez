@@ -80,8 +80,8 @@ rep('  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.key
 
 # ---------- step 1: header (no rating, no badge strip), banner, progress track, supplies as rows ----------
 rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9 \(owner\): no prices on Step 1[^\n]*\n', '''          <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker-row"><span class="sp-kicker">Exclusive for Maison Croyez VIP Customers</span></div>
-            <h1 class="h1-9e sp-h1">You already love them, stock up for months and save a lot, no more subscription.</h1>
+            <div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer \u00b7 Subscribers only</span></div>
+            <h1 class="h1-9e sp-h1">One payment. No more monthly charges. We cancel your subscription for you.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
 ''')
@@ -227,7 +227,7 @@ css += '''
 #root .tier.t9c3.sp-card{justify-content:flex-start}
 #root .tier.t9c3.sp-card .t9s-total{margin-top:auto}
 #root .tier.t9c3 .t9s-each s{color:#9A8B80;margin-right:2px}
-#root .tier.t9c3 .sp-save{display:inline-block;background:#E8F5EC;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;margin:0 0 8px}
+#root .tier.t9c3 .sp-save{display:inline-block;background:#E8F5EC;color:#1E7A46;font-family:'Outfit',sans-serif;font-weight:800;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 11px;margin:0 0 8px}
 #root .tier.t9c3.sp-card .t9s-gift{color:#1E7A1E;font-weight:800}
 #root .tier.t9c3.sp-card .t9s-gift.sp-only{color:#141414;font-weight:800;font-size:.92rem;margin:auto 0;padding:14px 0}
 #root .tier.t9c3 .t9s-each.sp-stack{display:grid;gap:2px;margin:3px 0 8px}
@@ -248,7 +248,7 @@ css += '''
 #root .sp-deadline.over .sp-dl-lb{color:#D9D2C8}
 #root .sp-deadline.compact{margin:10px 0 0;padding:7px 12px 8px}
 #root .sp-deadline.compact .sp-dl-t{font-size:1.04rem}
-#root .tier.t9c3 .sp-vs{font-family:'Outfit',sans-serif;font-size:.6rem;font-weight:600;color:#5C4F46;margin-top:auto;padding-top:6px;line-height:1.3}
+#root .tier.t9c3 .sp-vs{font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;color:#5C4F46;margin-top:auto;padding-top:6px;line-height:1.3}
 #root .tier.t9c3 .sp-vs s{color:#9A8B80;font-weight:700}
 #root .tier.t9c3.sp-card .t9s-total{margin-top:4px}
 #root .tier.t9c3 .t9s-total .sp-inst{text-transform:none;letter-spacing:0;font-size:.58rem;font-weight:600;color:#5A31F4;margin-top:3px}
@@ -277,11 +277,87 @@ css += '''
 @media (min-width:700px){
   #root .sp-head{margin-top:22px}
   #root .sp-steps li{font-size:.68rem;padding:8px 6px 10px}
-  #root .tier.t9c3 .sp-save{font-size:.64rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
+  #root .tier.t9c3 .sp-save{font-size:.78rem}#root .tier.t9c3.sp-card .t9s-gift.sp-only{font-size:1rem}#root .tier.t9c3 .t9s-each.sp-stack b{font-size:.9rem}
   #root .sp-cancel{padding:14px 16px}#root .sp-cancel-p{font-size:.86rem}
-  #root .sp-deadline .sp-dl-t{font-size:1.44rem}#root .sp-deadline .sp-dl-lb{font-size:.66rem}#root .tier.t9c3 .sp-vs{font-size:.66rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
+  #root .sp-deadline .sp-dl-t{font-size:1.44rem}#root .sp-deadline .sp-dl-lb{font-size:.66rem}#root .tier.t9c3 .sp-vs{font-size:.76rem}#root .tier.t9c3 .t9s-total .sp-inst{font-size:.62rem}#root .sp-guar{font-size:.84rem}#root .sp-inst-due{font-size:.84rem}
 }
 '''
+
+# ---------- sp7 (2026-11-16, owner): the offer opens from the link sent on the call and closes 24 hours later; a nudge from 9 to 12 months ----------
+rex(r'const DEADLINE_HOURS = 24;[^\n]*\nconst deadlineStart = [^\n]*\nconst DEADLINE_AT = [^\n]*\n', """const DEADLINE_HOURS = 24; /* sp7 (2026-11-16, owner): the price holds for 24 hours from the call. The link sent on the call carries ?t=<unix seconds>; with no link, or 24 hours after it, the offer is closed. It runs in the browser, so it is not tamper-proof; it keeps the promise for everyone who uses the link as sent. */
+const SP_Q = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(""); } })();
+const NEWLINK = !!SP_Q.get("newlink"); /* the team's link maker: /pages/supply?newlink=1 */
+const deadlineStart = () => {
+  const now = Date.now(), k = "mc_sp_call";
+  if (!onStore()) { const st = SP_Q.get("state"); return st === "over" ? now - (DEADLINE_HOURS + 1) * 3600000 : st === "nolink" ? 0 : now; } /* previews are always open; ?state=over|nolink shows the closed screens */
+  let t = 0; const v = +SP_Q.get("t"); if (v > 1.6e9 && v < 4e9) t = v * 1000;
+  if (t > now + 600000) t = now; /* a link stamped in the future counts from now */
+  let s = 0; try { s = +localStorage.getItem(k) || 0; } catch (e) {}
+  if (t > s) { s = t; try { localStorage.setItem(k, String(s)); } catch (e) {} } /* the newest link wins */
+  return s; /* 0 = no link yet */
+};
+const DEADLINE_T0 = deadlineStart();
+const DEADLINE_AT = DEADLINE_T0 ? DEADLINE_T0 + DEADLINE_HOURS * 3600 * 1000 : 0;
+const offerGate = () => (!DEADLINE_T0 ? "nolink" : Date.now() >= DEADLINE_AT ? "over" : "open");
+""")
+rep("""const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
+""", """const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
+function OfferClosed({ why }) { /* sp7: no call link yet, or its 24 hours are over */
+  return html`
+    <section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox">
+      <div class="sp-head"><div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer \\u00b7 Subscribers only</span></div>
+        <h1 class="h1-9e sp-h1">${why === "over" ? "Your 24-hour price has ended." : "This offer opens from your personal link."}</h1></div>
+      <div class="sp-closed"><p>${why === "over"
+        ? html`We held your Black Friday price for 24 hours from our call. <b>Want it back?</b> Reply to the message we sent you and we will send you a fresh link.`
+        : html`This Black Friday offer is for our subscribers, and it opens from the link we send you on our call. <b>Already spoke with us?</b> Open the link in our text or email.`}</p></div>
+    </div></div></section>`;
+}
+function LinkMaker() { /* sp7: /pages/supply?newlink=1, for the person making the calls */
+  const mk = () => location.origin + location.pathname + "?t=" + Math.floor(Date.now() / 1000);
+  const [url, setUrl] = useState(mk());
+  const [done, setDone] = useState(false);
+  const copy = () => { const u = mk(); setUrl(u); const ok = () => { setDone(true); setTimeout(() => setDone(false), 2500); }; try { navigator.clipboard.writeText(u).then(ok, () => {}); } catch (e) {} };
+  return html`
+    <section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox">
+      <div class="sp-head"><div class="sp-kicker-row"><span class="sp-kicker">For the team</span></div><h1 class="h1-9e sp-h1">Link for this call</h1></div>
+      <div class="sp-closed"><p>Tap the button while she is on the line, then send her the link by text or email. It opens the offer for <b>24 hours from now</b>. Make a new one for every call.</p>
+        <input class="sp-linkbox" readonly value=${url} aria-label="Link for this call" onFocus=${(e) => e.target.select()}/>
+        <button class="btn atc" onClick=${copy}><span>${done ? "Copied \\u2713" : "Copy the link for this call"}</span></button></div>
+    </div></div></section>`;
+}
+""")
+rep("""  const step = sel.step || 1;
+  const goReviews = """, """  const step = sel.step || 1;
+  const [gate, setGate] = useState(offerGate());
+  useEffect(() => { const t = setInterval(() => { const g = offerGate(); setGate((p) => (p === g ? p : g)); }, 5000); return () => clearInterval(t); }, []); /* sp7: the page closes when the 24 hours run out */
+  const goReviews = """)
+rep("""  const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
+  return html`
+    <section class=${"section pdp-buy step-" + step} id="buybox">""", """  const key = (e, fn) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } };
+  if (NEWLINK) return html`<${LinkMaker}/>`;
+  if (gate !== "open") return html`<${OfferClosed} why=${gate}/>`;
+  return html`
+    <section class=${"section pdp-buy step-" + step} id="buybox">""")
+rep("""  return html`
+    <div class=${"sticky" + (show ? " show" : "")}>""", """  if (NEWLINK || offerGate() !== "open") return null; /* sp7: no button while the offer is closed */
+  return html`
+    <div class=${"sticky" + (show ? " show" : "")}>""")
+rep("""async function addToCart(setBusy, setToast) {
+  const left = selStore.left();""", """async function addToCart(setBusy, setToast) {
+  if (offerGate() !== "open") { setToast("This offer has closed. Reply to our message and we will send you a fresh link."); return; } /* sp7 */
+  const left = selStore.left();""")
+rep("""          <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->""",
+    """          ${T.key === "m9" ? html`<button type="button" class="sp-nudge" onClick=${() => sel.setTier(1)}><b>12 months is only ${usd(Math.round((TIERS[1].price - T.price) * 100) / 100)} more</b> and adds a free diffuser. <u>Switch to 12 months</u></button>` : null} <!-- sp7 (owner): the first argument of the call guide -->
+          <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->""")
+css += """
+#root .sp-closed{margin:14px 0 0;padding:16px;border-radius:14px;background:#FAF7F3;border:1px solid #EFE8E0;font-family:'Outfit',sans-serif;font-size:.92rem;line-height:1.45;color:#5C4F46;text-align:center;display:grid;gap:12px}
+#root .sp-closed p{margin:0}
+#root .sp-closed b{color:#141414;font-weight:800}
+#root .sp-linkbox{width:100%;box-sizing:border-box;font-family:'Outfit',sans-serif !important;font-size:16px;line-height:1.3;padding:11px 12px;border:1.5px solid #E6E0D8;border-radius:10px;background:#fff;color:#141414;text-align:center;margin:0}
+#root .sp-nudge{display:block;width:100%;box-sizing:border-box;margin:0 0 10px;padding:10px 12px;border:1.5px dashed #1E7A46;border-radius:12px;background:#F2FAF4;font-family:'Outfit',sans-serif;font-size:.84rem;line-height:1.35;color:#141414;text-align:center;cursor:pointer}
+#root .sp-nudge b{font-weight:800}
+#root .sp-nudge u{font-weight:800;text-underline-offset:2px;white-space:nowrap}
+"""
 
 open(os.path.join(HERE, "mc-sp-app.js"), "w", encoding="utf-8").write(app)
 open(os.path.join(HERE, "mc-sp.css"), "w", encoding="utf-8").write(css)

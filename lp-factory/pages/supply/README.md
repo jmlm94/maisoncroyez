@@ -125,7 +125,7 @@ padding 9/10 px (compact 7/8 px). LIVE key sp5-d40eaf7 (only mc-sp.css changed).
 (new title, cart step, delivery line, icons) do not leak into the supply page. Rebuilding from the base gives byte-identical
 `mc-sp-app.js` / `mc-sp.css` (checked).
 
-## sp6 (2026-11-16, owner) — BUILT AND PREVIEWED, NOT LIVE YET
+## sp6 (2026-11-16, owner) — LIVE since 2026-11-16 15:58 UTC together with sp7 (see "sp6 + sp7 LIVE" below)
 
 His words: "Let's do 9 12 18 and 24 months please. We'll preserve 9 with no diffuser, 12 and 18 with one diffuser and 24
 with two! Modify the page as well as the discounts." Prices, from his answer to my question: "9 months 34.95 no diffuser /
@@ -145,8 +145,7 @@ with two! Modify the page as well as the discounts." Prices, from his answer to 
   files in this folder (mc-sp-app.js 132,259 B, mc-sp.css 159,326 B); the only differences from sp5 are those lines.
 - Preview: artifact "MC Scent Supply" https://claude.ai/artifact/JYGDzu63F7bsBSYQqhqVTH (version 12; not watched). Walked
   on phone 400 px and desktop 1440 px: every supply through the three steps, totals as in the table, no errors.
-- LIVE IS STILL sp5 (key sp5-d40eaf7, the 6 / 9 / 12 / 18 ladder). live.json and page-body.html are untouched.
-- To go live, on his word (store = Maison Croyez, confirm with get-shop-info first):
+- (written before the deploy; kept as the plan that was followed) To go live, on his word (store = Maison Croyez, confirm with get-shop-info first):
   1. Product 15409132994669: variant m9 67864692359277 -> "9-Month Supply", $314.55, compare-at $359.55; m12
      67864692392045 -> "12-Month Supply + 1 Free Diffuser", $359.40, compare-at $569.35; m18 67864692424813 -> "18-Month
      Supply + 1 Free Diffuser", $503.10, compare-at $809.05; new variant "24-Month Supply + 2 Free Diffusers", $598.80,
@@ -158,7 +157,7 @@ with two! Modify the page as well as the discounts." Prices, from his answer to 
      (its cart run must use the new default, 12 months).
   Order of operations so no buyer hits a mismatch: variants first (prices and the new one), page second, m6 deleted last.
 
-## sp7 (2026-11-16, owner, after his call guide for Maria) — BUILT AND PREVIEWED, NOT LIVE YET (goes live with sp6)
+## sp7 (2026-11-16, owner, after his call guide for Maria) — LIVE since 2026-11-16 15:58 UTC
 
 He sent "Subscriber Switch Call Guide for Maria" (the page is what subscribers see while Maria is on the phone with them)
 and asked what I would add. Of my six suggestions he took: "1. Let's just leave the savings and put them a little bigger.
@@ -185,3 +184,33 @@ That's all. 2. Let's add the Black Friday Banner. Subscribers Only. And the titl
   edits. Store build 136,255 B / 160,277 B. Tested with the preview served as maisoncroyez.com: no link, expired, one hour
   left, fresh, bare URL after a link, the nudge, the link maker; phone and desktop, no errors.
 - For the go-live check: page-shot-supply must open the page with ?t=<now>.
+
+## sp6 + sp7 LIVE — 2026-11-16 15:58 UTC, key sp7-21e2d1b
+
+His word: "Ok we're ready to deploy. You can also fix the PDF yourself then." Store confirmed as Maison Croyez before every write.
+
+- Files: mc-sp-app.js 46573254148205 (136,255 B) and mc-sp.css 46573254180973 (160,277 B) from raw at commit 21e2d1bf.
+- Page 163021881453: body = page-body.html (5,827 chars, key sp7-21e2d1b, variants m9 / m12 / m18 / m24).
+- Product 15409132994669 now has exactly four variants:
+  | key | variant | title | price | compare-at | SKU | picture (MediaImage) |
+  |---|---|---|---|---|---|---|
+  | m9 | 67864692359277 | 9-Month Supply | $314.55 | $359.55 | MC-SUPPLY-9 | 46938409533549 (supply-9-r4.jpg) |
+  | m12 | 67864692392045 | 12-Month Supply + 1 Free Diffuser | $359.40 | $569.35 | MC-SUPPLY-12 | 46576697671789 (supply-12-r2.png, unchanged, the product's first picture) |
+  | m18 | 67864692424813 | 18-Month Supply + 1 Free Diffuser | $503.10 | $809.05 | MC-SUPPLY-18 | 46938409566317 (supply-18-r4.jpg) |
+  | m24 | 68108599132269 | 24-Month Supply + 2 Free Diffusers | $598.80 | $1,138.70 | MC-SUPPLY-24 | 46938409599085 (supply-24-r4.jpg) |
+  All untracked, continue selling. The 6-month variant 67864692326509 is deleted (his choice: "Remove it").
+- Old pictures taken off the product but kept in Files (fileUpdate referencesToRemove, nothing deleted): 46576697606253
+  (6 months), 46576697639021 (9 months with a diffuser), 46576697704557 (18 months with two diffusers).
+- Pictures (img/variants): the generated 9-month flat lay was right; the generated 18 and 24 ones had misspelled labels
+  ("Crisp Citrus Escape", "Midnight Meditation", "Maison Crotez" on the diffuser), so build-r4.py keeps their marble and
+  diffusers and keys in the sets from the 9-month picture, and repaints two labels ("Sandalwood crème", "MAISON CROYEZ").
+  Checked by eye: 9 sets / 18 sets + 1 diffuser / 24 sets + 2 diffusers, every name correct.
+- Live check (page-shot-supply run sp7-21e2d1b, shots/20261116T1605-*): body matches the repo byte for byte; no link ->
+  "This offer opens from your personal link."; a 25-hour-old link -> "Your 24-hour price has ended."; ?newlink=1 -> "Link
+  for this call" with a ?t= link; a fresh link opens the offer with the timer at 23:59:53; four cards 9 / 12 / 18 / 24 at
+  $34.95 / $29.95 / $27.95 / $24.95; the nudge switches 9 -> 12; the real cart run added variant 67864692392045 at $359.40
+  with the scents and "Cancel subscription for" on the order, landed on checkout, and the cart was cleared. No page errors.
+- The call guide ("Subscriber Switch Call Guide for Maria", https://claude.ai/artifact/QigEffDiFXeZXrVwKDrKsv) now tells
+  Maria to make the link at maisoncroyez.com/pages/supply?newlink=1 for every call (the mission bullet and step 4 of the
+  call), what to do when a customer says the page is closed, and adds the free 60-day scent swap to "True for every package".
+- Still his to decide: any email, ad or SMS that links to the bare /pages/supply now lands on the "personal link" screen.

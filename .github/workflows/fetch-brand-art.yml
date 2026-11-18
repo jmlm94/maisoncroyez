@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -12,12 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      DEST: lp-factory/pages/supply/img/variants
+      DEST: lp-factory/pages/bath-soak/img
       LIST: |
-        supply-9-r3 https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155544_74ef56c8-93a7-4fb6-8869-6439c862cce4.png
-        supply-18-r3 https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155543_2de0a5f7-83c0-454c-b0a6-880a0b25b1bb.png
-        supply-24-r3 https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155545_d204278f-7ecb-47ae-9b69-872f36e599de.png
-        supply-24-r3b https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261116_155546_399d00a4-fcbd-4e27-9f54-a7d82fb96edf.png
+        scent-unwind https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_204132_46977c45-8adf-4659-a2a6-676738fc3a95.png
+        scent-be-here https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_204132_87c3806e-1f52-4caa-b494-9644880b7aea.png
+        scent-drift-off https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_204133_afd99319-f60c-49ee-a7b8-8218f0f157a4.png
     steps:
       - uses: actions/checkout@v4
         with:

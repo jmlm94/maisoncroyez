@@ -388,7 +388,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
       <div class="cards" id="bags">
         <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$19<span class="was">$38</span></span><span class="each baths">1 evening</span><span class="each perbath">$19.00 a night</span><span class="sv">50% off</span></button>
         <button class="cardb" type="button" data-n="3" aria-pressed="true"><span class="tag">The sampler</span><b>3 bags</b><span class="p">$39<span class="was">$78</span></span><span class="each baths">3 evenings</span><span class="each perbath">$13.00 a night</span><span class="sv">50% off</span></button>
-        <button class="cardb" type="button" data-n="6" aria-pressed="false"><span class="tag">Stock up</span><b>6 bags</b><span class="p">$89<span class="was">$178</span></span><span class="each baths">6 evenings</span><span class="each perbath">$14.83 a night</span><span class="sv">50% off</span></button>
+        <button class="cardb" type="button" data-n="6" aria-pressed="false"><span class="tag">Best value</span><b>6 bags</b><span class="p">$69<span class="was">$138</span></span><span class="each baths">6 evenings</span><span class="each perbath">$11.50 a night</span><span class="sv">50% off</span></button>
       </div>
     </div>
 
@@ -604,7 +604,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 
 <script>
 (function(){
-  var PRICE={1:19,3:39,6:89},SIZES=[1,3,6],ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
+  var PRICE={1:19,3:39,6:69},SIZES=[1,3,6],ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
   var st={bags:3,picks:{'unwind':1,'be-here':1,'drift-off':1},plan:'once',last:'unwind',freq:30};
   var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
   function sum(){return ORDER.reduce(function(a,k){return a+st.picks[k]},0)}

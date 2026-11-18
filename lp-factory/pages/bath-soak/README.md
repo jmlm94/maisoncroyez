@@ -167,3 +167,9 @@ img/also-diffuser.webp copied from the kits preview (dk-bedroom). Checked on pho
 sections, every tab and switch, both plans, the three sizes, the jump to the study, no missing picture, no sideways
 scroll, no errors.
 
+## Round 6 (2026-11-18, artifact version 6): "Change the 6 bags to $69"
+
+6 bags: $69 (compare-at $138), $11.50 a night; subscribed $58.65, $9.78 a bag. It is now the lowest price per night
+(1 bag $19.00, 3 bags $13.00, 6 bags $11.50), so its tag went from "Stock up" to "Best value". This settles the note in
+rounds 4 and 5 about the 6-bag price being worse than the 3-bag one.
+

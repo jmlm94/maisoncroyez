@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -14,9 +14,12 @@ jobs:
     env:
       DEST: lp-factory/pages/bath-soak/img
       LIST: |
-        scent-unwind https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_204132_46977c45-8adf-4659-a2a6-676738fc3a95.png
-        scent-be-here https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_204132_87c3806e-1f52-4caa-b494-9644880b7aea.png
-        scent-drift-off https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_204133_afd99319-f60c-49ee-a7b8-8218f0f157a4.png
+        night-awake https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_224635_7a52bd05-7374-435c-b435-a6f89805156b.png
+        night-aches https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_224636_7c1fc532-0185-48d9-a8bf-9dffa4bd2991.png
+        night-legs https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_224635_f2b44f88-31e9-48a0-8a9b-12c40d1e445e.png
+        night-day https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_224635_456fa592-7030-4d67-807e-f17348715b9d.png
+        foot-soak https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_224635_f3d08035-1cad-4cf8-980b-7baaf0f219b9.png
+        night-asleep https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_224636_50544bfb-4045-429d-8141-998e02eeaf53.png
     steps:
       - uses: actions/checkout@v4
         with:

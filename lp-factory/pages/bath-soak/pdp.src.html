@@ -64,9 +64,18 @@ button{font-family:inherit;color:inherit}
 .vsl-g>span.vh:nth-child(even){color:var(--sig-light)}
 .vsl-g .ic{font-size:4.2cqw;margin-top:.15cqw}
 .vsl-g>span:nth-child(even) .ic{color:var(--sig-light)}
+.vsl-k{font:600 2.9cqw/1.3 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--sig-light)}
+.vsl-n{font-weight:700;font-size:11.5cqw;letter-spacing:-.045em;line-height:.98}
+.vsl-p{font-size:4.7cqw;line-height:1.3}
+.vsl-s{font:500 2.7cqw/1.4 var(--m);letter-spacing:.04em;color:#B8AD9F}
 .eyebrow{color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .new{background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
-h1.hd{font-size:clamp(34px,4.6vw,54px)}
+h1.hd{font-size:clamp(30px,4vw,46px);line-height:1.06}
+.h1b{display:block;color:var(--ink);margin-top:.14em}
+.src{display:inline;background:transparent;border:0;padding:0;font:600 inherit;font-family:var(--f);color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+a.src{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:16px}
+.prom{display:flex;align-items:center;gap:8px;margin-top:2px;font-size:14.5px;font-weight:600}
+.prom .ic{color:var(--ink);font-size:18px}
 .lede{font-size:clamp(17px,1.6vw,19px);margin-top:14px;max-width:34em}
 .chk{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px;font-size:16.5px;line-height:1.4;max-width:34em}
 .chk li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start}
@@ -276,6 +285,36 @@ footer b{display:block;font-size:24px;letter-spacing:-.03em}
 footer p{color:#B8AD9F;font-size:15px;max-width:34em}
 footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--sig-light)}
 
+.rp .do{margin-top:14px;padding-top:14px;border-top:1px solid var(--stone)}
+.lede.sub{color:var(--drift);margin-top:12px}
+.clock .n{font-size:14px;letter-spacing:.06em}
+.fact{margin-top:clamp(20px,3vw,32px);border:1px solid var(--stone);border-radius:14px;background:var(--paper);padding:18px 20px;display:grid;gap:12px;max-width:860px}
+.fact p{font-size:16.5px}
+.cmp{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(14px,3vw,40px);align-items:stretch;margin-top:clamp(24px,3.4vw,44px)}
+.cmp .vs{margin-top:0}
+.cmp .pic{aspect-ratio:auto;min-height:260px}
+@media (max-width:860px){.cmp{grid-template-columns:minmax(0,1fr)}.cmp .pic{aspect-ratio:16/9;min-height:0;order:-1}}
+.isnt{margin-top:clamp(14px,2.4vw,28px);background:var(--sand);border-radius:14px;padding:clamp(18px,2.6vw,30px)}
+.isnt>.lab{color:var(--ink)}
+.isnt-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px clamp(16px,2.4vw,32px);margin-top:14px}
+@media (max-width:760px){.isnt-g{grid-template-columns:minmax(0,1fr)}}
+.isnt-g>div{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start}
+.isnt-g p{font-size:16px;line-height:1.45}
+.isnt .ic{font-size:20px;margin-top:3px;color:var(--alert)}
+.isnt-y{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding-top:16px;border-top:1px solid var(--stone);font-size:17px}
+.isnt-y .ic{color:var(--euca)}
+.four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1.4vw,18px);margin-top:clamp(22px,3vw,36px)}
+@media (max-width:760px){.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.four>*{background:var(--paper);border:1px solid var(--stone);border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;cursor:pointer;display:flex;flex-direction:column;min-width:0}
+.four .pic{border-radius:0;aspect-ratio:1/1}
+.four .tx{padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px}
+.four .lab{color:var(--ink);font-size:11px}
+.four b{font-size:clamp(16px,1.6vw,20px);letter-spacing:-.02em;line-height:1.15}
+.four .here{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);cursor:default}
+.four .you{align-self:flex-start;margin-top:6px;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--night);color:var(--cream);border-radius:5px;padding:5px 7px}
+.idea{margin-top:14px;color:var(--drift);font-size:14.5px}
+.btn2.end{margin-top:28px}
+
 /* sticky bar + toast */
 .stick{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--stone);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;justify-content:center;transform:translateY(110%);transition:transform .2s;z-index:20}
 .stick.on{transform:none}
@@ -296,8 +335,8 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 
 <!--SYMBOLS-->
 
-<div class="note">Preview · working copy, placeholder prices and bath counts, generated pictures</div>
-<div class="bar">Bonsoir. Exhale the day.</div>
+<div class="note">Preview · working copy. Prices, formula, test results and matching products are stand-ins. Pictures are generated.</div>
+<div class="bar">Free shipping · 30-day money-back guarantee</div>
 <div class="w"><header class="hdr">
   <div><span class="menu">{{i:menu}}</span><nav><span class="cur">Shop</span><span>Scents</span><span>Our story</span></nav></div>
   {{logo:two}}
@@ -309,18 +348,23 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div class="gal">
     <div class="track" id="track">
       <div class="slide"><img id="hero-img" src="img/soak-unwind.webp" alt="The Maison Croyez magnesium bath soak pouch" width="2000" height="2000"></div>
-      <div class="slide"><img src="img/soak-lineup.webp" alt="The three scents side by side: Unwind, Be here and Drift off" loading="lazy"><span class="cap">Three scents. Mix them as you like.</span></div>
-      <div class="slide"><img src="img/soak-dusk.webp" alt="The pouch on a ledge beside a steaming bath at dusk" loading="lazy"><span class="cap">Made for the end of the day.</span></div>
-      <div class="slide"><img src="img/soak-pour.webp" alt="Bath salts pouring from the pouch into warm water" loading="lazy"><span class="cap">One step. Pour it in.</span></div>
-      <div class="slide"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"><span class="cap">Magnesium bath salts and scent.</span></div>
-      <div class="slide vsl" role="group" aria-label="What you have tried, next to Maison Croyez"><div class="vsl-in">
-        <b class="vsl-t">Scrolling doesn’t count as rest.</b>
+      <div class="slide"><img src="img/night-awake.webp" alt="A woman lying awake in bed at night" loading="lazy"><span class="cap">For the nights you’re tired and wired.</span></div>
+      <div class="slide vsl" role="group" aria-label="Why the hour before bed matters"><div class="vsl-in">
+        <span class="vsl-k">Why the hour before bed</span>
+        <b class="vsl-n">17 studies.<br>One finding.</b>
+        <p class="vsl-p">A warm bath 1 to 2 hours before bed helped people fall asleep sooner. As little as 10 minutes was enough.</p>
+        <span class="vsl-s">The source is linked further down, under “Why it works”.</span>
+      </div></div>
+      <div class="slide"><img src="img/soak-pour.webp" alt="Magnesium flakes pouring from the pouch into warm water" loading="lazy"><span class="cap">Run it warm. Pour in the bag. Soak 15 minutes.</span></div>
+      <div class="slide"><img src="img/foot-soak.webp" alt="Feet in a basin of warm water with the pouch beside it" loading="lazy"><span class="cap">No tub? Use a foot basin.</span></div>
+      <div class="slide vsl" role="group" aria-label="Epsom salt next to Maison Croyez"><div class="vsl-in">
+        <b class="vsl-t">Why this one, and not Epsom salt.</b>
         <div class="vsl-g">
-          <span class="vh">What you’ve tried</span><span class="vh">Maison Croyez</span>
-          <span>{{i:x}}Scrolling in bed</span><span>{{i:check}}Twenty minutes, phone outside</span>
-          <span>{{i:x}}A quick shower</span><span>{{i:check}}Warm water up to your shoulders</span>
-          <span>{{i:x}}The TV</span><span>{{i:check}}A scent that says the day is over</span>
-          <span>{{i:x}}A ten-step routine</span><span>{{i:check}}One step. Pour it in.</span>
+          <span class="vh">Epsom salt</span><span class="vh">Maison Croyez</span>
+          <span>{{i:x}}Magnesium sulfate</span><span>{{i:check}}Magnesium chloride flakes</span>
+          <span>{{i:x}}Can leave skin tight</span><span>{{i:check}}Skin feels soft after</span>
+          <span>{{i:x}}Grit left in the tub</span><span>{{i:check}}Dissolves fully</span>
+          <span>{{i:x}}Scoop and guess</span><span>{{i:check}}One bag, one bath</span>
         </div>
       </div></div>
       <div class="slide"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy" style="object-position:center 20%"><span class="cap">Love your evenings in 30 days, or every dollar back.</span></div>
@@ -330,19 +374,21 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 
   <div>
     <p class="lab eyebrow"><span class="new">New</span>Magnesium bath soak</p>
-    <h1 class="hd">A calmer evening, as simple as 1, 2, 3.</h1>
+    <h1 class="hd">Tired, but your mind won’t switch off? <span class="h1b">Give it 15 minutes in warm water.</span></h1>
+    <p class="lede">A scented magnesium soak for the hour before bed, made for women 45 and over. In the tub or a foot basin.</p>
     <ul class="chk">
-      <li><span class="cm">{{i:check}}</span><span><b>Helps you unwind.</b> A scent made for the end of the day.</span></li>
-      <li><span class="cm">{{i:check}}</span><span><b>Eases tired shoulders.</b> Magnesium bath salts in warm water.</span></li>
-      <li><span class="cm">{{i:check}}</span><span><b>Ready in minutes.</b> Run the water, pour it in, exhale.</span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>Made for the hour before bed.</b> A warm bath 1 to 2 hours before bed is linked to falling asleep sooner. <button class="src" type="button" data-go="why">See the 17 studies</button></span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>Soothes tired muscles and feet.</b> 250 g of magnesium flakes in warm water.</span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>No tub? Use a foot basin.</b> Half a bag is enough.</span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>A scent that becomes your bedtime cue.</b> The same one, every night.</span></li>
     </ul>
 
     <div class="step">
-      <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many bags?</h2><span class="pill">Buy more. Save more.</span></div>
+      <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many bags?</h2><span class="pill">1 bag = 1 bath</span></div>
       <div class="cards" id="bags">
-        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$19<span class="was">$38</span></span><span class="each baths">About 6 baths</span><span class="each perbath">$3.17 a bath</span><span class="sv">50% off</span></button>
-        <button class="cardb" type="button" data-n="3" aria-pressed="true"><span class="tag">Most popular</span><b>3 bags</b><span class="p">$39<span class="was">$78</span></span><span class="each baths">About 18 baths</span><span class="each perbath">$2.17 a bath</span><span class="sv">50% off</span></button>
-        <button class="cardb" type="button" data-n="6" aria-pressed="false"><span class="tag">Stock up</span><b>6 bags</b><span class="p">$89<span class="was">$178</span></span><span class="each baths">About 36 baths</span><span class="each perbath">$2.47 a bath</span><span class="sv">50% off</span></button>
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$19<span class="was">$38</span></span><span class="each baths">1 evening</span><span class="each perbath">$19.00 a night</span><span class="sv">50% off</span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="true"><span class="tag">The sampler</span><b>3 bags</b><span class="p">$39<span class="was">$78</span></span><span class="each baths">3 evenings</span><span class="each perbath">$13.00 a night</span><span class="sv">50% off</span></button>
+        <button class="cardb" type="button" data-n="6" aria-pressed="false"><span class="tag">Stock up</span><b>6 bags</b><span class="p">$89<span class="was">$178</span></span><span class="each baths">6 evenings</span><span class="each perbath">$14.83 a night</span><span class="sv">50% off</span></button>
       </div>
     </div>
 
@@ -353,93 +399,128 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
         <div class="row" data-k="be-here"><div class="sw" style="background:var(--euca)">02</div><div><b>Be here.</b><span>🌿 <strong>Eucalyptus:</strong> for your once-a-week ritual.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Be here">{{i:plus}}</button></div></div>
         <div class="row" data-k="drift-off"><div class="sw" style="background:var(--lav)">03</div><div><b>Drift off.</b><span>🪻 <strong>Lavender:</strong> for the evening after a tough day.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Drift off">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Drift off">{{i:plus}}</button></div></div>
       </div>
-      <button class="each1" type="button" id="each1">Can’t decide? Take one of each. {{i:arrow-right}}</button>
+      <button class="each1" type="button" id="each1">Not sure how they smell? Take one of each. {{i:arrow-right}}</button>
+      <p class="prom">{{i:rotate-ccw}}Don’t love a scent? We swap it, free.</p>
     </div>
 
     <div class="step">
       <div class="step-h"><span class="lab">Step 3 of 3</span><h2 class="hd">How do you want it?</h2></div>
       <div class="plans" id="plans">
-        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="tag">Best deal</span><span class="radio"></span><span><b>Subscribe and get 15% OFF</b><span id="sub-when">Delivered every 30 days.</span><span class="incl"><span>{{i:check}}<span id="sub-each">$11.05 a bag instead of $13.00</span></span><span>{{i:check}}15% off every delivery, not only the first</span><span>{{i:check}}Free shipping every time</span><span>{{i:check}}Skip, swap scents or cancel any time</span><span>{{i:check}}Covered by the 30-day money-back promise</span></span></span><span class="amt" id="amt-sub">$33.15</span></button>
-        <button class="plan" type="button" data-p="once" aria-pressed="false"><span class="radio"></span><span><b>One-time purchase</b><span>Pay once.</span></span><span class="amt" id="amt-once">$39.00</span></button>
+        <button class="plan" type="button" data-p="once" aria-pressed="true"><span class="radio"></span><span><b>One-time purchase</b><span>Pay once. No subscription.</span></span><span class="amt" id="amt-once">$39.00</span></button>
+        <button class="plan" type="button" data-p="sub" aria-pressed="false"><span class="tag">Best deal</span><span class="radio"></span><span><b>Subscribe and get 15% OFF</b><span id="sub-when">We email you before every charge. Cancel any time.</span><span class="incl"><span>{{i:check}}<span id="sub-each">$11.05 a bag instead of $13.00</span></span><span>{{i:check}}We email you before every charge</span><span>{{i:check}}Skip, swap scents or cancel any time</span><span>{{i:check}}15% off every delivery, not only the first</span><span>{{i:check}}Free shipping every time</span></span></span><span class="amt" id="amt-sub">$33.15</span></button>
       </div>
-      <div class="freq" id="freq"><span class="lab">Deliver every</span><div class="fq" role="group" aria-label="Deliver every">
+      <div class="freq" id="freq" hidden><span class="lab">Deliver every</span><div class="fq" role="group" aria-label="Deliver every">
         <button type="button" data-d="30" aria-pressed="true">{{i:calendar-check}}<b>30</b><span>days</span></button>
         <button type="button" data-d="45" aria-pressed="false">{{i:calendar-check}}<b>45</b><span>days</span></button>
         <button type="button" data-d="60" aria-pressed="false">{{i:calendar-check}}<b>60</b><span>days</span></button>
       </div></div>
     </div>
 
-    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag · </span><span id="cta-amt">$33.15</span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
+    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag · </span><span id="cta-amt">$39.00</span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
     <div class="gcard"><div class="gseal" aria-hidden="true"><b>30</b><span>days</span></div><div><span class="t">Love your evenings in 30 days, or every dollar back.</span><p>Not for you? Tell us and we refund everything. Don’t love a scent? We swap it.</p></div></div>
-    <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:calendar-check}}Skip or cancel any time</div></div>
+    <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:check}}No subscription needed</div></div>
     <div class="faq acc">
-      <details><summary>What’s inside + the scents{{i:plus}}</summary><p>Magnesium bath salts and scent. Unwind is sandalwood, Be here is eucalyptus and Drift off is lavender. The full ingredient list will be printed here before launch.</p></details>
-      <details><summary>How to use + tips{{i:plus}}</summary><p>Run a warm bath, pour a generous handful under the tap and stay about twenty minutes. Dim the lights while it fills, and leave the phone outside.</p></details>
+      <details><summary>What’s inside (the honest label){{i:plus}}</summary><p>250 g of magnesium chloride flakes, essential oil for the scent and a little jojoba oil. Nothing else. Unwind is sandalwood, Be here is eucalyptus and Drift off is lavender. It is a bath soak, not a supplement.</p></details>
+      <details><summary>How to use it{{i:plus}}</summary><p>Run the water comfortably warm, about 104 to 108°F. Pour in the whole bag and swirl once. Soak for 15 minutes, 1 to 2 hours before you want to be asleep. For a foot soak, use half a bag in a basin of warm water.</p></details>
       <details><summary>Shipping + returns{{i:plus}}</summary><p>Free shipping on every order. Not for you? Tell us within 30 days and we refund everything. Don’t love a scent? We swap it.</p></details>
-      <details><summary>Good to know before you order{{i:plus}}</summary><p>For the bath only. Keep the bag sealed, dry and out of reach of children. The cautions from the product label will be printed here before launch.</p></details>
+      <details><summary>Good to know before you order{{i:plus}}</summary><p>For the bath or a foot basin only. It is not a supplement and not a medical treatment. If you are pregnant, have sensitive skin or a health condition, check with your doctor first. Keep it away from children.</p></details>
     </div>
   </div>
 </div></div>
 
 <section class="s sand"><div class="w">
-  <span class="lab sec-e">Why a bath</span>
-  <h2 class="hd sec-h">Leave the day at the door.</h2>
-  <div class="tabs" role="tablist" aria-label="Four reasons">
-    <button class="tab" type="button" role="tab" id="rs-t1" aria-controls="rs-p1" aria-selected="true"><i>01</i><b>Easy</b></button>
-    <button class="tab" type="button" role="tab" id="rs-t2" aria-controls="rs-p2" aria-selected="false" tabindex="-1"><i>02</i><b>Warm</b></button>
-    <button class="tab" type="button" role="tab" id="rs-t3" aria-controls="rs-p3" aria-selected="false" tabindex="-1"><i>03</i><b>Scented</b></button>
-    <button class="tab" type="button" role="tab" id="rs-t4" aria-controls="rs-p4" aria-selected="false" tabindex="-1"><i>04</i><b>Any evening</b></button>
+  <span class="lab sec-e">Sound familiar?</span>
+  <h2 class="hd sec-h">Tired all day. Wide awake at bedtime.</h2>
+  <div class="tabs" role="tablist" aria-label="Four kinds of night">
+    <button class="tab" type="button" role="tab" id="rs-t1" aria-controls="rs-p1" aria-selected="true"><i>01</i><b>Mind won’t stop</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t2" aria-controls="rs-p2" aria-selected="false" tabindex="-1"><i>02</i><b>Everything aches</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t3" aria-controls="rs-p3" aria-selected="false" tabindex="-1"><i>03</i><b>Legs won’t settle</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t4" aria-controls="rs-p4" aria-selected="false" tabindex="-1"><i>04</i><b>The day follows you</b></button>
   </div>
   <div class="rp" role="tabpanel" id="rs-p1" aria-labelledby="rs-t1">
-    <div><h3>Run the water, pour it in, get in.</h3><p>That is the whole routine. No ten steps to keep up for a week.</p></div>
-    <div class="pic"><img src="img/soak-dusk.webp" alt="The pouch beside a steaming bath at dusk" loading="lazy"></div>
+    <div><h3>My mind won’t switch off when I get into bed.</h3><p>You are tired, but wired. The night feels long, and tomorrow already feels hard.</p><p class="do"><b>What the soak does:</b> it gives the hour before bed a job. Fifteen warm minutes with the door closed, and a scent that tells your head the day is over.</p></div>
+    <div class="pic"><img src="img/night-awake.webp" alt="A woman lying awake in bed at night" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p2" aria-labelledby="rs-t2" hidden>
-    <div><h3>For the hour your shoulders finally drop.</h3><p>Magnesium salts in warm water, up to your shoulders, with nothing else to do.</p></div>
-    <div class="pic"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"></div>
+    <div><h3>Everything aches after the day.</h3><p>The garden, a long shift, a day on your feet. By evening it has settled in your shoulders, your back and your feet.</p><p class="do"><b>What the soak does:</b> warm water and 250 g of magnesium flakes soothe tired muscles and feet.</p></div>
+    <div class="pic"><img src="img/night-aches.webp" alt="A woman at home in the evening with a hand on her aching neck" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p3" aria-labelledby="rs-t3" hidden>
-    <div><h3>A scent that tells your head the day is over.</h3><p>It fills the bathroom while you soak. Three scents for three kinds of evening: a slow weekend, your weekly ritual, and the night after a tough day.</p></div>
-    <div class="pic"><img src="img/soak-lineup.webp" alt="The three scents side by side" loading="lazy"></div>
+    <div><h3>My legs won’t settle at night.</h3><p>You lie down, and your legs are still going.</p><p class="do"><b>What the soak does:</b> a warm soak for legs that need to settle before bed. No tub needed: half a bag in a foot basin.</p></div>
+    <div class="pic"><img src="img/night-legs.webp" alt="A woman on the edge of her bed rubbing her calf" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p4" aria-labelledby="rs-t4" hidden>
-    <div><h3>Sunday reset. Weeknight rescue.</h3><p>It works for the long bath you plan all week, and for the Tuesday you did not plan at all.</p>
-      <ul class="ticks"><li>{{i:check}}Before bed</li><li>{{i:check}}After a long day on your feet</li><li>{{i:check}}When the house is finally quiet</li></ul></div>
-    <div class="pic"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy" style="object-position:center 14%"></div>
+    <div><h3>I carry the stress of the day into the night.</h3><p>Work and family have nowhere to go, so they come to bed with you.</p><p class="do"><b>What the soak does:</b> it is the one quiet moment of the day. Leave the day in the tub.</p></div>
+    <div class="pic"><img src="img/night-day.webp" alt="A woman in bed late in the evening with a laptop, rubbing her eyes" loading="lazy"></div>
   </div>
 </div></section>
 
-<section class="s"><div class="w">
-  <div class="seg" role="tablist" aria-label="How it works and what to expect">
-    <button type="button" role="tab" id="hw-t1" aria-controls="hw-p1" aria-selected="true">How it works</button>
-    <button type="button" role="tab" id="hw-t2" aria-controls="hw-p2" aria-selected="false" tabindex="-1">What to expect</button>
+<section class="s" id="why"><div class="w">
+  <div class="seg" role="tablist" aria-label="Why it works and how to do it">
+    <button type="button" role="tab" id="hw-t1" aria-controls="hw-p1" aria-selected="true">Why it works</button>
+    <button type="button" role="tab" id="hw-t2" aria-controls="hw-p2" aria-selected="false" tabindex="-1">How to do it</button>
   </div>
   <div role="tabpanel" id="hw-p1" aria-labelledby="hw-t1">
-    <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
-    <div class="how">
-      <div><div class="pic"><img src="img/hand-water.webp" alt="A hand on warm bath water" loading="lazy"></div><div class="n">01<i></i></div><b>Run the water.</b><p>Warm, not hot. Dim the lights while it fills.</p></div>
-      <div><div class="pic"><img src="img/soak-pour.webp" alt="Bath salts pouring into the bath" loading="lazy"></div><div class="n">02<i></i></div><b>Pour it in.</b><p>A generous handful under the tap. Swirl once.</p></div>
-      <div><div class="pic"><img src="img/hero.webp" alt="A woman in a robe at the edge of a bath with her eyes closed" loading="lazy" style="object-position:78% 20%"></div><div class="n">03<i></i></div><b>Exhale.</b><p>Stay about twenty minutes. Leave the phone outside.</p></div>
+    <h2 class="hd sec-h">Why the hour before bed matters.</h2>
+    <p class="lede sub">An example evening. Move the times to fit yours.</p>
+    <div class="how clock">
+      <div><div class="pic"><img src="img/hero.webp" alt="A woman in a robe at the edge of a warm bath" loading="lazy" style="object-position:78% 20%"></div><div class="n">8:30 PM<i></i></div><b>Soak for 15 minutes.</b><p>Warm water sends warmth to your hands and feet.</p></div>
+      <div><div class="pic"><img src="img/woman-silver.webp" alt="A woman in a robe resting after her bath" loading="lazy" style="object-position:center 14%"></div><div class="n">9:00 PM<i></i></div><b>Your body cools down.</b><p>After a warm bath it cools faster. That drop is a signal for sleep.</p></div>
+      <div><div class="pic"><img src="img/night-asleep.webp" alt="A woman asleep in bed" loading="lazy"></div><div class="n">10:00 PM<i></i></div><b>Bed.</b><p>In a review of 17 studies, a warm bath 1 to 2 hours before bed helped people fall asleep sooner.</p></div>
+    </div>
+    <div class="fact">
+      <p><b>The honest part:</b> that effect comes from the warm water. The magnesium flakes and the scent are what make it 15 minutes you look forward to, so you keep doing it.</p>
+      <a class="src" href="https://pubmed.ncbi.nlm.nih.gov/31102877/" target="_blank" rel="noopener">Read the review of 17 studies {{i:arrow-right}}</a>
     </div>
   </div>
   <div role="tabpanel" id="hw-p2" aria-labelledby="hw-t2" hidden>
-    <h2 class="hd sec-h">One bath is a treat. A month is a habit.</h2>
-    <div class="tl">
-      <div><div class="n">Night one<i></i></div><b>Twenty minutes that are yours.</b><p>Door closed, phone outside, warm water up to your shoulders. You get out unhurried.</p></div>
-      <div><div class="n">Week one<i></i></div><b>It starts to feel like the end of the day.</b><p>A few baths in, the scent does the work. You smell it and you slow down.</p></div>
-      <div><div class="n">Month one<i></i></div><b>The evening has a shape.</b><p>The bag is nearly empty and the habit has stuck. If you subscribe, the next one is already on its way.</p></div>
+    <h2 class="hd sec-h">Three steps. Fifteen minutes.</h2>
+    <div class="how">
+      <div><div class="pic"><img src="img/hand-water.webp" alt="A hand on warm bath water" loading="lazy"></div><div class="n">01<i></i></div><b>Run it warm.</b><p>Comfortably warm, about 104 to 108°F. Dim the lights while it fills.</p></div>
+      <div><div class="pic"><img src="img/soak-pour.webp" alt="Magnesium flakes pouring into the bath" loading="lazy"></div><div class="n">02<i></i></div><b>Pour in the bag.</b><p>The whole bag for a bath, half a bag for a foot basin. Swirl once.</p></div>
+      <div><div class="pic"><img src="img/soak-dusk.webp" alt="The pouch beside a steaming bath at dusk" loading="lazy"></div><div class="n">03<i></i></div><b>Soak 15 minutes.</b><p>1 to 2 hours before you want to be asleep. Leave the phone outside.</p></div>
     </div>
   </div>
   <button class="btn2" type="button" data-top>Choose your bags {{i:arrow-right}}</button>
 </div></section>
 
 <section class="s sand"><div class="w">
-  <span class="lab sec-e">Three scents, three moods</span>
-  <h2 class="hd sec-h">Meet the scents.</h2>
+  <span class="lab sec-e">Three scents</span>
+  <h2 class="hd sec-h">Pick your evening.</h2>
   <div class="scs">
-    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/scent-unwind.webp" alt="The Unwind pouch with sandalwood and a dish of magnesium bath salts" loading="lazy"><span class="lab">01 · Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>🪵 <b>Sandalwood:</b> for weekends, when the only plan is to relax.</p><span class="in">Magnesium bath salts + sandalwood</span><button type="button" data-add="unwind">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/scent-be-here.webp" alt="The Be here pouch with eucalyptus branches and a dish of magnesium bath salts" loading="lazy"><span class="lab">02 · Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>🌿 <b>Eucalyptus:</b> for your once-a-week ritual.</p><span class="in">Magnesium bath salts + eucalyptus</span><button type="button" data-add="be-here">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/scent-drift-off.webp" alt="The Drift off pouch with lavender and a dish of magnesium bath salts" loading="lazy"><span class="lab">03 · Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>🪻 <b>Lavender:</b> for the evening after a tough day.</p><span class="in">Magnesium bath salts + lavender</span><button type="button" data-add="drift-off">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/scent-unwind.webp" alt="The Unwind pouch with sandalwood and a dish of magnesium flakes" loading="lazy"><span class="lab">01 · Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>🪵 <b>Sandalwood:</b> for weekends, when the only plan is to relax.</p><span class="in">250 g magnesium flakes + sandalwood</span><button type="button" data-add="unwind">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/scent-be-here.webp" alt="The Be here pouch with eucalyptus branches and a dish of magnesium flakes" loading="lazy"><span class="lab">02 · Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>🌿 <b>Eucalyptus:</b> for your once-a-week ritual.</p><span class="in">250 g magnesium flakes + eucalyptus</span><button type="button" data-add="be-here">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/scent-drift-off.webp" alt="The Drift off pouch with lavender and a dish of magnesium flakes" loading="lazy"><span class="lab">03 · Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>🪻 <b>Lavender:</b> for the evening after a tough day.</p><span class="in">250 g magnesium flakes + lavender</span><button type="button" data-add="drift-off">Add this one {{i:arrow-right}}</button></div></div>
+  </div>
+</div></section>
+
+<section class="s"><div class="w">
+  <span class="lab sec-e">Why this one</span>
+  <h2 class="hd sec-h">Why this one, and what it isn’t.</h2>
+  <div class="cmp">
+    <div class="vs">
+      <div class="vs-h"><div>Epsom salt and drugstore bags</div><div>Maison Croyez</div></div>
+      <div class="vs-r kr"><div class="k">The magnesium</div></div>
+      <div class="vs-r"><div class="x">Magnesium sulfate.</div><div>Magnesium chloride flakes, 250 g in every bag.</div></div>
+      <div class="vs-r kr"><div class="k">Your skin</div></div>
+      <div class="vs-r"><div class="x">Can leave skin feeling tight and dry.</div><div>A little jojoba oil. Skin feels soft after.</div></div>
+      <div class="vs-r kr"><div class="k">The tub</div></div>
+      <div class="vs-r"><div class="x">Grit to rinse away.</div><div>Dissolves fully. Nothing to scrub.</div></div>
+      <div class="vs-r kr"><div class="k">The dose</div></div>
+      <div class="vs-r"><div class="x">Scoop and guess.</div><div>One bag, one bath. Nothing to measure.</div></div>
+      <div class="vs-r kr"><div class="k">The scent</div></div>
+      <div class="vs-r"><div class="x">One scent for everything.</div><div>Three scents made for the night.</div></div>
+    </div>
+    <div class="pic"><img src="img/flakes.webp" alt="The magnesium flakes up close" loading="lazy"></div>
+  </div>
+  <div class="isnt">
+    <span class="lab">What it isn’t</span>
+    <div class="isnt-g">
+      <div>{{i:x}}<p><b>Not a supplement.</b> We don’t claim a bath raises your magnesium levels. Research doesn’t support that for any bath soak.</p></div>
+      <div>{{i:x}}<p><b>Not a treatment.</b> It doesn’t treat or cure any condition.</p></div>
+      <div>{{i:x}}<p><b>Not a sleeping pill.</b> It is warm water, magnesium flakes and a scent.</p></div>
+    </div>
+    <p class="isnt-y">{{i:check}}<span><b>What it is:</b> 15 warm minutes before bed that you will actually keep.</span></p>
   </div>
 </div></section>
 
@@ -448,8 +529,8 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div>
     <span class="lab sec-e">The promise</span>
     <h2 class="hd sec-h">Love your evenings in 30 days, or every dollar back.</h2>
-    <ul class="ticks"><li>{{i:check}}Take the baths. See how your evenings feel.</li><li>{{i:check}}Not for you? Tell us within 30 days and we refund everything.</li><li>{{i:check}}Don’t love a scent? We swap it.</li></ul>
-    <button class="btn2" type="button" data-top>Start your evening {{i:arrow-right}}</button>
+    <ul class="ticks"><li>{{i:check}}Take the baths. See how your evenings feel.</li><li>{{i:check}}Not for you? Tell us within 30 days and we refund everything.</li><li>{{i:check}}Don’t love a scent? We swap it, free.</li></ul>
+    <button class="btn2" type="button" data-top>Start tonight {{i:arrow-right}}</button>
   </div>
 </div></div></section>
 
@@ -463,7 +544,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
       <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
       <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
       <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
-      <p>Three results from a customer survey, with the number of people asked printed underneath.</p>
+      <p>Three results from our own customer survey, for example how many fell asleep more easily, with the number of people asked printed underneath.</p>
     </div>
   </div>
   <div class="vids">
@@ -480,27 +561,32 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 </div></section>
 
 <section class="s sand"><div class="w">
-  <span class="lab sec-e">Pairs well with</span>
-  <h2 class="hd sec-h">Complete the evening.</h2>
-  <div class="also">
-    <a data-soon><div class="pic"><img src="img/also-steamers.webp" alt="The Maison Croyez shower steamers in three scents" loading="lazy"></div><div class="tx"><span class="lab">No bath tonight</span><b>Shower steamers</b><p>The same three scents, for the nights there is only time for a shower.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
-    <a data-soon><div class="pic"><img src="img/also-spray.webp" alt="The Maison Croyez magnesium body spray in three scents" loading="lazy"></div><div class="tx"><span class="lab">After the bath</span><b>Magnesium body spray</b><p>The last step before bed, in the scent you picked for the bath.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
+  <span class="lab sec-e">Only at Maison Croyez</span>
+  <h2 class="hd sec-h">One scent. Four places.</h2>
+  <p class="lede sub">Pick one scent for your nights and keep it everywhere. Same scent, same time, every night, until the scent itself tells you it is time for bed.</p>
+  <div class="four">
+    <a data-soon><div class="pic"><img src="img/also-diffuser.webp" alt="The Maison Croyez diffuser on a bedside table at night" loading="lazy"></div><div class="tx"><span class="lab">In the bedroom</span><b>The diffuser</b></div></a>
+    <a data-soon><div class="pic"><img src="img/also-steamers.webp" alt="The Maison Croyez shower steamers in three scents" loading="lazy"></div><div class="tx"><span class="lab">In the shower</span><b>Shower steamers</b></div></a>
+    <div class="here"><div class="pic"><img src="img/soak-lineup.webp" alt="The three bath soak scents side by side" loading="lazy"></div><div class="tx"><span class="lab">In the tub</span><b>The bath soak</b><span class="you">You are here</span></div></div>
+    <a data-soon><div class="pic"><img src="img/also-spray.webp" alt="The Maison Croyez magnesium body spray in three scents" loading="lazy"></div><div class="tx"><span class="lab">On your legs</span><b>Magnesium body spray</b></div></a>
   </div>
+  <p class="idea">The bedtime cue is our idea, not a study. The warm bath is the part with the research behind it.</p>
 </div></section>
 
 <section class="s"><div class="w">
   <span class="lab sec-e">FAQ</span>
   <h2 class="hd sec-h">Questions? Answered.</h2>
   <div class="faq">
-    <details open><summary>What if it is not for me?{{i:plus}}</summary><p>Tell us within 30 days and we refund everything. If it is only the scent, we swap it.</p></details>
-    <details><summary>How strong is the scent?{{i:plus}}</summary><p>It fills the bathroom while you soak and fades after. It is made to calm you, not to perfume the house.</p></details>
-    <details><summary>Which scent should I start with?{{i:plus}}</summary><p>Unwind, with sandalwood, for a slow weekend. Be here, with eucalyptus, for your weekly ritual. Drift off, with lavender, for the evening after a tough day.</p></details>
-    <details><summary>How many baths are in a bag?{{i:plus}}</summary><p><span id="faq-baths">About 6</span> baths, at a generous handful each.</p></details>
-    <details><summary>What is in it?{{i:plus}}</summary><p>Magnesium bath salts and scent. The full ingredient list will be printed here before launch.</p></details>
-    <details><summary>How do I use it?{{i:plus}}</summary><p>Run a warm bath, pour the salts under the tap and soak for about twenty minutes.</p></details>
-    <details><summary>When is the best time?{{i:plus}}</summary><p>In the evening, about an hour before bed.</p></details>
-    <details><summary>Can I change or cancel a subscription?{{i:plus}}</summary><p>Yes. Skip a delivery, swap scents or cancel any time from your account.</p></details>
+    <details open><summary>How do they smell? What if I don’t like one?{{i:plus}}</summary><p>Unwind is sandalwood: warm and woody. Be here is eucalyptus: fresh and clear. Drift off is lavender: soft and floral. The sampler has one of each. If you don’t love a scent, we swap it, free.</p></details>
+    <details><summary>I don’t have a bathtub. Can I still use it?{{i:plus}}</summary><p>Yes. Use a foot basin: half a bag in warm water, 15 minutes.</p></details>
+    <details><summary>How hot, how long, and when?{{i:plus}}</summary><p>Comfortably warm, about 104 to 108°F. Fifteen minutes. One to two hours before you want to be asleep.</p></details>
+    <details><summary>Does the magnesium go through my skin?{{i:plus}}</summary><p>We don’t claim that. Research doesn’t support the idea that a bath raises your magnesium levels. What is supported: a warm bath 1 to 2 hours before bed is linked to falling asleep sooner. The flakes and the scent make it a ritual you keep.</p></details>
+    <details><summary>Is it OK for sensitive skin, or if I’m pregnant?{{i:plus}}</summary><p>It is made with magnesium chloride flakes, essential oil and a little jojoba oil. If you have sensitive skin, are pregnant or have a health condition, check with your doctor first.</p></details>
+    <details><summary>How many baths are in a bag?{{i:plus}}</summary><p>One. A bag holds 250 g: one full bath, or two foot soaks.</p></details>
+    <details><summary>How does the subscription work?{{i:plus}}</summary><p>You get 15% off every delivery, every 30, 45 or 60 days. We email you before every charge. Skip, swap scents or cancel any time. You can also just buy once.</p></details>
+    <details><summary>What if it is not for me?{{i:plus}}</summary><p>Tell us within 30 days and we refund everything.</p></details>
   </div>
+  <button class="btn2 end" type="button" data-top>Choose your bags {{i:arrow-right}}</button>
 </div></section>
 </main>
 
@@ -510,17 +596,16 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 </div></div></footer>
 
 <div class="stick" id="stick"><div class="stick-in">
-  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">3 bags · about 18 baths</span></div>
+  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">3 bags · $13.00 a night</span></div>
   <div class="stick-sw" id="stick-sw" role="group" aria-label="How many bags"><span class="lab">Bags</span><button type="button" data-n="1" aria-pressed="false" aria-label="1 bag">1</button><button type="button" data-n="3" aria-pressed="true" aria-label="3 bags">3</button><button type="button" data-n="6" aria-pressed="false" aria-label="6 bags">6</button></div>
-  <button type="button" class="stick-go" id="stick-go">Add to bag · $33.15</button>
+  <button type="button" class="stick-go" id="stick-go">Add to bag · $39.00</button>
 </div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
 
 <script>
 (function(){
-  var BATHS=6; /* baths in one bag: a stand-in until the bag size is set */
   var PRICE={1:19,3:39,6:89},SIZES=[1,3,6],ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
-  var st={bags:3,picks:{'unwind':1,'be-here':1,'drift-off':1},plan:'sub',last:'unwind',freq:30};
+  var st={bags:3,picks:{'unwind':1,'be-here':1,'drift-off':1},plan:'once',last:'unwind',freq:30};
   var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
   function sum(){return ORDER.reduce(function(a,k){return a+st.picks[k]},0)}
   function money(v){return '$'+v.toFixed(2)}
@@ -530,9 +615,9 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   }
   function render(){
     var once=PRICE[st.bags],sub=Math.round(once*85)/100,due=st.plan==='sub'?sub:once,n=sum(),left=st.bags-n;
-    $$('#bags .cardb').forEach(function(b){var k=+b.dataset.n;b.setAttribute('aria-pressed',String(k===st.bags));b.querySelector('.baths').textContent='About '+(k*BATHS)+' baths';b.querySelector('.perbath').textContent=money(PRICE[k]/(k*BATHS))+' a bath'});
-    $$('#stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.bags))});$('#faq-baths').textContent='About '+BATHS;
-    $$('#freq .fq button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.d===st.freq))});$('#sub-when').textContent='Delivered every '+st.freq+' days.';
+    $$('#bags .cardb').forEach(function(b){var k=+b.dataset.n;b.setAttribute('aria-pressed',String(k===st.bags));b.querySelector('.baths').textContent=k+(k>1?' evenings':' evening');b.querySelector('.perbath').textContent=money(PRICE[k]/k)+' a night'});
+    $$('#stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.bags))});
+    $$('#freq .fq button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.d===st.freq))});$('#sub-when').textContent=st.plan==='sub'?('Delivered every '+st.freq+' days.'):'We email you before every charge. Cancel any time.';
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     var c=$('#count');c.textContent=left>0?('Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
     $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
@@ -540,7 +625,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     $('#each1').hidden=st.bags===3&&ORDER.every(function(k){return st.picks[k]===1});$('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
     var cta=$('#cta');cta.disabled=left>0;$('#cta-amt').textContent=money(due);
     $('#cta-txt').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')+' · '):'Add to bag · ';
-    $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · about '+(st.bags*BATHS)+' baths';
+    $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · '+money(due/st.bags)+' a night';
     $('#stick-go').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')):('Add to bag · '+money(due));
     var first=ORDER.filter(function(k){return st.picks[k]>0})[0]||'unwind';
     var hero=$('#hero-img'),src='img/soak-'+first+'.webp';if(hero.getAttribute('src')!==src)hero.setAttribute('src',src);
@@ -568,6 +653,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});
   function toTop(){$('#buybox').scrollIntoView({behavior:'smooth',block:'start'})}
   $$('[data-top]').forEach(function(b){b.addEventListener('click',toTop)});
+  $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){var t=document.getElementById(b.dataset.go);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
   $$('[data-add]').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.add;
     if(sum()>=st.bags){var other=ORDER.slice().reverse().filter(function(x){return x!==k&&st.picks[x]>0})[0];if(other)st.picks[other]--;else{var nx=SIZES[SIZES.indexOf(st.bags)+1];if(nx)st.bags=nx}}
     st.picks[k]++;st.last=k;fit();render();toTop();say(NAME[k]+' added to your bags.')})});

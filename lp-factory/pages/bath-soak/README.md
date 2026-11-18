@@ -118,3 +118,52 @@ with the picture of the actual magnesium soak."
 Checked on phone 400 px and desktop 1440 px: every size, both plans, the three delivery buttons, the sticky switch, no
 sideways scroll, no errors.
 
+## Round 5 (2026-11-18, artifact version 5): the direct-response rewrite, from his research document
+
+He sent "Maison Croyez: Scented Magnesium Bath Soak" (9 pages: audience, 7 pain points, claims rule, proven ads,
+competitors, hook bank, landing page outline) and asked for a plan to "literally transform it to make it direct response".
+I gave a twelve-point plan and six questions. His reply: "Implement absolutely everything with also images related to each
+thing." and: 1. "Bag brings the magnesium flakes, 250gr." 2. (formula) "Make it up for now, i'll tell you later."
+3. (matching diffuser / steamer / spray scents) "Let's pretend we do." 4. "stay with age." 5. "30 days." 6. "yes."
+(email before every charge, one-time preselected).
+
+What the page says now, top to bottom:
+- Bar: "Free shipping · 30-day money-back guarantee".
+- Gallery (7): pouch / "For the nights you're tired and wired." / "17 studies. One finding." / "Run it warm. Pour in the
+  bag. Soak 15 minutes." / "No tub? Use a foot basin." / "Why this one, and not Epsom salt." / the guarantee.
+- H1 "Tired, but your mind won't switch off? Give it 15 minutes in warm water." Lede names the age ("made for women 45
+  and over"), never menopause. Four bullets: the hour before bed (with a jump to the study), tired muscles and feet, foot
+  basin, the scent as a bedtime cue.
+- Offer: 1 bag = 1 bath; tiles show evenings and price per night; the 3-bag tile is tagged "The sampler" ("Most popular"
+  is gone: nothing has been sold yet); "Not sure how they smell? Take one of each." and "Don't love a scent? We swap it,
+  free." under the scents; ONE-TIME is first and preselected; the subscription says "We email you before every charge".
+- Fold-outs: the honest label, exact use (104 to 108°F, 15 minutes, 1 to 2 hours before bed, half a bag for a foot
+  basin), shipping, good to know.
+- "Tired all day. Wide awake at bedtime.": four tabs, her four nights in the words of the research (mind won't stop,
+  everything aches, legs won't settle, the day follows you), each with "What the soak does" in the safe wording.
+- "Why the hour before bed matters." (example clock 8:30 / 9:00 / 10:00, the review of 17 studies with its PubMed link,
+  and "the honest part": the effect is the warm water) behind a switch with "Three steps. Fifteen minutes."
+- "Pick your evening." (the three scents). "Why this one, and what it isn't." (table against Epsom salt, then: not a
+  supplement, not a treatment, not a sleeping pill). Guarantee. Reviews (still empty slots). "One scent. Four places."
+  (diffuser, steamers, soak, spray; with "the bedtime cue is our idea, not a study"). FAQ in objection order.
+
+STAND-INS ON THE PAGE, to replace with facts (all told to him):
+- One bag = one full bath, or two foot soaks. He gave the weight (250 g) only; the one-bath dose is my reading of it.
+- Formula: "magnesium chloride flakes, essential oil, a little jojoba oil". Invented on his instruction.
+- Test results: "dissolves fully", "skin feels soft after", and the Epsom lines ("can leave skin tight", "grit").
+- Matching products: the diffuser, steamers and spray in the same three scents ("let's pretend we do").
+- Prices, compare-at prices, free shipping, the guarantee terms and the email before every charge are his decisions,
+  not yet live anywhere.
+- The 6-bag price is still worse per night than the 3-bag one ($14.83 against $13.00).
+
+Claims kept out, as the research rules: absorbs through the skin, raises magnesium levels, treats menopause, stops
+cramps, cures insomnia, detox. The review quotes in the research are from other brands and forums, so none is shown.
+The one supported claim (warm bath 1 to 2 hours before bed, review of 17 studies, PMID 31102877) is worded as the
+research worded it.
+
+Pictures: six generated for this round with the woman of woman-silver.webp as the reference (img/night-awake,
+night-aches, night-legs, night-day, night-asleep, and foot-soak with the Drift off pouch; label checked), and
+img/also-diffuser.webp copied from the kits preview (dk-bedroom). Checked on phone 400 px and desktop 1440 px: eight
+sections, every tab and switch, both plans, the three sizes, the jump to the study, no missing picture, no sideways
+scroll, no errors.
+

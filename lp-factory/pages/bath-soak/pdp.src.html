@@ -14,7 +14,7 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--night);font-family:var(--f);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+body{margin:0;background:var(--cream);color:var(--night);font-family:var(--f);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:92px}
 img,svg{display:block;max-width:100%}
 [hidden]{display:none!important}
 p{margin:0}
@@ -46,20 +46,32 @@ button{font-family:inherit;color:inherit}
 .track::-webkit-scrollbar{display:none}
 .slide{flex:0 0 100%;scroll-snap-align:start;aspect-ratio:1/1;min-width:0}
 .slide img{width:100%;height:100%;object-fit:cover}
-.gbtn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(249,246,238,.92);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 2px 10px rgba(22,18,16,.18)}
-.gbtn.prev{left:12px}.gbtn.prev .ic{transform:rotate(180deg)}.gbtn.next{right:12px}
-.dots{display:flex;gap:7px;justify-content:center;margin-top:12px}
+.gnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:8px}
+.gbtn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--stone);background:transparent;display:flex;align-items:center;justify-content:center;font-size:19px;cursor:pointer;flex:none}
+.gbtn.prev .ic{transform:rotate(180deg)}
+.dots{display:flex;gap:7px;justify-content:center}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--stone)}
 .dots i.on{background:var(--night)}
 .slide{position:relative}
 .cap{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);background:rgba(22,18,16,.86);color:var(--cream);border-radius:8px;padding:9px 12px;font-weight:600;font-size:15.5px;letter-spacing:-.01em;line-height:1.25}
+.slide.vsl{container-type:inline-size;background:var(--night);color:var(--cream);overflow:hidden}
+.vsl-in{height:100%;display:flex;flex-direction:column;justify-content:center;gap:3.4cqw;padding:5cqw}
+.vsl-t{font-weight:700;font-size:6.4cqw;letter-spacing:-.035em;line-height:1.05;text-wrap:balance}
+.vsl-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid rgba(249,246,238,.24);border-radius:2.6cqw;overflow:hidden}
+.vsl-g>span{text-wrap:balance;padding:2.4cqw 3cqw;font-size:3.6cqw;line-height:1.25;border-top:1px solid rgba(249,246,238,.16);display:flex;gap:1.8cqw;align-items:flex-start;min-width:0;color:#B8AD9F}
+.vsl-g>span:nth-child(even){background:rgba(249,246,238,.08);border-left:1px solid rgba(249,246,238,.16);font-weight:600;color:var(--cream)}
+.vsl-g>span.vh{border-top:0;font:600 2.7cqw/1.3 var(--m);letter-spacing:.1em;text-transform:uppercase}
+.vsl-g>span.vh:nth-child(even){color:var(--sig-light)}
+.vsl-g .ic{font-size:4.2cqw;margin-top:.15cqw}
+.vsl-g>span:nth-child(even) .ic{color:var(--sig-light)}
 .eyebrow{color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .new{background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
 h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .lede{font-size:clamp(17px,1.6vw,19px);margin-top:14px;max-width:34em}
-.bens{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 18px;font-weight:600;font-size:15.5px}
-.bens li{display:flex;align-items:center;gap:7px}
-.bens .ic{color:var(--ink);font-size:18px}
+.chk{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px;font-size:16.5px;line-height:1.4;max-width:34em}
+.chk li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start}
+.chk .cm{width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;margin-top:1px}
+.chk .cm .ic{stroke-width:2.6}
 .step{border-top:1px solid var(--stone);margin-top:26px;padding-top:20px}
 .step-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 14px;margin-bottom:14px}
 .step-h .lab{color:var(--drift);flex:0 0 100%}
@@ -74,7 +86,8 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .cardb b{display:block;font-size:18px;letter-spacing:-.02em}
 .cardb .p{font-weight:700;font-size:22px;letter-spacing:-.03em;margin-top:6px;display:block}
 .cardb .was{color:var(--drift);text-decoration:line-through;font-size:13.5px;margin-left:5px;font-weight:500}
-.cardb .each{display:block;font:500 11.5px/1.4 var(--m);color:var(--drift);margin-top:4px}
+.cardb .each{display:block;font:500 12.5px/1.35 var(--f);color:var(--drift);margin-top:5px}
+.cardb .each + .each{margin-top:0}
 .cardb .sv{display:inline-block;margin-top:8px;font:600 10.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 6px;white-space:nowrap}
 .cardb .sv.none{background:transparent;color:var(--drift);padding-left:0}
 .each1{display:flex;align-items:center;gap:8px;margin-top:10px;background:transparent;border:0;padding:6px 0;min-height:44px;font:600 15.5px var(--f);color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
@@ -104,12 +117,20 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .plan .incl .ic{color:var(--ink);font-size:17px;margin-top:2px}
 .freq{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:15px;color:var(--drift)}
 .freq select{font:500 15px var(--f);color:var(--night);background:#fff;border:1px solid var(--stone);border-radius:8px;height:44px;padding:0 10px}
-.cta{width:100%;margin-top:20px;min-height:58px;border:0;border-radius:8px;background:var(--sig);color:#fff;font:600 18px/1 var(--f);display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.cta{width:100%;margin-top:20px;min-height:66px;border:0;border-radius:8px;background:var(--sig);color:#fff;font:600 18px/1 var(--f);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px 12px;cursor:pointer}
 .cta:disabled{background:var(--stone);color:var(--night);cursor:default}
+.cta-l{display:flex;align-items:center;justify-content:center;gap:10px}
 .cta .ic{font-size:20px}
-.trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;text-align:center}
-.trust div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13.5px;font-weight:600;line-height:1.25}
-.trust .ic{font-size:22px;color:var(--ink)}
+.cta-g{font:500 11px/1 var(--m);letter-spacing:.1em;text-transform:uppercase}
+.gcard{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;margin-top:10px;background:var(--wash);border-radius:12px;padding:14px 16px}
+.gseal{width:58px;height:58px;border-radius:50%;border:1.5px solid var(--ink);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.gseal b{font-size:23px;letter-spacing:-.04em}
+.gseal span{font:600 8.5px/1 var(--m);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.gcard .t{display:block;font-weight:700;font-size:16.5px;letter-spacing:-.01em;line-height:1.25}
+.gcard p{font-size:14.5px;color:var(--drift);margin-top:3px;line-height:1.4}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;margin-top:14px}
+.trust div{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;line-height:1.25}
+.trust .ic{font-size:19px;color:var(--ink)}
 .faq.acc{margin-top:22px;max-width:none}
 .faq.acc summary{font-size:16.5px;padding:15px 0}
 .faq.acc p{font-size:15.5px;padding-bottom:16px}
@@ -144,8 +165,23 @@ section.s{padding-block:clamp(52px,7vw,104px)}
 .vs-r.kr{border-top:1px solid var(--stone)}
 .vs-r.kr + .vs-r{border-top:0}
 .vs-r .x{color:var(--drift);font-size:16px}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:clamp(22px,3vw,36px)}
+.tab{text-align:left;border:1.5px solid var(--stone);border-radius:12px;background:var(--paper);padding:12px 14px 14px;cursor:pointer;display:flex;flex-direction:column;gap:18px;min-width:0}
+.tab i{font:600 12px/1 var(--m);letter-spacing:.1em;color:var(--ink);font-style:normal}
+.tab b{font-size:17.5px;letter-spacing:-.02em;line-height:1.15}
+.tab[aria-selected="true"]{background:var(--night);border-color:var(--night);color:var(--cream)}
+.tab[aria-selected="true"] i{color:var(--sig-light)}
+@media (max-width:760px){.tabs{display:flex;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}.tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 128px;scroll-snap-align:start}}
+.rp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,5vw,72px);align-items:center;margin-top:clamp(14px,2.4vw,28px)}
+.rp h3{font-weight:700;font-size:clamp(26px,3.2vw,40px);letter-spacing:-.035em;line-height:1.08;margin:0 0 12px;text-wrap:balance}
+.rp p{font-size:17.5px;max-width:32em}
+.rp p + p{margin-top:12px}
+@media (max-width:860px){.rp{grid-template-columns:minmax(0,1fr)}.rp .pic{aspect-ratio:4/3;order:-1}}
+.seg{display:inline-flex;gap:2px;border:1.5px solid var(--night);border-radius:999px;padding:3px;margin-bottom:22px;max-width:100%}
+.seg button{border:0;background:transparent;border-radius:999px;min-height:42px;padding:0 16px;font:600 15px var(--f);cursor:pointer;white-space:nowrap}
+.seg button[aria-selected="true"]{background:var(--night);color:var(--cream)}
 .how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,28px);margin-top:clamp(24px,3.4vw,44px)}
-@media (max-width:760px){.how{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){.how{grid-template-columns:minmax(0,1fr);gap:16px}.how>div{display:grid;grid-template-columns:104px minmax(0,1fr);column-gap:14px;align-content:center}.how>div .pic{grid-column:1;grid-row:1/span 3;align-self:center}.how>div .n,.how>div b,.how>div p{grid-column:2}.how>div .n{margin:0 0 6px}.how>div b{font-size:21px}.how>div p{font-size:15.5px;margin-top:4px}}
 .how .pic{aspect-ratio:1/1}
 .how .n{display:flex;align-items:center;gap:10px;font:600 12px var(--m);letter-spacing:.1em;color:var(--ink);margin:16px 0 8px}
 .how .n i{flex:1;height:1px;background:var(--night);opacity:.4}
@@ -163,13 +199,18 @@ section.s{padding-block:clamp(52px,7vw,104px)}
 .ticks{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px;font-weight:600}
 .ticks li{display:flex;gap:9px;align-items:center}
 .ticks .ic{color:var(--ink);font-size:19px}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
-@media (max-width:760px){.tiles{grid-template-columns:minmax(0,1fr)}}
-.tile{border-radius:14px;color:var(--cream);padding:clamp(18px,2vw,26px);min-height:clamp(250px,30vw,400px);display:flex;flex-direction:column;justify-content:space-between;min-width:0}
-.tile .lab{display:flex;justify-content:space-between}
-.tile h3{font-weight:700;font-size:clamp(32px,3.6vw,48px);letter-spacing:-.04em;line-height:1;margin:0 0 6px}
-.tile p{font-size:16px;margin-bottom:16px;max-width:22em}
-.tile button{align-self:flex-start;background:transparent;border:1.5px solid var(--cream);color:var(--cream);border-radius:8px;min-height:46px;padding:0 16px;font:600 15.5px var(--f);display:flex;align-items:center;gap:8px;cursor:pointer}
+.scs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(24px,3.4vw,44px)}
+.sc{border-radius:14px;overflow:hidden;color:var(--cream);display:flex;flex-direction:column;min-width:0}
+.sc .ph{position:relative;aspect-ratio:1/1;background:var(--dusk)}
+.sc .ph img{width:100%;height:100%;object-fit:cover}
+.sc .ph .lab{position:absolute;left:12px;top:12px;background:rgba(22,18,16,.78);color:var(--cream);border-radius:5px;padding:6px 8px}
+.sc .tx{padding:clamp(16px,2vw,24px);display:flex;flex-direction:column;gap:6px;flex:1}
+.sc h3{font-weight:700;font-size:clamp(30px,3.2vw,42px);letter-spacing:-.04em;line-height:1;margin:0}
+.sc p{font-size:16px}
+.sc .in{font:500 11.5px/1.4 var(--m);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.sc button{align-self:flex-start;margin-top:auto;background:transparent;border:1.5px solid var(--cream);color:var(--cream);border-radius:8px;min-height:46px;padding:0 16px;font:600 15.5px var(--f);display:flex;align-items:center;gap:8px;cursor:pointer}
+.sc .tx p + button,.sc .tx .in + button{margin-top:14px}
+@media (max-width:760px){.scs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:10px}.scs::-webkit-scrollbar{display:none}.sc{flex:0 0 80%;scroll-snap-align:start}}
 .g-wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
 @media (max-width:760px){.g-wrap{grid-template-columns:minmax(0,1fr)}}
 .seal{width:clamp(150px,18vw,210px);aspect-ratio:1/1;border-radius:50%;border:1.5px solid var(--sig-light);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--cream)}
@@ -230,10 +271,16 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 /* sticky bar + toast */
 .stick{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--stone);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;justify-content:center;transform:translateY(110%);transition:transform .2s;z-index:20}
 .stick.on{transform:none}
-.stick-in{width:100%;max-width:1144px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-.stick b{display:block;font-size:16px;letter-spacing:-.01em;line-height:1.2}
-.stick span{color:var(--drift);font-size:13.5px}
-.stick button{min-height:50px;padding:0 20px;border-radius:8px;border:0;background:var(--sig);color:#fff;font:600 16px var(--f);white-space:nowrap;cursor:pointer}
+.stick-in{width:100%;max-width:1144px;display:flex;align-items:center;gap:14px}
+.stick-n{margin-right:auto;min-width:0}
+.stick-n b{display:block;font-size:16px;letter-spacing:-.01em;line-height:1.2}
+.stick-n span{color:var(--drift);font-size:13.5px}
+.stick-sw{display:flex;align-items:center;gap:4px}
+.stick-sw .lab{color:var(--drift);font-size:10.5px;margin-right:6px}
+.stick-sw button{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--stone);background:transparent;font:700 16px var(--f);cursor:pointer}
+.stick-sw button[aria-pressed="true"]{border-color:var(--night);background:var(--night);color:var(--cream)}
+.stick-go{min-height:50px;padding:0 20px;border-radius:8px;border:0;background:var(--sig);color:#fff;font:600 16px var(--f);white-space:nowrap;cursor:pointer}
+@media (max-width:640px){.stick-in{gap:12px;align-items:flex-end}.stick-n{display:none}.stick-sw{display:grid;grid-template-columns:repeat(3,40px);gap:3px 4px}.stick-sw .lab{grid-column:1/-1;margin:0;font-size:9.5px}.stick-sw button{width:40px;height:40px}.stick-go{flex:1;padding:0 8px}}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--night);color:var(--cream);border-radius:10px;padding:13px 18px;font-size:15px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;max-width:calc(100% - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){.stick,.toast,.faq summary .ic{transition:none}}
@@ -241,7 +288,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 
 <!--SYMBOLS-->
 
-<div class="note">Preview · working copy, placeholder prices, generated pictures</div>
+<div class="note">Preview · working copy, placeholder prices and bath counts, generated pictures</div>
 <div class="bar">Bonsoir. Exhale the day.</div>
 <div class="w"><header class="hdr">
   <div><span class="menu">{{i:menu}}</span><nav><span class="cur">Shop</span><span>Scents</span><span>Our story</span></nav></div>
@@ -258,25 +305,36 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
       <div class="slide"><img src="img/soak-dusk.webp" alt="The pouch on a ledge beside a steaming bath at dusk" loading="lazy"><span class="cap">Made for the end of the day.</span></div>
       <div class="slide"><img src="img/soak-pour.webp" alt="Bath salts pouring from the pouch into warm water" loading="lazy"><span class="cap">One step. Pour it in.</span></div>
       <div class="slide"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"><span class="cap">Magnesium bath salts and scent.</span></div>
+      <div class="slide vsl" role="group" aria-label="What you have tried, next to Maison Croyez"><div class="vsl-in">
+        <b class="vsl-t">Scrolling doesn’t count as rest.</b>
+        <div class="vsl-g">
+          <span class="vh">What you’ve tried</span><span class="vh">Maison Croyez</span>
+          <span>{{i:x}}Scrolling in bed</span><span>{{i:check}}Twenty minutes, phone outside</span>
+          <span>{{i:x}}A quick shower</span><span>{{i:check}}Warm water up to your shoulders</span>
+          <span>{{i:x}}The TV</span><span>{{i:check}}A scent that says the day is over</span>
+          <span>{{i:x}}A ten-step routine</span><span>{{i:check}}One step. Pour it in.</span>
+        </div>
+      </div></div>
       <div class="slide"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy" style="object-position:center 20%"><span class="cap">Love your evenings in 30 days, or every dollar back.</span></div>
     </div>
-    <button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button>
-    <button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button>
-    <div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="gnav"><button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button><div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button></div>
   </div>
 
   <div>
     <p class="lab eyebrow"><span class="new">New</span>Magnesium bath soak</p>
     <h1 class="hd">A calmer evening, as simple as 1, 2, 3.</h1>
-    <p class="lede">Magnesium bath salts with a scent made for the end of the day. Run the water, pour it in, exhale.</p>
-    <ul class="bens"><li>{{i:check}}Helps you unwind</li><li>{{i:check}}Eases tired shoulders</li><li>{{i:check}}Ready in minutes</li></ul>
+    <ul class="chk">
+      <li><span class="cm">{{i:check}}</span><span><b>Helps you unwind.</b> A scent made for the end of the day.</span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>Eases tired shoulders.</b> Magnesium bath salts in warm water.</span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>Ready in minutes.</b> Run the water, pour it in, exhale.</span></li>
+    </ul>
 
     <div class="step">
       <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many bags?</h2><span class="pill">Buy more. Save more.</span></div>
       <div class="cards" id="bags">
-        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$28</span><span class="each">$28.00 each</span><span class="sv none">Try it</span></button>
-        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 bags</b><span class="p">$50<span class="was">$56</span></span><span class="each">$25.00 each</span><span class="sv">Save 11%</span></button>
-        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Best value</span><b>3 bags</b><span class="p">$66<span class="was">$84</span></span><span class="each">$22.00 each</span><span class="sv">Save 21%</span></button>
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$28</span><span class="each baths">About 6 baths</span><span class="each perbath">$4.67 a bath</span><span class="sv none">Try it</span></button>
+        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 bags</b><span class="p">$50<span class="was">$56</span></span><span class="each baths">About 12 baths</span><span class="each perbath">$4.17 a bath</span><span class="sv">Save 11%</span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Best value</span><b>3 bags</b><span class="p">$66<span class="was">$84</span></span><span class="each baths">About 18 baths</span><span class="each perbath">$3.67 a bath</span><span class="sv">Save 21%</span></button>
       </div>
     </div>
 
@@ -299,84 +357,77 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
       <div class="freq" id="freq"><label for="freq-sel">Deliver every</label><select id="freq-sel"><option>30 days</option><option>45 days</option><option>60 days</option></select></div>
     </div>
 
-    <button class="cta" type="button" id="cta">Add to bag · <span id="cta-amt">$42.50</span> {{i:arrow-right}}</button>
-    <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:rotate-ccw}}30-day money-back</div><div>{{i:calendar-check}}Skip or cancel any time</div></div>
+    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag · </span><span id="cta-amt">$42.50</span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
+    <div class="gcard"><div class="gseal" aria-hidden="true"><b>30</b><span>days</span></div><div><span class="t">Love your evenings in 30 days, or every dollar back.</span><p>Not for you? Tell us and we refund everything. Don’t love a scent? We swap it.</p></div></div>
+    <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:calendar-check}}Skip or cancel any time</div></div>
     <div class="faq acc">
       <details><summary>What’s inside + the scents{{i:plus}}</summary><p>Magnesium bath salts and scent. Unwind is sandalwood, Be here is eucalyptus and Drift off is lavender. The full ingredient list will be printed here before launch.</p></details>
       <details><summary>How to use + tips{{i:plus}}</summary><p>Run a warm bath, pour a generous handful under the tap and stay about twenty minutes. Dim the lights while it fills, and leave the phone outside.</p></details>
       <details><summary>Shipping + returns{{i:plus}}</summary><p>Free shipping on every order. Not for you? Tell us within 30 days and we refund everything. Don’t love a scent? We swap it.</p></details>
+      <details><summary>Good to know before you order{{i:plus}}</summary><p>For the bath only. Keep the bag sealed, dry and out of reach of children. The cautions from the product label will be printed here before launch.</p></details>
     </div>
   </div>
 </div></div>
 
-<section class="s sand"><div class="w"><div class="split">
-  <div>
-    <span class="lab sec-e">Why a bath</span>
-    <h2 class="hd sec-h">Leave the day at the door.</h2>
-    <div class="items">
-      <div class="item"><i>01</i><div><b>Easy</b><span>Run the water, pour it in, get in. That is the whole routine.</span></div></div>
-      <div class="item"><i>02</i><div><b>Warm</b><span>Magnesium salts in warm water, for the hour your shoulders finally drop.</span></div></div>
-      <div class="item"><i>03</i><div><b>Scented</b><span>One of three scents made for the evening. It fills the bathroom and tells your head the day is over.</span></div></div>
+<section class="s sand"><div class="w">
+  <span class="lab sec-e">Why a bath</span>
+  <h2 class="hd sec-h">Leave the day at the door.</h2>
+  <div class="tabs" role="tablist" aria-label="Four reasons">
+    <button class="tab" type="button" role="tab" id="rs-t1" aria-controls="rs-p1" aria-selected="true"><i>01</i><b>Easy</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t2" aria-controls="rs-p2" aria-selected="false" tabindex="-1"><i>02</i><b>Warm</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t3" aria-controls="rs-p3" aria-selected="false" tabindex="-1"><i>03</i><b>Scented</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t4" aria-controls="rs-p4" aria-selected="false" tabindex="-1"><i>04</i><b>Any evening</b></button>
+  </div>
+  <div class="rp" role="tabpanel" id="rs-p1" aria-labelledby="rs-t1">
+    <div><h3>Run the water, pour it in, get in.</h3><p>That is the whole routine. No ten steps to keep up for a week.</p></div>
+    <div class="pic"><img src="img/soak-dusk.webp" alt="The pouch beside a steaming bath at dusk" loading="lazy"></div>
+  </div>
+  <div class="rp" role="tabpanel" id="rs-p2" aria-labelledby="rs-t2" hidden>
+    <div><h3>For the hour your shoulders finally drop.</h3><p>Magnesium salts in warm water, up to your shoulders, with nothing else to do.</p></div>
+    <div class="pic"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"></div>
+  </div>
+  <div class="rp" role="tabpanel" id="rs-p3" aria-labelledby="rs-t3" hidden>
+    <div><h3>A scent that tells your head the day is over.</h3><p>It fills the bathroom while you soak. Three scents cover three kinds of evening: one for coming down, one for noticing, and one for the night that just needs to end well.</p></div>
+    <div class="pic"><img src="img/soak-lineup.webp" alt="The three scents side by side" loading="lazy"></div>
+  </div>
+  <div class="rp" role="tabpanel" id="rs-p4" aria-labelledby="rs-t4" hidden>
+    <div><h3>Sunday reset. Weeknight rescue.</h3><p>It works for the long bath you plan all week, and for the Tuesday you did not plan at all.</p>
+      <ul class="ticks"><li>{{i:check}}Before bed</li><li>{{i:check}}After a long day on your feet</li><li>{{i:check}}When the house is finally quiet</li></ul></div>
+    <div class="pic"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy" style="object-position:center 14%"></div>
+  </div>
+</div></section>
+
+<section class="s"><div class="w">
+  <div class="seg" role="tablist" aria-label="How it works and what to expect">
+    <button type="button" role="tab" id="hw-t1" aria-controls="hw-p1" aria-selected="true">How it works</button>
+    <button type="button" role="tab" id="hw-t2" aria-controls="hw-p2" aria-selected="false" tabindex="-1">What to expect</button>
+  </div>
+  <div role="tabpanel" id="hw-p1" aria-labelledby="hw-t1">
+    <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
+    <div class="how">
+      <div><div class="pic"><img src="img/hand-water.webp" alt="A hand on warm bath water" loading="lazy"></div><div class="n">01<i></i></div><b>Run the water.</b><p>Warm, not hot. Dim the lights while it fills.</p></div>
+      <div><div class="pic"><img src="img/soak-pour.webp" alt="Bath salts pouring into the bath" loading="lazy"></div><div class="n">02<i></i></div><b>Pour it in.</b><p>A generous handful under the tap. Swirl once.</p></div>
+      <div><div class="pic"><img src="img/hero.webp" alt="A woman in a robe at the edge of a bath with her eyes closed" loading="lazy" style="object-position:78% 20%"></div><div class="n">03<i></i></div><b>Exhale.</b><p>Stay about twenty minutes. Leave the phone outside.</p></div>
     </div>
   </div>
-  <div class="pic"><img src="img/soak-dusk.webp" alt="The pouch beside a steaming bath at dusk" loading="lazy"></div>
-</div></div></section>
-
-<section class="s"><div class="w">
-  <span class="lab sec-e">What you’ve tried</span>
-  <h2 class="hd sec-h">Scrolling doesn’t count as rest.</h2>
-  <div class="vs">
-    <div class="vs-h"><div>What you’ve tried</div><div>Maison Croyez</div></div>
-    <div class="vs-r kr"><div class="k">Time for yourself</div></div>
-    <div class="vs-r"><div class="x">Scrolling in bed. An hour gone and your mind is still at work.</div><div>Twenty minutes with the door closed and the phone outside.</div></div>
-    <div class="vs-r kr"><div class="k">Switching off</div></div>
-    <div class="vs-r"><div class="x">A quick shower. Clean, yes. Unwound, no.</div><div>Warm water up to your shoulders and nothing else to do.</div></div>
-    <div class="vs-r kr"><div class="k">The signal to stop</div></div>
-    <div class="vs-r"><div class="x">The TV. The evening ends when the episode does.</div><div>A scent that tells you the day is over.</div></div>
-    <div class="vs-r kr"><div class="k">The effort</div></div>
-    <div class="vs-r"><div class="x">A ten-step routine you keep up for a week.</div><div>One step. Pour it in.</div></div>
-  </div>
-</div></section>
-
-<section class="s sand"><div class="w">
-  <span class="lab sec-e">How it works</span>
-  <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
-  <div class="how">
-    <div><div class="pic"><img src="img/hand-water.webp" alt="A hand on warm bath water" loading="lazy"></div><div class="n">01<i></i></div><b>Run the water.</b><p>Warm, not hot. Dim the lights while it fills.</p></div>
-    <div><div class="pic"><img src="img/soak-pour.webp" alt="Bath salts pouring into the bath" loading="lazy"></div><div class="n">02<i></i></div><b>Pour it in.</b><p>A generous handful under the tap. Swirl once.</p></div>
-    <div><div class="pic"><img src="img/hero.webp" alt="A woman in a robe at the edge of a bath with her eyes closed" loading="lazy" style="object-position:78% 20%"></div><div class="n">03<i></i></div><b>Exhale.</b><p>Stay about twenty minutes. Leave the phone outside.</p></div>
-  </div>
-</div></section>
-
-<section class="s"><div class="w">
-  <span class="lab sec-e">What to expect</span>
-  <h2 class="hd sec-h">One bath is a treat. A month is a habit.</h2>
-  <div class="tl">
-    <div><div class="n">Night one<i></i></div><b>Twenty minutes that are yours.</b><p>Door closed, phone outside, warm water up to your shoulders. You get out unhurried.</p></div>
-    <div><div class="n">Week one<i></i></div><b>It starts to feel like the end of the day.</b><p>A few baths in, the scent does the work. You smell it and you slow down.</p></div>
-    <div><div class="n">Month one<i></i></div><b>The evening has a shape.</b><p>The bag is nearly empty and the habit has stuck. If you subscribe, the next one is already on its way.</p></div>
+  <div role="tabpanel" id="hw-p2" aria-labelledby="hw-t2" hidden>
+    <h2 class="hd sec-h">One bath is a treat. A month is a habit.</h2>
+    <div class="tl">
+      <div><div class="n">Night one<i></i></div><b>Twenty minutes that are yours.</b><p>Door closed, phone outside, warm water up to your shoulders. You get out unhurried.</p></div>
+      <div><div class="n">Week one<i></i></div><b>It starts to feel like the end of the day.</b><p>A few baths in, the scent does the work. You smell it and you slow down.</p></div>
+      <div><div class="n">Month one<i></i></div><b>The evening has a shape.</b><p>The bag is nearly empty and the habit has stuck. If you subscribe, the next one is already on its way.</p></div>
+    </div>
   </div>
   <button class="btn2" type="button" data-top>Choose your bags {{i:arrow-right}}</button>
 </div></section>
 
-<section class="s sand"><div class="w"><div class="split">
-  <div class="pic"><img src="img/woman-silver.webp" alt="A woman with silver hair resting by a window at dusk" loading="lazy"></div>
-  <div class="txt">
-    <span class="lab sec-e">When it fits</span>
-    <h2 class="hd sec-h" style="margin-bottom:20px">Sunday reset. Weeknight rescue.</h2>
-    <p>It works for the long bath you plan all week, and for the Tuesday you did not plan at all.</p>
-    <p>Three scents cover three kinds of evening. One for coming down, one for noticing, and one for the night that just needs to end well.</p>
-    <ul class="ticks"><li>{{i:check}}Before bed</li><li>{{i:check}}After a long day on your feet</li><li>{{i:check}}When the house is finally quiet</li></ul>
-  </div>
-</div></div></section>
-
-<section class="s"><div class="w">
+<section class="s sand"><div class="w">
   <span class="lab sec-e">Three scents, three moods</span>
   <h2 class="hd sec-h">Meet the scents.</h2>
-  <div class="tiles">
-    <div class="tile" style="background:var(--clay)"><span class="lab"><span>01</span><span>Sandalwood</span></span><div><h3>Unwind.</h3><p>For the hour you finally sit down.</p><button type="button" data-add="unwind">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="tile" style="background:var(--euca)"><span class="lab"><span>02</span><span>Eucalyptus</span></span><div><h3>Be here.</h3><p>For the evening you want to notice.</p><button type="button" data-add="be-here">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="tile" style="background:var(--lav)"><span class="lab"><span>03</span><span>Lavender</span></span><div><h3>Drift off.</h3><p>For the night that needs to end well.</p><button type="button" data-add="drift-off">Add this one {{i:arrow-right}}</button></div></div>
+  <div class="scs">
+    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/soak-unwind.webp" alt="The Unwind bath soak pouch" loading="lazy"><span class="lab">01 · Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>For the hour you finally sit down.</p><span class="in">Magnesium bath salts + sandalwood</span><button type="button" data-add="unwind">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/soak-be-here.webp" alt="The Be here bath soak pouch" loading="lazy"><span class="lab">02 · Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>For the evening you want to notice.</p><span class="in">Magnesium bath salts + eucalyptus</span><button type="button" data-add="be-here">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/soak-drift-off.webp" alt="The Drift off bath soak pouch" loading="lazy"><span class="lab">03 · Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>For the night that needs to end well.</p><span class="in">Magnesium bath salts + lavender</span><button type="button" data-add="drift-off">Add this one {{i:arrow-right}}</button></div></div>
   </div>
 </div></section>
 
@@ -429,13 +480,13 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <span class="lab sec-e">FAQ</span>
   <h2 class="hd sec-h">Questions? Answered.</h2>
   <div class="faq">
-    <details open><summary>How do I use it?{{i:plus}}</summary><p>Run a warm bath, pour the salts under the tap and soak for about twenty minutes.</p></details>
-    <details><summary>Which scent should I start with?{{i:plus}}</summary><p>Unwind if you need to come down after the day. Be here if you want a clear head. Drift off if the next stop is bed.</p></details>
-    <details><summary>When is the best time?{{i:plus}}</summary><p>In the evening, about an hour before bed.</p></details>
-    <details><summary>What is in it?{{i:plus}}</summary><p>Magnesium bath salts and scent. The full ingredient list will be printed here before launch.</p></details>
+    <details open><summary>What if it is not for me?{{i:plus}}</summary><p>Tell us within 30 days and we refund everything. If it is only the scent, we swap it.</p></details>
     <details><summary>How strong is the scent?{{i:plus}}</summary><p>It fills the bathroom while you soak and fades after. It is made to calm you, not to perfume the house.</p></details>
-    <details><summary>How many baths are in a bag?{{i:plus}}</summary><p>The number of baths per bag will be printed here before launch.</p></details>
-    <details><summary>What if it is not for me?{{i:plus}}</summary><p>Tell us within 30 days and we refund everything. If it is only the scent, we swap it.</p></details>
+    <details><summary>Which scent should I start with?{{i:plus}}</summary><p>Unwind if you need to come down after the day. Be here if you want a clear head. Drift off if the next stop is bed.</p></details>
+    <details><summary>How many baths are in a bag?{{i:plus}}</summary><p><span id="faq-baths">About 6</span> baths, at a generous handful each.</p></details>
+    <details><summary>What is in it?{{i:plus}}</summary><p>Magnesium bath salts and scent. The full ingredient list will be printed here before launch.</p></details>
+    <details><summary>How do I use it?{{i:plus}}</summary><p>Run a warm bath, pour the salts under the tap and soak for about twenty minutes.</p></details>
+    <details><summary>When is the best time?{{i:plus}}</summary><p>In the evening, about an hour before bed.</p></details>
     <details><summary>Can I change or cancel a subscription?{{i:plus}}</summary><p>Yes. Skip a delivery, swap scents or cancel any time from your account.</p></details>
   </div>
 </div></section>
@@ -446,11 +497,16 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div><p class="bn">Bonne nuit.</p><p style="margin-top:8px">Preview page. Prices, scents, policies and copy are working choices, and nothing here is on the store.</p></div>
 </div></div></footer>
 
-<div class="stick" id="stick"><div class="stick-in"><div><b>Magnesium bath soak</b><span id="stick-sum">2 bags · $42.50</span></div><button type="button" data-top>Choose your bags</button></div></div>
+<div class="stick" id="stick"><div class="stick-in">
+  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">2 bags · about 12 baths</span></div>
+  <div class="stick-sw" id="stick-sw" role="group" aria-label="How many bags"><span class="lab">Bags</span><button type="button" data-n="1" aria-pressed="false" aria-label="1 bag">1</button><button type="button" data-n="2" aria-pressed="true" aria-label="2 bags">2</button><button type="button" data-n="3" aria-pressed="false" aria-label="3 bags">3</button></div>
+  <button type="button" class="stick-go" id="stick-go">Add to bag · $42.50</button>
+</div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
 
 <script>
 (function(){
+  var BATHS=6; /* baths in one bag: a stand-in until the bag size is set */
   var PRICE={1:28,2:50,3:66},ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
   var st={bags:2,picks:{'unwind':1,'be-here':0,'drift-off':1},plan:'sub',last:'unwind'};
   var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
@@ -462,15 +518,17 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   }
   function render(){
     var once=PRICE[st.bags],sub=Math.round(once*85)/100,due=st.plan==='sub'?sub:once,n=sum(),left=st.bags-n;
-    $$('#bags .cardb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.bags))});
+    $$('#bags .cardb').forEach(function(b){var k=+b.dataset.n;b.setAttribute('aria-pressed',String(k===st.bags));b.querySelector('.baths').textContent='About '+(k*BATHS)+' baths';b.querySelector('.perbath').textContent=money(PRICE[k]/(k*BATHS))+' a bath'});
+    $$('#stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.bags))});$('#faq-baths').textContent='About '+BATHS;
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     var c=$('#count');c.textContent=left>0?('Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
     $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
     $('#amt-sub').textContent=money(sub);$('#sub-each').textContent=money(sub/st.bags)+' a bag instead of '+money(once/st.bags);
     $('#each1').hidden=st.bags===3&&ORDER.every(function(k){return st.picks[k]===1});$('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
     var cta=$('#cta');cta.disabled=left>0;$('#cta-amt').textContent=money(due);
-    if(left>0){cta.firstChild.textContent='Pick '+left+' more scent'+(left>1?'s':'')+' · '}else{cta.firstChild.textContent='Add to bag · '}
-    $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · '+money(due);
+    $('#cta-txt').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')+' · '):'Add to bag · ';
+    $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · about '+(st.bags*BATHS)+' baths';
+    $('#stick-go').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')):('Add to bag · '+money(due));
     var first=ORDER.filter(function(k){return st.picks[k]>0})[0]||'unwind';
     var hero=$('#hero-img'),src='img/soak-'+first+'.webp';if(hero.getAttribute('src')!==src)hero.setAttribute('src',src);
   }
@@ -480,6 +538,15 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     r.querySelector('.dec').addEventListener('click',function(){if(st.picks[k]>0){st.picks[k]--;render()}});
   });
   $$('#plans .plan').forEach(function(b){b.addEventListener('click',function(){st.plan=b.dataset.p;render()})});
+  $$('#stick-sw button').forEach(function(b){b.addEventListener('click',function(){st.bags=+b.dataset.n;fit();render()})});
+  $('#stick-go').addEventListener('click',function(){if(sum()<st.bags){$('#scents').scrollIntoView({behavior:'smooth',block:'center'})}else{say('Preview only. Nothing was added.')}});
+  /* tabs: the reasons, and how it works / what to expect */
+  $$('[role="tablist"]').forEach(function(list){var tabs=[].slice.call(list.querySelectorAll('[role="tab"]'));
+    function pick(t,focus){tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on});
+      if(focus)t.focus();if(list.scrollWidth>list.clientWidth)list.scrollTo({left:t.offsetLeft-list.offsetLeft-24,behavior:'smooth'})}
+    tabs.forEach(function(t,i){t.addEventListener('click',function(){pick(t)});
+      t.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){e.preventDefault();pick(tabs[(i+d+tabs.length)%tabs.length],true)}})});
+  });
   $('#each1').addEventListener('click',function(){st.bags=3;ORDER.forEach(function(k){st.picks[k]=1});render();say('One of each. Three bags.')});
   $$('[data-soon]').forEach(function(a){a.addEventListener('click',function(){say('Preview only. This page is not built yet.')})});
   var toast=$('#toast'),tt=0;
@@ -497,8 +564,9 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   $('#g-prev').addEventListener('click',function(){go(idx()-1)});$('#g-next').addEventListener('click',function(){go(idx()+1)});
   track.addEventListener('scroll',function(){var i=idx();dots.forEach(function(d,j){d.className=j===i?'on':''})},{passive:true});
   /* sticky bar shows once the main button is out of view */
-  var stick=$('#stick');
-  if('IntersectionObserver' in window){new IntersectionObserver(function(es){stick.classList.toggle('on',!es[0].isIntersecting&&es[0].boundingClientRect.top<0)}).observe($('#cta'))}
+  var stick=$('#stick'),ctaEl=$('#cta'),tick=0;
+  function onScroll(){if(tick)return;tick=requestAnimationFrame(function(){tick=0;stick.classList.toggle('on',ctaEl.getBoundingClientRect().bottom<0)})}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
   render();
 })();
 </script>

@@ -1,0 +1,122 @@
+name: ref-pdp
+# Reference capture of one outside product page (the session container cannot reach these sites): phone + desktop screenshots in readable slices, the page text in reading order, an outline of its sections (headings, buttons, pictures, videos), the fixed bars, the fold-outs and the product data (variants, prices, subscription plans), into lp-factory/recon-brand/<SLUG>/. Edit SLUG / URL and push to run. [run 1: Valera Naturals nattokinase, owner 2026-11-18, for the bath soak PDP]
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/ref-pdp.yml']
+permissions:
+  contents: write
+env:
+  SLUG: valera
+  URL: https://valeranaturals.com/products/valera-nattokinase-150-day-supply
+  OUT: lp-factory/recon-brand
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i --no-audit --no-fund playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Capture
+        run: |
+          mkdir -p "$OUT/$SLUG"
+          cat > ref.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const DIR = `${process.env.OUT}/${process.env.SLUG}`, URL_ = process.env.URL;
+          const UA_M = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          const UA_D = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+          const fixedBars = () => {
+            const tx = (e) => (e.innerText || '').replace(/\s+/g, ' ').trim();
+            const out = [];
+            for (const e of document.querySelectorAll('body *')) {
+              const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+              const r = e.getBoundingClientRect(); if (r.width < 40 || r.height < 20 || cs.display === 'none' || cs.visibility === 'hidden') continue;
+              const t = tx(e); if (!t) continue;
+              out.push({ pos: cs.position, top: Math.round(r.top), h: Math.round(r.height), w: Math.round(r.width), text: t.slice(0, 260) });
+            }
+            return out.slice(0, 14);
+          };
+          const clean = async (pg) => {
+            await pg.keyboard.press('Escape').catch(() => {});
+            await pg.evaluate(() => {
+              const vw = innerWidth, vh = innerHeight;
+              for (const e of document.querySelectorAll('body *')) {
+                const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+                const r = e.getBoundingClientRect(); const z = parseInt(cs.zIndex) || 0;
+                const covers = r.width * r.height > vw * vh * 0.25; const isHeader = r.top <= 2 && r.height < 220 && r.width > vw * 0.8;
+                const txt = (e.innerText || '').toLowerCase();
+                if (!isHeader && (covers || (z > 50 && /subscribe|sign up|% off|unlock|email|cookie|consent|accept/.test(txt) && r.height > 60))) e.style.setProperty('display', 'none', 'important');
+              }
+              document.documentElement.style.overflow = 'auto'; document.body.style.overflow = 'auto';
+            }).catch(() => {});
+          };
+          const outline = () => {
+            const tx = (e) => (e ? (e.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim() : '');
+            const vis = (e) => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return r.width > 2 && r.height > 2 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
+            let secs = [...document.querySelectorAll('.shopify-section')].filter(vis).filter((e) => !e.parentElement.closest('.shopify-section'));
+            if (secs.length < 4) secs = [...(document.querySelector('main') || document.body).children].filter(vis);
+            const sections = secs.map((e) => { const r = e.getBoundingClientRect(); return {
+              id: (e.id || '').slice(0, 90), top: Math.round(r.top + scrollY), height: Math.round(r.height),
+              headings: [...e.querySelectorAll('h1,h2,h3,h4')].filter(vis).map((h) => h.tagName + ': ' + tx(h).slice(0, 150)).slice(0, 16),
+              buttons: [...new Set([...e.querySelectorAll('a,button')].filter(vis).map(tx).filter((t) => t && t.length < 46))].slice(0, 16),
+              pictures: [...e.querySelectorAll('img')].filter(vis).length, videos: e.querySelectorAll('video, iframe[src*="youtube"], iframe[src*="vimeo"]').length,
+              foldouts: [...e.querySelectorAll('details > summary, [aria-expanded]')].filter(vis).map(tx).filter((t) => t && t.length < 120).slice(0, 16),
+              text: tx(e).slice(0, e.querySelector('form[action*="/cart/add"]') ? 4200 : 1500),
+            }; }).filter((s) => s.height > 8);
+            const form = document.querySelector('form[action*="/cart/add"]');
+            return {
+              url: location.href, title: document.title, pageHeight: document.documentElement.scrollHeight,
+              announcement: tx(document.querySelector('[class*="announcement" i], [id*="announcement" i]')).slice(0, 300),
+              h1: tx(document.querySelector('h1')),
+              allHeadings: [...document.querySelectorAll('h1,h2,h3')].filter(vis).map((h) => Math.round(h.getBoundingClientRect().top + scrollY) + ' ' + h.tagName + ': ' + tx(h).slice(0, 140)).slice(0, 90),
+              formInputs: form ? [...form.querySelectorAll('input[type=radio], select, input[type=checkbox]')].map((i) => (i.name || '') + '=' + (i.value || '') + ' | ' + tx(i.closest('label') || document.querySelector('label[for="' + i.id + '"]') || i.parentElement).slice(0, 140)).slice(0, 40) : [],
+              sections,
+            };
+          };
+          const b = await chromium.launch(); const notes = {};
+          for (const [vp, W, H, mobile, SLICE] of [['phone', 390, 844, true, 1300], ['desktop', 1440, 900, false, 1500]]) {
+            try {
+              const ctx = await b.newContext(mobile ? { viewport: { width: W, height: H }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, userAgent: UA_M, locale: 'en-US' } : { viewport: { width: W, height: H }, deviceScaleFactor: 1, userAgent: UA_D, locale: 'en-US' });
+              const pg = await ctx.newPage();
+              await pg.goto(URL_, { waitUntil: 'domcontentloaded', timeout: 90000 }); await pg.waitForTimeout(8000);
+              await pg.screenshot({ path: `${DIR}/${vp}-first-view-raw.jpg`, type: 'jpeg', quality: 72 });
+              await clean(pg); await pg.waitForTimeout(500);
+              await pg.screenshot({ path: `${DIR}/${vp}-first-view.jpg`, type: 'jpeg', quality: 78 });
+              for (let y = 0; y < 40000; y += 600) { await pg.evaluate((y) => window.scrollTo(0, y), y); await pg.waitForTimeout(160); if (y > await pg.evaluate(() => document.documentElement.scrollHeight)) break; }
+              await pg.evaluate(() => window.scrollTo(0, 1800)); await pg.waitForTimeout(900);
+              const bars = await pg.evaluate(fixedBars);
+              await pg.screenshot({ path: `${DIR}/${vp}-scrolled-view.jpg`, type: 'jpeg', quality: 72 });
+              await clean(pg); await pg.evaluate(() => window.scrollTo(0, 0)); await pg.waitForTimeout(900); await clean(pg);
+              const o = await pg.evaluate(outline); o.fixedBarsWhenScrolled = bars;
+              if (mobile) {
+                fs.writeFileSync(`${DIR}/page-text.txt`, (await pg.evaluate(() => document.body.innerText)).replace(/\n\s*\n+/g, '\n').slice(0, 60000));
+                try { const pj = await pg.evaluate(async () => { const r = await fetch(location.pathname + '.js'); const p = await r.json(); return { title: p.title, type: p.type, vendor: p.vendor, tags: (p.tags || []).slice(0, 30), price: p.price / 100, compare: p.compare_at_price / 100, options: p.options, variants: p.variants.map((v) => ({ title: v.title, price: v.price / 100, compare: v.compare_at_price ? v.compare_at_price / 100 : null, available: v.available, plans: (v.selling_plan_allocations || []).map((a) => ({ plan: a.selling_plan_id, price: a.price / 100 })) })), plans: (p.selling_plan_groups || []).map((g) => ({ name: g.name, options: g.options, plans: g.selling_plans.map((s) => ({ id: s.id, name: s.name, adj: s.price_adjustments })) })), description: (p.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 2500) }; }); fs.writeFileSync(`${DIR}/product.json`, JSON.stringify(pj, null, 1)); } catch (e) { o.productJsonError = String(e).slice(0, 200); }
+              }
+              notes[vp] = o;
+              const total = Math.min(await pg.evaluate(() => document.documentElement.scrollHeight), mobile ? 30000 : 22000);
+              let n = 0;
+              for (let y = 0; y < total; y += SLICE) { n++; await pg.screenshot({ path: `${DIR}/${vp}-${String(n).padStart(2, '0')}.jpg`, type: 'jpeg', quality: mobile ? 60 : 64, fullPage: true, clip: { x: 0, y, width: W, height: Math.min(SLICE, total - y) } }); }
+              o.slices = n; console.log(vp, 'ok', o.title, 'height', o.pageHeight, 'slices', n, 'sections', o.sections.length);
+              await ctx.close();
+            } catch (e) { notes[vp + 'Error'] = String(e).slice(0, 400); console.log(vp, 'FAILED', String(e).slice(0, 300)); }
+          }
+          await b.close();
+          fs.writeFileSync(`${DIR}/outline.json`, JSON.stringify(notes, null, 1));
+          EOF2
+          node ref.mjs
+          ls -la "$OUT/$SLUG" | head -80
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT/$SLUG"
+          git commit -m "ref-pdp: $SLUG product page for reference" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push && break || sleep 3; done

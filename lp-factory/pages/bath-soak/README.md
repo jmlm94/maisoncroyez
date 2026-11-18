@@ -84,3 +84,37 @@ offer decision: the top bar (sale, shipping, guarantee) and a free gift that gro
 Checked on phone 400 px and desktop 1440 px: seven sections, tabs, switch, sticky bar (1 / 2 / 3, one-time, subscribe),
 "add this one" on the scent cards, the comparison slide fits its square, no sideways scroll, no errors.
 
+## Round 4 (2026-11-18, artifact version 4): his prices, scent scenarios, delivery buttons, scent pictures
+
+His words: "Price of each will be $19. Let's do 1, 3 ($39) and 6 ($89). Run the math. Compare at price of 100% more
+please, like if it was 50% off." / "For the three scents, add an emoji at the beginning of each ingredient, the ingredient
+in bold and then : with the explanation ... Sandalwood for weekends to relax. Eucalyptus for your ritual once a week and
+lavender when you had a tough day." / "For subscription let's do 15% OFF." / "The frequency do it in three icons and not a
+drop down, 30 45 and 60 days." / "On the meet the scents section, let's add pictures for the actual main ingredient combine
+with the picture of the actual magnesium soak."
+
+| bags | price | compare-at (2x) | a bag | subscribe (15% off) | a bag, subscribed | baths (6 a bag, stand-in) | a bath |
+|---|---|---|---|---|---|---|---|
+| 1 | $19 | $38 | $19.00 | $16.15 | $16.15 | 6 | $3.17 |
+| 3 (most popular, preselected, one of each) | $39 | $78 | $13.00 | $33.15 | $11.05 | 18 | $2.17 |
+| 6 | $89 | $178 | $14.83 | $75.65 | $12.61 | 36 | $2.47 |
+
+- THE 6-BAG PRICE IS WORSE PER BAG THAN THE 3-BAG ONE ($14.83 against $13.00; two 3-bag orders are $78, $11 less than
+  $89). Applied as he gave it and told to him; the 6-bag tile is tagged "Stock up", not "Best value", because it is not.
+  It becomes the best value under $78 (for example $69 = $11.50 a bag, $72 = $12.00).
+- The compare-at prices are his instruction (twice the price, a "50% off" pill on every tile). Told to him once: a
+  crossed-out price the product was never sold at is a legal risk in the US (FTC pricing guides, state laws).
+- Scent lines (step 2 rows and the "Meet the scents" cards): "🪵 Sandalwood: for weekends, when the only plan is to relax."
+  / "🌿 Eucalyptus: for your once-a-week ritual." / "🪻 Lavender: for the evening after a tough day." The mood names stay as
+  the titles (they are printed on the pouches). The same three scenarios replace the old lines in the Scented tab and in
+  the FAQ answer "Which scent should I start with?".
+- Subscription was already 15%; the option now reads "Subscribe and get 15% OFF", with "Delivered every N days." under it.
+- Delivery: three buttons (30 / 45 / 60 days, calendar icon) instead of the drop-down.
+- Scent cards: three new generated pictures, img/scent-{unwind,be-here,drift-off}.webp (the pouch from the existing
+  picture as reference, its ingredient on the left, a dish of the salts on the right; labels checked, all correct).
+- Script: PRICE {1: 19, 3: 39, 6: 89}, SIZES [1, 3, 6]; a bigger size fills the scents evenly (6 bags -> 2 / 2 / 2);
+  "Add this one" on a card moves 1 bag up to 3 when the bag already holds that scent.
+
+Checked on phone 400 px and desktop 1440 px: every size, both plans, the three delivery buttons, the sticky switch, no
+sideways scroll, no errors.
+

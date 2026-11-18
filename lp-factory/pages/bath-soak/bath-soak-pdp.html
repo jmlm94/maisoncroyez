@@ -80,13 +80,14 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .count{font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--drift)}
 .count.ok{color:var(--euca)}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.cardb{position:relative;text-align:left;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:22px 12px 14px;cursor:pointer;min-width:0}
+.cardb{position:relative;text-align:left;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:22px 10px 14px;cursor:pointer;min-width:0}
 .cardb[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#fff}
 .cardb .tag{position:absolute;top:-10px;left:10px;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--sig);color:#fff;border-radius:5px;padding:5px 7px;white-space:nowrap}
 .cardb b{display:block;font-size:18px;letter-spacing:-.02em}
 .cardb .p{font-weight:700;font-size:22px;letter-spacing:-.03em;margin-top:6px;display:block}
 .cardb .was{color:var(--drift);text-decoration:line-through;font-size:13.5px;margin-left:5px;font-weight:500}
-.cardb .each{display:block;font:500 12.5px/1.35 var(--f);color:var(--drift);margin-top:5px}
+.cardb .each{display:block;font:500 12px/1.35 var(--f);color:var(--drift);margin-top:5px}
+@media (min-width:420px){.cardb{padding:22px 12px 14px}.cardb .each{font-size:12.5px}}
 .cardb .each + .each{margin-top:0}
 .cardb .sv{display:inline-block;margin-top:8px;font:600 10.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 6px;white-space:nowrap}
 .cardb .sv.none{background:transparent;color:var(--drift);padding-left:0}
@@ -97,6 +98,7 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .sw{width:64px;height:64px;border-radius:9px;color:var(--cream);display:flex;align-items:flex-end;padding:7px 8px;font:600 11px/1 var(--m);letter-spacing:.1em}
 .row b{display:block;font-size:19px;letter-spacing:-.02em;line-height:1.15}
 .row span{color:var(--drift);font-size:14.5px;display:block}
+.row span strong{color:var(--night);font-weight:700}
 .stepper{display:flex;align-items:center;gap:4px}
 .stepper button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--night);background:transparent;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer}
 .stepper button:disabled{border-color:var(--stone);color:var(--stone);cursor:default}
@@ -115,8 +117,14 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .plan[aria-pressed="true"] .incl{display:grid}
 .plan .incl span{display:flex;gap:8px;align-items:flex-start;color:var(--night);font-size:15px;line-height:1.35}
 .plan .incl .ic{color:var(--ink);font-size:17px;margin-top:2px}
-.freq{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:15px;color:var(--drift)}
-.freq select{font:500 15px var(--f);color:var(--night);background:#fff;border:1px solid var(--stone);border-radius:8px;height:44px;padding:0 10px}
+.freq{display:grid;gap:8px;margin-top:14px}
+.freq>.lab{color:var(--drift)}
+.fq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fq button{background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:12px 8px 11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.fq button[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#fff}
+.fq .ic{font-size:20px;color:var(--ink);margin-bottom:3px}
+.fq b{font-size:22px;letter-spacing:-.03em;line-height:1}
+.fq span{font:500 11px/1 var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--drift)}
 .cta{width:100%;margin-top:20px;min-height:66px;border:0;border-radius:8px;background:var(--sig);color:#fff;font:600 18px/1 var(--f);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px 12px;cursor:pointer}
 .cta:disabled{background:var(--stone);color:var(--night);cursor:default}
 .cta-l{display:flex;align-items:center;justify-content:center;gap:10px}
@@ -332,18 +340,18 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     <div class="step">
       <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many bags?</h2><span class="pill">Buy more. Save more.</span></div>
       <div class="cards" id="bags">
-        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$28</span><span class="each baths">About 6 baths</span><span class="each perbath">$4.67 a bath</span><span class="sv none">Try it</span></button>
-        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 bags</b><span class="p">$50<span class="was">$56</span></span><span class="each baths">About 12 baths</span><span class="each perbath">$4.17 a bath</span><span class="sv">Save 11%</span></button>
-        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Best value</span><b>3 bags</b><span class="p">$66<span class="was">$84</span></span><span class="each baths">About 18 baths</span><span class="each perbath">$3.67 a bath</span><span class="sv">Save 21%</span></button>
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 bag</b><span class="p">$19<span class="was">$38</span></span><span class="each baths">About 6 baths</span><span class="each perbath">$3.17 a bath</span><span class="sv">50% off</span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="true"><span class="tag">Most popular</span><b>3 bags</b><span class="p">$39<span class="was">$78</span></span><span class="each baths">About 18 baths</span><span class="each perbath">$2.17 a bath</span><span class="sv">50% off</span></button>
+        <button class="cardb" type="button" data-n="6" aria-pressed="false"><span class="tag">Stock up</span><b>6 bags</b><span class="p">$89<span class="was">$178</span></span><span class="each baths">About 36 baths</span><span class="each perbath">$2.47 a bath</span><span class="sv">50% off</span></button>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd">Pick your scents.</h2><span class="count ok" id="count">2 of 2 picked</span></div>
+      <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd">Pick your scents.</h2><span class="count ok" id="count">3 of 3 picked</span></div>
       <div class="rows" id="scents">
-        <div class="row" data-k="unwind"><div class="sw" style="background:var(--clay)">01</div><div><b>Unwind.</b><span>Sandalwood · for the hour you finally sit down</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Unwind"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output>1</output><button type="button" class="inc" aria-label="One more Unwind"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></button></div></div>
-        <div class="row" data-k="be-here"><div class="sw" style="background:var(--euca)">02</div><div><b>Be here.</b><span>Eucalyptus · for the evening you want to notice</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output>0</output><button type="button" class="inc" aria-label="One more Be here"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></button></div></div>
-        <div class="row" data-k="drift-off"><div class="sw" style="background:var(--lav)">03</div><div><b>Drift off.</b><span>Lavender · for the night that needs to end well</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Drift off"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output>1</output><button type="button" class="inc" aria-label="One more Drift off"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></button></div></div>
+        <div class="row" data-k="unwind"><div class="sw" style="background:var(--clay)">01</div><div><b>Unwind.</b><span>🪵 <strong>Sandalwood:</strong> for weekends, when the only plan is to relax.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Unwind"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output>1</output><button type="button" class="inc" aria-label="One more Unwind"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></button></div></div>
+        <div class="row" data-k="be-here"><div class="sw" style="background:var(--euca)">02</div><div><b>Be here.</b><span>🌿 <strong>Eucalyptus:</strong> for your once-a-week ritual.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output>1</output><button type="button" class="inc" aria-label="One more Be here"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></button></div></div>
+        <div class="row" data-k="drift-off"><div class="sw" style="background:var(--lav)">03</div><div><b>Drift off.</b><span>🪻 <strong>Lavender:</strong> for the evening after a tough day.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Drift off"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output>1</output><button type="button" class="inc" aria-label="One more Drift off"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></button></div></div>
       </div>
       <button class="each1" type="button" id="each1">Can’t decide? Take one of each. <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button>
     </div>
@@ -351,13 +359,17 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     <div class="step">
       <div class="step-h"><span class="lab">Step 3 of 3</span><h2 class="hd">How do you want it?</h2></div>
       <div class="plans" id="plans">
-        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="tag">Best deal</span><span class="radio"></span><span><b>Subscribe and save 15%</b><span>Delivered on your schedule.</span><span class="incl"><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span id="sub-each">$21.25 a bag instead of $25.00</span></span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>15% off every delivery, not only the first</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free shipping every time</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Skip, swap scents or cancel any time</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Covered by the 30-day money-back promise</span></span></span><span class="amt" id="amt-sub">$42.50</span></button>
-        <button class="plan" type="button" data-p="once" aria-pressed="false"><span class="radio"></span><span><b>One-time purchase</b><span>Pay once.</span></span><span class="amt" id="amt-once">$50.00</span></button>
+        <button class="plan" type="button" data-p="sub" aria-pressed="true"><span class="tag">Best deal</span><span class="radio"></span><span><b>Subscribe and get 15% OFF</b><span id="sub-when">Delivered every 30 days.</span><span class="incl"><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span id="sub-each">$11.05 a bag instead of $13.00</span></span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>15% off every delivery, not only the first</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free shipping every time</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Skip, swap scents or cancel any time</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Covered by the 30-day money-back promise</span></span></span><span class="amt" id="amt-sub">$33.15</span></button>
+        <button class="plan" type="button" data-p="once" aria-pressed="false"><span class="radio"></span><span><b>One-time purchase</b><span>Pay once.</span></span><span class="amt" id="amt-once">$39.00</span></button>
       </div>
-      <div class="freq" id="freq"><label for="freq-sel">Deliver every</label><select id="freq-sel"><option>30 days</option><option>45 days</option><option>60 days</option></select></div>
+      <div class="freq" id="freq"><span class="lab">Deliver every</span><div class="fq" role="group" aria-label="Deliver every">
+        <button type="button" data-d="30" aria-pressed="true"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/> <path d="M16 2v4"/> <rect width="18" height="18" x="3" y="4" rx="2"/> <path d="M3 10h18"/> <path d="m9 16 2 2 4-4"/></svg><b>30</b><span>days</span></button>
+        <button type="button" data-d="45" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/> <path d="M16 2v4"/> <rect width="18" height="18" x="3" y="4" rx="2"/> <path d="M3 10h18"/> <path d="m9 16 2 2 4-4"/></svg><b>45</b><span>days</span></button>
+        <button type="button" data-d="60" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/> <path d="M16 2v4"/> <rect width="18" height="18" x="3" y="4" rx="2"/> <path d="M3 10h18"/> <path d="m9 16 2 2 4-4"/></svg><b>60</b><span>days</span></button>
+      </div></div>
     </div>
 
-    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag · </span><span id="cta-amt">$42.50</span></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></span><span class="cta-g">30-day money-back guarantee</span></button>
+    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag · </span><span id="cta-amt">$33.15</span></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></span><span class="cta-g">30-day money-back guarantee</span></button>
     <div class="gcard"><div class="gseal" aria-hidden="true"><b>30</b><span>days</span></div><div><span class="t">Love your evenings in 30 days, or every dollar back.</span><p>Not for you? Tell us and we refund everything. Don’t love a scent? We swap it.</p></div></div>
     <div class="trust"><div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/> <path d="M15 18H9"/> <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/> <circle cx="17" cy="18" r="2"/> <circle cx="7" cy="18" r="2"/></svg>Free shipping</div><div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/> <path d="M16 2v4"/> <rect width="18" height="18" x="3" y="4" rx="2"/> <path d="M3 10h18"/> <path d="m9 16 2 2 4-4"/></svg>Skip or cancel any time</div></div>
     <div class="faq acc">
@@ -387,7 +399,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     <div class="pic"><img src="img/flakes.webp" alt="The bath salts up close" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p3" aria-labelledby="rs-t3" hidden>
-    <div><h3>A scent that tells your head the day is over.</h3><p>It fills the bathroom while you soak. Three scents cover three kinds of evening: one for coming down, one for noticing, and one for the night that just needs to end well.</p></div>
+    <div><h3>A scent that tells your head the day is over.</h3><p>It fills the bathroom while you soak. Three scents for three kinds of evening: a slow weekend, your weekly ritual, and the night after a tough day.</p></div>
     <div class="pic"><img src="img/soak-lineup.webp" alt="The three scents side by side" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p4" aria-labelledby="rs-t4" hidden>
@@ -425,9 +437,9 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <span class="lab sec-e">Three scents, three moods</span>
   <h2 class="hd sec-h">Meet the scents.</h2>
   <div class="scs">
-    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/soak-unwind.webp" alt="The Unwind bath soak pouch" loading="lazy"><span class="lab">01 · Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>For the hour you finally sit down.</p><span class="in">Magnesium bath salts + sandalwood</span><button type="button" data-add="unwind">Add this one <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button></div></div>
-    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/soak-be-here.webp" alt="The Be here bath soak pouch" loading="lazy"><span class="lab">02 · Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>For the evening you want to notice.</p><span class="in">Magnesium bath salts + eucalyptus</span><button type="button" data-add="be-here">Add this one <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button></div></div>
-    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/soak-drift-off.webp" alt="The Drift off bath soak pouch" loading="lazy"><span class="lab">03 · Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>For the night that needs to end well.</p><span class="in">Magnesium bath salts + lavender</span><button type="button" data-add="drift-off">Add this one <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button></div></div>
+    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/scent-unwind.webp" alt="The Unwind pouch with sandalwood and a dish of magnesium bath salts" loading="lazy"><span class="lab">01 · Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>🪵 <b>Sandalwood:</b> for weekends, when the only plan is to relax.</p><span class="in">Magnesium bath salts + sandalwood</span><button type="button" data-add="unwind">Add this one <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button></div></div>
+    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/scent-be-here.webp" alt="The Be here pouch with eucalyptus branches and a dish of magnesium bath salts" loading="lazy"><span class="lab">02 · Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>🌿 <b>Eucalyptus:</b> for your once-a-week ritual.</p><span class="in">Magnesium bath salts + eucalyptus</span><button type="button" data-add="be-here">Add this one <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button></div></div>
+    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/scent-drift-off.webp" alt="The Drift off pouch with lavender and a dish of magnesium bath salts" loading="lazy"><span class="lab">03 · Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>🪻 <b>Lavender:</b> for the evening after a tough day.</p><span class="in">Magnesium bath salts + lavender</span><button type="button" data-add="drift-off">Add this one <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></button></div></div>
   </div>
 </div></section>
 
@@ -482,7 +494,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div class="faq">
     <details open><summary>What if it is not for me?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p>Tell us within 30 days and we refund everything. If it is only the scent, we swap it.</p></details>
     <details><summary>How strong is the scent?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p>It fills the bathroom while you soak and fades after. It is made to calm you, not to perfume the house.</p></details>
-    <details><summary>Which scent should I start with?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p>Unwind if you need to come down after the day. Be here if you want a clear head. Drift off if the next stop is bed.</p></details>
+    <details><summary>Which scent should I start with?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p>Unwind, with sandalwood, for a slow weekend. Be here, with eucalyptus, for your weekly ritual. Drift off, with lavender, for the evening after a tough day.</p></details>
     <details><summary>How many baths are in a bag?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p><span id="faq-baths">About 6</span> baths, at a generous handful each.</p></details>
     <details><summary>What is in it?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p>Magnesium bath salts and scent. The full ingredient list will be printed here before launch.</p></details>
     <details><summary>How do I use it?<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="M12 5v14"/></svg></summary><p>Run a warm bath, pour the salts under the tap and soak for about twenty minutes.</p></details>
@@ -498,28 +510,29 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 </div></div></footer>
 
 <div class="stick" id="stick"><div class="stick-in">
-  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">2 bags · about 12 baths</span></div>
-  <div class="stick-sw" id="stick-sw" role="group" aria-label="How many bags"><span class="lab">Bags</span><button type="button" data-n="1" aria-pressed="false" aria-label="1 bag">1</button><button type="button" data-n="2" aria-pressed="true" aria-label="2 bags">2</button><button type="button" data-n="3" aria-pressed="false" aria-label="3 bags">3</button></div>
-  <button type="button" class="stick-go" id="stick-go">Add to bag · $42.50</button>
+  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">3 bags · about 18 baths</span></div>
+  <div class="stick-sw" id="stick-sw" role="group" aria-label="How many bags"><span class="lab">Bags</span><button type="button" data-n="1" aria-pressed="false" aria-label="1 bag">1</button><button type="button" data-n="3" aria-pressed="true" aria-label="3 bags">3</button><button type="button" data-n="6" aria-pressed="false" aria-label="6 bags">6</button></div>
+  <button type="button" class="stick-go" id="stick-go">Add to bag · $33.15</button>
 </div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
 
 <script>
 (function(){
   var BATHS=6; /* baths in one bag: a stand-in until the bag size is set */
-  var PRICE={1:28,2:50,3:66},ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
-  var st={bags:2,picks:{'unwind':1,'be-here':0,'drift-off':1},plan:'sub',last:'unwind'};
+  var PRICE={1:19,3:39,6:89},SIZES=[1,3,6],ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
+  var st={bags:3,picks:{'unwind':1,'be-here':1,'drift-off':1},plan:'sub',last:'unwind',freq:30};
   var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
   function sum(){return ORDER.reduce(function(a,k){return a+st.picks[k]},0)}
   function money(v){return '$'+v.toFixed(2)}
   function fit(){
     while(sum()>st.bags){var k=ORDER.slice().reverse().reduce(function(b,c){return st.picks[c]>st.picks[b]?c:b});st.picks[k]--}
-    while(sum()<st.bags){var free=ORDER.filter(function(k){return st.picks[k]===0})[0];st.picks[free||st.last]++}
+    while(sum()<st.bags){var low=ORDER.reduce(function(b,c){return st.picks[c]<st.picks[b]?c:b});st.picks[low]++}
   }
   function render(){
     var once=PRICE[st.bags],sub=Math.round(once*85)/100,due=st.plan==='sub'?sub:once,n=sum(),left=st.bags-n;
     $$('#bags .cardb').forEach(function(b){var k=+b.dataset.n;b.setAttribute('aria-pressed',String(k===st.bags));b.querySelector('.baths').textContent='About '+(k*BATHS)+' baths';b.querySelector('.perbath').textContent=money(PRICE[k]/(k*BATHS))+' a bath'});
     $$('#stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.bags))});$('#faq-baths').textContent='About '+BATHS;
+    $$('#freq .fq button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.d===st.freq))});$('#sub-when').textContent='Delivered every '+st.freq+' days.';
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     var c=$('#count');c.textContent=left>0?('Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
     $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
@@ -539,6 +552,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   });
   $$('#plans .plan').forEach(function(b){b.addEventListener('click',function(){st.plan=b.dataset.p;render()})});
   $$('#stick-sw button').forEach(function(b){b.addEventListener('click',function(){st.bags=+b.dataset.n;fit();render()})});
+  $$('#freq .fq button').forEach(function(b){b.addEventListener('click',function(){st.freq=+b.dataset.d;render()})});
   $('#stick-go').addEventListener('click',function(){if(sum()<st.bags){$('#scents').scrollIntoView({behavior:'smooth',block:'center'})}else{say('Preview only. Nothing was added.')}});
   /* tabs: the reasons, and how it works / what to expect */
   $$('[role="tablist"]').forEach(function(list){var tabs=[].slice.call(list.querySelectorAll('[role="tab"]'));
@@ -555,7 +569,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   function toTop(){$('#buybox').scrollIntoView({behavior:'smooth',block:'start'})}
   $$('[data-top]').forEach(function(b){b.addEventListener('click',toTop)});
   $$('[data-add]').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.add;
-    if(sum()>=st.bags){var other=ORDER.slice().reverse().filter(function(x){return x!==k&&st.picks[x]>0})[0];if(other)st.picks[other]--;else if(st.bags<3)st.bags++}
+    if(sum()>=st.bags){var other=ORDER.slice().reverse().filter(function(x){return x!==k&&st.picks[x]>0})[0];if(other)st.picks[other]--;else{var nx=SIZES[SIZES.indexOf(st.bags)+1];if(nx)st.bags=nx}}
     st.picks[k]++;st.last=k;fit();render();toTop();say(NAME[k]+' added to your bags.')})});
   /* gallery */
   var track=$('#track'),dots=$$('#dots i');

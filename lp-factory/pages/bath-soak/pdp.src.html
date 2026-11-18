@@ -80,13 +80,14 @@ h1.hd{font-size:clamp(34px,4.6vw,54px)}
 .count{font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--drift)}
 .count.ok{color:var(--euca)}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.cardb{position:relative;text-align:left;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:22px 12px 14px;cursor:pointer;min-width:0}
+.cardb{position:relative;text-align:left;background:var(--paper);border:1.5px solid var(--stone);border-radius:12px;padding:22px 10px 14px;cursor:pointer;min-width:0}
 .cardb[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#fff}
 .cardb .tag{position:absolute;top:-10px;left:10px;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;background:var(--sig);color:#fff;border-radius:5px;padding:5px 7px;white-space:nowrap}
 .cardb b{display:block;font-size:18px;letter-spacing:-.02em}
 .cardb .p{font-weight:700;font-size:22px;letter-spacing:-.03em;margin-top:6px;display:block}
 .cardb .was{color:var(--drift);text-decoration:line-through;font-size:13.5px;margin-left:5px;font-weight:500}
-.cardb .each{display:block;font:500 12.5px/1.35 var(--f);color:var(--drift);margin-top:5px}
+.cardb .each{display:block;font:500 12px/1.35 var(--f);color:var(--drift);margin-top:5px}
+@media (min-width:420px){.cardb{padding:22px 12px 14px}.cardb .each{font-size:12.5px}}
 .cardb .each + .each{margin-top:0}
 .cardb .sv{display:inline-block;margin-top:8px;font:600 10.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;background:var(--wash);color:var(--ink);border-radius:5px;padding:5px 6px;white-space:nowrap}
 .cardb .sv.none{background:transparent;color:var(--drift);padding-left:0}

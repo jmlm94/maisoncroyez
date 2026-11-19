@@ -43,7 +43,14 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:44px;max-wid
 .vlist li{display:flex;align-items:center;gap:16px;font-weight:600;font-size:33px;letter-spacing:-.02em}
 .vlist .ic{width:50px;height:50px;border:2px solid rgba(249,246,238,.55)}.vlist svg{width:26px;height:26px}
 .foot{position:absolute;left:48px;right:48px;bottom:48px}
-.foot .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px}
+.foot .top{margin-bottom:22px}
+.foot .nm{font-size:46px;line-height:1.04;display:block}
+.circ{position:absolute;border-radius:50%;overflow:hidden;border:6px solid #F9F6EE;box-shadow:0 12px 36px rgba(0,0,0,.45)}
+.circ img{width:100%;height:100%;object-fit:cover;display:block}
+.circ-cap{position:absolute;text-align:center;font:600 19px/1.2 "Roboto Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#F9F6EE}
+.big{font-weight:700;font-size:52px;letter-spacing:-.03em;line-height:1;text-transform:uppercase;text-align:center;white-space:nowrap}
+.cbot.col{flex-direction:column;align-items:center;gap:22px}
+.blk .sub{color:#F1EADC;font-size:34px;margin-top:16px}
 /* 02 callouts and 11 stickers */
 .co{position:absolute;display:flex;align-items:center;gap:14px;background:#FFFDF9;color:#161210;border-radius:24px;padding:14px 22px 14px 14px;font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-.02em;box-shadow:0 8px 28px rgba(22,18,16,.2)}
 .co .ic{width:58px;height:58px;background:#E7E8FB;color:#4B55D6}.co svg{width:31px;height:31px}
@@ -62,9 +69,9 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:44px;max-wid
 .nums em{font:600 21px/1 "Roboto Mono",monospace;letter-spacing:.1em;color:#4B55D6;font-style:normal;display:block}
 .nums span{display:block;margin-top:10px;font-weight:700;font-size:30px;line-height:1.08;letter-spacing:-.025em;text-wrap:balance}
 /* 05 timeline */
-.rows{display:grid;gap:24px;margin-top:36px;align-self:stretch}
-.r{display:grid;grid-template-columns:218px 1fr;gap:32px;align-items:center}
-.r img{width:218px;height:218px;object-fit:cover;border-radius:24px;display:block}
+.rows{display:grid;gap:20px;margin-top:32px;align-self:stretch}
+.r{display:grid;grid-template-columns:196px 1fr;gap:30px;align-items:center}
+.r img{width:196px;height:196px;object-fit:cover;border-radius:24px;display:block}
 .r .t{font:600 24px/1 "Roboto Mono",monospace;letter-spacing:.1em;color:#4B55D6;display:flex;align-items:center;gap:16px}
 .r .t::after{content:"";flex:1;height:2px;background:#161210;opacity:.3}
 .r b{display:block;font-size:44px;letter-spacing:-.035em;line-height:1.05;margin-top:12px}
@@ -120,47 +127,49 @@ const cta = (a, cls) => `<span class="cta ${cls}">${esc(a.cta)}${icon('arrow-rig
 const head = (a, right) => `<div class="bar">${LOGO}${right || ''}</div>`;
 const hook = (a) => `<h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}${a.src ? `<span class="src">${esc(a.src)}</span>` : ''}`;
 const namePill = `<span class="pill">${esc(CFG.product)}</span>`;
+const nm = (a) => esc(a.name || CFG.product); // the words beside or above the button
+const circ = (a) => a.circle ? `<div class="circ" style="${at(a.circle)};height:${a.circle.width}px"><img src="${img(a.circle.img)}" style="object-position:${a.circle.pos || '50% 50%'}"></div><div class="circ-cap" style="left:${1080 - a.circle.right - a.circle.width - 30}px;width:${a.circle.width + 60}px;top:${a.circle.top + a.circle.width + 18}px">${esc(a.circle.cap)}</div>` : '';
 const at = (o) => ['left', 'right', 'top', 'bottom', 'width'].filter((k) => o[k] !== undefined).map((k) => `${k}:${o[k]}px`).join(';') + (o.rot ? `;transform:rotate(${o.rot}deg)` : '');
 
 const L = {
   // 01: the benefits as a list under the hook on the dark wall; product name and a wide button at the bottom
   list: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="scrim" style="background:linear-gradient(to top,rgba(22,18,16,.9) 0%,rgba(22,18,16,.6) 12%,rgba(22,18,16,0) 26%)"></div>
     <div class="in">${head(a)}${hook(a)}<ul class="vlist">${bens(a).map((b) => `<li><span class="ic">${icon(b.icon)}</span>${esc(b.text)}</li>`).join('')}</ul></div>
-    <div class="foot"><div class="top"><span class="nm">${esc(CFG.product)}</span><span class="mono" style="color:#A9AEF7">${esc(a.tag || '')}</span></div>${cta(a, 'cream full')}</div></div>`,
+    ${circ(a)}<div class="foot"><div class="top"><span class="nm">${nm(a)}</span></div>${cta(a, 'cream full')}</div></div>`,
   // 02: the benefits as callouts around her; product name in the header; button centered
-  callouts: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a, namePill)}${hook(a)}</div>
+  callouts: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="scrim" style="background:linear-gradient(to top,rgba(249,246,238,.96) 0%,rgba(249,246,238,.9) 13%,rgba(249,246,238,0) 27%)"></div><div class="in">${head(a)}${hook(a)}</div>
     ${bens(a).map((b, i) => `<div class="co" style="${at(a.spots[i])}"><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}
-    <div class="cbot">${cta(a, 'ind')}</div></div>`,
+    <div class="cbot col"><span class="big">${nm(a)}</span>${cta(a, 'ind')}</div></div>`,
   // 03: a dark band across the bottom with the three benefits; name and button on the tub above it
   band: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a)}${hook(a)}</div>
-    <div class="nrow" style="bottom:${a.rowBottom || 204}px"><span class="nm chip">${esc(CFG.product)}</span>${cta(a, 'ind')}</div>
+    <div class="nrow" style="bottom:${a.rowBottom || 204}px"><span class="nm chip">${nm(a)}</span>${cta(a, 'ind')}</div>
     <div class="band">${bens(a).map((b) => `<div><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}</div></div>`,
   // 04: an editorial page: the claim, the photo in a frame, the benefits numbered
   framed: (a) => `<div class="ad light"><div class="in">${head(a)}${hook(a)}</div>
     <div class="frame" style="top:${a.frame[0]}px;height:${a.frame[1]}px"><img src="${img(a.img)}" style="object-position:${a.pos || '50% 50%'}"></div>
     <ol class="nums" style="top:${a.frame[0] + a.frame[1] + 34}px">${bens(a).map((b, i) => `<li><em>0${i + 1}</em><span>${esc(b.text)}</span></li>`).join('')}</ol>
-    <div class="nrow" style="bottom:48px"><span class="nm">${esc(CFG.product)}</span>${cta(a, 'ind')}</div></div>`,
+    <div class="nrow" style="bottom:48px"><span class="nm">${nm(a)}</span>${cta(a, 'ind')}</div></div>`,
   // 05: the evening as a timeline; benefits in one row; a wide button that names the product
-  clock: (a) => `<div class="ad light"><div class="in">${head(a)}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1><div class="rows">${a.rows.map((r) => `<div class="r"><img src="${img(r[0])}"${r[4] ? ` style="object-position:${r[4]}"` : ''}><div><div class="t">${esc(r[1])}</div><b>${esc(r[2])}</b>${r[3] ? `<span>${esc(r[3])}</span>` : ''}</div></div>`).join('')}</div></div>
+  clock: (a) => `<div class="ad light"><div class="in">${head(a)}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}<div class="rows">${a.rows.map((r) => `<div class="r"><img src="${img(r[0])}"${r[4] ? ` style="object-position:${r[4]}"` : ''}><div><div class="t">${esc(r[1])}</div><b>${esc(r[2])}</b>${r[3] ? `<span>${esc(r[3])}</span>` : ''}</div></div>`).join('')}</div></div>
     <div class="inl onlight" style="position:absolute;left:60px;right:60px;bottom:176px">${bens(a).map((b) => `<div><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}</div>
     <div class="cbot">${cta(a, 'ind full')}</div></div>`,
   // 06: photo on top, a color block below with the hook, the benefits in a row, name and button
   splitBottom: (a) => `<div class="ad light" style="background:${COL[a.color]}"><div class="ph" style="top:0;height:${a.split}px"><img src="${img(a.img)}" style="object-position:${a.pos || '50% 50%'}"></div>
     <div class="in">${head(a)}</div>
-    <div class="blk" style="top:${a.split}px;bottom:0;background:${COL[a.color]}"><h1 style="font-size:${a.size}px">${esc(a.h)}</h1>
-    <div class="inl ondark" style="margin-top:30px">${bens(a).map((b) => `<div><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}</div>
-    <div class="nrow2"><span class="nm">${esc(CFG.product)}<small class="mono" style="color:rgba(249,246,238,.75)">${esc(a.tag || '')}</small></span>${cta(a, 'cream')}</div></div></div>`,
+    <div class="blk" style="top:${a.split}px;bottom:0;background:${COL[a.color]}"><h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}
+    <div class="inl ondark" style="margin-top:28px">${bens(a).map((b) => `<div><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}</div>
+    <div class="nrow2">${cta(a, 'cream full')}</div></div></div>`,
   // 07: three tiles on the floor, the button under them; product name in the header
-  tiles: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a, namePill)}${hook(a)}</div>
+  tiles: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a)}${hook(a)}</div>
     <div class="tiles" style="bottom:${a.tilesBottom || 146}px">${bens(a).map((b) => `<div class="tile">${icon(b.icon)}${esc(b.text)}</div>`).join('')}</div>
     <div class="cbot" style="bottom:40px">${cta(a, 'night full')}</div></div>`,
   // 08: a checklist panel beside her, with the product name as its title; button at the bottom corner
   panel: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a)}${hook(a)}</div>
-    <div class="panel" style="${at(a.panel)}"><span class="mono">${esc(CFG.product)}</span><ul>${bens(a).map((b) => `<li><span class="ic">${icon('check')}</span><span>${esc(b.text)}</span></li>`).join('')}</ul></div>
+    <div class="panel" style="${at(a.panel)}"><span class="mono">${esc(a.panelTitle || CFG.product)}</span><ul>${bens(a).map((b) => `<li><span class="ic">${icon('check')}</span><span>${esc(b.text)}</span></li>`).join('')}</ul></div>
     <div style="position:absolute;${at(a.ctaAt)}">${cta(a, 'ind')}</div></div>`,
   // 09: one card: name, button, the three benefits with icons
   card: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a)}${hook(a)}</div>
-    <div class="card"><div class="ct"><b>${esc(CFG.product)}</b>${cta(a, 'ind sm')}</div><div class="bs">${bens(a).map((b) => `<div class="b"><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}</div></div></div>`,
+    <div class="card"><div class="ct"><b>${nm(a)}</b>${cta(a, 'ind sm')}</div><div class="bs">${bens(a).map((b) => `<div class="b"><span class="ic">${icon(b.icon)}</span><span>${esc(b.text)}</span></div>`).join('')}</div></div></div>`,
   // 10: a caption under each bag, the benefits as one line, the button centered, all on the white side of the tub
   shelf: (a) => `<div class="ad ${a.theme}">${photo(a)}${scrim(a)}<div class="in">${head(a)}${hook(a)}</div>
     ${a.caps.map((c) => `<div class="cap" style="left:${c[0] - 125}px;top:${a.capTop}px"><span class="mono">${esc(c[1])}</span><b>${esc(c[2])}</b></div>`).join('')}
@@ -173,7 +182,7 @@ const L = {
   // 12: a color block on top with the hook, the product line and the benefits as tags; photo below; button on the photo
   splitTop: (a) => `<div class="ad light" style="background:${COL[a.color]}"><div class="ph" style="top:${a.split}px;bottom:0"><img src="${img(a.img)}" style="object-position:${a.pos || '50% 50%'}"></div>
     <div class="blk" style="top:0;height:${a.split}px;background:${COL[a.color]};padding-top:56px"><div style="width:150px">${LOGO}</div><h1 style="font-size:${a.size}px;margin-top:38px">${esc(a.h)}</h1>
-    <span class="mono" style="margin-top:22px;color:rgba(249,246,238,.82)">${esc(a.tag)}</span>
+    <p class="sub">${esc(a.sub)}</p>
     <div class="tags">${bens(a).map((b) => `<span>${icon(b.icon)}${esc(b.text)}</span>`).join('')}</div></div>
     <div class="cbot">${cta(a, 'cream')}</div></div>`,
 };
@@ -190,7 +199,7 @@ const L = {
     const fits = await pg.evaluate((product) => { const all = [...document.querySelectorAll('.ad h1,.ad p,.ad li,.ad .cta,.ad .co,.ad .st,.ad .tile,.ad .panel,.ad .card,.ad .cap,.ad .line div,.ad .inl div,.ad .band div,.ad .tags span,.ad .nm,.ad .pill,.ad .src')];
       const out = all.filter((e) => { const r = e.getBoundingClientRect(); return r.left < 20 || r.right > 1060 || r.bottom > 1338 || r.top < 20; }).map((e) => e.className || e.tagName);
       const h = document.querySelector('h1'); const t = document.querySelector('.ad').innerText;
-      return { h1Lines: Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight)), h1Ends: Math.round(h.getBoundingClientRect().bottom), outside: out, cta: !!document.querySelector('.cta'), named: /magnesium (bath )?soak/i.test(t), fonts: [...document.fonts].filter((x) => x.status === 'loaded').length }; }, CFG.product);
+      return { h1Lines: Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight)), h1Ends: Math.round(h.getBoundingClientRect().bottom), outside: out, cta: !!document.querySelector('.cta'), named: /magnesium (bath )?soak/i.test(t) ? 'magnesium' : /bath soak/i.test(t) ? 'bath soak only' : 'NO', fonts: [...document.fonts].filter((x) => x.status === 'loaded').length }; }, CFG.product);
     await (await pg.$('.ad')).screenshot({ path: path.join(OUT, `bath-soak-ad-${a.id}.jpg`), type: 'jpeg', quality: 90 });
     console.log(a.id, a.layout, JSON.stringify(fits));
   }

@@ -38,9 +38,9 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:44px;max-wid
 .b svg{width:38px;height:38px;stroke-width:1.9}
 .b span{font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-.02em}
 /* the clock ad */
-.rows{display:grid;gap:20px;margin-top:38px}
-.r{display:grid;grid-template-columns:206px 1fr;gap:30px;align-items:center}
-.r img{width:206px;height:206px;object-fit:cover;border-radius:24px;display:block}
+.rows{display:grid;gap:24px;margin-top:40px}
+.r{display:grid;grid-template-columns:226px 1fr;gap:32px;align-items:center}
+.r img{width:226px;height:226px;object-fit:cover;border-radius:24px;display:block}
 .r .t{font:600 25px/1 "Roboto Mono",monospace;letter-spacing:.1em;color:#4B55D6;display:flex;align-items:center;gap:16px}
 .r .t::after{content:"";flex:1;height:2px;background:#161210;opacity:.3}
 .r b{display:block;font-size:46px;letter-spacing:-.035em;line-height:1.05;margin-top:14px}

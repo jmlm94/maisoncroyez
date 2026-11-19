@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder] [run 10: eleven 4:5 pictures for the bath soak static ads, into lp-factory/ads/bath-soak/img, kept up to 2800 px (MAXPX)] [run 11: four test pictures for the realistic redo of the ads (three models), into lp-factory/ads/bath-soak/img/test] [run 12: the realistic lifestyle pictures for version 2 of the ads (r2-*), into lp-factory/ads/bath-soak/img] [run 13: r2-three]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder] [run 10: eleven 4:5 pictures for the bath soak static ads, into lp-factory/ads/bath-soak/img, kept up to 2800 px (MAXPX)] [run 11: four test pictures for the realistic redo of the ads (three models), into lp-factory/ads/bath-soak/img/test] [run 12: the realistic lifestyle pictures for version 2 of the ads (r2-*), into lp-factory/ads/bath-soak/img] [run 13: r2-three] [run 14: seven scenes reshot wider (r3-*)]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -15,7 +15,13 @@ jobs:
       DEST: lp-factory/ads/bath-soak/img
       MAXPX: "2800"
       LIST: |
-        r2-three https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_001705_149ba63e-d975-46cd-bcf6-27bd1d243252.png
+        r3-awake https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002440_3050bf7e-fdc9-4e2a-85e3-04ebbcfc1ccc.png
+        r3-wired https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002441_30ee68ea-99ac-4d11-851d-cac158b63936.png
+        r3-prep https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002439_a94158cb-e3fd-4769-b9e5-0d7d6fbf2ed2.png
+        r3-aches https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002440_231b334c-5639-422d-b53c-b7e49a567c5f.png
+        r3-foot https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002440_f0ac02ea-f203-4fb2-ae91-eeccaec6011a.png
+        r3-legs https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002441_a299e5f9-550e-4929-b82a-c97503384595.png
+        r3-honest https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_002440_e415eaec-20ef-47b4-8175-89f742129d70.png
     steps:
       - uses: actions/checkout@v4
         with:

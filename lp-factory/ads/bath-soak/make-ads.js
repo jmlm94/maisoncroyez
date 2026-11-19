@@ -18,8 +18,6 @@ body{background:#888}
 .ad.dark{color:#F9F6EE;background:#161210}.ad.light{color:#161210;background:#F9F6EE}
 .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .scrim{position:absolute;inset:0}
-.dark .scrim{background:linear-gradient(to bottom,rgba(22,18,16,.86) 0%,rgba(22,18,16,.7) 24%,rgba(22,18,16,.34) 38%,rgba(22,18,16,0) 50%)}
-.light .scrim{background:linear-gradient(to bottom,rgba(249,246,238,.95) 0%,rgba(249,246,238,.86) 24%,rgba(249,246,238,.45) 38%,rgba(249,246,238,0) 50%)}
 .in{position:absolute;inset:0;padding:56px 60px 0;display:flex;flex-direction:column}
 .bar{display:flex;justify-content:space-between;align-items:center}
 .logo{width:150px;height:auto;display:block}
@@ -48,6 +46,9 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:44px;max-wid
 .r b{display:block;font-size:46px;letter-spacing:-.035em;line-height:1.05;margin-top:14px}
 .r span{display:block;font-size:28px;line-height:1.25;color:#5A5249;margin-top:8px}
 `;
+// the wash behind the hook: full at the top, gone at `fade` percent of the height (default 50; lower it when a face sits high in the photo)
+const scrim = (a) => { const f = a.fade || 50, c = a.theme === 'dark' ? '22,18,16' : '249,246,238', o = a.theme === 'dark' ? [0.86, 0.7, 0.34] : [0.95, 0.86, 0.45];
+  return `background:linear-gradient(to bottom,rgba(${c},${o[0]}) 0%,rgba(${c},${o[1]}) ${(f * 0.48).toFixed(1)}%,rgba(${c},${o[2]}) ${(f * 0.76).toFixed(1)}%,rgba(${c},0) ${f}%)`; };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
 const card = (a) => `<div class="card"><div class="ct"><b>${esc(CFG.product)}</b><span>${esc(a.tag || CFG.tag)}</span></div><div class="bs">${BEN.map((b) => `<div class="b"><i>${icon(b.icon)}</i><span>${esc(b.text)}</span></div>`).join('')}</div></div>`;
 const html = (a) => {
@@ -56,7 +57,7 @@ const html = (a) => {
     return `<div class="ad light"><div class="in">${head}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1><div class="rows">${a.rows.map((r) => `<div class="r"><img src="file://${path.join(D, 'img', r[0])}"${r[4] ? ` style="object-position:${r[4]}"` : ''}><div><div class="t">${esc(r[1])}</div><b>${esc(r[2])}</b>${r[3] ? `<span>${esc(r[3])}</span>` : ''}</div></div>`).join('')}</div></div>${card(a)}</div>`;
   }
   const st = [a.pos ? `object-position:${a.pos}` : '', a.shift ? `transform:translateY(${a.shift}px)` : '', a.zoom ? `transform:scale(${a.zoom});transform-origin:${a.origin || '50% 50%'}` : ''].filter(Boolean).join(';');
-  return `<div class="ad ${a.theme}"><img class="bg" src="file://${path.join(D, 'img', a.img)}"${st ? ` style="${st}"` : ''}><div class="scrim"></div><div class="in">${head}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}${a.src ? `<span class="src">${esc(a.src)}</span>` : ''}</div>${card(a)}</div>`;
+  return `<div class="ad ${a.theme}"><img class="bg" src="file://${path.join(D, 'img', a.img)}"${st ? ` style="${st}"` : ''}><div class="scrim" style="${scrim(a)}"></div><div class="in">${head}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}${a.src ? `<span class="src">${esc(a.src)}</span>` : ''}</div>${card(a)}</div>`;
 };
 (async () => {
   const only = process.argv[2]; const OUT = process.env.ADS_OUT || path.join(D, 'out');

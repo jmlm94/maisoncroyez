@@ -28,13 +28,13 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:44px;max-wid
 .src{display:block;margin-top:18px;font:500 20px/1.3 "Roboto Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
 .dark .src{color:#DCD3C2}.light .src{color:#5A5249}
 /* the product card: what it is, and the three benefits */
-.card{position:absolute;left:40px;right:40px;bottom:40px;background:#FFFDF9;color:#161210;border-radius:30px;padding:26px 30px 28px;box-shadow:0 10px 40px rgba(22,18,16,.28)}
-.ct{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:2px solid #EAE1D1}
+.card{position:absolute;left:36px;right:36px;bottom:36px;background:#FFFDF9;color:#161210;border-radius:28px;padding:22px 30px 24px;box-shadow:0 10px 40px rgba(22,18,16,.28)}
+.ct{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-bottom:16px;border-bottom:2px solid #EAE1D1}
 .ct b{font-weight:700;font-size:40px;letter-spacing:-.035em;line-height:1}
 .ct span{font:600 19px/1 "Roboto Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#4B55D6;white-space:nowrap}
-.bs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.bs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
 .b{display:flex;align-items:center;gap:15px;min-width:0}
-.b i{flex:none;width:70px;height:70px;border-radius:50%;background:#E7E8FB;color:#4B55D6;display:grid;place-items:center}
+.b i{flex:none;width:68px;height:68px;border-radius:50%;background:#E7E8FB;color:#4B55D6;display:grid;place-items:center}
 .b svg{width:38px;height:38px;stroke-width:1.9}
 .b span{font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-.02em}
 /* the clock ad */

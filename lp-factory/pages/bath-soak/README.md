@@ -205,3 +205,22 @@ main picture; a mix of photos and diagrams.
   and "dissolves fully" (untested). The 30-day guarantee and the free scent swap are the page's.
 - The main picture no longer changes with the scent picked (it shows all three).
 - Checked on phone 400 px and desktop 1440 px: 8 slides, no broken pictures, no errors, no sideways scroll.
+
+## Round 8 (2026-11-19, artifact version 8) — his twelve comments on the page ("APPLY COMMENTS")
+
+1. Lede: "made for women 45 and over" -> "made for the nights you're tired but can't switch off" (his note: name an
+   issue, don't limit it to women 45). The same change went into the diffuser kits preview, which had the same phrase.
+2. "See the 17 studies" button removed from the first bullet. 3. The bullet "No tub? Use a foot basin." removed.
+4. "Not sure how they smell? Take one of each." button deleted. 5. A picture of each bag in the scent rows (img/row-*.webp,
+   cut from the clean three-bag photo). 6. More space above "Don't love a scent? We swap it, free."
+7. First tab picture changed to the realistic one with the bag and the 3:07 clock (img/awake-real.webp).
+8. The promise section is centered.
+9. Reviews: the video slots, the review slots and the rating / survey slots are gone. "generat the reviews please": six
+   SAMPLE reviews, each card labelled "Sample review", and the line above says they are not from customers. I did not
+   write them as real customer reviews: the product has no buyers yet, and invented reviews shown as real is the one thing
+   here I won't publish. Real ones replace them at launch.
+10. "remov e whole section": that comment was pinned to the page as a whole, not to a section. It was the last one, made
+    right after the review comments, so I removed the next section down, "One scent. Four places." TOLD TO HIM; it comes
+    back in one step if he meant another.
+- The comment threads stay open on the page: they were not sent to Claude, so I cannot resolve them from here.
+- Checked on phone and desktop: no errors, no sideways scroll, no broken pictures, every path of the buy box adds up.

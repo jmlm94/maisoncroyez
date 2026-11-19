@@ -331,11 +331,27 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--night);color:var(--cream);border-radius:10px;padding:13px 18px;font-size:15px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;max-width:calc(100% - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){.stick,.toast,.faq summary .ic{transition:none}}
+.row .ph{width:72px;height:72px;border-radius:9px;overflow:hidden;background:var(--sand)}
+.row .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.row{grid-template-columns:72px minmax(0,1fr) auto}
+.prom{margin-top:16px}
+.g-wrap.ctr{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;gap:clamp(20px,3vw,32px)}
+.g-wrap.ctr .sec-h{margin-inline:auto}
+.g-wrap.ctr .ticks{display:inline-grid;justify-items:start;text-align:left}
+.g-wrap.ctr .btn2{margin-inline:auto}
+.rvs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(20px,3vw,36px)}
+@media (max-width:860px){.rvs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.rvs::-webkit-scrollbar{display:none}.rvs .rv{flex:0 0 82%;scroll-snap-align:start}}
+.rv{background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.rv .stars{display:flex;gap:3px;font-size:17px;color:var(--ink)}
+.rv .stars .ic{fill:currentColor}
+.rv blockquote{margin:0;font-size:16.5px;line-height:1.5}
+.rv .who{margin-top:auto;padding-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:500 11px/1.5 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--drift)}
+.rv .smp{background:var(--wash);color:var(--ink);border-radius:5px;padding:4px 7px;font-weight:600}
 </style>
 
 <!--SYMBOLS-->
 
-<div class="note">Preview · working copy. Prices, formula, test results and matching products are stand-ins. Pictures are generated.</div>
+<div class="note">Preview · working copy. Prices, formula and test results are stand-ins. The reviews are samples. Pictures are generated.</div>
 <div class="bar">Free shipping · 30-day money-back guarantee</div>
 <div class="w"><header class="hdr">
   <div><span class="menu">{{i:menu}}</span><nav><span class="cur">Shop</span><span>Scents</span><span>Our story</span></nav></div>
@@ -362,11 +378,10 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div>
     <p class="lab eyebrow"><span class="new">New</span>Magnesium bath soak</p>
     <h1 class="hd">Tired, but your mind won’t switch off? <span class="h1b">Give it 15 minutes in warm water.</span></h1>
-    <p class="lede">A scented magnesium soak for the hour before bed, made for women 45 and over. In the tub or a foot basin.</p>
+    <p class="lede">A scented magnesium soak for the hour before bed, made for the nights you’re tired but can’t switch off. In the tub or a foot basin.</p>
     <ul class="chk">
-      <li><span class="cm">{{i:check}}</span><span><b>Made for the hour before bed.</b> A warm bath 1 to 2 hours before bed is linked to falling asleep sooner. <button class="src" type="button" data-go="why">See the 17 studies</button></span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>Made for the hour before bed.</b> A warm bath 1 to 2 hours before bed is linked to falling asleep sooner.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>Soothes tired muscles and feet.</b> 250 g of magnesium flakes in warm water.</span></li>
-      <li><span class="cm">{{i:check}}</span><span><b>No tub? Use a foot basin.</b> Half a bag is enough.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>A scent that becomes your bedtime cue.</b> The same one, every night.</span></li>
     </ul>
 
@@ -382,11 +397,10 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     <div class="step">
       <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd">Pick your scents.</h2><span class="count ok" id="count">3 of 3 picked</span></div>
       <div class="rows" id="scents">
-        <div class="row" data-k="unwind"><div class="sw" style="background:var(--clay)">01</div><div><b>Unwind.</b><span>🪵 <strong>Sandalwood:</strong> for weekends, when the only plan is to relax.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Unwind">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Unwind">{{i:plus}}</button></div></div>
-        <div class="row" data-k="be-here"><div class="sw" style="background:var(--euca)">02</div><div><b>Be here.</b><span>🌿 <strong>Eucalyptus:</strong> for your once-a-week ritual.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Be here">{{i:plus}}</button></div></div>
-        <div class="row" data-k="drift-off"><div class="sw" style="background:var(--lav)">03</div><div><b>Drift off.</b><span>🪻 <strong>Lavender:</strong> for the evening after a tough day.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Drift off">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Drift off">{{i:plus}}</button></div></div>
+        <div class="row" data-k="unwind"><div class="ph"><img src="img/row-unwind.webp" alt="The Unwind bag" width="400" height="400"></div><div><b>Unwind.</b><span>🪵 <strong>Sandalwood:</strong> for weekends, when the only plan is to relax.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Unwind">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Unwind">{{i:plus}}</button></div></div>
+        <div class="row" data-k="be-here"><div class="ph"><img src="img/row-be-here.webp" alt="The Be here bag" width="400" height="400"></div><div><b>Be here.</b><span>🌿 <strong>Eucalyptus:</strong> for your once-a-week ritual.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Be here">{{i:plus}}</button></div></div>
+        <div class="row" data-k="drift-off"><div class="ph"><img src="img/row-drift-off.webp" alt="The Drift off bag" width="400" height="400"></div><div><b>Drift off.</b><span>🪻 <strong>Lavender:</strong> for the evening after a tough day.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Drift off">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Drift off">{{i:plus}}</button></div></div>
       </div>
-      <button class="each1" type="button" id="each1">Not sure how they smell? Take one of each. {{i:arrow-right}}</button>
       <p class="prom">{{i:rotate-ccw}}Don’t love a scent? We swap it, free.</p>
     </div>
 
@@ -426,7 +440,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   </div>
   <div class="rp" role="tabpanel" id="rs-p1" aria-labelledby="rs-t1">
     <div><h3>My mind won’t switch off when I get into bed.</h3><p>You are tired, but wired. The night feels long, and tomorrow already feels hard.</p><p class="do"><b>What the soak does:</b> it gives the hour before bed a job. Fifteen warm minutes with the door closed, and a scent that tells your head the day is over.</p></div>
-    <div class="pic"><img src="img/night-awake.webp" alt="A woman lying awake in bed at night" loading="lazy"></div>
+    <div class="pic"><img src="img/awake-real.webp" alt="A woman lying awake in bed at night, the bath soak and a clock showing 3:07 on the nightstand" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p2" aria-labelledby="rs-t2" hidden>
     <div><h3>Everything aches after the day.</h3><p>The garden, a long shift, a day on your feet. By evening it has settled in your shoulders, your back and your feet.</p><p class="do"><b>What the soak does:</b> warm water and 250 g of magnesium flakes soothe tired muscles and feet.</p></div>
@@ -511,7 +525,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   </div>
 </div></section>
 
-<section class="s night"><div class="w"><div class="g-wrap">
+<section class="s night"><div class="w"><div class="g-wrap ctr">
   <div class="seal"><b>30</b><span>Day<br>money-back</span></div>
   <div>
     <span class="lab sec-e">The promise</span>
@@ -524,40 +538,15 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 <section class="s"><div class="w">
   <span class="lab sec-e">Reviews</span>
   <h2 class="hd sec-h">What she says.</h2>
-  <p class="lede" style="color:var(--drift)">Reviews open at launch. Only real ones go here. Every box below is an empty placeholder until then.</p>
-  <div class="proof">
-    <div class="slot"><i class="sk"></i><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><p>The rating and the number of reviews. The same line also goes beside the product name at the top.</p><span class="lab">Rating slot</span></div>
-    <div class="stats">
-      <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
-      <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
-      <div class="slot"><i class="sk"></i><span class="lab">Survey slot</span></div>
-      <p>Three results from our own customer survey, for example how many fell asleep more easily, with the number of people asked printed underneath.</p>
-    </div>
+  <p class="lede" style="color:var(--drift)">Sample reviews, written to show the layout. They are not from customers. Real ones replace them at launch.</p>
+  <div class="rvs">
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“My head used to keep going long after I got into bed. Now the bath is the line between the day and the night. Fifteen minutes and I am ready to stop.”</blockquote><div class="who"><span class="smp">Sample review</span><span>Mind won’t switch off</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I am on my feet all day. Half a bag in a basin while I watch TV, and my feet feel like mine again.”</blockquote><div class="who"><span class="smp">Sample review</span><span>Tired feet · foot basin</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“No scooping and no guessing. I pour in the bag and get in. That is the whole routine, and it is why I keep doing it.”</blockquote><div class="who"><span class="smp">Sample review</span><span>One bag, one bath</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I bought the sampler because I had no idea how they would smell. The eucalyptus is my favorite. Fresh, not perfume.”</blockquote><div class="who"><span class="smp">Sample review</span><span>The sampler</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“After a long shift this is the only part of the day that is mine. Door closed, warm water, lavender.”</blockquote><div class="who"><span class="smp">Sample review</span><span>After a tough day</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I don’t have a tub, so I nearly didn’t order. The foot soak works fine and it takes ten minutes to set up.”</blockquote><div class="who"><span class="smp">Sample review</span><span>No bathtub</span></div></div>
   </div>
-  <div class="vids">
-    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
-    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
-    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
-    <div class="vid">{{i:play}}<span class="lab">Customer video slot</span></div>
-  </div>
-  <div class="revs">
-    <div class="rev"><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><i style="width:92%"></i><i style="width:78%"></i><i style="width:55%"></i><span class="lab">Review slot</span></div>
-    <div class="rev"><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><i style="width:86%"></i><i style="width:94%"></i><i style="width:40%"></i><span class="lab">Review slot</span></div>
-    <div class="rev"><div class="st">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</div><i style="width:74%"></i><i style="width:88%"></i><i style="width:62%"></i><span class="lab">Review slot</span></div>
-  </div>
-</div></section>
-
-<section class="s sand"><div class="w">
-  <span class="lab sec-e">Only at Maison Croyez</span>
-  <h2 class="hd sec-h">One scent. Four places.</h2>
-  <p class="lede sub">Pick one scent for your nights and keep it everywhere. Same scent, same time, every night, until the scent itself tells you it is time for bed.</p>
-  <div class="four">
-    <a data-soon><div class="pic"><img src="img/also-diffuser.webp" alt="The Maison Croyez diffuser on a bedside table at night" loading="lazy"></div><div class="tx"><span class="lab">In the bedroom</span><b>The diffuser</b></div></a>
-    <a data-soon><div class="pic"><img src="img/also-steamers.webp" alt="The Maison Croyez shower steamers in three scents" loading="lazy"></div><div class="tx"><span class="lab">In the shower</span><b>Shower steamers</b></div></a>
-    <div class="here"><div class="pic"><img src="img/soak-lineup.webp" alt="The three bath soak scents side by side" loading="lazy"></div><div class="tx"><span class="lab">In the tub</span><b>The bath soak</b><span class="you">You are here</span></div></div>
-    <a data-soon><div class="pic"><img src="img/also-spray.webp" alt="The Maison Croyez magnesium body spray in three scents" loading="lazy"></div><div class="tx"><span class="lab">On your legs</span><b>Magnesium body spray</b></div></a>
-  </div>
-  <p class="idea">The bedtime cue is our idea, not a study. The warm bath is the part with the research behind it.</p>
 </div></section>
 
 <section class="s"><div class="w">
@@ -609,7 +598,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     var c=$('#count');c.textContent=left>0?('Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
     $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
     $('#amt-sub').textContent=money(sub);$('#sub-each').textContent=money(sub/st.bags)+' a bag instead of '+money(once/st.bags);
-    $('#each1').hidden=st.bags===3&&ORDER.every(function(k){return st.picks[k]===1});$('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
+    $('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
     var cta=$('#cta');cta.disabled=left>0;$('#cta-amt').textContent=money(due);
     $('#cta-txt').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')+' · '):'Add to bag · ';
     $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · '+money(due/st.bags)+' a night';
@@ -631,7 +620,6 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     tabs.forEach(function(t,i){t.addEventListener('click',function(){pick(t)});
       t.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){e.preventDefault();pick(tabs[(i+d+tabs.length)%tabs.length],true)}})});
   });
-  $('#each1').addEventListener('click',function(){st.bags=3;ORDER.forEach(function(k){st.picks[k]=1});render();say('One of each. Three bags.')});
   $$('[data-soon]').forEach(function(a){a.addEventListener('click',function(){say('Preview only. This page is not built yet.')})});
   var toast=$('#toast'),tt=0;
   function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}

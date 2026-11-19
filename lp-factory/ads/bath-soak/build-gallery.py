@@ -28,6 +28,7 @@ for i, a in enumerate(ADS, 1):
     <span class="lab">{i:02d} · {e(a['angle'])}</span>
     <h2>{e(hook)}</h2>
     <p class="scene">{e(a['scene'])}</p>
+    <p class="scene"><b>Layout:</b> {e(a['design'])} · <b>Button:</b> {e(a['cta'])}</p>
     <dl>
       <dt>Primary text</dt><dd>{e(a['primary'])}</dd>
       <dt>Headline</dt><dd>{e(a['headline'])}</dd>
@@ -37,7 +38,7 @@ for i, a in enumerate(ADS, 1):
     <button type="button" class="copy" data-copy="{e(cap, quote=True)}">Copy caption</button>
   </div>
 </article>''')
-    md += [f"## {i:02d}. {a['angle']}", '', f"File: `out/bath-soak-ad-{a['id']}.jpg`", '', f"**Photo:** {a['scene']}", '', f"**On the image:** {hook}" + (f" / {a['sub']}" if a.get('sub') else ''), '',
+    md += [f"## {i:02d}. {a['angle']}", '', f"File: `out/bath-soak-ad-{a['id']}.jpg`", '', f"**Photo:** {a['scene']}", '', f"**Layout:** {a['design']}. **Button:** {a['cta']}", '', f"**On the image:** {hook}" + (f" / {a['sub']}" if a.get('sub') else ''), '',
            f"**Primary text:** {a['primary']}", '', f"**Headline:** {a['headline']}", '', f"**Description:** {a['description']}", ''] + ([f"Note: {note}", ''] if note else [])
 
 page = '''<title>Bath Soak Ads</title>
@@ -61,6 +62,7 @@ h1{font-weight:700;font-size:clamp(34px,5vw,56px);letter-spacing:-.04em;line-hei
 .tx{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1;min-width:0}
 h2{font-weight:700;font-size:22px;letter-spacing:-.025em;line-height:1.15;margin:0;text-wrap:balance}
 .scene{margin:0;color:var(--drift);font-size:15px}
+.scene b{color:var(--night);font-weight:600}
 .ben{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
 .ben li{background:var(--wash);color:var(--night);border-radius:999px;padding:8px 14px;font-weight:600;font-size:15px}
 dl{margin:2px 0 0;display:grid;gap:4px}
@@ -73,8 +75,8 @@ dd{margin:0;font-size:15.5px}
 </style>
 <div class="w">
   <span class="lab">Maison Croyez · Magnesium bath soak</span>
-  <h1>Twelve ads, the soak in every one.</h1>
-  <p class="intro">Version 2. Real-looking photos of the soak being used, 4:5, no price. <b>Every ad names the product and shows the same three benefits.</b> To save an ad, press and hold the picture. The files are also in the chat.</p>
+  <h1>Twelve ads, twelve layouts.</h1>
+  <p class="intro">Version 3. Real-looking photos of the soak being used, 4:5, no price. <b>Every ad has its own layout, names the product, shows the three benefits and carries a button.</b> To save an ad, press and hold the picture. The files are also in the chat.</p>
   <ul class="ben">''' + ''.join(f"<li>{e(b['text'])}</li>" for b in CFG['benefits']) + '''</ul>
   <div class="grid">
 ''' + '\n'.join(cards) + '''

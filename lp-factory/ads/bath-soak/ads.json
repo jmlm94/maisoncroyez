@@ -1,6 +1,5 @@
 {
  "product": "Magnesium Bath Soak",
- "tag": "For the hour before bed",
  "benefits": [
   {
    "icon": "moon-star",
@@ -24,12 +23,20 @@
    "theme": "dark",
    "size": 112,
    "h": "Awake at 3 AM.\nAgain.",
-   "sub": "Change the hour before bed.",
    "primary": "Tired all day, wide awake at night. If that is your week, start with the hour before bed. Run a warm bath, pour in one bag of magnesium bath soak, and stay in for 15 minutes, 1 to 2 hours before you want to sleep. Three scents made for the night.",
    "headline": "Magnesium bath soak for the hour before bed",
    "description": "30-day money-back guarantee",
-   "zoom": 1.18,
-   "origin": "42% 74%"
+   "zoom": 1.12,
+   "origin": "42% 76%",
+   "layout": "list",
+   "cta": "Try it tonight",
+   "order": [
+    2,
+    0,
+    1
+   ],
+   "tag": "Lavender",
+   "design": "Benefits as a list on the photo"
   },
   {
    "id": "02-tired-wired",
@@ -41,7 +48,31 @@
    "h": "For the nights you’re tired\nand wired at the same time.",
    "primary": "You are exhausted, and your head is still at work. This is for that hour. Fifteen warm minutes in a magnesium bath soak with the door closed, and a scent that tells your mind the day is over.",
    "headline": "For the nights you’re tired and wired",
-   "description": "Magnesium bath soak, in the tub or a foot basin"
+   "description": "Magnesium bath soak, in the tub or a foot basin",
+   "layout": "callouts",
+   "cta": "Shop now",
+   "order": [
+    2,
+    0,
+    1
+   ],
+   "spots": [
+    {
+     "left": 40,
+     "top": 430
+    },
+    {
+     "right": 40,
+     "top": 560,
+     "width": 300
+    },
+    {
+     "left": 40,
+     "top": 700,
+     "width": 310
+    }
+   ],
+   "design": "Benefits as callouts around her"
   },
   {
    "id": "03-spa-day",
@@ -53,7 +84,15 @@
    "h": "I don’t need a spa day.\nI need my mind\nto stop at 10 PM.",
    "primary": "A magnesium bath soak made for one job: the hour before bed. Magnesium flakes, warm water and a night scent. No ten-step routine. One bag, 15 minutes.",
    "headline": "Made for the hour before bed",
-   "description": "Magnesium bath soak in three night scents"
+   "description": "Magnesium bath soak in three night scents",
+   "layout": "band",
+   "cta": "Shop now",
+   "order": [
+    2,
+    0,
+    1
+   ],
+   "design": "Benefits in a dark band"
   },
   {
    "id": "04-17-studies",
@@ -67,7 +106,20 @@
    "src": "Review of 17 studies on warm baths · PubMed 31102877",
    "primary": "In a review of 17 studies, a warm bath 1 to 2 hours before bed helped people fall asleep sooner. As little as 10 minutes was enough. We made those minutes something you look forward to: a magnesium bath soak with a scent made for the night.",
    "headline": "Why the hour before bed matters",
-   "description": "The research is linked on the page"
+   "description": "The research is linked on the page",
+   "layout": "framed",
+   "cta": "Start tonight",
+   "order": [
+    0,
+    2,
+    1
+   ],
+   "frame": [
+    452,
+    540
+   ],
+   "pos": "50% 62%",
+   "design": "Editorial page, benefits numbered"
   },
   {
    "id": "05-clock",
@@ -75,7 +127,7 @@
    "scene": "Three moments of one evening: pour, cool down, sleep",
    "layout": "clock",
    "theme": "light",
-   "size": 70,
+   "size": 68,
    "h": "The 15 minutes between your day and your bed.",
    "rows": [
     [
@@ -100,7 +152,14 @@
    ],
    "primary": "An example evening. 8:30, a warm bath with one bag of magnesium bath soak. 9:00, your body cools down, and that drop is a signal for sleep. 10:00, bed. Move the times to fit your night.",
    "headline": "Your new hour before bed",
-   "description": "Magnesium bath soak, one bag per bath"
+   "description": "Magnesium bath soak, one bag per bath",
+   "cta": "Shop the magnesium bath soak",
+   "order": [
+    0,
+    1,
+    2
+   ],
+   "design": "Timeline of the evening"
   },
   {
    "id": "06-aches",
@@ -108,14 +167,23 @@
    "scene": "In the bath, a hand on her neck, the bag on the ledge",
    "img": "r3-aches.webp",
    "theme": "light",
-   "size": 96,
+   "size": 76,
    "h": "Everything aches after the day.",
-   "sub": "Give it 15 minutes in warm water.",
    "primary": "The garden, a long shift, a day on your feet. By evening it has settled in your shoulders, your back and your feet. Give it 15 minutes in warm water with one bag of magnesium bath soak.",
    "headline": "Soothe tired muscles and feet",
    "description": "Magnesium bath soak",
-   "zoom": 1.1,
-   "origin": "40% 62%"
+   "layout": "splitBottom",
+   "cta": "Shop now",
+   "order": [
+    1,
+    0,
+    2
+   ],
+   "color": "purple",
+   "split": 850,
+   "pos": "50% 40%",
+   "tag": "Lavender",
+   "design": "Photo on top, color block below"
   },
   {
    "id": "07-foot-soak",
@@ -128,8 +196,15 @@
    "primary": "You don’t need a bathtub. A basin of warm water and magnesium bath soak does it: 15 minutes for tired feet at the end of the day, in the scent you picked for the night.",
    "headline": "A magnesium soak that works without a tub",
    "description": "For tired feet",
-   "zoom": 1.1,
-   "origin": "42% 80%"
+   "layout": "tiles",
+   "cta": "Get the foot soak",
+   "order": [
+    1,
+    0,
+    2
+   ],
+   "tilesBottom": 142,
+   "design": "Three tiles on the floor"
   },
   {
    "id": "08-legs",
@@ -141,7 +216,24 @@
    "h": "For legs that need to settle before bed.",
    "primary": "You lie down and your legs are still going. Before bed, give them a warm soak: 15 minutes in the tub or a foot basin, with magnesium bath soak and a scent made for the night.",
    "headline": "A warm magnesium soak before bed",
-   "description": "In the tub or a foot basin"
+   "description": "In the tub or a foot basin",
+   "layout": "panel",
+   "cta": "Shop now",
+   "order": [
+    1,
+    0,
+    2
+   ],
+   "panel": {
+    "right": 40,
+    "top": 392,
+    "width": 384
+   },
+   "ctaAt": {
+    "left": 48,
+    "bottom": 48
+   },
+   "design": "Checklist panel beside her"
   },
   {
    "id": "09-one-bag",
@@ -154,7 +246,15 @@
    "sub": "Pour it in. Soak for 15 minutes.",
    "primary": "No scoops and no guessing. One bag of magnesium bath soak is one bath: run the water warm, pour it in, and soak for 15 minutes before bed.",
    "headline": "One bag, one bath",
-   "description": "250 g of magnesium flakes"
+   "description": "250 g of magnesium flakes",
+   "layout": "card",
+   "cta": "Shop now",
+   "order": [
+    0,
+    1,
+    2
+   ],
+   "design": "One card with icons"
   },
   {
    "id": "10-scents",
@@ -163,12 +263,38 @@
    "img": "r2-three.webp",
    "theme": "light",
    "size": 104,
-   "tag": "Three night scents",
    "h": "Pick your evening.",
-   "sub": "Sandalwood for slow weekends. Eucalyptus for your weekly ritual. Lavender after a tough day.",
+   "sub": "Magnesium bath soak in three night scents.",
    "primary": "One magnesium bath soak, three scents for three kinds of evening. Sandalwood for the weekend, when the only plan is to relax. Eucalyptus for your once-a-week ritual. Lavender for the evening after a tough day. Not sure? The sampler has one of each.",
    "headline": "Three scents made for the night",
-   "description": "Don’t love a scent? We swap it"
+   "description": "Don’t love a scent? We swap it",
+   "layout": "shelf",
+   "cta": "Shop the 3 scents",
+   "order": [
+    0,
+    1,
+    2
+   ],
+   "caps": [
+    [
+     292,
+     "Sandalwood",
+     "Slow weekends"
+    ],
+    [
+     535,
+     "Eucalyptus",
+     "Weekly ritual"
+    ],
+    [
+     778,
+     "Lavender",
+     "After a tough day"
+    ]
+   ],
+   "capTop": 1012,
+   "lineTop": 1126,
+   "design": "A caption under each bag"
   },
   {
    "id": "11-honest",
@@ -178,11 +304,36 @@
    "theme": "light",
    "size": 92,
    "h": "Not a supplement.\nNot a sleeping pill.",
-   "sub": "Fifteen warm minutes before bed.",
+   "sub": "Just a magnesium bath soak.",
    "primary": "We won’t tell you a bath raises your magnesium levels. What a warm bath before bed can do is help you wind down, and the research on that is real. A magnesium bath soak, warm water and a scent you look forward to.",
    "headline": "An honest magnesium bath soak",
    "description": "30-day money-back guarantee",
-   "shift": 36
+   "shift": 36,
+   "layout": "stickers",
+   "cta": "Try it tonight",
+   "order": [
+    0,
+    2,
+    1
+   ],
+   "spots": [
+    {
+     "left": 40,
+     "top": 470,
+     "rot": -6
+    },
+    {
+     "left": 96,
+     "top": 690,
+     "rot": 5
+    },
+    {
+     "left": 30,
+     "top": 912,
+     "rot": -4
+    }
+   ],
+   "design": "Three round stickers"
   },
   {
    "id": "12-gift",
@@ -190,13 +341,29 @@
    "scene": "Mom opening the box at the kitchen table with her daughter",
    "img": "r2-gift.webp",
    "theme": "light",
-   "size": 92,
-   "tag": "Give her 15 minutes",
+   "size": 80,
+   "tag": "Magnesium bath soak · three night scents",
    "h": "For the mom who never sits down.",
    "primary": "She looks after everyone. This gives her 15 minutes of her own: a warm bath, magnesium bath soak and three scents made for the evening.",
    "headline": "A gift she will actually use",
    "description": "Magnesium bath soak, three scents in one box",
-   "fade": 36
+   "layout": "splitTop",
+   "cta": "Gift the sampler",
+   "order": [
+    0,
+    1,
+    2
+   ],
+   "color": "terracotta",
+   "split": 470,
+   "pos": "50% 70%",
+   "design": "Color block on top, benefits as tags"
   }
- ]
+ ],
+ "colors": {
+  "terracotta": "#A44F2E",
+  "green": "#124A3B",
+  "purple": "#4A3A80",
+  "night": "#161210"
+ }
 }

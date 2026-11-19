@@ -2,7 +2,36 @@
 
 Nothing here is uploaded to Meta. Review page: artifact "Bath Soak Ads" (`gallery.html`).
 
-## Version 2, 2026-11-19 (current)
+## Version 3, 2026-11-19 (current)
+
+The owner on version 2: the benefits looked the same on every ad ("the way you did it is basically the same for each
+one"); "add a call to action button on each one ... totally related to a conversion"; change the positions and the
+titles that repeat; "different setups and different frameworks and different layouts, and that way we can attack
+different audiences".
+
+Same thirteen photos as version 2. What changed is `make-ads.js`: one layout function per ad (`layout` in `ads.json`).
+
+| Ad | Layout | How the benefits show | Button |
+|---|---|---|---|
+| 01 awake | `list` | a list on the dark wall under the hook | Try it tonight (wide, cream) |
+| 02 tired and wired | `callouts` | three callouts around her | Shop now |
+| 03 spa day | `band` | a dark band across the bottom | Shop now |
+| 04 17 studies | `framed` | numbered 01 / 02 / 03 under a framed photo | Start tonight |
+| 05 clock | `clock` | one row under the timeline | Shop the magnesium bath soak (wide) |
+| 06 aches | `splitBottom` | a row inside a purple block under the photo | Shop now (cream) |
+| 07 foot basin | `tiles` | three tiles on the floor | Get the foot soak (wide, dark) |
+| 08 legs | `panel` | a checklist panel beside her | Shop now |
+| 09 one bag | `card` | one card with icons | Shop now (inside the card) |
+| 10 scents | `shelf` | one line under a caption for each bag | Shop the 3 scents |
+| 11 honest | `stickers` | three round stickers | Try it tonight |
+| 12 gift | `splitTop` | outlined tags in a terracotta block above the photo | Gift the sampler |
+
+The product is named a different way per layout (a pill beside the wordmark, a line in the hook, a card title, a panel
+title, the button itself); the script checks that every ad says "magnesium bath soak", has a button, and that no text
+leaves the frame. The benefit wording is the same three everywhere; their order changes with the audience (`order`):
+mind first on 01 to 03, muscles and feet first on 06 to 08.
+
+## Version 2, 2026-11-19 (replaced by the layouts above; the photos are still these)
 
 The owner on version 1: the branding is fine, but (1) every ad must show the product itself, in use or as a product
 picture; (2) every ad must say that the product is a magnesium bath soak; (3) "I don't see them extremely real ... this
@@ -25,8 +54,7 @@ What changed:
   icons: Wind down before bed / Soothe tired muscles & feet / Calm a busy mind. These three are my pick from the page
   and the research (wellness wording, inside the claims rule). They live in `ads.json` (`benefits`), one edit changes
   all twelve.
-- Layout in `make-ads.js`: wordmark, hook, optional sub-line, photo, card. Per ad: `size` (hook), `fade` (how far the
-  wash behind the hook reaches), `zoom` + `origin`, `shift`, `tag` (the small line in the card).
+- Per ad in `ads.json`: `size` (hook), `fade` (how far the wash behind the hook reaches), `zoom` + `origin`, `shift`.
 
 Files: `ads.json` (copy, benefits, captions) · `img/` (13 photos) · `icons/` (three Lucide icons, ISC licence) ·
 `fonts/` · `make-ads.js` -> `out/bath-soak-ad-<id>.jpg` (1792 x 2240) · `build-gallery.py` -> `gallery.html` and

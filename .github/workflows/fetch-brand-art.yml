@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder] [run 10: eleven 4:5 pictures for the bath soak static ads, into lp-factory/ads/bath-soak/img, kept up to 2800 px (MAXPX)]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder] [run 10: eleven 4:5 pictures for the bath soak static ads, into lp-factory/ads/bath-soak/img, kept up to 2800 px (MAXPX)] [run 11: four test pictures for the realistic redo of the ads (three models), into lp-factory/ads/bath-soak/img/test]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -12,20 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      DEST: lp-factory/ads/bath-soak/img
-      MAXPX: "2800"
+      DEST: lp-factory/ads/bath-soak/img/test
+      MAXPX: "1600"
       LIST: |
-        ad-awake https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235338_88dd7e21-7619-4a2b-89e9-9ca1ec6c8cc2.png
-        ad-wired https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235339_481d9f21-a741-432f-afc0-899d78cd3b19.png
-        ad-bedside https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235339_bc9c4b14-d349-4fc4-87c1-1e05cc79cbcf.png
-        ad-tub https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235338_c2c9e7c2-27a4-4f5b-83ef-33ab29639d5d.png
-        ad-aches https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235339_b8f457bd-979e-4b5e-93e2-c5167afe5557.png
-        ad-foot https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235341_d7fec042-3a46-4fd9-98b8-1ae5daf4e6da.png
-        ad-legs https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235341_d0a22924-259d-4ca6-ba5e-76d0d9a964c8.png
-        ad-pour https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235339_0b63722a-2787-4726-b448-9f403659e1e0.png
-        ad-three https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235340_4f6d6d02-69ce-41b6-b8f8-03f79055bc03.png
-        ad-honest https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235341_3d3eae1f-3100-44d3-aa88-657fe508a859.png
-        ad-gift https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261118_235340_0c737431-1af7-494c-b021-63a7f322ad9b.png
+        t1-nbpro-tub https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_000920_78ecaf75-a2b9-474b-8622-68bc8a4d2f44.png
+        t2-nb21-tub https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_000920_7a202780-5e1d-4343-9e2d-5e31544d52c6.png
+        t4-nbpro-pour https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_000921_d5c75841-2aaf-4acc-857c-e47321b10daa.png
+        t5-gpt-pour https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_000920_74c8e862-3c0e-4dda-9e71-1c7c5d02e5e3.png
     steps:
       - uses: actions/checkout@v4
         with:

@@ -1,4 +1,4 @@
-// Static ads for the magnesium bath soak, 4:5 (1080 x 1350, saved at 2x). Pictures in img/ (generated), copy in ads.json,
+// Static ads for the magnesium bath soak, 4:5 (laid out at 1080 x 1350, saved at 1792 x 2240, the size of the pictures). Pictures in img/ (generated), copy in ads.json,
 // the hook set in the brand type (DM Sans Bold, Roboto Mono labels) so every word is exact. Output: out/<id>.jpg
 // usage: node make-ads.js   (needs playwright)
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path');
@@ -26,6 +26,8 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:54px;max-wid
 .sub{font-weight:500;font-size:40px;line-height:1.22;letter-spacing:-.015em;margin-top:26px;max-width:860px;text-wrap:balance}
 .dark .sub{color:#EAE1D1}.light .sub{color:#3A332D}
 .foot{position:absolute;left:68px;bottom:54px;font:500 20px/1.3 "Roboto Mono",monospace;letter-spacing:.06em;color:#CFC4B1}
+.src{display:block;margin-top:22px;font:500 21px/1.3 "Roboto Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#CFC4B1}
+.note{margin-top:auto;font-weight:500;font-size:30px;line-height:1.3;color:#6E655B}
 /* the clock ad */
 .rows{display:grid;gap:26px;margin-top:54px}
 .r{display:grid;grid-template-columns:232px 1fr;gap:34px;align-items:center}
@@ -35,24 +37,24 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-top:54px;max-wid
 .r b{display:block;font-size:52px;letter-spacing:-.035em;line-height:1.05;margin-top:16px}
 .r span{display:block;font-size:31px;line-height:1.25;color:#6E655B;margin-top:10px}
 `;
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
 const html = (a) => {
   const head = `<div class="bar">${LOGO}<span class="lab">Magnesium bath soak</span></div>`;
   if (a.layout === 'clock') {
-    return `<div class="ad light"><div class="in">${head}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1><div class="rows">${a.rows.map((r) => `<div class="r"><img src="file://${path.join(D, 'img', r[0])}"><div><div class="t">${esc(r[1])}</div><b>${esc(r[2])}</b>${r[3] ? `<span>${esc(r[3])}</span>` : ''}</div></div>`).join('')}</div></div></div>`;
+    return `<div class="ad light"><div class="in">${head}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1><div class="rows">${a.rows.map((r) => `<div class="r"><img src="file://${path.join(D, 'img', r[0])}"><div><div class="t">${esc(r[1])}</div><b>${esc(r[2])}</b>${r[3] ? `<span>${esc(r[3])}</span>` : ''}</div></div>`).join('')}</div>${a.note ? `<p class="note">${esc(a.note)}</p>` : ''}</div></div>`;
   }
-  return `<div class="ad ${a.theme}"><img class="bg" src="file://${path.join(D, 'img', a.img)}"><div class="scrim"></div><div class="in">${head}${a.eyebrow ? `<span class="lab eb">${esc(a.eyebrow)}</span>` : ''}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}</div>${a.foot ? `<div class="foot">${esc(a.foot)}</div>` : ''}</div>`;
+  return `<div class="ad ${a.theme}"><img class="bg" src="file://${path.join(D, 'img', a.img)}"${a.shift ? ` style="transform:translateY(${a.shift}px)"` : ''}><div class="scrim"></div><div class="in">${head}${a.eyebrow ? `<span class="lab eb">${esc(a.eyebrow)}</span>` : ''}<h1 style="font-size:${a.size}px">${esc(a.h)}</h1>${a.sub ? `<p class="sub">${esc(a.sub)}</p>` : ''}${a.src ? `<span class="src">${esc(a.src)}</span>` : ''}</div>${a.foot ? `<div class="foot">${esc(a.foot)}</div>` : ''}</div>`;
 };
 (async () => {
   const only = process.argv[2];
-  const br = await chromium.launch(); const pg = await br.newPage({ viewport: { width: 1080, height: 1350 }, deviceScaleFactor: 2 });
+  const br = await chromium.launch(); const pg = await br.newPage({ viewport: { width: 1080, height: 1350 }, deviceScaleFactor: 1.6593 });
   fs.mkdirSync(path.join(D, 'out'), { recursive: true });
   for (const a of ADS) {
     if (only && !a.id.startsWith(only)) continue;
     const f = path.join(D, 'out', '.page.html');
     fs.writeFileSync(f, `<!doctype html><meta charset="utf8"><style>${CSS}</style>${html(a)}`);
     await pg.goto('file://' + f, { waitUntil: 'load' }); await pg.evaluate(() => document.fonts.ready); await pg.waitForTimeout(150);
-    const fits = await pg.evaluate(() => { const h = document.querySelector('h1').getBoundingClientRect(), s = document.querySelector('.sub'), l = document.querySelector('.rows'); const end = l ? l.getBoundingClientRect().bottom : (s || document.querySelector('h1')).getBoundingClientRect().bottom; return { h1Lines: Math.round(h.height / parseFloat(getComputedStyle(document.querySelector('h1')).lineHeight)), textEnds: Math.round(end), fonts: [...document.fonts].filter((x) => x.status === 'loaded').length }; });
+    const fits = await pg.evaluate(() => { const h = document.querySelector('h1').getBoundingClientRect(), s = document.querySelector('.sub'), l = document.querySelector('.rows'); const x = document.querySelector('.src'); const end = l ? l.getBoundingClientRect().bottom : (x || s || document.querySelector('h1')).getBoundingClientRect().bottom; return { h1Lines: Math.round(h.height / parseFloat(getComputedStyle(document.querySelector('h1')).lineHeight)), textEnds: Math.round(end), fonts: [...document.fonts].filter((x) => x.status === 'loaded').length }; });
     await (await pg.$('.ad')).screenshot({ path: path.join(D, 'out', `bath-soak-ad-${a.id}.jpg`), type: 'jpeg', quality: 90 });
     console.log(a.id, JSON.stringify(fits));
   }

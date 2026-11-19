@@ -7,11 +7,10 @@ D = os.path.dirname(os.path.abspath(__file__))
 CFG = json.load(open(os.path.join(D, 'ads.json'), encoding='utf-8'))
 ADS = CFG['ads']
 NOTES = {
-    '04-17-studies': 'Uses the one supported claim, worded as in the research. The source line says the studies are about warm baths.',
+    '04-17-studies': 'Uses the one supported claim, worded as in the research. The source line is removed, as asked; this ad now says “bath soak”, not “magnesium”.',
     '05-clock': 'Uses the one supported claim (the body cooling down), worded as in the research.',
     '09-one-bag': '“One bag, one bath” is still my reading of 250 g. Confirm before running.',
-    '01-awake': 'Zoomed all the way in, the smallest line of print on the bag is not letter-perfect.',
-    '07-foot-soak': 'Zoomed all the way in, the smallest line of print on the bag is not letter-perfect.',
+    '01-awake': '“#1” is a ranking claim: say what it is number one in, or have something behind it, before this runs.',
     '12-gift': 'Zoomed all the way in, the smallest print on the green bag is not letter-perfect.',
 }
 e = html.escape

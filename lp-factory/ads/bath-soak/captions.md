@@ -18,7 +18,7 @@ File: `out/bath-soak-ad-01-awake.jpg`
 
 **Description:** 30-day money-back guarantee
 
-Note: Zoomed all the way in, the smallest line of print on the bag is not letter-perfect.
+Note: “#1” is a ranking claim: say what it is number one in, or have something behind it, before this runs.
 
 ## 02. Tired and wired
 
@@ -44,7 +44,7 @@ File: `out/bath-soak-ad-03-spa-day.jpg`
 
 **Layout:** Benefits in a dark band. **Button:** Shop now
 
-**On the image:** I don’t need a spa day. I need my mind to stop at 10 PM.
+**On the image:** I don’t need a spa day. I need my mind to stop at 10 PM. / Magnesium bath soak for a mind that won’t switch off.
 
 **Primary text:** A magnesium bath soak made for one job: the hour before bed. Magnesium flakes, warm water and a night scent. No ten-step routine. One bag, 15 minutes.
 
@@ -68,7 +68,7 @@ File: `out/bath-soak-ad-04-17-studies.jpg`
 
 **Description:** The research is linked on the page
 
-Note: Uses the one supported claim, worded as in the research. The source line says the studies are about warm baths.
+Note: Uses the one supported claim, worded as in the research. The source line is removed, as asked; this ad now says “bath soak”, not “magnesium”.
 
 ## 05. The ritual, with times
 
@@ -76,9 +76,9 @@ File: `out/bath-soak-ad-05-clock.jpg`
 
 **Photo:** Three moments of one evening: pour, cool down, sleep
 
-**Layout:** Timeline of the evening. **Button:** Shop the magnesium bath soak
+**Layout:** Timeline of the evening. **Button:** Try it tonight
 
-**On the image:** The 15 minutes between your day and your bed.
+**On the image:** The 15 minutes between your day and your bed. / Magnesium bath soak for the hour before bed.
 
 **Primary text:** An example evening. 8:30, a warm bath with one bag of magnesium bath soak. 9:00, your body cools down, and that drop is a signal for sleep. 10:00, bed. Move the times to fit your night.
 
@@ -92,11 +92,11 @@ Note: Uses the one supported claim (the body cooling down), worded as in the res
 
 File: `out/bath-soak-ad-06-aches.jpg`
 
-**Photo:** In the bath, a hand on her neck, the bag on the ledge
+**Photo:** On the tub edge, a hand on her neck, pouring the bag into the bath
 
 **Layout:** Photo on top, color block below. **Button:** Shop now
 
-**On the image:** Everything aches after the day.
+**On the image:** Everything aches after the day. / Magnesium bath soak for tired muscles and feet.
 
 **Primary text:** The garden, a long shift, a day on your feet. By evening it has settled in your shoulders, your back and your feet. Give it 15 minutes in warm water with one bag of magnesium bath soak.
 
@@ -108,19 +108,17 @@ File: `out/bath-soak-ad-06-aches.jpg`
 
 File: `out/bath-soak-ad-07-foot-soak.jpg`
 
-**Photo:** On the sofa with her feet in a basin, the bag beside it
+**Photo:** Pouring the bag into a foot basin by the sofa
 
 **Layout:** Three tiles on the floor. **Button:** Get the foot soak
 
-**On the image:** No tub? Use a foot basin.
+**On the image:** No tub? Use a foot basin. / Magnesium bath soak for tired feet. No tub needed.
 
 **Primary text:** You don’t need a bathtub. A basin of warm water and magnesium bath soak does it: 15 minutes for tired feet at the end of the day, in the scent you picked for the night.
 
 **Headline:** A magnesium soak that works without a tub
 
 **Description:** For tired feet
-
-Note: Zoomed all the way in, the smallest line of print on the bag is not letter-perfect.
 
 ## 08. Legs won't settle
 
@@ -130,7 +128,7 @@ File: `out/bath-soak-ad-08-legs.jpg`
 
 **Layout:** Checklist panel beside her. **Button:** Shop now
 
-**On the image:** For legs that need to settle before bed.
+**On the image:** For legs that need to settle before bed. / Magnesium bath soak for tired legs and feet.
 
 **Primary text:** You lie down and your legs are still going. Before bed, give them a warm soak: 15 minutes in the tub or a foot basin, with magnesium bath soak and a scent made for the night.
 
@@ -146,7 +144,7 @@ File: `out/bath-soak-ad-09-one-bag.jpg`
 
 **Layout:** One card with icons. **Button:** Shop now
 
-**On the image:** One bag. One bath. Nothing to measure. / Pour it in. Soak for 15 minutes.
+**On the image:** One bag. One bath. Nothing to measure. / Magnesium bath soak for the hour before bed. Pour it in, soak 15 minutes.
 
 **Primary text:** No scoops and no guessing. One bag of magnesium bath soak is one bath: run the water warm, pour it in, and soak for 15 minutes before bed.
 
@@ -180,7 +178,7 @@ File: `out/bath-soak-ad-11-honest.jpg`
 
 **Layout:** Three round stickers. **Button:** Try it tonight
 
-**On the image:** Not a supplement. Not a sleeping pill. / Just a magnesium bath soak.
+**On the image:** Not a supplement. Not a sleeping pill. / A magnesium bath soak for the hour before bed.
 
 **Primary text:** We won’t tell you a bath raises your magnesium levels. What a warm bath before bed can do is help you wind down, and the research on that is real. A magnesium bath soak, warm water and a scent you look forward to.
 
@@ -196,7 +194,7 @@ File: `out/bath-soak-ad-12-gift.jpg`
 
 **Layout:** Color block on top, benefits as tags. **Button:** Gift the sampler
 
-**On the image:** For the mom who never sits down.
+**On the image:** For the mom who never sits down. / Magnesium bath soak for her evening, in three night scents.
 
 **Primary text:** She looks after everyone. This gives her 15 minutes of her own: a warm bath, magnesium bath soak and three scents made for the evening.
 

@@ -31,6 +31,27 @@ title, the button itself); the script checks that every ad says "magnesium bath 
 leaves the frame. The benefit wording is the same three everywhere; their order changes with the audience (`order`):
 mind first on 01 to 03, muscles and feet first on 06 to 08.
 
+### Version 3.1, 2026-11-19: the owner's notes on version 3
+
+His words: "01: Change magnesium bath soak for -> #1 Magnesium Bath Soak for the hour before bed. Let's also add a
+picture on a circle pouring the soak into the bathtub so they know. Delete the lavender word. / 02: Delete the magnesium
+bath soak from there and add a title above the shop now button, big: TRY OUR MAGNESIUM BATH SOAK / 04: REMOVE THE review
+of 17 studies ... Also -> Try our Bath Soak. / 06: re-do the image because package looks weird. / most of the images
+should be like 09 where the product is being used ... at least the ones where the product is not clear enough. / My
+favorite is 10 because when you say magnesium bath soak for ...... it's more clear. Let's try to implement that as well."
+
+- 01: the line above the button is "#1 Magnesium Bath Soak for the hour before bed."; a round picture of the bag being
+  poured into the bath (img/pour-lavender.webp, one of the first test photos) with "Pour it in the bath"; "Lavender" gone.
+  TOLD TO HIM: "#1" is a ranking claim and needs something behind it.
+- 02: the pill by the logo is gone; "TRY OUR MAGNESIUM BATH SOAK" in large type above the button.
+- 04: the source line is gone; the words beside the button are "Try our Bath Soak." (his wording: this ad no longer
+  says "magnesium" outside the bag).
+- 06: new photo, the bag being poured while she holds her neck (r5-aches-a). The product line sits in the purple block
+  and the button is full width.
+- 07: new photo, the bag being poured into the foot basin (r5-foot-b), because the bag was small in the old one.
+- "Magnesium bath soak for ..." as the line under the hook, the way ad 10 does it, on 03, 05, 06, 07, 08, 09, 11
+  and 12. Where that made the product name appear twice, the second one became something else (`name`, `panelTitle`).
+
 ## Version 2, 2026-11-19 (replaced by the layouts above; the photos are still these)
 
 The owner on version 1: the branding is fine, but (1) every ad must show the product itself, in use or as a product

@@ -96,7 +96,7 @@ h1{font-weight:700;letter-spacing:-.04em;line-height:1;text-wrap:balance}
 .promise p small{display:block;font-size:22px;font-weight:400;letter-spacing:0;color:#CFC4B1;margin-top:6px}
 `;
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
-const top = (s) => `<div class="top">${s.noLogo ? '<span></span>' : LOGO}${s.n ? `<span class="mono num">${esc(s.n)} / 07 · ${esc(s.k)}</span>` : ''}</div>`;
+const top = (s) => `<div class="top">${s.noLogo ? '<span></span>' : LOGO}</div>`; // no numbered label on the pictures (the owner removed it)
 const photo = (s) => `<img class="bg" src="${img(s.img)}" style="object-position:${s.pos || '50% 50%'}${s.zoom ? `;transform:scale(${s.zoom});transform-origin:${s.origin || '50% 50%'}` : ''}">`;
 const fade = (rgb, a, end, dir) => `<div class="wash" style="background:linear-gradient(to ${dir || 'bottom'},rgba(${rgb},${a}) 0%,rgba(${rgb},${a * 0.85}) ${end * 0.5}%,rgba(${rgb},0) ${end}%)"></div>`;
 const CREAM = '249,246,238';

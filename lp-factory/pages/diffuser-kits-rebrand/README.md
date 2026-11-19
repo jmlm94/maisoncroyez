@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (version 1; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 7, see Round 7 at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -136,3 +136,47 @@ His words: "Let's do $29 but maintaining the $29". MY READING (the second number
 $29 a scent, shown against the $39 regular price, which stays as the struck price and as the value of the free scents.
 - Refill = $29 a scent (2 = $58, 3 = $87). $10 off $39 is 25.6%, so "Subscribe. Save 25%." stays. Every place that quoted
   $29.25 now says "$29 instead of $39".
+
+## Round 7 (2026-11-19, artifact version 7) — the audience learnings and the bath soak page's conversion elements
+
+His words: "with all these learnings about our audience, please adapt some of the pain points and analysis overall as
+well as the CRO elements you added on the last PDP to the diffuser-kits artifact ... Dont ask for permission, fully
+implement based on your criteria". The offer (prices, free scents, refills at $29, 4 / 8 / 12 weeks) is untouched.
+
+From the research (Maison_Bath_Soak_Research, Nov 18): the buyer is a woman 45+ who can't switch off at night; in the
+customer survey (24 answers) the three reasons people almost didn't buy were not knowing how it smells, price, and the
+subscription commitment; bedroom use shows up on its own ("I can go to sleep with it on in our bedroom and feel safe");
+the same scent every night as a bedtime cue is "our idea, not a study"; honest label as a trust edge.
+
+- Top bar: "Free shipping · 30-day money-back guarantee · Lifetime warranty" (was "Bonsoir. Exhale the day.").
+- Headline: "Home, but the day won't leave your head? Leave it at the door." His line stays as the answer. Lede names
+  the buyer ("made for women 45 and over"). Four check bullets replace the three pills: a cue to switch off (jumps to
+  the evening section) / fills the room in about ten minutes / made to be left on / don't know how it smells.
+- Gallery: one new slide, "Why this one, and not a candle." (drawn in HTML); arrows moved under the pictures.
+- Step 2: the three moods in her words (walk in with the day in your head / the weekend at home / the bedroom, the hour
+  before bed) and "Not sure how they smell? Pick now. If you don't love one, we swap it, free."
+- Step 3: "under $2 an evening" ($29 a bottle that lasts 15+ days) and three lines against the subscription fear: we
+  email you before every charge / skip, swap or cancel any time / no commitment, today's scents are free either way.
+  KEPT AS IT WAS: refills every 4 weeks stay pre-selected. The research says "one-time purchase first"; I did not flip
+  the default because the free scents are paid for by the refills. His call.
+- Button carries "30-day money-back guarantee"; a guarantee card sits under it.
+- New section "Sound familiar? Home at last. Still switched on." with four tabs: the day follows me home / mind won't
+  stop at bedtime / I can't leave a candle / one more thing to look after. Each: her words, then "What the diffuser
+  does". Photos are the old page's (patricia1, spaces1, goodbye1, badge1).
+- "What to expect | How to use it" switch (id `why`): an example evening (6:30 PM press once, 6:40 the room smells like
+  the evening, 10:00 it turns itself off) with "The honest part: a scent does not put you to sleep, and we don't claim
+  it does ... our idea, not a study"; the 1-2-3 steps with night light, timer and two rooms.
+- "Why this one, and what it isn't.": the comparison table (the flame first) and a "What it isn't" box: not a sleep
+  aid, not a treatment, not an air purifier. Replaces "Say goodbye to sprays..." and the separate table section.
+- Guarantee: "Love the way your evenings feel in 30 days". Reviews: the bedroom quote and the "It was relaxing" quote
+  lead. FAQ in the order of the objections: will it help me switch off / can I leave it on in bed / I don't know how
+  they smell / too strong / am I signing up for a subscription / what if I don't like it / then the product questions.
+- Sticky bar: choose 1, 2 or 3 diffusers from anywhere; the button shows the total and goes to the scents until they
+  are picked. It now follows the scroll position (the old observer missed fast scrolls).
+- Removed sections (their content moved into the ones above): "Living room, bedroom, hallway.", "Set it for the
+  evening. It turns itself off.", "Say goodbye to sprays, plug-ins and candles."
+- NOT ADDED, on purpose: the lavender and sleep claim his claims rule allows. The studies used lavender essential oil;
+  Chilled Citrus is a fragrance oil with a lavender note and I can't tell that it is the same thing. It goes in if he
+  confirms. "Crisp Citrus Scape and Chilled Citrus are the two lightest scents" comes from the "soft" labels on the cards.
+- Checked on phone 400 px and desktop 1440 px: no errors, no sideways scroll, no broken pictures, 7 slides, the tabs
+  and the switch work, every path adds up (1 = $89, 2 = $159, 3 = $239; refills $29 / $58 / $87).

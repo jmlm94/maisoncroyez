@@ -173,3 +173,35 @@ scroll, no errors.
 (1 bag $19.00, 3 bags $13.00, 6 bags $11.50), so its tag went from "Stock up" to "Best value". This settles the note in
 rounds 4 and 5 about the 6-bag price being worse than the 3-bag one.
 
+
+## Round 7 (2026-11-19, artifact version 7) — the gallery: the main picture and seven things to know
+
+His words: "I need to build at least 6 images for our pdp including the main one that's gonna show up. Follow these
+links [a Reddit thread on magnesium baths and two Amazon listings] ... generate the 7 main things people should know
+about our product and explain it there. Make sure you maintain the branding, change layouts and formats and cover all
+details." His answers to my questions: build from our research document; keep the stand-in facts; the three bags as the
+main picture; a mix of photos and diagrams.
+
+- THE LINKS WERE NOT READ. Reddit and Amazon cannot be opened from this session, and the capture job I wrote for them
+  was refused before it ran, so I removed it. One of the two listings (Ancient Minerals bath flakes, B00BBD508C) is in
+  his research document with its reviews; the other listing (B0C3P2SSNX) and the Reddit thread are unread.
+- Eight square pictures (2000 x 2000) in `gallery/out/`, made by `gallery/make-gallery.js` from `gallery/gallery.json`
+  (copy and settings; one layout function per picture). They replace the old seven gallery slides of the page.
+  00 main: the three bags, "Magnesium Bath Soak. For the hour before bed.", 250 g per bag, tub or foot basin, 30-day seal
+  01 what it does: the bath photo, "For the nights you're tired and wired.", the three benefits in a dark band
+  02 why the hour before bed: "17 studies. One finding.", the example evening, the honest part (dark, no photo)
+  03 how to use it: the pour photo, three step cards (104 to 108°F, the whole bag, 15 minutes 1 to 2 hours before bed)
+  04 no tub needed: the foot basin photo, half a bag / warm water / 15 minutes
+  05 the honest label: one bag with a dish of flakes, what is in it, "a bath soak, not a supplement"
+  06 why this one: the table against Epsom salt
+  07 three scents, one promise: the bags with a card each, the 30-day promise
+- Why these seven: they answer what his research says buyers ask or doubt: what it is for, why before bed (the one
+  supported claim), how hot / how long / how much, "I don't have a tub", what is in it and the absorption doubt, how it
+  differs from the Epsom salt they already know, how it smells and what if they don't like it.
+- New photos (gallery/img/, same realistic model as the ads): g-three-b (three bags with flakes, used for 00),
+  g-three (used for 07), g-inside (05), g-flakes (06). The lifestyle photos are the ads' (ads/bath-soak/img).
+- STAND-INS printed on the pictures, to correct when the product is final: 250 g, magnesium chloride flakes, essential
+  oil, jojoba oil, "one bag, one full bath", "half a bag" for a basin, 104 to 108°F, and on 06 "skin feels soft after"
+  and "dissolves fully" (untested). The 30-day guarantee and the free scent swap are the page's.
+- The main picture no longer changes with the scent picked (it shows all three).
+- Checked on phone 400 px and desktop 1440 px: 8 slides, no broken pictures, no errors, no sideways scroll.

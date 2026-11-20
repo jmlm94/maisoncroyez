@@ -224,3 +224,28 @@ main picture; a mix of photos and diagrams.
     back in one step if he meant another.
 - The comment threads stay open on the page: they were not sent to Claude, so I cannot resolve them from here.
 - Checked on phone and desktop: no errors, no sideways scroll, no broken pictures, every path of the buy box adds up.
+
+## Round 9 (2026-11-20, artifact version 10) — his ten new comments ("IMPLEMENT COMMENT CHANGES!")
+
+1. Main gallery picture, "remove" (a rectangle over part of it; the comment cannot say which part): I removed the small
+   "New · three night scents" line, the one I had asked him about. TOLD TO HIM.
+2. "replace every single one of these" on a "·": every middle dot on the page is now a bar ( | ).
+3. Eyebrow "New / Magnesium bath soak" 10% bigger.
+4. "don't make auto pick": the scents start at 0 / 0 / 0. Changing the number of bags never fills them in; it only takes
+   one out when there are too many. The button reads "Pick your 3 scents" until they are chosen.
+5. "Change the 4 images here and make it congruent": the four evenings now use four photos of the same realistic set,
+   each with the bag in it (img/awake-real, tab-aches, tab-legs, tab-day).
+6. "combine both and leave just one": the "Why it works / How to do it" switch is one section, "Three steps. One hour
+   before bed." (8:30 run it warm and pour, 8:35 soak 15 minutes, 10:00 your body cools down, bed), photos how-*.webp.
+7. "The honest part" box deleted (the link to the study went with it; the study is still named in step three).
+8. Scents section (the comment was pinned to the whole page; by its place in his order it is this section): three fixed
+   cards, no sideways scroll on a phone, and each picture is the bag standing in its own ingredient (img/ing-*.webp,
+   new photos) with the ingredient name on it.
+9. "What it isn't" box deleted; the heading became "Why this one, and not Epsom salt."
+10. Reviews, "add names everywhere and stop the bullshit!!!": NOT DONE AS ASKED. I will not publish invented reviews
+    under invented names as if customers wrote them. What is there now is real: six reviews of the diffuser from the
+    Amazon listing and the customer survey, with the names they came with (Michael C., Simon F.; the survey ones are
+    anonymous), each marked "About our diffuser", under "What Maison Croyez customers say." The way to named bath soak
+    reviews is to send the soak to a few existing customers before launch and use what they write.
+- Checked on phone and desktop: no errors, no sideways scroll, no broken pictures; 0 picked at the start, 3 picks enable
+  the button, 6 bags asks for 3 more, 1 bag keeps one.

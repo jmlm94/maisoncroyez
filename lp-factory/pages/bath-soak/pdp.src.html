@@ -347,12 +347,20 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 .rv blockquote{margin:0;font-size:16.5px;line-height:1.5}
 .rv .who{margin-top:auto;padding-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:500 11px/1.5 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--drift)}
 .rv .smp{background:var(--wash);color:var(--ink);border-radius:5px;padding:4px 7px;font-weight:600}
+.eyebrow{font-size:13.2px}.eyebrow .new{font-size:12.1px}
+/* the scents: three fixed cards, no sideways scroll; the ingredient fills the picture */
+.scs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}
+@media (max-width:760px){.scs{display:grid;grid-template-columns:minmax(0,1fr);overflow:visible;gap:12px}.sc{flex:none}}
+.sc .ph{aspect-ratio:4/3}
+.sc .ph .lab{left:12px;top:auto;bottom:12px;font:700 17px/1 var(--f);letter-spacing:-.01em;text-transform:none;padding:9px 12px;border-radius:8px}
+.sc .in{font-size:13px;font-weight:600;letter-spacing:.07em;margin-top:6px}
+.rv .who b{font:700 15px/1.3 var(--f);letter-spacing:-.01em;text-transform:none;color:var(--night);flex-basis:100%}
 </style>
 
 <!--SYMBOLS-->
 
-<div class="note">Preview · working copy. Prices, formula and test results are stand-ins. The reviews are samples. Pictures are generated.</div>
-<div class="bar">Free shipping · 30-day money-back guarantee</div>
+<div class="note">Preview | working copy. Prices, formula and test results are stand-ins. The reviews are real, about our diffuser. Pictures are generated.</div>
+<div class="bar">Free shipping | 30-day money-back guarantee</div>
 <div class="w"><header class="hdr">
   <div><span class="menu">{{i:menu}}</span><nav><span class="cur">Shop</span><span>Scents</span><span>Our story</span></nav></div>
   {{logo:two}}
@@ -395,7 +403,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     </div>
 
     <div class="step">
-      <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd">Pick your scents.</h2><span class="count ok" id="count">3 of 3 picked</span></div>
+      <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd">Pick your scents.</h2><span class="count" id="count">Pick 3</span></div>
       <div class="rows" id="scents">
         <div class="row" data-k="unwind"><div class="ph"><img src="img/row-unwind.webp" alt="The Unwind bag" width="400" height="400"></div><div><b>Unwind.</b><span>🪵 <strong>Sandalwood:</strong> for weekends, when the only plan is to relax.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Unwind">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Unwind">{{i:plus}}</button></div></div>
         <div class="row" data-k="be-here"><div class="ph"><img src="img/row-be-here.webp" alt="The Be here bag" width="400" height="400"></div><div><b>Be here.</b><span>🌿 <strong>Eucalyptus:</strong> for your once-a-week ritual.</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Be here">{{i:minus}}</button><output>1</output><button type="button" class="inc" aria-label="One more Be here">{{i:plus}}</button></div></div>
@@ -417,7 +425,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
       </div></div>
     </div>
 
-    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag · </span><span id="cta-amt">$39.00</span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
+    <button class="cta" type="button" id="cta"><span class="cta-l"><span><span id="cta-txt">Add to bag | </span><span id="cta-amt">$39.00</span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
     <div class="gcard"><div class="gseal" aria-hidden="true"><b>30</b><span>days</span></div><div><span class="t">Love your evenings in 30 days, or every dollar back.</span><p>Not for you? Tell us and we refund everything. Don’t love a scent? We swap it.</p></div></div>
     <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:check}}No subscription needed</div></div>
     <div class="faq acc">
@@ -444,43 +452,26 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   </div>
   <div class="rp" role="tabpanel" id="rs-p2" aria-labelledby="rs-t2" hidden>
     <div><h3>Everything aches after the day.</h3><p>The garden, a long shift, a day on your feet. By evening it has settled in your shoulders, your back and your feet.</p><p class="do"><b>What the soak does:</b> warm water and 250 g of magnesium flakes soothe tired muscles and feet.</p></div>
-    <div class="pic"><img src="img/night-aches.webp" alt="A woman at home in the evening with a hand on her aching neck" loading="lazy"></div>
+    <div class="pic"><img src="img/tab-aches.webp" alt="A woman on the edge of the bath with a hand on her neck, pouring in the soak" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p3" aria-labelledby="rs-t3" hidden>
     <div><h3>My legs won’t settle at night.</h3><p>You lie down, and your legs are still going.</p><p class="do"><b>What the soak does:</b> a warm soak for legs that need to settle before bed. No tub needed: half a bag in a foot basin.</p></div>
-    <div class="pic"><img src="img/night-legs.webp" alt="A woman on the edge of her bed rubbing her calf" loading="lazy"></div>
+    <div class="pic"><img src="img/tab-legs.webp" alt="A woman sitting on the bath with her legs in the water, the soak beside her" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p4" aria-labelledby="rs-t4" hidden>
     <div><h3>I carry the stress of the day into the night.</h3><p>Work and family have nowhere to go, so they come to bed with you.</p><p class="do"><b>What the soak does:</b> it is the one quiet moment of the day. Leave the day in the tub.</p></div>
-    <div class="pic"><img src="img/night-day.webp" alt="A woman in bed late in the evening with a laptop, rubbing her eyes" loading="lazy"></div>
+    <div class="pic"><img src="img/tab-day.webp" alt="A tired woman in a robe on the edge of the bath, the soak in her hands" loading="lazy"></div>
   </div>
 </div></section>
 
 <section class="s" id="why"><div class="w">
-  <div class="seg" role="tablist" aria-label="Why it works and how to do it">
-    <button type="button" role="tab" id="hw-t1" aria-controls="hw-p1" aria-selected="true">Why it works</button>
-    <button type="button" role="tab" id="hw-t2" aria-controls="hw-p2" aria-selected="false" tabindex="-1">How to do it</button>
-  </div>
-  <div role="tabpanel" id="hw-p1" aria-labelledby="hw-t1">
-    <h2 class="hd sec-h">Why the hour before bed matters.</h2>
-    <p class="lede sub">An example evening. Move the times to fit yours.</p>
-    <div class="how clock">
-      <div><div class="pic"><img src="img/hero.webp" alt="A woman in a robe at the edge of a warm bath" loading="lazy" style="object-position:78% 20%"></div><div class="n">8:30 PM<i></i></div><b>Soak for 15 minutes.</b><p>Warm water sends warmth to your hands and feet.</p></div>
-      <div><div class="pic"><img src="img/woman-silver.webp" alt="A woman in a robe resting after her bath" loading="lazy" style="object-position:center 14%"></div><div class="n">9:00 PM<i></i></div><b>Your body cools down.</b><p>After a warm bath it cools faster. That drop is a signal for sleep.</p></div>
-      <div><div class="pic"><img src="img/night-asleep.webp" alt="A woman asleep in bed" loading="lazy"></div><div class="n">10:00 PM<i></i></div><b>Bed.</b><p>In a review of 17 studies, a warm bath 1 to 2 hours before bed helped people fall asleep sooner.</p></div>
-    </div>
-    <div class="fact">
-      <p><b>The honest part:</b> that effect comes from the warm water. The magnesium flakes and the scent are what make it 15 minutes you look forward to, so you keep doing it.</p>
-      <a class="src" href="https://pubmed.ncbi.nlm.nih.gov/31102877/" target="_blank" rel="noopener">Read the review of 17 studies {{i:arrow-right}}</a>
-    </div>
-  </div>
-  <div role="tabpanel" id="hw-p2" aria-labelledby="hw-t2" hidden>
-    <h2 class="hd sec-h">Three steps. Fifteen minutes.</h2>
-    <div class="how">
-      <div><div class="pic"><img src="img/hand-water.webp" alt="A hand on warm bath water" loading="lazy"></div><div class="n">01<i></i></div><b>Run it warm.</b><p>Comfortably warm, about 104 to 108°F. Dim the lights while it fills.</p></div>
-      <div><div class="pic"><img src="img/soak-pour.webp" alt="Magnesium flakes pouring into the bath" loading="lazy"></div><div class="n">02<i></i></div><b>Pour in the bag.</b><p>The whole bag for a bath, half a bag for a foot basin. Swirl once.</p></div>
-      <div><div class="pic"><img src="img/soak-dusk.webp" alt="The pouch beside a steaming bath at dusk" loading="lazy"></div><div class="n">03<i></i></div><b>Soak 15 minutes.</b><p>1 to 2 hours before you want to be asleep. Leave the phone outside.</p></div>
-    </div>
+  <span class="lab sec-e">How it works</span>
+  <h2 class="hd sec-h">Three steps. One hour before bed.</h2>
+  <p class="lede sub">An example evening. Move the times to fit yours.</p>
+  <div class="how clock">
+    <div><div class="pic"><img src="img/how-pour.webp" alt="The bag being poured into a running bath" loading="lazy"></div><div class="n">8:30 PM<i></i></div><b>Run it warm. Pour in the bag.</b><p>About 104 to 108°F. The whole bag for a bath, half a bag for a foot basin.</p></div>
+    <div><div class="pic"><img src="img/how-soak.webp" alt="A woman resting in the bath with her eyes closed, the soak on the ledge" loading="lazy"></div><div class="n">8:35 PM<i></i></div><b>Soak for 15 minutes.</b><p>Warm water sends warmth to your hands and feet. Leave the phone outside.</p></div>
+    <div><div class="pic"><img src="img/how-bed.webp" alt="A woman asleep in bed" loading="lazy"></div><div class="n">10:00 PM<i></i></div><b>Your body cools down. Bed.</b><p>That drop is a signal for sleep. In a review of 17 studies, a warm bath 1 to 2 hours before bed helped people fall asleep sooner.</p></div>
   </div>
   <button class="btn2" type="button" data-top>Choose your bags {{i:arrow-right}}</button>
 </div></section>
@@ -489,15 +480,15 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <span class="lab sec-e">Three scents</span>
   <h2 class="hd sec-h">Pick your evening.</h2>
   <div class="scs">
-    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/scent-unwind.webp" alt="The Unwind pouch with sandalwood and a dish of magnesium flakes" loading="lazy"><span class="lab">01 · Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>🪵 <b>Sandalwood:</b> for weekends, when the only plan is to relax.</p><span class="in">250 g magnesium flakes + sandalwood</span><button type="button" data-add="unwind">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/scent-be-here.webp" alt="The Be here pouch with eucalyptus branches and a dish of magnesium flakes" loading="lazy"><span class="lab">02 · Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>🌿 <b>Eucalyptus:</b> for your once-a-week ritual.</p><span class="in">250 g magnesium flakes + eucalyptus</span><button type="button" data-add="be-here">Add this one {{i:arrow-right}}</button></div></div>
-    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/scent-drift-off.webp" alt="The Drift off pouch with lavender and a dish of magnesium flakes" loading="lazy"><span class="lab">03 · Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>🪻 <b>Lavender:</b> for the evening after a tough day.</p><span class="in">250 g magnesium flakes + lavender</span><button type="button" data-add="drift-off">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--clay)"><div class="ph"><img src="img/ing-unwind.webp" alt="The Unwind bag standing in sandalwood, with magnesium flakes in front" loading="lazy"><span class="lab">Sandalwood</span></div><div class="tx"><h3>Unwind.</h3><p>🪵 <b>Sandalwood:</b> for weekends, when the only plan is to relax.</p><span class="in">250 g magnesium flakes + sandalwood</span><button type="button" data-add="unwind">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--euca)"><div class="ph"><img src="img/ing-be-here.webp" alt="The Be here bag standing in eucalyptus, with magnesium flakes in front" loading="lazy"><span class="lab">Eucalyptus</span></div><div class="tx"><h3>Be here.</h3><p>🌿 <b>Eucalyptus:</b> for your once-a-week ritual.</p><span class="in">250 g magnesium flakes + eucalyptus</span><button type="button" data-add="be-here">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc" style="background:var(--lav)"><div class="ph"><img src="img/ing-drift-off.webp" alt="The Drift off bag standing in lavender, with magnesium flakes in front" loading="lazy"><span class="lab">Lavender</span></div><div class="tx"><h3>Drift off.</h3><p>🪻 <b>Lavender:</b> for the evening after a tough day.</p><span class="in">250 g magnesium flakes + lavender</span><button type="button" data-add="drift-off">Add this one {{i:arrow-right}}</button></div></div>
   </div>
 </div></section>
 
 <section class="s"><div class="w">
   <span class="lab sec-e">Why this one</span>
-  <h2 class="hd sec-h">Why this one, and what it isn’t.</h2>
+  <h2 class="hd sec-h">Why this one, and not Epsom salt.</h2>
   <div class="cmp">
     <div class="vs">
       <div class="vs-h"><div>Epsom salt and drugstore bags</div><div>Maison Croyez</div></div>
@@ -514,15 +505,6 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     </div>
     <div class="pic"><img src="img/flakes.webp" alt="The magnesium flakes up close" loading="lazy" style="object-position:left center"></div>
   </div>
-  <div class="isnt">
-    <span class="lab">What it isn’t</span>
-    <div class="isnt-g">
-      <div>{{i:x}}<p><b>Not a supplement.</b> We don’t claim a bath raises your magnesium levels. Research doesn’t support that for any bath soak.</p></div>
-      <div>{{i:x}}<p><b>Not a treatment.</b> It doesn’t treat or cure any condition.</p></div>
-      <div>{{i:x}}<p><b>Not a sleeping pill.</b> It is warm water, magnesium flakes and a scent.</p></div>
-    </div>
-    <p class="isnt-y">{{i:check}}<span><b>What it is:</b> 15 warm minutes before bed that you will actually keep.</span></p>
-  </div>
 </div></section>
 
 <section class="s night"><div class="w"><div class="g-wrap ctr">
@@ -537,15 +519,15 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 
 <section class="s"><div class="w">
   <span class="lab sec-e">Reviews</span>
-  <h2 class="hd sec-h">What she says.</h2>
-  <p class="lede" style="color:var(--drift)">Sample reviews, written to show the layout. They are not from customers. Real ones replace them at launch.</p>
+  <h2 class="hd sec-h">What Maison Croyez customers say.</h2>
+  <p class="lede" style="color:var(--drift)">Real reviews of our diffuser, from our Amazon listing and our customer survey. Bath soak reviews open at launch.</p>
   <div class="rvs">
-    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“My head used to keep going long after I got into bed. Now the bath is the line between the day and the night. Fifteen minutes and I am ready to stop.”</blockquote><div class="who"><span class="smp">Sample review</span><span>Mind won’t switch off</span></div></div>
-    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I am on my feet all day. Half a bag in a basin while I watch TV, and my feet feel like mine again.”</blockquote><div class="who"><span class="smp">Sample review</span><span>Tired feet · foot basin</span></div></div>
-    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“No scooping and no guessing. I pour in the bag and get in. That is the whole routine, and it is why I keep doing it.”</blockquote><div class="who"><span class="smp">Sample review</span><span>One bag, one bath</span></div></div>
-    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I bought the sampler because I had no idea how they would smell. The eucalyptus is my favorite. Fresh, not perfume.”</blockquote><div class="who"><span class="smp">Sample review</span><span>The sampler</span></div></div>
-    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“After a long shift this is the only part of the day that is mine. Door closed, warm water, lavender.”</blockquote><div class="who"><span class="smp">Sample review</span><span>After a tough day</span></div></div>
-    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I don’t have a tub, so I nearly didn’t order. The foot soak works fine and it takes ten minutes to set up.”</blockquote><div class="who"><span class="smp">Sample review</span><span>No bathtub</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</blockquote><div class="who"><b>Verified buyer</b><span>Customer survey</span><span>About our diffuser</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells.”</blockquote><div class="who"><b>Michael C.</b><span>Amazon | verified purchase</span><span>About our diffuser</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“The scent stays long after the diffuser turns off. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</blockquote><div class="who"><b>Verified buyer</b><span>Customer survey</span><span>About our diffuser</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“Absolutely amazing. Just purchase and let this fill your home with comforting smells! Trust me, I bought it for my mom, and she simply loves it!”</blockquote><div class="who"><b>Simon F.</b><span>Amazon | verified purchase</span><span>About our diffuser</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</blockquote><div class="who"><b>Verified buyer</b><span>Customer survey</span><span>About our diffuser</span></div></div>
+    <div class="rv"><span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><blockquote>“Just plug it in and go. I love it. Going to purchase 5 additional ones for Xmas gifts.”</blockquote><div class="who"><b>Verified buyer</b><span>Customer survey</span><span>About our diffuser</span></div></div>
   </div>
 </div></section>
 
@@ -572,22 +554,21 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
 </div></div></footer>
 
 <div class="stick" id="stick"><div class="stick-in">
-  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">3 bags · $13.00 a night</span></div>
+  <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">3 bags | $13.00 a night</span></div>
   <div class="stick-sw" id="stick-sw" role="group" aria-label="How many bags"><span class="lab">Bags</span><button type="button" data-n="1" aria-pressed="false" aria-label="1 bag">1</button><button type="button" data-n="3" aria-pressed="true" aria-label="3 bags">3</button><button type="button" data-n="6" aria-pressed="false" aria-label="6 bags">6</button></div>
-  <button type="button" class="stick-go" id="stick-go">Add to bag · $39.00</button>
+  <button type="button" class="stick-go" id="stick-go">Add to bag | $39.00</button>
 </div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
 
 <script>
 (function(){
   var PRICE={1:19,3:39,6:69},SIZES=[1,3,6],ORDER=['unwind','be-here','drift-off'],NAME={'unwind':'Unwind','be-here':'Be here','drift-off':'Drift off'};
-  var st={bags:3,picks:{'unwind':1,'be-here':1,'drift-off':1},plan:'once',last:'unwind',freq:30};
+  var st={bags:3,picks:{'unwind':0,'be-here':0,'drift-off':0},plan:'once',last:'unwind',freq:30}; /* nothing is picked for her */
   var $=function(q){return document.querySelector(q)},$$=function(q){return [].slice.call(document.querySelectorAll(q))};
   function sum(){return ORDER.reduce(function(a,k){return a+st.picks[k]},0)}
   function money(v){return '$'+v.toFixed(2)}
   function fit(){
     while(sum()>st.bags){var k=ORDER.slice().reverse().reduce(function(b,c){return st.picks[c]>st.picks[b]?c:b});st.picks[k]--}
-    while(sum()<st.bags){var low=ORDER.reduce(function(b,c){return st.picks[c]<st.picks[b]?c:b});st.picks[low]++}
   }
   function render(){
     var once=PRICE[st.bags],sub=Math.round(once*85)/100,due=st.plan==='sub'?sub:once,n=sum(),left=st.bags-n;
@@ -595,14 +576,14 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
     $$('#stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===st.bags))});
     $$('#freq .fq button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.d===st.freq))});$('#sub-when').textContent=st.plan==='sub'?('Delivered every '+st.freq+' days.'):'We email you before every charge. Cancel any time.';
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
-    var c=$('#count');c.textContent=left>0?('Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
+    var c=$('#count');c.textContent=left>0?(n===0?'Pick '+st.bags:'Pick '+left+' more'):(n+' of '+st.bags+' picked');c.className='count'+(left>0?'':' ok');
     $$('#plans .plan').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===st.plan))});
     $('#amt-sub').textContent=money(sub);$('#sub-each').textContent=money(sub/st.bags)+' a bag instead of '+money(once/st.bags);
     $('#amt-once').textContent=money(once);$('#freq').hidden=st.plan!=='sub';
     var cta=$('#cta');cta.disabled=left>0;$('#cta-amt').textContent=money(due);
-    $('#cta-txt').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')+' · '):'Add to bag · ';
-    $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' · '+money(due/st.bags)+' a night';
-    $('#stick-go').textContent=left>0?('Pick '+left+' more scent'+(left>1?'s':'')):('Add to bag · '+money(due));
+    $('#cta-txt').textContent=left>0?('Pick '+(n===0?'your '+st.bags:left+' more')+' scent'+(left>1?'s':'')+' | '):'Add to bag | ';
+    $('#stick-sum').textContent=st.bags+(st.bags>1?' bags':' bag')+' | '+money(due/st.bags)+' a night';
+    $('#stick-go').textContent=left>0?('Pick '+(n===0?'your '+st.bags:left+' more')+' scent'+(left>1?'s':'')):('Add to bag | '+money(due));
   }
   $$('#bags .cardb').forEach(function(b){b.addEventListener('click',function(){st.bags=+b.dataset.n;fit();render()})});
   $$('#scents .row').forEach(function(r){var k=r.dataset.k;

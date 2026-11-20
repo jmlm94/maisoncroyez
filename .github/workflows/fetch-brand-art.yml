@@ -1,6 +1,6 @@
 name: fetch-brand-art
 # Downloads generated pictures for the rebrand into the folder named in DEST (board/img for the board, mockups/img for the pack mockups) as WebP
-# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder] [run 10: eleven 4:5 pictures for the bath soak static ads, into lp-factory/ads/bath-soak/img, kept up to 2800 px (MAXPX)] [run 11: four test pictures for the realistic redo of the ads (three models), into lp-factory/ads/bath-soak/img/test] [run 12: the realistic lifestyle pictures for version 2 of the ads (r2-*), into lp-factory/ads/bath-soak/img] [run 13: r2-three] [run 14: seven scenes reshot wider (r3-*)] [run 15: the foot basin from further back and a second take of the legs scene (r4-*)] [run 16: two takes each of the aches and the foot basin scenes with the bag being poured (r5-*)] [run 17: clean product photos for the bath soak page gallery (three bags, one bag with flakes, flakes close-up), into lp-factory/pages/bath-soak/gallery/img]
+# (the session container cannot reach the image host). One "name url" pair per line in LIST. Edit the list and push to run. [run 1: the nine first pictures] [run 2: woman-silver, added after the Hanni reference] [run 3: the first five pack mockups, into mockups/img] [run 4: row 2 of the pack mockups] [run 5: gallery pictures for the bath soak PDP preview, into lp-factory/pages/bath-soak/img] [run 6: the real diffuser in the new look, for the kits preview, into lp-factory/pages/diffuser-kits-rebrand/img] [run 7: the 9 / 18 / 24-month variant pictures for the supply product, into lp-factory/pages/supply/img/variants] [run 8: the three scent cards of the bath soak PDP preview (ingredient + pouch + salts), into lp-factory/pages/bath-soak/img] [run 9: six pictures for the direct-response version of the bath soak preview (her four nights, the foot soak, asleep), same folder] [run 10: eleven 4:5 pictures for the bath soak static ads, into lp-factory/ads/bath-soak/img, kept up to 2800 px (MAXPX)] [run 11: four test pictures for the realistic redo of the ads (three models), into lp-factory/ads/bath-soak/img/test] [run 12: the realistic lifestyle pictures for version 2 of the ads (r2-*), into lp-factory/ads/bath-soak/img] [run 13: r2-three] [run 14: seven scenes reshot wider (r3-*)] [run 15: the foot basin from further back and a second take of the legs scene (r4-*)] [run 16: two takes each of the aches and the foot basin scenes with the bag being poured (r5-*)] [run 17: clean product photos for the bath soak page gallery (three bags, one bag with flakes, flakes close-up), into lp-factory/pages/bath-soak/gallery/img] [run 18: each bag in its own ingredient, for the scents section of the bath soak page (ing-*), into lp-factory/pages/bath-soak/img]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -12,13 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      DEST: lp-factory/pages/bath-soak/gallery/img
-      MAXPX: "2800"
+      DEST: lp-factory/pages/bath-soak/img
+      MAXPX: "1800"
       LIST: |
-        g-three https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_225423_aaef4295-6cc0-4ec2-8f2e-2ce9e6bf9ecc.png
-        g-three-b https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_225423_7a77b54c-edd4-4453-b864-fda07cf6721a.png
-        g-inside https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_225422_20dc4334-4621-44f1-b6d1-2196976fba32.png
-        g-flakes https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261119_225423_533ffa1c-0687-43f7-8e57-13c06dc484a1.png
+        ing-unwind https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261120_215607_5bb51c11-efc3-40f5-a05d-c8b5fc2ff613.png
+        ing-be-here https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261120_215607_04f15c49-5782-4ae3-9f0b-1120b83afdf3.png
+        ing-drift-off https://d8j0ntlcm91z4.cloudfront.net/user_36DYkAQBLYuFeIWq6SlzuEnE1VU/hf_20261120_215606_9c8b04ec-de3f-4ae7-96af-a0922e4a779b.png
     steps:
       - uses: actions/checkout@v4
         with:

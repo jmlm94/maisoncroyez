@@ -553,7 +553,7 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   <div><p class="bn">Bonne nuit.</p><p style="margin-top:8px">Preview page. Prices, scents, policies and copy are working choices, and nothing here is on the store.</p></div>
 </div></div></footer>
 
-<div class="stick" id="stick"><div class="stick-in">
+<div class="stick on" id="stick"><div class="stick-in">
   <div class="stick-n"><b>Magnesium bath soak</b><span id="stick-sum">3 bags | $13.00 a night</span></div>
   <div class="stick-sw" id="stick-sw" role="group" aria-label="How many bags"><span class="lab">Bags</span><button type="button" data-n="1" aria-pressed="false" aria-label="1 bag">1</button><button type="button" data-n="3" aria-pressed="true" aria-label="3 bags">3</button><button type="button" data-n="6" aria-pressed="false" aria-label="6 bags">6</button></div>
   <button type="button" class="stick-go" id="stick-go">Add to bag | $39.00</button>
@@ -618,9 +618,8 @@ footer .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;
   $('#g-prev').addEventListener('click',function(){go(idx()-1)});$('#g-next').addEventListener('click',function(){go(idx()+1)});
   track.addEventListener('scroll',function(){var i=idx();dots.forEach(function(d,j){d.className=j===i?'on':''})},{passive:true});
   /* sticky bar shows once the main button is out of view */
-  var stick=$('#stick'),ctaEl=$('#cta'),tick=0;
-  function onScroll(){if(tick)return;tick=requestAnimationFrame(function(){tick=0;stick.classList.toggle('on',ctaEl.getBoundingClientRect().bottom<0)})}
-  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  /* the sticky add-to-bag bar is there from the first moment (the owner asked for it to show right away) */
+  $('#stick').classList.add('on');
   render();
 })();
 </script>

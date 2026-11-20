@@ -249,3 +249,7 @@ main picture; a mix of photos and diagrams.
     reviews is to send the soak to a few existing customers before launch and use what they write.
 - Checked on phone and desktop: no errors, no sideways scroll, no broken pictures; 0 picked at the start, 3 picks enable
   the button, 6 bags asks for 3 more, 1 bag keeps one.
+
+- Later the same day: "Add a sticky ATC button thats starts showing up right away": the sticky bar (bags 1 / 3 / 6 and the
+  button) is now on screen from the first moment instead of after the main button scrolls away. Checked on phone and
+  desktop; it does not cover the footer at the end of the page.

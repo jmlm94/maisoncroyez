@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 7, see Round 7 at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 10, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -199,3 +199,41 @@ the same scent every night as a bedtime cue is "our idea, not a study"; honest l
    in the "When am I charged?" fold-out and the FAQ.
 - He also asked for a 1 to 10 rating of everything below the button for friction; given in chat, nothing from it applied.
 - Checked on phone and desktop: no errors, no sideways scroll, every path of the buy box still adds up.
+
+## Round 9 (2026-11-21, artifact version 10) — creator photos under the main picture
+
+His words: "check this folder full of images of people using the diffuser and create a section right below the main image
+on pdp as a carousel ... and like a title to represent the thousands of customers we have ... theres more than one pic
+per creator. make sure all the faces are different. make them squeared too. I need to fill the page with social proof."
+
+- Source: his Drive folder (29 frames from 12 creators, file names carry the creator's name). One frame per creator, read
+  through the Drive connector, cropped square to 720 px, saved as img/ugc-01..10.webp (no names in the file names).
+- Ten are used. Two creators are left out because the diffuser is not in any of their three frames.
+- The strip sits inside the gallery column, right under the arrows: title "Loved in thousands of homes.", ten square
+  tiles, swipe on a phone, two arrow buttons. No names and no quotes on the tiles: these are creators' video frames, not
+  reviews. "Thousands" is his number; nothing in the repo confirms it (brand-kit.md has "2,500+ women", unconfirmed).
+- The left column is taller now, so it only stays pinned on screens 900 px high or more.
+
+## The seven gallery pictures (2026-11-21) — gallery/
+
+His words: "for the diffusers specifically and based on all the data we've gathered in the past few months. Would you be
+able to determine the 7 pieces of information and angles these prospects should know right away to remove 85%+ of
+friction? If so, I need you to generate them as images as we did with the magnesium soak. Branded, different layouts,
+with the important information."
+
+Review page: https://claude.ai/artifact/KwVy9bytKra8cC2SwZAAg1 (gallery/review.html, built by gallery/build-review.py).
+Pictures: gallery/out/diffuser-gallery-01..07 (2000 x 2000 JPEG), drawn by `node gallery/make-gallery.js`; alt text in
+gallery/alt-text.json. They are NOT in the page's gallery yet: the page keeps the video and the five older slides.
+
+1. What it is: "Scent for the whole room. No water. No flame." 10 min, 600 sq ft, 1 button.
+2. How it smells (survey reason one): first scent free, the seven scents with their notes, free swap.
+3. Safe to leave on: no flame, no water, no heat, the timer, the survey quote about the bedroom.
+4. Why not a candle or a plug-in: the four rows of the page's comparison slide.
+5. How to use it: pour, press, exhale; three strengths (Subtle, Balanced, Full), timer, night light.
+6. How long a bottle lasts and what it costs after today (survey reasons two and three): 15+ days, "under $2 an
+   evening" (assumes the $29 refill), refills optional, an email before every charge, skip or cancel.
+7. The promise: 30 days, free shipping, prepaid return label, free scent swap, lifetime warranty.
+
+Every fact is one the page already states. "85%" is not something these pictures can be shown to do; they cover the
+objections that appear in the survey and in the page's own questions. Photos: old/ (the photo shoot) for 4, 5 and 7,
+img/dk-* (generated from the real product photo) for 1, 3, 5 (step two) and 6, old/pick-* for the scent boxes.

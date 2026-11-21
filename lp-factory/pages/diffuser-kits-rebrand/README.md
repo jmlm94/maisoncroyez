@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 14, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 15, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -336,3 +336,18 @@ pet and food odors", the "first 1,000 free" offer, the manifestation wording, "9
 the six named carousel reviews of Draft Copy 3 (marked fictional in its own code), and room names on the step 1 cards
 (he deleted "One room" there on 2026-11-21).
 Open questions put to him: "Pour it in" vs "the bottle locks in"; whether returned scents come back or stay.
+
+## Round 14 (2026-11-21, artifact version 15) — his twelve comments on version 14
+
+- Rating line 10% bigger; the eyebrow "Maison Croyez waterless diffuser & scents" 15% bigger.
+- Photo title: "Loved in 2,500+ homes across America."
+- Step 2: the scents sit two to a row (small picture + name, the stepper, then "Smells like" and "Notes").
+- Step 3: title "Select your frequency and get 25% OFF lifetime:" (his words); the "Subscribe. Save 25%." pill is gone.
+- The small labels above the section titles are removed everywhere (eight of them). The scents title is now "Seven
+  scents. Pick the evening you want."; the founder's note has its own title, "A note from our founder."
+- The founder's note is the first section under the buy box (after the fold-outs under the button).
+- "Your home goes from day to evening in ten minutes.": no tabs; four cards, two to a row on every screen (picture,
+  feeling, one or two lines). "Why it works" removed from each.
+- "As simple as 1, 2, 3.": the three pictures are 30% of their old width and sit beside each step.
+- The promise section is centered.
+- Headline: he asked for four ideas, given in chat; the headline on the page is unchanged until he picks.

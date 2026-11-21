@@ -180,3 +180,22 @@ the same scent every night as a bedtime cue is "our idea, not a study"; honest l
   confirms. "Crisp Citrus Scape and Chilled Citrus are the two lightest scents" comes from the "soft" labels on the cards.
 - Checked on phone 400 px and desktop 1440 px: no errors, no sideways scroll, no broken pictures, 7 slides, the tabs
   and the switch work, every path adds up (1 = $89, 2 = $159, 3 = $239; refills $29 / $58 / $87).
+
+## Round 8 (2026-11-21, artifact version 9) — his nine comments on the page
+
+(Version 8, 2026-11-19, was one line: the lede no longer names an age, "for the evenings you can't switch off".)
+1. Rating line at the top: "Update the reviews here and delete that is from Amazon" -> "4.7 | 124 reviews", the figure his live
+   kits pages show ("4.7 Rated (124 reviews)", lp-factory/assets/cdn/mc-dk-app.js). NOT VERIFIED BY ME: the store
+   connector was pointed at the other store today, so I could not read the review app; brand-kit.md still lists the
+   numeric rating as unconfirmed. TOLD TO HIM. Amazon is no longer named anywhere on the page (rating block, the line
+   above the quotes, the two quote sources now read "Verified purchase").
+2. "See how an evening goes" button deleted. 3. "A free scent with each" pill deleted.
+4. "One room", "Save $19", "Save $28" deleted from the three diffuser cards.
+5. Step 2: the seven scents are one list, no Unwind / Be here / Drift off headings. (The scents section lower down is
+   still grouped; he commented on step 2 only.)
+6. "One 100 ml bottle lasts 15+ days..." is black. 7. "Can't decide?" and "Not sure how they smell?" are centered.
+8. A period at the end of each of the three reassurance lines in step 3.
+9. "Due today ..." and the renewal sentence above the button deleted. The renewal amount for her kit is now stated only
+   in the "When am I charged?" fold-out and the FAQ.
+- He also asked for a 1 to 10 rating of everything below the button for friction; given in chat, nothing from it applied.
+- Checked on phone and desktop: no errors, no sideways scroll, every path of the buy box still adds up.

@@ -488,6 +488,10 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
 .stick .stick-sw button{width:44px;height:44px;min-height:0;padding:0;border-radius:10px;border:1.5px solid var(--stone);background:transparent;color:var(--night);font:700 16px var(--f);cursor:pointer}
 .stick .stick-sw button[aria-pressed="true"]{border-color:var(--night);background:var(--night);color:var(--cream)}
 @media (max-width:640px){.stick-in{gap:12px;align-items:flex-end}.stick-n{display:none}.stick-sw{display:grid;grid-template-columns:repeat(3,40px);gap:3px 4px}.stick-sw .lab{grid-column:1/-1;margin:0;font-size:9.5px}.stick .stick-sw button{width:40px;height:40px}.stick .stick-go{flex:1;padding:0 8px}}
+.def{color:var(--night)}
+.each1{justify-content:center;width:100%;text-align:center}
+.swapn{justify-content:center;text-align:center}
+.cta{margin-top:22px}
 </style>
 
 <!--SYMBOLS-->
@@ -525,23 +529,23 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
   </div>
 
   <div>
-    <button class="rate" type="button" data-to="reviews" aria-label="Rated 4.5 out of 5 on Amazon from 44 ratings. Jump to the reviews"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:90%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span><b>4.5</b> on Amazon · <u>44 ratings</u></span></button>
+    <button class="rate" type="button" data-to="reviews" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span><b>4.7</b> | <u>124 reviews</u></span></button>
     <p class="lab eyebrow">Maison Croyez waterless diffuser &amp; scents</p>
     <h1 class="hd">Home, but the day won’t leave your head? <span class="h1b">Leave it at the door.</span></h1>
     <p class="lede top">A waterless scent diffuser for the evenings you can’t switch off. Press once when you walk in. In about ten minutes the room tells you the day is over.</p>
     <ul class="chk">
-      <li><span class="cm">{{i:check}}</span><span><b>A cue to switch off.</b> The same scent every evening tells your head the day is done. <button class="src" type="button" data-go="why">See how an evening goes</button></span></li>
+      <li><span class="cm">{{i:check}}</span><span><b>A cue to switch off.</b> The same scent every evening tells your head the day is done.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>Fills the room in about ten minutes.</b> Up to 600 sq ft from one diffuser.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>Made to be left on.</b> No flame, no water, no heat, and a timer that turns it off.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>Don’t know how it smells?</b> Your first scents are free. Don’t love one, we swap it free.</span></li>
     </ul>
 
     <div class="step">
-      <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many diffusers?</h2><span class="pill">A free scent with each</span></div>
+      <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many diffusers?</h2></div>
       <div class="cards" id="diffs">
-        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 diffuser</b><span class="p">$89</span><span class="each">$89.00 each</span><span class="sv none">One room</span><span class="free">+ 1 free scent</span><span class="cov"><b>600 sq ft</b><small>coverage</small></span></button>
-        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 diffusers</b><span class="p">$159<span class="was">$178</span></span><span class="each">$79.50 each</span><span class="sv">Save $19</span><span class="free">+ 2 free scents</span><span class="cov"><b>1,200 sq ft</b><small>coverage</small></span></button>
-        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Whole home</span><b>3 diffusers</b><span class="p">$239<span class="was">$267</span></span><span class="each">$79.67 each</span><span class="sv">Save $28</span><span class="free">+ 3 free scents</span><span class="cov"><b>1,800 sq ft</b><small>coverage</small></span></button>
+        <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 diffuser</b><span class="p">$89</span><span class="each">$89.00 each</span><span class="free">+ 1 free scent</span><span class="cov"><b>600 sq ft</b><small>coverage</small></span></button>
+        <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 diffusers</b><span class="p">$159<span class="was">$178</span></span><span class="each">$79.50 each</span><span class="free">+ 2 free scents</span><span class="cov"><b>1,200 sq ft</b><small>coverage</small></span></button>
+        <button class="cardb" type="button" data-n="3" aria-pressed="false"><span class="tag">Whole home</span><b>3 diffusers</b><span class="p">$239<span class="was">$267</span></span><span class="each">$79.67 each</span><span class="free">+ 3 free scents</span><span class="cov"><b>1,800 sq ft</b><small>coverage</small></span></button>
       </div>
     </div>
 
@@ -549,14 +553,11 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
       <div class="step-h"><span class="lab">Step 2 of 3</span><h2 class="hd" id="s2-h">Pick your 2 free scents.</h2><span class="count" id="count">0 of 2 picked</span></div>
       <p class="def"><b>Scent oil for your diffuser.</b> One 100 ml bottle lasts 15+ days. One comes free with every diffuser, a $39 value each.</p>
       <div class="rows" id="scents">
-        <p class="mood-h"><i style="background:var(--clay)"></i><b>Unwind</b>For when you walk in with the day still in your head.</p>
         <div class="row" data-k="golden"><div class="ph"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="tx"><b>Golden Blossom Harmony</b><span>Honey Floral</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Golden Blossom Harmony">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Golden Blossom Harmony">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Buttercup, honeysuckle &amp; sunflower.</span></p></div>
         <div class="row" data-k="honey"><div class="ph"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="tx"><b>Honey Nectar</b><span>Milk &amp; Honey</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Honey Nectar">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Honey Nectar">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey.</span></p></div>
-        <p class="mood-h"><i style="background:var(--euca)"></i><b>Be here</b>For the weekend, when the only plan is home.</p>
         <div class="row" data-k="crisp"><div class="ph"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="tx"><b>Crisp Citrus Scape</b><span>Fresh Citrus</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Crisp Citrus Scape">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Crisp Citrus Scape">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress.</span></p></div>
         <div class="row" data-k="euphoric"><div class="ph"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="tx"><b>Euphoric Bloom</b><span>Peach &amp; Tea</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Euphoric Bloom">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Euphoric Bloom">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème.</span></p></div>
         <div class="row" data-k="wildwood"><div class="ph"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="tx"><b>Wildwood Mystique</b><span>Pine Forest</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Wildwood Mystique">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Wildwood Mystique">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern.</span></p></div>
-        <p class="mood-h"><i style="background:var(--lav)"></i><b>Drift off</b>For the bedroom, in the hour before bed.</p>
         <div class="row" data-k="chilled"><div class="ph"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="tx"><b>Chilled Citrus</b><span>Lavender</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Chilled Citrus">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Chilled Citrus">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus.</span></p></div>
         <div class="row" data-k="midnight"><div class="ph"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="tx"><b>Midnight Sensation</b><span>Floral Musk</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Midnight Sensation">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Midnight Sensation">{{i:plus}}</button></div><p class="more"><span><i>Notes</i>Moonflower, night lily &amp; skin musk.</span></p></div>
       </div>
@@ -573,11 +574,9 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
         <button class="qtyb" type="button" data-f="12" aria-pressed="false"><span class="ev">Every</span><b>12 weeks</b><span class="pr"><s>$39</s> $29</span><span class="per">a scent</span></button>
         <button class="qtyb wide" type="button" data-f="0" aria-pressed="false"><b>No refills, thank you</b><span>Today’s scents are still free.</span></button>
       </div>
-      <ul class="incl3"><li>{{i:check}}We email you before every charge</li><li>{{i:check}}Skip a delivery, swap scents or cancel any time</li><li>{{i:check}}No commitment: today’s scents are free either way</li></ul>
+      <ul class="incl3"><li>{{i:check}}We email you before every charge.</li><li>{{i:check}}Skip a delivery, swap scents or cancel any time.</li><li>{{i:check}}No commitment: today’s scents are free either way.</li></ul>
     </div>
 
-    <div class="due"><b>Due today</b><span id="due">2 diffusers $159 + 2 scents free</span></div>
-    <p class="renew" id="renew"></p>
     <button class="cta" type="button" id="cta" disabled><span class="cta-l"><span><span id="cta-t">Pick your 2 free scents</span><span id="cta-amt"></span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
     <div class="gcard"><div class="gseal" aria-hidden="true"><b>30</b><span>days</span></div><div><span class="t">Love the way your evenings feel in 30 days, or every dollar back.</span><p>Send it back with our prepaid label and we refund everything. Don’t love a scent? We swap it, free.</p></div></div>
     <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:rotate-ccw}}30-day money-back</div><div>{{i:shield-check}}Lifetime warranty</div></div>
@@ -714,9 +713,9 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
 <section class="s" id="reviews"><div class="w">
   <span class="lab sec-e">Reviews</span>
   <h2 class="hd sec-h">What customers told us.</h2>
-  <p class="lede" style="color:var(--drift)">Verified buyers, from our customer survey and our Amazon listing. Lightly trimmed for length.</p>
+  <p class="lede" style="color:var(--drift)">Verified buyers. Lightly trimmed for length.</p>
   <div class="proof kit">
-    <div class="rating"><span class="big">4.5</span><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:90%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><p>out of 5 on Amazon · 44 ratings</p></div>
+    <div class="rating"><span class="big">4.7</span><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><p>out of 5 | 124 reviews</p></div>
     <div class="vids">
       <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
       <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
@@ -725,12 +724,12 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
     </div>
   </div>
   <div class="quotes" id="quotes">
-    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</blockquote><div class="who">Verified buyer<span>Customer survey · bought it for safety and no mold</span></div></div>
-    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</blockquote><div class="who">Verified buyer<span>Customer survey · lives in an apartment</span></div></div>
-    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that. I can’t believe how they make every room smell fresh without changing wax, cans and refills.”</blockquote><div class="who">Verified buyer<span>Customer survey · switched from reed sticks</span></div></div>
-    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells. I highly recommend this item!”</blockquote><div class="who">Michael C.<span>Amazon · verified purchase</span></div></div>
-    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Absolutely amazing. Just purchase and let this fill your home with comforting smells! Trust me, I bought it for my mom, and she simply loves it!”</blockquote><div class="who">Simon F.<span>Amazon · verified purchase</span></div></div>
-    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.”</blockquote><div class="who">Verified buyer<span>Customer survey · switched from sprays, plug-ins and candles</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</blockquote><div class="who">Verified buyer<span>Customer survey | bought it for safety and no mold</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</blockquote><div class="who">Verified buyer<span>Customer survey | lives in an apartment</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that. I can’t believe how they make every room smell fresh without changing wax, cans and refills.”</blockquote><div class="who">Verified buyer<span>Customer survey | switched from reed sticks</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells. I highly recommend this item!”</blockquote><div class="who">Michael C.<span>Verified purchase</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Absolutely amazing. Just purchase and let this fill your home with comforting smells! Trust me, I bought it for my mom, and she simply loves it!”</blockquote><div class="who">Simon F.<span>Verified purchase</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.”</blockquote><div class="who">Verified buyer<span>Customer survey | switched from sprays, plug-ins and candles</span></div></div>
   </div>
   <p class="swipe">Swipe for more</p>
 </div></section>
@@ -795,8 +794,6 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     $('#each1').hidden=isAuto();$('#each1-t').textContent=AUTOT[need];
     $$('#freqs .qtyb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.f===st.freq))});
-    $('#due').textContent=pl(need,'diffuser')+' '+money(total)+' + '+pl(need,'scent')+' free';
-    $('#renew').textContent=sub?'Then your '+(need>1?need+' scents come':'scent comes')+' again every '+st.freq+' weeks for '+money(need*REFILL)+(need>1?' ('+money(REFILL)+' each instead of '+money(LIST)+')':' instead of '+money(LIST))+'. Skip, swap or cancel any time.':'Nothing renews. Your '+(need>1?need+' scents are':'scent is')+' still free.';
     var cta=$('#cta');cta.disabled=left>0;
     $('#cta-t').textContent=left>0?(n===0?'Pick your '+(need>1?need+' free scents':'free scent'):'Pick '+left+' more free scent'+(left>1?'s':'')):'Checkout · ';
     $('#cta-amt').textContent=left>0?'':money(total);

@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 15, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 16, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -351,3 +351,10 @@ Open questions put to him: "Pour it in" vs "the bottle locks in"; whether return
 - "As simple as 1, 2, 3.": the three pictures are 30% of their old width and sit beside each step.
 - The promise section is centered.
 - Headline: he asked for four ideas, given in chat; the headline on the page is unchanged until he picks.
+
+## Round 15 (2026-11-21, artifact version 16) — the headline, and "We're ready to deploy"
+
+- Headline (his pick, idea 1): "Walk in stressed? Fill the room with a scent strong enough to change your mood."
+- His words: "Let's do 1. We're ready to deploy. Ask me q's if you need anything". Nothing was written to Shopify in this
+  round: the Shopify connector answered as Carbinox Co. (shopcarbinox.com), so no write was made, and the deploy
+  questions (store connection, where it goes live, prices and refill plans, facts to confirm) were put to him first.

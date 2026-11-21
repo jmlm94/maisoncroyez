@@ -1,1 +1,92 @@
-{"fatal":"Error: page.evaluate: SyntaxError: Unexpected token ')'\n    at eval (<anonymous>)\n    at eval (eval at evaluate (:234:30), <anonymous>:2:34)\n    at async <anonymous>:260:30"}
+{
+ "url": "https://maisoncroyez.com/pages/diffuser-kits-2",
+ "at": "2026-11-21T23:48:49.793Z",
+ "views": {
+  "phone": {
+   "errs": [],
+   "status": 200,
+   "page": {
+    "rendered": true,
+    "h1": "Walk in stressed? Fill the room with a scent strong enough to change your mood.",
+    "h1Font": "\"DM Sans\", system-ui",
+    "mcr": [
+     0,
+     390,
+     390
+    ],
+    "scrollW": 390,
+    "themeH1": "none",
+    "header": [
+     "shopify-section  shopify-section--announcement-bar:none",
+     "shopify-section  shopify-section--header:block",
+     "shopify-section:block"
+    ],
+    "step3Hidden": true,
+    "cta": "Pick your 2 free scents 30-DAY MONEY-BACK GUARANTEE",
+    "stick": [
+     784,
+     60,
+     844
+    ],
+    "imgs": 42
+   },
+   "broken": [],
+   "carts": [
+    {
+     "diffusers": 1,
+     "label": "Checkout · $89 30-DAY MONEY-BACK GUARANTEE",
+     "cart": {
+      "error": "Error: page.evaluate: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+     }
+    },
+    {
+     "diffusers": 2,
+     "label": "Checkout · $159 30-DAY MONEY-BACK GUARANTEE",
+     "cart": {
+      "error": "Error: page.evaluate: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+     }
+    },
+    {
+     "diffusers": 3,
+     "label": "Checkout · $239 30-DAY MONEY-BACK GUARANTEE",
+     "cart": {
+      "error": "Error: page.evaluate: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+     }
+    }
+   ],
+   "checkoutUrl": "did not reach the checkout: https://maisoncroyez.com/pages/diffuser-kits-2"
+  },
+  "desktop": {
+   "errs": [
+    "ERR Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+   ],
+   "status": 200,
+   "page": {
+    "rendered": true,
+    "h1": "Walk in stressed? Fill the room with a scent strong enough to change your mood.",
+    "h1Font": "\"DM Sans\", system-ui",
+    "mcr": [
+     0,
+     1440,
+     1440
+    ],
+    "scrollW": 1440,
+    "themeH1": "none",
+    "header": [
+     "shopify-section  shopify-section--announcement-bar:none",
+     "shopify-section  shopify-section--header:block",
+     "shopify-section:block"
+    ],
+    "step3Hidden": true,
+    "cta": "Pick your 2 free scents 30-DAY MONEY-BACK GUARANTEE",
+    "stick": [
+     840,
+     60,
+     900
+    ],
+    "imgs": 42
+   },
+   "broken": []
+  }
+ }
+}

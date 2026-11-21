@@ -22,7 +22,6 @@ def cut(pattern, n=1):
     body, k = re.subn(pattern, '', body, flags=re.S); assert k == n, (pattern[:40], k)
 cut(r'<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">.*?</svg>\s*')   # logo symbol: only the preview header and footer used it
 cut(r'<div class="note">.*?</div>\s*')
-cut(r'<div class="bar">.*?</div>\s*')
 cut(r'<div class="w"><header class="hdr">.*?</header></div>\s*')
 cut(r'<footer>.*?</footer>\s*')
 assert '#mc-two' not in body and 'Preview' not in body.replace('Preview only. Nothing was added.', ''), 'preview chrome left'
@@ -61,7 +60,7 @@ RESET = ('/* built by store/build-deploy.py from pdp.src.html; do not edit by ha
          '#mcr button{font-family:inherit;letter-spacing:normal;text-transform:none;box-shadow:none;margin:0;width:auto;min-width:0;line-height:inherit}\n'
          '#mcr blockquote{quotes:none}#mcr blockquote::before,#mcr blockquote::after{content:none}\n'
          '#mcr details>summary{list-style:none}#mcr details>summary::-webkit-details-marker{display:none}\n')
-css = RESET + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}\n'
+css = RESET + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}\n#mcr .bar{width:100%}\n#mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}\n'
 open(os.path.join(D, 'mc-dkr.css'), 'w', encoding='utf-8').write(css)
 
 # ---- the script: the page's own, with the real cart ----
@@ -106,7 +105,8 @@ open(os.path.join(D, 'mc-dkr-app.js'), 'w', encoding='utf-8').write(app)
 
 # ---- the page body ----
 page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:none}.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}'
-        '#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;min-height:100vh;background:#F9F6EE}</style>\n'
+        '#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;min-height:100vh;background:#F9F6EE}'
+        '.shopify-section--announcement-bar,.announcement-bar{display:none !important}</style>\n'
         '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Roboto+Mono:wght@400..700&display=swap">\n'
         '<link rel="stylesheet" href="@B@mc-dkr.css?v=@K@">\n'

@@ -18,10 +18,17 @@ Done in the store:
   1547759517805, all ACTIVE. Shopify does not let an automatic BXGY name subscription lines (appliesOnSubscription was
   refused), so with refills the free first delivery has to come from the Subi plan itself (first delivery $0, then $29).
 
-Still to do (in order): build with a key, commit, push; fileCreate mc-dkr.css,
-mc-dkr-app.js and the 35 pictures (files.json) from raw.githubusercontent at that commit; pageUpdate Page 163782164589
-(diffuser-kits-2) with store/page-body.html; screenshot check through .github/workflows/page-shot-2.yml; his test
-checkout. Refills: off (plans = null in ids.json, step 3 hidden) until his Subi plans exist.
+- fileCreate (37 files, from raw.githubusercontent @ 257f7a2, all READY): the 35 pictures as mc-dkr-<name>.webp (MediaImage
+  47043375562861 ... 47043376676973, names in files.json), mc-dkr.css = GenericFile 47043376742509, mc-dkr-app.js =
+  GenericFile 47043376775277. To change the styles or the script later: build, commit, push, then fileUpdate those two
+  GenericFiles from raw @ the new commit and pageUpdate the body with the new key.
+- pageUpdate Page 163782164589 (diffuser-kits-2, published, seo.hidden = 1) 2026-11-21 23:23:46Z: body = store/page-body.html,
+  key dkr1-257f7a2. The page it held before (the dk13 copy of the live kits page) is lp-factory/pages/diffuser-kits-2/page-body.html.
+  URL: https://maisoncroyez.com/pages/diffuser-kits-2
 
-To undo: productDelete 15507003506797; delete the discounts and files listed here; pageUpdate 163782164589 back to
+Still to do: read the screenshot and cart check (.github/workflows/dkr-shot.yml -> store/shots/); his test checkout; the kit
+product has no picture yet; refills are off (plans = null in ids.json, step 3 hidden) until his Subi plans exist: every 4 /
+8 / 12 weeks on the seven scents, first delivery $0, then $29 a scent.
+
+To undo: productDelete 15507003506797; discountAutomaticDelete the three nodes; fileDelete the 37 files; pageUpdate 163782164589 back to
 lp-factory/pages/diffuser-kits-2/page-body.html (key dk2a-bd9ca46).

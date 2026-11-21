@@ -1,0 +1,92 @@
+name: dkr-shot
+# The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
+# cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 1: first deploy, key dkr1-257f7a2
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/dkr-shot.yml']
+permissions:
+  contents: write
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      URL: https://maisoncroyez.com/pages/diffuser-kits-2
+      OUT: lp-factory/pages/diffuser-kits-rebrand/store/shots
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-audit --no-fund playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: Shoot and check
+        run: |
+          mkdir -p "$OUT"
+          cat > shot.js <<'EOF'
+          const { chromium } = require('playwright'); const fs = require('fs');
+          const URL = process.env.URL, OUT = process.env.OUT; const log = { url: URL, at: new Date().toISOString(), views: {} };
+          (async () => {
+            const br = await chromium.launch();
+            for (const [n, w, h, mobile] of [['phone', 390, 844, true], ['desktop', 1440, 900, false]]) {
+              const ctx = await br.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, deviceScaleFactor: mobile ? 2 : 1,
+                userAgent: mobile ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' : undefined });
+              const pg = await ctx.newPage(); const errs = [];
+              pg.on('pageerror', (e) => errs.push('ERR ' + String(e.message).slice(0, 160)));
+              pg.on('requestfailed', (r) => { if (/mc-dkr/.test(r.url())) errs.push('FAIL ' + r.url().split('/').pop()); });
+              const v = log.views[n] = { errs };
+              const res = await pg.goto(URL, { waitUntil: 'load', timeout: 60000 }); v.status = res.status();
+              await pg.waitForTimeout(4000);
+              v.page = await pg.evaluate(() => { const q = (s) => document.querySelector(s); const m = q('#mcr'); if (!m || !m.children.length) return { rendered: false };
+                const r = m.getBoundingClientRect(); const h1 = q('#mcr h1');
+                return { rendered: true, h1: h1.innerText.replace(/\s+/g, ' '), h1Font: getComputedStyle(h1).fontFamily.slice(0, 20), mcr: [Math.round(r.left), Math.round(r.width), innerWidth],
+                  scrollW: document.documentElement.scrollWidth, themeH1: (() => { const t = q('.page > h1'); return t ? getComputedStyle(t).display : 'none found'; })(),
+                  header: !!q('header, .shopify-section-group-header-group'), step3Hidden: q('#step3').hidden, cta: q('#cta').innerText.replace(/\s+/g, ' '),
+                  stick: (() => { const s = q('#stick').getBoundingClientRect(); return [Math.round(s.top), Math.round(s.height), innerHeight]; })(),
+                  imgs: document.querySelectorAll('#mcr img').length }; });
+              await pg.screenshot({ path: `${OUT}/${n}-top.png` });
+              if (v.page.rendered) {
+                await pg.evaluate(async () => { document.querySelectorAll('#mcr img[loading=lazy]').forEach((i) => i.loading = 'eager'); await Promise.all([...document.querySelectorAll('#mcr img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 8000); }))); });
+                v.broken = await pg.evaluate(() => [...document.querySelectorAll('#mcr img')].filter((i) => !i.naturalWidth).map((i) => i.src.split('/').pop()));
+                await pg.screenshot({ path: `${OUT}/${n}-full.jpg`, fullPage: true, type: 'jpeg', quality: 70 });
+                if (n === 'phone') {
+                  v.carts = [];
+                  for (const d of [1, 2, 3]) {
+                    await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
+                    await pg.evaluate((d) => { document.querySelector(`#diffs .cardb[data-n="${d}"]`).click(); document.querySelector('#each1') && !document.querySelector('#each1').hidden && document.querySelector('#each1').click(); }, d);
+                    await pg.waitForTimeout(300);
+                    const label = await pg.evaluate(() => document.querySelector('#cta').innerText.replace(/\s+/g, ' '));
+                    /* the same request the button makes, without leaving for the checkout */
+                    const cart = await pg.evaluate(async () => { const src = [...document.scripts].map((s) => s.src).find((s) => /mc-dkr-app/.test(s)); const t = await (await fetch(src)).text();
+                      const CFG = JSON.parse(t.match(/var CFG=(\{.*?\});/)[1]); const picks = {}; document.querySelectorAll('#scents .row').forEach((r) => { picks[r.dataset.k] = +r.querySelector('output').textContent; });
+                      const n = +document.querySelector('#diffs .cardb[aria-pressed="true"]').dataset.n; const items = [{ id: CFG.kit[n], quantity: 1 }]; Object.keys(picks).forEach((k) => { if (picks[k]) items.push({ id: CFG.scent[k], quantity: picks[k] }); });
+                      const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items }) }); const c = await (await fetch('/cart.js')).json();
+                      return { addStatus: add.status, total: c.total_price / 100, discount: c.total_discount / 100, lines: c.items.map((l) => ({ t: l.product_title + ' / ' + l.variant_title, q: l.quantity, price: l.price / 100, line: l.final_line_price / 100, disc: (l.discounts || []).map((x) => x.title) })) }; });
+                    v.carts.push({ diffusers: d, label, cart });
+                  }
+                  await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
+                  /* the real button once: it must leave for the checkout */
+                  await pg.evaluate(() => { document.querySelector('#diffs .cardb[data-n="2"]').click(); });
+                  await pg.waitForTimeout(300); await pg.evaluate(() => document.querySelector('#cta').click());
+                  try { await pg.waitForURL(/checkout/, { timeout: 25000 }); v.checkoutUrl = pg.url().split('?')[0].replace(/\/cn\/.*/, '/cn/...'); await pg.waitForTimeout(5000); await pg.screenshot({ path: `${OUT}/phone-checkout.png` }); }
+                  catch (e) { v.checkoutUrl = 'did not reach the checkout: ' + pg.url(); await pg.screenshot({ path: `${OUT}/phone-checkout.png` }); }
+                }
+              }
+              await ctx.close();
+            }
+            await br.close(); fs.writeFileSync(`${OUT}/result.json`, JSON.stringify(log, null, 1)); console.log(JSON.stringify(log, null, 1));
+          })().catch((e) => { fs.writeFileSync(`${process.env.OUT}/result.json`, JSON.stringify({ fatal: String(e) })); console.error(e); process.exit(0); });
+          EOF
+          node shot.js
+      - name: Commit
+        run: |
+          git config user.name "mc-recon"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "dkr-shot: the test page" || exit 0
+          git pull --rebase -q origin "$GITHUB_REF_NAME" || true
+          git push

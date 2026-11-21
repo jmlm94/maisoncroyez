@@ -1,7 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
-# run note 1: first deploy, key dkr1-257f7a2
+# run note 2: our own top bar, the theme's announcement bar hidden, sticky button centered
 on:
   workflow_dispatch:
   push:
@@ -45,7 +45,7 @@ jobs:
                 const r = m.getBoundingClientRect(); const h1 = q('#mcr h1');
                 return { rendered: true, h1: h1.innerText.replace(/\s+/g, ' '), h1Font: getComputedStyle(h1).fontFamily.slice(0, 20), mcr: [Math.round(r.left), Math.round(r.width), innerWidth],
                   scrollW: document.documentElement.scrollWidth, themeH1: (() => { const t = q('.page > h1'); return t ? getComputedStyle(t).display : 'none found'; })(),
-                  header: !!q('header, .shopify-section-group-header-group'), step3Hidden: q('#step3').hidden, cta: q('#cta').innerText.replace(/\s+/g, ' '),
+                  header: [...document.querySelectorAll('.shopify-section-group-header-group')].map((e) => e.className.replace('shopify-section-group-header-group', '').trim() + ':' + getComputedStyle(e).display), step3Hidden: q('#step3').hidden, cta: q('#cta').innerText.replace(/\s+/g, ' '),
                   stick: (() => { const s = q('#stick').getBoundingClientRect(); return [Math.round(s.top), Math.round(s.height), innerHeight]; })(),
                   imgs: document.querySelectorAll('#mcr img').length }; });
               await pg.screenshot({ path: `${OUT}/${n}-top.png` });
@@ -62,7 +62,7 @@ jobs:
                     const label = await pg.evaluate(() => document.querySelector('#cta').innerText.replace(/\s+/g, ' '));
                     /* the same request the button makes, without leaving for the checkout */
                     const cart = await pg.evaluate(async () => { const src = [...document.scripts].map((s) => s.src).find((s) => /mc-dkr-app/.test(s)); const t = await (await fetch(src)).text();
-                      const CFG = JSON.parse(t.match(/var CFG=(\{.*?\});/)[1]); const picks = {}; document.querySelectorAll('#scents .row').forEach((r) => { picks[r.dataset.k] = +r.querySelector('output').textContent; });
+                      const CFG = (0, eval)('(' + t.match(/var CFG=(\{.*?\})[;,]/)[1] + ')'); const picks = {}; document.querySelectorAll('#scents .row').forEach((r) => { picks[r.dataset.k] = +r.querySelector('output').textContent; });
                       const n = +document.querySelector('#diffs .cardb[aria-pressed="true"]').dataset.n; const items = [{ id: CFG.kit[n], quantity: 1 }]; Object.keys(picks).forEach((k) => { if (picks[k]) items.push({ id: CFG.scent[k], quantity: picks[k] }); });
                       const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items }) }); const c = await (await fetch('/cart.js')).json();
                       return { addStatus: add.status, total: c.total_price / 100, discount: c.total_discount / 100, lines: c.items.map((l) => ({ t: l.product_title + ' / ' + l.variant_title, q: l.quantity, price: l.price / 100, line: l.final_line_price / 100, disc: (l.discounts || []).map((x) => x.title) })) }; });

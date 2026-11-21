@@ -26,9 +26,21 @@ Done in the store:
   key dkr1-257f7a2. The page it held before (the dk13 copy of the live kits page) is lp-factory/pages/diffuser-kits-2/page-body.html.
   URL: https://maisoncroyez.com/pages/diffuser-kits-2
 
-Still to do: read the screenshot and cart check (.github/workflows/dkr-shot.yml -> store/shots/); his test checkout; the kit
-product has no picture yet; refills are off (plans = null in ids.json, step 3 hidden) until his Subi plans exist: every 4 /
-8 / 12 weeks on the seven scents, first delivery $0, then $29 a scent.
+- Second pass the same evening: our own top bar kept, the theme's announcement bar hidden on this page (it said "THE
+  DIFFUSERS ARE 100% ON US", another offer), sticky button centered. fileUpdate of the two GenericFiles from raw @ 2d7ff75,
+  five-minute wait, pageUpdate 23:40:10Z with key dkr2-2d7ff75.
+
+Checked on the live page (.github/workflows/dkr-shot.yml -> store/shots/, phone 390 px and desktop 1440 px): status 200, the
+page renders inside the theme (header shown, theme page title hidden, full width, DM Sans), no page errors, no broken
+pictures, sticky button in place, step 3 hidden.
+NOT checked: add to cart and checkout. From the GitHub runner /cart/add.js and /cart.js answered 429 "Verifying your
+connection..." (the store's bot check), so the robot could not build a cart; the request the page sends is the kit variant
+plus the picked scent variants. This needs the owner's own test checkout.
+
+Still to do: his test checkout; a picture on the kit product; refills are off (plans = null in ids.json, step 3 and the
+subscription FAQ hidden, labels say "Step 1 of 2") until his Subi plans exist: every 4 / 8 / 12 weeks on the seven scents,
+first delivery $0, then $29 a scent; then put the three selling plan ids in ids.json, build, fileUpdate, pageUpdate.
+Note: the scents are $39.95 in the store, the page says "a $39 value".
 
 To undo: productDelete 15507003506797; discountAutomaticDelete the three nodes; fileDelete the 37 files; pageUpdate 163782164589 back to
 lp-factory/pages/diffuser-kits-2/page-body.html (key dk2a-bd9ca46).

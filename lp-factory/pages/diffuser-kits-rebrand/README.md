@@ -358,3 +358,9 @@ Open questions put to him: "Pour it in" vs "the bottle locks in"; whether return
 - His words: "Let's do 1. We're ready to deploy. Ask me q's if you need anything". Nothing was written to Shopify in this
   round: the Shopify connector answered as Carbinox Co. (shopcarbinox.com), so no write was made, and the deploy
   questions (store connection, where it goes live, prices and refill plans, facts to confirm) were put to him first.
+
+## Deployed to the hidden test page (2026-11-21)
+
+Live at https://maisoncroyez.com/pages/diffuser-kits-2 (not linked, hidden from search). The store build is in store/
+(build-deploy.py -> mc-dkr.css, mc-dkr-app.js, page-body.html); everything created in the store, the checks and how to undo
+it are in store/STATUS.md. Refills are off until the Subi plans exist; the cart needs the owner's test checkout.

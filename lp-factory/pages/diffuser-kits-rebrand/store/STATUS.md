@@ -12,7 +12,13 @@ Done in the store:
   not tracked, variants 1 Diffuser 68206141505645 ($89), 2 Diffusers 68206141538413 ($159, compare $178), 3 Diffusers
   68206141571181 ($239, compare $267). Published to the Online Store publication 22952280173.
 
-Still to do (in order): the three automatic "free scent" discounts; build with a key, commit, push; fileCreate mc-dkr.css,
+- discountAutomaticBxgyCreate x3 (buy the kit variant, get N of the seven scent products 100% off, once per order, combines
+  with product / order / shipping discounts): "FREE SCENT — Diffuser Kit (1 Diffuser)" = DiscountAutomaticNode
+  1547759452269, "FREE SCENTS — Diffuser Kit (2 Diffusers)" = 1547759485037, "FREE SCENTS — Diffuser Kit (3 Diffusers)" =
+  1547759517805, all ACTIVE. Shopify does not let an automatic BXGY name subscription lines (appliesOnSubscription was
+  refused), so with refills the free first delivery has to come from the Subi plan itself (first delivery $0, then $29).
+
+Still to do (in order): build with a key, commit, push; fileCreate mc-dkr.css,
 mc-dkr-app.js and the 35 pictures (files.json) from raw.githubusercontent at that commit; pageUpdate Page 163782164589
 (diffuser-kits-2) with store/page-body.html; screenshot check through .github/workflows/page-shot-2.yml; his test
 checkout. Refills: off (plans = null in ids.json, step 3 hidden) until his Subi plans exist.

@@ -18,17 +18,17 @@ const SLIDES = [
     stats: [['10 min', 'to fill the room'], ['600 sq ft', 'from one diffuser'], ['1 button', 'three strengths']],
     alt: 'The Maison Croyez waterless scent diffuser. Scent for the whole room, no water, no flame. About 10 minutes to fill the room, up to 600 sq ft from one diffuser, one button with three strengths.' },
   { id: '02-how-it-smells', layout: 'smell', h: 'Not sure how it smells?\nYour first scent is free.', sub: 'One free 100 ml scent with every diffuser. Seven to choose from.',
-    scents: [['honey', 'Honey Nectar', 'Ginger milk, white birch, eucalyptus honey'], ['golden', 'Golden Blossom Harmony', 'Buttercup, honeysuckle, sunflower'],
-      ['euphoric', 'Euphoric Bloom', 'Jasmine tea, white peach, sandalwood crème'], ['crisp', 'Crisp Citrus Scape', 'Yuzu leaf, green mandarin, cypress'],
-      ['wildwood', 'Wildwood Mystique', 'Huckleberry, wild juniper, mountain fern'], ['chilled', 'Chilled Citrus', 'Chilled lavender, eucalyptus, white citrus'],
-      ['midnight', 'Midnight Sensation', 'Moonflower, night lily, skin musk']],
+    scents: [['honey', 'Honey Nectar', 'Ginger milk, white birch, eucalyptus honey', 'Like a café on a slow morning.'], ['golden', 'Golden Blossom Harmony', 'Buttercup, honeysuckle, sunflower', 'Like walking into a florist.'],
+      ['euphoric', 'Euphoric Bloom', 'Jasmine tea, white peach, sandalwood crème', 'Fruity and bright, never sugary.'], ['crisp', 'Crisp Citrus Scape', 'Yuzu leaf, green mandarin, cypress', 'Like a clean hotel lobby.'],
+      ['wildwood', 'Wildwood Mystique', 'Huckleberry, wild juniper, mountain fern', 'Like a walk in the woods after rain.'], ['chilled', 'Chilled Citrus', 'Chilled lavender, eucalyptus, white citrus', 'Like a day spa.'],
+      ['midnight', 'Midnight Sensation', 'Moonflower, night lily, skin musk', 'Like perfume on warm skin.']],
     strip: ['Don’t love one?', 'We swap it, free.'],
-    alt: 'Not sure how it smells? Your first scent is free: one free 100 ml scent with every diffuser, seven to choose from, each with its three notes. Don’t love one? We swap it, free.' },
+    alt: 'Not sure how it smells? Your first scent is free: one free 100 ml scent with every diffuser. Seven to choose from, each described by what it smells like and its three notes, for example Golden Blossom Harmony, like walking into a florist. Don’t love one? We swap it, free.' },
   { id: '03-safe-to-leave-on', layout: 'safe', img: 'img/dk-bedroom.webp', label: 'In the bedroom, all evening', h: 'Made to be left on.',
     nos: ['No flame', 'No water', 'No heat'], timer: ['A timer you set once.', '1, 3, 6 or 12 hours, then it stops on its own.'],
     quote: ['I can go to sleep with it on in our bedroom and feel safe.', 'Verified buyer | customer survey'],
     alt: 'Made to be left on: no flame, no water, no heat, and a timer for 1, 3, 6 or 12 hours that stops on its own. A buyer says: I can go to sleep with it on in our bedroom and feel safe.' },
-  { id: '04-vs-candles', layout: 'vs', circleImg: 'old/goodbye1.webp', h: 'Why this one, and not a candle.', sub: 'Or a plug-in. Or a water diffuser.',
+  { id: '04-vs-candles', layout: 'vs', circleImg: 'old/goodbye1.webp', h: 'Why this one, and not a candle.', sub: 'Pure oil as a fine, dry mist that reaches the whole room, not just the air next to it.',
     cols: ['Candles and plug-ins', 'Maison Croyez'],
     rows: [['A flame you have to watch', 'No flame. Turns itself off'], ['The four feet around it', 'The whole room in ten minutes'],
       ['Fades within a week', '15+ days from every bottle'], ['Wicks, tanks, cartridges', 'Pour once. Nothing to clean']],
@@ -45,6 +45,10 @@ const SLIDES = [
   { id: '07-the-promise', layout: 'promise', img: 'old/hero-poster.webp', pos: '62% 50%', label: 'The promise', h: 'Love it in 30 days, or every dollar back.',
     rows: [['truck', 'Free shipping', 'On every order.'], ['rotate-ccw', '30 days to decide', 'Send it back with our prepaid label.'], ['check', 'Free scent swap', 'Don’t love a scent? We change it.'], ['shield-check', 'Lifetime warranty', 'On the diffuser.']],
     alt: 'The promise: love it in 30 days or every dollar back. Free shipping, a prepaid return label, a free scent swap and a lifetime warranty on the diffuser.' },
+  { id: '08-look-and-size', layout: 'size', img: '../../assets/cdn/diffuser/d25.png', label: 'The look', h: 'Guests ask\nwhat it is.', sub: 'Most people think it’s a speaker.',
+    quote: ['Visitors always comment on how wonderful my house smells.', 'Michael C. | verified purchase'],
+    stats: [['11.5 in', 'tall'], ['4 x 4 in', 'footprint'], ['2.25 lb', 'fits a nightstand or shelf']],
+    alt: 'The Maison Croyez diffuser: 11.5 inches tall, 4 by 4 inches wide, 2.25 pounds. Guests ask what it is; most people think it is a speaker. A buyer says visitors always comment on how wonderful the house smells.' },
 ];
 
 const CSS = `
@@ -79,11 +83,12 @@ svg.i{flex:none}
 .stats span{font:600 18px/1.25 "Roboto Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--drift)}
 /* 2 how it smells: dark list of the seven scents */
 .smell{background:var(--night);color:var(--cream)}
-.sg{align-self:stretch;display:grid;grid-template-columns:1fr 1fr;gap:30px 26px;margin-top:44px}
+.sg{align-self:stretch;display:grid;grid-template-columns:1fr 1fr;gap:20px 26px;margin-top:34px}
 .sg .s{display:grid;grid-template-columns:104px 1fr;gap:18px;align-items:center}
 .sg img{width:104px;height:104px;border-radius:50%;object-fit:cover;display:block}
 .sg b{display:block;font-size:30px;letter-spacing:-.025em;line-height:1.08}
-.sg span{display:block;font-size:21.5px;line-height:1.25;color:#CFC4B1;margin-top:5px}
+.sg em{display:block;font-style:normal;font-weight:600;font-size:22px;line-height:1.2;color:var(--light);margin-top:5px}
+.sg span{display:block;font-size:18.5px;line-height:1.25;color:#B8AD9F;margin-top:4px}
 .sg .more{border:2px solid rgba(249,246,238,.35);border-radius:18px;padding:0 22px;display:flex;align-items:center;font:600 19px/1.5 "Roboto Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--light)}
 .swap{position:absolute;left:0;right:0;bottom:0;background:var(--ink);color:#fff;padding:26px 56px 28px;display:flex;align-items:center;gap:18px;font-size:34px;letter-spacing:-.025em}
 .swap svg{width:40px;height:40px}
@@ -136,6 +141,19 @@ svg.i{flex:none}
 .tk div+div{border-top:2px solid var(--sand)}
 .tk svg{width:34px;height:34px;padding:7px;border-radius:50%;background:var(--ink);color:#fff;stroke-width:3;margin-top:0}
 .tk b{font-weight:700}.tk span span{color:var(--drift)}
+/* 8 the look and the size: text column, the product with its measurements */
+.size .pad{right:556px;padding-right:20px}
+.size .panel{position:absolute;top:56px;right:56px;bottom:56px;width:500px;border-radius:28px;overflow:hidden;background:#ECECEA}
+.size .panel img{width:100%;height:100%;object-fit:cover;display:block}
+.dim{position:absolute;display:flex;align-items:center;justify-content:center;font:600 19px/1 "Roboto Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.dim.v{left:398px;top:98px;height:798px;width:2px;background:var(--ink)}
+.dim.v::before,.dim.v::after,.dim.h::before,.dim.h::after{content:"";position:absolute;background:var(--ink)}
+.dim.v::before,.dim.v::after{left:-9px;width:20px;height:2px}.dim.v::before{top:0}.dim.v::after{bottom:0}
+.dim.v span{position:absolute;left:14px;white-space:nowrap;background:#ECECEA;padding:6px 0;writing-mode:vertical-rl}
+.dim.h{left:118px;top:922px;width:260px;height:2px;background:var(--ink)}
+.dim.h::before,.dim.h::after{top:-9px;height:20px;width:2px}.dim.h::before{left:0}.dim.h::after{right:0}
+.dim.h span{position:absolute;top:9px;white-space:nowrap}
+.size .quote{margin-top:26px;align-self:stretch}
 /* 7 the promise: color block, arch photo */
 .promise{background:var(--ink);color:var(--cream)}
 .promise .mono{color:var(--light)}
@@ -151,11 +169,12 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const L = {
   main: (s) => `<div class="g main"><img class="bg" src="${img(s.img)}" style="object-position:50% 100%;transform:scale(1.12);transform-origin:50% 62%"><div class="wash"></div><div class="pad">${LOGO}<span class="mono" style="color:var(--ink);margin-top:44px">${esc(s.label)}</span><h1 style="font-size:74px;margin-top:16px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;font-size:30px">${esc(s.sub)}</p></div><div class="seal m" style="right:52px;top:52px"><b>30</b><span>day money<br>back</span></div><div class="mb">${s.bens.map((x) => `<div>${icon('check')}<span>${esc(x)}</span></div>`).join('')}</div></div>`,
   what: (s) => `<div class="g what"><div class="panel"><img src="${img(s.img)}"></div><div class="pad">${LOGO}<span class="mono" style="color:var(--ink);margin-top:54px">${esc(s.label)}</span><h1 style="font-size:80px;margin-top:18px">${esc(s.h)}</h1><p class="sub" style="margin-top:22px;color:var(--drift)">${esc(s.sub)}</p><div class="stats">${s.stats.map((x) => `<div><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('')}</div></div></div>`,
-  smell: (s) => `<div class="g smell"><div class="pad" style="padding-bottom:130px">${LOGO}<h1 style="font-size:72px;margin-top:38px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;font-size:29px;color:#CFC4B1">${esc(s.sub)}</p><div class="sg">${s.scents.map((x) => `<div class="s"><img src="${img('old/pick-' + x[0] + '.webp')}"><div><b>${esc(x[1])}</b><span>${esc(x[2])}</span></div></div>`).join('')}<div class="more">100 ml each.<br>15+ days a bottle.</div></div></div><div class="swap">${icon('rotate-ccw')}<span><b>${esc(s.strip[0])}</b> ${esc(s.strip[1])}</span></div></div>`,
+  smell: (s) => `<div class="g smell"><div class="pad" style="padding-bottom:130px">${LOGO}<h1 style="font-size:72px;margin-top:38px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;font-size:29px;color:#CFC4B1">${esc(s.sub)}</p><div class="sg">${s.scents.map((x) => `<div class="s"><img src="${img('old/pick-' + x[0] + '.webp')}"><div><b>${esc(x[1])}</b><em>${esc(x[3])}</em><span>${esc(x[2])}</span></div></div>`).join('')}<div class="more">100 ml each.<br>15+ days a bottle.</div></div></div><div class="swap">${icon('rotate-ccw')}<span><b>${esc(s.strip[0])}</b> ${esc(s.strip[1])}</span></div></div>`,
   safe: (s) => `<div class="g safe"><img class="bg" src="${img(s.img)}" style="object-position:0% 50%;transform:scale(1.18);transform-origin:8% 60%"><div class="pad">${LOGO}</div><div class="card"><span class="mono">${esc(s.label)}</span><h1 style="font-size:80px;margin-top:18px">${esc(s.h)}</h1><div class="nos">${s.nos.map((x) => `<div>${icon('x')}<span>${esc(x)}</span></div>`).join('')}</div><div class="timer"><b>${esc(s.timer[0])}</b>${esc(s.timer[1])}</div><div class="quote"><p>“${esc(s.quote[0])}”</p><span>${esc(s.quote[1])}</span></div></div></div>`,
-  vs: (s) => `<div class="g" style="background:var(--sand)"><div class="pad">${LOGO}<h1 style="font-size:80px;margin-top:44px;max-width:630px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;max-width:620px;color:var(--drift)">${esc(s.sub)}</p><div class="vs" style="margin-top:auto"><div class="hr"><div>${esc(s.cols[0])}</div><div>${esc(s.cols[1])}</div></div>${s.rows.map((r) => `<div class="r"><div>${icon('x')}<span>${esc(r[0])}</span></div><div>${icon('check')}<span>${esc(r[1])}</span></div></div>`).join('')}</div></div><div class="circle" style="right:56px;top:130px;width:320px;height:320px"><img src="${img(s.circleImg)}" style="object-position:70% 40%"></div></div>`,
+  vs: (s) => `<div class="g" style="background:var(--sand)"><div class="pad">${LOGO}<h1 style="font-size:80px;margin-top:44px;max-width:630px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;max-width:600px;font-size:29px;color:var(--drift)">${esc(s.sub)}</p><div class="vs" style="margin-top:auto"><div class="hr"><div>${esc(s.cols[0])}</div><div>${esc(s.cols[1])}</div></div>${s.rows.map((r) => `<div class="r"><div>${icon('x')}<span>${esc(r[0])}</span></div><div>${icon('check')}<span>${esc(r[1])}</span></div></div>`).join('')}</div></div><div class="circle" style="right:56px;top:130px;width:320px;height:320px"><img src="${img(s.circleImg)}" style="object-position:70% 40%"></div></div>`,
   how: (s) => `<div class="g"><div class="pad">${LOGO}<h1 style="font-size:96px;margin-top:44px">${esc(s.h)}</h1><div class="st3">${s.steps.map((x, i) => `<div><div class="ph"><img src="${img(x[0])}" style="object-position:${x[1]}"><em>0${i + 1}</em></div><b>${esc(x[2])}</b><p>${esc(x[3])}</p></div>`).join('')}</div></div><div class="lv"><span class="mono">Three strengths, one button</span><div class="row">${s.levels.map((x, i) => `<span class="pill"><i>${[0, 1, 2].map((k) => `<u${k <= i ? ' class="on"' : ''}></u>`).join('')}</i>${esc(x)}</span>`).join('')}<span class="ex">${s.extras.map(esc).join('<br>')}</span></div></div></div>`,
   lasts: (s) => `<div class="g lasts"><div class="pad">${LOGO}<span class="mono" style="color:var(--ink);margin-top:48px">${esc(s.label)}</span><div class="big" style="margin-top:26px">${esc(s.big)}</div><h1 style="font-size:58px;margin-top:26px;max-width:520px">${esc(s.h)}</h1><div class="tk">${s.ticks.map((x) => `<div>${icon('check')}<span><b>${esc(x[0])}</b>${x[1] ? ` <span>${esc(x[1])}</span>` : ''}</span></div>`).join('')}</div></div><div class="circle" style="right:56px;top:150px;width:400px;height:400px"><img src="${img(s.img)}" style="object-position:30% 60%"></div><div class="seal" style="right:330px;top:470px"><span>${esc(s.seal[0])}</span><b>${esc(s.seal[1])}</b><span>${esc(s.seal[2])}</span></div></div>`,
+  size: (s) => `<div class="g size"><div class="panel"><img src="${img(s.img)}"><div class="dim v"><span>11.5 in</span></div><div class="dim h"><span>4 in</span></div></div><div class="pad">${LOGO}<span class="mono" style="color:var(--ink);margin-top:50px">${esc(s.label)}</span><h1 style="font-size:78px;margin-top:16px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;font-size:29px;color:var(--drift)">${esc(s.sub)}</p><div class="quote"><p style="font-size:25px">“${esc(s.quote[0])}”</p><span>${esc(s.quote[1])}</span></div><div class="stats">${s.stats.map((x) => `<div><b style="font-size:54px">${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('')}</div></div></div>`,
   promise: (s) => `<div class="g promise"><div class="arch"><img src="${img(s.img)}" style="object-position:${s.pos}"></div><div class="pad">${LOGO}<span class="mono" style="margin-top:50px">${esc(s.label)}</span><h1 style="font-size:98px;margin-top:20px;max-width:960px">${esc(s.h)}</h1><div class="pr">${s.rows.map((x) => `<div>${icon(x[0])}<span><b>${esc(x[1])}</b><span>${esc(x[2])}</span></span></div>`).join('')}</div></div></div>`,
 };
 (async () => {

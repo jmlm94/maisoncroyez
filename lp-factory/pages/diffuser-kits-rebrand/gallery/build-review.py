@@ -10,7 +10,7 @@ e = html.escape
 ITEMS = [
     ('01-what-it-is', 'What is it, and will I smell it?', 'Cold visitors do not know what a waterless diffuser is. The three numbers are the facts the current page already states.',
      'Text column and product panel', ''),
-    ('02-how-it-smells', 'I can’t smell it through a screen.', 'The first reason buyers gave in the customer survey for almost not buying. Answered with the free scent, the seven scents with their notes from the printed boxes, and the free swap.',
+    ('02-how-it-smells', 'I can’t smell it through a screen.', 'The first reason buyers gave in the customer survey for almost not buying. Answered with the free scent, what each of the seven smells like, their notes from the printed boxes, and the free swap.',
      'Dark list with the seven boxes', '“One free scent with every diffuser” is the offer on this preview page. Change the line if the offer changes.'),
     ('03-safe-to-leave-on', 'Can I leave it on and go to bed?', 'Bedroom use came up on its own in the survey. The quote is a real answer from it, about the diffuser.',
      'Photo with one card', 'The bedroom picture is generated from the real product photo.'),
@@ -22,6 +22,8 @@ ITEMS = [
      'Big number on a color block', '“Under $2 an evening” assumes a $29 refill that lasts 15 days. Remove the seal if the refill price changes.'),
     ('07-the-promise', 'What if I don’t like it?', 'The last thing between her and the button: the 30 days, the prepaid label, the scent swap, the warranty.',
      'Color block with an arch photo', ''),
+    ('08-look-and-size', 'How big is it, and how will it look in my room?', 'Size and weight are his figures (4 x 4 x 11.5 in, 2.25 lb). The “speaker” line is from his earlier draft; the quote is a real review.',
+     'Text column and the product with its measurements', ''),
 ]
 cards = []
 for i, (fid, q, why, layout, flag) in enumerate(ITEMS, 1):
@@ -62,7 +64,7 @@ h2{font-weight:700;font-size:22px;letter-spacing:-.025em;line-height:1.15;margin
 </style>
 <div class="w">
   <span class="lab">Maison Croyez | Waterless diffuser</span>
-  <h1>Seven pictures, seven answers.</h1>
+  <h1>Eight pictures, eight answers.</h1>
   <p class="intro">Square, 2000 x 2000, for the product page gallery. <b>Each picture answers one question a first-time visitor has before she buys</b>, in the order the customer survey and the page’s own questions put them. Every layout is different and none carries a number. To save a picture, press and hold it.</p>
   <div class="grid">
 ''' + '\n'.join(cards) + '''

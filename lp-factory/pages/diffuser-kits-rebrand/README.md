@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 13, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 14, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -303,3 +303,36 @@ section way smaller please, group them in rows of 4. no add this one buttons. / 
 - The three ticks under "As simple as 1, 2, 3." (night light, timer, two rooms) are deleted.
 - Scents section, eighth tile: "100% organic ingredients / Paraben-free / Cruelty-free" instead of "Can't decide?".
   His words; the same three claims are on his Candle Swap page (there with "IFRA 51 compliant" too).
+
+## Round 13 (2026-11-21, artifact version 14) — what is worth keeping from The Candle Swap and MC LP Draft Copy 3
+
+His words: "what valuable info would you take from these two artficats? ... we cover important stuff in here too that
+even if it's not related to the new angle, may be worth having it whether it's on the image gallery at the top or
+sections." I listed ten; he answered "Implement all the ones you think are good". Sources: The Candle Swap
+(https://claude.ai/artifact/M5BYkHwT7ek97t7QJ6qqdM) and MC LP Draft Copy 3 (https://claude.ai/artifact/TK1GvMvzMi69pP4wiLMfyN).
+
+Added:
+- "Smells like" for each scent (Draft Copy 3 wording): a line in every step 2 row, on the small scent tiles (desktop), and
+  in gallery picture 2 (the short "Like ..." half, above the notes).
+- Why it fills the room: a paragraph under "Why this one." (pure oil as a fine dry mist; candles, plug-ins and reeds
+  scent the air next to them) and the sub line of gallery picture 4.
+- Kids, pets, allergies: "Safe to leave on overnight, in a kid's room or near pets." in the third tab, and two FAQs in
+  The Candle Swap's wording ("hypoallergenic" is in brand-kit.md's verified list).
+- The guarantee in full: "even if you've tried the scents. No forms, no arguing." and "If it ever stops working, we
+  replace it." in the promise section, the fold-out and the FAQ.
+- "Loved in 2,500+ homes." as the photo title (his number: The Candle Swap, brand-kit.md).
+- Three more survey reviews (nine now): heavier stream than two other waterless diffusers / almost didn't buy because
+  of the price / bought it for dog smell. Quotes and tags as they stand in Draft Copy 3's survey list.
+- A note from the founder before the reviews: Patricia's words from The Candle Swap, shortened (no "ingredients from
+  France", no health passage), with her photo (old/patricia1.webp). The first tab's picture is now old/hero-frame.webp so
+  her photo is not on the page twice.
+- FAQ "How long does one bottle last?": about 15 to 21 days on the everyday setting, higher settings use it faster.
+- New gallery picture 08 (the look and the size): "Guests ask what it is. Most people think it's a speaker.", Michael
+  C.'s review line, 11.5 in / 4 x 4 in / 2.25 lb on the real product photo (assets/cdn/diffuser/d25.png). Nine
+  pictures in the gallery now.
+
+Left out on purpose: the five health alerts and their statistics, the $2,532-a-year cost table (an example), "eliminates
+pet and food odors", the "first 1,000 free" offer, the manifestation wording, "92% come back", "IFRA 51" (not confirmed),
+the six named carousel reviews of Draft Copy 3 (marked fictional in its own code), and room names on the step 1 cards
+(he deleted "One room" there on 2026-11-21).
+Open questions put to him: "Pour it in" vs "the bottle locks in"; whether returned scents come back or stay.

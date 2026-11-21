@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 11, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 12, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -257,3 +257,34 @@ img/dk-* (generated from the real product photo) for 1, 3, 5 (step two) and 6, o
   starts and how fast the refund lands. The "what it isn't" box is still on the page.
 - Checked on phone 400 px and desktop 1440 px: no errors, no broken pictures, no sideways scroll, 8 slides / 8 dots,
   the charge line for 1, 2 and 3 diffusers with and without refills.
+
+## Round 11 (2026-11-21, artifact version 12) — his seven changes and his delivery, size and return facts
+
+His words: "Remove the video, let's leave a main image that basically represents what we're doing here, like the main
+purchase driver. We should include diffuser and scents of course. / Let's move the customers carousel below this
+section: A waterless scent diffuser for the evenings ... then move the Loved in thousands of homes. to the right side. /
+Add a sticky button please that shows from the beginning, all purple. / Sound familiar? Home at last. Still switched on.
+-> Turn it to a straight straight claim please. / Delete: The honest part ... / Pick the evening you want. -> Make this
+section way smaller please, group them in rows of 4. no add this one buttons. / Delete What it isn't section." Then:
+"Delivery time 5 vusiness days from Miami. Diffuser size ... 4" L x 4" W x 11.5" H (about 103 x 103 x 293 mm), and weighs
+2.25 pounds. Return free of stress and refund right away".
+
+- Gallery: no video. First picture is the new main one (gallery/out/diffuser-gallery-00-main.jpg -> img/g-00.webp):
+  the old page's photo of the diffuser with three scents (old/g-d92.webp), "Leave the day at the door.", "One press.
+  The whole room in about ten minutes.", three ticks (10 min / no water, no flame / first scent free) and the 30-day
+  seal. Then the seven. Eight dots. The smallest print on the boxes in that photo is not letter-perfect.
+- Customer photos: moved out of the gallery column to right under the opening paragraph. The photos scroll on the
+  left, "Loved in thousands of homes." sits to their right (my reading of "to the right side"), arrows under it on
+  desktop.
+- Sticky button: one full-width purple bar, on from the first pixel. It says "Pick your scents | $159" until the scents
+  are picked (tap jumps to step 2), then "Checkout | $159". The 1 / 2 / 3 switch and the summary are no longer shown in it.
+- "Sound familiar? / Home at last. Still switched on." is now "What it does / Your home goes from day to evening in ten
+  minutes." The four tabs under it are unchanged.
+- "The honest part" box and the "What it isn't" box are deleted; that section's title is "Why this one."
+- Scents section: a small list, four to a row on every screen (thumbnail, name, family; the notes show on desktop), no
+  "Add this one" buttons; the eighth tile is "Can't decide? Take our best sellers".
+- His facts: trust row "Free shipping from Miami / Arrives in about 5 business days / Lifetime warranty"; size and
+  weight in "What's in the box" and a new FAQ "How big is the diffuser?"; delivery in "Shipping, returns + warranty" and
+  a new FAQ "How long does delivery take?"; returns worded "tell us and we send a prepaid label and refund you right
+  away" in the fold-out and in "What if I don't like it?". Still unknown: where it ships to, cord length, noise level.
+- Checked on phone 400 px and desktop 1440 px: no errors, no broken pictures, no sideways scroll.

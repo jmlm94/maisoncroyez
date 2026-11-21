@@ -1,5 +1,5 @@
-// The diffuser's product page gallery: seven square pictures, each one answers one thing a first-time visitor asks before
-// she buys. Laid out at 1080 x 1080 and saved at 2000 x 2000. Photos come from ../old (the photo shoot) and ../img,
+// The diffuser's product page gallery: the main picture (the diffuser with its scents and the reason to buy) and seven
+// square pictures that each answer one thing a first-time visitor asks before she buys. Laid out at 1080 x 1080 and saved at 2000 x 2000. Photos come from ../old (the photo shoot) and ../img,
 // every word is typeset here in the brand type so it is exact. Each picture has its own layout. No numbered labels.
 // usage: node make-gallery.js [id prefix]      (needs playwright)
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path');
@@ -10,6 +10,9 @@ const img = (f) => 'file://' + path.join(PAGE, f);
 const font = (f, w, file) => `@font-face{font-family:"${f}";font-weight:${w};src:url("file://${path.join(LP, 'ads', 'bath-soak', 'fonts', file)}") format("woff2")}`;
 
 const SLIDES = [
+  { id: '00-main', layout: 'main', img: 'old/g-d92.webp', label: 'Waterless diffuser & scents', h: 'Leave the day\nat the door.', sub: 'One press. The whole room\nin about ten minutes.',
+    bens: ['Fills the room in 10 min', 'No water. No flame.', 'Your first scent is free'],
+    alt: 'The Maison Croyez waterless diffuser with its scent bottles and boxes on a coffee table. Leave the day at the door: one press, the whole room in about ten minutes. No water, no flame, your first scent is free, 30-day money back.' },
   { id: '01-what-it-is', layout: 'what', img: 'img/dk-one.webp', label: 'Waterless scent diffuser',
     h: 'Scent for the whole room. No water. No flame.', sub: 'Press once when you walk in. The room does the rest.',
     stats: [['10 min', 'to fill the room'], ['600 sq ft', 'from one diffuser'], ['1 button', 'three strengths']],
@@ -58,6 +61,13 @@ body{background:#888}
 h1{font-weight:700;letter-spacing:-.04em;line-height:1;text-wrap:balance}
 .sub{font-weight:500;font-size:32px;line-height:1.22;letter-spacing:-.015em;text-wrap:balance}
 svg.i{flex:none}
+/* 0 main: the diffuser and its scents, the line, three reasons */
+.main .wash{position:absolute;inset:0;background:linear-gradient(115deg,rgba(249,246,238,.94) 0%,rgba(249,246,238,.8) 26%,rgba(249,246,238,0) 46%)}
+.mb{position:absolute;left:0;right:0;bottom:0;background:var(--night);color:var(--cream);padding:30px 44px 34px;display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:16px}
+.mb div{display:flex;align-items:center;gap:11px;font-weight:600;font-size:25px;letter-spacing:-.02em;white-space:nowrap}
+.mb svg{width:36px;height:36px;padding:8px;border-radius:50%;background:var(--sig);color:#fff;stroke-width:3}
+.seal.m{background:var(--ink);color:#fff;width:176px;height:176px;transform:rotate(8deg)}
+.seal.m b{font-size:66px}.seal.m span{color:#fff;font-size:14px}
 /* 1 what it is: text column, product panel */
 .what .pad{right:440px;padding-right:44px}
 .what .panel{position:absolute;top:0;right:0;bottom:0;width:440px;overflow:hidden}
@@ -139,6 +149,7 @@ svg.i{flex:none}
 `;
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
 const L = {
+  main: (s) => `<div class="g main"><img class="bg" src="${img(s.img)}" style="object-position:50% 100%;transform:scale(1.12);transform-origin:50% 62%"><div class="wash"></div><div class="pad">${LOGO}<span class="mono" style="color:var(--ink);margin-top:44px">${esc(s.label)}</span><h1 style="font-size:74px;margin-top:16px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;font-size:30px">${esc(s.sub)}</p></div><div class="seal m" style="right:52px;top:52px"><b>30</b><span>day money<br>back</span></div><div class="mb">${s.bens.map((x) => `<div>${icon('check')}<span>${esc(x)}</span></div>`).join('')}</div></div>`,
   what: (s) => `<div class="g what"><div class="panel"><img src="${img(s.img)}"></div><div class="pad">${LOGO}<span class="mono" style="color:var(--ink);margin-top:54px">${esc(s.label)}</span><h1 style="font-size:80px;margin-top:18px">${esc(s.h)}</h1><p class="sub" style="margin-top:22px;color:var(--drift)">${esc(s.sub)}</p><div class="stats">${s.stats.map((x) => `<div><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('')}</div></div></div>`,
   smell: (s) => `<div class="g smell"><div class="pad" style="padding-bottom:130px">${LOGO}<h1 style="font-size:72px;margin-top:38px">${esc(s.h)}</h1><p class="sub" style="margin-top:18px;font-size:29px;color:#CFC4B1">${esc(s.sub)}</p><div class="sg">${s.scents.map((x) => `<div class="s"><img src="${img('old/pick-' + x[0] + '.webp')}"><div><b>${esc(x[1])}</b><span>${esc(x[2])}</span></div></div>`).join('')}<div class="more">100 ml each.<br>15+ days a bottle.</div></div></div><div class="swap">${icon('rotate-ccw')}<span><b>${esc(s.strip[0])}</b> ${esc(s.strip[1])}</span></div></div>`,
   safe: (s) => `<div class="g safe"><img class="bg" src="${img(s.img)}" style="object-position:0% 50%;transform:scale(1.18);transform-origin:8% 60%"><div class="pad">${LOGO}</div><div class="card"><span class="mono">${esc(s.label)}</span><h1 style="font-size:80px;margin-top:18px">${esc(s.h)}</h1><div class="nos">${s.nos.map((x) => `<div>${icon('x')}<span>${esc(x)}</span></div>`).join('')}</div><div class="timer"><b>${esc(s.timer[0])}</b>${esc(s.timer[1])}</div><div class="quote"><p>“${esc(s.quote[0])}”</p><span>${esc(s.quote[1])}</span></div></div></div>`,
@@ -156,8 +167,8 @@ const L = {
     await pg.goto('file://' + f, { waitUntil: 'load' }); await pg.evaluate(() => document.fonts.ready); await pg.waitForTimeout(150);
     const chk = await pg.evaluate(() => {
       const box = (e) => e.getBoundingClientRect();
-      const els = [...document.querySelectorAll('.g h1,.g p,.g b,.g .mono,.g .stats div,.g .s,.g .more,.g .swap,.g .card,.g .quote,.g .vs,.g .st3>div,.g .lv,.g .pill,.g .ex,.g .tk,.g .seal,.g .pr div,.g .logo')];
-      const outside = els.filter((e) => { const r = box(e); return r.left < 16 || r.right > 1064 || r.bottom > 1066 || r.top < 16; }).filter((e) => !e.closest('.swap,.lv') || box(e).right > 1064).map((e) => (e.className.baseVal || e.className || e.tagName) + ':' + (e.innerText || '').slice(0, 24));
+      const els = [...document.querySelectorAll('.g h1,.g p,.g b,.g .mono,.g .stats div,.g .s,.g .more,.g .swap,.g .card,.g .quote,.g .vs,.g .st3>div,.g .lv,.g .pill,.g .ex,.g .tk,.g .seal,.g .pr div,.g .logo,.g .mb div')];
+      const outside = els.filter((e) => { const r = box(e); return r.left < 16 || r.right > 1064 || r.bottom > 1066 || r.top < 16; }).filter((e) => !e.closest('.swap,.lv,.mb') || box(e).right > 1064).map((e) => (e.className.baseVal || e.className || e.tagName) + ':' + (e.innerText || '').slice(0, 24));
       const clipped = [...document.querySelectorAll('.card,.pad,.lv .row,.tk,.sg')].filter((e) => e.scrollHeight > e.clientHeight + 1 || e.scrollWidth > e.clientWidth + 1).map((e) => e.className + ' ' + e.scrollHeight + '>' + e.clientHeight + ' ' + e.scrollWidth + '>' + e.clientWidth);
       const h = document.querySelector('h1'); return { h1Lines: Math.round(box(h).height / parseFloat(getComputedStyle(h).lineHeight)), h1Ends: Math.round(box(h).bottom), outside, clipped, broken: [...document.images].filter((i) => !i.naturalWidth).length };
     });

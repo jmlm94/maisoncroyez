@@ -533,6 +533,20 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
 @media (max-width:860px){.smini{gap:6px}.sm{grid-template-columns:minmax(0,1fr);gap:6px;padding:6px 6px 8px;align-items:start;border-radius:10px}
   .sm img{width:100%;height:auto;aspect-ratio:1;border-radius:6px}.sm b{font-size:12px;line-height:1.15}.sm span{font-size:11px}.sm small{display:none}
   .sm.pick{padding:8px;align-items:end}.sm.pick b{font-size:13px}.sm.pick span span{font-size:11px;gap:3px;flex-wrap:wrap}}
+/* round 12: arrows on the picture, the photos under a full title, bigger step labels, bold notes, three scent facts */
+.gal .gbtn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(249,246,238,.92);box-shadow:0 2px 10px rgba(22,18,16,.18);z-index:2}
+.gal .gbtn.prev{left:12px}.gal .gbtn.next{right:12px}
+.ugc{display:block;margin-top:20px}
+.ugc-h{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;flex:none;margin-bottom:12px}
+.ugc-h h2{font-size:clamp(22px,2.6vw,28px);margin:0;letter-spacing:-.03em;line-height:1.1}
+.ugc-t img{flex:0 0 88px;width:88px;height:88px}
+@media (max-width:640px){.ugc-t img{flex-basis:78px;width:78px;height:78px}}
+.step-h .lab{font-size:15px;font-weight:700;color:var(--night);letter-spacing:.08em}
+.row .more,.row .more span{font-weight:700}
+.sm.facts{list-style:none;margin:0;grid-template-columns:minmax(0,1fr);gap:6px;align-content:center;background:var(--night);color:var(--cream);border-color:var(--night);padding:12px 14px}
+.sm.facts li{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;line-height:1.2}
+.sm.facts .ic{flex:none;color:var(--sig-light);font-size:16px;stroke-width:2.6}
+@media (max-width:860px){.sm.facts{padding:8px 6px;gap:7px;align-content:center}.sm.facts li{font-size:10.5px;gap:4px;align-items:flex-start}.sm.facts .ic{font-size:11px;margin-top:1px}}
 </style>
 
 <!--SYMBOLS-->
@@ -558,15 +572,15 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
       <div class="slide"><img src="img/g-06.webp" alt="One 100 ml bottle gives 15+ days of scent, under $2 an evening. Refills are your choice, we email you before every charge, and you can skip, swap or cancel any time." loading="lazy" width="1400" height="1400"></div>
       <div class="slide"><img src="img/g-07.webp" alt="The promise: love it in 30 days or every dollar back. Free shipping, a prepaid return label, a free scent swap and a lifetime warranty on the diffuser." loading="lazy" width="1400" height="1400"></div>
     </div>
-    <div class="gnav"><button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button><div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button></div>
+    <button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button><button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button>
   </div>
 
   <div>
     <button class="rate" type="button" data-to="reviews" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span><b>4.7</b> | <u>124 reviews</u></span></button>
     <p class="lab eyebrow">Maison Croyez waterless diffuser &amp; scents</p>
     <h1 class="hd">Home, but the day won’t leave your head? <span class="h1b">Leave it at the door.</span></h1>
-    <p class="lede top">A waterless scent diffuser for the evenings you can’t switch off. Press once when you walk in. In about ten minutes the room tells you the day is over.</p>
     <div class="ugc">
+      <div class="ugc-h"><h2 class="hd">Loved in thousands of homes.</h2><span class="ugc-n"><button type="button" id="ugc-prev" aria-label="Earlier photos">{{i:arrow-right}}</button><button type="button" id="ugc-next" aria-label="More photos">{{i:arrow-right}}</button></span></div>
       <div class="ugc-t" id="ugc" tabindex="0" role="group" aria-label="Photos of people at home with their Maison Croyez diffuser">
       <img src="img/ugc-01.webp" alt="A woman smiling beside her lit diffuser on the kitchen counter" loading="lazy" width="720" height="720">
       <img src="img/ugc-02.webp" alt="A woman waving, her diffuser glowing on the shelf behind her" loading="lazy" width="720" height="720">
@@ -579,13 +593,11 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
       <img src="img/ugc-09.webp" alt="A woman in pajamas with a scent bottle, her diffuser lit on the nightstand" loading="lazy" width="720" height="720">
       <img src="img/ugc-10.webp" alt="A woman in her kitchen, the diffuser glowing on the counter" loading="lazy" width="720" height="720">
       </div>
-      <div class="ugc-h"><b>Loved in thousands of homes.</b><span class="ugc-n"><button type="button" id="ugc-prev" aria-label="Earlier photos">{{i:arrow-right}}</button><button type="button" id="ugc-next" aria-label="More photos">{{i:arrow-right}}</button></span></div>
     </div>
     <ul class="chk">
       <li><span class="cm">{{i:check}}</span><span><b>A cue to switch off.</b> The same scent every evening tells your head the day is done.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>Fills the room in about ten minutes.</b> Up to 600 sq ft from one diffuser.</span></li>
       <li><span class="cm">{{i:check}}</span><span><b>Made to be left on.</b> No flame, no water, no heat, and a timer that turns it off.</span></li>
-      <li><span class="cm">{{i:check}}</span><span><b>Don’t know how it smells?</b> Your first scents are free. Don’t love one, we swap it free.</span></li>
     </ul>
 
     <div class="step">
@@ -640,26 +652,26 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
 <section class="s sand"><div class="w">
   <span class="lab sec-e">What it does</span>
   <h2 class="hd sec-h">Your home goes from day to evening in ten minutes.</h2>
-  <div class="tabs" role="tablist" aria-label="Four kinds of evening">
-    <button class="tab" type="button" role="tab" id="rs-t1" aria-controls="rs-p1" aria-selected="true"><i>01</i><b>The day follows me home</b></button>
-    <button class="tab" type="button" role="tab" id="rs-t2" aria-controls="rs-p2" aria-selected="false" tabindex="-1"><i>02</i><b>Mind won’t stop at bedtime</b></button>
-    <button class="tab" type="button" role="tab" id="rs-t3" aria-controls="rs-p3" aria-selected="false" tabindex="-1"><i>03</i><b>I can’t leave a candle</b></button>
-    <button class="tab" type="button" role="tab" id="rs-t4" aria-controls="rs-p4" aria-selected="false" tabindex="-1"><i>04</i><b>One more thing to look after</b></button>
+  <div class="tabs" role="tablist" aria-label="Four things you feel">
+    <button class="tab" type="button" role="tab" id="rs-t1" aria-controls="rs-p1" aria-selected="true"><i>01</i><b>The day stays outside</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t2" aria-controls="rs-p2" aria-selected="false" tabindex="-1"><i>02</i><b>Ready for bed</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t3" aria-controls="rs-p3" aria-selected="false" tabindex="-1"><i>03</i><b>Safe to leave on</b></button>
+    <button class="tab" type="button" role="tab" id="rs-t4" aria-controls="rs-p4" aria-selected="false" tabindex="-1"><i>04</i><b>Nothing to look after</b></button>
   </div>
   <div class="rp" role="tabpanel" id="rs-p1" aria-labelledby="rs-t1">
-    <div><h3>I walk in, and my head is still at work.</h3><p>You are home, but nothing has told your mind the day is over. So it keeps going, through dinner and into bed.</p><p class="do"><b>What the diffuser does:</b> it marks the moment. Press once when you walk in, and in about ten minutes the room smells like the evening, not the day.</p></div>
+    <div><h3>You walk in, and the day stays outside.</h3><p>Press once at the door. In about ten minutes the room smells like the evening, not the day, and your shoulders come down.</p><p class="do"><b>Why it works:</b> the same scent every evening tells your head that work is over.</p></div>
     <div class="pic"><img src="old/patricia1.webp" alt="A woman relaxing in a chair at home, her dog at her feet, the diffuser on the desk" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p2" aria-labelledby="rs-t2" hidden>
-    <div><h3>My mind won’t switch off when I get into bed.</h3><p>You are tired, but wired. The night feels long, and tomorrow already feels hard.</p><p class="do"><b>What the diffuser does:</b> it gives the bedroom its own scent. Set the timer for an hour and switch on the night light. The same scent every night becomes your cue for bed.</p></div>
+    <div><h3>Your bedroom tells you it’s time for bed.</h3><p>Give the bedroom its own scent. Set the timer for an hour and switch on the night light.</p><p class="do"><b>Why it works:</b> the same scent every night becomes your cue for bed.</p></div>
     <div class="pic"><img src="old/spaces1.webp" alt="A woman in bed with her dog, the diffuser on the nightstand" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p3" aria-labelledby="rs-t3" hidden>
-    <div><h3>I light a candle, and then I can’t relax.</h3><p>A flame to watch and a wick to trim. And you still have to get up and blow it out before you fall asleep.</p><p class="do"><b>What the diffuser does:</b> no flame, no water and no heat, and a timer that stops it after 1, 3, 6 or 12 hours. One customer told us: “I can go to sleep with it on in our bedroom and feel safe.”</p></div>
+    <div><h3>You relax, because there is nothing to watch.</h3><p>No flame, no water and no heat, and a timer that stops it after 1, 3, 6 or 12 hours.</p><p class="do"><b>Why it works:</b> one customer told us: “I can go to sleep with it on in our bedroom and feel safe.”</p></div>
     <div class="pic"><img src="old/goodbye1.webp" alt="A hand setting the diffuser on a shelf, its top glowing" loading="lazy"></div>
   </div>
   <div class="rp" role="tabpanel" id="rs-p4" aria-labelledby="rs-t4" hidden>
-    <div><h3>I don’t need one more thing to look after.</h3><p>Plug-ins fade in a week. Water diffusers need cleaning. Sprays last a few minutes.</p><p class="do"><b>What the diffuser does:</b> pour in one bottle and forget it for 15+ days. The next bottles arrive on the schedule you pick, or not at all.</p></div>
+    <div><h3>You pour once and forget it for weeks.</h3><p>One bottle lasts 15+ days. No wicks, no tank and nothing to clean.</p><p class="do"><b>Why it works:</b> the next bottles arrive on the schedule you pick, or not at all.</p></div>
     <div class="pic"><img src="old/badge1.webp" alt="The diffuser on a kitchen counter while someone cooks" loading="lazy"></div>
   </div>
 </div></section>
@@ -672,7 +684,6 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
     <div><div class="pic"><img src="old/step2.webp" alt="Fitting the bottle into the diffuser" loading="lazy"></div><div class="n">02<i></i></div><b>Press once.</b><p>One button, three strengths. Soft for a quiet night, fuller when you want more.</p></div>
     <div><div class="pic"><img src="old/step3.webp" alt="The diffuser running by a window" loading="lazy"></div><div class="n">03<i></i></div><b>Exhale.</b><p>About ten minutes to fill the room. Weeks before you think about it again.</p></div>
   </div>
-  <ul class="ticks row3"><li>{{i:check}}<span><b>A warm night light.</b> Switch the glow on or off.</span></li><li>{{i:check}}<span><b>A timer.</b> 1, 3, 6 or 12 hours, then it stops on its own.</span></li><li>{{i:check}}<span><b>Two rooms.</b> Two diffusers cover where you sit and where you sleep.</span></li></ul>
   <h3 class="hd sub-h">An example evening.</h3>
   <p class="lede sub2">Move the times to fit yours.</p>
   <div class="tl clock">
@@ -695,7 +706,7 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
     <div class="sm"><img src="old/pick-wildwood.webp" alt="" loading="lazy" width="400" height="400"><div><b>Wildwood Mystique</b><span>Pine Forest</span><small>Huckleberry, wild juniper &amp; mountain fern.</small></div></div>
     <div class="sm"><img src="old/pick-chilled.webp" alt="" loading="lazy" width="400" height="400"><div><b>Chilled Citrus</b><span>Lavender</span><small>Chilled lavender, eucalyptus &amp; white citrus.</small></div></div>
     <div class="sm"><img src="old/pick-midnight.webp" alt="" loading="lazy" width="400" height="400"><div><b>Midnight Sensation</b><span>Floral Musk</span><small>Moonflower, night lily &amp; skin musk.</small></div></div>
-    <button class="sm pick" type="button" id="trio2"><span><b>Can’t decide?</b><span>Take our best sellers {{i:arrow-right}}</span></span></button>
+    <ul class="sm facts"><li>{{i:check}}100% organic ingredients</li><li>{{i:check}}Paraben-free</li><li>{{i:check}}Cruelty-free</li></ul>
   </div>
 </div></section>
 
@@ -827,7 +838,6 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
   function go(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
   function auto(){ORDER.forEach(function(k){st.picks[k]=0});AUTO.slice(0,st.diff).forEach(function(k){st.picks[k]=1});render();say(st.diff>1?'Our best sellers, picked.':'Our best seller, picked.')}
   $('#each1').addEventListener('click',auto);
-  $('#trio2').addEventListener('click',function(){auto();go('step2')});
   $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});
   $$('[data-top]').forEach(function(b){b.addEventListener('click',function(){go('buybox')})});
   $$('[data-to]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.to)})});
@@ -837,12 +847,11 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
     else{say('Your '+pl(st.diff,'free scent')+(st.diff>1?' are':' is')+' picked. Take one out to swap.')}
     go('step2')})});
   /* gallery */
-  var track=$('#track'),dots=$$('#dots i');
+  var track=$('#track'),nSlides=$$('#track .slide').length;
   function idx(){return Math.round(track.scrollLeft/track.clientWidth)}
-  function slide(i){var n=dots.length;i=(i+n)%n;track.scrollTo({left:i*track.clientWidth,behavior:'smooth'})}
+  function slide(i){var n=nSlides;i=(i+n)%n;track.scrollTo({left:i*track.clientWidth,behavior:'smooth'})}
   $('#ugc-prev').addEventListener('click',function(){var u=$('#ugc');u.scrollBy({left:-u.clientWidth*.8,behavior:'smooth'})});$('#ugc-next').addEventListener('click',function(){var u=$('#ugc');u.scrollBy({left:u.clientWidth*.8,behavior:'smooth'})});
   $('#g-prev').addEventListener('click',function(){slide(idx()-1)});$('#g-next').addEventListener('click',function(){slide(idx()+1)});
-  track.addEventListener('scroll',function(){var i=idx();dots.forEach(function(d,j){d.className=j===i?'on':''})},{passive:true});
   /* the hero video: muted loop; if the browser holds it back, the first tap starts it */
   var v=$('#hero-v');
   if(v){v.muted=true;var kick=function(){var p=v.play();if(p&&p.catch)p.catch(function(){})};kick();v.addEventListener('canplay',kick);

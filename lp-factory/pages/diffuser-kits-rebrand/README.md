@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 12, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 13, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -288,3 +288,18 @@ section way smaller please, group them in rows of 4. no add this one buttons. / 
   a new FAQ "How long does delivery take?"; returns worded "tell us and we send a prepaid label and refund you right
   away" in the fold-out and in "What if I don't like it?". Still unknown: where it ships to, cord length, noise level.
 - Checked on phone 400 px and desktop 1440 px: no errors, no broken pictures, no sideways scroll.
+
+## Round 12 (2026-11-21, artifact version 13) — his nine comments on version 12
+
+- Gallery: the row under it (arrows + dots) is gone; two round arrows sit on the picture. No dots.
+- The opening paragraph ("A waterless scent diffuser for the evenings you can't switch off...") is deleted.
+- "Loved in thousands of homes." is a full title above the photo strip (arrows at its right); photos 5% bigger
+  (88 px, 78 px on a phone).
+- Fourth bullet ("Don't know how it smells?") deleted; three bullets left.
+- "Step N of 3" labels are bigger and bold. The notes line of every scent in step 2 is bold.
+- The four tabs under "Your home goes from day to evening in ten minutes." are four good feelings instead of four
+  problems: The day stays outside / Ready for bed / Safe to leave on / Nothing to look after. Each panel: the feeling,
+  how, and "Why it works".
+- The three ticks under "As simple as 1, 2, 3." (night light, timer, two rooms) are deleted.
+- Scents section, eighth tile: "100% organic ingredients / Paraben-free / Cruelty-free" instead of "Can't decide?".
+  His words; the same three claims are on his Candle Swap page (there with "IFRA 51 compliant" too).

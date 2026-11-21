@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 10, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 11, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -223,7 +223,7 @@ with the important information."
 
 Review page: https://claude.ai/artifact/KwVy9bytKra8cC2SwZAAg1 (gallery/review.html, built by gallery/build-review.py).
 Pictures: gallery/out/diffuser-gallery-01..07 (2000 x 2000 JPEG), drawn by `node gallery/make-gallery.js`; alt text in
-gallery/alt-text.json. They are NOT in the page's gallery yet: the page keeps the video and the five older slides.
+gallery/alt-text.json. In the page gallery since round 10 (img/g-01..07.webp, 1400 px), after the video.
 
 1. What it is: "Scent for the whole room. No water. No flame." 10 min, 600 sq ft, 1 button.
 2. How it smells (survey reason one): first scent free, the seven scents with their notes, free swap.
@@ -237,3 +237,23 @@ gallery/alt-text.json. They are NOT in the page's gallery yet: the page keeps th
 Every fact is one the page already states. "85%" is not something these pictures can be shown to do; they cover the
 objections that appear in the survey and in the page's own questions. Photos: old/ (the photo shoot) for 4, 5 and 7,
 img/dk-* (generated from the real product photo) for 1, 3, 5 (step two) and 6, old/pick-* for the scent boxes.
+
+## Round 10 (2026-11-21, artifact version 11) — "Make all the fixes you can now and swap in the images"
+
+- Gallery: the video, then the seven pictures (img/g-01..07.webp, made from gallery/out at 1400 px). The five older
+  slides and the HTML comparison slide are out of the page; their files stay in img/. Eight dots.
+- Reviews: the four empty video slots are gone; the rating is one strip above the six quotes.
+- "Complete the evening" (soak, steamers, spray: products that do not exist yet) is removed.
+- Scents section: one flat grid of the seven scents plus "Can't decide?", no mood headings, no sideways scroll (four
+  across on desktop, two on a phone). Eyebrow "Seven scents".
+- "What to expect | How to use it" is one section without the switch: "As simple as 1, 2, 3." (three photo steps, three
+  ticks), then "An example evening." (the timeline) and the honest part.
+- The guarantee near the button is said once: the trust row keeps free shipping and lifetime warranty, the card above
+  it carries the 30 days. The full promise section lower down stays.
+- "When am I charged?" now answers with her own numbers (id `charge`, written in render()): what she pays today, that
+  the scents are free, and the refill total per delivery for her kit and frequency, or "nothing renews". This is where
+  the refill total lives; the "Due today" and renewal lines he deleted near the button were not put back.
+- Not changed, waiting on facts from him: delivery time, where it ships, diffuser size / cord / noise, how a return
+  starts and how fast the refund lands. The "what it isn't" box is still on the page.
+- Checked on phone 400 px and desktop 1440 px: no errors, no broken pictures, no sideways scroll, 8 slides / 8 dots,
+  the charge line for 1, 2 and 3 diffusers with and without refills.

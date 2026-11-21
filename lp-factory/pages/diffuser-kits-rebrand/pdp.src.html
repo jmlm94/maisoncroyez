@@ -506,6 +506,16 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
   .ugc-t{border-radius:10px 0 0 10px;padding-right:16px;scroll-padding-left:0}.ugc-t img{flex-basis:29%;width:29%}}
 /* the left column is taller now: only pin it where the whole column fits on screen */
 @media (min-width:861px) and (max-height:899px){.gal{position:static}}
+/* round 10: flat scent list, merged how-to section, rating without video slots */
+.sflat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.4vw,18px);margin-top:clamp(24px,3.4vw,44px)}
+@media (max-width:1040px){.sflat{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.sflat .sc .bd{padding:12px}.sflat .sc h3{font-size:19px}.sflat .sc button{font-size:14px;padding:0 10px;gap:6px}}
+.sub-h{font-size:clamp(24px,3vw,34px);margin-top:clamp(36px,5vw,64px)}
+.sub-h + .lede{margin-top:8px}
+.trust.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rating.wide{flex-direction:row;align-items:center;flex-wrap:wrap;gap:6px 18px;padding:18px 22px;margin-top:clamp(24px,3.4vw,44px)}
+.rating.wide .big{font-size:clamp(42px,4.6vw,58px)}
+.rating.wide .stars{align-self:center}
 </style>
 
 <!--SYMBOLS-->
@@ -523,23 +533,15 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
   <div class="gal">
     <div class="track" id="track">
       <div class="slide"><video id="hero-v" src="old/hero.mp4" poster="old/hero-frame.webp" autoplay muted loop playsinline preload="auto" aria-label="The Maison Croyez diffuser at home"></video></div>
-      <div class="slide"><img src="img/slide-1.webp" alt="Fills the room in about ten minutes." loading="lazy" width="1080" height="1080"></div>
-      <div class="slide"><img src="img/slide-2.webp" alt="Set it for the evening. It turns itself off." loading="lazy" width="1080" height="1080"></div>
-      <div class="slide"><img src="img/slide-3.webp" alt="No water. No flame. Nothing to clean." loading="lazy" width="1080" height="1080"></div>
-      <div class="slide vsl" role="group" aria-label="Candles and plug-ins next to Maison Croyez"><div class="vsl-in">
-        <b class="vsl-t">Why this one, and not a candle.</b>
-        <div class="vsl-g">
-          <span class="vh">Candles and plug-ins</span><span class="vh">Maison Croyez</span>
-          <span>{{i:x}}A flame you have to watch</span><span>{{i:check}}No flame. Turns itself off</span>
-          <span>{{i:x}}The four feet around it</span><span>{{i:check}}The whole room in ten minutes</span>
-          <span>{{i:x}}Fades within a week</span><span>{{i:check}}15+ days from every bottle</span>
-          <span>{{i:x}}Wicks, tanks, cartridges</span><span>{{i:check}}Pour once. Nothing to clean</span>
-        </div>
-      </div></div>
-      <div class="slide"><img src="img/slide-4.webp" alt="Seven scents: unwind, be here or drift off. Every bottle lasts 15+ days." loading="lazy" width="1080" height="1080"></div>
-      <div class="slide"><img src="img/slide-5.webp" alt="Love it in 30 days, or every dollar back." loading="lazy" width="1080" height="1080"></div>
+      <div class="slide"><img src="img/g-01.webp" alt="The Maison Croyez waterless scent diffuser. Scent for the whole room, no water, no flame. About 10 minutes to fill the room, up to 600 sq ft from one diffuser, one button with three strengths." loading="lazy" width="1400" height="1400"></div>
+      <div class="slide"><img src="img/g-02.webp" alt="Not sure how it smells? Your first scent is free: one free 100 ml scent with every diffuser, seven to choose from, each with its three notes. Don’t love one? We swap it, free." loading="lazy" width="1400" height="1400"></div>
+      <div class="slide"><img src="img/g-03.webp" alt="Made to be left on: no flame, no water, no heat, and a timer for 1, 3, 6 or 12 hours that stops on its own. A buyer says: I can go to sleep with it on in our bedroom and feel safe." loading="lazy" width="1400" height="1400"></div>
+      <div class="slide"><img src="img/g-04.webp" alt="Candles and plug-ins next to Maison Croyez: no flame and it turns itself off, the whole room in ten minutes, 15+ days from every bottle, pour once and nothing to clean." loading="lazy" width="1400" height="1400"></div>
+      <div class="slide"><img src="img/g-05.webp" alt="How to use it: pour in your 100 ml bottle, press once, exhale. Three strengths: subtle, balanced or full. A timer for 1, 3, 6 or 12 hours and a night light you can switch off." loading="lazy" width="1400" height="1400"></div>
+      <div class="slide"><img src="img/g-06.webp" alt="One 100 ml bottle gives 15+ days of scent, under $2 an evening. Refills are your choice, we email you before every charge, and you can skip, swap or cancel any time." loading="lazy" width="1400" height="1400"></div>
+      <div class="slide"><img src="img/g-07.webp" alt="The promise: love it in 30 days or every dollar back. Free shipping, a prepaid return label, a free scent swap and a lifetime warranty on the diffuser." loading="lazy" width="1400" height="1400"></div>
     </div>
-    <div class="gnav"><button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button><div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button></div>
+    <div class="gnav"><button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button><div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button></div>
     <div class="ugc">
       <div class="ugc-h"><b>Loved in thousands of homes.</b><span class="ugc-n"><button type="button" id="ugc-prev" aria-label="Earlier photos">{{i:arrow-right}}</button><button type="button" id="ugc-next" aria-label="More photos">{{i:arrow-right}}</button></span></div>
       <div class="ugc-t" id="ugc" tabindex="0" role="group" aria-label="Photos of people at home with their Maison Croyez diffuser">
@@ -608,11 +610,11 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
 
     <button class="cta" type="button" id="cta" disabled><span class="cta-l"><span><span id="cta-t">Pick your 2 free scents</span><span id="cta-amt"></span></span>{{i:arrow-right}}</span><span class="cta-g">30-day money-back guarantee</span></button>
     <div class="gcard"><div class="gseal" aria-hidden="true"><b>30</b><span>days</span></div><div><span class="t">Love the way your evenings feel in 30 days, or every dollar back.</span><p>Send it back with our prepaid label and we refund everything. Don’t love a scent? We swap it, free.</p></div></div>
-    <div class="trust"><div>{{i:truck}}Free shipping</div><div>{{i:rotate-ccw}}30-day money-back</div><div>{{i:shield-check}}Lifetime warranty</div></div>
+    <div class="trust two"><div>{{i:truck}}Free shipping</div><div>{{i:shield-check}}Lifetime warranty</div></div>
     <div class="faq acc">
       <details><summary>What’s in the box{{i:plus}}</summary><p>Your diffusers (1, 2 or 3) and one free 100 ml scent for each. Every bottle lasts 15+ days. The diffuser is waterless and leakproof, with a lifetime warranty.</p></details>
       <details><summary>How it works + tips{{i:plus}}</summary><p>Pour in your 100 ml bottle, press once and walk away. Three strengths, a timer for 1, 3, 6 or 12 hours and a warm night light. It takes about ten minutes to fill the room.</p></details>
-      <details><summary>When am I charged?{{i:plus}}</summary><p>Today you pay for your diffusers only. The scents are free. If you picked a refill frequency, your scents come again on that schedule for $29 each instead of $39, and we email you before every charge. Skip, swap or cancel any time. Pick no refills and nothing renews.</p></details>
+      <details><summary>When am I charged?{{i:plus}}</summary><p id="charge">Today you pay for your diffusers only. The scents are free. If you picked a refill frequency, your scents come again on that schedule for $29 each instead of $39, and we email you before every charge. Skip, swap or cancel any time. Pick no refills and nothing renews.</p></details>
       <details><summary>Shipping, returns + warranty{{i:plus}}</summary><p>Free shipping. Within 30 days we refund every dollar and send a prepaid label. Don’t love one scent? We swap it free. The diffuser is covered for life.</p></details>
     </div>
   </div>
@@ -646,59 +648,41 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
 </div></section>
 
 <section class="s" id="why"><div class="w">
-  <div class="seg" role="tablist" aria-label="What to expect and how to use it">
-    <button type="button" role="tab" id="hw-t1" aria-controls="hw-p1" aria-selected="true">What to expect</button>
-    <button type="button" role="tab" id="hw-t2" aria-controls="hw-p2" aria-selected="false" tabindex="-1">How to use it</button>
+  <span class="lab sec-e">How to use it</span>
+  <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
+  <div class="how">
+    <div><div class="pic"><img src="old/step1.webp" alt="Pouring the scent" loading="lazy"></div><div class="n">01<i></i></div><b>Pour it in.</b><p>Your 100 ml bottle of scent. No water, no measuring.</p></div>
+    <div><div class="pic"><img src="old/step2.webp" alt="Fitting the bottle into the diffuser" loading="lazy"></div><div class="n">02<i></i></div><b>Press once.</b><p>One button, three strengths. Soft for a quiet night, fuller when you want more.</p></div>
+    <div><div class="pic"><img src="old/step3.webp" alt="The diffuser running by a window" loading="lazy"></div><div class="n">03<i></i></div><b>Exhale.</b><p>About ten minutes to fill the room. Weeks before you think about it again.</p></div>
   </div>
-  <div role="tabpanel" id="hw-p1" aria-labelledby="hw-t1">
-    <h2 class="hd sec-h">Ten minutes tonight. Every evening after.</h2>
-    <p class="lede sub2">An example evening. Move the times to fit yours.</p>
-    <div class="tl clock">
-      <div><div class="n">6:30 PM<i></i></div><b>You walk in. Press once.</b><p>Soft for a quiet night, fuller when you want more.</p></div>
-      <div><div class="n">6:40 PM<i></i></div><b>The room smells like the evening.</b><p>Corner to corner, up to 600 square feet. You breathe out, and the day stays outside.</p></div>
-      <div><div class="n">10:00 PM<i></i></div><b>It turns itself off.</b><p>Set the timer for 1, 3, 6 or 12 hours. The night light can stay on.</p></div>
-    </div>
-    <div class="fact">
-      <p><b>The honest part:</b> a scent does not put you to sleep, and we don’t claim it does. What it does is mark the moment the day ends. The same scent at the same time every evening becomes a cue. That last part is our idea, not a study.</p>
-    </div>
+  <ul class="ticks row3"><li>{{i:check}}<span><b>A warm night light.</b> Switch the glow on or off.</span></li><li>{{i:check}}<span><b>A timer.</b> 1, 3, 6 or 12 hours, then it stops on its own.</span></li><li>{{i:check}}<span><b>Two rooms.</b> Two diffusers cover where you sit and where you sleep.</span></li></ul>
+  <h3 class="hd sub-h">An example evening.</h3>
+  <p class="lede sub2">Move the times to fit yours.</p>
+  <div class="tl clock">
+    <div><div class="n">6:30 PM<i></i></div><b>You walk in. Press once.</b><p>Soft for a quiet night, fuller when you want more.</p></div>
+    <div><div class="n">6:40 PM<i></i></div><b>The room smells like the evening.</b><p>Corner to corner, up to 600 square feet. You breathe out, and the day stays outside.</p></div>
+    <div><div class="n">10:00 PM<i></i></div><b>It turns itself off.</b><p>Set the timer for 1, 3, 6 or 12 hours. The night light can stay on.</p></div>
   </div>
-  <div role="tabpanel" id="hw-p2" aria-labelledby="hw-t2" hidden>
-    <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
-    <div class="how">
-      <div><div class="pic"><img src="old/step1.webp" alt="Pouring the scent" loading="lazy"></div><div class="n">01<i></i></div><b>Pour it in.</b><p>Your 100 ml bottle of scent. No water, no measuring.</p></div>
-      <div><div class="pic"><img src="old/step2.webp" alt="Fitting the bottle into the diffuser" loading="lazy"></div><div class="n">02<i></i></div><b>Press once.</b><p>One button, three strengths. Soft for a quiet night, fuller when you want more.</p></div>
-      <div><div class="pic"><img src="old/step3.webp" alt="The diffuser running by a window" loading="lazy"></div><div class="n">03<i></i></div><b>Exhale.</b><p>About ten minutes to fill the room. Weeks before you think about it again.</p></div>
-    </div>
-    <ul class="ticks row3"><li>{{i:check}}<span><b>A warm night light.</b> Switch the glow on or off.</span></li><li>{{i:check}}<span><b>A timer.</b> 1, 3, 6 or 12 hours, then it stops on its own.</span></li><li>{{i:check}}<span><b>Two rooms.</b> Two diffusers cover where you sit and where you sleep.</span></li></ul>
+  <div class="fact">
+    <p><b>The honest part:</b> a scent does not put you to sleep, and we don’t claim it does. What it does is mark the moment the day ends. The same scent at the same time every evening becomes a cue. That last part is our idea, not a study.</p>
   </div>
   <button class="btn2" type="button" data-top>Build my kit {{i:arrow-right}}</button>
 </div></section>
 
 <section class="s"><div class="w">
-  <span class="lab sec-e">Seven scents, three moods</span>
+  <span class="lab sec-e">Seven scents</span>
   <h2 class="hd sec-h">Pick the evening you want.</h2>
   <p class="lede" style="color:var(--drift)">Every bottle is 100 ml of scent oil, built on three notes you can name. Not sure how they smell? Your first ones are free, and if you don’t love one we swap it, free.</p>
-  <div class="moods">
-    <div class="mood">
-      <div class="mt" style="background:var(--clay)"><span class="lab"><span>01 / 03</span><span>2 scents</span></span><div><h3>Unwind.</h3><p>For when you walk in with the day still in your head.</p></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>01</span><span>medium</span></span><h3>Golden Blossom Harmony.</h3><p class="nm">Honey Floral</p><p><i>Notes</i>Buttercup, honeysuckle &amp; sunflower.</p><button type="button" data-add="golden">Add this one {{i:arrow-right}}</button></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>02</span><span>medium</span></span><h3>Honey Nectar.</h3><p class="nm">Milk &amp; Honey</p><p><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey.</p><button type="button" data-add="honey">Add this one {{i:arrow-right}}</button></div></div>
-      <div class="pic fill"><img src="old/scents1.webp" alt="Maison Croyez scent boxes on a wooden table" loading="lazy"></div>
-    </div>
-    <div class="mood">
-      <div class="mt" style="background:var(--euca)"><span class="lab"><span>02 / 03</span><span>3 scents</span></span><div><h3>Be here.</h3><p>For the weekend, when the only plan is home.</p></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>03</span><span>soft</span></span><h3>Crisp Citrus Scape.</h3><p class="nm">Fresh Citrus</p><p><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress.</p><button type="button" data-add="crisp">Add this one {{i:arrow-right}}</button></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>04</span><span>medium</span></span><h3>Euphoric Bloom.</h3><p class="nm">Peach &amp; Tea</p><p><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème.</p><button type="button" data-add="euphoric">Add this one {{i:arrow-right}}</button></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>05</span><span>bold</span></span><h3>Wildwood Mystique.</h3><p class="nm">Pine Forest</p><p><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern.</p><button type="button" data-add="wildwood">Add this one {{i:arrow-right}}</button></div></div>
-    </div>
-    <div class="mood">
-      <div class="mt" style="background:var(--lav)"><span class="lab"><span>03 / 03</span><span>2 scents</span></span><div><h3>Drift off.</h3><p>For the bedroom, in the hour before bed.</p></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>06</span><span>soft</span></span><h3>Chilled Citrus.</h3><p class="nm">Lavender</p><p><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus.</p><button type="button" data-add="chilled">Add this one {{i:arrow-right}}</button></div></div>
-      <div class="sc"><div class="pic"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>07</span><span>bold</span></span><h3>Midnight Sensation.</h3><p class="nm">Floral Musk</p><p><i>Notes</i>Moonflower, night lily &amp; skin musk.</p><button type="button" data-add="midnight">Add this one {{i:arrow-right}}</button></div></div>
-      <div class="sc pickme"><div class="bd"><span class="lab"><span>Not sure</span><span>Start here</span></span><h3>Can’t decide?</h3><p>Take our best sellers.</p><button type="button" id="trio2">Pick for me {{i:arrow-right}}</button></div></div>
-    </div>
+  <div class="sflat">
+    <div class="sc"><div class="pic"><img src="old/pick-golden.webp" alt="Golden Blossom Harmony" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>01</span><span>medium</span></span><h3>Golden Blossom Harmony.</h3><p class="nm">Honey Floral</p><p><i>Notes</i>Buttercup, honeysuckle &amp; sunflower.</p><button type="button" data-add="golden">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-honey.webp" alt="Honey Nectar" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>02</span><span>medium</span></span><h3>Honey Nectar.</h3><p class="nm">Milk &amp; Honey</p><p><i>Notes</i>Ginger milk, white birch &amp; eucalyptus honey.</p><button type="button" data-add="honey">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-crisp.webp" alt="Crisp Citrus Scape" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>03</span><span>soft</span></span><h3>Crisp Citrus Scape.</h3><p class="nm">Fresh Citrus</p><p><i>Notes</i>Yuzu leaf, green mandarin &amp; cypress.</p><button type="button" data-add="crisp">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-euphoric.webp" alt="Euphoric Bloom" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>04</span><span>medium</span></span><h3>Euphoric Bloom.</h3><p class="nm">Peach &amp; Tea</p><p><i>Notes</i>Jasmine tea, white peach &amp; sandalwood crème.</p><button type="button" data-add="euphoric">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>05</span><span>bold</span></span><h3>Wildwood Mystique.</h3><p class="nm">Pine Forest</p><p><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern.</p><button type="button" data-add="wildwood">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>06</span><span>soft</span></span><h3>Chilled Citrus.</h3><p class="nm">Lavender</p><p><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus.</p><button type="button" data-add="chilled">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc"><div class="pic"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="bd"><span class="lab"><span>07</span><span>bold</span></span><h3>Midnight Sensation.</h3><p class="nm">Floral Musk</p><p><i>Notes</i>Moonflower, night lily &amp; skin musk.</p><button type="button" data-add="midnight">Add this one {{i:arrow-right}}</button></div></div>
+    <div class="sc pickme"><div class="bd"><span class="lab"><span>Not sure</span><span>Start here</span></span><h3>Can’t decide?</h3><p>Take our best sellers.</p><button type="button" id="trio2">Pick for me {{i:arrow-right}}</button></div></div>
   </div>
-  <p class="swipe">Swipe each row</p>
 </div></section>
 
 <section class="s sand"><div class="w">
@@ -743,15 +727,7 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
   <span class="lab sec-e">Reviews</span>
   <h2 class="hd sec-h">What customers told us.</h2>
   <p class="lede" style="color:var(--drift)">Verified buyers. Lightly trimmed for length.</p>
-  <div class="proof kit">
-    <div class="rating"><span class="big">4.7</span><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><p>out of 5 | 124 reviews</p></div>
-    <div class="vids">
-      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
-      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
-      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
-      <div class="vid">{{i:play}}<span class="lab">Video slot</span></div>
-    </div>
-  </div>
+  <div class="rating wide"><span class="big">4.7</span><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><p>out of 5 | 124 reviews</p></div>
   <div class="quotes" id="quotes">
     <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</blockquote><div class="who">Verified buyer<span>Customer survey | bought it for safety and no mold</span></div></div>
     <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</blockquote><div class="who">Verified buyer<span>Customer survey | lives in an apartment</span></div></div>
@@ -761,16 +737,6 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
     <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just plug it in and go. The fragrance will be sent out on its own. I love it. Going to purchase 5 additional ones for Xmas gifts.”</blockquote><div class="who">Verified buyer<span>Customer survey | switched from sprays, plug-ins and candles</span></div></div>
   </div>
   <p class="swipe">Swipe for more</p>
-</div></section>
-
-<section class="s sand"><div class="w">
-  <span class="lab sec-e">Pairs well with</span>
-  <h2 class="hd sec-h">Complete the evening.</h2>
-  <div class="also three">
-    <a data-soon><div class="pic"><img src="img/also-soak.webp" alt="The Maison Croyez magnesium bath soak in three scents" loading="lazy"></div><div class="tx"><span class="lab">The long bath</span><b>Magnesium bath soak</b><p>Run the water, pour it in, exhale.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
-    <a data-soon><div class="pic"><img src="img/also-steamers.webp" alt="The Maison Croyez shower steamers in three scents" loading="lazy"></div><div class="tx"><span class="lab">No bath tonight</span><b>Shower steamers</b><p>For the nights there is only time for a shower.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
-    <a data-soon><div class="pic"><img src="img/also-spray.webp" alt="The Maison Croyez magnesium body spray in three scents" loading="lazy"></div><div class="tx"><span class="lab">Before bed</span><b>Magnesium body spray</b><p>The last step of the evening.</p><span class="go">See it {{i:arrow-right}}</span></div></a>
-  </div>
 </div></section>
 
 <section class="s"><div class="w">
@@ -829,6 +795,9 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
     $('#stick-sum').textContent=pl(need,'diffuser')+' + '+pl(need,'free scent')+' · '+money(total);
     $$('#stick .stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===need))});
     $('#stick-go').textContent=(left>0?'Pick your scents · ':'Checkout · ')+money(total);
+    $('#charge').textContent='Today you pay '+money(total)+' for your '+(need>1?need+' diffusers':'diffuser')+'. '+(need>1?'Your '+need+' scents are free.':'Your scent is free.')+' '+
+      (sub?'With refills every '+st.freq+' weeks, '+(need>1?'they come':'it comes')+' again for '+money(need*REFILL)+' a delivery ($'+REFILL+' a scent instead of $'+LIST+'), and we email you before every charge. Skip, swap or cancel any time.'
+          :'You picked no refills, so nothing renews.');
   }
   $$('#diffs .cardb').forEach(function(b){b.addEventListener('click',function(){st.diff=+b.dataset.n;trim();render()})});
   $$('#scents .row').forEach(function(r){var k=r.dataset.k;

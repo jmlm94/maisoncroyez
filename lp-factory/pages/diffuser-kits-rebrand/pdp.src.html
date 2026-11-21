@@ -492,6 +492,20 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
 .each1{justify-content:center;width:100%;text-align:center}
 .swapn{justify-content:center;text-align:center}
 .cta{margin-top:22px}
+/* creator photos under the main picture: square tiles, swipe or arrows */
+.ugc{margin-top:16px;min-width:0}
+.ugc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.ugc-h b{font:700 18px/1.2 var(--f);letter-spacing:-.015em}
+.ugc-n{display:flex;gap:6px;flex:none}
+.ugc-n button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--stone);background:transparent;color:inherit;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;padding:0}
+.ugc-n button:first-child .ic{transform:rotate(180deg)}
+.ugc-t{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:10px}
+.ugc-t::-webkit-scrollbar{display:none}
+.ugc-t img{flex:0 0 calc((100% - 32px)/5);width:calc((100% - 32px)/5);max-width:none;height:auto;aspect-ratio:1;object-fit:cover;border-radius:10px;scroll-snap-align:start;background:var(--sand)}
+@media (max-width:860px){.ugc{padding-left:clamp(16px,4vw,48px)}.ugc-h{padding-right:clamp(16px,4vw,48px)}
+  .ugc-t{border-radius:10px 0 0 10px;padding-right:16px;scroll-padding-left:0}.ugc-t img{flex-basis:29%;width:29%}}
+/* the left column is taller now: only pin it where the whole column fits on screen */
+@media (min-width:861px) and (max-height:899px){.gal{position:static}}
 </style>
 
 <!--SYMBOLS-->
@@ -526,6 +540,21 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
       <div class="slide"><img src="img/slide-5.webp" alt="Love it in 30 days, or every dollar back." loading="lazy" width="1080" height="1080"></div>
     </div>
     <div class="gnav"><button class="gbtn prev" type="button" id="g-prev" aria-label="Previous picture">{{i:arrow-right}}</button><div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="gbtn next" type="button" id="g-next" aria-label="Next picture">{{i:arrow-right}}</button></div>
+    <div class="ugc">
+      <div class="ugc-h"><b>Loved in thousands of homes.</b><span class="ugc-n"><button type="button" id="ugc-prev" aria-label="Earlier photos">{{i:arrow-right}}</button><button type="button" id="ugc-next" aria-label="More photos">{{i:arrow-right}}</button></span></div>
+      <div class="ugc-t" id="ugc" tabindex="0" role="group" aria-label="Photos of people at home with their Maison Croyez diffuser">
+      <img src="img/ugc-01.webp" alt="A woman smiling beside her lit diffuser on the kitchen counter" loading="lazy" width="720" height="720">
+      <img src="img/ugc-02.webp" alt="A woman waving, her diffuser glowing on the shelf behind her" loading="lazy" width="720" height="720">
+      <img src="img/ugc-03.webp" alt="A woman showing her diffuser on the dining table" loading="lazy" width="720" height="720">
+      <img src="img/ugc-04.webp" alt="A woman on the sofa, her diffuser glowing on the side table" loading="lazy" width="720" height="720">
+      <img src="img/ugc-05.webp" alt="A woman holding her diffuser up to the camera" loading="lazy" width="720" height="720">
+      <img src="img/ugc-06.webp" alt="A woman pointing at the diffuser on her bedside table" loading="lazy" width="720" height="720">
+      <img src="img/ugc-07.webp" alt="A woman holding her diffuser up at home" loading="lazy" width="720" height="720">
+      <img src="img/ugc-08.webp" alt="A woman surprised, her diffuser glowing on the table behind her" loading="lazy" width="720" height="720">
+      <img src="img/ugc-09.webp" alt="A woman in pajamas with a scent bottle, her diffuser lit on the nightstand" loading="lazy" width="720" height="720">
+      <img src="img/ugc-10.webp" alt="A woman in her kitchen, the diffuser glowing on the counter" loading="lazy" width="720" height="720">
+      </div>
+    </div>
   </div>
 
   <div>
@@ -835,6 +864,7 @@ h1.hd span.h1b{display:block;font-size:1em;font-weight:700;letter-spacing:inheri
   var track=$('#track'),dots=$$('#dots i');
   function idx(){return Math.round(track.scrollLeft/track.clientWidth)}
   function slide(i){var n=dots.length;i=(i+n)%n;track.scrollTo({left:i*track.clientWidth,behavior:'smooth'})}
+  $('#ugc-prev').addEventListener('click',function(){var u=$('#ugc');u.scrollBy({left:-u.clientWidth*.8,behavior:'smooth'})});$('#ugc-next').addEventListener('click',function(){var u=$('#ugc');u.scrollBy({left:u.clientWidth*.8,behavior:'smooth'})});
   $('#g-prev').addEventListener('click',function(){slide(idx()-1)});$('#g-next').addEventListener('click',function(){slide(idx()+1)});
   track.addEventListener('scroll',function(){var i=idx();dots.forEach(function(d,j){d.className=j===i?'on':''})},{passive:true});
   /* the hero video: muted loop; if the browser holds it back, the first tap starts it */

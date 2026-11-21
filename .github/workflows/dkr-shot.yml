@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 4: log what the cart requests answer
 # run note 3: cart ids read from store/ids.json
 # run note 2: our own top bar, the theme's announcement bar hidden, sticky button centered
 on:
@@ -64,8 +65,9 @@ jobs:
                     /* the same request the button makes, without leaving for the checkout */
                     const cart = await pg.evaluate(async (CFG) => { const picks = {}; document.querySelectorAll('#scents .row').forEach((r) => { picks[r.dataset.k] = +r.querySelector('output').textContent; });
                       const n = +document.querySelector('#diffs .cardb[aria-pressed="true"]').dataset.n; const items = [{ id: CFG.kit[n], quantity: 1 }]; Object.keys(picks).forEach((k) => { if (picks[k]) items.push({ id: CFG.scent[k], quantity: picks[k] }); });
-                      const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items }) }); const c = await (await fetch('/cart.js')).json();
-                      return { addStatus: add.status, total: c.total_price / 100, discount: c.total_discount / 100, lines: c.items.map((l) => ({ t: l.product_title + ' / ' + l.variant_title, q: l.quantity, price: l.price / 100, line: l.final_line_price / 100, disc: (l.discounts || []).map((x) => x.title) })) }; }, IDS).catch((e) => ({ error: String(e).slice(0, 200) }));
+                      const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items }) }); const addT = await add.text();
+                      const cr = await fetch('/cart.js', { headers: { Accept: 'application/json' } }); const crT = await cr.text(); let c; try { c = JSON.parse(crT); } catch (e) { return { addStatus: add.status, addUrl: add.url, addType: add.headers.get('content-type'), addBody: addT.slice(0, 300), cartStatus: cr.status, cartUrl: cr.url, cartBody: crT.replace(/\s+/g, ' ').slice(0, 300), items }; }
+                      return { addStatus: add.status, addBody: add.ok ? '' : addT.slice(0, 300), total: c.total_price / 100, discount: c.total_discount / 100, lines: c.items.map((l) => ({ t: l.product_title + ' / ' + l.variant_title, q: l.quantity, price: l.price / 100, line: l.final_line_price / 100, disc: (l.discounts || []).map((x) => x.title) })) }; }, IDS).catch((e) => ({ error: String(e).slice(0, 200) }));
                     v.carts.push({ diffusers: d, label, cart });
                   }
                   await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });

@@ -105,3 +105,8 @@ Done in the preview (artifact version 20). Deployed on his "push live": fileUpda
 
 2026-11-22, round 16 (alignment pass, label above the headline deleted): preview only (artifact version 21). Store files
 built with key dkr8-align and committed, NOT deployed; the live page is still dkr7-shoot19 until the owner says to push.
+
+2026-11-22, rounds 16 + 17 (alignment pass, six comments, "100 ml" on the scent tiles): owner said "push live". Store files
+built with key dkr9-comments and committed @ d311802a, NOT deployed: the Shopify connector refused twice with "needs you
+to sign in again". The live page is still dkr7-shoot19. When he is signed in: confirm the shop is Maison Croyez, fileUpdate
+css + js from raw @ d311802a (or later), pageUpdate with store/page-body.html, then the dkr-shot run.

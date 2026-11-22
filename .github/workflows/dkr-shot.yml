@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 17: the buy-box test presses the main button (the sticky one only scrolls since round 19)
 # run note 16: round 19 live (key dkr17-buildkit): sticky Build my kit scrolls to step 1, main button straight to checkout
 # run note 15: round 18 live (key dkr16-stick): sticky pill, straight to checkout from the sticky button with nothing picked
 # run note 14: refills wired (first delivery free, then $29.95); the real button with and without refills
@@ -88,10 +89,10 @@ jobs:
                     for (let i = 0; i < d; i++) rows[i === 2 ? 0 : i * 3].querySelector('.inc').click();   /* golden, euphoric, then golden again */
                     const full = rows.every((x) => x.querySelector('.inc').disabled);
                     return { before, after: [T($('#cta')), $('#cta').disabled, T($('#stick-go')), T($('#count'))], full, charge: $('#charge').textContent.slice(0, 90) }; }, d);
-                  await q(() => document.querySelector('#stick-go').click()); await pg.waitForTimeout(1600);
+                  await q(() => document.querySelector('#cta').click()); await pg.waitForTimeout(1600);
                   const want = [{ id: IDS.kit[d], quantity: 1 }].concat(d === 1 ? [{ id: IDS.scent.golden, quantity: 1 }] : d === 2 ? [{ id: IDS.scent.golden, quantity: 1 }, { id: IDS.scent.euphoric, quantity: 1 }] : [{ id: IDS.scent.golden, quantity: 2 }, { id: IDS.scent.euphoric, quantity: 1 }]);
                   if (IDS.plans) want.slice(1).forEach((x) => { x.selling_plan = IDS.plans[30]; }); const got = sent && sent.items ? sent.items : null; const key = (a) => JSON.stringify((a || []).map((x) => [x.id, x.quantity, x.selling_plan || 0]).sort());
-                  v.t2.push({ kit: d, ...r, priceOk: r.after[0].includes('$' + PRICE[d]) && r.after[2].includes('$' + PRICE[d]), sentOk: key(got) === key(want), sent: got, wentTo });
+                  v.t2.push({ kit: d, ...r, priceOk: r.after[0].includes('$' + PRICE[d]), sentOk: key(got) === key(want), sent: got, wentTo });
                 }
                 await pg.unrouteAll({ behavior: 'ignoreErrors' });
                 /* ---- test 3 (phone only): the real store, the real button: 2 diffusers + best sellers, first with no refills, then with refills every 30 days ---- */

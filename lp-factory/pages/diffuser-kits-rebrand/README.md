@@ -424,3 +424,5 @@ Store files built as dkr9-comments, not deployed: the Shopify connector asked fo
 
 Round 17b: the owner chose "100 ml on each tile" for the size comment; each of the seven step 2 tiles now carries a small
 "100 ml" line under its scent family. Store build dkr9-comments rebuilt with it.
+
+Round 17c: headline 15% smaller on his word (32 px on a phone, 43.5 px on a 1440 desktop). Store build dkr10-h1.

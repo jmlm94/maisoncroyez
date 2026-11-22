@@ -126,3 +126,11 @@ version 28). Deployed 14:54:17Z: fileUpdate css + js from raw @ 703523e2, pageUp
 Every change to this page goes to the live test page (/pages/diffuser-kits-2) in the same turn: preview, store build,
 commit, fileUpdate, pageUpdate, dkr-shot run. Still check that the connected shop is Maison Croyez before every write.
 This covers this page only; Subi, Postscript, upsell settings and the live theme stay off-limits.
+
+## Refills wired (2026-11-22)
+
+The owner changed the Subi group "04/10 Sub for Offer #2 and #3" (SellingPlanGroup 5188911213, 7 scent products): each plan
+now takes $39.95 off the first payment (first delivery free) and $10 off after cycle 1 ($29.95). Checked through the Admin
+API. ids.json plans = 30: 7883817069, 60: 7883849837, 90: 7883882605. Step 3 shows on the store, labels say "of 3", scent
+lines carry the chosen plan (none with "No refills"). Deployed 15:06:55Z: fileUpdate css + js from raw @ 7d43c0da,
+pageUpdate, key dkr15-refills. Note: that group is also what the older offers use, so their first scent is free now too.

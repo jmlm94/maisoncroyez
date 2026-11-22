@@ -664,6 +664,10 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
 .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .bar{text-wrap:balance}
 @media (max-width:640px){.bar{font-size:11px;letter-spacing:.1em;padding:9px 16px}}
+/* round 19: "Build my kit" with its arrow, centered; step 1 lands just under the top of the screen */
+.stick .stick-go{display:flex;align-items:center;justify-content:center;gap:8px}
+.stick .stick-go .ic{font-size:19px;flex:none}
+#step1{scroll-margin-top:20px}
 </style>
 
 <!--SYMBOLS-->
@@ -718,7 +722,7 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
     </ul>
 
     <div class="step">
-      <div class="step-h"><span class="lab">Step 1 of 3</span><h2 class="hd">How many diffusers?</h2></div>
+      <div class="step-h" id="step1"><span class="lab">Step 1 of 3</span><h2 class="hd">How many diffusers?</h2></div>
       <div class="cards" id="diffs">
         <button class="cardb" type="button" data-n="1" aria-pressed="false"><b>1 diffuser</b><span class="p">$89</span><span class="each">$89.00 each</span><span class="free">+ 1 free scent</span><span class="cov"><b>600 sq ft</b><small>coverage</small></span></button>
         <button class="cardb" type="button" data-n="2" aria-pressed="true"><span class="tag">Most popular</span><b>2 diffusers</b><span class="p">$159<span class="was">$178</span></span><span class="each">$79.50 each</span><span class="free">+ 2 free scents</span><span class="cov"><b>1,200 sq ft</b><small>coverage</small></span></button>
@@ -902,7 +906,7 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
     <span class="ft-pay" aria-label="Payment methods"><i>AMEX</i><i>Apple Pay</i><i>Diners</i><i>Discover</i><i>G Pay</i><i>Mastercard</i><i>Shop</i><i>VISA</i></span></div>
 </div></footer>
 
-<div class="stick on" id="stick"><div class="stick-in"><div class="stick-n"><b>Diffuser kit</b><span id="stick-sum">2 diffusers + 2 free scents — $159</span></div><div class="stick-sw" role="group" aria-label="How many diffusers"><span class="lab">Diffusers</span><button type="button" data-n="1" aria-pressed="false">1</button><button type="button" data-n="2" aria-pressed="true">2</button><button type="button" data-n="3" aria-pressed="false">3</button></div><button type="button" class="stick-go" id="stick-go">Checkout — $159</button></div></div>
+<div class="stick on" id="stick"><div class="stick-in"><div class="stick-n"><b>Diffuser kit</b><span id="stick-sum">2 diffusers + 2 free scents — $159</span></div><div class="stick-sw" role="group" aria-label="How many diffusers"><span class="lab">Diffusers</span><button type="button" data-n="1" aria-pressed="false">1</button><button type="button" data-n="2" aria-pressed="true">2</button><button type="button" data-n="3" aria-pressed="false">3</button></div><button type="button" class="stick-go" id="stick-go">Build my kit {{i:arrow-right}}</button></div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
 
 <script>
@@ -934,7 +938,6 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
     $('#cta-amt').textContent=money(total);
     $('#stick-sum').textContent=pl(need,'diffuser')+' + '+pl(need,'free scent')+' — '+money(total);
     $$('#stick .stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===need))});
-    $('#stick-go').textContent='Checkout — '+money(total);
     $('#charge').textContent='Today you pay '+money(total)+' for your '+(need>1?need+' diffusers':'diffuser')+'. '+(need>1?'Your '+need+' scents are free.':'Your scent is free.')+' '+
       (sub?'With refills every '+st.freq+' days, '+(need>1?'they come':'it comes')+' again for '+money(need*REFILL)+' a delivery ('+money(REFILL)+' a scent instead of '+money(LIST)+'), and we email you before every charge. Skip, swap or cancel any time.'
           :'You picked no refills, so nothing renews.');
@@ -946,7 +949,7 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
   });
   $$('#freqs .qtyb').forEach(function(b){b.addEventListener('click',function(){st.freq=+b.dataset.f;render()})});
   $$('#stick .stick-sw button').forEach(function(b){b.addEventListener('click',function(){st.diff=+b.dataset.n;trim();render()})});
-  $('#stick-go').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});
+  $('#stick-go').addEventListener('click',function(){go('step1')}); /* round 19: the sticky button takes people to step 1 */
   $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
   /* tabs: the four evenings, and what to expect / how to use it */
   $$('[role="tablist"]').forEach(function(list){var tabs=[].slice.call(list.querySelectorAll('[role="tab"]'));

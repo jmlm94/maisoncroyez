@@ -450,3 +450,10 @@ not deployed.
   with the best sellers (Midnight Sensation, Golden Blossom, Crisp Citrus, in that order), then the cart and checkout.
   The step 2 picker and the best-sellers tile stay for people who want to choose.
 Store build dkr16-stick.
+
+## Round 19 (2026-11-22)
+
+Owner: "change the button to build my kit -> and we scroll them up to the diffusers section". The sticky pill reads
+"Build my kit" with an arrow and scrolls to step 1 (How many diffusers?, id step1; 96 px margin on the store for the
+theme header). It no longer adds anything to the cart. The main button in the buy box still goes straight to checkout
+(empty scent slots topped up with the best sellers). Store build dkr17-buildkit.

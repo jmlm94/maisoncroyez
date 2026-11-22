@@ -770,7 +770,11 @@ color-scheme:light;
 @media (max-width:640px){
 #mcr .bar{font-size:11px;letter-spacing:.1em;padding:9px 16px}
 }
+#mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;gap:8px}
+#mcr .stick .stick-go .ic{font-size:19px;flex:none}
+#mcr #step1{scroll-margin-top:20px}
 #mcr .stick{z-index:60}
+#mcr #step1{scroll-margin-top:96px}
 #mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}
 #mcr .bar{width:100%}
 #mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}

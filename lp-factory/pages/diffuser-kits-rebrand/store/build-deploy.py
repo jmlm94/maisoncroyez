@@ -77,14 +77,13 @@ FONTS = ''.join('@font-face{font-family:"%s";font-style:normal;font-weight:%s;fo
     ('DM Sans', '400', B, 'dm-400'), ('DM Sans', '500', B, 'dm-500'), ('DM Sans', '600', B, 'dm-600'), ('DM Sans', '700 800', B, 'dm-700'),
     ('Roboto Mono', '400 500', B, 'mono-500'), ('Roboto Mono', '600 700', B, 'mono-600')])
 LAZY = '#mcr main>section{content-visibility:auto;contain-intrinsic-size:auto 900px}\n'
-css = FONTS + RESET + LAZY + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}\n#mcr .bar{width:100%}\n#mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}\n'
+css = FONTS + RESET + LAZY + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr #step1{scroll-margin-top:96px}\n#mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}\n#mcr .bar{width:100%}\n#mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}\n'
 open(os.path.join(D, 'mc-dkr.css'), 'w', encoding='utf-8').write(css)
 
 # ---- the script: the page's own, with the real cart ----
 a = "  $('#cta').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});\n"; assert js.count(a) == 1
 js = js.replace(a, "  $('#cta').addEventListener('click',function(){checkout()});\n")
-a = "$('#stick-go').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});"; assert js.count(a) == 1
-js = js.replace(a, "$('#stick-go').addEventListener('click',function(){checkout()});")
+# round 19: the sticky button only scrolls to step 1 (no cart), so the page's own handler stays as it is
 a = "  render();\n})();"; assert js.count(a) == 1
 CART = r'''
   /* ---- the store: one kit variant + the picked scents (on the refill plan, or one-time) -> /cart/add.js -> checkout.

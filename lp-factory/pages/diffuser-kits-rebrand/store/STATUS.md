@@ -92,3 +92,10 @@ Nine new files, mc-dkr-g2-00..08.webp (MediaImage 47043818193005, ...225773, ...
 ...389613, ...422381, ...455149), uploaded from img/g-0N.webp @ 088d3695. New names (g2) so no cached old picture can be
 served; build-deploy.py maps img/g-0N.webp -> mc-dkr-g2-0N.webp. fileUpdate css + js from raw @ dc45de80, pageUpdate
 00:52:52Z, key dkr6-g2shoot. The nine old mc-dkr-g-0N.webp files are still in Files, unused (delete when he is happy).
+
+## Five more photos in Files (2026-11-22, owner: "compress and reduce size to 800x800 and upload them in Shopify")
+
+mc-shoot-19-entry-keys.webp (MediaImage 47044202889325), mc-shoot-20-three-scent-boxes.webp (47044202922093),
+mc-shoot-21-side-table-mug.webp (47044202954861), mc-shoot-22-sofa-dog.webp (47044202987629),
+mc-shoot-23-desk-journal.webp (47044203020397). 800 x 800, 31-46 KB each, from gallery/shoot-800 @ 6b8ad70a. Not used on
+the page; he will say which pictures to switch.

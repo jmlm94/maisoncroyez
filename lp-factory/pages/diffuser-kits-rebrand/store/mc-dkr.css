@@ -685,6 +685,64 @@ color-scheme:light;
 #mcr .night .ticks{justify-items:center;max-width:44em;margin-inline:auto}
 #mcr .night .ticks li{justify-content:center;text-align:center}
 #mcr .fnd-h{font-size:clamp(22px,2.6vw,30px);margin:0 0 14px}
+#mcr{--gh:clamp(24px,3.4vw,44px)}
+#mcr .s.tight{padding-block:clamp(52px,7vw,104px)}
+#mcr .s.tight .sec-h{font-size:clamp(32px,4.8vw,58px)}
+#mcr .s.tight .lede{font-size:clamp(17px,1.6vw,19px);margin-top:14px}
+#mcr .feel,#mcr .how,#mcr .smini,#mcr .faq,#mcr .fnd,#mcr .rating.wide,#mcr .pic.wide{margin-top:var(--gh)}
+@supports (grid-template-rows:subgrid){
+#mcr .row{grid-row:span 4;grid-template-rows:subgrid;grid-template-areas:"ph tx" "st st" "m1 m1" "m2 m2";row-gap:8px}
+#mcr .row .ph,#mcr .row .tx{align-self:center}
+#mcr .row .more{display:contents}
+#mcr .row .more span:first-child{grid-area:m1;border-top:1px solid var(--sand);padding-top:8px}
+#mcr .row .more span:last-child{grid-area:m2}
+#mcr .row .more span{align-self:start}
+#mcr .rows>.each1{grid-row:span 4}
+#mcr .fc{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0}
+}
+#mcr .rows>.each1{margin:0;width:auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px 14px;border:1.5px dashed var(--ink);border-radius:12px;background:rgba(97,105,223,.07);text-decoration:none;text-align:center;font-size:16px;line-height:1.25;letter-spacing:-.01em;text-wrap:balance}
+#mcr .rows>.each1 .ic{font-size:20px}
+#mcr .rows>.each1.done{border-style:solid;border-color:var(--stone);background:var(--paper);color:var(--drift);cursor:default}
+#mcr .rows>.each1.done .ic{display:none}
+#mcr .swapn{display:block;text-align:center}
+#mcr .swapn .ic{display:inline-block;vertical-align:-3px}
+#mcr .swapn .ic + span{margin-left:7px}
+#mcr .how>div{grid-template-rows:auto auto 1fr}
+#mcr .smini{grid-auto-rows:1fr}
+@media (max-width:860px){
+#mcr .smini>div.sm{grid-template-rows:auto 1fr}
+#mcr .smini>div.sm>div{display:flex;flex-direction:column;height:100%}
+#mcr .smini>div.sm>div span{margin-top:auto;padding-top:3px}
+}
+#mcr .night .ticks{justify-items:start;width:fit-content;max-width:min(40em,100%);margin-inline:auto}
+#mcr .night .ticks li{justify-content:flex-start;text-align:left}
+@media (min-width:901px){
+#mcr .quotes{grid-auto-rows:1fr}
+}
+#mcr .q .who span{min-height:33px}
+#mcr footer{background:#282828;color:#fff;padding-block:clamp(44px,5vw,64px) 40px;font-size:15px}
+#mcr .ft-top{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.55fr) minmax(0,.9fr) minmax(0,1fr);gap:32px clamp(24px,5vw,72px);align-items:start}
+#mcr .ft-news{align-self:center}
+#mcr .ft-news h2{font-weight:500;font-size:28px;letter-spacing:-.01em;margin:0}
+#mcr footer p{color:#E1E1E1;font-size:14.5px;margin-top:18px;max-width:30em}
+#mcr .ft-form{display:flex;align-items:center;border:1px solid rgba(255,255,255,.28);margin-top:22px;max-width:400px;padding:0 14px 0 20px;height:60px}
+#mcr .ft-form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:400 14.5px var(--f)}
+#mcr .ft-form input::placeholder{color:#BDBDBD}
+#mcr .ft-form button{flex:none;width:26px;height:26px;border-radius:50%;border:0;background:#4A4A4A;color:#fff;display:grid;place-items:center;font-size:13px}
+#mcr .ft-col{display:grid;gap:15px;align-content:start}
+#mcr .ft-col b{display:block;font-size:14.5px;font-weight:700;letter-spacing:0;margin-bottom:12px}
+#mcr .ft-col a{color:#E1E1E1;font-size:14.5px;text-decoration:none}
+#mcr .ft-soc{display:flex;gap:28px;margin-top:44px}
+#mcr .ft-soc svg{width:26px;height:26px}
+#mcr .ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;margin-top:44px;color:#E1E1E1;font-size:13.5px}
+#mcr .ft-pay{display:flex;flex-wrap:wrap;gap:8px}
+#mcr .ft-pay i{font:700 9.5px/24px var(--f);font-style:normal;height:24px;min-width:38px;padding:0 6px;border-radius:4px;background:#fff;color:#1E1611;text-align:center;letter-spacing:.02em}
+@media (max-width:760px){
+#mcr .ft-top{grid-template-columns:repeat(2,minmax(0,1fr))}
+#mcr .ft-news{grid-column:1 / -1}
+#mcr .ft-form{max-width:none}
+#mcr .ft-bot{flex-direction:column-reverse;align-items:flex-start}
+}
 #mcr .stick{z-index:60}
 #mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}
 #mcr .bar{width:100%}

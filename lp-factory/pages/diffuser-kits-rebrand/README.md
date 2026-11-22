@@ -392,3 +392,22 @@ gallery/shoot-800/ (the ones uploaded to the store's Files as mc-shoot-NN-<name>
 Not used on the page yet: he will say which pictures to switch. To check before use: the small print on the bottle in
 19 and on the box and bottle in 23 is not the real label text (19: "FIMIIICATION", "3 Sulss"; 23: "100 ml | 2.56oz",
 misspelled notes). 20 reads correctly.
+
+## Round 16: alignment pass, site footer (2026-11-22)
+
+Owner: "make sure all sections are symmetric in terms of size", "make the footer the one that appears on the site", and
+a comment: delete the "Maison Croyez waterless diffuser & scents" label above the headline.
+Measured with scratchpad sym/audit.js (per section: padding, title size, space under the title, grid items) on 390 and 1440.
+- One title size for every section (32 px phone / 58 px desktop): the founder note (was 22 / 30, now a normal title above
+  the photo and quote) and the scents section (was 26 / 36). One section padding (52 / 101; the scents section was 30 / 52).
+  One space under a title before the first block (--gh, 24 / 44; was 8 to 44).
+- Step 2: name, - 0 +, "smells like" and "notes" sit on the same lines in both tiles of a row (subgrid). The seventh tile
+  no longer sits next to an empty slot: "Can't decide? Take our best sellers." is the eighth tile (it stays, greyed, as
+  "Best sellers picked." once used). The swap line's icon sits with its text.
+- Day-to-evening cards: titles and paragraphs line up across a row. 1, 2, 3: the three step titles sit on one line.
+- Small scent tiles: equal rows; on a phone the note line sits at the bottom of every tile.
+- Promise: the four lines are one centered block with the checks in one column. Reviews: equal cards, names on one line.
+- Preview footer copies the store's footer (newsletter, two link columns, social, payment marks). The store build drops
+  it; the theme's own footer shows there.
+- Store build: handles @supports; the white strip between the page and the theme footer is closed (bottom margin and
+  padding of the theme's page wrapper set to 0). Built as dkr8-align, NOT deployed.

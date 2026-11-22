@@ -46,12 +46,12 @@ json.dump([{'repo': p, 'file': name(p)} for p in pics], open(os.path.join(D, 'fi
 
 # ---- the styles under #mcr ----
 css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
-css = re.sub(r'\}', '}\n', css); css = re.sub(r'(@media[^{]*\{)', r'\1\n', css)
+css = re.sub(r'\}', '}\n', css); css = re.sub(r'(@(?:media|supports)[^{]*\{)', r'\1\n', css)
 out = []
 for ln in css.split('\n'):
     t = ln.strip()
     if not t: continue
-    if t.startswith('@media') or t == '}': out.append(t); continue
+    if t.startswith('@media') or t.startswith('@supports') or t == '}': out.append(t); continue
     assert not t.startswith('@'), t[:60]
     if '{' not in t: out.append(t); continue        # a continuation line inside a declaration block
     sel, rest = t.split('{', 1)
@@ -130,7 +130,7 @@ HOLD = open(os.path.join(D, 'third-party-hold.html'), encoding='utf-8').read()  
 G0 = B + 'mc-dkr-g2-00.webp'
 bar = re.search(r'<div class="bar">.*?</div>', body, re.S).group(0)
 hero = re.search(r'<img [^>]*mc-dkr-g2-00\.webp[^>]*>', body).group(0).replace('<img ', '<img id="mcr-hero" ', 1)
-page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:none}.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}'
+page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:none}.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;padding-top:0 !important;border-top:0 !important;margin-bottom:0 !important;padding-bottom:0 !important}'
         '.shopify-section--announcement-bar,.announcement-bar{display:none !important}#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;background:#F9F6EE}</style>\n'
         '<link rel="preload" as="image" fetchpriority="high" href="@G@?width=900" imagesrcset="@G@?width=600 600w, @G@?width=900 900w, @G@?width=1400 1400w" imagesizes="(max-width:860px) 100vw, 640px">\n'
         '<link rel="stylesheet" href="@B@mc-dkr.css?v=@K@">\n'

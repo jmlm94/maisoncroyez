@@ -102,3 +102,6 @@ the page; he will say which pictures to switch.
 
 2026-11-22, comment on the preview: first "day to evening" card photo -> mc-shoot-19-entry-keys.webp (already in Files).
 Done in the preview (artifact version 20). Deployed on his "push live": fileUpdate css + js from raw @ 1e89063c, pageUpdate 02:31:17Z, key dkr7-shoot19.
+
+2026-11-22, round 16 (alignment pass, label above the headline deleted): preview only (artifact version 21). Store files
+built with key dkr8-align and committed, NOT deployed; the live page is still dkr7-shoot19 until the owner says to push.

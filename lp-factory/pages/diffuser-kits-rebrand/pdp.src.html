@@ -589,6 +589,60 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
 .night .ticks li{justify-content:center;text-align:center}
 /* the founder's note */
 .fnd-h{font-size:clamp(22px,2.6vw,30px);margin:0 0 14px}
+/* round 16: every section title one size, one space under it, one section padding; cards line up inside their rows */
+:root{--gh:clamp(24px,3.4vw,44px)}
+.s.tight{padding-block:clamp(52px,7vw,104px)}
+.s.tight .sec-h{font-size:clamp(32px,4.8vw,58px)}
+.s.tight .lede{font-size:clamp(17px,1.6vw,19px);margin-top:14px}
+.feel,.how,.smini,.faq,.fnd,.rating.wide,.pic.wide{margin-top:var(--gh)}
+/* step 2: the name, the - 0 + and the two notes sit on the same lines in both tiles of a row */
+@supports (grid-template-rows:subgrid){
+  .row{grid-row:span 4;grid-template-rows:subgrid;grid-template-areas:"ph tx" "st st" "m1 m1" "m2 m2";row-gap:8px}
+  .row .ph,.row .tx{align-self:center}
+  .row .more{display:contents}
+  .row .more span:first-child{grid-area:m1;border-top:1px solid var(--sand);padding-top:8px}
+  .row .more span:last-child{grid-area:m2}
+  .row .more span{align-self:start}
+  .rows>.each1{grid-row:span 4}
+  .fc{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0}
+}
+.rows>.each1{margin:0;width:auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px 14px;border:1.5px dashed var(--ink);border-radius:12px;background:rgba(97,105,223,.07);text-decoration:none;text-align:center;font-size:16px;line-height:1.25;letter-spacing:-.01em;text-wrap:balance}
+.rows>.each1 .ic{font-size:20px}
+.rows>.each1.done{border-style:solid;border-color:var(--stone);background:var(--paper);color:var(--drift);cursor:default}
+.rows>.each1.done .ic{display:none}
+.swapn{display:block;text-align:center}
+.swapn .ic{display:inline-block;vertical-align:-3px}
+.swapn .ic + span{margin-left:7px}
+/* 1, 2, 3: spare height goes under the text, so the three titles sit on one line */
+.how>div{grid-template-rows:auto auto 1fr}
+/* small scent tiles: equal rows, names at the top, the note line at the bottom */
+.smini{grid-auto-rows:1fr}
+@media (max-width:860px){.smini>div.sm{grid-template-rows:auto 1fr}.smini>div.sm>div{display:flex;flex-direction:column;height:100%}.smini>div.sm>div span{margin-top:auto;padding-top:3px}}
+/* the promise: the list is one centered block with its checks in a single column */
+.night .ticks{justify-items:start;width:fit-content;max-width:min(40em,100%);margin-inline:auto}
+.night .ticks li{justify-content:flex-start;text-align:left}
+/* reviews: equal cards, names on one line across a row */
+@media (min-width:901px){.quotes{grid-auto-rows:1fr}}
+.q .who span{min-height:33px}
+/* preview footer: a copy of the store's footer (the store build drops this one and the theme's own shows) */
+footer{background:#282828;color:#fff;padding-block:clamp(44px,5vw,64px) 40px;font-size:15px}
+.ft-top{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.55fr) minmax(0,.9fr) minmax(0,1fr);gap:32px clamp(24px,5vw,72px);align-items:start}
+.ft-news{align-self:center}
+.ft-news h2{font-weight:500;font-size:28px;letter-spacing:-.01em;margin:0}
+footer p{color:#E1E1E1;font-size:14.5px;margin-top:18px;max-width:30em}
+.ft-form{display:flex;align-items:center;border:1px solid rgba(255,255,255,.28);margin-top:22px;max-width:400px;padding:0 14px 0 20px;height:60px}
+.ft-form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:400 14.5px var(--f)}
+.ft-form input::placeholder{color:#BDBDBD}
+.ft-form button{flex:none;width:26px;height:26px;border-radius:50%;border:0;background:#4A4A4A;color:#fff;display:grid;place-items:center;font-size:13px}
+.ft-col{display:grid;gap:15px;align-content:start}
+.ft-col b{display:block;font-size:14.5px;font-weight:700;letter-spacing:0;margin-bottom:12px}
+.ft-col a{color:#E1E1E1;font-size:14.5px;text-decoration:none}
+.ft-soc{display:flex;gap:28px;margin-top:44px}
+.ft-soc svg{width:26px;height:26px}
+.ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;margin-top:44px;color:#E1E1E1;font-size:13.5px}
+.ft-pay{display:flex;flex-wrap:wrap;gap:8px}
+.ft-pay i{font:700 9.5px/24px var(--f);font-style:normal;height:24px;min-width:38px;padding:0 6px;border-radius:4px;background:#fff;color:#1E1611;text-align:center;letter-spacing:.02em}
+@media (max-width:760px){.ft-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ft-news{grid-column:1 / -1}.ft-form{max-width:none}.ft-bot{flex-direction:column-reverse;align-items:flex-start}}
 </style>
 
 <!--SYMBOLS-->
@@ -620,7 +674,6 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
 
   <div>
     <button class="rate" type="button" data-to="reviews" aria-label="Rated 4.7 out of 5 from 124 reviews. Jump to the reviews"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span><b>4.7</b> | <u>124 reviews</u></span></button>
-    <p class="lab eyebrow">Maison Croyez waterless diffuser &amp; scents</p>
     <h1 class="hd">Walk in stressed? <span class="h1b">Fill the room with a scent strong enough to change your mood.</span></h1>
     <div class="ugc">
       <div class="ugc-h"><h2 class="hd">Loved in 2,500+ homes across America.</h2><span class="ugc-n"><button type="button" id="ugc-prev" aria-label="Earlier photos">{{i:arrow-right}}</button><button type="button" id="ugc-next" aria-label="More photos">{{i:arrow-right}}</button></span></div>
@@ -663,8 +716,8 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
         <div class="row" data-k="wildwood"><div class="ph"><img src="old/pick-wildwood.webp" alt="Wildwood Mystique" loading="lazy" width="400" height="400"></div><div class="tx"><b>Wildwood Mystique</b><span>Pine Forest</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Wildwood Mystique">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Wildwood Mystique">{{i:plus}}</button></div><p class="more"><span><i>Smells like</i>Pine and juniper. Like a walk in the woods after rain.</span><span><i>Notes</i>Huckleberry, wild juniper &amp; mountain fern.</span></p></div>
         <div class="row" data-k="chilled"><div class="ph"><img src="old/pick-chilled.webp" alt="Chilled Citrus" loading="lazy" width="400" height="400"></div><div class="tx"><b>Chilled Citrus</b><span>Lavender</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Chilled Citrus">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Chilled Citrus">{{i:plus}}</button></div><p class="more"><span><i>Smells like</i>Lavender and eucalyptus. Like a day spa.</span><span><i>Notes</i>Chilled lavender, eucalyptus &amp; white citrus.</span></p></div>
         <div class="row" data-k="midnight"><div class="ph"><img src="old/pick-midnight.webp" alt="Midnight Sensation" loading="lazy" width="400" height="400"></div><div class="tx"><b>Midnight Sensation</b><span>Floral Musk</span></div><div class="stepper"><button type="button" class="dec" aria-label="One less Midnight Sensation">{{i:minus}}</button><output>0</output><button type="button" class="inc" aria-label="One more Midnight Sensation">{{i:plus}}</button></div><p class="more"><span><i>Smells like</i>White flowers and soft musk. Like perfume on warm skin.</span><span><i>Notes</i>Moonflower, night lily &amp; skin musk.</span></p></div>
+        <button class="each1" type="button" id="each1"><span id="each1-t">Can’t decide? Take our best sellers.</span> {{i:arrow-right}}</button>
       </div>
-      <button class="each1" type="button" id="each1"><span id="each1-t">Can’t decide? Take our best sellers.</span> {{i:arrow-right}}</button>
       <p class="swapn">{{i:rotate-ccw}}<span><b>Not sure how they smell?</b> Pick now. If you don’t love one, we swap it, free.</span></p>
     </div>
 
@@ -692,10 +745,11 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
   </div>
 </div></div>
 
-<section class="s"><div class="w"><div class="fnd">
+<section class="s"><div class="w">
+  <h2 class="hd sec-h">A note from our founder.</h2>
+  <div class="fnd">
   <div class="pic"><img src="old/patricia1.webp" alt="Patricia, founder of Maison Croyez, at home with her dog" loading="lazy"></div>
   <div>
-    <h2 class="hd fnd-h">A note from our founder.</h2>
     <blockquote>“I loved coming home to a house that smelled beautiful. I couldn’t find anything that made my home smell the way I wanted without a trade-off. So I set out to change it. Every scent is tested in my own living room first. I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</blockquote>
     <p class="sig"><b>Patricia T.</b><span>Founder &amp; Creative Director, Maison Croyez</span></p>
   </div>
@@ -811,10 +865,21 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
 </div></section>
 </main>
 
-<footer><div class="w"><div class="f-in">
-  <div>{{logo:two}}<b>Exhale the day.</b></div>
-  <div><p class="bn">Bonne nuit.</p><p style="margin-top:8px">Preview page. The video and the photos come from the current kits page, and nothing here is on the store.</p></div>
-</div></div></footer>
+<footer><div class="w">
+  <div class="ft-top">
+    <div class="ft-news"><h2>Let's stay in touch:</h2><p>New collections, offers, launches and more, right on your inbox.</p>
+      <form class="ft-form" onsubmit="return false"><input type="email" placeholder="E-mail" aria-label="E-mail"><button type="submit" aria-label="Subscribe">{{i:arrow-right}}</button></form></div>
+    <div class="ft-col"><b>Terms &amp; Policies</b><a href="https://maisoncroyez.com/policies/refund-policy">Refund Policy</a><a href="https://maisoncroyez.com/policies/shipping-policy">Shipping Policy</a><a href="https://maisoncroyez.com/policies/privacy-policy">Privacy Policy</a><a href="https://maisoncroyez.com/policies/terms-of-service">Terms of Service</a></div>
+    <div class="ft-col"><b>Can we help?</b><a href="https://maisoncroyez.com/">Manage Subscription</a><a href="https://maisoncroyez.com/">About us</a><a href="https://maisoncroyez.com/">Claim a Free Diffuser</a><a href="https://maisoncroyez.com/">Fragrance Subscription</a></div>
+  </div>
+  <div class="ft-soc" aria-label="Social">
+    <svg viewBox="0 0 24 24" aria-label="Facebook"><path fill="currentColor" d="M13.5 22v-8.2h2.8l.4-3.3h-3.2V8.4c0-.9.3-1.6 1.6-1.6h1.7V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.5H7.4v3.3h2.8V22z"/></svg>
+    <svg viewBox="0 0 24 24" aria-label="Instagram" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+    <svg viewBox="0 0 24 24" aria-label="TikTok"><path fill="currentColor" d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3c-1.4.1-2.6-.3-3.9-1.100v6.300c0 6.900-8.100 9-11.200 4.100-2-3.200-.8-8.800 5.700-9v3.200c-.5.1-1 .2-1.500.4-1.400.5-2.200 1.400-2 3 .4 3 6 3.900 5.600-2V3z"/></svg>
+  </div>
+  <div class="ft-bot"><span>&copy; 2026, Maison Croyez. All rights reserved.</span>
+    <span class="ft-pay" aria-label="Payment methods"><i>AMEX</i><i>Apple Pay</i><i>Diners</i><i>Discover</i><i>G Pay</i><i>Mastercard</i><i>Shop</i><i>VISA</i></span></div>
+</div></footer>
 
 <div class="stick on" id="stick"><div class="stick-in"><div class="stick-n"><b>Diffuser kit</b><span id="stick-sum">2 diffusers + 2 free scents · $159</span></div><div class="stick-sw" role="group" aria-label="How many diffusers"><span class="lab">Diffusers</span><button type="button" data-n="1" aria-pressed="false">1</button><button type="button" data-n="2" aria-pressed="true">2</button><button type="button" data-n="3" aria-pressed="false">3</button></div><button type="button" class="stick-go" id="stick-go">Build my kit · $159</button></div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
@@ -841,7 +906,7 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
     $('#s2-h').textContent='Pick your '+(need>1?need+' free scents.':'free scent.');
     var c=$('#count');c.textContent=n+' of '+need+' picked';c.className='count'+(left===0?' ok':'');
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
-    $('#each1').hidden=isAuto();$('#each1-t').textContent=AUTOT[need];
+    var au=isAuto();$('#each1').disabled=au;$('#each1').classList.toggle('done',au);$('#each1-t').textContent=au?(need>1?'Best sellers picked.':'Best seller picked.'):AUTOT[need];
     $$('#freqs .qtyb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.f===st.freq))});
     var cta=$('#cta');cta.disabled=left>0;
     $('#cta-t').textContent=left>0?(n===0?'Pick your '+(need>1?need+' free scents':'free scent'):'Pick '+left+' more free scent'+(left>1?'s':'')):'Checkout · ';

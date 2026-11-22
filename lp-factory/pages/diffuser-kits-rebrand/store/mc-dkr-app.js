@@ -83,7 +83,7 @@ root.textContent="";while(t.firstChild)root.appendChild(t.firstChild);root.style
      The free scents come from the automatic discounts "Diffuser kit: N free scent(s)". Lines this page owns are removed
      first, so the checkout holds exactly what the page shows. No plans yet (CFG.plans = null): step 3 is hidden and the
      scents go in one-time. ---- */
-  var CFG={"kit":{"1":68206141505645,"2":68206141538413,"3":68206141571181},"scent":{"golden":41212020457581,"crisp":41212018655341,"chilled":41212021506157,"honey":41212021342317,"euphoric":41212020752493,"wildwood":41212021669997,"midnight":41212019933293},"plans":null};
+  var CFG={"kit":{"1":68206141505645,"2":68206141538413,"3":68206141571181},"scent":{"golden":41212020457581,"crisp":41212018655341,"chilled":41212021506157,"honey":41212021342317,"euphoric":41212020752493,"wildwood":41212021669997,"midnight":41212019933293},"plans":{"30":7883817069,"60":7883849837,"90":7883882605}};
   var onStore=/(^|\.)maisoncroyez\.com$/.test(location.hostname),busy=false;
   function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(b)}).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json()})}
   function setBusy(v){busy=v;['#cta','#stick-go'].forEach(function(q){var e=$(q);if(e)e.setAttribute('aria-busy',String(v))})}

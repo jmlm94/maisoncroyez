@@ -85,3 +85,10 @@ Not covered by a machine: paying. Results in store/shots/result.json.
 
 Gallery round 2 (same day) is in the preview only; the store page still shows the round-1 pictures until the owner says
 to swap them (37 files -> the nine mc-dkr-g-0N.webp need replacing, then a new key).
+
+## Gallery swap on the store (2026-11-22, owner: "Yes swap")
+
+Nine new files, mc-dkr-g2-00..08.webp (MediaImage 47043818193005, ...225773, ...258541, ...291309, ...324077, ...356845,
+...389613, ...422381, ...455149), uploaded from img/g-0N.webp @ 088d3695. New names (g2) so no cached old picture can be
+served; build-deploy.py maps img/g-0N.webp -> mc-dkr-g2-0N.webp. fileUpdate css + js from raw @ dc45de80, pageUpdate
+00:52:52Z, key dkr6-g2shoot. The nine old mc-dkr-g-0N.webp files are still in Files, unused (delete when he is happy).

@@ -3,7 +3,7 @@
 Owner (2026-11-15): "Why don't you create an artifact now for the diffuser-kits but now with this branding and principles
 applied just to see how it looks."
 
-Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 16, see the rounds at the end; not watched, he replies in chat).
+Artifact "Maison Croyez Diffuser Kits": https://claude.ai/artifact/BG8w2of9xszLDSDEwcTQLi (now version 17, see the rounds at the end; not watched, he replies in chat).
 
 - What it is: the kits one-page offer (the k2 preview, lp-factory/pages/diffuser-kits-2/k2, state v68) rebuilt as a static
   page in the new brand (board v1.2) with the conversion elements from the bath soak pass. Not the store app: plain HTML,
@@ -364,3 +364,7 @@ Open questions put to him: "Pour it in" vs "the bottle locks in"; whether return
 Live at https://maisoncroyez.com/pages/diffuser-kits-2 (not linked, hidden from search). The store build is in store/
 (build-deploy.py -> mc-dkr.css, mc-dkr-app.js, page-body.html); everything created in the store, the checks and how to undo
 it are in store/STATUS.md. Refills are off until the Subi plans exist; the cart needs the owner's test checkout.
+
+2026-11-22: speed pass on the test page (mobile about 61 -> about 82, LCP 6.6 s -> 3.9 s; desktop 97-98) and the refill step
+switched to 30 / 60 / 90 days at $29.95 instead of $39.95. Refills are still not wired; the reason and the open decision
+are in store/STATUS.md. One review no longer names two competing diffusers.

@@ -37,10 +37,34 @@ NOT checked: add to cart and checkout. From the GitHub runner /cart/add.js and /
 connection..." (the store's bot check), so the robot could not build a cart; the request the page sends is the kit variant
 plus the picked scent variants. This needs the owner's own test checkout.
 
-Still to do: his test checkout; a picture on the kit product; refills are off (plans = null in ids.json, step 3 and the
-subscription FAQ hidden, labels say "Step 1 of 2") until his Subi plans exist: every 4 / 8 / 12 weeks on the seven scents,
-first delivery $0, then $29 a scent; then put the three selling plan ids in ids.json, build, fileUpdate, pageUpdate.
-Note: the scents are $39.95 in the store, the page says "a $39 value".
+## Speed pass (2026-11-22, owner: "Run a page speed test and implement changes to make it go faster")
 
-To undo: productDelete 15507003506797; discountAutomaticDelete the three nodes; fileDelete the 37 files; pageUpdate 163782164589 back to
+Lighthouse through .github/workflows/dkr-lh.yml (3 runs per form factor, results in store/perf/):
+- Before (key dkr2): mobile 58 / 61 / 62, LCP 6.5-7.2 s, blocking time 440-580 ms; desktop not kept.
+- After (key dkr4-cf380c4): mobile 37 / 82 / 83 (the first run of every batch is a cold outlier: 51 in the batch before),
+  LCP 3.9 s, blocking time 210 ms on the two warm runs; desktop 97 / 97 / 98, LCP about 1.1 s.
+What changed: the top bar and the main picture are plain HTML in the page body (the script brings the rest and moves that
+same <img> into the gallery); pictures are asked for at the size they are shown (CDN ?width=, srcset on the gallery);
+DM Sans and Roboto Mono come from the store's own files (six woff2, GenericFile 47043567091821 ... 47043567255661, uploaded
+from lp-factory/ads/bath-soak/fonts) instead of Google Fonts; the kits page's third-party hold script
+(store/third-party-hold.html) keeps Clarity, Klaviyo, Postscript, Gorgias, the Subi SDK and the Meta pixel library back
+until the first touch or a timeout; sections below the fold render on demand (content-visibility); every file is loaded
+from https://maisoncroyez.com/cdn/shop/files/ (same files, the shop's own domain, no second connection).
+Deploys: fileUpdate from raw @ 615d462 then pageUpdate 00:08:44Z (key dkr3), fileUpdate from raw @ cf380c4 then pageUpdate
+00:21:42Z (key dkr4-cf380c4). Live check after each: 200, no errors, no broken pictures, phone and desktop.
+
+## Refills (owner 2026-11-22: "switch to 30 60 90 days and use 04/10 Sub for Offer #2 and #3 as the plan")
+
+The page now says every 30 / 60 / 90 days, $29.95 a scent instead of $39.95. NOT wired: the group "04/10 Sub for Offer #2
+and #3" (SellingPlanGroup 5188911213: Every 30 days 7883817069, Every 60 days 7883849837, Every 90 days 7883882605) takes
+$10 off every delivery including the first, so a scent on that plan costs $29.95 today, and Shopify's buy-X-get-Y
+discounts (automatic or code) cannot be set to cover subscription lines (appliesOnSubscription refused twice). With that
+plan as it is, "today's scents are free" would not hold for buyers who pick refills. Put to the owner: a Subi plan with
+the first delivery free, or scents charged today on the refill path (page wording to change), or one-time only.
+plans stays null in ids.json (step 3 hidden on the store) until he decides.
+
+Still to do: his test checkout; a picture on the kit product; the refill decision above.
+Note: the scents are $39.95 in the store; the page now says "$39.95 value".
+
+To undo: productDelete 15507003506797; discountAutomaticDelete the three nodes; fileDelete the 37 files and the six fonts; pageUpdate 163782164589 back to
 lp-factory/pages/diffuser-kits-2/page-body.html (key dk2a-bd9ca46).

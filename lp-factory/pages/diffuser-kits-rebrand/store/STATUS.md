@@ -101,5 +101,4 @@ mc-shoot-23-desk-journal.webp (47044203020397). 800 x 800, 31-46 KB each, from g
 the page; he will say which pictures to switch.
 
 2026-11-22, comment on the preview: first "day to evening" card photo -> mc-shoot-19-entry-keys.webp (already in Files).
-Done in the preview (artifact version 20). Store files are built with key dkr7-shoot19 and committed, NOT deployed: the
-live page is still dkr6-g2shoot until the owner says to push (fileUpdate css + js from raw, then pageUpdate).
+Done in the preview (artifact version 20). Deployed on his "push live": fileUpdate css + js from raw @ 1e89063c, pageUpdate 02:31:17Z, key dkr7-shoot19.

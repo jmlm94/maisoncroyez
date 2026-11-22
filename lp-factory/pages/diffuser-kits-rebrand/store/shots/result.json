@@ -1,6 +1,6 @@
 {
  "url": "https://maisoncroyez.com/pages/diffuser-kits-2",
- "at": "2026-11-22T14:56:53.849Z",
+ "at": "2026-11-22T15:08:55.643Z",
  "views": {
   "phone": {
    "errs": [],
@@ -37,7 +37,7 @@
      0,
      60
     ],
-    "step3Hidden": true,
+    "step3Hidden": false,
     "preview": true
    },
    "foot": {
@@ -63,7 +63,7 @@
       "1 OF 1 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $89 for your diffuser. Your scent is free. You picked no refills, so nothing",
+     "charge": "Today you pay $89 for your diffuser. Your scent is free. With refills every 30 days, it co",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -73,7 +73,8 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -92,7 +93,7 @@
       "2 OF 2 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. You picked no refills, so",
+     "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. With refills every 30 day",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -102,11 +103,13 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       },
       {
        "id": 41212020752493,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -125,7 +128,7 @@
       "3 OF 3 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $239 for your 3 diffusers. Your 3 scents are free. You picked no refills, so",
+     "charge": "Today you pay $239 for your 3 diffusers. Your 3 scents are free. With refills every 30 day",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -135,24 +138,65 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 2
+       "quantity": 2,
+       "selling_plan": 7883817069
       },
       {
        "id": 41212020752493,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
     }
    ],
+   "t3page": {
+    "step3Hidden": false,
+    "freq": "0",
+    "cta": "Checkout · $159 30-DAY MONEY-BACK GUARANTEE",
+    "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. You picked no refills, so nothing renews.",
+    "steps": [
+     "STEP 1 OF 3",
+     "STEP 2 OF 3",
+     "STEP 3 OF 3"
+    ]
+   },
    "t3": {
     "reached": true,
     "url": "https://maisoncroyez.com/checkouts/cn/...",
     "answers": [
      "cart.js 200",
+     "cart.js 200",
+     "cart.js 200",
      "cart/add.js 200"
     ],
     "text": "Skip to content Navigate to Online Store Order summary Total price $238.90 Discounted price $159.00 Maison Croyez PROCEED TO CHECKOUT ➔ Express checkout OR Contact Email Used for your order confirmation and cart reminders Email me with news and offers Delivery Country/Region United States First name Last name Address Apartment, suite, etc. (optional) City State Alabama Alaska American Samoa Arizona Arkansas California Colorado Connecticut Delaware Micronesia Florida Georgia Guam Hawaii Idaho Illinois Indiana Iowa Kansas Kentucky Louisiana Maine Marshall Islands Maryland Massachusetts Michigan Minnesota Mississippi Missouri Montana Nebraska Nevada New Hampshire New Jersey New Mexico New York North Carolina North Dakota Northern Mariana Islands Ohio Oklahoma Oregon Palau Pennsylvania Puerto Rico Rhode Island South Carolina South Dakota Tennessee Texas Utah Vermont Virginia Washington Washi"
+   },
+   "t3subpage": {
+    "step3Hidden": false,
+    "freq": "30",
+    "cta": "Checkout · $159 30-DAY MONEY-BACK GUARANTEE",
+    "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. With refills every 30 days, they come again for $59.90 a delivery ($29.95 a scent instead of $39.95), and we email you before every charge. Skip, swap or cancel any time.",
+    "steps": [
+     "STEP 1 OF 3",
+     "STEP 2 OF 3",
+     "STEP 3 OF 3"
+    ]
+   },
+   "t3sub": {
+    "reached": true,
+    "url": "https://maisoncroyez.com/checkouts/cn/...",
+    "answers": [
+     "cart.js 200",
+     "cart.js 200",
+     "cart.js 200",
+     "cart.js 200",
+     "cart.js 200",
+     "cart.js 200",
+     "cart/update.js 200",
+     "cart/add.js 200"
+    ],
+    "text": "Skip to content Navigate to Online Store Order summary Total price $159.00 Maison Croyez PROCEED TO CHECKOUT ➔ Express checkout By continuing with your payment, you agree to the future charges listed on this page and the cancellation policy . OR Contact Email Used for your order confirmation and cart reminders Email me with news and offers Delivery Country/Region United States First name Last name Address Apartment, suite, etc. (optional) City State Alabama Alaska American Samoa Arizona Arkansas California Colorado Connecticut Delaware Micronesia Florida Georgia Guam Hawaii Idaho Illinois Indiana Iowa Kansas Kentucky Louisiana Maine Marshall Islands Maryland Massachusetts Michigan Minnesota Mississippi Missouri Montana Nebraska Nevada New Hampshire New Jersey New Mexico New York North Carolina North Dakota Northern Mariana Islands Ohio Oklahoma Oregon Palau Pennsylvania Puerto Rico Rhode"
    }
   },
   "tablet": {
@@ -190,7 +234,7 @@
      0,
      60
     ],
-    "step3Hidden": true,
+    "step3Hidden": false,
     "preview": true
    },
    "foot": {
@@ -216,7 +260,7 @@
       "1 OF 1 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $89 for your diffuser. Your scent is free. You picked no refills, so nothing",
+     "charge": "Today you pay $89 for your diffuser. Your scent is free. With refills every 30 days, it co",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -226,7 +270,8 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -245,7 +290,7 @@
       "2 OF 2 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. You picked no refills, so",
+     "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. With refills every 30 day",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -255,11 +300,13 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       },
       {
        "id": 41212020752493,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -278,7 +325,7 @@
       "3 OF 3 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $239 for your 3 diffusers. Your 3 scents are free. You picked no refills, so",
+     "charge": "Today you pay $239 for your 3 diffusers. Your 3 scents are free. With refills every 30 day",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -288,11 +335,13 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 2
+       "quantity": 2,
+       "selling_plan": 7883817069
       },
       {
        "id": 41212020752493,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -334,7 +383,7 @@
      0,
      60
     ],
-    "step3Hidden": true,
+    "step3Hidden": false,
     "preview": true
    },
    "foot": {
@@ -360,7 +409,7 @@
       "1 OF 1 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $89 for your diffuser. Your scent is free. You picked no refills, so nothing",
+     "charge": "Today you pay $89 for your diffuser. Your scent is free. With refills every 30 days, it co",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -370,7 +419,8 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -389,7 +439,7 @@
       "2 OF 2 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. You picked no refills, so",
+     "charge": "Today you pay $159 for your 2 diffusers. Your 2 scents are free. With refills every 30 day",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -399,11 +449,13 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       },
       {
        "id": 41212020752493,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"
@@ -422,7 +474,7 @@
       "3 OF 3 PICKED"
      ],
      "full": true,
-     "charge": "Today you pay $239 for your 3 diffusers. Your 3 scents are free. You picked no refills, so",
+     "charge": "Today you pay $239 for your 3 diffusers. Your 3 scents are free. With refills every 30 day",
      "priceOk": true,
      "sentOk": true,
      "sent": [
@@ -432,11 +484,13 @@
       },
       {
        "id": 41212020457581,
-       "quantity": 2
+       "quantity": 2,
+       "selling_plan": 7883817069
       },
       {
        "id": 41212020752493,
-       "quantity": 1
+       "quantity": 1,
+       "selling_plan": 7883817069
       }
      ],
      "wentTo": "checkout"

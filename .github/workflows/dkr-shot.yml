@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 18: rounds 20 + 21 live (key dkr18-tiles); tile sizes of step 2 and of the seven scents grid
 # run note 17: the buy-box test presses the main button (the sticky one only scrolls since round 19)
 # run note 16: round 19 live (key dkr17-buildkit): sticky Build my kit scrolls to step 1, main button straight to checkout
 # run note 15: round 18 live (key dkr16-stick): sticky pill, straight to checkout from the sticky button with nothing picked
@@ -67,7 +68,7 @@ jobs:
                   sections: $$('#mcr main section h2').map((x) => x.innerText.replace(/\s+/g, ' ').slice(0, 42)), imgs: $$('#mcr img').length, broken: $$('#mcr img').filter((i) => !i.naturalWidth).map((i) => i.src.split('/').pop()),
                   slides: $$('#track .slide').length, slideAfterNext, faq: $$('main section:last-of-type .faq details').length, faqOpens, reviews: $$('#quotes .q').length, scentRows: $$('#scents .row').length, ugc: $$('.ugc-t img').length,
                   themeBar: $$('.shopify-section--announcement-bar').map((e) => getComputedStyle(e).display).join(','), themeHeader: !!$('.shopify-section--header'), themeTitle: (() => { const t = $('.page > h1'); return t ? getComputedStyle(t).display : 'none'; })(),
-                  overflowX: document.documentElement.scrollWidth - innerWidth, stick: (() => { const r = $('#stick').getBoundingClientRect(); return [Math.round(innerHeight - r.bottom), Math.round(r.height)]; })(), step3Hidden: $('#step3').hidden, preview: /Preview/i.test(m.innerText) }; });
+                  overflowX: document.documentElement.scrollWidth - innerWidth, stick: (() => { const r = $('#stick').getBoundingClientRect(); return [Math.round(innerHeight - r.bottom), Math.round(r.height)]; })(), step3Hidden: $('#step3').hidden, tiles: [...new Set([...document.querySelectorAll('#scents > *')].map((t) => Math.round(t.getBoundingClientRect().width) + 'x' + Math.round(t.getBoundingClientRect().height)))].join(' '), smini: [...new Set([...document.querySelectorAll('.smini > *')].map((t) => Math.round(t.getBoundingClientRect().width) + 'x' + Math.round(t.getBoundingClientRect().height)))].join(' '), preview: /Preview/i.test(m.innerText) }; });
               await pg.screenshot({ path: `${OUT}/${n}-top.png` });
           v.foot = await q(async () => { scrollTo(0, document.documentElement.scrollHeight); await new Promise((r) => setTimeout(r, 1500)); const m = document.querySelector('#mcr').getBoundingClientRect(), f = document.querySelector('.shopify-section--footer, footer'); return { gapToFooter: f ? Math.round(f.getBoundingClientRect().top - m.bottom) : null, footer: !!f, h1: getComputedStyle(document.querySelector('#mcr h1')).fontSize, ml: document.querySelectorAll('#scents .ml').length, eyebrow: !!document.querySelector('#mcr .eyebrow'), each1InGrid: !!document.querySelector('#scents > #each1') }; });
           await pg.screenshot({ path: `${OUT}/${n}-bottom.png` }); await q(() => scrollTo(0, 0)); await pg.waitForTimeout(400);

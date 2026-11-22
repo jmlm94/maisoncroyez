@@ -140,3 +140,5 @@ key dkr16-stick.
 
 Round 19 deployed 2026-11-22 15:35:51Z: fileUpdate css + js from raw @ 8d7b4d71, pageUpdate, key dkr17-buildkit. (Shopify
 serves the script minified, double quotes; check served files with a quote-agnostic pattern.)
+
+Rounds 20 + 21 deployed 2026-11-22 16:07:34Z: fileUpdate css + js from raw @ 765c4224, pageUpdate, key dkr18-tiles.

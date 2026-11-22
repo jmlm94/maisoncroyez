@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 6: do our files also answer on the shop's own domain (/cdn/shop/files/)?
 # run note 5: after the speed pass (key dkr3-615d462), cart part off
 # run note 4: log what the cart requests answer
 # run note 3: cart ids read from store/ids.json
@@ -52,6 +53,7 @@ jobs:
                   stick: (() => { const s = q('#stick').getBoundingClientRect(); return [Math.round(s.top), Math.round(s.height), innerHeight]; })(),
                   imgs: document.querySelectorAll('#mcr img').length }; });
               await pg.screenshot({ path: `${OUT}/${n}-top.png` });
+              if (n === 'phone') v.sameOrigin = await pg.evaluate(async () => { const out = {}; for (const f of ['mc-dkr.css', 'mc-dkr-app.js', 'mc-dkr-f-dm-700.woff2', 'mc-dkr-g-00.webp?width=600', 'mc-dkr-ugc-01.webp?width=200']) { try { const r = await fetch('/cdn/shop/files/' + f); const b = await r.arrayBuffer(); out[f] = [r.status, r.headers.get('content-type'), b.byteLength, r.headers.get('cache-control')]; } catch (e) { out[f] = String(e).slice(0, 80); } } return out; });
               if (v.page.rendered) {
                 await pg.evaluate(async () => { document.querySelectorAll('#mcr img[loading=lazy]').forEach((i) => i.loading = 'eager'); await Promise.all([...document.querySelectorAll('#mcr img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 8000); }))); });
                 v.broken = await pg.evaluate(() => [...document.querySelectorAll('#mcr img')].filter((i) => !i.naturalWidth).map((i) => i.src.split('/').pop()));

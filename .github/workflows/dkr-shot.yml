@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 8: three QA tests (owner 2026-11-22): the page, the buy box for 1 / 2 / 3 diffusers, the real button once
 # run note 7: key dkr4-cf380c4
 # run note 6: do our files also answer on the shop's own domain (/cdn/shop/files/)?
 # run note 5: after the speed pass (key dkr3-615d462), cart part off
@@ -34,58 +35,70 @@ jobs:
           mkdir -p "$OUT"
           cat > shot.js <<'EOF'
           const { chromium } = require('playwright'); const fs = require('fs');
-          const URL = process.env.URL, OUT = process.env.OUT; const IDS = JSON.parse(fs.readFileSync('lp-factory/pages/diffuser-kits-rebrand/store/ids.json', 'utf8')); const log = { url: URL, at: new Date().toISOString(), views: {} };
+          const URL = process.env.URL, OUT = process.env.OUT; const IDS = JSON.parse(fs.readFileSync('lp-factory/pages/diffuser-kits-rebrand/store/ids.json', 'utf8'));
+          const log = { url: URL, at: new Date().toISOString(), views: {} };
+          const PRICE = { 1: 89, 2: 159, 3: 239 };
           (async () => {
             const br = await chromium.launch();
-            for (const [n, w, h, mobile] of [['phone', 390, 844, true], ['desktop', 1440, 900, false]]) {
+            for (const [n, w, h, mobile] of [['phone', 390, 844, true], ['tablet', 820, 1180, true], ['desktop', 1440, 900, false]]) {
               const ctx = await br.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, deviceScaleFactor: mobile ? 2 : 1,
-                userAgent: mobile ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' : undefined });
+                userAgent: n === 'phone' ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' : undefined });
               const pg = await ctx.newPage(); const errs = [];
               pg.on('pageerror', (e) => errs.push('ERR ' + String(e.message).slice(0, 160)));
               pg.on('requestfailed', (r) => { if (/mc-dkr/.test(r.url())) errs.push('FAIL ' + r.url().split('/').pop()); });
-              const v = log.views[n] = { errs };
+              const v = log.views[n] = { errs }; const q = (f, a) => pg.evaluate(f, a);
               const res = await pg.goto(URL, { waitUntil: 'load', timeout: 60000 }); v.status = res.status();
-              await pg.waitForTimeout(4000);
-              v.page = await pg.evaluate(() => { const q = (s) => document.querySelector(s); const m = q('#mcr'); if (!m || !m.children.length) return { rendered: false };
-                const r = m.getBoundingClientRect(); const h1 = q('#mcr h1');
-                return { rendered: true, h1: h1.innerText.replace(/\s+/g, ' '), h1Font: getComputedStyle(h1).fontFamily.slice(0, 20), mcr: [Math.round(r.left), Math.round(r.width), innerWidth],
-                  scrollW: document.documentElement.scrollWidth, themeH1: (() => { const t = q('.page > h1'); return t ? getComputedStyle(t).display : 'none found'; })(),
-                  header: [...document.querySelectorAll('.shopify-section-group-header-group')].map((e) => e.className.replace('shopify-section-group-header-group', '').trim() + ':' + getComputedStyle(e).display), step3Hidden: q('#step3').hidden, cta: q('#cta').innerText.replace(/\s+/g, ' '),
-                  stick: (() => { const s = q('#stick').getBoundingClientRect(); return [Math.round(s.top), Math.round(s.height), innerHeight]; })(),
-                  imgs: document.querySelectorAll('#mcr img').length }; });
+              await pg.waitForTimeout(3500);
+              /* ---- test 1: the page itself ---- */
+              v.t1 = await q(async () => { const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)]; const m = $('#mcr'); if (!m || !$('#cta')) return { rendered: false };
+                $$('#mcr img[loading=lazy]').forEach((i) => i.loading = 'eager'); await Promise.all($$('#mcr img').map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 9000); })));
+                const tr = $('#track'); $('#g-next').click(); await new Promise((r) => setTimeout(r, 900)); const slideAfterNext = Math.round(tr.scrollLeft / tr.clientWidth); tr.scrollTo({ left: 0 });
+                const d = $$('main section:last-of-type .faq details')[1]; d.querySelector('summary').click(); const faqOpens = d.open;
+                return { rendered: true, h1: $('#mcr h1').innerText.replace(/\s+/g, ' '), font: getComputedStyle($('#mcr h1')).fontFamily.slice(0, 9), fontsLoaded: [...document.fonts].filter((f) => f.status === 'loaded').length,
+                  sections: $$('#mcr main section h2').map((x) => x.innerText.replace(/\s+/g, ' ').slice(0, 42)), imgs: $$('#mcr img').length, broken: $$('#mcr img').filter((i) => !i.naturalWidth).map((i) => i.src.split('/').pop()),
+                  slides: $$('#track .slide').length, slideAfterNext, faq: $$('main section:last-of-type .faq details').length, faqOpens, reviews: $$('#quotes .q').length, scentRows: $$('#scents .row').length, ugc: $$('.ugc-t img').length,
+                  themeBar: $$('.shopify-section--announcement-bar').map((e) => getComputedStyle(e).display).join(','), themeHeader: !!$('.shopify-section--header'), themeTitle: (() => { const t = $('.page > h1'); return t ? getComputedStyle(t).display : 'none'; })(),
+                  overflowX: document.documentElement.scrollWidth - innerWidth, stick: (() => { const r = $('#stick').getBoundingClientRect(); return [Math.round(innerHeight - r.bottom), Math.round(r.height)]; })(), step3Hidden: $('#step3').hidden, preview: /Preview/i.test(m.innerText) }; });
               await pg.screenshot({ path: `${OUT}/${n}-top.png` });
-              if (n === 'phone') v.sameOrigin = await pg.evaluate(async () => { const out = {}; for (const f of ['mc-dkr.css', 'mc-dkr-app.js', 'mc-dkr-f-dm-700.woff2', 'mc-dkr-g-00.webp?width=600', 'mc-dkr-ugc-01.webp?width=200']) { try { const r = await fetch('/cdn/shop/files/' + f); const b = await r.arrayBuffer(); out[f] = [r.status, r.headers.get('content-type'), b.byteLength, r.headers.get('cache-control')]; } catch (e) { out[f] = String(e).slice(0, 80); } } return out; });
-              if (v.page.rendered) {
-                await pg.evaluate(async () => { document.querySelectorAll('#mcr img[loading=lazy]').forEach((i) => i.loading = 'eager'); await Promise.all([...document.querySelectorAll('#mcr img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 8000); }))); });
-                v.broken = await pg.evaluate(() => [...document.querySelectorAll('#mcr img')].filter((i) => !i.naturalWidth).map((i) => i.src.split('/').pop()));
-                await pg.screenshot({ path: `${OUT}/${n}-full.jpg`, fullPage: true, type: 'jpeg', quality: 70 });
-                if (n === 'phone' && process.env.CART === 'yes') {   /* off: the store's bot check answers 429 to a runner's cart requests */
-                  v.carts = [];
-                  for (const d of [1, 2, 3]) {
-                    await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
-                    await pg.evaluate((d) => { document.querySelector(`#diffs .cardb[data-n="${d}"]`).click(); document.querySelector('#each1') && !document.querySelector('#each1').hidden && document.querySelector('#each1').click(); }, d);
-                    await pg.waitForTimeout(300);
-                    const label = await pg.evaluate(() => document.querySelector('#cta').innerText.replace(/\s+/g, ' '));
-                    /* the same request the button makes, without leaving for the checkout */
-                    const cart = await pg.evaluate(async (CFG) => { const picks = {}; document.querySelectorAll('#scents .row').forEach((r) => { picks[r.dataset.k] = +r.querySelector('output').textContent; });
-                      const n = +document.querySelector('#diffs .cardb[aria-pressed="true"]').dataset.n; const items = [{ id: CFG.kit[n], quantity: 1 }]; Object.keys(picks).forEach((k) => { if (picks[k]) items.push({ id: CFG.scent[k], quantity: picks[k] }); });
-                      const add = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items }) }); const addT = await add.text();
-                      const cr = await fetch('/cart.js', { headers: { Accept: 'application/json' } }); const crT = await cr.text(); let c; try { c = JSON.parse(crT); } catch (e) { return { addStatus: add.status, addUrl: add.url, addType: add.headers.get('content-type'), addBody: addT.slice(0, 300), cartStatus: cr.status, cartUrl: cr.url, cartBody: crT.replace(/\s+/g, ' ').slice(0, 300), items }; }
-                      return { addStatus: add.status, addBody: add.ok ? '' : addT.slice(0, 300), total: c.total_price / 100, discount: c.total_discount / 100, lines: c.items.map((l) => ({ t: l.product_title + ' / ' + l.variant_title, q: l.quantity, price: l.price / 100, line: l.final_line_price / 100, disc: (l.discounts || []).map((x) => x.title) })) }; }, IDS).catch((e) => ({ error: String(e).slice(0, 200) }));
-                    v.carts.push({ diffusers: d, label, cart });
-                  }
-                  await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });
-                  /* the real button once: it must leave for the checkout */
-                  await pg.evaluate(() => { document.querySelector('#diffs .cardb[data-n="2"]').click(); });
-                  await pg.waitForTimeout(300); await pg.evaluate(() => document.querySelector('#cta').click());
-                  try { await pg.waitForURL(/checkout/, { timeout: 25000 }); v.checkoutUrl = pg.url().split('?')[0].replace(/\/cn\/.*/, '/cn/...'); await pg.waitForTimeout(5000); await pg.screenshot({ path: `${OUT}/phone-checkout.png` }); }
-                  catch (e) { v.checkoutUrl = 'did not reach the checkout: ' + pg.url(); await pg.screenshot({ path: `${OUT}/phone-checkout.png` }); }
+              if (v.t1.rendered) {
+                await pg.screenshot({ path: `${OUT}/${n}-full.jpg`, fullPage: true, type: 'jpeg', quality: 60 });
+                /* ---- test 2: the buy box. Cart requests are answered here, not by the store, so every kit size can be read. ---- */
+                let sent = null, wentTo = null;
+                await pg.route('**/cart.js', (r) => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ items: [] }) }));
+                await pg.route('**/cart/update.js', (r) => r.fulfill({ contentType: 'application/json', body: '{}' }));
+                await pg.route('**/cart/add.js', (r) => { sent = JSON.parse(r.request().postData()); r.fulfill({ contentType: 'application/json', body: '{"items":[]}' }); });
+                await pg.route('**/checkout', (r) => { wentTo = 'checkout'; r.fulfill({ contentType: 'text/html', body: '<html><body>checkout stub</body></html>' }); });
+                v.t2 = [];
+                for (const d of [1, 2, 3]) {
+                  if (!/diffuser-kits-2/.test(pg.url())) { await pg.goto(URL, { waitUntil: 'load' }); await pg.waitForTimeout(2500); }
+                  sent = null; wentTo = null;
+                  const r = await q(async (d) => { const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)]; const T = (e) => e.innerText.replace(/\s+/g, ' ');
+                    $(`#diffs .cardb[data-n="${d}"]`).click(); $$('#scents .row .dec').forEach((b) => { while (!b.disabled) b.click(); });
+                    const before = [T($('#cta')), $('#cta').disabled, T($('#stick-go'))]; const rows = $$('#scents .row');
+                    for (let i = 0; i < d; i++) rows[i === 2 ? 0 : i * 3].querySelector('.inc').click();   /* golden, euphoric, then golden again */
+                    const full = rows.every((x) => x.querySelector('.inc').disabled);
+                    return { before, after: [T($('#cta')), $('#cta').disabled, T($('#stick-go')), T($('#count'))], full, charge: $('#charge').textContent.slice(0, 90) }; }, d);
+                  await q(() => document.querySelector('#stick-go').click()); await pg.waitForTimeout(1600);
+                  const want = [{ id: IDS.kit[d], quantity: 1 }].concat(d === 1 ? [{ id: IDS.scent.golden, quantity: 1 }] : d === 2 ? [{ id: IDS.scent.golden, quantity: 1 }, { id: IDS.scent.euphoric, quantity: 1 }] : [{ id: IDS.scent.golden, quantity: 2 }, { id: IDS.scent.euphoric, quantity: 1 }]);
+                  const got = sent && sent.items ? sent.items : null; const key = (a) => JSON.stringify((a || []).map((x) => [x.id, x.quantity, x.selling_plan || 0]).sort());
+                  v.t2.push({ kit: d, ...r, priceOk: r.after[0].includes('$' + PRICE[d]) && r.after[2].includes('$' + PRICE[d]), sentOk: key(got) === key(want), sent: got, wentTo });
+                }
+                await pg.unrouteAll({ behavior: 'ignoreErrors' });
+                /* ---- test 3 (phone only): the real store, once: 2 diffusers, best sellers, the real button ---- */
+                if (n === 'phone') {
+                  await pg.goto(URL, { waitUntil: 'load' }); await pg.waitForTimeout(6000);
+                  await q(() => { document.querySelector('#diffs .cardb[data-n="2"]').click(); document.querySelector('#each1').click(); }); await pg.waitForTimeout(1500);
+                  const answers = []; pg.on('response', (r) => { if (/\/cart(\.js|\/add\.js|\/update\.js)/.test(r.url())) answers.push(r.url().split('/').slice(3).join('/').split('?')[0] + ' ' + r.status()); });
+                  await q(() => document.querySelector('#cta').click());
+                  try { await pg.waitForURL(/checkout/, { timeout: 25000 }); await pg.waitForTimeout(6000); v.t3 = { reached: true, url: pg.url().split('?')[0].replace(/\/cn\/.*/, '/cn/...'), answers, text: (await q(() => document.body.innerText.replace(/\s+/g, ' ').slice(0, 900))) }; }
+                  catch (e) { v.t3 = { reached: false, url: pg.url(), answers, toast: await q(() => (document.querySelector('#toast') || {}).innerText || '') }; }
+                  await pg.screenshot({ path: `${OUT}/phone-checkout.png` });
                 }
               }
               await ctx.close();
             }
             await br.close(); fs.writeFileSync(`${OUT}/result.json`, JSON.stringify(log, null, 1)); console.log(JSON.stringify(log, null, 1));
-          })().catch((e) => { fs.writeFileSync(`${process.env.OUT}/result.json`, JSON.stringify({ fatal: String(e) })); console.error(e); process.exit(0); });
+          })().catch((e) => { fs.writeFileSync(`${process.env.OUT}/result.json`, JSON.stringify({ fatal: String(e), log })); console.error(e); process.exit(0); });
           EOF
           node shot.js
       - name: Commit

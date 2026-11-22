@@ -421,3 +421,6 @@ needed: the three step 1 cards are the same size (114 x 197 on a phone, 156 x 18
 heights). NOT applied: "Include it is 50ml on each" on the step 2 scents. The store only sells 100 ml scents ($39.95,
 the seven products wired to the page) and the page says 100 ml in twelve places, so the owner was asked which is right.
 Store files built as dkr9-comments, not deployed: the Shopify connector asked for a new sign-in.
+
+Round 17b: the owner chose "100 ml on each tile" for the size comment; each of the seven step 2 tiles now carries a small
+"100 ml" line under its scent family. Store build dkr9-comments rebuilt with it.

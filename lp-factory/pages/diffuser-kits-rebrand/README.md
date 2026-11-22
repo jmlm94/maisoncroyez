@@ -433,3 +433,6 @@ on a phone, 35 px on a 1440 desktop; photo title 17.6 to 22.4 px). Store build d
 Round 17e (comment sent to Claude, 2026-11-22: "Reduce 20px for phone and 30px in desktop"): read as "reduce to": the
 headline is 20 px up to 860 px wide and 30 px above (taking 20 / 30 px off 26 / 35 px would leave 6 / 5 px). Store build
 dkr12-h1c, not deployed.
+
+Round 17f (comment sent to Claude): the "Most popular" and "Whole home" badges on the step 1 cards sit centered on their
+card (they were 10 px from the left edge). Store build dkr13-tags, not deployed.

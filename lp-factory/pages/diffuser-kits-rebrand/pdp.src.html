@@ -643,6 +643,15 @@ footer p{color:#E1E1E1;font-size:14.5px;margin-top:18px;max-width:30em}
 .ft-pay{display:flex;flex-wrap:wrap;gap:8px}
 .ft-pay i{font:700 9.5px/24px var(--f);font-style:normal;height:24px;min-width:38px;padding:0 6px;border-radius:4px;background:#fff;color:#1E1611;text-align:center;letter-spacing:.02em}
 @media (max-width:760px){.ft-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ft-news{grid-column:1 / -1}.ft-form{max-width:none}.ft-bot{flex-direction:column-reverse;align-items:flex-start}}
+/* round 17 (owner comments 2026-11-22): the headline fills its column, small arrows on the customer photos on a phone too,
+   the founder photo a little bigger with squarer corners, her quote 5% smaller */
+.bb>div:nth-child(2){container-type:inline-size}
+@supports (font-size:1cqw){h1.hd{font-size:clamp(30px,10.6cqw,58px)}}
+@media (max-width:640px){.ugc-n{display:flex}.ugc-n button{width:28px;height:28px;font-size:13px}}
+.fnd{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+.fnd .pic{border-radius:6px}
+.fnd blockquote{font-size:clamp(19px,2.2vw,26.6px)}
+@media (max-width:760px){.fnd{grid-template-columns:minmax(0,1fr)}.fnd .pic{aspect-ratio:1/1}}
 </style>
 
 <!--SYMBOLS-->

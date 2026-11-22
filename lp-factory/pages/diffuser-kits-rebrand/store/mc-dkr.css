@@ -743,6 +743,21 @@ color-scheme:light;
 #mcr .ft-form{max-width:none}
 #mcr .ft-bot{flex-direction:column-reverse;align-items:flex-start}
 }
+#mcr .bb>div:nth-child(2){container-type:inline-size}
+@supports (font-size:1cqw){
+#mcr h1.hd{font-size:clamp(30px,10.6cqw,58px)}
+}
+@media (max-width:640px){
+#mcr .ugc-n{display:flex}
+#mcr .ugc-n button{width:28px;height:28px;font-size:13px}
+}
+#mcr .fnd{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+#mcr .fnd .pic{border-radius:6px}
+#mcr .fnd blockquote{font-size:clamp(19px,2.2vw,26.6px)}
+@media (max-width:760px){
+#mcr .fnd{grid-template-columns:minmax(0,1fr)}
+#mcr .fnd .pic{aspect-ratio:1/1}
+}
 #mcr .stick{z-index:60}
 #mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}
 #mcr .bar{width:100%}

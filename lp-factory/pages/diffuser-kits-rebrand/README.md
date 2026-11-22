@@ -411,3 +411,13 @@ Measured with scratchpad sym/audit.js (per section: padding, title size, space u
   it; the theme's own footer shows there.
 - Store build: handles @supports; the white strip between the page and the theme footer is closed (bottom margin and
   padding of the theme's page wrapper set to 0). Built as dkr8-align, NOT deployed.
+
+## Round 17: six comments (2026-11-22)
+
+Applied: headline sized to its column (container width, 38 px on a phone, 51 px on a 1440 desktop; it used to leave
+about 70 to 95 px empty on the right); small arrows on the customer photos on a phone too; founder photo a little
+bigger (square on a phone, 47% of the row on desktop) with 6 px corners; her quote 5% smaller. Checked, no change
+needed: the three step 1 cards are the same size (114 x 197 on a phone, 156 x 180 on desktop, inner lines at the same
+heights). NOT applied: "Include it is 50ml on each" on the step 2 scents. The store only sells 100 ml scents ($39.95,
+the seven products wired to the page) and the page says 100 ml in twelve places, so the owner was asked which is right.
+Store files built as dkr9-comments, not deployed: the Shopify connector asked for a new sign-in.

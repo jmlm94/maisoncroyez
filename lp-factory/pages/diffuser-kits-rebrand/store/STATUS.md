@@ -137,3 +137,6 @@ pageUpdate, key dkr15-refills. Note: that group is also what the older offers us
 
 Round 18 deployed 2026-11-22 15:20:10Z (standing push-live instruction): fileUpdate css + js from raw @ 35d24d75, pageUpdate,
 key dkr16-stick.
+
+Round 19 deployed 2026-11-22 15:35:51Z: fileUpdate css + js from raw @ 8d7b4d71, pageUpdate, key dkr17-buildkit. (Shopify
+serves the script minified, double quotes; check served files with a quote-agnostic pattern.)

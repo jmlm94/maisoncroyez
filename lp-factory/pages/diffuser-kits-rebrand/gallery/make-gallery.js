@@ -8,8 +8,8 @@ const D = __dirname; const PAGE = path.join(D, '..'); const LP = path.join(D, '.
 const LOGO = fs.readFileSync(path.join(LP, 'brand', 'rebrand-2026', 'board', 'logo', 'maison-croyez-two-line.svg'), 'utf8').replace(/fill="#[0-9A-Fa-f]+"/, 'fill="currentColor"').replace('<svg ', '<svg class="logo" ');
 const icon = (n) => fs.readFileSync(path.join(PAGE, 'icons', n + '.svg'), 'utf8').replace(/<!--[\s\S]*?-->/g, '').replace(/\s(width|height)="24"/g, '');
 const img = (f) => 'file://' + path.join(PAGE, f);
-// shoot photo n: the enlarged copy from prep-shoot.py (or the owner's full-size original) when gallery/hd has one, else the 800 px file
-const sh = (n) => { const b = 'shoot-' + String(n).padStart(2, '0'); for (const e of ['.png', '.jpg']) { const f = path.join(D, 'hd', b + e); if (fs.existsSync(f)) return 'file://' + f; } return 'file://' + path.join(D, 'shoot', b + '.jpg'); };
+// shoot photo n: the enlarged copy from prep-shoot.py (or the owner's full-size original) when gallery/hd has one, then the 2000 px file in gallery/shoot-full (photos 19-23), else the 800 px file
+const sh = (n) => { const b = 'shoot-' + String(n).padStart(2, '0'); for (const e of ['.png', '.jpg']) { const f = path.join(D, 'hd', b + e); if (fs.existsSync(f)) return 'file://' + f; } const full = path.join(D, 'shoot-full', b + '.webp'); if (fs.existsSync(full)) return 'file://' + full; return 'file://' + path.join(D, 'shoot', b + '.jpg'); };
 const font = (f, w, file) => `@font-face{font-family:"${f}";font-weight:${w};src:url("file://${path.join(LP, 'ads', 'bath-soak', 'fonts', file)}") format("woff2")}`;
 
 const SLIDES = [

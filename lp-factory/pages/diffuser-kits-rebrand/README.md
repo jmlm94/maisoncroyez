@@ -384,3 +384,11 @@ on a sofa; evening shots dark with the night light as the one warm point.
   full-size originals saved as gallery/hd/shoot-NN.png, `node gallery/make-gallery.js` gives sharp pictures, no other
   change. A sharpened set was made in Higgsfield (2 of 18) but could not be downloaded into this session.
 - Preview page and review page updated (artifact versions 18 and 3). The store page is not changed yet.
+
+2026-11-22, five more photos from the owner (2000 x 2000 webp): shoot 19 entry table with keys and a Wildwood bottle,
+20 three scent boxes on green marble, 21 travertine side table with a mug, 22 sofa and coffee table with a golden dog,
+23 desk with a journal, the Wildwood box and bottle. Full size in gallery/shoot-full/shoot-19..23.webp, 800 px copies in
+gallery/shoot-800/ (the ones uploaded to the store's Files as mc-shoot-NN-<name>.webp) and gallery/shoot/shoot-NN.jpg.
+Not used on the page yet: he will say which pictures to switch. To check before use: the small print on the bottle in
+19 and on the box and bottle in 23 is not the real label text (19: "FIMIIICATION", "3 Sulss"; 23: "100 ml | 2.56oz",
+misspelled notes). 20 reads correctly.

@@ -9,6 +9,7 @@
 #mcr h1,#mcr h2,#mcr h3,#mcr h4,#mcr p,#mcr ul,#mcr ol,#mcr li,#mcr blockquote,#mcr figure,#mcr summary,#mcr details{margin:0;padding:0;font-family:inherit;color:inherit;text-transform:none;letter-spacing:normal;max-width:none;border:0;background:none}
 #mcr h1,#mcr h2,#mcr h3,#mcr h4{font-weight:700}
 #mcr ul,#mcr ol{list-style:none}
+#mcr :where(p,div,ul,ol){margin-block-start:0}
 #mcr li::before,#mcr li::marker{content:none}
 #mcr img,#mcr svg,#mcr video{margin:0 !important;border-radius:0}
 #mcr a{color:inherit;text-decoration:none}

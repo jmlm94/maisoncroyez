@@ -67,7 +67,9 @@ RESET = ('/* built by store/build-deploy.py from pdp.src.html; do not edit by ha
          '#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;text-align:left}\n'
          '#mcr h1,#mcr h2,#mcr h3,#mcr h4,#mcr p,#mcr ul,#mcr ol,#mcr li,#mcr blockquote,#mcr figure,#mcr summary,#mcr details{margin:0;padding:0;font-family:inherit;color:inherit;text-transform:none;letter-spacing:normal;max-width:none;border:0;background:none}\n'
          '#mcr h1,#mcr h2,#mcr h3,#mcr h4{font-weight:700}\n'
-         '#mcr ul,#mcr ol{list-style:none}\n#mcr li::before,#mcr li::marker{content:none}\n'
+         '#mcr ul,#mcr ol{list-style:none}\n'
+         '#mcr :where(p,div,ul,ol){margin-block-start:0}\n'   # the theme's .prose * + :is(p,div,ul,ol) adds 12 px between siblings; the page sets its own spacing
+         '#mcr li::before,#mcr li::marker{content:none}\n'
          '#mcr img,#mcr svg,#mcr video{margin:0 !important;border-radius:0}\n'
          '#mcr a{color:inherit;text-decoration:none}\n'
          '#mcr button{font-family:inherit;letter-spacing:normal;text-transform:none;box-shadow:none;margin:0;width:auto;min-width:0;line-height:inherit}\n'

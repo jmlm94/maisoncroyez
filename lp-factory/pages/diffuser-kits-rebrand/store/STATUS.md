@@ -142,3 +142,10 @@ Round 19 deployed 2026-11-22 15:35:51Z: fileUpdate css + js from raw @ 8d7b4d71,
 serves the script minified, double quotes; check served files with a quote-agnostic pattern.)
 
 Rounds 20 + 21 deployed 2026-11-22 16:07:34Z: fileUpdate css + js from raw @ 765c4224, pageUpdate, key dkr18-tiles.
+
+Theme margin (found by the live tile check, 2026-11-22): the theme rule .prose * + :is(p,div,ul,ol){margin-block-start:
+var(--spacing-3)} added 12 px above every p / div / ul / ol after the first inside the page, so on the live page the
+second and later tiles of a grid were pushed down and squeezed (two tile heights per grid) and other blocks had extra
+space the preview did not. The store reset now has #mcr :where(p,div,ul,ol){margin-block-start:0} (loses to every
+page rule, beats the theme). The local mock theme (scratchpad dk-preview/dep.js) carries the theme rule from now on.
+Store build dkr19-nomargin.

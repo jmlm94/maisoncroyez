@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 15: round 18 live (key dkr16-stick): sticky pill, straight to checkout from the sticky button with nothing picked
 # run note 14: refills wired (first delivery free, then $29.95); the real button with and without refills
 # run note 13: after the 23 / 34.5 px headline and the centered badges went live (key dkr14-h1d)
 # run note 12: after the 20% smaller headline went live (key dkr11-h1b)
@@ -99,9 +100,10 @@ jobs:
                     if (f && !IDS.plans) continue;
                     answers.length = 0;
                     await pg.goto(URL, { waitUntil: 'load' }); await pg.waitForTimeout(6000);
-                    v[key + 'page'] = await q((f) => { document.querySelector('#diffs .cardb[data-n="2"]').click(); document.querySelector('#each1').click(); const b = document.querySelector('#freqs .qtyb[data-f="' + f + '"]'); if (b && !document.querySelector('#step3').hidden) b.click(); return { step3Hidden: document.querySelector('#step3').hidden, freq: (document.querySelector('#freqs .qtyb[aria-pressed="true"]') || {}).dataset ? document.querySelector('#freqs .qtyb[aria-pressed="true"]').dataset.f : null, cta: document.querySelector('#cta').innerText.replace(/\s+/g, ' '), charge: document.querySelector('#charge').textContent, steps: [...document.querySelectorAll('.step-h .lab')].map((x) => x.innerText) }; }, f);
+                    v[key + 'page'] = await q((f) => { document.querySelector('#diffs .cardb[data-n="2"]').click(); if (f) document.querySelector('#each1').click(); const b = document.querySelector('#freqs .qtyb[data-f="' + f + '"]'); if (b && !document.querySelector('#step3').hidden) b.click(); return { step3Hidden: document.querySelector('#step3').hidden, freq: (document.querySelector('#freqs .qtyb[aria-pressed="true"]') || {}).dataset ? document.querySelector('#freqs .qtyb[aria-pressed="true"]').dataset.f : null, cta: document.querySelector('#cta').innerText.replace(/\s+/g, ' '), charge: document.querySelector('#charge').textContent, steps: [...document.querySelectorAll('.step-h .lab')].map((x) => x.innerText) }; }, f);
                     await pg.waitForTimeout(1500);
-                    await q(() => document.querySelector('#cta').click());
+                    v[key + 'stick'] = await q(() => { const g = document.querySelector('#stick-go'), r = g.getBoundingClientRect(); return { text: g.innerText, left: Math.round(r.left), right: Math.round(innerWidth - r.right), bottom: Math.round(innerHeight - r.bottom), h: Math.round(r.height), radius: getComputedStyle(g).borderRadius, bar: document.querySelector('#mcr .bar').innerText, dots: document.querySelector('#mcr').innerText.includes('\u00b7') }; });
+                    await q((f) => document.querySelector(f ? '#cta' : '#stick-go').click(), f);
                     try { await pg.waitForURL(/checkout/, { timeout: 25000 }); await pg.waitForTimeout(6000); v[key] = { reached: true, url: pg.url().split('?')[0].replace(/\/cn\/.*/, '/cn/...'), answers: answers.slice(), text: (await q(() => document.body.innerText.replace(/\s+/g, ' ').slice(0, 900))) }; }
                     catch (e) { v[key] = { reached: false, url: pg.url(), answers: answers.slice(), toast: await q(() => (document.querySelector('#toast') || {}).innerText || '') }; }
                     await pg.screenshot({ path: `${OUT}/${shot}` });

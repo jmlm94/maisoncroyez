@@ -134,3 +134,6 @@ now takes $39.95 off the first payment (first delivery free) and $10 off after c
 API. ids.json plans = 30: 7883817069, 60: 7883849837, 90: 7883882605. Step 3 shows on the store, labels say "of 3", scent
 lines carry the chosen plan (none with "No refills"). Deployed 15:06:55Z: fileUpdate css + js from raw @ 7d43c0da,
 pageUpdate, key dkr15-refills. Note: that group is also what the older offers use, so their first scent is free now too.
+
+Round 18 deployed 2026-11-22 15:20:10Z (standing push-live instruction): fileUpdate css + js from raw @ 35d24d75, pageUpdate,
+key dkr16-stick.

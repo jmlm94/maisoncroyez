@@ -368,3 +368,19 @@ it are in store/STATUS.md. Refills are off until the Subi plans exist; the cart 
 2026-11-22: speed pass on the test page (mobile about 61 -> about 82, LCP 6.6 s -> 3.9 s; desktop 97-98) and the refill step
 switched to 30 / 60 / 90 days at $29.95 instead of $39.95. Refills are still not wired; the reason and the open decision
 are in store/STATUS.md. One review no longer names two competing diffusers.
+
+## Gallery round 2: rebuilt on the owner's shoot (2026-11-22)
+
+Owner: "I still don't love some of the images used to build the main carousel" + a zip of 18 photos from his shoot
+(800 x 800, exported from Canva). They are in gallery/shoot/shoot-01..18.jpg. What they have in common: side daylight,
+low contrast, shallow focus with the diffuser sharp in front; plaster walls, linen, walnut, stone, plants, a dog, friends
+on a sofa; evening shots dark with the night light as the one warm point.
+- All nine pictures now use only those photos (00 main: 14 | 01: 15 | 02: 5 | 03: 11 | 04: 1 | 05: 2, 1, 8 | 06: 14 |
+  07: 6 | 08: 10). Nothing generated. Words unchanged, except the main picture's alt text.
+- Palette from the photos: linen #F4EFE7, plaster #E6DDD0, clay #CBBBA8, walnut #4A3526, espresso #211811. The purple
+  (#4B55D6) is only the accent now: no purple or lavender blocks, no peach gradient. Picture 08 lost its measuring lines
+  (the three numbers carry the size).
+- The photos are 800 px, so they are enlarged about 2x (gallery/prep-shoot.py -> gallery/hd, not committed). With the
+  full-size originals saved as gallery/hd/shoot-NN.png, `node gallery/make-gallery.js` gives sharp pictures, no other
+  change. A sharpened set was made in Higgsfield (2 of 18) but could not be downloaded into this session.
+- Preview page and review page updated (artifact versions 18 and 3). The store page is not changed yet.

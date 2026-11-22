@@ -68,3 +68,20 @@ Note: the scents are $39.95 in the store; the page now says "$39.95 value".
 
 To undo: productDelete 15507003506797; discountAutomaticDelete the three nodes; fileDelete the 37 files and the six fonts; pageUpdate 163782164589 back to
 lp-factory/pages/diffuser-kits-2/page-body.html (key dk2a-bd9ca46).
+
+## Three QA tests on the live test page (2026-11-22, owner: "run 3 QA tests")
+
+1. Prices and discounts (Shopify draftOrderCalculate, automatic discounts on): 1 diffuser + 1 scent = $89.00, 2 + 2 =
+   $159.00, 3 + 3 = $239.00, scents at $0 each time; 1 diffuser + 2 scents = $128.95 (only one free). Passed.
+2. The page and the buy box (.github/workflows/dkr-shot.yml, run for a3750342; phone 390, tablet 820, desktop 1440): 200,
+   no script errors, 42 pictures none broken, fonts loaded, 9 gallery pictures and the arrow moves them, FAQ opens,
+   9 reviews, 7 scents, 10 customer photos, theme bar and title hidden, no sideways scroll, sticky button at the bottom,
+   step 3 hidden. Buy box with the cart answered by the test: for 1 / 2 / 3 diffusers the button is locked until the
+   scents are picked, no more than the kit allows can be picked, both buttons show $89 / $159 / $239, and the cart
+   receives exactly the kit variant plus the picked scents. Passed on all three screens.
+3. The real button once (phone, 2 diffusers + the two best sellers): cart.js 200, cart/add.js 200, landed on
+   /checkouts/..., order summary "Total price $238.90, Discounted price $159.00". Passed. No order was placed.
+Not covered by a machine: paying. Results in store/shots/result.json.
+
+Gallery round 2 (same day) is in the preview only; the store page still shows the round-1 pictures until the owner says
+to swap them (37 files -> the nine mc-dkr-g-0N.webp need replacing, then a new key).

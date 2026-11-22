@@ -4,7 +4,7 @@
 <style>
 /* Layout: one column of picture cards on a phone, a grid on wider screens; each card is the picture, then the question
    it answers. One committed look: the brand's own colors in either viewer theme. */
-:root{--cream:#F9F6EE;--paper:#FFFDF9;--sand:#EAE1D1;--stone:#CFC4B1;--drift:#6E655B;--night:#161210;--sig:#6169DF;--ink:#4B55D6;--wash:#E7E8FB;
+:root{--cream:#F9F6EE;--paper:#FFFDF9;--sand:#EAE1D1;--stone:#CFC4B1;--drift:#6E655B;--night:#1E1611;--sig:#6169DF;--ink:#4B55D6;--wash:#E6DDD0;
   --f:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;--m:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;color-scheme:light}
 :root:not([data-theme="light"]){--cream:#F9F6EE}
 :root[data-theme="dark"]{--cream:#F9F6EE}
@@ -22,16 +22,35 @@ h1{font-weight:700;font-size:clamp(34px,5vw,56px);letter-spacing:-.04em;line-hei
 h2{font-weight:700;font-size:22px;letter-spacing:-.025em;line-height:1.15;margin:0;text-wrap:balance}
 .tx p{margin:0;color:var(--drift);font-size:15.5px}
 .tx .flag{margin-top:4px;background:var(--wash);color:var(--night);border-radius:8px;padding:9px 11px;font-size:14px}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(16px,2.4vw,28px);margin-top:clamp(20px,3vw,32px)}
+.read h2{font-size:19px}.read p{margin:6px 0 0;color:var(--drift);font-size:15.5px}
+.sw{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
+.sw i{display:block;aspect-ratio:1;border-radius:8px;border:1px solid rgba(30,22,17,.14)}
+.sw span{display:block;font:500 10.5px/1.3 var(--m);letter-spacing:.04em;color:var(--drift);margin-top:5px;overflow-wrap:anywhere}
 </style>
 <div class="w">
   <span class="lab">Maison Croyez | Waterless diffuser</span>
-  <h1>Eight pictures, eight answers.</h1>
-  <p class="intro">Square, 2000 x 2000, for the product page gallery. <b>Each picture answers one question a first-time visitor has before she buys</b>, in the order the customer survey and the page’s own questions put them. Every layout is different and none carries a number. To save a picture, press and hold it.</p>
+  <h1>Nine pictures, rebuilt on your shoot.</h1>
+  <p class="intro">Square, 2000 x 2000, for the product page gallery. <b>Every photo in them is now one of the 18 you sent</b>; nothing is generated. The words are the ones you already approved. To save a picture, press and hold it.</p>
+  <div class="read">
+    <div><h2>Colour</h2><p>Taken from the photos: plaster wall, linen, walnut and a warm near-black. The purple of the page’s button stays as the one accent.</p>
+      <div class="sw"><div><i style="background:#F4EFE7"></i><span>Linen<br>#F4EFE7</span></div><div><i style="background:#E6DDD0"></i><span>Plaster<br>#E6DDD0</span></div><div><i style="background:#CBBBA8"></i><span>Clay<br>#CBBBA8</span></div><div><i style="background:#4A3526"></i><span>Walnut<br>#4A3526</span></div><div><i style="background:#211811"></i><span>Espresso<br>#211811</span></div><div><i style="background:#4B55D6"></i><span>Accent<br>#4B55D6</span></div></div></div>
+    <div><h2>Style</h2><p>Soft daylight from the side, low contrast, shallow focus with the diffuser sharp in front and people behind it. Evening shots are dark with the night light as the only warm point.</p></div>
+    <div><h2>Setting</h2><p>A calm home with people in it: linen shirts and grey loungewear, stone counters, walnut wood, plants, a dog, friends on the sofa. The diffuser is part of the room, never on a white background.</p></div>
+  </div>
   <div class="grid">
+<article class="card">
+  <img src="out/diffuser-gallery-00-main.jpg" alt="The Maison Croyez waterless diffuser and a 100 ml scent bottle on a stone shelf. Leave the day at the door: one press, the whole room in about ten minutes. No water, no flame, your first scent is free, 30-day money back." loading="lazy" width="2000" height="2000">
+  <div class="tx">
+    <span class="lab">00 | Shoot photo 14, full picture</span>
+    <h2>What is this, and why would I want it?</h2>
+    <p>The first picture she sees: the diffuser, a scent bottle, the line, three reasons and the 30 days.</p>
+  </div>
+</article>
 <article class="card">
   <img src="out/diffuser-gallery-01-what-it-is.jpg" alt="The Maison Croyez waterless scent diffuser. Scent for the whole room, no water, no flame. About 10 minutes to fill the room, up to 600 sq ft from one diffuser, one button with three strengths." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">01 | Text column and product panel</span>
+    <span class="lab">01 | Text column, shoot photo 15</span>
     <h2>What is it, and will I smell it?</h2>
     <p>Cold visitors do not know what a waterless diffuser is. The three numbers are the facts the current page already states.</p>
   </div>
@@ -39,51 +58,50 @@ h2{font-weight:700;font-size:22px;letter-spacing:-.025em;line-height:1.15;margin
 <article class="card">
   <img src="out/diffuser-gallery-02-how-it-smells.jpg" alt="Not sure how it smells? Your first scent is free: one free 100 ml scent with every diffuser. Seven to choose from, each described by what it smells like and its three notes, for example Golden Blossom Harmony, like walking into a florist. Don’t love one? We swap it, free." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">02 | Dark list with the seven boxes</span>
+    <span class="lab">02 | Dark list, shoot photo 5 in the circle</span>
     <h2>I can’t smell it through a screen.</h2>
     <p>The first reason buyers gave in the customer survey for almost not buying. Answered with the free scent, what each of the seven smells like, their notes from the printed boxes, and the free swap.</p>
-    <p class="flag">“One free scent with every diffuser” is the offer on this preview page. Change the line if the offer changes.</p>
+    <p class="flag">The seven small scent pictures are the same ones the page uses in step 2.</p>
   </div>
 </article>
 <article class="card">
   <img src="out/diffuser-gallery-03-safe-to-leave-on.jpg" alt="Made to be left on: no flame, no water, no heat, and a timer for 1, 3, 6 or 12 hours that stops on its own. A buyer says: I can go to sleep with it on in our bedroom and feel safe." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">03 | Photo with one card</span>
+    <span class="lab">03 | Shoot photo 11 with one card</span>
     <h2>Can I leave it on and go to bed?</h2>
     <p>Bedroom use came up on its own in the survey. The quote is a real answer from it, about the diffuser.</p>
-    <p class="flag">The bedroom picture is generated from the real product photo.</p>
   </div>
 </article>
 <article class="card">
   <img src="out/diffuser-gallery-04-vs-candles.jpg" alt="Candles and plug-ins next to Maison Croyez: no flame and it turns itself off, the whole room in ten minutes, 15+ days from every bottle, pour once and nothing to clean." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">04 | Comparison table</span>
+    <span class="lab">04 | Comparison table, shoot photo 1</span>
     <h2>Why not just a candle or a plug-in?</h2>
-    <p>The comparison she is already making. Same four rows as the slide on the page.</p>
+    <p>The comparison she is already making. Same four rows as the table on the page.</p>
   </div>
 </article>
 <article class="card">
   <img src="out/diffuser-gallery-05-how-to-use.jpg" alt="How to use it: pour in your 100 ml bottle, press once, exhale. Three strengths: subtle, balanced or full. A timer for 1, 3, 6 or 12 hours and a night light you can switch off." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">05 | Three photos and a band</span>
+    <span class="lab">05 | Shoot photos 2, 1 and 8, and a band</span>
     <h2>Is it one more thing to look after?</h2>
     <p>One of the four worries on the page. Three steps, the three strengths, the timer and the night light.</p>
-    <p class="flag">Strength names (Subtle, Balanced, Full) come from the brand kit’s G1, G2, G3.</p>
+    <p class="flag">There is no photo of the scent being poured in, so step 1 shows the bottle in her hand next to the diffuser.</p>
   </div>
 </article>
 <article class="card">
   <img src="out/diffuser-gallery-06-how-long-it-lasts.jpg" alt="One 100 ml bottle gives 15+ days of scent, under $2 an evening. Refills are your choice, we email you before every charge, and you can skip, swap or cancel any time." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">06 | Big number on a color block</span>
+    <span class="lab">06 | Big number, shoot photo 14 in the circle</span>
     <h2>What does it cost me after today? Am I locked in?</h2>
     <p>Price and the subscription were reasons two and three in the survey.</p>
-    <p class="flag">“Under $2 an evening” assumes a $29 refill that lasts 15 days. Remove the seal if the refill price changes.</p>
+    <p class="flag">“Under $2 an evening” assumes a $29.95 refill that lasts 15 days. Remove the seal if the refill price changes.</p>
   </div>
 </article>
 <article class="card">
   <img src="out/diffuser-gallery-07-the-promise.jpg" alt="The promise: love it in 30 days or every dollar back. Free shipping, a prepaid return label, a free scent swap and a lifetime warranty on the diffuser." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">07 | Color block with an arch photo</span>
+    <span class="lab">07 | Walnut block, shoot photo 6 in the arch</span>
     <h2>What if I don’t like it?</h2>
     <p>The last thing between her and the button: the 30 days, the prepaid label, the scent swap, the warranty.</p>
   </div>
@@ -91,7 +109,7 @@ h2{font-weight:700;font-size:22px;letter-spacing:-.025em;line-height:1.15;margin
 <article class="card">
   <img src="out/diffuser-gallery-08-look-and-size.jpg" alt="The Maison Croyez diffuser: 11.5 inches tall, 4 by 4 inches wide, 2.25 pounds. Guests ask what it is; most people think it is a speaker. A buyer says visitors always comment on how wonderful the house smells." loading="lazy" width="2000" height="2000">
   <div class="tx">
-    <span class="lab">08 | Text column and the product with its measurements</span>
+    <span class="lab">08 | Text column, shoot photo 10</span>
     <h2>How big is it, and how will it look in my room?</h2>
     <p>Size and weight are his figures (4 x 4 x 11.5 in, 2.25 lb). The “speaker” line is from his earlier draft; the quote is a real review.</p>
   </div>

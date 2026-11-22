@@ -27,7 +27,8 @@ cut(r'<footer>.*?</footer>\s*')
 assert '#mc-two' not in body and 'Preview' not in body.replace('Preview only. Nothing was added.', ''), 'preview chrome left'
 pics = sorted(set(re.findall(r'src="((?:img|old)/[^"]+)"', body)))
 # gallery pictures carry a round tag (g2 = the shoot-photo set, 2026-11-22) so a new set never meets a cached old one
-name = lambda p: 'mc-dkr-' + p.replace('img/g-', 'g2-').replace('img/', '').replace('old/', 'o-')
+# photos the owner uploaded to Files himself-named (mc-shoot-NN-<name>.webp) keep that name
+name = lambda p: os.path.basename(p) if os.path.basename(p).startswith('mc-shoot-') else 'mc-dkr-' + p.replace('img/g-', 'g2-').replace('img/', '').replace('old/', 'o-')
 def sized(p):
     u = B + name(p); f = os.path.basename(p)
     if f.startswith('g-'):   # the gallery: full column width on a phone, about 640 px on a desktop
@@ -35,7 +36,7 @@ def sized(p):
     if f.startswith('ugc-'): return 'src="%s?width=200"' % u
     if f.startswith('pick-'): return 'src="%s?width=160"' % u
     if f.startswith('step'): return 'src="%s?width=300"' % u
-    if f in ('hero-frame.webp', 'spaces1.webp', 'goodbye1.webp', 'badge1.webp'):
+    if f in ('hero-frame.webp', 'spaces1.webp', 'goodbye1.webp', 'badge1.webp') or f.startswith('mc-shoot-'):
         return 'src="%s?width=640" srcset="%s?width=400 400w, %s?width=640 640w" sizes="(max-width:860px) 46vw, 560px"' % (u, u, u)
     return 'src="%s"' % u
 for p in pics: body = body.replace('src="%s"' % p, sized(p))

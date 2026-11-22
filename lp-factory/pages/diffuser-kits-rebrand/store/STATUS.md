@@ -99,3 +99,7 @@ mc-shoot-19-entry-keys.webp (MediaImage 47044202889325), mc-shoot-20-three-scent
 mc-shoot-21-side-table-mug.webp (47044202954861), mc-shoot-22-sofa-dog.webp (47044202987629),
 mc-shoot-23-desk-journal.webp (47044203020397). 800 x 800, 31-46 KB each, from gallery/shoot-800 @ 6b8ad70a. Not used on
 the page; he will say which pictures to switch.
+
+2026-11-22, comment on the preview: first "day to evening" card photo -> mc-shoot-19-entry-keys.webp (already in Files).
+Done in the preview (artifact version 20). Store files are built with key dkr7-shoot19 and committed, NOT deployed: the
+live page is still dkr6-g2shoot until the owner says to push (fileUpdate css + js from raw, then pageUpdate).

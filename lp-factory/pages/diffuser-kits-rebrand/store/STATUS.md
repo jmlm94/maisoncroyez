@@ -149,3 +149,4 @@ second and later tiles of a grid were pushed down and squeezed (two tile heights
 space the preview did not. The store reset now has #mcr :where(p,div,ul,ol){margin-block-start:0} (loses to every
 page rule, beats the theme). The local mock theme (scratchpad dk-preview/dep.js) carries the theme rule from now on.
 Store build dkr19-nomargin.
+Deployed 2026-11-22 16:14:19Z: fileUpdate css + js from raw @ 1e0b3f9f, pageUpdate, key dkr19-nomargin.

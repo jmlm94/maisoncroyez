@@ -668,6 +668,39 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
 .stick .stick-go{display:flex;align-items:center;justify-content:center;gap:8px}
 .stick .stick-go .ic{font-size:19px;flex:none}
 #step1{scroll-margin-top:20px}
+/* round 20: step 2 tiles about 8% smaller, all the same size (the script below evens out the four rows of every tile) */
+.rows{gap:7px}
+.rows .row{grid-row:auto;grid-template-rows:auto auto auto auto;grid-template-columns:48px minmax(0,1fr);row-gap:7px;column-gap:9px;padding:9px;align-content:start}
+.rows>.each1{grid-row:auto}
+.row .ph{width:48px;height:48px;border-radius:7px}
+.row b{font-size:14.25px}
+.row .tx span{font-size:11.5px}
+.row .tx .ml{font-size:9.75px;margin-top:3px}
+.row .stepper{gap:9px}
+.row .stepper button{width:33px;height:33px;font-size:15px}
+.row .stepper output{font-size:16.5px;min-width:24px}
+.row .more,.row .more span{font-size:11.5px}
+.row .more span:first-child{padding-top:7px}
+.row .more i{font-size:8.75px}
+/* round 21: the scents grid: eight tiles, one structure. Desktop: square left, text right. Phone: square on top, a name
+   area two lines tall with the name centred in it, the family on one line, all centred, so every tile lines up */
+.s.tight .lede{text-wrap:balance}
+.sm.facts{list-style:none;margin:0;background:var(--paper);color:var(--night);border-color:var(--stone);padding:10px;grid-template-columns:64px minmax(0,1fr);gap:12px;align-content:normal;align-items:center}
+.sm .fx{width:64px;aspect-ratio:1;border-radius:8px;background:var(--night);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.sm .fx strong{font-weight:700;font-size:18px;letter-spacing:-.03em;line-height:1}
+.sm .fx em{font:600 8.5px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--sig-light)}
+@media (max-width:860px){
+  .smini>.sm,.smini>.sm.facts{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;align-content:start;align-items:start;text-align:center;gap:6px;padding:6px 6px 8px}
+  .smini>.sm>div:last-child{display:block;height:auto}
+  .smini>.sm>div:last-child b{display:flex;align-items:center;justify-content:center;min-height:2.3em}
+  .smini>.sm>div:last-child span{margin-top:2px;padding-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10.5px}
+  .sm .fx{width:100%;border-radius:6px}
+  .sm .fx strong{font-size:clamp(15px,4.6vw,22px)}
+  .sm .fx em{font-size:clamp(7.5px,2vw,10px)}
+}
+.ugc-h h2{font-size:clamp(16.4px,1.93vw,20.8px)}
+@media (max-width:640px){.smini>.sm>div:last-child b{min-height:3.45em}}
+@media (max-width:400px){.smini>.sm>div:last-child span{font-size:10px;letter-spacing:-.01em}}
 </style>
 
 <!--SYMBOLS-->
@@ -818,7 +851,7 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
     <div class="sm"><img src="old/pick-wildwood.webp" alt="" loading="lazy" width="400" height="400"><div><b>Wildwood Mystique</b><span>Pine Forest</span><small>Pine and juniper. Like a walk in the woods after rain.</small></div></div>
     <div class="sm"><img src="old/pick-chilled.webp" alt="" loading="lazy" width="400" height="400"><div><b>Chilled Citrus</b><span>Lavender</span><small>Lavender and eucalyptus. Like a day spa.</small></div></div>
     <div class="sm"><img src="old/pick-midnight.webp" alt="" loading="lazy" width="400" height="400"><div><b>Midnight Sensation</b><span>Floral Musk</span><small>White flowers and soft musk. Like perfume on warm skin.</small></div></div>
-    <ul class="sm facts"><li>{{i:check}}100% organic ingredients</li><li>{{i:check}}Paraben-free</li><li>{{i:check}}Cruelty-free</li></ul>
+    <div class="sm facts"><div class="fx" aria-hidden="true"><strong>100%</strong><em>organic</em></div><div><b>Paraben-free</b><span>Cruelty-free</span><small>100% organic ingredients in every bottle.</small></div></div>
   </div>
 </div></section>
 
@@ -965,6 +998,12 @@ body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
   /* straight to checkout: scent slots still empty are filled with the best sellers, in their order */
   function topUp(){var i=0;while(count()<st.diff){var k=AUTO[i%AUTO.length];if(i>=AUTO.length||st.picks[k]===0)st.picks[k]++;i++}render()}
   $('#each1').addEventListener('click',auto);
+  /* round 20: every scent tile the same size: each of the four rows gets the height of the tallest one across the tiles */
+  function eqScents(){var g=document.getElementById('scents');if(!g||!g.offsetWidth)return;
+    ['.tx','.stepper','.more span:first-child','.more span:last-child'].forEach(function(sel){var els=[].slice.call(g.querySelectorAll('.row '+sel)),m=0;
+      els.forEach(function(e){e.style.minHeight=''});els.forEach(function(e){m=Math.max(m,e.offsetHeight)});els.forEach(function(e){e.style.minHeight=m+'px'})})}
+  eqScents();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(eqScents);
+  var eqT=0;addEventListener('resize',function(){clearTimeout(eqT);eqT=setTimeout(eqScents,120)});
   $('#cta').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});
   $$('[data-top]').forEach(function(b){b.addEventListener('click',function(){go('buybox')})});
   $$('[data-to]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.to)})});

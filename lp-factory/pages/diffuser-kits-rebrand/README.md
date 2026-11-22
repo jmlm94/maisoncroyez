@@ -457,3 +457,17 @@ Owner: "change the button to build my kit -> and we scroll them up to the diffus
 "Build my kit" with an arrow and scrolls to step 1 (How many diffusers?, id step1; 96 px margin on the store for the
 theme header). It no longer adds anything to the cart. The main button in the buy box still goes straight to checkout
 (empty scent slots topped up with the best sellers). Store build dkr17-buildkit.
+
+## Rounds 20 + 21 (2026-11-22)
+
+- Step 2 (comment): tiles about 8% smaller (name 15.5 -> 14.25 px, picture 52 -> 48 px, buttons 36 -> 33 px, padding and gaps
+  10 -> 9 px) and every tile the same size: the four rows of each tile (name, - 0 +, smells like, notes) take the height
+  of the tallest one across the seven (small script eqScents, runs on load, after fonts, on resize). Phone 176 x 263,
+  desktop 238 x 231, all seven plus the best-sellers tile.
+- Seven scents grid (his phone screenshot "looks bad"): one structure for all eight tiles. Phone: square picture, a
+  name slot three lines tall (two on tablets) with the name centred, the family on one line, all centred. The facts
+  tile matches: a dark square "100% organic", name "Paraben-free", family "Cruelty-free" (desktop adds "100% organic
+  ingredients in every bottle."). Checked at 360, 375, 430, 768, 1440: one tile size per width, nothing cut off.
+- The intro line is balanced (no lone "free.").
+- "Loved in 2,500+ homes across America." 7% smaller (16.4 to 20.8 px).
+Store build dkr18-tiles.

@@ -773,6 +773,40 @@ color-scheme:light;
 #mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;gap:8px}
 #mcr .stick .stick-go .ic{font-size:19px;flex:none}
 #mcr #step1{scroll-margin-top:20px}
+#mcr .rows{gap:7px}
+#mcr .rows .row{grid-row:auto;grid-template-rows:auto auto auto auto;grid-template-columns:48px minmax(0,1fr);row-gap:7px;column-gap:9px;padding:9px;align-content:start}
+#mcr .rows>.each1{grid-row:auto}
+#mcr .row .ph{width:48px;height:48px;border-radius:7px}
+#mcr .row b{font-size:14.25px}
+#mcr .row .tx span{font-size:11.5px}
+#mcr .row .tx .ml{font-size:9.75px;margin-top:3px}
+#mcr .row .stepper{gap:9px}
+#mcr .row .stepper button{width:33px;height:33px;font-size:15px}
+#mcr .row .stepper output{font-size:16.5px;min-width:24px}
+#mcr .row .more,#mcr .row .more span{font-size:11.5px}
+#mcr .row .more span:first-child{padding-top:7px}
+#mcr .row .more i{font-size:8.75px}
+#mcr .s.tight .lede{text-wrap:balance}
+#mcr .sm.facts{list-style:none;margin:0;background:var(--paper);color:var(--night);border-color:var(--stone);padding:10px;grid-template-columns:64px minmax(0,1fr);gap:12px;align-content:normal;align-items:center}
+#mcr .sm .fx{width:64px;aspect-ratio:1;border-radius:8px;background:var(--night);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#mcr .sm .fx strong{font-weight:700;font-size:18px;letter-spacing:-.03em;line-height:1}
+#mcr .sm .fx em{font:600 8.5px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--sig-light)}
+@media (max-width:860px){
+#mcr .smini>.sm,#mcr .smini>.sm.facts{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;align-content:start;align-items:start;text-align:center;gap:6px;padding:6px 6px 8px}
+#mcr .smini>.sm>div:last-child{display:block;height:auto}
+#mcr .smini>.sm>div:last-child b{display:flex;align-items:center;justify-content:center;min-height:2.3em}
+#mcr .smini>.sm>div:last-child span{margin-top:2px;padding-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10.5px}
+#mcr .sm .fx{width:100%;border-radius:6px}
+#mcr .sm .fx strong{font-size:clamp(15px,4.6vw,22px)}
+#mcr .sm .fx em{font-size:clamp(7.5px,2vw,10px)}
+}
+#mcr .ugc-h h2{font-size:clamp(16.4px,1.93vw,20.8px)}
+@media (max-width:640px){
+#mcr .smini>.sm>div:last-child b{min-height:3.45em}
+}
+@media (max-width:400px){
+#mcr .smini>.sm>div:last-child span{font-size:10px;letter-spacing:-.01em}
+}
 #mcr .stick{z-index:60}
 #mcr #step1{scroll-margin-top:96px}
 #mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}

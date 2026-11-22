@@ -115,5 +115,5 @@ Deployed 2026-11-22 14:09:53Z on his "push live" (after he reconnected Shopify):
 pageUpdate, key dkr10-h1. Carries rounds 16 + 17 (alignment pass, label above the headline deleted, six comments, 100 ml on
 the scent tiles, headline 15% smaller) and the bottom margin fix for the strip above the theme footer.
 
-2026-11-22: headline + photo title 20% smaller in the preview (version 25). Store files built as dkr11-h1b, NOT deployed;
-the live page is dkr10-h1.
+2026-11-22: headline + photo title 20% smaller in the preview (version 25). Deployed on his "push live": fileUpdate css + js from raw @ a3a207d0, pageUpdate
+14:40:02Z, key dkr11-h1b.

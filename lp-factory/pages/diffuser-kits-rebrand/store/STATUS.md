@@ -150,3 +150,4 @@ space the preview did not. The store reset now has #mcr :where(p,div,ul,ol){marg
 page rule, beats the theme). The local mock theme (scratchpad dk-preview/dep.js) carries the theme rule from now on.
 Store build dkr19-nomargin.
 Deployed 2026-11-22 16:14:19Z: fileUpdate css + js from raw @ 1e0b3f9f, pageUpdate, key dkr19-nomargin.
+Round 22 deployed 2026-11-22 16:22:32Z: fileUpdate css + js from raw @ 85004d85, pageUpdate, key dkr20-trim.

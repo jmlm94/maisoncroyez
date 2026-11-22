@@ -110,3 +110,7 @@ built with key dkr8-align and committed, NOT deployed; the live page is still dk
 built with key dkr9-comments and committed @ d311802a, NOT deployed: the Shopify connector refused twice with "needs you
 to sign in again". The live page is still dkr7-shoot19. When he is signed in: confirm the shop is Maison Croyez, fileUpdate
 css + js from raw @ d311802a (or later), pageUpdate with store/page-body.html, then the dkr-shot run.
+
+Deployed 2026-11-22 14:09:53Z on his "push live" (after he reconnected Shopify): fileUpdate css + js from raw @ 5c7724ba,
+pageUpdate, key dkr10-h1. Carries rounds 16 + 17 (alignment pass, label above the headline deleted, six comments, 100 ml on
+the scent tiles, headline 15% smaller) and the bottom margin fix for the strip above the theme footer.

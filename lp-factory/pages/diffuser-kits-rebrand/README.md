@@ -436,3 +436,6 @@ dkr12-h1c, not deployed.
 
 Round 17f (comment sent to Claude): the "Most popular" and "Whole home" badges on the step 1 cards sit centered on their
 card (they were 10 px from the left edge). Store build dkr13-tags, not deployed.
+
+Round 17g (comment sent to Claude): headline 15% bigger, 23 px on a phone and 34.5 px on desktop. Store build dkr14-h1d,
+not deployed.

@@ -118,5 +118,5 @@ the scent tiles, headline 15% smaller) and the bottom margin fix for the strip a
 2026-11-22: headline + photo title 20% smaller in the preview (version 25). Deployed on his "push live": fileUpdate css + js from raw @ a3a207d0, pageUpdate
 14:40:02Z, key dkr11-h1b.
 
-2026-11-22: headline 20 px phone / 30 px desktop in the preview (version 26). Then the two step 1 badges centered (version 27). Store files built as
-dkr13-tags, NOT deployed; the live page is dkr11-h1b.
+2026-11-22: headline 20 px phone / 30 px desktop in the preview (version 26). Then the two step 1 badges centered (version 27). Then the headline 15% bigger (23 / 34.5 px,
+version 28). Store files built as dkr14-h1d, NOT deployed; the live page is dkr11-h1b.

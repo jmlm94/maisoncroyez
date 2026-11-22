@@ -744,9 +744,9 @@ color-scheme:light;
 #mcr .ft-bot{flex-direction:column-reverse;align-items:flex-start}
 }
 #mcr .bb>div:nth-child(2){container-type:inline-size}
-#mcr h1.hd{font-size:clamp(24px,3.2vw,37px)}
-@supports (font-size:1cqw){
-#mcr h1.hd{font-size:clamp(21px,7.2cqw,39px)}
+#mcr h1.hd{font-size:30px}
+@media (max-width:860px){
+#mcr h1.hd{font-size:20px}
 }
 #mcr .ugc-h h2{font-size:clamp(17.6px,2.08vw,22.4px)}
 @media (max-width:640px){

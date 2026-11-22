@@ -429,3 +429,7 @@ Round 17c: headline 15% smaller on his word (32 px on a phone, 43.5 px on a 1440
 
 Round 17d (comment sent to Claude, 2026-11-22): headline and the "Loved in 2,500+ homes" title 20% smaller (headline 26 px
 on a phone, 35 px on a 1440 desktop; photo title 17.6 to 22.4 px). Store build dkr11-h1b, not deployed.
+
+Round 17e (comment sent to Claude, 2026-11-22: "Reduce 20px for phone and 30px in desktop"): read as "reduce to": the
+headline is 20 px up to 860 px wide and 30 px above (taking 20 / 30 px off 26 / 35 px would leave 6 / 5 px). Store build
+dkr12-h1c, not deployed.

@@ -117,3 +117,6 @@ the scent tiles, headline 15% smaller) and the bottom margin fix for the strip a
 
 2026-11-22: headline + photo title 20% smaller in the preview (version 25). Deployed on his "push live": fileUpdate css + js from raw @ a3a207d0, pageUpdate
 14:40:02Z, key dkr11-h1b.
+
+2026-11-22: headline 20 px phone / 30 px desktop in the preview (version 26). Store files built as dkr12-h1c, NOT deployed;
+the live page is dkr11-h1b.

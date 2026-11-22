@@ -10,7 +10,7 @@ import json, os, re, sys
 D = os.path.dirname(os.path.abspath(__file__))
 KEY = sys.argv[1] if len(sys.argv) > 1 else 'dev'
 IDS = json.load(open(os.path.join(D, 'ids.json'), encoding='utf-8'))
-B = 'https://cdn.shopify.com/s/files/1/0020/3636/7469/files/'
+B = 'https://maisoncroyez.com/cdn/shop/files/'   # the same files as cdn.shopify.com/s/files/1/0020/3636/7469/files/, on the shop's own domain: no second connection
 html = open(os.path.join(D, '..', 'diffuser-kits-rebrand.html'), encoding='utf-8').read()
 
 m = re.search(r'<style>\n(.*?)</style>\n(.*)<script>\n(.*?)</script>\s*$', html, re.S); assert m, 'page structure changed'

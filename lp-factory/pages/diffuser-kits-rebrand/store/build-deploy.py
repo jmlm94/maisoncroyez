@@ -27,8 +27,19 @@ cut(r'<footer>.*?</footer>\s*')
 assert '#mc-two' not in body and 'Preview' not in body.replace('Preview only. Nothing was added.', ''), 'preview chrome left'
 pics = sorted(set(re.findall(r'src="((?:img|old)/[^"]+)"', body)))
 name = lambda p: 'mc-dkr-' + p.replace('img/', '').replace('old/', 'o-')
-for p in pics: body = body.replace('src="%s"' % p, 'src="%s%s"' % (B, name(p)))
+def sized(p):
+    u = B + name(p); f = os.path.basename(p)
+    if f.startswith('g-'):   # the gallery: full column width on a phone, about 640 px on a desktop
+        return 'src="%s?width=900" srcset="%s?width=600 600w, %s?width=900 900w, %s?width=1400 1400w" sizes="(max-width:860px) 100vw, 640px"' % (u, u, u, u)
+    if f.startswith('ugc-'): return 'src="%s?width=200"' % u
+    if f.startswith('pick-'): return 'src="%s?width=160"' % u
+    if f.startswith('step'): return 'src="%s?width=300"' % u
+    if f in ('hero-frame.webp', 'spaces1.webp', 'goodbye1.webp', 'badge1.webp'):
+        return 'src="%s?width=640" srcset="%s?width=400 400w, %s?width=640 640w" sizes="(max-width:860px) 46vw, 560px"' % (u, u, u)
+    return 'src="%s"' % u
+for p in pics: body = body.replace('src="%s"' % p, sized(p))
 assert not re.search(r'src="(?:img|old)/', body)
+body = body.replace('<img ', '<img decoding="async" ').replace('<img decoding="async" src="%smc-dkr-g-00.webp' % B, '<img src="%smc-dkr-g-00.webp' % B)
 json.dump([{'repo': p, 'file': name(p)} for p in pics], open(os.path.join(D, 'files.json'), 'w'), indent=1)
 
 # ---- the styles under #mcr ----
@@ -60,7 +71,11 @@ RESET = ('/* built by store/build-deploy.py from pdp.src.html; do not edit by ha
          '#mcr button{font-family:inherit;letter-spacing:normal;text-transform:none;box-shadow:none;margin:0;width:auto;min-width:0;line-height:inherit}\n'
          '#mcr blockquote{quotes:none}#mcr blockquote::before,#mcr blockquote::after{content:none}\n'
          '#mcr details>summary{list-style:none}#mcr details>summary::-webkit-details-marker{display:none}\n')
-css = RESET + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}\n#mcr .bar{width:100%}\n#mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}\n'
+FONTS = ''.join('@font-face{font-family:"%s";font-style:normal;font-weight:%s;font-display:swap;src:url(%smc-dkr-f-%s.woff2) format("woff2")}\n' % x + '' for x in [
+    ('DM Sans', '400', B, 'dm-400'), ('DM Sans', '500', B, 'dm-500'), ('DM Sans', '600', B, 'dm-600'), ('DM Sans', '700 800', B, 'dm-700'),
+    ('Roboto Mono', '400 500', B, 'mono-500'), ('Roboto Mono', '600 700', B, 'mono-600')])
+LAZY = '#mcr main>section{content-visibility:auto;contain-intrinsic-size:auto 900px}\n'
+css = FONTS + RESET + LAZY + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr .stick .stick-go{display:flex;align-items:center;justify-content:center;text-align:center}\n#mcr .bar{width:100%}\n#mcr #cta[aria-busy="true"],#mcr #stick-go[aria-busy="true"]{opacity:.7;pointer-events:none}\n'
 open(os.path.join(D, 'mc-dkr.css'), 'w', encoding='utf-8').write(css)
 
 # ---- the script: the page's own, with the real cart ----
@@ -100,19 +115,27 @@ CART = r'''
 })();'''
 js = js.replace(a, CART.replace('__CFG__', json.dumps({'kit': IDS['kit'], 'scent': IDS['scent'], 'plans': IDS.get('plans')}, separators=(',', ':'))))
 S = lambda s: '"' + s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('</script>', '<\\/script>') + '"'
-app = '/* built by store/build-deploy.py; do not edit by hand */\n(function(){\nvar root=document.getElementById("mcr");if(!root||root.children.length)return;\nroot.innerHTML=' + S(body.strip()) + ';\n})();\n' + js.strip() + '\n'
+# The page body carries the top bar and the main picture as plain HTML (so the largest picture does not wait for this
+# file); this file brings the rest of the page and moves that same <img> into its place in the gallery.
+app = ('/* built by store/build-deploy.py; do not edit by hand */\n(function(){\nvar root=document.getElementById("mcr");if(!root||root.getAttribute("data-up"))return;root.setAttribute("data-up","1");\n'
+       'var pre=document.getElementById("mcr-hero"),t=document.createElement("div");t.innerHTML=' + S(body.strip()) + ';\n'
+       'if(pre){var n=t.querySelector("#track .slide img");if(n)n.parentNode.replaceChild(pre,n)}\n'
+       'root.textContent="";while(t.firstChild)root.appendChild(t.firstChild);root.style.minHeight="";\n})();\n' + js.strip() + '\n')
 open(os.path.join(D, 'mc-dkr-app.js'), 'w', encoding='utf-8').write(app)
 
 # ---- the page body ----
+HOLD = open(os.path.join(D, 'third-party-hold.html'), encoding='utf-8').read()   # the kits page's own, proven there: holds Clarity, Klaviyo, Postscript, Gorgias, the Subi SDK and the Meta pixel library until the first touch or a timeout
+G0 = B + 'mc-dkr-g-00.webp'
+bar = re.search(r'<div class="bar">.*?</div>', body, re.S).group(0)
+hero = re.search(r'<img [^>]*mc-dkr-g-00\.webp[^>]*>', body).group(0).replace('<img ', '<img id="mcr-hero" ', 1)
 page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:none}.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}'
-        '#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;min-height:100vh;background:#F9F6EE}'
-        '.shopify-section--announcement-bar,.announcement-bar{display:none !important}</style>\n'
-        '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Roboto+Mono:wght@400..700&display=swap">\n'
+        '.shopify-section--announcement-bar,.announcement-bar{display:none !important}#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;background:#F9F6EE}</style>\n'
+        '<link rel="preload" as="image" fetchpriority="high" href="@G@?width=900" imagesrcset="@G@?width=600 600w, @G@?width=900 900w, @G@?width=1400 1400w" imagesizes="(max-width:860px) 100vw, 640px">\n'
         '<link rel="stylesheet" href="@B@mc-dkr.css?v=@K@">\n'
-        '<link rel="preload" as="image" fetchpriority="high" href="@B@mc-dkr-g-00.webp">\n'
-        '<div id="mcr"></div>\n'
-        '<script src="@B@mc-dkr-app.js?v=@K@"></script>\n').replace('@B@', B).replace('@K@', KEY)
+        '<link rel="preload" as="font" type="font/woff2" crossorigin href="@B@mc-dkr-f-dm-700.woff2">\n'
+        + HOLD +
+        '<div id="mcr" style="min-height:100vh">' + bar + '<main><div class="w"><div class="bb" id="buybox"><div class="gal"><div class="track" id="track"><div class="slide">' + hero + '</div></div></div><div></div></div></div></main></div>\n'
+        '<script src="@B@mc-dkr-app.js?v=@K@"></script>\n').replace('@G@', G0).replace('@B@', B).replace('@K@', KEY)
 open(os.path.join(D, 'page-body.html'), 'w', encoding='utf-8').write(page)
 for f in ('mc-dkr.css', 'mc-dkr-app.js', 'page-body.html'): print(f, os.path.getsize(os.path.join(D, f)), 'B')
 print(len(pics), 'pictures; key', KEY)

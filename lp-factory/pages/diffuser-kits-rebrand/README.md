@@ -471,3 +471,6 @@ theme header). It no longer adds anything to the cart. The main button in the bu
 - The intro line is balanced (no lone "free.").
 - "Loved in 2,500+ homes across America." 7% smaller (16.4 to 20.8 px).
 Store build dkr18-tiles.
+
+Round 22 (2026-11-22): removed the swap line under the step 2 scents ("Not sure how they smell? ...") and "A bottle lasts
+15+ days, so that is under $2 an evening." from step 3. Store build dkr20-trim.

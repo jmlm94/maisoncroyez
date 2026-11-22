@@ -1,6 +1,7 @@
 name: dkr-shot
 # The rebranded diffuser kits page on the hidden test page: screenshots on a phone and a desktop, page errors, and the
 # cart the page builds for 1 / 2 / 3 diffusers (read from /cart.js, then emptied). No order is placed.
+# run note 5: after the speed pass (key dkr3-615d462), cart part off
 # run note 4: log what the cart requests answer
 # run note 3: cart ids read from store/ids.json
 # run note 2: our own top bar, the theme's announcement bar hidden, sticky button centered
@@ -55,7 +56,7 @@ jobs:
                 await pg.evaluate(async () => { document.querySelectorAll('#mcr img[loading=lazy]').forEach((i) => i.loading = 'eager'); await Promise.all([...document.querySelectorAll('#mcr img')].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 8000); }))); });
                 v.broken = await pg.evaluate(() => [...document.querySelectorAll('#mcr img')].filter((i) => !i.naturalWidth).map((i) => i.src.split('/').pop()));
                 await pg.screenshot({ path: `${OUT}/${n}-full.jpg`, fullPage: true, type: 'jpeg', quality: 70 });
-                if (n === 'phone') {
+                if (n === 'phone' && process.env.CART === 'yes') {   /* off: the store's bot check answers 429 to a runner's cart requests */
                   v.carts = [];
                   for (const d of [1, 2, 3]) {
                     await pg.evaluate(async () => { await fetch('/cart/clear.js', { method: 'POST' }); });

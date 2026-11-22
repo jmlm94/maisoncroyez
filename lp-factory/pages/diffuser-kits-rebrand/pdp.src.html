@@ -655,12 +655,21 @@ h1.hd{font-size:34.5px}
 .fnd blockquote{font-size:clamp(19px,2.2vw,26.6px)}
 .row .tx .ml{font:600 10.5px/1.2 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-top:4px}
 @media (max-width:760px){.fnd{grid-template-columns:minmax(0,1fr)}.fnd .pic{aspect-ratio:1/1}}
+/* round 18 (owner, iPhone): the sticky button floats as a pill with space around it, clear of the phone's bottom edge and
+   the browser toolbar; a soft fade behind it so text does not cut against its edge; the announcement bar wraps evenly */
+.stick{left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(249,246,238,.96) 0%,rgba(249,246,238,.85) 55%,rgba(249,246,238,0) 100%);padding:18px max(12px,env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-right,0px));pointer-events:none}
+.stick-in{max-width:560px;margin:0 auto;pointer-events:auto}
+.stick .stick-go{min-height:56px;border-radius:999px;box-shadow:0 8px 24px rgba(75,85,214,.32),0 2px 6px rgba(22,18,16,.12);font:700 17px var(--f);letter-spacing:-.01em}
+body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+.toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.bar{text-wrap:balance}
+@media (max-width:640px){.bar{font-size:11px;letter-spacing:.1em;padding:9px 16px}}
 </style>
 
 <!--SYMBOLS-->
 
-<div class="note">Preview · working copy, nothing on the store</div>
-<div class="bar">Free shipping · 30-day money-back guarantee · Lifetime warranty</div>
+<div class="note">Preview — working copy, nothing on the store</div>
+<div class="bar">Your first scents are free with your diffusers. Enjoy lifetime warranty too.</div>
 <div class="w"><header class="hdr">
   <div><span class="menu">{{i:menu}}</span><nav><span class="cur">Shop</span><span>Scents</span><span>Our story</span></nav></div>
   {{logo:two}}
@@ -893,7 +902,7 @@ h1.hd{font-size:34.5px}
     <span class="ft-pay" aria-label="Payment methods"><i>AMEX</i><i>Apple Pay</i><i>Diners</i><i>Discover</i><i>G Pay</i><i>Mastercard</i><i>Shop</i><i>VISA</i></span></div>
 </div></footer>
 
-<div class="stick on" id="stick"><div class="stick-in"><div class="stick-n"><b>Diffuser kit</b><span id="stick-sum">2 diffusers + 2 free scents · $159</span></div><div class="stick-sw" role="group" aria-label="How many diffusers"><span class="lab">Diffusers</span><button type="button" data-n="1" aria-pressed="false">1</button><button type="button" data-n="2" aria-pressed="true">2</button><button type="button" data-n="3" aria-pressed="false">3</button></div><button type="button" class="stick-go" id="stick-go">Build my kit · $159</button></div></div>
+<div class="stick on" id="stick"><div class="stick-in"><div class="stick-n"><b>Diffuser kit</b><span id="stick-sum">2 diffusers + 2 free scents — $159</span></div><div class="stick-sw" role="group" aria-label="How many diffusers"><span class="lab">Diffusers</span><button type="button" data-n="1" aria-pressed="false">1</button><button type="button" data-n="2" aria-pressed="true">2</button><button type="button" data-n="3" aria-pressed="false">3</button></div><button type="button" class="stick-go" id="stick-go">Checkout — $159</button></div></div>
 <div class="toast" id="toast" role="status">Preview only. Nothing was added.</div>
 
 <script>
@@ -920,12 +929,12 @@ h1.hd{font-size:34.5px}
     $$('#scents .row').forEach(function(r){var k=r.dataset.k;r.querySelector('output').textContent=st.picks[k];r.querySelector('.dec').disabled=st.picks[k]===0;r.querySelector('.inc').disabled=left<=0});
     var au=isAuto();$('#each1').disabled=au;$('#each1').classList.toggle('done',au);$('#each1-t').textContent=au?(need>1?'Best sellers picked.':'Best seller picked.'):AUTOT[need];
     $$('#freqs .qtyb').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.f===st.freq))});
-    var cta=$('#cta');cta.disabled=left>0;
-    $('#cta-t').textContent=left>0?(n===0?'Pick your '+(need>1?need+' free scents':'free scent'):'Pick '+left+' more free scent'+(left>1?'s':'')):'Checkout · ';
-    $('#cta-amt').textContent=left>0?'':money(total);
-    $('#stick-sum').textContent=pl(need,'diffuser')+' + '+pl(need,'free scent')+' · '+money(total);
+    var cta=$('#cta');cta.disabled=false;
+    $('#cta-t').textContent='Checkout — ';
+    $('#cta-amt').textContent=money(total);
+    $('#stick-sum').textContent=pl(need,'diffuser')+' + '+pl(need,'free scent')+' — '+money(total);
     $$('#stick .stick-sw button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===need))});
-    $('#stick-go').textContent=(left>0?'Pick your scents · ':'Checkout · ')+money(total);
+    $('#stick-go').textContent='Checkout — '+money(total);
     $('#charge').textContent='Today you pay '+money(total)+' for your '+(need>1?need+' diffusers':'diffuser')+'. '+(need>1?'Your '+need+' scents are free.':'Your scent is free.')+' '+
       (sub?'With refills every '+st.freq+' days, '+(need>1?'they come':'it comes')+' again for '+money(need*REFILL)+' a delivery ('+money(REFILL)+' a scent instead of '+money(LIST)+'), and we email you before every charge. Skip, swap or cancel any time.'
           :'You picked no refills, so nothing renews.');
@@ -937,7 +946,7 @@ h1.hd{font-size:34.5px}
   });
   $$('#freqs .qtyb').forEach(function(b){b.addEventListener('click',function(){st.freq=+b.dataset.f;render()})});
   $$('#stick .stick-sw button').forEach(function(b){b.addEventListener('click',function(){st.diff=+b.dataset.n;trim();render()})});
-  $('#stick-go').addEventListener('click',function(){if(count()<st.diff){go('step2')}else{say('Preview only. Nothing was added.')}});
+  $('#stick-go').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});
   $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
   /* tabs: the four evenings, and what to expect / how to use it */
   $$('[role="tablist"]').forEach(function(list){var tabs=[].slice.call(list.querySelectorAll('[role="tab"]'));
@@ -950,8 +959,10 @@ h1.hd{font-size:34.5px}
   function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
   function go(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
   function auto(){ORDER.forEach(function(k){st.picks[k]=0});AUTO.slice(0,st.diff).forEach(function(k){st.picks[k]=1});render();say(st.diff>1?'Our best sellers, picked.':'Our best seller, picked.')}
+  /* straight to checkout: scent slots still empty are filled with the best sellers, in their order */
+  function topUp(){var i=0;while(count()<st.diff){var k=AUTO[i%AUTO.length];if(i>=AUTO.length||st.picks[k]===0)st.picks[k]++;i++}render()}
   $('#each1').addEventListener('click',auto);
-  $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});
+  $('#cta').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});
   $$('[data-top]').forEach(function(b){b.addEventListener('click',function(){go('buybox')})});
   $$('[data-to]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.to)})});
   $$('[data-soon]').forEach(function(a){a.addEventListener('click',function(){say('Preview only. This page is not built yet.')})});

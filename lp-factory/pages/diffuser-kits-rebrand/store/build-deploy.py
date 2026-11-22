@@ -81,10 +81,10 @@ css = FONTS + RESET + LAZY + '\n'.join(out) + '\n#mcr .stick{z-index:60}\n#mcr .
 open(os.path.join(D, 'mc-dkr.css'), 'w', encoding='utf-8').write(css)
 
 # ---- the script: the page's own, with the real cart ----
-a = "  $('#cta').addEventListener('click',function(){say('Preview only. Nothing was added.')});\n"; assert js.count(a) == 1
+a = "  $('#cta').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});\n"; assert js.count(a) == 1
 js = js.replace(a, "  $('#cta').addEventListener('click',function(){checkout()});\n")
-a = "if(count()<st.diff){go('step2')}else{say('Preview only. Nothing was added.')}"; assert js.count(a) == 1
-js = js.replace(a, "if(count()<st.diff){go('step2')}else{checkout()}")
+a = "$('#stick-go').addEventListener('click',function(){topUp();say('Preview only. Nothing was added.')});"; assert js.count(a) == 1
+js = js.replace(a, "$('#stick-go').addEventListener('click',function(){checkout()});")
 a = "  render();\n})();"; assert js.count(a) == 1
 CART = r'''
   /* ---- the store: one kit variant + the picked scents (on the refill plan, or one-time) -> /cart/add.js -> checkout.
@@ -96,7 +96,7 @@ CART = r'''
   function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(b)}).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json()})}
   function setBusy(v){busy=v;['#cta','#stick-go'].forEach(function(q){var e=$(q);if(e)e.setAttribute('aria-busy',String(v))})}
   function checkout(){
-    if(busy)return;if(count()<st.diff){go('step2');return}
+    if(busy)return;topUp();
     var plan=(CFG.plans&&st.freq>0)?CFG.plans[st.freq]:null,items=[{id:CFG.kit[st.diff],quantity:1}];
     ORDER.forEach(function(k){if(st.picks[k]>0){var l={id:CFG.scent[k],quantity:st.picks[k]};if(plan)l.selling_plan=plan;items.push(l)}});
     if(!onStore){say('Preview only. Nothing was added.');return}

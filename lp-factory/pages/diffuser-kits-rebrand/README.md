@@ -439,3 +439,14 @@ card (they were 10 px from the left edge). Store build dkr13-tags, not deployed.
 
 Round 17g (comment sent to Claude): headline 15% bigger, 23 px on a phone and 34.5 px on desktop. Store build dkr14-h1d,
 not deployed.
+
+## Round 18 (2026-11-22, owner on his iPhone)
+
+- Sticky button: a floating pill (56 px, fully rounded, 12 px from the sides and above the bottom safe area) over a soft
+  cream fade, instead of a full-width purple slab that sat under the Safari toolbar. Desktop: 560 px wide, centered.
+- The middle dot is gone everywhere on the page; buttons read "Checkout — $159".
+- Announcement bar: "Your first scents are free with your diffusers. Enjoy lifetime warranty too."
+- Straight to checkout: the main button and the sticky button are never locked. Any scent slots still empty are filled
+  with the best sellers (Midnight Sensation, Golden Blossom, Crisp Citrus, in that order), then the cart and checkout.
+  The step 2 picker and the best-sellers tile stay for people who want to choose.
+Store build dkr16-stick.

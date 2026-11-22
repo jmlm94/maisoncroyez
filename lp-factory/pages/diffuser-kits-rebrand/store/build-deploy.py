@@ -26,7 +26,8 @@ cut(r'<div class="w"><header class="hdr">.*?</header></div>\s*')
 cut(r'<footer>.*?</footer>\s*')
 assert '#mc-two' not in body and 'Preview' not in body.replace('Preview only. Nothing was added.', ''), 'preview chrome left'
 pics = sorted(set(re.findall(r'src="((?:img|old)/[^"]+)"', body)))
-name = lambda p: 'mc-dkr-' + p.replace('img/', '').replace('old/', 'o-')
+# gallery pictures carry a round tag (g2 = the shoot-photo set, 2026-11-22) so a new set never meets a cached old one
+name = lambda p: 'mc-dkr-' + p.replace('img/g-', 'g2-').replace('img/', '').replace('old/', 'o-')
 def sized(p):
     u = B + name(p); f = os.path.basename(p)
     if f.startswith('g-'):   # the gallery: full column width on a phone, about 640 px on a desktop
@@ -39,7 +40,7 @@ def sized(p):
     return 'src="%s"' % u
 for p in pics: body = body.replace('src="%s"' % p, sized(p))
 assert not re.search(r'src="(?:img|old)/', body)
-body = body.replace('<img ', '<img decoding="async" ').replace('<img decoding="async" src="%smc-dkr-g-00.webp' % B, '<img src="%smc-dkr-g-00.webp' % B)
+body = body.replace('<img ', '<img decoding="async" ').replace('<img decoding="async" src="%smc-dkr-g2-00.webp' % B, '<img src="%smc-dkr-g2-00.webp' % B)
 json.dump([{'repo': p, 'file': name(p)} for p in pics], open(os.path.join(D, 'files.json'), 'w'), indent=1)
 
 # ---- the styles under #mcr ----
@@ -125,9 +126,9 @@ open(os.path.join(D, 'mc-dkr-app.js'), 'w', encoding='utf-8').write(app)
 
 # ---- the page body ----
 HOLD = open(os.path.join(D, 'third-party-hold.html'), encoding='utf-8').read()   # the kits page's own, proven there: holds Clarity, Klaviyo, Postscript, Gorgias, the Subi SDK and the Meta pixel library until the first touch or a timeout
-G0 = B + 'mc-dkr-g-00.webp'
+G0 = B + 'mc-dkr-g2-00.webp'
 bar = re.search(r'<div class="bar">.*?</div>', body, re.S).group(0)
-hero = re.search(r'<img [^>]*mc-dkr-g-00\.webp[^>]*>', body).group(0).replace('<img ', '<img id="mcr-hero" ', 1)
+hero = re.search(r'<img [^>]*mc-dkr-g2-00\.webp[^>]*>', body).group(0).replace('<img ', '<img id="mcr-hero" ', 1)
 page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:none}.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;padding-top:0 !important;border-top:0 !important}'
         '.shopify-section--announcement-bar,.announcement-bar{display:none !important}#mcr{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;background:#F9F6EE}</style>\n'
         '<link rel="preload" as="image" fetchpriority="high" href="@G@?width=900" imagesrcset="@G@?width=600 600w, @G@?width=900 900w, @G@?width=1400 1400w" imagesizes="(max-width:860px) 100vw, 640px">\n'

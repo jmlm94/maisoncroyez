@@ -151,3 +151,7 @@ page rule, beats the theme). The local mock theme (scratchpad dk-preview/dep.js)
 Store build dkr19-nomargin.
 Deployed 2026-11-22 16:14:19Z: fileUpdate css + js from raw @ 1e0b3f9f, pageUpdate, key dkr19-nomargin.
 Round 22 deployed 2026-11-22 16:22:32Z: fileUpdate css + js from raw @ 85004d85, pageUpdate, key dkr20-trim.
+
+2026-11-23: owner said "Disconnect Shopify!". The connector tool to revoke the store token failed (switch-shop: "Error POSTing
+to endpoint: Not Found"); he disconnects it in claude.ai connector settings. No more Shopify calls from this session until he
+reconnects; the standing push-live instruction is on hold until then. Live page stays at key dkr20-trim.

@@ -1,0 +1,93 @@
+name: home-refs
+# Home page research (owner 2026-11-27: "check other pages from competitors to see if something is missing"): the home pages
+# of four scent-diffuser competitors and the five reference brands, read top to bottom on a phone: headings in order, the
+# page text, buttons, and a compressed full-page screenshot. Results in lp-factory/recon-home/competitors/.
+# run note 1: first run
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/home-refs.yml']
+permissions:
+  contents: write
+env:
+  OUT: lp-factory/recon-home/competitors
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i playwright@1.49.0 sharp@0.33.5
+          npx playwright install --with-deps chromium
+      - name: Read
+        run: |
+          mkdir -p "$OUT"
+          cat > refs.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          import sharp from 'sharp';
+          const OUT = process.env.OUT;
+          const SITES = [['aroma360', 'https://aroma360.com/'], ['aromatech', 'https://aromatechscent.com/'], ['hotelcollection', 'https://www.hotelcollection.com/'], ['pura', 'https://pura.com/'],
+            ['ketroskin', 'https://ketroskin.com/'], ['moziwash', 'https://www.moziwash.com/'], ['flewd', 'https://flewdstresscare.com/'], ['heyhanni', 'https://heyhanni.com/'], ['primallypure', 'https://primallypure.com/']];
+          const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          const clean = async (pg) => {
+            await pg.keyboard.press('Escape').catch(() => {});
+            await pg.evaluate(() => {
+              const vw = innerWidth, vh = innerHeight;
+              for (const e of document.querySelectorAll('body *')) {
+                const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+                const r = e.getBoundingClientRect(); const z = parseInt(cs.zIndex) || 0;
+                const covers = r.width * r.height > vw * vh * 0.25; const isHeader = r.top <= 2 && r.height < 220 && r.width > vw * 0.8;
+                const txt = (e.innerText || '').toLowerCase();
+                if (!isHeader && (covers || (z > 50 && /subscribe|sign up|% off|unlock|email|cookie|consent|accept/.test(txt) && r.height > 60))) { e.setAttribute('data-popup', txt.slice(0, 160)); e.style.setProperty('display', 'none', 'important'); }
+              }
+              document.documentElement.style.overflow = 'auto'; document.body.style.overflow = 'auto';
+            }).catch(() => {});
+          };
+          const br = await chromium.launch();
+          for (const [name, url] of SITES) {
+            const res = { url };
+            try {
+              const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1, userAgent: UA, locale: 'en-US' });
+              const pg = await ctx.newPage();
+              const r = await pg.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }); res.status = r ? r.status() : 0;
+              await pg.waitForTimeout(6000);
+              res.popups = await pg.evaluate(() => [...document.querySelectorAll('body *')].filter((e) => { const c = getComputedStyle(e); const b = e.getBoundingClientRect(); return (c.position === 'fixed') && b.width * b.height > innerWidth * innerHeight * 0.25 && (e.innerText || '').trim().length > 20; }).map((e) => e.innerText.replace(/\s+/g, ' ').trim().slice(0, 220)).slice(0, 3)).catch(() => []);
+              await clean(pg);
+              await pg.evaluate(async () => { for (let y = 0; y < Math.min(document.documentElement.scrollHeight, 30000); y += 600) { scrollTo(0, y); await new Promise((x) => setTimeout(x, 220)); } scrollTo(0, 0); });
+              await pg.waitForTimeout(1200); await clean(pg);
+              Object.assign(res, await pg.evaluate(() => {
+                const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 2 && b.height > 2 && c.visibility !== 'hidden' && c.display !== 'none' && c.opacity !== '0'; };
+                const tx = (e) => (e.innerText || '').replace(/\s+/g, ' ').trim();
+                const y = (e) => Math.round(e.getBoundingClientRect().top + scrollY);
+                const heads = [...document.querySelectorAll('h1,h2,h3,[class*="heading" i],[class*="title" i]')].filter(vis).map((e) => ({ y: y(e), t: e.tagName.toLowerCase(), s: Math.round(parseFloat(getComputedStyle(e).fontSize)), x: tx(e).slice(0, 110) })).filter((h) => h.x.length > 2 && h.s >= 18);
+                const seen = new Set(); const headings = heads.sort((a, b) => a.y - b.y).filter((h) => { const k = h.x.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 90);
+                const btn = [...document.querySelectorAll('a,button')].filter(vis).map((e) => ({ y: y(e), x: tx(e).slice(0, 44) })).filter((b) => b.x.length > 2 && b.x.length < 44);
+                const bs = new Set(); const buttons = btn.sort((a, b) => a.y - b.y).filter((b) => { const k = b.x.toLowerCase(); if (bs.has(k)) return false; bs.add(k); return true; }).slice(0, 120).map((b) => b.y + ' ' + b.x);
+                const main = document.querySelector('main') || document.body;
+                return { title: document.title, height: document.documentElement.scrollHeight, headings: headings.map((h) => h.y + ' ' + h.t + ' ' + h.s + 'px | ' + h.x), buttons, text: (main.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').slice(0, 9000),
+                  videos: document.querySelectorAll('video').length, iframes: [...document.querySelectorAll('iframe')].map((f) => (f.src || '').split('/')[2] || '').filter(Boolean).slice(0, 8), forms: [...document.querySelectorAll('form')].filter(vis).map((f) => (f.getAttribute('action') || '').slice(0, 60)).slice(0, 8), footer: tx(document.querySelector('footer') || document.body.lastElementChild).slice(0, 900) };
+              }));
+              const h = Math.min(res.height, 16000);
+              await pg.setViewportSize({ width: 390, height: 844 });
+              const shot = await pg.screenshot({ fullPage: true, type: 'jpeg', quality: 60 }).catch(() => null);
+              if (shot) { const meta = await sharp(shot).metadata(); await sharp(shot).extract({ left: 0, top: 0, width: meta.width, height: Math.min(meta.height, h) }).jpeg({ quality: 55 }).toFile(`${OUT}/${name}-phone.jpg`); }
+              await ctx.close();
+            } catch (e) { res.error = String(e).slice(0, 300); }
+            fs.writeFileSync(`${OUT}/${name}.json`, JSON.stringify(res, null, 1));
+            console.log(name, res.status, res.error || '', (res.headings || []).length, 'headings', res.height);
+          }
+          await br.close();
+          EOF2
+          node refs.mjs
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "home-refs: competitor and reference home pages" || echo "nothing to commit"
+          git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"

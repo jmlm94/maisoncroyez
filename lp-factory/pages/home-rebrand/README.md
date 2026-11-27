@@ -29,6 +29,8 @@ intentions and manifesting copy, "Made in France" and "100% organic from France"
 "Reduce stress, anxiety and brain activity" (medical-sounding), the emoji bullets, the four named reviews (not verified as
 real), the third door to /products/diffuser-scents (the older 1 / 3 / 5 diffuser bundles).
 
-## Open for him
-Headline (alternatives: "Stress, meet your match." / "Walk in stressed?"), whether the old bundles page keeps a door,
-whether "Bonsoir." stays, whether the new products get a teaser.
+## Decided (owner, 2026-11-27)
+Headline stays "Leave the day at the door." | "Bonsoir." stays | two doors only (Diffuser kits and Scents; no door to the
+older bundles page) | the kits buttons point to /pages/diffuser-kits-2.
+Next: he asked to check competitors' home pages for anything missing (.github/workflows/home-refs.yml ->
+lp-factory/recon-home/competitors/).

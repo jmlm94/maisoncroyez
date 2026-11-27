@@ -1,0 +1,109 @@
+name: cart-refs
+# Cart research (owner 2026-11-27: "design the whole cart drawer ... many CRO elements (check other brands)"): on a phone,
+# for four scent-diffuser competitors and the five reference brands, open one product, tap add to cart once and read what
+# the cart shows: its text top to bottom, its buttons, and a screenshot. Nothing is bought, no checkout is opened.
+# Results in lp-factory/recon-cart/.
+# run note 1: first run
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/cart-refs.yml']
+permissions:
+  contents: write
+env:
+  OUT: lp-factory/recon-cart
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Read
+        run: |
+          mkdir -p "$OUT"
+          cat > refs.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = process.env.OUT;
+          const SITES = [['aroma360', 'https://aroma360.com'], ['aromatech', 'https://aromatechscent.com'], ['hotelcollection', 'https://www.hotelcollection.com'], ['pura', 'https://pura.com'],
+            ['ketroskin', 'https://ketroskin.com'], ['moziwash', 'https://www.moziwash.com'], ['flewd', 'https://flewdstresscare.com'], ['heyhanni', 'https://heyhanni.com'], ['primallypure', 'https://primallypure.com']];
+          const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          // hide sign-up / cookie layers, never anything that looks like a cart
+          const clean = async (pg) => {
+            await pg.keyboard.press('Escape').catch(() => {});
+            await pg.evaluate(() => {
+              const vw = innerWidth, vh = innerHeight;
+              for (const e of document.querySelectorAll('body *')) {
+                const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+                const r = e.getBoundingClientRect(); const z = parseInt(cs.zIndex) || 0; const txt = (e.innerText || '').toLowerCase();
+                const isHeader = r.top <= 2 && r.height < 220 && r.width > vw * 0.8; const isCart = /checkout|your cart|your bag|subtotal/.test(txt);
+                if (!isHeader && !isCart && z > 20 && /subscribe|sign up|% off|unlock|email|cookie|consent|accept|spin|text me/.test(txt) && r.height > 60) e.style.setProperty('display', 'none', 'important');
+              }
+            }).catch(() => {});
+          };
+          const br = await chromium.launch();
+          for (const [name, origin] of SITES) {
+            const res = { origin };
+            try {
+              const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1, userAgent: UA, locale: 'en-US' });
+              const pg = await ctx.newPage();
+              // one product that can be bought: the store's own product list, else the first product link on the home page
+              let product = null;
+              try { const r = await ctx.request.get(origin + '/products.json?limit=30', { timeout: 20000 }); if (r.ok()) { const j = await r.json(); const p = (j.products || []).find((x) => (x.variants || []).some((v) => v.available) && !/gift card|sample|insurance|protection/i.test(x.title)); if (p) { product = origin + '/products/' + p.handle; res.productTitle = p.title; res.productPrice = (p.variants.find((v) => v.available) || {}).price; } } } catch (e) {}
+              if (!product) { await pg.goto(origin, { waitUntil: 'domcontentloaded', timeout: 60000 }); await pg.waitForTimeout(4000); product = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/products/"]')][0]; return a ? a.href : null; }); }
+              res.product = product; if (!product) throw new Error('no product found');
+              const r0 = await pg.goto(product, { waitUntil: 'domcontentloaded', timeout: 60000 }); res.status = r0 ? r0.status() : 0;
+              await pg.waitForTimeout(7000); await clean(pg);
+              const calls = []; pg.on('response', (r) => { const u = r.url(); if (/\/cart\/(add|change|update)|\/cart\.js|cart\?/.test(u)) calls.push(r.status() + ' ' + r.request().method() + ' ' + u.replace(origin, '').slice(0, 70)); });
+              res.clicked = await pg.evaluate(() => {
+                const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 40 && b.height > 20 && c.visibility !== 'hidden' && c.display !== 'none'; };
+                const all = [...document.querySelectorAll('form[action*="/cart/add"] button[type="submit"], form[action*="/cart/add"] [name="add"], button, [role="button"], input[type="submit"]')].filter(vis);
+                const b = all.find((e) => /add to (cart|bag|basket)|add .*to cart|buy now|subscribe (&|and) save|start (my )?subscription/i.test((e.innerText || e.value || '').trim()) && !e.disabled) || all.find((e) => e.matches('form[action*="/cart/add"] button[type="submit"]'));
+                if (!b) return null; b.scrollIntoView({ block: 'center' }); b.click(); return (b.innerText || b.value || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+              });
+              await pg.waitForTimeout(6000); await clean(pg); await pg.waitForTimeout(800);
+              res.urlAfter = pg.url().replace(origin, ''); res.cartCalls = calls.slice(0, 8);
+              Object.assign(res, await pg.evaluate(() => {
+                const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 150 && b.height > 150 && c.visibility !== 'hidden' && c.display !== 'none' && parseFloat(c.opacity) > 0.1 && b.right > 20 && b.left < innerWidth - 20 && b.bottom > 20 && b.top < innerHeight; };
+                const tx = (e) => (e.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim();
+                const cands = [...document.querySelectorAll('cart-drawer, [id*="cart" i], [class*="cart" i], [class*="drawer" i], [class*="minicart" i], [class*="mini-cart" i], [role="dialog"], [aria-modal="true"], [class*="rebuy" i], [class*="upcart" i], [id*="upCart" i]')].filter(vis).filter((e) => /checkout|check out/i.test(e.innerText || ''));
+                // the smallest element that still holds the checkout button and a price: the drawer itself, not the page
+                const inFixed = (e) => { for (let x = e; x && x !== document.body; x = x.parentElement) { const p = getComputedStyle(x).position; if (p === 'fixed') return true; } return false; };
+                const fixed = cands.filter(inFixed).sort((a, b) => a.getBoundingClientRect().width * a.getBoundingClientRect().height - b.getBoundingClientRect().width * b.getBoundingClientRect().height);
+                const best = fixed.find((e) => /\$\s?\d/.test(e.innerText)) || fixed[0] || null;
+                const isCartPage = /\/cart/.test(location.pathname);
+                const scope = best || (isCartPage ? (document.querySelector('main') || document.body) : null);
+                if (!scope) return { drawer: false, note: 'no cart layer found after the tap', bodyTop: tx(document.body).slice(0, 600) };
+                const btns = [...scope.querySelectorAll('a,button,[role="button"]')].map((e) => (e.innerText || e.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim()).filter((x) => x && x.length < 60);
+                const b = scope.getBoundingClientRect();
+                return { drawer: !!best, cartPage: isCartPage, box: Math.round(b.left) + ',' + Math.round(b.top) + ' ' + Math.round(b.width) + 'x' + Math.round(b.height), tag: scope.tagName.toLowerCase() + (scope.id ? '#' + scope.id : '') + '.' + String(scope.className || '').slice(0, 80),
+                  text: tx(scope).slice(0, 5000), buttons: [...new Set(btns)].slice(0, 60), images: scope.querySelectorAll('img').length, inputs: [...scope.querySelectorAll('input,select,textarea')].map((e) => (e.type || e.tagName) + ':' + (e.name || e.placeholder || e.getAttribute('aria-label') || '').slice(0, 30)).slice(0, 20),
+                  progress: [...scope.querySelectorAll('progress,[role="progressbar"],[class*="progress" i],[class*="shipping-bar" i],[class*="reward" i],[class*="tier" i]')].map((e) => (e.className + ' | ' + (e.innerText || '').replace(/\s+/g, ' ').trim()).slice(0, 160)).slice(0, 8),
+                  apps: [...new Set([...document.querySelectorAll('script[src]')].map((s) => s.src).filter((s) => /rebuy|upcart|slidecart|monster|kaching|appstle|recharge|skio|smartrr|loop|aftersell|bold|okendo|yotpo|judge|route|navidium|corso|shipscout|intelligems/i.test(s)).map((s) => (s.match(/rebuy|upcart|slidecart|monster|kaching|appstle|recharge|skio|smartrr|loop|aftersell|bold|okendo|yotpo|judge|route|navidium|corso|shipscout|intelligems/i) || [''])[0].toLowerCase()))] };
+              }));
+              await pg.screenshot({ path: `${OUT}/${name}-cart.jpg`, type: 'jpeg', quality: 62 }).catch(() => {});
+              // scroll the cart layer to its end for a second picture
+              await pg.evaluate(() => { for (const e of document.querySelectorAll('body *')) { const c = getComputedStyle(e); if ((c.overflowY === 'auto' || c.overflowY === 'scroll') && e.scrollHeight > e.clientHeight + 80 && /checkout|check out/i.test((e.closest('[class*="cart" i],[id*="cart" i],[class*="drawer" i],[role="dialog"]') || e).innerText || '')) e.scrollTop = e.scrollHeight; } }).catch(() => {});
+              await pg.waitForTimeout(700);
+              await pg.screenshot({ path: `${OUT}/${name}-cart-end.jpg`, type: 'jpeg', quality: 62 }).catch(() => {});
+              await ctx.close();
+            } catch (e) { res.error = String(e).slice(0, 300); }
+            fs.writeFileSync(`${OUT}/${name}.json`, JSON.stringify(res, null, 1));
+            console.log(name, res.status, res.error || '', 'clicked:', res.clicked, '| drawer:', res.drawer, '| text', (res.text || '').length);
+          }
+          await br.close();
+          EOF2
+          node refs.mjs
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "cart-refs: competitor and reference carts" || echo "nothing to commit"
+          git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"

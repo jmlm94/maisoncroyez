@@ -50,3 +50,24 @@ The test browser has no H.264, so it played the WebM copy; phones and desktop br
   seller until the Euphoric Bloom switch is deployed there.
 - The page's own footer form and links were dropped with the footer; the theme footer still has the old links
   ("Claim a Free Diffuser", "Fragrance Subscription").
+
+## Burger menu in the new brand (2026-11-27, owner: "Could you also optimize and redesign the burger menu? Looks awful now. Add this new branding")
+On the theme copy only (gid://shopify/OnlineStoreTheme/189629628525), saved as version b2da78ea. The live theme is not changed.
+- Look: full-screen Cream sheet, the wordmark top left, a 48 px round close button top right, three large DM Sans Bold
+  links with a Blue Hour arrow (rows 70 px high), two smaller links (48 px), a Blue Hour "Build my kit" button with the
+  line "Your first scents are free with your diffusers.", then "Exhale the day." in Roboto Mono and the social icons.
+- Files: snippets/mc-menu-style.liquid (new, the styles, only for #header-sidebar-menu), sections/header.liquid (renders
+  the styles, the logo inside the drawer, five new settings), snippets/navigation-panel.liquid (small links, button,
+  closing line), sections/header-group.json (the settings' values).
+- Links are store menus, editable in Online Store > Navigation, both created 2026-11-27:
+  "Mobile menu | main links" (mc-mobile-main, gid://shopify/Menu/276256129133): Diffuser kits > /pages/diffuser-kits-2,
+  Scents > /collections/power-fragrances, Our story > /pages/who-we-are.
+  "Mobile menu | small links" (mc-mobile-help, gid://shopify/Menu/276256161901): Contact us > /pages/contact,
+  Manage my subscription > https://portal.subi.co/login/.
+- Button text, button link, the line under it and the closing line are settings of the Header section in the theme
+  editor ("Drawer menu: ...").
+- The desktop header still uses the old "main-menu" (titles with arrows, "Diffusers" > /products/diffuser-scents). Not
+  touched: it is shared with the live theme.
+- Fonts: the brand files already in Files, same addresses as the home and kits pages.
+- Checked with the theme screenshot tool: open on a phone (shots/menu-phone.webp), closed on a phone, desktop header
+  unchanged. Not checked by tapping on a real phone: open and close, and each link.

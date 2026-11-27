@@ -59,7 +59,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .stars .ic{fill:currentColor;stroke-width:0}
 .stars .bk{color:var(--stone)}
 .stars .ft{position:absolute;left:0;top:0;overflow:hidden;color:var(--night);white-space:nowrap}
-@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:0}.hero .pic{order:-1;aspect-ratio:5/4;border-radius:0;margin-inline:calc(-1 * clamp(16px,4vw,48px))}.hero .pic img{object-position:60% 62%}.hero .btn{flex:1 1 100%}}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:0}.hero .pic{order:-1;aspect-ratio:1/1;border-radius:0;margin-inline:calc(-1 * clamp(16px,4vw,48px))}.hero .pic img{object-position:60% 62%}.hero .btn{flex:1 1 100%}}
 /* three facts under the hero */
 .trust{border-block:1px solid var(--stone);background:var(--paper)}
 .trust ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-block:18px;text-align:center}
@@ -186,6 +186,13 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
 .ft-bot .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--sig-light)}
 @media (max-width:760px){.ft-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ft-news{grid-column:1 / -1}.ft-form{max-width:none}}
 @media (prefers-reduced-motion:reduce){.faq summary .ic{transition:none}}
+/* round 3: hero video */
+.hero .pic{position:relative}
+.hero .pic video{display:block;width:100%;height:100%;object-fit:cover}
+.vtog{position:absolute;right:12px;bottom:12px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(22,18,16,.55);color:#fff;display:grid;place-items:center;cursor:pointer;font-size:16px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.vtog .pa{width:12px;height:13px;border-inline:4px solid currentColor;box-sizing:border-box}
+.vtog .ic{display:none;margin-left:2px}
+.vtog[aria-pressed="true"] .pa{display:none}.vtog[aria-pressed="true"] .ic{display:block}
 /* round 2 (competitor check): room guide, safety row, best-seller marks, social links */
 .rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.6vw,20px);margin-top:var(--gh)}
 .room{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:clamp(22px,2.6vw,32px) clamp(8px,1.6vw,20px) clamp(14px,2vw,24px);text-decoration:none;min-width:0}
@@ -224,7 +231,9 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
     <div class="acts"><a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits-2">Build my kit <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/> <path d="m12 5 7 7-7 7"/></svg></a><a class="link" href="https://maisoncroyez.com/collections/power-fragrances">Meet the seven scents</a></div>
     <div class="rate"><span class="stars" aria-hidden="true"><span class="bk"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span class="ft" style="width:94%"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span></span><span>4.7 | 124 reviews</span><span class="t">Loved in 2,500+ homes</span></div>
   </div>
-  <div class="pic"><img src="img/hero.webp" alt="The Maison Croyez diffuser on a stone side table next to an armchair, a hand reaching for a mug" fetchpriority="high" width="1400" height="1400"></div>
+  <div class="pic"><video id="hero-v" autoplay muted loop playsinline preload="metadata" poster="img/hero-poster.webp" width="1080" height="1080" aria-label="The Maison Croyez diffuser beside an open book, then the scent poured in, the bottle dropped into the diffuser, one press on the button">
+      <source src="img/hero-720.mp4" type="video/mp4" media="(max-width:860px)"><source src="img/hero-1080.mp4" type="video/mp4"><source src="img/hero-720.webm" type="video/webm">
+    </video><button class="vtog" id="hero-t" type="button" aria-label="Pause the video" aria-pressed="false"><span class="pa" aria-hidden="true"></span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg></button></div>
 </div></div>
 
 <div class="trust"><div class="w"><ul>
@@ -371,3 +380,12 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
   </div>
   <div class="ft-bot"><span>&copy; 2026, Maison Croyez. All rights reserved.</span><span class="soc"><a href="https://www.instagram.com/maisoncroyez">Instagram</a><a href="https://www.tiktok.com/@maisoncroyez">TikTok</a><a href="https://www.facebook.com/maisoncroyez">Facebook</a></span><span class="bn">Bonne nuit.</span></div>
 </div></footer>
+<script>
+(function(){var v=document.getElementById('hero-v'),b=document.getElementById('hero-t');if(!v||!b)return;
+  function set(p){b.setAttribute('aria-pressed',p?'true':'false');b.setAttribute('aria-label',p?'Play the video':'Pause the video')}
+  /* people who asked their device for less motion get the still; they can press play */
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();set(true)}
+  v.addEventListener('pause',function(){set(true)});v.addEventListener('play',function(){set(false)});
+  b.addEventListener('click',function(){if(v.paused){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()});
+})();
+</script>

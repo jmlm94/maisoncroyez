@@ -59,3 +59,13 @@ Seen on their pages, not added (needs the owner's decision or material):
 - A page that backs the clean claims with the ingredient list or standards (Pura, Mozi). "100% organic" has no
   document behind it in this repo.
 - Star ratings per scent (Mozi, Aroma360, AromaTech, Hotel Collection). Needs the per-product review counts.
+
+## Hero video (2026-11-27)
+The owner sent his founder video (1080x1920, 51 s, with sound; the source is not in the repo). `make-video.sh` cuts a
+12-second muted loop from its silent product close-ups (book and mug, pouring the scent, head on the bottle, bottle into
+the diffuser, one press, diffuser by the flowers), cropped square: `img/hero-1080.mp4` (1.4 MB, desktop),
+`img/hero-720.mp4` (0.7 MB, phone), `img/hero-720.webm` (fallback), `img/hero-poster.webp` (the still shown first).
+The hero frame is square on phone now (it was 5:4). A round button pauses and plays it; with "reduce motion" on, it
+starts paused. Checked in Chromium on phone and desktop: plays, loops, pauses.
+The parts where the founder speaks are not in the loop: they need sound. Open: use the full video, with sound and a
+play button, in "A note from our founder" (her words were not checked; no transcription tool here).

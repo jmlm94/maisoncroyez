@@ -1,0 +1,142 @@
+{
+ "home": "https://www.noom.com/",
+ "entry": "https://www.noom.com/ps/main-survey?route=_direct",
+ "how": "home link: Start your trial",
+ "steps": [
+  {
+   "n": 1,
+   "url": "https://www.noom.com/survey/weightLossGoal?route=_direct",
+   "frame": "page",
+   "heads": [
+    "What is your weight loss goal?"
+   ],
+   "answers": [
+    "Lose 1-20 lbs for good",
+    "Lose 21-50 lbs for good",
+    "Lose over 50 lbs for good",
+    "Maintain weight and get fit",
+    "I haven’t decided yet"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "DEMOGRAPHIC PROFILE\nWhat is your weight loss goal?\nLose 1-20 lbs for good\nLose 21-50 lbs for good\nLose over 50 lbs for good\nMaintain weight and get fit\nI haven’t decided yet\nCopyright ® 2026 Noom, Inc. All Rights Reserved\nAbout UsContact UsReviewsLoginCookie PolicyHIPAA NoticeTerms and ConditionsPrivacy PolicyAccessibilitySupportYour Privacy Choices\nOne Palmer Square, Suite 441, Princeton, NJ 08452\n(888) 266-5071",
+   "shot": "noom-01.jpg",
+   "did": "tapped \"Lose 1-20 lbs for good\""
+  },
+  {
+   "n": 2,
+   "url": "https://www.noom.com/survey/sex?route=_direct",
+   "frame": "page",
+   "heads": [
+    "Hormones impact how our bodies metabolize food.",
+    "What sex were you assigned at birth?"
+   ],
+   "answers": [
+    "Male",
+    "Female",
+    "Intersex",
+    "Prefer not to say"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "DEMOGRAPHIC PROFILE\nHormones impact how our bodies metabolize food.\nWhat sex were you assigned at birth?\nMale\nFemale\nIntersex\nPrefer not to say",
+   "shot": "noom-02.jpg",
+   "did": "tapped \"Male\""
+  },
+  {
+   "n": 3,
+   "url": "https://www.noom.com/survey/gender?route=_direct",
+   "frame": "page",
+   "heads": [
+    "What is your gender identity?"
+   ],
+   "answers": [
+    "Man",
+    "Woman",
+    "Non-binary",
+    "I use a different term",
+    "Prefer not to say"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "DEMOGRAPHIC PROFILE\nWhat is your gender identity?\nMan\nWoman\nNon-binary\nI use a different term\nPrefer not to say",
+   "shot": "noom-03.jpg",
+   "did": "tapped \"Man\""
+  },
+  {
+   "n": 4,
+   "url": "https://www.noom.com/survey/ageRange?route=_direct",
+   "frame": "page",
+   "heads": [
+    "What is your age?"
+   ],
+   "answers": [
+    "20s",
+    "30s",
+    "40s",
+    "50s",
+    "60s",
+    "70s",
+    "80s+"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "DEMOGRAPHIC PROFILE\nWhat is your age?\n20s\n30s\n40s\n50s\n60s\n70s\n80s+",
+   "shot": "noom-04.jpg",
+   "did": "tapped \"20s\""
+  },
+  {
+   "n": 5,
+   "url": "https://www.noom.com/survey/basicHeight?route=_direct",
+   "frame": "page",
+   "heads": [
+    "What's your height?"
+   ],
+   "answers": [
+    "ft. ft.",
+    "in. in."
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "number",
+     "name": "feet"
+    },
+    {
+     "type": "number",
+     "name": "inches"
+    }
+   ],
+   "text": "DEMOGRAPHIC PROFILE\nWhat's your height?\nft.\nft.\nin.\nin.\nNext",
+   "shot": "noom-05.jpg",
+   "did": "tapped \"ft. ft.\""
+  },
+  {
+   "n": 6,
+   "url": "https://www.noom.com/survey/basicHeight?route=_direct",
+   "frame": "page",
+   "heads": [
+    "What's your height?"
+   ],
+   "answers": [
+    "ft. ft.",
+    "in. in."
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "number",
+     "name": "feet"
+    },
+    {
+     "type": "number",
+     "name": "inches"
+    }
+   ],
+   "text": "DEMOGRAPHIC PROFILE\nWhat's your height?\nft.\nft.\nin.\nin.\nNext",
+   "shot": "noom-06.jpg",
+   "did": "tapped \"ft. ft.\""
+  }
+ ],
+ "end": "stuck on this step"
+}

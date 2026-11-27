@@ -71,3 +71,24 @@ On the theme copy only (gid://shopify/OnlineStoreTheme/189629628525), saved as v
 - Fonts: the brand files already in Files, same addresses as the home and kits pages.
 - Checked with the theme screenshot tool: open on a phone (shots/menu-phone.webp), closed on a phone, desktop header
   unchanged. Not checked by tapping on a real phone: open and close, and each link.
+
+## Desktop header in the new brand (2026-11-27, owner: "Clean desktop view for the header too please")
+On the theme copy only (gid://shopify/OnlineStoreTheme/189629628525), saved as version 387892f7. The live theme is not changed.
+- Desktop (1150 px and wider): logo left, then "Diffuser kits", "Scents", "Our story" in DM Sans 500 16 px Night, a Blue
+  Hour underline on hover and on the current page; right: "Contact us" and "Manage my subscription" in 15 px Driftwood,
+  then search and cart. Header layout setting changed from "logo left, navigation centre" to "logo left, navigation
+  inline" so the row cannot crowd on narrower laptops.
+- All widths: the header ground is Cream with a Sand hairline under it; the cart count bubble is Blue Hour (was green).
+- Announcement bar: Night ground, Cream text, Roboto Mono caps (same type as the home page's own bar). Its TEXT is not
+  changed: "THE DIFFUSERS ARE 100% ON US, JUST PICK YOUR SCENTS." still shows on every page except the home page and the
+  landing pages, and it does not say the same thing as the home page's bar ("Your first scents are free with your
+  diffusers. Enjoy lifetime warranty too."). The owner decides the wording.
+- The desktop header and the phone menu now use the same two menus, renamed "Header menu | main links" (mc-mobile-main)
+  and "Header menu | small links" (mc-mobile-help). The old "main-menu" (titles with arrows) is no longer used by this
+  theme copy; it is untouched and still feeds the live theme.
+- Files: snippets/mc-menu-style.liquid (header and bar styles added), sections/header-group.json (menu, secondary_menu,
+  layout, bar colours), snippets/navigation-panel.liquid (the theme's own secondary list is skipped in the drawer when
+  the small-links menu is set, so the links are not listed twice).
+- Checked: theme screenshot tool at 1440 and 390 on /pages/contact and at 1440 on the home page
+  (shots/header-desktop.png); the preview's HTML lists each link once in the drawer and in the desktop row.
+  Not checked at widths between 1150 and 1440 (the tool has only 1440 and 390).

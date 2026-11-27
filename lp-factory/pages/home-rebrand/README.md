@@ -61,11 +61,16 @@ Seen on their pages, not added (needs the owner's decision or material):
 - Star ratings per scent (Mozi, Aroma360, AromaTech, Hotel Collection). Needs the per-product review counts.
 
 ## Hero video (2026-11-27)
-The owner sent his founder video (1080x1920, 51 s, with sound; the source is not in the repo). `make-video.sh` cuts a
-12-second muted loop from its silent product close-ups (book and mug, pouring the scent, head on the bottle, bottle into
-the diffuser, one press, diffuser by the flowers), cropped square: `img/hero-1080.mp4` (1.4 MB, desktop),
-`img/hero-720.mp4` (0.7 MB, phone), `img/hero-720.webm` (fallback), `img/hero-poster.webp` (the still shown first).
-The hero frame is square on phone now (it was 5:4). A round button pauses and plays it; with "reduce motion" on, it
-starts paused. Checked in Chromium on phone and desktop: plays, loops, pauses.
-The parts where the founder speaks are not in the loop: they need sound. Open: use the full video, with sound and a
-play button, in "A note from our founder" (her words were not checked; no transcription tool here).
+The owner sent his founder video (1080x1920, 51 s, with sound; the source is not in the repo). `make-video.sh` cuts an
+18-second muted loop of nine shots from it, three of them Patricia (at the filling machine, on the chair, smiling at the
+camera) and six product close-ups. Frame 3:4: the full width of the source and three quarters of its height, with the
+window placed per shot (higher on a phone, where the words cover the bottom).
+Files: `img/hero-m.mp4` (720x960, 1.2 MB, phone), `img/hero-d.mp4` (960x1280, 1.8 MB, desktop), `img/hero-m.webm`
+(fallback), `img/hero-poster-m.webp` and `img/hero-poster-d.webp` (the stills shown first).
+The hero is one dark band now (owner: clips too close, combine the video with the headline, text and buttons through a
+gradient, more of Patricia). Desktop: words left, the video right, its left edge fading into the band. Phone: the video
+first, the headline and the button over its lower part through a gradient, the description, link and rating under it.
+A round button pauses and plays it; with "reduce motion" on, it starts paused. Checked in Chromium on phone and
+desktop: plays, loops, pauses.
+Open: the full video, with sound and a play button, in "A note from our founder" (her words were not checked; no
+transcription tool here).

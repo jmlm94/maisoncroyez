@@ -101,6 +101,23 @@ p{margin:0}
 .strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-right:16px}
 .strip::-webkit-scrollbar{display:none}
 .strip img{flex:0 0 38%;max-width:170px;aspect-ratio:1;object-fit:cover;border-radius:10px;scroll-snap-align:start}
+.echo{font-weight:600;color:var(--ink);font-size:17px;margin-bottom:-10px}
+.intro{display:grid;gap:18px}
+.intro .vid,.pv{border-radius:14px;overflow:hidden;background:var(--dusk)}
+.intro .vid{aspect-ratio:16/11}
+.intro .vid video{width:100%;height:100%;object-fit:cover;object-position:50% 24%;display:block}
+.pv{aspect-ratio:4/5}
+.pv video{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+.cap{font:500 11.5px/1.4 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--drift);margin-top:-8px}
+.rate{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:16px}
+.stars{display:inline-flex;gap:2px;font-size:17px}
+.stars .ic{fill:currentColor;stroke-width:0}
+.note-p{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;align-items:center;background:var(--sand);border-radius:14px;padding:14px}
+.note-p img{width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:50% 24%;display:block}
+.note-p p{font-weight:500;letter-spacing:-.01em;font-size:17px;line-height:1.4}
+.note-p small{display:block;margin-top:6px;font:500 11.5px/1.4 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--drift)}
+.last{text-align:center;font-weight:700;font-size:22px;letter-spacing:-.03em;line-height:1.15;text-wrap:balance;margin-top:6px}
+.btn[aria-busy="true"]{opacity:.6;pointer-events:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){.prog i,.build li{transition:none}}
 </style>
@@ -150,6 +167,19 @@ p{margin:0}
   /* scents ordered together most often (orders with both, store data) */
   var PAIR={'euphoric+midnight':62,'golden+midnight':51,'euphoric+golden':36,'midnight+wildwood':36,'honey+midnight':33,'chilled+midnight':31,'crisp+golden':28,'crisp+midnight':27,'crisp+honey':25,'chilled+golden':24,'chilled+wildwood':23,'golden+honey':23,'crisp+euphoric':22,'euphoric+wildwood':22,'chilled+euphoric':21,'crisp+wildwood':17,'golden+wildwood':16,'chilled+crisp':15,'chilled+honey':14,'honey+wildwood':14,'euphoric+honey':12};
   var PRICE={1:89,2:159,3:239}, WAS={2:178,3:267};
+  var CFG={kit:{1:68206141505645,2:68206141538413,3:68206141571181},scent:{golden:41212020457581,crisp:41212018655341,chilled:41212021506157,honey:41212021342317,euphoric:41212020752493,wildwood:41212021669997,midnight:41212019933293},plans:{30:7883817069}};
+  var onStore=/(^|\.)maisoncroyez\.com$/.test(location.hostname),busy=false;
+  function cartItems(){var plan=A.refill?CFG.plans[A.refill]:null,items=[{id:CFG.kit[A.size],quantity:1}];A.picks.forEach(function(k){var l={id:CFG.scent[k],quantity:1};if(plan)l.selling_plan=plan;items.push(l)});return items}
+  function post(u,b){return fetch(u,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(b)}).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json()})}
+  function checkout(btn){
+    if(busy)return;busy=true;btn.setAttribute('aria-busy','true');
+    var mine=[CFG.kit[1],CFG.kit[2],CFG.kit[3]].concat(ORDER.map(function(k){return CFG.scent[k]}));
+    fetch('/cart.js',{headers:{'Accept':'application/json'}}).then(function(r){return r.json()}).then(function(c){
+      var u={},n=0;(c.items||[]).forEach(function(l){if(mine.indexOf(l.variant_id)>-1){u[l.key]=0;n++}});
+      return n?post('/cart/update.js',{updates:u}):0;
+    }).then(function(){return post('/cart/add.js',{items:cartItems()})}).then(function(){setTimeout(function(){location.href='/checkout'},800)})
+    .catch(function(){busy=false;btn.removeAttribute('aria-busy');var m=document.getElementById('oops');if(m)m.hidden=false});
+  }
   var ROOMS={living:'living room',bedroom:'bedroom',entry:'entry',kitchen:'kitchen',bath:'bathroom',office:'home office',up:'upstairs'};
 
   var A={when:null,use:[],spend:null,love:[],hate:[],strong:null,home:[],rooms:[],size:null,picks:null,refill:0};
@@ -158,13 +188,13 @@ p{margin:0}
 
   /* ---------- the flow ---------- */
   function flow(){
-    var f=['when','use','t1'];
+    var f=['intro','when','use','t1'];
     if(!(A.use.length===1&&A.use[0]==='none'))f.push('spend');
     f.push('love','hate','t2','strong','home','t3','rooms','t4','build','result');
     return f;
   }
   var Q={
-    when:{h:'When do you want your home to smell its best?',s:'Bonsoir. A few taps and we build your kit.',o:[['walkin','The moment I walk in'],['evening','In the evening, when I finally sit down'],['bed','At bedtime'],['guests','When guests are coming'],['allday','All day. I’m home a lot']]},
+    when:{h:'When do you most want to breathe out?',s:'Pick the moment. We build your kit around it.',o:[['walkin','The moment I walk in'],['evening','In the evening, when I finally sit down'],['bed','At bedtime, when my mind won’t stop'],['guests','When guests are coming'],['allday','All day. I’m home a lot']]},
     use:{h:'What do you use at home today?',s:'Pick all that apply.',multi:1,solo:'none',o:[['candles','Candles'],['plugins','Plug-ins'],['sprays','Room sprays'],['water','A water diffuser'],['reeds','Reed sticks or wax melts'],['waterless','Another waterless diffuser'],['none','Nothing yet']]},
     spend:{h:'What does all of that cost you a month?',s:'Candles, plug-ins, sprays, refills. A guess is fine.',o:[['u20','Under $20'],['20','$20 to $40'],['40','$40 to $60'],['60','More than $60'],['idk','I’ve never added it up']]},
     love:{h:'Which smells do you love?',s:'Pick one or two.',multi:1,max:2,solo:'any',pics:1,o:Object.keys(LOVE).map(function(k){return [k,LOVE[k].t,LOVE[k].d,LOVE[k].p]})},
@@ -214,31 +244,52 @@ p{margin:0}
     return out;
   }
 
+  /* ---------- a short line that answers her last answer ---------- */
+  function echo(id){
+    if(id==='use')return {walkin:'The door closes. The day stays outside.',evening:'You’ve earned that seat.',bed:'A calmer room is a good place to start.',guests:'The first thing they notice is the air.',allday:'Then home should feel good all day.'}[A.when]||'';
+    if(id==='love')return {'40':'That adds up. Let’s put it into something you’ll notice.','60':'That adds up. Let’s put it into something you’ll notice.','20':'Fair. Let’s make every dollar count.'}[A.spend]||'Now the good part.';
+    if(id==='hate')return 'Good taste. Now the other side.';
+    if(id==='home')return {soft:'Soft it is.',sens:'Gentle it is. We’ll show you how.',mid:'Noticeable, never heavy. Noted.',full:'The whole house. We can do that.'}[A.strong]||'';
+    if(id==='rooms')return (has(A.home,'dog')||has(A.home,'cat'))?'We’ll keep it gentle where they sleep.':has(A.home,'kids')?'Made to be left on, kids’ rooms included.':'Last one.';
+    return '';
+  }
+  /* the owner's creator photos, six to a strip, different ones on each screen */
+  var FACES={intro:[4,12,22,14,8,24],t1:[1,5,16,21,19,26],t3:[17,23,7,15,2,28],result:[3,11,20,18,25,27]};
+  function strip(key,head){return '<div class="homes">'+(head?'<h2>'+head+'</h2>':'')+'<div class="strip" tabindex="0" role="group" aria-label="Photos of women at home with their Maison Croyez diffuser">'+FACES[key].map(function(i){return '<img src="img/c-'+(i<10?'0':'')+i+'.webp" alt="A woman at home with her Maison Croyez diffuser" loading="lazy" width="240" height="240">'}).join('')+'</div></div>'}
+  var STARS='<span class="stars" aria-hidden="true">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span>';
+  function introHTML(){
+    return '<div class="intro"><div class="vid"><video id="iv" autoplay muted loop playsinline preload="metadata" poster="img/hero-poster-m.webp" aria-label="Patricia, the founder, filling a bottle of scent by hand, then the diffuser in a living room"><source src="img/hero-m.mp4" type="video/mp4"><source src="img/hero-m.webm" type="video/webm"></video></div>'+
+      '<h1 class="q-h" id="h">Bonsoir. You gave the day to everyone else.</h1><p class="q-s">Let’s make the evening yours. Eight quick questions, and we build the kit for your home.</p>'+
+      '<button class="btn" type="button" id="go">Find my scents '+ARROW+'</button>'+
+      '<p class="rate">'+STARS+'<span>4.7 | 124 reviews</span></p>'+strip('intro','Loved in 2,500+ homes across America.')+'</div>';
+  }
   /* ---------- screens ---------- */
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
   function qHTML(id){
     var q=Q[id],cur=q.multi?A[id]:[A[id]];
-    return '<h1 class="q-h" id="h">'+q.h+'</h1>'+(q.s?'<p class="q-s">'+q.s+'</p>':'')+
+    var ec=echo(id);
+    return (ec?'<p class="echo">'+ec+'</p>':'')+'<h1 class="q-h" id="h">'+q.h+'</h1>'+(q.s?'<p class="q-s">'+q.s+'</p>':'')+
       '<ul class="opts'+(q.pics?' pics':'')+'">'+q.o.map(function(o){return '<li'+(q.pics&&!o[3]?' class="wide"':'')+'><button type="button" class="opt'+(q.multi?' multi':'')+(o[3]?' pic':'')+'" data-v="'+o[0]+'" aria-pressed="'+(has(cur,o[0])?'true':'false')+'">'+(o[3]?'<img src="img/pick-'+o[3]+'.webp" alt="">':'')+'<span class="mk">'+CHECK+'</span><span><b>'+o[1]+'</b>'+(o[2]?'<small>'+o[2]+'</small>':'')+'</span></button></li>'}).join('')+'</ul>'+
       (q.multi?'<button class="btn" type="button" id="go"'+(A[id].length?'':' disabled')+'>Continue '+ARROW+'</button>':'');
   }
-  function tHTML(pic,alt,h,p,ticks,quote,src,fact){
-    return '<div class="trust">'+(pic?'<div class="pic"><img src="img/'+pic+'" alt="'+alt+'"></div>':'')+'<h2 id="h">'+h+'</h2>'+(p?'<p>'+p+'</p>':'')+
+  function tHTML(pic,alt,h,p,ticks,quote,src,fact,faces){
+    var top=pic==='PATRICIA'?'<div class="pv"><video id="pv" controls playsinline preload="none" poster="img/patricia-still.webp" aria-label="Patricia, the founder of Maison Croyez, talks about how the scents are made"><source src="img/patricia.mp4" type="video/mp4"></video></div><p class="cap">Patricia, our founder. Tap to play, 51 seconds, with sound.</p>':pic?'<div class="pic"><img src="img/'+pic+'" alt="'+alt+'"></div>':'';
+    return '<div class="trust">'+top+'<h2 id="h">'+h+'</h2>'+(p?'<p>'+p+'</p>':'')+
       (ticks&&ticks.length?'<ul class="ticks">'+ticks.map(function(t){return '<li>'+CHECK+'<span>'+t+'</span></li>'}).join('')+'</ul>':'')+
-      (quote?'<div class="quote"><p>“'+quote+'”</p><small>'+src+'</small></div>':'')+(fact?'<p class="fact">'+fact+'</p>':'')+
+      (quote?'<div class="quote"><p>“'+quote+'”</p><small>'+src+'</small></div>':'')+(fact?'<p class="fact">'+fact+'</p>':'')+(faces?strip(faces,'At home with Maison Croyez.'):'')+
       '<button class="btn" type="button" id="go">Continue '+ARROW+'</button></div>';
   }
   var T={
     t1:function(){   /* the worry: "is it really better than what I use?" / "too good to be true" */
       var u=A.use,fact='In our last customer survey, 16 of 23 buyers had switched from plug-ins and 14 from candles.';
-      if(has(u,'water'))return tHTML('believe.webp','The diffuser’s night light glowing beside a bed','No water. Nothing to grow.','There is no tank and no standing water, so there is nothing to clean and nothing that can grow.',['The bottle locks in. Nothing spills.','A timer turns it off after 1, 3, 6 or 12 hours.'],'I can go to sleep with it on in our bedroom and feel safe.','Customer survey | bought it for safety and no mold',fact);
-      if(has(u,'candles'))return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','No flame to watch.','No flame, no smoke and no heat. Leave the room, leave the house, go to bed.',['A timer turns it off after 1, 3, 6 or 12 hours.','One diffuser covers up to 600 square feet.'],'Clean, easy to use and lasts longer.','Customer survey | switched from a water diffuser and candles',fact);
-      if(has(u,'waterless'))return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','It plugs in. No charging.','It is always ready, and one diffuser covers up to 600 square feet.',['Three strengths, one button.','A timer for 1, 3, 6 or 12 hours.'],'Much heavier stream than my other two diffusers, and no charging every 8 hours. This is my favorite out of the three.','Customer survey | already owned two waterless diffusers','');
-      if(has(u,'none'))return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','One press. The whole room.','Pour in your scent, press once. In about ten minutes the room smells like the evening.',['No water, no flame, nothing to clean.','One diffuser covers up to 600 square feet.'],'It was better than I expected. Awesome experience.','Customer survey','');
-      return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','One press. The whole room.','One diffuser covers up to 600 square feet, in about ten minutes. No water, no flame, nothing to clean.',['A timer turns it off after 1, 3, 6 or 12 hours.','It plugs in. No charging, no refilling with water.'],'I removed all the other things I paid for that only worked for an hour, if that.','Customer survey | switched from reed sticks',fact);
+      if(has(u,'water'))return tHTML('believe.webp','The diffuser’s night light glowing beside a bed','No water. Nothing to grow.','There is no tank and no standing water, so there is nothing to clean and nothing that can grow.',['The bottle locks in. Nothing spills.','A timer turns it off after 1, 3, 6 or 12 hours.'],'I can go to sleep with it on in our bedroom and feel safe.','Customer survey | bought it for safety and no mold',fact,'t1');
+      if(has(u,'candles'))return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','No flame to watch.','Light nothing, blow out nothing. No flame, no smoke and no heat. Leave the room, leave the house, go to bed.',['A timer turns it off after 1, 3, 6 or 12 hours.','One diffuser covers up to 600 square feet.'],'Clean, easy to use and lasts longer.','Customer survey | switched from a water diffuser and candles',fact,'t1');
+      if(has(u,'waterless'))return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','It plugs in. No charging.','It is always ready, and one diffuser covers up to 600 square feet.',['Three strengths, one button.','A timer for 1, 3, 6 or 12 hours.'],'Much heavier stream than my other two diffusers, and no charging every 8 hours. This is my favorite out of the three.','Customer survey | already owned two waterless diffusers','','t1');
+      if(has(u,'none'))return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','One press. The whole room.','Pour in your scent, press once. In about ten minutes the room smells like the evening.',['No water, no flame, nothing to clean.','One diffuser covers up to 600 square feet.'],'It was better than I expected. Awesome experience.','Customer survey','','t1');
+      return tHTML('door-kits.webp','The diffuser and a scent bottle on an entry table','One press. The whole room.','Press once when you walk in. In about ten minutes the room smells like the evening. No water, no flame, nothing to clean.',['A timer turns it off after 1, 3, 6 or 12 hours.','It plugs in. No charging, no refilling with water.'],'I removed all the other things I paid for that only worked for an hour, if that.','Customer survey | switched from reed sticks',fact,'t1');
     },
     t2:function(){   /* the worry: "I can't smell it through a screen" */
-      return tHTML('door-scents.webp','Three Maison Croyez scent boxes on a marble shelf','You can’t smell it through a screen. We know.','It is the worry we hear most. So here is the deal.',['If you don’t love a scent, we swap it. Free.','30 days to love it, or every dollar back. We send the prepaid label.','Your first scents are free with your diffusers.'],'Your scents are unusual and great. They stand on their own.','Customer survey | lives in an apartment','');
+      return tHTML('PATRICIA','','You can’t smell it through a screen. We know.','So Patricia, our founder, tests every scent in her own living room first. And if one isn’t for you, here is the deal.',['If you don’t love a scent, we swap it. Free.','30 days to love it, or every dollar back. We send the prepaid label.','Your first scents are free with your diffusers.'],'Your scents are unusual and great. They stand on their own.','Customer survey | lives in an apartment','');
     },
     t3:function(){   /* the worry: strength, kids, pets, sensitivity */
       var soft=A.strong==='soft'||A.strong==='sens',t=[];
@@ -247,7 +298,7 @@ p{margin:0}
       if(has(A.home,'allergy')||A.strong==='sens')t.push('Sensitive to fragrance? Stay on Subtle. If a scent is too much, we swap it, free.');
       t.push('A timer turns it off after 1, 3, 6 or 12 hours.');
       var q=has(A.home,'dog')?['That my house smelled amazing. Fantastic.','Customer survey | bought it for dog smell']:['I can go to sleep with it on in our bedroom and feel safe.','Customer survey | bought it for safety and no mold'];
-      return tHTML('how-3.webp','A woman resting in bed with her dog, the diffuser on the nightstand','Made to be left on.','There is no flame, no smoke, no heat and no water, so it is safe to leave on overnight, in a kid’s room or near pets.',t,q[0],q[1],'');
+      return tHTML('how-3.webp','A woman resting in bed with her dog, the diffuser on the nightstand','Made to be left on.','So you can stop thinking about it. There is no flame, no smoke, no heat and no water, so it is safe to leave on overnight, in a kid’s room or near pets.',t,q[0],q[1],'','t3');
     },
     t4:function(){   /* the worries: price and the subscription */
       var n=sizeFor(),sp={'20':'$20 to $40','40':'$40 to $60','60':'more than $60'}[A.spend];
@@ -277,9 +328,11 @@ p{margin:0}
       '<div class="refill" role="group" aria-label="Refills"><button type="button" class="opt" data-r="0" aria-pressed="'+(A.refill===0)+'"><span class="mk">'+CHECK+'</span><span><b>No refills for now</b><small>Order more when you want it. $39.95 a scent.</small></span></button>'+
       '<button type="button" class="opt" data-r="30" aria-pressed="'+(A.refill===30)+'"><span class="mk">'+CHECK+'</span><span><b>Send refills every 30 days</b><small>$29.95 a scent instead of $39.95. We email you before every charge. Skip, swap or cancel any time.</small></span></button></div>'+
       '<p class="save">You save $'+saved(n)+' today. Your scents are free and shipping is free.</p>'+
-      '<a class="btn" id="buy" href="'+KITS+'">Checkout — $'+PRICE[n]+' '+ARROW+'</a>'+
+      '<a class="btn" id="buy" href="'+KITS+'">Checkout — $'+PRICE[n]+' '+ARROW+'</a><p class="fact" id="oops" role="alert" hidden>Something went wrong adding your kit to the cart. Please try again.</p>'+
       '<ul class="sure"><li>'+CHECK+'30 days to love it, or every dollar back</li><li>'+CHECK+'Don’t love a scent? We swap it, free</li><li>'+CHECK+'Lifetime warranty on the diffuser</li></ul>'+
-      '<div class="homes"><h2>In our customers’ homes.</h2><div class="strip" tabindex="0" role="group" aria-label="Photos of people at home with their diffuser">'+[1,2,3,4,5,6].map(function(i){return '<img src="img/ugc-0'+i+'.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240">'}).join('')+'</div></div>'+
+      '<div class="note-p"><img src="img/patricia-still.webp" alt="Patricia, founder of Maison Croyez" loading="lazy"><div><p>“I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</p><small>Patricia T. | Founder, Maison Croyez</small></div></div>'+
+      strip('result','At home with Maison Croyez.')+
+      '<p class="last">Tonight, one press. The evening takes it from there.</p>'+
       '<button class="again" type="button" id="again">Start over</button><p class="bn">Bonne nuit.</p>';
   }
 
@@ -288,7 +341,8 @@ p{margin:0}
   function show(){
     var f=flow(),id=f[step];clearTimeout(timer);
     if(id==='result'&&!A.picks){A.size=A.size||sizeFor();A.picks=match(A.size)}
-    stage.innerHTML=Q[id]?qHTML(id):T[id]?T[id]():id==='build'?buildHTML():resultHTML();
+    stage.innerHTML=id==='intro'?introHTML():Q[id]?qHTML(id):T[id]?T[id]():id==='build'?buildHTML():resultHTML();
+    var iv=document.getElementById('iv');if(iv&&window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){iv.removeAttribute('autoplay');iv.pause()}
     stage.dataset.screen=id;
     var pct=Math.round(100*step/(f.length-1));bar.style.width=pct+'%';bar.parentNode.setAttribute('aria-valuenow',pct);
     back.hidden=step===0||id==='build';
@@ -304,6 +358,7 @@ p{margin:0}
   back.addEventListener('click',prev);
   stage.addEventListener('click',function(e){
     var id=stage.dataset.screen,b=e.target.closest('button,a');if(!b)return;
+    if(b.id==='buy'&&onStore){e.preventDefault();checkout(b);return}
     if(b.id==='go'&&!b.disabled){next();return}
     if(b.id==='again'){A={when:null,use:[],spend:null,love:[],hate:[],strong:null,home:[],rooms:[],size:null,picks:null,refill:0};step=0;show();return}
     if(b.classList.contains('size')){A.size=+b.dataset.n;A.picks=match(A.size);show();return}
@@ -320,7 +375,7 @@ p{margin:0}
     }
   });
   stage.addEventListener('change',function(e){var s=e.target;if(s.tagName==='SELECT'){var i=+s.dataset.i,v=s.value,j=A.picks.indexOf(v);if(j>-1&&j!==i)A.picks[j]=A.picks[i];A.picks[i]=v;show()}});
-  window.__quiz={get:function(){return A},set:function(o){for(var k in o)A[k]=o[k]},match:match,scores:scores};   /* for the checks */
+  window.__quiz={items:cartItems,get:function(){return A},set:function(o){for(var k in o)A[k]=o[k]},match:match,scores:scores};   /* for the checks */
   show();
 })();
 </script>

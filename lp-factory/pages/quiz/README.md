@@ -61,3 +61,22 @@ Taken from them (round 2): photo tiles on "Which smells do you love?"; the resul
 the saving stated on the cost screen and the result; customers' photos on the result.
 Not taken: the e-mail gate (owner: no e-mail), a discount code for finishing (no offer decided), personality and
 interior-style questions (they do not change which scent fits), asking her age.
+
+## Round 3 (owner 2026-11-27: "Implement!!!")
+His calls: wire checkout when we deploy, same offer (one free scent per diffuser) | all the customer pictures across the
+quiz | add emotion | Patricia's video somewhere | no samplers | same 8 questions.
+- Opening screen: the muted loop from the home proposal, "Bonsoir. You gave the day to everyone else.", the rating he
+  uses on his pages (4.7 | 124 reviews) and "Loved in 2,500+ homes across America." (both his numbers).
+- Question 1 reworded ("When do you most want to breathe out?"); the answers and the matching are unchanged.
+- A short line above each next question answers what she just said (function echo).
+- The owner's 29 creator photos (Drive list in ../adv-kits/drive/ids.txt) are in img/c-01..29.webp, made by
+  make-assets.sh. 24 are used, six to a strip, on the opening, trust 1, trust 3 and the result. Left out: 06, 09, 10,
+  13, 29 (words burned into the frame, two of them an old price). They are shown as photos, never next to a quote.
+- Trust 2 now opens on Patricia's whole video with sound (img/patricia.mp4, 2.9 MB, tap to play). Her words were not
+  checked by this session (no transcription); the owner calls it "really good". The line "tests every scent in her own
+  living room first" is from her founder note on the kits page.
+- Result: her founder-note line, a photo strip, "Tonight, one press. The evening takes it from there."
+- Checkout: on maisoncroyez.com the button clears this page's own lines from the cart, adds one kit variant (1, 2 or 3
+  diffusers) and one 100 ml scent per diffuser (the three automatic discounts make them free), on the 30-day plan when
+  she chose refills, then goes to /checkout. Same code path as the kits page. In the preview it opens the kits page.
+  NOT run against the store yet: do it at deploy (a real cart test from the QA runner, as for the kits page).

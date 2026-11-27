@@ -230,3 +230,12 @@ His word: "Ok we're ready to deploy. You can also fix the PDF yourself then." St
   phone and desktop reach step 3, no name / email box, no page errors; the real cart run added variant 67864692392045 at
   $359.40 with the scents and the "Supply" attribute only, landed on checkout, and the cart was cleared. The closed
   screens (no link, expired link) and the link maker still work.
+
+## sp9 (2026-11-27, owner: "delete the we cancel the subscription for you from the title please" + "and the subscribers only") — LIVE, key sp9-35e85d7
+- Title: "One payment. No more monthly charges." (was "... We cancel your subscription for you.").
+- Banner: "Black Friday offer" (was "Black Friday offer · Subscribers only"), on the offer and on the closed screens.
+- Not changed, still on the page: step 1's third line "Your current subscription is cancelled for you in less than
+  24 hours.", and the closed screen's sentence "This Black Friday offer is for our subscribers, and it opens from the
+  link we send you on our call." He asked for the title and the banner only.
+- App 134,611 B at commit 35e85d78 via fileUpdate 46573254148205; css unchanged; page 163021881453 body = page-body.html.
+  Tested locally before the deploy (three steps, checkout, no errors).

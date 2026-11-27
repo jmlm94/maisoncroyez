@@ -1,5 +1,5 @@
 name: page-shot-supply
-# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (12-month supply, scents picked for me, checkout; since sp8 step 3 has no name / email box) that reads /cart.js and clears it. Since sp7 the offer opens only from a call link (?t=<unix seconds>), so the run first reads the closed page (no link, expired link) and the link maker (?newlink=1), then opens the page with a fresh link. Edit this line and push to run. [run sp8-408c2ef]
+# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (12-month supply, scents picked for me, checkout; since sp8 step 3 has no name / email box) that reads /cart.js and clears it. Since sp7 the offer opens only from a call link (?t=<unix seconds>), so the run first reads the closed page (no link, expired link) and the link maker (?newlink=1), then opens the page with a fresh link. Edit this line and push to run. [run sp9-35e85d7]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]

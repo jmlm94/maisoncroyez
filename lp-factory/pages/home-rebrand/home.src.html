@@ -186,6 +186,26 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
 .ft-bot .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--sig-light)}
 @media (max-width:760px){.ft-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ft-news{grid-column:1 / -1}.ft-form{max-width:none}}
 @media (prefers-reduced-motion:reduce){.faq summary .ic{transition:none}}
+/* round 2 (competitor check): room guide, safety row, best-seller marks, social links */
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.6vw,20px);margin-top:var(--gh)}
+.room{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:clamp(22px,2.6vw,32px) clamp(8px,1.6vw,20px) clamp(14px,2vw,24px);text-decoration:none;min-width:0}
+.room.on{border-color:var(--sig);box-shadow:inset 0 0 0 1px var(--sig)}
+.room i{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:var(--sig);color:#fff;font:600 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;font-style:normal;padding:5px 9px;border-radius:999px;white-space:nowrap}
+.room b{font-size:clamp(14px,1.5vw,18px);letter-spacing:-.015em;line-height:1.15}
+.room strong{font-weight:700;font-size:clamp(20px,3vw,38px);letter-spacing:-.035em;line-height:1.05}
+.room small{font-size:clamp(12.5px,1.3vw,15.5px);line-height:1.3;color:var(--drift);max-width:16em;text-wrap:balance}
+.room .pr{margin-top:auto;padding-top:8px;font:600 13px/1.3 var(--m);letter-spacing:.08em;color:var(--night)}
+@media (max-width:640px){.room small{font-size:11.5px}.room i{font-size:8.5px;padding:4px 7px}.rooms + .after .btn{width:100%}}
+.safe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px clamp(12px,2vw,28px);margin-top:clamp(22px,3vw,36px);padding-top:clamp(18px,2.4vw,28px);border-top:1px solid var(--stone)}
+.safe li{display:flex;align-items:center;gap:10px;font-weight:600;font-size:clamp(13.5px,1.3vw,16px);line-height:1.25}
+.safe .ic{flex:none;font-size:20px;color:var(--ink)}
+@media (max-width:860px){.safe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sm .im{position:relative;width:64px;border-radius:8px;overflow:hidden}
+.sm .im img{display:block;width:100%}
+.sm .im i{position:absolute;left:0;right:0;bottom:0;background:var(--night);color:var(--cream);font:600 7px/1 var(--m);letter-spacing:.04em;text-transform:uppercase;font-style:normal;text-align:center;padding:3px 0;white-space:nowrap}
+@media (max-width:860px){.sm .im{width:100%;border-radius:6px}.sm .im i{font-size:clamp(7px,2vw,9px);padding:4px 0}}
+.ft-bot .soc{display:flex;gap:18px}
+.ft-bot .soc a{color:#E4DACB;text-decoration:none}
 </style>
 <!--SYMBOLS-->
 <div class="note">Proposal — nothing here is on the store</div>
@@ -229,6 +249,17 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
 </div></section>
 
 <section class="s sand"><div class="w">
+  <h2 class="hd sec-h">How many rooms?</h2>
+  <p class="lede">One diffuser covers up to 600 square feet. A free 100 ml scent comes with each.</p>
+  <div class="rooms">
+    <a class="room" href="https://maisoncroyez.com/pages/diffuser-kits-2"><b>1 diffuser</b><strong>600 sq ft</strong><small>A large bedroom or an open main floor.</small><span class="pr">$89</span></a>
+    <a class="room on" href="https://maisoncroyez.com/pages/diffuser-kits-2"><i>Most popular</i><b>2 diffusers</b><strong>1,200 sq ft</strong><small>Where you sit and where you sleep.</small><span class="pr">$159</span></a>
+    <a class="room" href="https://maisoncroyez.com/pages/diffuser-kits-2"><b>3 diffusers</b><strong>1,800 sq ft</strong><small>The whole home.</small><span class="pr">$239</span></a>
+  </div>
+  <div class="after"><a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits-2">Build my kit {{i:arrow-right}}</a></div>
+</div></section>
+
+<section class="s"><div class="w">
   <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
   <p class="lede">No water, no flame, nothing to clean.</p>
   <ul class="how">
@@ -236,19 +267,25 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
     <li><img src="img/how-2.webp" alt="A hand pressing the button on the diffuser" loading="lazy" width="420" height="420"><div><b>Press once.</b><p>One button, three strengths. Soft for a quiet night, fuller when you want more.</p></div></li>
     <li><img src="img/how-3.webp" alt="A woman resting in bed with her dog, the diffuser on the nightstand" loading="lazy" width="420" height="420"><div><b>Exhale.</b><p>About ten minutes to fill the room. A timer turns it off.</p></div></li>
   </ul>
+  <ul class="safe">
+    <li>{{i:moon}}Safe to leave on overnight</li>
+    <li>{{i:shield-check}}Fine in a kid’s room or near pets</li>
+    <li>{{i:check}}No tank, nothing that can grow</li>
+    <li>{{i:calendar-check}}Stops on its own after 1, 3, 6 or 12 hours</li>
+  </ul>
 </div></section>
 
-<section class="s"><div class="w">
+<section class="s sand"><div class="w">
   <h2 class="hd sec-h">Seven scents. Pick the evening you want.</h2>
-  <p class="lede">100 ml each. If you don’t love one, we swap it, free.</p>
+  <p class="lede">100 ml each, $39.95. If you don’t love one, we swap it, free.</p>
   <div class="smini">
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-golden.webp" alt="" loading="lazy" width="400" height="400"><div><b>Golden Blossom Harmony</b><span>Honey Floral</span><small>Fresh flowers and a little honey. Like walking into a florist.</small></div></a>
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-honey.webp" alt="" loading="lazy" width="400" height="400"><div><b>Honey Nectar</b><span>Milk &amp; Honey</span><small>Warm milk and honey. Like a café on a slow morning.</small></div></a>
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-crisp.webp" alt="" loading="lazy" width="400" height="400"><div><b>Crisp Citrus Scape</b><span>Fresh Citrus</span><small>Fresh citrus peel and green leaves. Like a clean hotel lobby.</small></div></a>
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-euphoric.webp" alt="" loading="lazy" width="400" height="400"><div><b>Euphoric Bloom</b><span>Peach &amp; Tea</span><small>White peach and jasmine tea. Fruity and bright, never sugary.</small></div></a>
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-wildwood.webp" alt="" loading="lazy" width="400" height="400"><div><b>Wildwood Mystique</b><span>Pine Forest</span><small>Pine and juniper. Like a walk in the woods after rain.</small></div></a>
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-chilled.webp" alt="" loading="lazy" width="400" height="400"><div><b>Chilled Citrus</b><span>Lavender</span><small>Lavender and eucalyptus. Like a day spa.</small></div></a>
-    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-midnight.webp" alt="" loading="lazy" width="400" height="400"><div><b>Midnight Sensation</b><span>Floral Musk</span><small>White flowers and soft musk. Like perfume on warm skin.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/golden-blossom-harmony-for-love-100ml"><div class="im"><img src="img/pick-golden.webp" alt="" loading="lazy" width="400" height="400"><i>Best seller</i></div><div><b>Golden Blossom Harmony</b><span>Honey Floral</span><small>Fresh flowers and a little honey. Like walking into a florist.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/honey-nectar-for-turning-ideas-into-reality-100ml"><div class="im"><img src="img/pick-honey.webp" alt="" loading="lazy" width="400" height="400"></div><div><b>Honey Nectar</b><span>Milk &amp; Honey</span><small>Warm milk and honey. Like a café on a slow morning.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/crisp-citrus-scape-for-abundance-100ml"><div class="im"><img src="img/pick-crisp.webp" alt="" loading="lazy" width="400" height="400"><i>Best seller</i></div><div><b>Crisp Citrus Scape</b><span>Fresh Citrus</span><small>Fresh citrus peel and green leaves. Like a clean hotel lobby.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/euphoric-bloom-for-energy-100ml"><div class="im"><img src="img/pick-euphoric.webp" alt="" loading="lazy" width="400" height="400"></div><div><b>Euphoric Bloom</b><span>Peach &amp; Tea</span><small>White peach and jasmine tea. Fruity and bright, never sugary.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/wildwood-mystique-for-purification-100ml"><div class="im"><img src="img/pick-wildwood.webp" alt="" loading="lazy" width="400" height="400"></div><div><b>Wildwood Mystique</b><span>Pine Forest</span><small>Pine and juniper. Like a walk in the woods after rain.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/chilled-citrus-for-relaxation-and-concentration-100ml"><div class="im"><img src="img/pick-chilled.webp" alt="" loading="lazy" width="400" height="400"></div><div><b>Chilled Citrus</b><span>Lavender</span><small>Lavender and eucalyptus. Like a day spa.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/products/midnight-sensation-for-love-manifestation-100ml"><div class="im"><img src="img/pick-midnight.webp" alt="" loading="lazy" width="400" height="400"><i>Best seller</i></div><div><b>Midnight Sensation</b><span>Floral Musk</span><small>White flowers and soft musk. Like perfume on warm skin.</small></div></a>
     <div class="sm"><div class="fx" aria-hidden="true"><strong>100%</strong><em>organic</em></div><div><b>Paraben-free</b><span>Cruelty-free</span><small>100% organic ingredients in every bottle.</small></div></div>
   </div>
   <div class="after"><a class="btn ghost" href="https://maisoncroyez.com/collections/power-fragrances">Meet the scents {{i:arrow-right}}</a><span style="color:var(--drift)">Your first ones are free with a diffuser kit.</span></div>
@@ -330,7 +367,7 @@ footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
       <p>New scents, offers and launches, right in your inbox.</p>
       <form class="ft-form" onsubmit="return false"><input type="email" id="ft-email" placeholder="E-mail" aria-label="E-mail"><button type="submit" aria-label="Subscribe">{{i:arrow-right}}</button></form></div>
     <div class="ft-col"><b>Terms &amp; Policies</b><a href="https://maisoncroyez.com/policies/refund-policy">Refund Policy</a><a href="https://maisoncroyez.com/policies/shipping-policy">Shipping Policy</a><a href="https://maisoncroyez.com/policies/privacy-policy">Privacy Policy</a><a href="https://maisoncroyez.com/policies/terms-of-service">Terms of Service</a></div>
-    <div class="ft-col"><b>Can we help?</b><a href="https://portal.subi.co/login/">Manage Subscription</a><a href="https://maisoncroyez.com/pages/who-we-are">About us</a><a href="https://maisoncroyez.com/pages/diffuser-kits-2">Diffuser Kits</a><a href="https://maisoncroyez.com/collections/power-fragrances">Scents</a></div>
+    <div class="ft-col"><b>Can we help?</b><a href="https://maisoncroyez.com/pages/contact">Contact us</a><a href="https://portal.subi.co/login/">Manage Subscription</a><a href="https://maisoncroyez.com/pages/who-we-are">About us</a><a href="https://maisoncroyez.com/pages/diffuser-kits-2">Diffuser Kits</a><a href="https://maisoncroyez.com/collections/power-fragrances">Scents</a></div>
   </div>
-  <div class="ft-bot"><span>&copy; 2026, Maison Croyez. All rights reserved.</span><span class="bn">Bonne nuit.</span></div>
+  <div class="ft-bot"><span>&copy; 2026, Maison Croyez. All rights reserved.</span><span class="soc"><a href="https://www.instagram.com/maisoncroyez">Instagram</a><a href="https://www.tiktok.com/@maisoncroyez">TikTok</a><a href="https://www.facebook.com/maisoncroyez">Facebook</a></span><span class="bn">Bonne nuit.</span></div>
 </div></footer>

@@ -34,3 +34,28 @@ Headline stays "Leave the day at the door." | "Bonsoir." stays | two doors only 
 older bundles page) | the kits buttons point to /pages/diffuser-kits-2.
 Next: he asked to check competitors' home pages for anything missing (.github/workflows/home-refs.yml ->
 lp-factory/recon-home/competitors/).
+
+## Competitor check (2026-11-27)
+Nine home pages read on a phone by `.github/workflows/home-refs.yml` (results in `lp-factory/recon-home/competitors/`:
+headings in page order, page text, buttons, a full-page screenshot each): Aroma360, AromaTech, Hotel Collection, Pura
+(scent diffusers) and Ketro, Mozi Wash, Flewd, Hanni, Primally Pure (the reference brands).
+
+Added to the proposal because most of them have it and every fact is already on the kits page:
+- "How many rooms?" | 1, 2 or 3 diffusers with coverage (600 / 1,200 / 1,800 sq ft) and price ($89 / $159 / $239).
+  Pura, Aroma360 and Hotel Collection all sort diffusers by room size.
+- A safety row under the three steps (overnight, kids and pets, no tank, timer). Aroma360, Pura, Mozi and Flewd put
+  this near the top; here it was only in the questions.
+- Scent tiles: each goes to its own product page, the three best sellers are marked (the same three the kits page
+  picks: Midnight Sensation, Golden Blossom Harmony, Crisp Citrus Scape), the price is in the line above.
+- Footer: "Contact us" (/pages/contact) and the Instagram, TikTok and Facebook profiles the live site links to.
+Section bands now run cream, sand, cream, sand, night.
+
+Seen on their pages, not added (needs the owner's decision or material):
+- A seasonal offer in the hero: all nine lead with Black Friday today. The proposal keeps the standing offer.
+- An offer for joining the e-mail list (Pura 10%, AromaTech 15%). The footer form has no offer.
+- Video: Aroma360, AromaTech, Mozi and Ketro run clips or customer videos. The proposal is stills only.
+- A scent quiz (AromaTech, Flewd, Hotel Collection). The tiles and best-seller marks stand in for it.
+- Press or named endorsements (Mozi, Hotel Collection, Ketro's doctors). None on file, none invented.
+- A page that backs the clean claims with the ingredient list or standards (Pura, Mozi). "100% organic" has no
+  document behind it in this repo.
+- Star ratings per scent (Mozi, Aroma360, AromaTech, Hotel Collection). Needs the per-product review counts.

@@ -1,0 +1,346 @@
+<title>Maison Croyez Cart</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Roboto+Mono:wght@400..700&display=swap">
+<style>
+/* Layout: the proposal is the drawer itself, working, at phone width, with the reasons beside it (under it on a phone).
+   The drawer reads top to bottom the way a buyer decides: what I get, what is free, what else, proof, pay.
+   One committed look in either viewer theme: the brand's own colours (board v1.2). */
+:root{
+  --cream:#F9F6EE;--paper:#FFFDF9;--sand:#EAE1D1;--stone:#CFC4B1;--drift:#6E655B;--night:#161210;
+  --sig:#6169DF;--ink:#4B55D6;--wash:#E7E8FB;--ok:#2E6B4F;
+  --f:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;--m:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sand);color:var(--night);font-family:var(--f);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+p,h1,h2,h3,ul,blockquote,fieldset,legend{margin:0;padding:0;border:0}
+ul{list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit}
+.ic{width:1em;height:1em;flex:none}
+.lg{width:100%;height:auto;fill:currentColor}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:6px}
+.w{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.note{background:var(--night);color:var(--cream);text-align:center;font:500 11px/1.4 var(--m);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px}
+.top{padding-block:28px 18px}
+.top h1{font-size:clamp(34px,5vw,54px);font-weight:700;letter-spacing:-.035em;line-height:1.04}
+.top p{margin-top:10px;color:var(--drift);font-size:17px;max-width:38em}
+.sw{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.sw button{min-height:44px;padding:0 16px;border-radius:999px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--stone);font-weight:600;font-size:15px}
+.sw button[aria-pressed="true"]{background:var(--night);color:var(--cream);box-shadow:none}
+.stage{display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:start;padding-block:10px 64px}
+@media (max-width:900px){.stage{grid-template-columns:minmax(0,1fr)}.stage>.cd{justify-self:center;width:100%;max-width:430px}}
+
+/* ---------- the drawer ---------- */
+.cd{background:var(--cream);box-shadow:0 0 0 1px var(--stone),0 18px 50px rgba(22,18,16,.16);min-width:0}
+.cd-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 14px 20px;border-bottom:1px solid var(--sand)}
+.cd-head h2{font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.cd-head h2 span{font-weight:500;font-size:15px;letter-spacing:0;color:var(--drift);margin-left:8px}
+.cd-x{width:44px;height:44px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:20px}
+.cd-body{display:grid;gap:16px;padding:16px 20px 20px}
+/* kit size: the one real saving in the price list, shown as steps */
+.cd-tier{background:var(--wash);border-radius:16px;padding:14px;display:grid;gap:12px}
+.cd-tier p{font-size:15px;line-height:1.4}
+.cd-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.cd-track button{min-height:56px;border-radius:12px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--stone);display:grid;place-content:center;justify-items:center;gap:1px;text-align:center;line-height:1.2;padding:6px 4px}
+.cd-track b{font-size:14px;font-weight:700}
+.cd-track span{font-size:13px;color:var(--drift);font-variant-numeric:tabular-nums}
+.cd-track button[aria-pressed="true"]{background:var(--sig);box-shadow:none;color:#fff}
+.cd-track button[aria-pressed="true"] span{color:#fff}
+.cd-band{background:var(--wash);border-radius:16px;padding:14px;display:grid;gap:10px;justify-items:start;font-size:15px;line-height:1.4}
+.cd-band .cd-add{background:var(--paper)}
+.cd-band>.ic{font-size:20px;color:var(--ink)}
+/* lines */
+.cd-lines{display:grid}
+.cd-line{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--sand)}
+.cd-line:first-child{padding-top:0}
+.cd-line img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:var(--sand)}
+.cd-line h3{font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.cd-sub{font-size:14px;color:var(--drift);line-height:1.35;margin-top:2px}
+.cd-plan{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;font-weight:600;color:var(--ink)}
+.cd-plan .ic{font-size:15px}
+.cd-pr{text-align:right;font-variant-numeric:tabular-nums;line-height:1.25;white-space:nowrap}
+.cd-pr b{display:block;font-size:16px;font-weight:700}
+.cd-pr b.free{color:var(--ink)}
+.cd-pr s{font-size:13px;color:var(--drift)}
+.cd-ctl{grid-column:2 / -1;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:-2px}
+.cd-qty{display:inline-flex;align-items:center;border-radius:999px;box-shadow:inset 0 0 0 1px var(--stone);background:var(--paper)}
+.cd-qty button{width:44px;height:40px;display:grid;place-items:center;font-size:16px}
+.cd-qty span{min-width:22px;text-align:center;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.cd-rm{min-height:40px;padding:0 4px;display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--drift);text-decoration:underline;text-underline-offset:3px}
+.cd-rm .ic{font-size:16px}
+/* the free scent still to pick */
+.cd-slot{border:1.5px dashed var(--ink);border-radius:16px;padding:14px;display:grid;gap:12px;background:var(--paper)}
+.cd-slot h3{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.cd-slot h3 .ic{font-size:20px;color:var(--ink)}
+.cd-slot p{font-size:14px;color:var(--drift);margin-top:-6px}
+.cd-chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.cd-chips button{display:grid;justify-items:center;gap:5px;text-align:center;font-size:12px;font-weight:600;line-height:1.2;min-height:44px}
+.cd-chips img{width:100%;aspect-ratio:1;border-radius:12px;object-fit:cover}
+/* refills */
+.cd-card{background:var(--paper);border-radius:16px;box-shadow:inset 0 0 0 1px var(--sand);padding:14px;display:grid;gap:10px}
+.cd-card h3,.cd-card legend{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.cd-card p{font-size:14px;color:var(--drift);line-height:1.4}
+.cd-opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.cd-opts button{min-height:46px;border-radius:12px;box-shadow:inset 0 0 0 1px var(--stone);background:var(--cream);font-size:13px;font-weight:600;text-align:center;line-height:1.15;padding:4px}
+.cd-opts button[aria-pressed="true"]{background:var(--night);color:var(--cream);box-shadow:none}
+/* add a scent */
+.cd-more h3{font-size:17px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.cd-up{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px;border-radius:14px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--sand)}
+.cd-up+.cd-up{margin-top:8px}
+.cd-up img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+.cd-up b{display:block;font-size:15px;font-weight:700;line-height:1.25}
+.cd-up span{display:block;font-size:13px;color:var(--drift);line-height:1.3}
+.cd-up em{font-style:normal;font-size:12px;font-weight:600;color:var(--ink)}
+.cd-add{min-height:44px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--night);display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;white-space:nowrap}
+.cd-add .ic{font-size:15px}
+/* proof */
+.cd-quote{display:grid;gap:8px;padding:14px;border-radius:16px;background:var(--sand)}
+.cd-quote blockquote{font-size:15px;line-height:1.45}
+.cd-quote div{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;font-size:13px;color:var(--drift)}
+.cd-stars{display:inline-flex;gap:1px;color:var(--night);font-size:14px}
+.cd-stars .ic{fill:currentColor}
+.cd-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
+.cd-trust li{display:grid;justify-items:center;gap:5px;font-size:12.5px;font-weight:600;line-height:1.25}
+.cd-trust .ic{font-size:20px;color:var(--ink)}
+/* pay */
+.cd-foot{position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--stone);padding:10px 20px calc(12px + env(safe-area-inset-bottom,0px));display:grid;gap:7px;box-shadow:0 -10px 24px rgba(22,18,16,.07)}
+.cd-save{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--ok)}
+.cd-save .ic{font-size:15px}
+.cd-rows .cd-row2{font-size:14px;color:var(--drift)}
+.cd-rows{display:grid;gap:3px;font-size:15px}
+.cd-rows div{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.cd-rows s{color:var(--drift);margin-right:6px;font-size:14px}
+.cd-rows .then{font-size:13px;color:var(--drift);display:block}
+.cd-go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:999px;background:var(--sig);color:#fff;font-weight:700;font-size:17px;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.cd-go .ic{font-size:18px}
+.cd-go i{font-style:normal;opacity:.55;font-weight:400}
+.cd-fine{text-align:center;font-size:13px;color:var(--drift);line-height:1.35}
+.cd-fine b{color:var(--night)}
+/* empty */
+.cd-empty{display:grid;gap:16px;padding:22px 20px 24px}
+.cd-empty>h3{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.cd-empty>p{font-size:15px;color:var(--drift);margin-top:-10px}
+.cd-doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cd-doors button{display:grid;gap:8px;border-radius:16px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--sand);padding:8px 8px 12px}
+.cd-doors img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.cd-doors b{font-size:16px;font-weight:700;padding:0 4px}
+.cd-doors span{font-size:13px;color:var(--drift);padding:0 4px;margin-top:-6px;line-height:1.3}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:min(92vw,420px);background:var(--night);color:var(--cream);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;text-align:center;z-index:5}
+
+/* ---------- the reasons ---------- */
+.why{display:grid;gap:34px;min-width:0}
+.why section{min-width:0}
+.tbl{max-width:100%}
+.why h2{font-size:clamp(26px,3vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.why section>p{color:var(--drift);margin-top:8px;max-width:40em}
+.why ul{margin-top:14px;display:grid;gap:10px;max-width:44em}
+.why li{background:var(--paper);border-radius:14px;padding:12px 14px;line-height:1.45;font-size:15.5px}
+.why li b{font-weight:700}
+.tbl{margin-top:14px;overflow-x:auto;background:var(--paper);border-radius:14px}
+.tbl table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--sand);vertical-align:top;line-height:1.4}
+.tbl th{font:600 11px/1.3 var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--drift)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-weight:700;white-space:nowrap}
+.yes{color:var(--ok);font-weight:700}.no{color:var(--drift)}
+</style>
+<!--SYMBOLS-->
+<div class="note">Proposal | new cart drawer | nothing here is on the store</div>
+<div class="w top">
+  <h1>The new cart.</h1>
+  <p>This is the drawer that opens when someone adds to cart. It works: tap the sizes, the plus and minus, the scents. Pick a cart below to see each case.</p>
+  <div class="sw" role="group" aria-label="Example carts" id="sw">
+    <button type="button" data-a="preset:kit1" aria-pressed="true">One diffuser</button>
+    <button type="button" data-a="preset:kit2" aria-pressed="false">Two diffusers with refills</button>
+    <button type="button" data-a="preset:scents" aria-pressed="false">Scents only</button>
+    <button type="button" data-a="preset:empty" aria-pressed="false">Empty</button>
+  </div>
+</div>
+<div class="w stage">
+  <div class="cd" id="cart" role="region" aria-label="Cart drawer example"></div>
+  <div class="why">
+    <section>
+      <h2>What is in it.</h2>
+      <ul>
+        <li><b>Kit size as three steps.</b> The only real saving in your price list is the second and third diffuser ($159 instead of $178, $239 instead of $267). The steps sit at the top and one tap changes the kit.</li>
+        <li><b>The free scent is a slot to fill.</b> Add a diffuser and the cart asks which scent comes with it. A free thing left unclaimed is the strongest pull in a cart.</li>
+        <li><b>FREE and the struck price on every line.</b> The buyer sees $39.95 crossed out next to each scent, and one green line with the total saved.</li>
+        <li><b>Refills are offered, never ticked for them.</b> In your survey, the subscription was one of the three things that almost stopped buyers (6 of 23). It says the price, that you email before every charge, and that they can cancel.</li>
+        <li><b>Add a scent, picked from real orders.</b> Euphoric Bloom and Midnight Sensation were bought together in 62 orders this year, Golden Blossom and Midnight in 51. The cart suggests the partner of what is in it, then your best sellers.</li>
+        <li><b>One real customer line and your rating,</b> right above the button: 4.7 from 124 reviews.</li>
+        <li><b>Three promises by the button:</b> free shipping from Miami, 30 days or every dollar back, lifetime warranty.</li>
+        <li><b>The pay bar stays on screen:</b> what you save, free shipping, and the total inside the button, with Shopify's own Shop Pay installments line under it.</li>
+        <li><b>The empty cart still sells:</b> the two doors from the home page and your three best sellers.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>What other brands do.</h2>
+      <p>I added one product to the cart on each site today, on a phone, and read what came up. Four have a drawer like this one.</p>
+      <div class="tbl"><table>
+        <thead><tr><th scope="col">In the cart</th><th scope="col">Flewd</th><th scope="col">Hey Hanni</th><th scope="col">Mozi Wash</th><th scope="col">Primally Pure</th><th scope="col">Ours</th></tr></thead>
+        <tbody>
+          <tr><td>Reward bar at the top</td><td>Free shipping</td><td>Free shipping, then free wrapping</td><td>Gifts with a subscription</td><td>A free gift</td><td class="yes">Yes, as kit sizes</td></tr>
+          <tr><td>Struck price and saving</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td class="yes">Yes</td></tr>
+          <tr><td>More to add</td><td>"Stock up on these faves"</td><td>"Buy more, save more"</td><td>"Curated just for you"</td><td>"Frequently bought together"</td><td class="yes">Yes</td></tr>
+          <tr><td>Total in the button</td><td class="no">No</td><td>Yes</td><td class="no">No</td><td>Yes</td><td class="yes">Yes</td></tr>
+          <tr><td>Guarantee or rating by the button</td><td>60-day guarantee</td><td class="no">No</td><td>4.8 stars, 30-day guarantee</td><td class="no">No</td><td class="yes">Both</td></tr>
+          <tr><td>Discount code box</td><td class="no">No</td><td>Yes</td><td>Yes</td><td>Yes</td><td class="no">No</td></tr>
+          <tr><td>Paid shipping protection</td><td>Yes</td><td class="no">No</td><td class="no">No</td><td>Yes</td><td class="no">No</td></tr>
+        </tbody>
+      </table></div>
+      <p>AromaTech and Hotel Collection have no drawer: they send the buyer to a full cart page. Aroma360, Ketro and Pura could not be read.</p>
+    </section>
+    <section>
+      <h2>How it connects.</h2>
+      <ul>
+        <li><b>Products and prices</b> come live from Shopify's cart, so the kit, the free-scent discounts and the refill plans show exactly what checkout will charge. Nothing is typed in by hand.</li>
+        <li><b>Add, change and remove</b> use Shopify's own cart, the same one your kits page uses today.</li>
+        <li><b>It opens from</b> the cart icon in the header and from every add to cart button on the theme.</li>
+        <li><b>Pixels keep working as they do now.</b> Shopify sends the add to cart and checkout events itself, so Meta, Triple Whale, Klaviyo and Postscript receive them. Adds made inside the drawer count too.</li>
+        <li><b>The button goes to Shopify checkout,</b> with the discounts already applied.</li>
+        <li><b>Not touched:</b> Subi, Postscript, One Click Upsell and Gorgias settings.</li>
+        <li><b>The old drawer is removed</b> from the theme copy you are about to publish, not hidden.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Left out on purpose.</h2>
+      <ul>
+        <li><b>No countdown and no "only 3 left".</b> They would not be true, and your buyers are mostly women over 45 who read carefully.</li>
+        <li><b>No free shipping bar.</b> Every order already ships free, so there is nothing to unlock. The kit steps do that job with a real saving.</li>
+        <li><b>No discount code box.</b> It sends people off to hunt for a code. Codes still work at checkout.</li>
+        <li><b>No paid shipping protection.</b> Two of the brands add a small charge for it by default. It would sit badly next to "free shipping".</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Yours to decide.</h2>
+      <ul>
+        <li><b>Refills with a scents-only cart.</b> Today your refill plans take $39.95 off the first payment, so a buyer with no kit who picks refills pays $0 for the first bottle. In this proposal the cart offers refills only when a kit is in it. Tell me if scents-only buyers should get the offer too.</li>
+        <li><b>The kits page.</b> Its button goes straight to checkout today. It can open this drawer first, which gives the add-a-scent and refill offers one more chance, at the cost of one more tap.</li>
+        <li><b>Fast-pay buttons</b> (Shop Pay, Apple Pay) under the main button. Faster for returning buyers, but they skip past the offers in the cart.</li>
+        <li><b>The full cart page</b> at /cart. I would send it to this drawer so there is one cart to keep right.</li>
+        <li><b>Scent names.</b> The store still calls them "Golden Blossom Harmony – Love (100ml)". The drawer can show the short names from the new pages.</li>
+      </ul>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function(){
+/*ICONS*/
+var IMG={kit:'{{img:kit.webp}}',golden:'{{img:golden.webp}}',midnight:'{{img:midnight.webp}}',euphoric:'{{img:euphoric.webp}}',chilled:'{{img:chilled.webp}}',crisp:'{{img:crisp.webp}}',wildwood:'{{img:wildwood.webp}}',honey:'{{img:honey.webp}}',doorKits:'{{img:door-kits.webp}}',doorScents:'{{img:door-scents.webp}}'};
+/* names and one-line descriptions as on the home page; prices in cents, as the store has them */
+var S={golden:{n:'Golden Blossom Harmony',s:'Golden Blossom',k:'Honey floral',l:'Fresh flowers and a little honey.'},
+  midnight:{n:'Midnight Sensation',s:'Midnight',k:'Floral musk',l:'White flowers and soft musk.'},
+  euphoric:{n:'Euphoric Bloom',s:'Euphoric Bloom',k:'Peach and tea',l:'White peach and jasmine tea.'},
+  chilled:{n:'Chilled Citrus',s:'Chilled Citrus',k:'Lavender',l:'Lavender and eucalyptus.'},
+  crisp:{n:'Crisp Citrus Scape',s:'Crisp Citrus',k:'Fresh citrus',l:'Citrus peel and green leaves.'},
+  wildwood:{n:'Wildwood Mystique',s:'Wildwood',k:'Pine forest',l:'Pine and juniper.'},
+  honey:{n:'Honey Nectar',s:'Honey Nectar',k:'Milk and honey',l:'Warm milk and honey.'}};
+var ORDER=['golden','midnight','euphoric','chilled','crisp','wildwood','honey']; /* by bottles sold this year */
+var PAIR={euphoric:['midnight'],midnight:['euphoric','golden'],golden:['midnight']}; /* most common pairs in this year's orders */
+var KIT={1:{p:8900,was:8900},2:{p:15900,was:17800},3:{p:23900,was:26700}},PRICE=3995,REFILL=2995;
+var PRESETS={kit1:{kit:1,scents:[['golden',1]],plan:0},kit2:{kit:2,scents:[['euphoric',1],['midnight',1]],plan:30},scents:{kit:0,scents:[['midnight',1],['chilled',1]],plan:0},empty:{kit:0,scents:[],plan:0}};
+var st=JSON.parse(JSON.stringify(PRESETS.kit1)),root=document.getElementById('cart'),toastEl=document.getElementById('toast'),tt;
+function $(c){return '$'+(c/100).toFixed(2)}
+function d(c){return '$'+(c%100?(c/100).toFixed(2):c/100)}
+function pl(n,w){return n+' '+w+(n===1?'':'s')}
+function calc(){
+  var u=0,left=st.kit;st.scents.forEach(function(s){u+=s[1]});
+  var rows=st.scents.map(function(s){var f=Math.min(left,s[1]);left-=f;return{id:s[0],q:s[1],free:f,paid:s[1]-f}});
+  var k=st.kit?KIT[st.kit]:null,paid=rows.reduce(function(a,r){return a+r.paid},0);
+  var orig=(k?k.was:0)+u*PRICE,today=(k?k.p:0)+paid*PRICE;
+  return{u:u,rows:rows,k:k,orig:orig,today:today,save:orig-today,open:Math.max(0,st.kit-u),freeU:u-paid,refill:(st.plan&&st.kit)?(u-paid)*REFILL:0};
+}
+function suggest(){
+  var inC=st.scents.map(function(s){return s[0]}),out=[];
+  function has(id){return inC.indexOf(id)>-1||out.some(function(o){return o.id===id})}
+  inC.forEach(function(id){(PAIR[id]||[]).forEach(function(p){if(!has(p))out.push({id:p,why:'Often bought with '+S[id].s})})});
+  ORDER.forEach(function(id,i){if(!has(id))out.push({id:id,why:i<3?'Best seller':''})});
+  return out.slice(0,2);
+}
+function head(n){return '<div class="cd-head"><h2>Your cart'+(n?'<span>'+pl(n,'item')+'</span>':'')+'</h2><button type="button" class="cd-x" data-a="close" aria-label="Close the cart">'+I.x+'</button></div>'}
+function tier(){
+  var msg=st.kit===1?'<b>Add a second diffuser for $70</b> instead of $89. It comes with its own free scent.':st.kit===2?'<b>Add a third diffuser for $80</b> instead of $89. One more free scent comes with it.':'<b>Three rooms covered.</b> You save $28 on the diffusers and get 3 free scents.';
+  var h='<div class="cd-tier"><p>'+msg+'</p><div class="cd-track" role="group" aria-label="Diffusers in your kit">';
+  [1,2,3].forEach(function(n){h+='<button type="button" data-a="kit:'+n+'" aria-pressed="'+(st.kit===n)+'"><b>'+pl(n,'diffuser')+'</b><span>'+(n===1?'$89':'Save '+d(KIT[n].was-KIT[n].p))+'</span></button>'});
+  return h+'</div></div>';
+}
+function band(){return '<div class="cd-band"><span><b>Add a diffuser kit and one of these scents is free.</b> Shipping is already free on this order.</span><button type="button" class="cd-add" data-a="kit:1">'+I.plus+'Add a kit, $89</button></div>'}
+function kitLine(c){
+  return '<li class="cd-line"><img src="'+IMG.kit+'" alt="" width="72" height="72"><div><h3>Diffuser kit</h3><p class="cd-sub">'+pl(st.kit,'diffuser')+', '+pl(st.kit,'free scent')+', lifetime warranty</p></div>'+
+    '<div class="cd-pr"><b>'+$(c.k.p)+'</b>'+(c.k.was>c.k.p?'<s>'+$(c.k.was)+'</s>':'')+'</div>'+
+    '<div class="cd-ctl" style="justify-content:flex-end"><button type="button" class="cd-rm" data-a="rmkit">'+I.trash+'Remove<span class="sr"> the diffuser kit</span></button></div></li>';
+}
+function scentLine(r){
+  var s=S[r.id],price=r.paid?'<b>'+$(r.paid*PRICE)+'</b>'+(r.free?'<s>'+$(r.q*PRICE)+'</s>':''):'<b class="free">FREE</b><s>'+$(r.q*PRICE)+'</s>';
+  var sub=s.k+', 100 ml'+(r.free&&r.paid?' | '+r.free+' free with your kit':r.free?' | free with your kit':'');
+  var plan=(st.plan&&st.kit&&r.free)?'<span class="cd-plan">'+I.calendar_check+'Refills every '+st.plan+' days, '+$(REFILL)+'</span>':'';
+  return '<li class="cd-line"><img src="'+IMG[r.id]+'" alt="" width="72" height="72"><div><h3>'+s.n+'</h3><p class="cd-sub">'+sub.replace(' | ',', ')+'</p>'+plan+'</div><div class="cd-pr">'+price+'</div>'+
+    '<div class="cd-ctl"><span class="cd-qty"><button type="button" data-a="dec:'+r.id+'" aria-label="One less '+s.n+'">'+I.minus+'</button><span aria-label="Quantity">'+r.q+'</span><button type="button" data-a="inc:'+r.id+'" aria-label="One more '+s.n+'">'+I.plus+'</button></span>'+
+    '<button type="button" class="cd-rm" data-a="rm:'+r.id+'">'+I.trash+'Remove<span class="sr"> '+s.n+'</span></button></div></li>';
+}
+function slot(n){
+  var h='<div class="cd-slot"><h3>'+I.gift+'Pick your free scent'+(n>1?'s':'')+'</h3><p>'+pl(n,'free scent')+' still to choose. Tap one to add it.</p><div class="cd-chips">';
+  ORDER.forEach(function(id){h+='<button type="button" data-a="add:'+id+'"><img src="'+IMG[id]+'" alt="" width="88" height="88"><span>'+S[id].s+'</span></button>'});
+  return h+'</div></div>';
+}
+function refills(c){
+  var h='<div class="cd-card" role="group" aria-labelledby="cd-rf"><h3 id="cd-rf">Want these scents again?</h3><p>Refills come at <b style="color:var(--night)">'+$(REFILL)+' a bottle instead of '+$(PRICE)+'</b>. We email you before every charge. Skip, swap or cancel any time.</p><div class="cd-opts">';
+  [[0,'No refills'],[30,'Every 30 days'],[60,'Every 60 days'],[90,'Every 90 days']].forEach(function(o){h+='<button type="button" data-a="plan:'+o[0]+'" aria-pressed="'+(st.plan===o[0])+'">'+o[1]+'</button>'});
+  return h+'</div></div>';
+}
+function more(c){
+  var list=suggest();if(!list.length)return '';
+  var h='<div class="cd-more"><h3>Add a scent.</h3>';
+  list.forEach(function(o){var s=S[o.id],free=c.open>0;h+='<div class="cd-up"><img src="'+IMG[o.id]+'" alt="" width="56" height="56"><div><b>'+s.n+'</b><span>'+s.l+'</span>'+(o.why?'<em>'+o.why+'</em>':'')+'</div><button type="button" class="cd-add" data-a="add:'+o.id+'" aria-label="Add '+s.n+', '+(free?'free with your kit':$(PRICE))+'">'+I.plus+(free?'Free':$(PRICE))+'</button></div>'});
+  return h+'</div>';
+}
+function proof(){
+  var st5='';for(var i=0;i<5;i++)st5+=I.star;
+  return '<div class="cd-quote"><blockquote>“Just bought my 2nd one for the other side of my house. Visitors always comment on how wonderful my house smells.”</blockquote><div><span class="cd-stars" aria-hidden="true">'+st5+'</span><span>Michael C., verified purchase</span><span>4.7 | 124 reviews</span></div></div>'+
+    '<ul class="cd-trust"><li>'+I.truck+'Free shipping from Miami</li><li>'+I.rotate_ccw+'30 days, or every dollar back</li><li>'+I.shield_check+'Lifetime warranty</li></ul>';
+}
+function foot(c){
+  var h='<div class="cd-foot"><div class="cd-rows"><div><span>Subtotal</span><span>'+(c.save>0?'<s>'+$(c.orig)+'</s>':'')+'<b>'+$(c.today)+'</b></span></div>'+
+    '<div class="cd-row2">'+(c.save>0?'<span class="cd-save">'+I.check+'You save '+$(c.save)+'</span>':'<span>Taxes at checkout</span>')+'<span>Free shipping</span></div>';
+  if(c.refill)h+='<div><span class="then">Then '+$(c.refill)+' every '+st.plan+' days for your '+pl(c.freeU,'refill')+'. Cancel any time.</span></div>';
+  h+='</div><button type="button" class="cd-go" data-a="checkout">'+I.lock+'Checkout <i>|</i> '+$(c.today)+'</button>';
+  if(!c.refill&&c.today>=5000)h+='<p class="cd-fine">or 4 interest-free payments of <b>'+$(Math.ceil(c.today/4))+'</b> with Shop Pay</p>';
+  return h+'</div>';
+}
+function empty(){
+  var h='<div class="cd-empty"><h3>Your cart is empty.</h3><p>Start with a kit, or pick a scent for the diffuser you have.</p><div class="cd-doors">'+
+    '<button type="button" data-a="preset:kit1"><img src="'+IMG.doorKits+'" alt="" width="200" height="200"><b>Diffuser kits</b><span>From $89, first scents free</span></button>'+
+    '<button type="button" data-a="preset:scents"><img src="'+IMG.doorScents+'" alt="" width="200" height="200"><b>Scents</b><span>Seven scents, $39.95 each</span></button></div><div class="cd-more"><h3>Best sellers.</h3>';
+  ORDER.slice(0,3).forEach(function(id){var s=S[id];h+='<div class="cd-up"><img src="'+IMG[id]+'" alt="" width="56" height="56"><div><b>'+s.n+'</b><span>'+s.l+'</span></div><button type="button" class="cd-add" data-a="add:'+id+'" aria-label="Add '+s.n+', '+$(PRICE)+'">'+I.plus+$(PRICE)+'</button></div>'});
+  return h+'</div>'+proof().split('<ul')[1].replace(/^/,'<ul')+'</div>';
+}
+function render(){
+  var c=calc(),n=(st.kit?1:0)+c.u,keep=document.activeElement&&document.activeElement.getAttribute?document.activeElement.getAttribute('data-a'):null,h=head(n);
+  if(!n){h+=empty()}else{
+    h+='<div class="cd-body">'+(st.kit?tier():band())+'<ul class="cd-lines">'+(st.kit?kitLine(c):'')+c.rows.map(scentLine).join('')+'</ul>'+(c.open?slot(c.open):'')+(st.kit&&c.freeU?refills(c):'')+more(c)+proof()+'</div>'+foot(c);
+  }
+  root.innerHTML=h;
+  if(keep){var e=root.querySelector('[data-a="'+keep+'"]');if(e)e.focus({preventScroll:true})}
+}
+function say(t){toastEl.textContent=t;toastEl.hidden=false;clearTimeout(tt);tt=setTimeout(function(){toastEl.hidden=true},2600)}
+function find(id){for(var i=0;i<st.scents.length;i++)if(st.scents[i][0]===id)return i;return -1}
+document.addEventListener('click',function(ev){
+  var b=ev.target.closest('[data-a]');if(!b)return;var a=b.getAttribute('data-a').split(':'),k=a[0],v=a[1],i;
+  if(k==='preset'){st=JSON.parse(JSON.stringify(PRESETS[v]));[].forEach.call(document.querySelectorAll('#sw button'),function(x){x.setAttribute('aria-pressed',x.getAttribute('data-a')==='preset:'+v)});if(b.closest('#cart'))say(v==='kit1'?'On the store this opens the kits page.':'On the store this opens the scents.')}
+  else if(k==='kit'){var was=st.kit;st.kit=+v;if(!was)say('Diffuser kit added. One scent is now free.');else if(st.kit>was)say('Kit changed to '+pl(st.kit,'diffuser')+'. Pick the free scent that comes with it.');else if(st.kit<was)say('Kit changed to '+pl(st.kit,'diffuser')+'.')}
+  else if(k==='rmkit'){st.kit=0;st.plan=0;say('Diffuser kit removed.')}
+  else if(k==='add'){i=find(v);if(i<0)st.scents.push([v,1]);else st.scents[i][1]++;say(S[v].n+' added.')}
+  else if(k==='inc'){st.scents[find(v)][1]++}
+  else if(k==='dec'){i=find(v);if(st.scents[i][1]>1)st.scents[i][1]--;else{st.scents.splice(i,1);say(S[v].n+' removed.')}}
+  else if(k==='rm'){st.scents.splice(find(v),1);say(S[v].n+' removed.')}
+  else if(k==='plan'){st.plan=+v;say(st.plan?'Refills every '+st.plan+' days added.':'No refills.')}
+  else if(k==='checkout'){say('On the store this goes to Shopify checkout.');return}
+  else if(k==='close'){say('On the store this closes the cart.');return}
+  render();
+});
+render();
+})();
+</script>
+<style>.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>

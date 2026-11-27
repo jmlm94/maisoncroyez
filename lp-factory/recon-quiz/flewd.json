@@ -5,7 +5,7 @@
  "steps": [
   {
    "n": 1,
-   "url": "https://www.flewdstresscare.com/pages/quiz",
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
    "frame": "page",
    "heads": [
     "shop soaks",
@@ -19,16 +19,717 @@
    "next": [
     "START THE QUIZ"
    ],
-   "inputs": [
-    {
-     "type": "email",
-     "name": "email"
-    }
-   ],
+   "inputs": [],
    "text": "Quiz\nlet's put stress on notice\nlet's put stress on notice\nMagnesium bath soaks to help stop feeling stressed.\nMagnesium chloride, nootropics, aminos & vitamins\n245g of stresscare in each pouch, 0% fillers\n79% of people told us they still felt calmer 3+ days later\nSTART THE QUIZ",
    "shot": "flewd-01.jpg",
-   "did": "e-mail asked here: stopped"
+   "did": "tapped \"START THE QUIZ\""
+  },
+  {
+   "n": 2,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what symptom(s) of stress do you most often experience?"
+   ],
+   "answers": [
+    "worried thoughts worried thoughts worried thoughts",
+    "waves of fear or panic waves of fear or panic waves of fear or panic",
+    "muscle knots and tension muscle knots and tension muscle knots and tension",
+    "easily irritated easily irritated easily irritated",
+    "can’t sleep through the night can’t sleep through the night can’t sleep through the night",
+    "feeling frustrated feeling frustrated feeling frustrated",
+    "mood swings mood swings mood swings",
+    "feeling bummed out feeling bummed out feeling bummed out",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat symptom(s) of stress do you most often experience?\nwhat symptom(s) of stress do you most often experience?\n( pick one, pick all, pick as many as you want )\nworried thoughts\nworried thoughts\nworried thoughts\nwaves of fear or panic\nwaves of fear or panic\nwaves of fear or panic\nmuscle knots and tension\nmuscle knots and tension\nmuscle knots and tension\neasily irritated\neasily irritated\neasily irritated\ncan’t sleep through the night\ncan’t sleep through the night\ncan’t sleep through the night\nfeeling frustrated\nfeeling frustrated\nfeeling frustrated\nmood swings\nmood swings\nmood swings\nfeeling bummed out\nfeeling bummed out\nfeeling bummed out\nNEXT\n← back",
+   "shot": "flewd-02.jpg",
+   "did": "tapped \"worried thoughts worried thoughts worried thoughts\", then \"NEXT\""
+  },
+  {
+   "n": 3,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "how often do you feel this stress?"
+   ],
+   "answers": [
+    "all day, every day all day, every day all day, every day",
+    "multiple times each day multiple times each day multiple times each day",
+    "once per day once per day once per day",
+    "once per week once per week once per week",
+    "almost never almost never almost never",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nhow often do you feel this stress?\nhow often do you feel this stress?\n( choose one that's the best match )\nall day, every day\nall day, every day\nall day, every day\nmultiple times each day\nmultiple times each day\nmultiple times each day\nonce per day\nonce per day\nonce per day\nonce per week\nonce per week\nonce per week\nalmost never\nalmost never\nalmost never\n← back",
+   "shot": "flewd-03.jpg",
+   "did": "tapped \"all day, every day all day, every day all day, every day\""
+  },
+  {
+   "n": 4,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "how intense is your stress? ( don't stress this answer, go with your gut ) 0 - barely notice it at all 1 2 3 4 5 - it's all I experience ← back",
+    "how intense is your stress?"
+   ],
+   "answers": [
+    "0 - barely notice it at all",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5 - it's all I experience",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nhow intense is your stress?\nhow intense is your stress?\n( don't stress this answer, go with your gut )\n0 - barely notice it at all\n1\n2\n3\n4\n5 - it's all I experience\n← back",
+   "shot": "flewd-04.jpg",
+   "did": "tapped \"0 - barely notice it at all\""
+  },
+  {
+   "n": 5,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "any additional stress symptom concerns?"
+   ],
+   "answers": [
+    "eye twitching eye twitching eye twitching",
+    "nighttime leg cramps nighttime leg cramps nighttime leg cramps",
+    "teeth clenching teeth clenching teeth clenching",
+    "trouble motivating trouble motivating trouble motivating",
+    "feeling alone feeling alone feeling alone",
+    "craving sweets craving sweets craving sweets",
+    "headaches, migraines headaches, migraines headaches, migraines",
+    "low energy, fatigue low energy, fatigue low energy, fatigue",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nany additional stress symptom concerns?\nany additional stress symptom concerns?\n( don't be shy, select as many as you want )\neye twitching\neye twitching\neye twitching\nnighttime leg cramps\nnighttime leg cramps\nnighttime leg cramps\nteeth clenching\nteeth clenching\nteeth clenching\ntrouble motivating\ntrouble motivating\ntrouble motivating\nfeeling alone\nfeeling alone\nfeeling alone\ncraving sweets\ncraving sweets\ncraving sweets\nheadaches, migraines\nheadaches, migraines\nheadaches, migraines\nlow energy, fatigue\nlow energy, fatigue\nlow energy, fatigue\nNEXT\n← back",
+   "shot": "flewd-05.jpg",
+   "did": "tapped \"eye twitching eye twitching eye twitching\", then \"NEXT\""
+  },
+  {
+   "n": 6,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "do you ever wake up feeling exhausted or fatigued because of stress? ( no judging here, just super curious ) Yes, often Sometimes Rarely Never ← back",
+    "do you ever wake up feeling exhausted or fatigued because of stress?"
+   ],
+   "answers": [
+    "Sometimes",
+    "Rarely",
+    "Never",
+    "← back"
+   ],
+   "next": [
+    "Yes, often"
+   ],
+   "inputs": [],
+   "text": "Quiz\ndo you ever wake up feeling exhausted or fatigued because of stress?\ndo you ever wake up feeling exhausted or fatigued because of stress?\n( no judging here, just super curious )\nYes, often\nSometimes\nRarely\nNever\n← back",
+   "shot": "flewd-06.jpg",
+   "did": "tapped \"Sometimes\""
+  },
+  {
+   "n": 7,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "have you had feelings of fatigue in the last 30 days? ( sleeping well, but still waking up tired? ) Yes Nope ← back",
+    "have you had feelings of fatigue in the last 30 days?"
+   ],
+   "answers": [
+    "Yes",
+    "Nope",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nhave you had feelings of fatigue in the last 30 days?\nhave you had feelings of fatigue in the last 30 days?\n( sleeping well, but still waking up tired? )\nYes\nNope\n← back",
+   "shot": "flewd-07.jpg",
+   "did": "tapped \"Yes\""
+  },
+  {
+   "n": 8,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": "flewd-08.jpg",
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 9,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": "flewd-09.jpg",
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 10,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": "flewd-10.jpg",
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 11,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": "flewd-11.jpg",
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 12,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": "flewd-12.jpg",
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 13,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": "flewd-13.jpg",
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 14,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": "flewd-14.jpg",
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 15,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": "flewd-15.jpg",
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 16,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": "flewd-16.jpg",
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 17,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": "flewd-17.jpg",
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 18,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": "flewd-18.jpg",
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 19,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": null,
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 20,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": null,
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 21,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": null,
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 22,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": null,
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 23,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": null,
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 24,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": null,
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 25,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": null,
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 26,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": null,
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 27,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": null,
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 28,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": null,
+   "did": "tapped \"24 or under\""
+  },
+  {
+   "n": 29,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what should we call you? ( just a first name or nickname will do ) SUBMIT ← back",
+    "what should we call you?"
+   ],
+   "answers": [
+    "← back"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "text",
+     "name": "enter name"
+    }
+   ],
+   "text": "Quiz\nwhat should we call you?\nwhat should we call you?\n( just a first name or nickname will do )\nSUBMIT\n← back",
+   "shot": null,
+   "did": "tapped \"← back\""
+  },
+  {
+   "n": 30,
+   "url": "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3lJIVYeJL53CUREUmqFqLiCHSNQ0bFOI218ZN66PXB7dM5yZgSa",
+   "frame": "page",
+   "heads": [
+    "Quiz",
+    "what's your age range? ( trust, we're not telling anyone ) 24 or under 25-34 35-44 45-54 55-64 65-74 75 or over ← back",
+    "what's your age range?"
+   ],
+   "answers": [
+    "24 or under",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65-74",
+    "75 or over",
+    "← back"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "Quiz\nwhat's your age range?\nwhat's your age range?\n( trust, we're not telling anyone )\n24 or under\n25-34\n35-44\n45-54\n55-64\n65-74\n75 or over\n← back",
+   "shot": null,
+   "did": "tapped \"24 or under\""
   }
  ],
- "end": "e-mail gate at step 1"
+ "end": "stopped after 30 steps",
+ "frames": [
+  "https://www.flewdstresscare.com/pages/quiz?_su_rec=ZkmK_8NAHm_N4elcv1lSmAc1H5fsT0wAPh349j3",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "https://www.flewdstresscare.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-",
+  "about:srcdoc",
+  "about:srcdoc",
+  "https://flewd.shopify-checkout.config.gorgias.chat/shopify-checkout-chat-storage-sync"
+ ]
 }

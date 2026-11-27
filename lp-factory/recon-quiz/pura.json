@@ -1,48 +1,7 @@
 {
  "home": "https://pura.com/",
- "entry": "https://pura.com/pages/order-lookup",
- "how": "home link: Find my order",
- "steps": [
-  {
-   "n": 1,
-   "url": "https://pura.com/pages/order-lookup",
-   "frame": "page",
-   "heads": [
-    "Have an account?",
-    "Order Status",
-    "Get 10% off your order",
-    "ABOUT",
-    "LEARN",
-    "HELP"
-   ],
-   "answers": [
-    "Pause announcements",
-    "Dismiss announcement",
-    "Something warm and cozy",
-    "Order Number",
-    "Billing Zip Code",
-    "I agree to Terms and conditions",
-    "Chat with us"
-   ],
-   "next": [],
-   "inputs": [
-    {
-     "type": "text",
-     "name": "orderNumber"
-    },
-    {
-     "type": "text",
-     "name": "billingZip"
-    },
-    {
-     "type": "email",
-     "name": "email"
-    }
-   ],
-   "text": "Order Lookup\nHave an account?\nSign in to check your order status or start a return.\nSIGN IN\nOrder Status\nFind your order number in your order confirmation email.\nOrder Number\nBilling Zip Code\nFIND MY ORDER\nCan't find your info? Contact support",
-   "shot": "pura-01.jpg",
-   "did": "e-mail asked here: stopped"
-  }
- ],
- "end": "e-mail gate at step 1"
+ "entry": null,
+ "how": null,
+ "steps": [],
+ "end": "no quiz found from the home page or the usual addresses"
 }

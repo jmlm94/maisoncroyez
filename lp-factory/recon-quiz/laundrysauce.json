@@ -7,26 +7,74 @@
    "n": 1,
    "url": "https://laundrysauce.com/pages/quiz#step=1",
    "frame": "page",
-   "heads": [
-    "THE WORLD'S BEST SMELLING NEWSLETTER",
-    "SHOP",
-    "ABOUT",
-    "SUPPORT"
-   ],
+   "heads": [],
    "answers": [],
    "next": [
     "FIND MY MATCH"
    ],
-   "inputs": [
-    {
-     "type": "email",
-     "name": "contact[email]"
-    }
-   ],
+   "inputs": [],
    "text": "",
    "shot": "laundrysauce-01.jpg",
-   "did": "e-mail asked here: stopped"
+   "did": "tapped \"FIND MY MATCH\""
+  },
+  {
+   "n": 2,
+   "url": "https://laundrysauce.com/pages/quiz#step=1",
+   "frame": "page",
+   "heads": [
+    "Let's get started",
+    "My vibe is"
+   ],
+   "answers": [
+    "Confident and commanding attention",
+    "Bold & sophisticated",
+    "Generally relaxed and go with the flow",
+    "Adventurous and full of energy",
+    "A hopeless romantic",
+    "Cool, calm, and collected"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "",
+   "shot": "laundrysauce-02.jpg",
+   "did": "tapped \"Confident and commanding attention\""
+  },
+  {
+   "n": 3,
+   "url": "https://laundrysauce.com/pages/quiz#step=1",
+   "frame": "page",
+   "heads": [
+    "Let's get started",
+    "My vibe is"
+   ],
+   "answers": [
+    "Confident and commanding attention",
+    "Bold & sophisticated",
+    "Generally relaxed and go with the flow",
+    "Adventurous and full of energy",
+    "A hopeless romantic",
+    "Cool, calm, and collected"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "",
+   "shot": "laundrysauce-03.jpg",
+   "did": "tapped \"Confident and commanding attention\""
   }
  ],
- "end": "e-mail gate at step 1"
+ "end": "stuck on this step",
+ "frames": [
+  "https://laundrysauce.com/pages/quiz#step=1",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-2",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-3",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-4",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-4",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-5",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-5",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-5",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-1",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-1",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-1",
+  "https://laundrysauce.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-1"
+ ]
 }

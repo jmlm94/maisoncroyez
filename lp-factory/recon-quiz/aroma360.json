@@ -174,8 +174,68 @@
    ],
    "text": "Your Results Are In!\nPlease enter your email to get your results\nEmail*\nOf course I'd like to stay in touch\nSubmit",
    "shot": "aroma360-09.jpg",
-   "did": "e-mail asked here: stopped"
+   "did": "tapped \"Email*\", then \"Submit\""
+  },
+  {
+   "n": 10,
+   "url": "https://aroma360.com/pages/find-your-scent",
+   "frame": "aroma360.jebbit.com",
+   "heads": [
+    "Your Results Are In!"
+   ],
+   "answers": [
+    "Of course I'd like to stay in touch"
+   ],
+   "next": [
+    "Submit"
+   ],
+   "inputs": [
+    {
+     "type": "email",
+     "name": "email"
+    }
+   ],
+   "text": "Your Results Are In!\nPlease enter your email to get your results\nEmail*\nEmail cannot be blank\nOf course I'd like to stay in touch\nSubmit",
+   "shot": "aroma360-10.jpg",
+   "did": "tapped \"Of course I'd like to stay in touch\", then \"Submit\""
+  },
+  {
+   "n": 11,
+   "url": "https://aroma360.com/pages/find-your-scent",
+   "frame": "aroma360.jebbit.com",
+   "heads": [
+    "Your Results Are In!"
+   ],
+   "answers": [
+    "Of course I'd like to stay in touch"
+   ],
+   "next": [
+    "Submit"
+   ],
+   "inputs": [
+    {
+     "type": "email",
+     "name": "email"
+    }
+   ],
+   "text": "Your Results Are In!\nPlease enter your email to get your results\nEmail*\nEmail cannot be blank\nOf course I'd like to stay in touch\nSubmit",
+   "shot": "aroma360-11.jpg",
+   "did": "tapped \"Of course I'd like to stay in touch\", then \"Submit\""
   }
  ],
- "end": "e-mail gate at step 9"
+ "end": "stuck on this step",
+ "frames": [
+  "https://aroma360.com/pages/find-your-scent",
+  "https://aroma360.jebbit.com/bwry5gnk?L=Full+Page&deferred=true",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/app/web-pixel-34681670",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-27427",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30245",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30277",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30310",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30343",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30376",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30408",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30507",
+  "https://aroma360.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel-30539"
+ ]
 }

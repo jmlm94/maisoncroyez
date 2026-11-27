@@ -12,6 +12,10 @@ import hashlib, json, os, re, sys
 D = os.path.dirname(os.path.abspath(__file__))
 KEY = sys.argv[1] if len(sys.argv) > 1 else 'dev'
 B = 'https://maisoncroyez.com/cdn/shop/files/'
+# Files already held older files named mc-home.css and mc-home-app.js (the October home test, still referenced by the
+# live theme), so Shopify saved these two under names with an id appended. They are updated in place with fileUpdate:
+#   css gid://shopify/GenericFile/47158470410349    js gid://shopify/GenericFile/47158474342509
+CSSF, JSF = 'mc-home_d0ac09a1-005c-476d-8722-e8803b478692.css', 'mc-home-app_f34470c5-4798-4360-b62b-cac8c73edb36.js'
 html = open(os.path.join(D, '..', 'home-rebrand.html'), encoding='utf-8').read()
 m = re.search(r'<style>\n(.*?)</style>\n(.*)<script>\n(.*?)</script>\s*$', html, re.S); assert m, 'page structure changed'
 css, body, js = m.group(1), m.group(2), m.group(3)
@@ -107,14 +111,15 @@ app = ('/* built by store/build-deploy.py; do not edit by hand */\n(function(){\
 open(os.path.join(D, 'mc-home-app.js'), 'w', encoding='utf-8').write(app)
 # ---- the page body ----
 HOLD = open(os.path.join(KD, 'store', 'third-party-hold.html'), encoding='utf-8').read()
+HOLD = re.sub(r'\s*/\*.*?\*/', '', HOLD, flags=re.S)   # the notes stay in the kits folder's file; the page body is pasted by hand into the API call, so it is kept short
 PM, PD = B + name('img/hero-poster-m.webp') + '?width=720', B + name('img/hero-poster-d.webp') + '?width=960'
 page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:none}.shopify-section--main-page,.shopify-section--main-page .container,.shopify-section--main-page .page-spacer,.shopify-section--main-page .page,.shopify-section--main-page .prose{margin-top:0 !important;padding-top:0 !important;border-top:0 !important;margin-bottom:0 !important;padding-bottom:0 !important;max-width:none !important}'
         '.shopify-section--announcement-bar,.announcement-bar{display:none !important}#mch{width:100vw;margin-left:calc(50% - 50vw);overflow-x:clip;background:#F9F6EE}</style>\n'
         '<link rel="preload" as="image" fetchpriority="high" href="' + PM + '" media="(max-width:860px)">\n<link rel="preload" as="image" fetchpriority="high" href="' + PD + '" media="(min-width:861px)">\n'
-        '<link rel="stylesheet" href="' + B + 'mc-home.css?v=' + KEY + '">\n'
+        '<link rel="stylesheet" href="' + B + CSSF + '?v=' + KEY + '">\n'
         '<link rel="preload" as="font" type="font/woff2" crossorigin href="' + B + 'mc-dkr-f-dm-700.woff2">\n' +
         HOLD +
-        '<div id="mch">' + first + '<div id="mch-rest"></div></main></div>\n<script src="' + B + 'mc-home-app.js?v=' + KEY + '"></script>\n')
+        '<div id="mch">' + first + '<div id="mch-rest"></div></main></div>\n<script src="' + B + JSF + '?v=' + KEY + '"></script>\n')
 open(os.path.join(D, 'page-body.html'), 'w', encoding='utf-8').write(page)
 for f in ('mc-home.css', 'mc-home-app.js', 'page-body.html'): print(f, os.path.getsize(os.path.join(D, f)), 'B')
 print(len(files), 'files,', sum(1 for x in files if x['new']), 'new; key', KEY)

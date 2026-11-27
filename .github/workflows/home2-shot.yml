@@ -1,0 +1,92 @@
+name: home2-shot
+# Live check of the new home page on the store (https://maisoncroyez.com/pages/home-2), phone and desktop: the page
+# loads, nothing overflows, every picture loads, the hero video plays and pauses, the fonts and sizes are the brand's,
+# the tiles are the same size, the buttons go where they should. Screenshots and result.json in store/shots.
+# run note 1: first deploy (key home1)
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/home2-shot.yml']
+permissions:
+  contents: write
+env:
+  URL: https://maisoncroyez.com/pages/home-2
+  OUT: lp-factory/pages/home-rebrand/store/shots
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Check
+        run: |
+          mkdir -p "$OUT"
+          cat > shot.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const URL0 = process.env.URL, OUT = process.env.OUT;
+          const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          const br = await chromium.launch(); const out = { url: URL0, at: new Date().toISOString() };
+          for (const [n, w, h, phone] of [['phone', 390, 844, true], ['desktop', 1440, 900, false]]) {
+            const ctx = await br.newContext(phone ? { viewport: { width: w, height: h }, isMobile: true, hasTouch: true, deviceScaleFactor: 2, userAgent: UA } : { viewport: { width: w, height: h } });
+            const pg = await ctx.newPage(); const errs = []; const bad = [];
+            pg.on('pageerror', (e) => errs.push(e.message.slice(0, 160)));
+            pg.on('response', (r) => { if (r.status() >= 400 && /maisoncroyez\.com|cdn\.shopify\.com/.test(r.url())) bad.push(r.status() + ' ' + r.url().slice(0, 120)); });
+            const resp = await pg.goto(URL0, { waitUntil: 'domcontentloaded', timeout: 60000 });
+            await pg.waitForTimeout(5000);
+            await pg.screenshot({ path: `${OUT}/${n}-top.jpg`, type: 'jpeg', quality: 70 });
+            const v1 = await pg.evaluate(() => { const v = document.getElementById('hero-v'); return v ? { src: (v.currentSrc || '').split('/').pop().split('?')[0], paused: v.paused, t: +v.currentTime.toFixed(2), ready: v.readyState, w: v.videoWidth } : null; });
+            await pg.waitForTimeout(1500);
+            const v2 = await pg.evaluate(() => { const v = document.getElementById('hero-v'); return v ? +v.currentTime.toFixed(2) : null; });
+            let toggled = null;
+            try { await pg.click('#hero-t', { timeout: 4000 }); await pg.waitForTimeout(400); const p1 = await pg.evaluate(() => document.getElementById('hero-v').paused); await pg.click('#hero-t'); await pg.waitForTimeout(400); const p2 = await pg.evaluate(() => document.getElementById('hero-v').paused); toggled = { afterFirstTap: p1, afterSecondTap: p2 }; } catch (e) { toggled = 'button not tappable: ' + String(e).slice(0, 100); }
+            // wake the lazy parts, then measure
+            await pg.evaluate(async () => { for (let y = 0; y < document.documentElement.scrollHeight; y += 500) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 180)); } scrollTo(0, 0); });
+            await pg.waitForTimeout(1500);
+            const m = await pg.evaluate(() => {
+              const R = (e) => e.getBoundingClientRect(); const root = document.getElementById('mch'); if (!root) return { root: false };
+              const u = (sel) => [...new Set([...root.querySelectorAll(sel)].map((t) => Math.round(R(t).width) + 'x' + Math.round(R(t).height)))].join(' ');
+              const cs = (e, p) => e ? getComputedStyle(e)[p] : null; const h1 = root.querySelector('h1');
+              const head = document.querySelector('header, .shopify-section--header, [class*="header" i]'); const foot = document.querySelector('footer, .shopify-section--footer');
+              return { root: true, overflow: document.documentElement.scrollWidth - innerWidth, height: document.documentElement.scrollHeight,
+                rootLeft: Math.round(R(root).left), rootWidth: Math.round(R(root).width), rootTop: Math.round(R(root).top + scrollY),
+                gapToFooter: foot ? Math.round(R(foot).top - R(root).bottom) : null, themeHeader: !!head, themeFooter: !!foot,
+                themeBarShown: [...document.querySelectorAll('.shopify-section--announcement-bar, .announcement-bar')].some((e) => R(e).height > 0),
+                pageTitleShown: [...document.querySelectorAll('.shopify-section--main-page h1')].filter((e) => !root.contains(e) && R(e).height > 0).map((e) => e.textContent.trim()),
+                h1: h1 ? h1.textContent.trim() : null, h1Size: cs(h1, 'fontSize'), h1Font: (cs(h1, 'fontFamily') || '').slice(0, 20), h1Color: cs(h1, 'color'),
+                fontsLoaded: [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family + ' ' + f.weight).slice(0, 12),
+                sections: [...root.querySelectorAll('main > section, main > div')].map((e) => (e.className || e.id) + ':' + Math.round(R(e).height)),
+                h2: [...root.querySelectorAll('main h2')].map((x) => x.textContent.trim().slice(0, 40) + ' | ' + Math.round(parseFloat(getComputedStyle(x).fontSize)) + 'px'),
+                images: root.querySelectorAll('img').length, broken: [...root.querySelectorAll('img')].filter((i) => i.complete && !i.naturalWidth).map((i) => (i.currentSrc || i.src).split('/').pop().slice(0, 50)),
+                notLoaded: [...root.querySelectorAll('img')].filter((i) => !i.complete).length,
+                doors: u('.door'), rooms: u('.room'), how: u('.how > li'), scents: u('.smini > *'), quotes: u('.q'), safe: u('.safe li'), trust: u('.trust li'),
+                links: [...new Set([...root.querySelectorAll('a[href]')].map((a) => a.getAttribute('href').replace('https://maisoncroyez.com', '')))],
+                faq: root.querySelectorAll('.faq details').length, bar: (root.querySelector('.bar') || {}).textContent || null,
+                heroBox: (() => { const p = root.querySelector('.hero .pic'); return p ? Math.round(R(p).width) + 'x' + Math.round(R(p).height) : null; })(),
+                btnColor: cs(root.querySelector('.hero .btn'), 'backgroundColor'), linkUnderline: cs(root.querySelector('.hero .link'), 'textDecorationLine') };
+            });
+            out[n] = { status: resp ? resp.status() : 0, video: { first: v1, laterTime: v2, plays: v1 && v2 !== null && v2 !== v1.t, toggle: toggled }, ...m, pageErrors: errs.slice(0, 6), failedRequests: [...new Set(bad)].slice(0, 10) };
+            // open one question, then full page in slices
+            await pg.evaluate(() => { const d = document.querySelector('#mch .faq details'); if (d) d.open = true; });
+            const total = await pg.evaluate(() => document.documentElement.scrollHeight); const step = phone ? 1800 : 1400;
+            await pg.setViewportSize({ width: w, height: Math.min(total, 12000) }); await pg.waitForTimeout(800);
+            for (let y = 0, k = 0; y < total && k < 8; y += step, k++) await pg.screenshot({ path: `${OUT}/${n}-${k}.jpg`, type: 'jpeg', quality: 60, clip: { x: 0, y, width: w, height: Math.min(step, total - y) } });
+            await ctx.close();
+          }
+          await br.close();
+          fs.writeFileSync(`${OUT}/result.json`, JSON.stringify(out, null, 1)); console.log(JSON.stringify(out, null, 1));
+          EOF2
+          node shot.mjs
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "home2-shot: live check of /pages/home-2" || echo "nothing to commit"
+          git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"

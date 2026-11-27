@@ -1,0 +1,124 @@
+name: quiz-refs
+# Quiz research (owner 2026-11-27: "see if other competitors have quizzes where we can get inspo from"): opens each brand's
+# quiz on a phone and walks through it, picking the first answer on every step. Per step: the words on screen, the answer
+# options, a screenshot. Stops at an e-mail gate (never types an address) or at the result. Results in lp-factory/recon-quiz/.
+# run note 1: first run
+on:
+  push:
+    branches: [claude/maison-diffuser-perf-fixes-f45ggl]
+    paths: ['.github/workflows/quiz-refs.yml']
+permissions:
+  contents: write
+env:
+  OUT: lp-factory/recon-quiz
+jobs:
+  walk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install
+        run: |
+          npm i playwright@1.49.0
+          npx playwright install --with-deps chromium
+      - name: Walk
+        run: |
+          mkdir -p "$OUT"
+          cat > walk.mjs <<'EOF2'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const OUT = process.env.OUT;
+          const SITES = [
+            ['aromatech', 'https://aromatechscent.com/', ['/pages/scent-quiz', '/pages/quiz']],
+            ['flewd', 'https://flewdstresscare.com/', ['/pages/quiz', '/pages/stress-quiz']],
+            ['hotelcollection', 'https://www.hotelcollection.com/', ['/pages/find-your-scent', '/pages/scent-quiz', '/pages/quiz']],
+            ['pura', 'https://pura.com/', ['/quiz', '/pages/quiz', '/scent-quiz']],
+            ['aroma360', 'https://aroma360.com/', ['/pages/scent-quiz', '/pages/quiz', '/pages/find-your-scent']],
+            ['scentbird', 'https://www.scentbird.com/', ['/quiz', '/scent-quiz']],
+            ['laundrysauce', 'https://laundrysauce.com/', ['/pages/quiz', '/pages/scent-quiz']],
+            ['jonesroad', 'https://www.jonesroadbeauty.com/', ['/pages/quiz', '/pages/find-my-shade', '/pages/shade-finder']],
+            ['noom', 'https://www.noom.com/', []],
+          ];
+          const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+          const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+          // cookie and newsletter boxes only; a quiz often lives in a full-screen layer, so nothing is hidden just for being large
+          const tidy = (pg) => pg.evaluate(() => {
+            for (const e of document.querySelectorAll('body *')) {
+              const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
+              const t = (e.innerText || '').toLowerCase(); if (t.length > 900 || /quiz|question|step \d/.test(t)) continue;
+              if (/cookie|consent|we use|subscribe|sign up|% off|unlock|newsletter|join our|text me|sms/.test(t) && e.getBoundingClientRect().height > 50) e.style.setProperty('display', 'none', 'important');
+            }
+          }).catch(() => {});
+          // what is on screen in one frame: words, answer-like things, next-like things, an e-mail box
+          const READ = () => {
+            const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 20 && b.height > 14 && b.bottom > 0 && b.top < innerHeight * 3 && c.visibility !== 'hidden' && c.display !== 'none' && +c.opacity > 0.05; };
+            const tx = (e) => (e.innerText || e.getAttribute('aria-label') || e.value || '').replace(/\s+/g, ' ').trim();
+            const NAV = /^(next|continue|start|begin|get started|take (the|our) .*quiz|take quiz|start (the )?quiz|let'?s (go|begin|start)|see (my )?(results?|match|scent)|show (me )?(my )?(results?|match)|submit|done|find my|got it|ok(ay)?|i'?m ready|yes, )/i;
+            const SKIP = /^(back|previous|close|menu|cart|skip|search|log ?in|sign ?in|account|privacy|terms|shop|shop all|help|contact|x|×)$|cookie|privacy|terms of|add to cart|checkout|subscribe|facebook|instagram|tiktok/i;
+            const all = [...document.querySelectorAll('label, [role=radio], [role=checkbox], [role=option], [role=button], button, input[type=button], input[type=submit], a[class*="btn" i], a[class*="button" i], [class*="answer" i], [class*="choice" i], [class*="option" i], [class*="card" i]')]
+              .filter((e) => vis(e) && !e.closest('header, nav, footer, [class*="cart" i], [class*="menu" i], [aria-hidden=true]') && !e.disabled);
+            const seen = new Set(); const answers = []; const nav = [];
+            all.forEach((e, i) => { const t = tx(e); if (!t || t.length > 90 || SKIP.test(t)) return; if (seen.has(t)) return; seen.add(t);
+              // skip wrappers that hold several other candidates
+              if ([...e.querySelectorAll('label,button,[role=radio],[role=checkbox]')].filter(vis).length > 1) return;
+              e.setAttribute('data-walk', String(i)); (NAV.test(t) ? nav : answers).push({ i, t }); });
+            const inputs = [...document.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]):not([type=button]):not([type=submit]), select, textarea')].filter(vis).map((e) => ({ type: e.type || e.tagName.toLowerCase(), name: e.name || e.placeholder || e.getAttribute('aria-label') || '' }));
+            const main = document.querySelector('[class*="quiz" i], [id*="quiz" i], main') || document.body;
+            return { text: (main.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim().slice(0, 1400), answers: answers.slice(0, 16), nav: nav.slice(0, 6), inputs, email: inputs.some((x) => /mail/i.test(x.type + ' ' + x.name)), heads: [...document.querySelectorAll('h1,h2,h3,[class*="question" i],[class*="title" i]')].filter(vis).map(tx).filter((t) => t && t.length < 160).slice(0, 6) };
+          };
+          const best = async (pg) => { let top = null; for (const f of pg.frames()) { const r = await f.evaluate(READ).catch(() => null); if (!r) continue; const score = r.answers.length * 2 + r.nav.length + (f === pg.mainFrame() ? 1 : 0) + (r.text.length > 40 ? 1 : 0); if (!top || score > top.score) top = { f, r, score }; } return top; };
+          const br = await chromium.launch();
+          for (const [name, home, tries] of SITES) {
+            const res = { home, entry: null, how: null, steps: [], end: null };
+            const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1, userAgent: UA, locale: 'en-US' });
+            const pg = await ctx.newPage(); pg.setDefaultTimeout(8000);
+            try {
+              await pg.goto(home, { waitUntil: 'domcontentloaded', timeout: 60000 }); await sleep(5000); await tidy(pg);
+              // 1. a link or button on the home page that leads to the quiz
+              const link = await pg.evaluate(() => { const tx = (e) => (e.innerText || e.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim(); const c = [...document.querySelectorAll('a[href]')].map((a) => ({ h: a.href, t: tx(a) })).filter((x) => /quiz|find[- ]your[- ]scent|scent[- ]finder|find[- ]my|shade[- ]finder|survey/i.test(x.h + ' ' + x.t) && !/blog|article|news/i.test(x.h)); c.sort((a, b) => (/quiz/i.test(b.h) ? 1 : 0) - (/quiz/i.test(a.h) ? 1 : 0)); return c[0] || null; }).catch(() => null);
+              if (link) { res.entry = link.h; res.how = 'home link: ' + link.t; await pg.goto(link.h, { waitUntil: 'domcontentloaded', timeout: 60000 }); }
+              else { for (const t of tries) { const u = new URL(t, home).href; const r = await pg.goto(u, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => null); if (r && r.status() < 400) { res.entry = u; res.how = 'guessed address'; break; } } }
+              if (!res.entry && name === 'noom') { res.entry = home; res.how = 'home page start button'; }
+              if (!res.entry) { res.end = 'no quiz found from the home page or the usual addresses'; }
+              else {
+                await sleep(4500); await tidy(pg);
+                let last = ''; let same = 0;
+                for (let i = 0; i < 26; i++) {
+                  const b = await best(pg); if (!b) { res.end = 'page unreadable'; break; }
+                  const { f, r } = b; const sig = (r.heads.join('|') + r.text.slice(0, 300));
+                  if (sig === last) { same++; if (same >= 2) { res.end = 'stuck on this step'; break; } } else same = 0; last = sig;
+                  const shot = `${name}-${String(i + 1).padStart(2, '0')}.jpg`;
+                  if (i < 18) await pg.screenshot({ path: `${OUT}/${shot}`, type: 'jpeg', quality: 45 }).catch(() => {});
+                  const step = { n: i + 1, url: pg.url().slice(0, 140), frame: f === pg.mainFrame() ? 'page' : (f.url() || '').split('/')[2], heads: r.heads, answers: r.answers.map((a) => a.t), next: r.nav.map((a) => a.t), inputs: r.inputs, text: r.text.slice(0, 700), shot: i < 18 ? shot : null, did: null };
+                  res.steps.push(step);
+                  if (r.email) { step.did = 'e-mail asked here: stopped'; res.end = 'e-mail gate at step ' + (i + 1); break; }
+                  if (/your (results?|match|matches|recommendation|scent is|routine)|recommended for you|we recommend|add to (cart|bag)/i.test(r.text) && i > 2 && !r.answers.length) { res.end = 'result reached at step ' + (i + 1); break; }
+                  // fill plain number or text boxes with something neutral so a step can be passed (never an e-mail)
+                  for (const inp of r.inputs) { if (/number|tel/.test(inp.type)) await f.fill(`input[type=${inp.type}]`, '45').catch(() => {}); else if (inp.type === 'text') await f.fill('input[type=text]', 'Sam').catch(() => {}); }
+                  const pick = r.answers[0]; const nx = r.nav[0];
+                  if (pick) { await f.click(`[data-walk="${pick.i}"]`, { timeout: 4000 }).catch(() => {}); step.did = 'tapped "' + pick.t + '"'; await sleep(1300);
+                    const b2 = await best(pg); const sig2 = b2 ? (b2.r.heads.join('|') + b2.r.text.slice(0, 300)) : '';
+                    if (sig2 === sig) { const n2 = b2 && b2.r.nav[0]; if (n2) { await b2.f.click(`[data-walk="${n2.i}"]`, { timeout: 4000 }).catch(() => {}); step.did += ', then "' + n2.t + '"'; } } }
+                  else if (nx) { await f.click(`[data-walk="${nx.i}"]`, { timeout: 4000 }).catch(() => {}); step.did = 'tapped "' + nx.t + '"'; }
+                  else { res.end = 'nothing to tap at step ' + (i + 1); break; }
+                  await sleep(2200); await tidy(pg);
+                }
+                if (!res.end) res.end = 'stopped after 26 steps';
+              }
+            } catch (e) { res.end = 'error: ' + String(e).slice(0, 200); }
+            await ctx.close();
+            fs.writeFileSync(`${OUT}/${name}.json`, JSON.stringify(res, null, 1));
+            console.log(name, '|', res.how, '|', res.entry, '|', res.steps.length, 'steps |', res.end);
+          }
+          await br.close();
+          EOF2
+          node walk.mjs
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$OUT"
+          git commit -m "quiz-refs: competitor quizzes, step by step" || echo "nothing to commit"
+          git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"

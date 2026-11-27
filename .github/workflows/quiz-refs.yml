@@ -3,6 +3,7 @@ name: quiz-refs
 # quiz on a phone and walks through it, picking the first answer on every step. Per step: the words on screen, the answer
 # options, a screenshot. Stops at an e-mail gate (never types an address) or at the result. Results in lp-factory/recon-quiz/.
 # run note 1: first run
+# run note 3: third pass on the five quizzes that stopped early (back arrows, next arrows without words, name boxes, things that are only clickable by style)
 # run note 2: newsletter boxes no longer count as an e-mail gate, e-mail pop-ups are closed, number boxes are filled, "Back" is never tapped, the last screen is kept in full
 on:
   push:
@@ -32,15 +33,11 @@ jobs:
           import fs from 'fs';
           const OUT = process.env.OUT;
           const SITES = [
-            ['aromatech', 'https://aromatechscent.com/', ['/pages/scent-quiz', '/pages/quiz']],
+            ['aromatech', 'https://aromatechscent.com/', ['/tools/perfect-product-finder/scent-and-diffuser-match-quiz', '/pages/scent-quiz', '/pages/quiz']],
             ['flewd', 'https://flewdstresscare.com/', ['/pages/quiz', '/pages/stress-quiz']],
             ['hotelcollection', 'https://www.hotelcollection.com/', ['/pages/find-your-scent', '/pages/scent-quiz', '/pages/quiz']],
-            ['pura', 'https://pura.com/', ['/quiz', '/pages/quiz', '/scent-quiz']],
-            ['aroma360', 'https://aroma360.com/', ['/pages/scent-quiz', '/pages/quiz', '/pages/find-your-scent']],
             ['scentbird', 'https://www.scentbird.com/', ['/quiz', '/scent-quiz']],
             ['laundrysauce', 'https://laundrysauce.com/', ['/pages/quiz', '/pages/scent-quiz']],
-            ['jonesroad', 'https://www.jonesroadbeauty.com/', ['/pages/quiz', '/pages/find-my-shade', '/pages/shade-finder']],
-            ['noom', 'https://www.noom.com/', []],
           ];
           const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
           const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -56,15 +53,18 @@ jobs:
           const READ = () => {
             const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 20 && b.height > 14 && b.bottom > 0 && b.top < innerHeight * 3 && c.visibility !== 'hidden' && c.display !== 'none' && +c.opacity > 0.05; };
             const tx = (e) => (e.innerText || e.getAttribute('aria-label') || e.value || '').replace(/\s+/g, ' ').trim();
-            const NAV = /^(next|continue|start|begin|get started|take (the|our) .*quiz|take quiz|start (the )?quiz|let'?s (go|begin|start)|see (my )?(results?|match|scent)|show (me )?(my )?(results?|match)|submit|done|find my|got it|ok(ay)?|i'?m ready|yes, )/i;
-            const SKIP = /^(back|previous|go back|close|menu|cart|skip|search|log ?in|sign ?in|account|privacy|terms|shop|shop all|help|contact|x|×)\b|cookie|privacy|terms of|add to cart|checkout|subscribe|facebook|instagram|tiktok|announcement|chat with|order (number|status)|zip code/i;
+            const NAV = /^[^a-z0-9]*(next|continue|start|begin|get started|take (the|our) .*quiz|take quiz|start (the )?quiz|let'?s (go|begin|start)|see (my )?(results?|match|scent)|show (me )?(my )?(results?|match)|submit|done|find my|got it|ok(ay)?|i'?m ready|yes, )/i;
+            const SKIP = /^[^a-z0-9]*(back|previous|go back|close|menu|cart|skip|search|log ?in|sign ?in|account|privacy|terms|shop|shop all|help|contact|x|×)\b|cookie|privacy|terms of|add to cart|checkout|subscribe|facebook|instagram|tiktok|announcement|chat with|order (number|status)|zip code/i;
             const all = [...document.querySelectorAll('label, [role=radio], [role=checkbox], [role=option], [role=button], button, input[type=button], input[type=submit], a[class*="btn" i], a[class*="button" i], [class*="answer" i], [class*="choice" i], [class*="option" i], [class*="card" i]')]
               .filter((e) => vis(e) && !e.closest('header, nav, footer, [class*="cart" i], [class*="menu" i], [aria-hidden=true]') && !e.disabled);
+            if (all.length < 2) { let k = 0; for (const e of document.querySelectorAll('main div, main li, main span, main a, main img, [class*="quiz" i] div, [class*="quiz" i] li, [class*="quiz" i] span')) { if (++k > 2500) break; if (getComputedStyle(e).cursor === 'pointer' && vis(e) && !e.closest('header, nav, footer') && ![...e.children].some((c) => getComputedStyle(c).cursor === 'pointer' && tx(c) === tx(e))) all.push(e); } }
+            const arrows = [...document.querySelectorAll('[class*="next" i], [aria-label*="next" i], [class*="continue" i], [class*="forward" i]')].filter((e) => vis(e) && !e.disabled && !e.closest('header, nav, footer, [class*="slider" i], [class*="carousel" i], [class*="swiper" i]'));
             const seen = new Set(); const answers = []; const nav = [];
             all.forEach((e, i) => { const t = tx(e); if (!t || t.length > 90 || SKIP.test(t)) return; if (seen.has(t)) return; seen.add(t);
               // skip wrappers that hold several other candidates
               if ([...e.querySelectorAll('label,button,[role=radio],[role=checkbox]')].filter(vis).length > 1) return;
               e.setAttribute('data-walk', String(i)); (NAV.test(t) ? nav : answers).push({ i, t }); });
+            arrows.forEach((e, i) => { if (e.hasAttribute('data-walk')) return; e.setAttribute('data-walk', 'n' + i); nav.push({ i: 'n' + i, t: tx(e) || '(arrow)' }); });
             const inputs = [...document.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]):not([type=button]):not([type=submit]):not([type=search]), select, textarea')].filter((e) => vis(e) && e.getBoundingClientRect().top < innerHeight && !e.closest('footer, header, nav, [class*="newsletter" i], [id*="newsletter" i], [class*="klaviyo" i], [class*="footer" i], [class*="subscribe" i]')).map((e) => ({ type: e.type || e.tagName.toLowerCase(), name: e.name || e.placeholder || e.getAttribute('aria-label') || '' }));
             const main = document.querySelector('[class*="quiz" i], [id*="quiz" i], main') || document.body;
             return { text: (main.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim().slice(0, 1400), answers: answers.slice(0, 16), nav: nav.slice(0, 6), inputs, email: inputs.some((x) => /mail/i.test(x.type + ' ' + x.name)), long: (main.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim().slice(0, 3500), heads: [...document.querySelectorAll('h1,h2,h3,[class*="question" i],[class*="title" i]')].filter((e) => vis(e) && !e.closest('header, nav, footer')).map(tx).filter((t) => t && t.length < 160).slice(0, 6) };
@@ -78,7 +78,7 @@ jobs:
             try {
               await pg.goto(home, { waitUntil: 'domcontentloaded', timeout: 60000 }); await sleep(5000); await tidy(pg);
               // 1. a link or button on the home page that leads to the quiz
-              const link = await pg.evaluate(() => { const tx = (e) => (e.innerText || e.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim(); const c = [...document.querySelectorAll('a[href]')].map((a) => ({ h: a.href, t: tx(a) })).filter((x) => /quiz|find[- ]your[- ]scent|scent[- ]finder|find[- ]my|shade[- ]finder|survey/i.test(x.h + ' ' + x.t) && !/blog|article|news|order|account|store/i.test(x.h + ' ' + x.t)); c.sort((a, b) => (/quiz/i.test(b.h) ? 1 : 0) - (/quiz/i.test(a.h) ? 1 : 0)); return c[0] || null; }).catch(() => null);
+              const link = await pg.evaluate(() => { const tx = (e) => (e.innerText || e.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim(); const c = [...document.querySelectorAll('a[href]')].map((a) => ({ h: a.href, t: tx(a) })).filter((x) => /quiz|find[- ]your[- ]scent|scent[- ]finder|find[- ]my|shade[- ]finder|survey/i.test(x.h + ' ' + x.t) && !/blog|article|\/news|order-|account/i.test(x.h)); c.sort((a, b) => (/quiz/i.test(b.h) ? 1 : 0) - (/quiz/i.test(a.h) ? 1 : 0)); return c[0] || null; }).catch(() => null);
               if (link) { res.entry = link.h; res.how = 'home link: ' + link.t; await pg.goto(link.h, { waitUntil: 'domcontentloaded', timeout: 60000 }); }
               else { for (const t of tries) { const u = new URL(t, home).href; const r = await pg.goto(u, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => null); if (r && r.status() < 400) { res.entry = u; res.how = 'guessed address'; break; } } }
               if (!res.entry && name === 'noom') { res.entry = home; res.how = 'home page start button'; }
@@ -100,7 +100,8 @@ jobs:
                   // fill plain number or text boxes with something neutral so a step can be passed (never an e-mail)
                   const boxes = r.inputs.filter((x) => !/mail/i.test(x.type + ' ' + x.name));
                   if (boxes.length) { for (const h of await f.$$('input[type=number], input[type=tel], input[type=text]')) { const nm = ((await h.getAttribute('name')) || '') + ((await h.getAttribute('placeholder')) || ''); const ty = await h.getAttribute('type'); await h.fill(ty === 'text' ? 'Sam' : /feet|ft/i.test(nm) ? '5' : /inch/i.test(nm) ? '5' : /age/i.test(nm) ? '52' : '165').catch(() => {}); } }
-                  const pick = boxes.length && r.nav.length ? null : r.answers[0]; const nx = r.nav[0];
+                  let nav2 = r.nav; if (boxes.length) { await sleep(600); const again = await f.evaluate(READ).catch(() => null); if (again) nav2 = again.nav; }
+                  const pick = boxes.length && nav2.length ? null : r.answers[0]; const nx = nav2[0];
                   if (pick) { await f.click(`[data-walk="${pick.i}"]`, { timeout: 4000 }).catch(() => {}); step.did = 'tapped "' + pick.t + '"'; await sleep(1300);
                     const b2 = await best(pg); const sig2 = b2 ? (b2.r.heads.join('|') + b2.r.text.slice(0, 300)) : '';
                     if (sig2 === sig) { const n2 = b2 && b2.r.nav[0]; if (n2) { await b2.f.click(`[data-walk="${n2.i}"]`, { timeout: 4000 }).catch(() => {}); step.did += ', then "' + n2.t + '"'; } } }

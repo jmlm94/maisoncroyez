@@ -1,0 +1,336 @@
+<title>Maison Croyez Home</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Roboto+Mono:wght@400..700&display=swap">
+<style>
+/* Layout: the store's home page in the new brand. Cream ground, one Night band for the beliefs, a photo band to close.
+   Every section opens the same way: a bold title closed with a period, one line under it, then the content.
+   One committed look in either viewer theme: the brand's own colours (board v1.2) plus the tones of the shoot photos. */
+:root{
+  --cream:#F9F6EE;--paper:#FFFDF9;--sand:#EAE1D1;--stone:#CFC4B1;--drift:#6E655B;--night:#161210;--dusk:#231D19;
+  --sig:#6169DF;--ink:#4B55D6;--sig-light:#A9AEF7;--wash:#E7E8FB;--plaster:#E6DDD0;--walnut:#4A3526;
+  --f:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;--m:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gh:clamp(24px,3.4vw,44px);--sec:clamp(52px,7vw,104px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--night);font-family:var(--f);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+img{height:auto}
+p,h1,h2,h3,blockquote,ul{margin:0;padding:0}
+ul{list-style:none}
+a{color:inherit}
+.w{max-width:1240px;margin:0 auto;padding-left:max(clamp(16px,4vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,48px),env(safe-area-inset-right,0px))}
+.lg{width:100%;height:auto;fill:currentColor}
+.ic{width:1em;height:1em;flex:none}
+.hd{font-weight:700;letter-spacing:-.035em;line-height:1.04;text-wrap:balance}
+.sec-h{font-size:clamp(32px,4.8vw,58px);max-width:16em}
+.lede{font-size:clamp(17px,1.6vw,19px);color:var(--drift);margin-top:14px;max-width:34em;text-wrap:balance}
+section.s{padding-block:var(--sec)}
+.sand{background:var(--sand)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;background:var(--sig);color:#fff;font:700 17px var(--f);letter-spacing:-.01em;text-decoration:none;border:0;cursor:pointer}
+.btn .ic{font-size:19px}
+.btn.ghost{background:transparent;color:var(--night);box-shadow:inset 0 0 0 1.5px var(--night)}
+.btn.cream{background:var(--cream);color:var(--night)}
+.link{font-weight:600;color:var(--ink);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+/* preview note, announcement bar, header (logo centered, as on the board) */
+.note{background:var(--sand);color:var(--drift);text-align:center;font:500 11px/1.4 var(--m);letter-spacing:.1em;text-transform:uppercase;padding:7px 12px}
+.bar{background:var(--night);color:var(--cream);text-align:center;font:500 12px/1.4 var(--m);letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;text-wrap:balance}
+.hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding-block:14px;border-bottom:1px solid var(--stone)}
+.hdr .lg{width:104px;justify-self:center}
+.hdr nav{display:flex;gap:26px;font-weight:500;font-size:16px}
+.hdr nav a{text-decoration:none}
+.hdr .menu{display:none;font-size:24px}
+.hdr .icons{display:flex;gap:18px;justify-content:flex-end;font-size:22px}
+@media (max-width:860px){.hdr nav{display:none}.hdr .menu{display:block}.hdr .icons .u{display:none}.bar{font-size:11px;letter-spacing:.1em}}
+/* hero: words left, the photo right; on a phone the photo first */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,4vw,64px);align-items:center;padding-block:clamp(20px,3.4vw,48px) clamp(36px,5vw,72px)}
+.hero h1{font-size:clamp(40px,6.2vw,84px);letter-spacing:-.045em;line-height:.98}
+.hero h1 span{display:block;color:var(--ink)}
+.hero .lede{font-size:clamp(18px,1.7vw,21px);margin-top:20px;max-width:26em}
+.hero .acts{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:28px}
+.hero .pic{border-radius:8px;overflow:hidden;aspect-ratio:1/1;background:var(--plaster)}
+.hero .pic img{width:100%;height:100%;object-fit:cover}
+.rate{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:26px;font-weight:600;font-size:15.5px}
+.rate span.t{color:var(--drift);font-weight:500}
+@media (min-width:480px){.rate span.t{border-left:1px solid var(--stone);padding-left:10px}}
+.stars{position:relative;display:inline-flex;font-size:17px;line-height:0}
+.stars span{display:flex;gap:2px}
+.stars .ic{fill:currentColor;stroke-width:0}
+.stars .bk{color:var(--stone)}
+.stars .ft{position:absolute;left:0;top:0;overflow:hidden;color:var(--night);white-space:nowrap}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:0}.hero .pic{order:-1;aspect-ratio:5/4;border-radius:0;margin-inline:calc(-1 * clamp(16px,4vw,48px))}.hero .pic img{object-position:60% 62%}.hero .btn{flex:1 1 100%}}
+/* three facts under the hero */
+.trust{border-block:1px solid var(--stone);background:var(--paper)}
+.trust ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-block:18px;text-align:center}
+.trust li{display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:600;font-size:clamp(13px,1.3vw,16px);line-height:1.25;text-wrap:balance}
+.trust .ic{font-size:22px;color:var(--ink)}
+@media (min-width:861px){.trust li{flex-direction:row;justify-content:center;gap:10px}}
+/* start here: two doors */
+.doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2vw,24px);margin-top:var(--gh)}
+.door{display:grid;grid-template-rows:auto 1fr;background:var(--paper);border:1px solid var(--stone);border-radius:14px;overflow:hidden;text-decoration:none;min-width:0}
+.door .pic{aspect-ratio:16/10;overflow:hidden;background:var(--plaster)}
+.door .pic img{width:100%;height:100%;object-fit:cover}
+.door .tx{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:clamp(16px,2.2vw,28px)}
+.door h3{font-size:clamp(24px,2.8vw,36px);letter-spacing:-.035em;line-height:1.05}
+.door p{color:var(--drift);font-size:clamp(15.5px,1.4vw,17px);max-width:28em}
+.door .pr{font:600 13px/1.3 var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--night)}
+.door .btn{margin-top:auto}
+.door .tx p + .btn,.door .tx .pr + .btn{margin-top:10px}
+@media (max-width:760px){.doors{grid-template-columns:minmax(0,1fr)}.door .btn{width:100%}}
+/* 1, 2, 3 */
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,28px);margin-top:var(--gh)}
+.how>li{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,7fr);column-gap:14px;align-items:center}
+.how img{border-radius:10px;aspect-ratio:1/1;object-fit:cover;width:100%}
+.how b{display:block;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.how p{color:var(--drift);font-size:15.5px;margin-top:4px}
+@media (max-width:760px){.how{grid-template-columns:minmax(0,1fr)}}
+/* seven scents: the kits page's tiles */
+.smini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:var(--gh);grid-auto-rows:1fr}
+.sm{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;background:var(--paper);border:1px solid var(--stone);border-radius:12px;padding:10px;min-width:0;text-decoration:none}
+.sm img,.sm .fx{width:64px;aspect-ratio:1;border-radius:8px;object-fit:cover}
+.sm b{display:block;font-size:15.5px;letter-spacing:-.015em;line-height:1.15}
+.sm span{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-top:2px}
+.sm small{display:block;font-size:12.5px;line-height:1.3;color:var(--drift);margin-top:3px}
+.sm .fx{background:var(--night);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.sm .fx strong{font-weight:700;font-size:18px;letter-spacing:-.03em;line-height:1}
+.sm .fx em{font:600 8.5px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--sig-light)}
+.after{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:clamp(18px,2.4vw,28px)}
+@media (max-width:860px){.smini{gap:6px}
+  .sm{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;align-items:start;text-align:center;gap:6px;padding:6px 6px 8px;border-radius:10px}
+  .sm img,.sm .fx{width:100%;border-radius:6px}
+  .sm b{display:flex;align-items:center;justify-content:center;min-height:2.3em;font-size:12px}
+  .sm span{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sm small{display:none}
+  .sm .fx strong{font-size:clamp(15px,4.6vw,22px)}.sm .fx em{font-size:clamp(7.5px,2vw,10px)}}
+@media (max-width:640px){.sm b{min-height:3.45em}}
+@media (max-width:400px){.sm span{font-size:10px;letter-spacing:-.01em}}
+/* what we believe: the one Night band */
+.night{background:var(--night);color:var(--cream)}
+.night .lede{color:#B8AD9F}
+.bel{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,5vw,72px);align-items:center}
+.bel .pic{border-radius:8px;overflow:hidden;aspect-ratio:4/5;background:var(--dusk)}
+.bel .pic img{width:100%;height:100%;object-fit:cover;object-position:38% 50%}
+.bel ul{display:grid;margin-top:var(--gh)}
+.bel li{padding-block:clamp(14px,1.8vw,20px);border-top:1px solid rgba(249,246,238,.18)}
+.bel li:last-child{border-bottom:1px solid rgba(249,246,238,.18)}
+.bel b{display:block;font-size:clamp(22px,2.5vw,32px);letter-spacing:-.035em;line-height:1.08}
+.bel li p{color:#B8AD9F;font-size:clamp(15.5px,1.4vw,17px);margin-top:5px;max-width:30em}
+@media (max-width:860px){.bel{grid-template-columns:minmax(0,1fr)}.bel .pic{aspect-ratio:5/4;order:2}}
+/* reviews and customer photos */
+.rating{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:18px 22px;margin-top:var(--gh)}
+.rating .big{font-weight:700;font-size:clamp(42px,4.6vw,58px);letter-spacing:-.05em;line-height:1}
+.rating p{color:var(--drift);font-size:15px}
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);margin-top:clamp(10px,1.6vw,22px)}
+.q{background:var(--paper);border:1px solid var(--stone);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.q blockquote{font-size:16.5px;line-height:1.5}
+.q .who{margin-top:auto;padding-top:6px;font-size:14.5px;font-weight:600}
+.q .who span{display:block;font:500 11px/1.5 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--drift);margin-top:3px;min-height:33px}
+.ugc-h{font-size:clamp(20px,2.2vw,26px);margin-top:clamp(28px,4vw,48px)}
+.ugc{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:14px;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-right:16px;scroll-snap-type:x mandatory}
+.ugc::-webkit-scrollbar{display:none}
+.ugc img{flex:0 0 clamp(88px,9.4vw,112px);width:clamp(88px,9.4vw,112px);aspect-ratio:1;object-fit:cover;border-radius:10px;scroll-snap-align:start;background:var(--sand)}
+@media (max-width:900px){.quotes{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-right:16px}.quotes::-webkit-scrollbar{display:none}.quotes .q{flex:0 0 82%;scroll-snap-align:start}}
+/* founder */
+.fnd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(20px,4vw,56px);align-items:center;margin-top:var(--gh)}
+.fnd .pic{aspect-ratio:1/1;border-radius:6px;overflow:hidden}
+.fnd .pic img{width:100%;height:100%;object-fit:cover}
+.fnd blockquote{font-weight:600;font-size:clamp(19px,2.2vw,26.6px);line-height:1.32;letter-spacing:-.02em;text-wrap:pretty}
+.fnd .sig{margin-top:18px;font-size:15px;color:var(--drift)}
+.fnd .sig b{display:block;font-size:18px;color:var(--night);letter-spacing:-.01em}
+.fnd .link{display:inline-block;margin-top:16px}
+@media (max-width:760px){.fnd{grid-template-columns:minmax(0,1fr)}}
+/* the promise: one tinted card */
+.prom{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:center;background:var(--wash);border-radius:18px;padding:clamp(22px,4vw,56px)}
+.seal{width:clamp(96px,12vw,150px);aspect-ratio:1;border-radius:50%;border:1.5px solid var(--ink);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.seal b{font-size:clamp(34px,4.4vw,56px);letter-spacing:-.05em;line-height:.9}
+.seal span{font:600 clamp(9px,1vw,11px)/1.2 var(--m);letter-spacing:.1em;text-transform:uppercase}
+.prom h2{font-size:clamp(26px,3.6vw,46px)}
+.ticks{display:grid;gap:8px;margin-top:16px;font-size:clamp(15.5px,1.4vw,17px)}
+.ticks li{display:flex;gap:9px;align-items:flex-start}
+.ticks .ic{color:var(--ink);font-size:19px;margin-top:3px}
+.prom .btn{margin-top:22px}
+@media (max-width:640px){.prom{grid-template-columns:minmax(0,1fr)}.prom .btn{width:100%}}
+/* questions */
+.faq{margin-top:var(--gh);max-width:860px}
+.faq details{border-top:1px solid var(--stone)}
+.faq details:last-child{border-bottom:1px solid var(--stone)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .ic{font-size:20px;transition:transform .15s}
+.faq details[open] summary .ic{transform:rotate(45deg)}
+.faq p{padding:0 0 20px;color:var(--drift);max-width:44em}
+/* the close: the tagline over the living room */
+.close{position:relative;color:var(--cream);background:var(--dusk);overflow:hidden}
+.close img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.close::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(22,18,16,.86) 0%,rgba(22,18,16,.62) 46%,rgba(22,18,16,.18) 100%)}
+.close .w{position:relative;z-index:1;padding-block:clamp(72px,11vw,168px)}
+.close h2{font-size:clamp(46px,8vw,112px);letter-spacing:-.05em;line-height:.95}
+.close p{font-size:clamp(17px,1.7vw,21px);color:#E4DACB;margin-top:16px;max-width:24em}
+.close .btn{margin-top:26px}
+@media (min-width:861px){.close img{inset:0 0 0 auto;width:64%;object-position:50% 46%}.close::after{background:linear-gradient(to right,var(--dusk) 0%,var(--dusk) 36%,rgba(35,29,25,.72) 50%,rgba(35,29,25,.12) 78%,rgba(35,29,25,0) 100%)}}
+@media (max-width:640px){.close::after{background:linear-gradient(to top,rgba(22,18,16,.9) 0%,rgba(22,18,16,.66) 60%,rgba(22,18,16,.4) 100%)}.close .btn{width:100%}}
+/* footer: the store's footer, in the brand's Night, the tagline under the logo */
+footer{background:var(--night);color:var(--cream);padding-block:clamp(44px,5vw,64px) 40px;font-size:15px}
+.ft-top{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.6fr) minmax(0,.9fr);gap:32px clamp(24px,5vw,72px);align-items:start}
+footer .lg{width:150px}
+.ft-tag{font-weight:700;font-size:24px;letter-spacing:-.03em;margin-top:14px}
+footer p{color:#B8AD9F;font-size:14.5px;margin-top:22px;max-width:30em}
+.ft-form{display:flex;align-items:center;border:1px solid rgba(249,246,238,.28);margin-top:14px;max-width:400px;padding:0 14px 0 20px;height:56px;border-radius:999px}
+.ft-form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--cream);font:400 14.5px var(--f)}
+.ft-form input::placeholder{color:#B8AD9F}
+.ft-form button{flex:none;width:30px;height:30px;border-radius:50%;border:0;background:var(--sig);color:#fff;display:grid;place-items:center;font-size:15px;cursor:pointer}
+.ft-col{display:grid;gap:13px;align-content:start}
+.ft-col b{font-size:14.5px;margin-bottom:8px}
+.ft-col a{color:#E4DACB;font-size:14.5px;text-decoration:none}
+.ft-bot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-top:44px;padding-top:22px;border-top:1px solid rgba(249,246,238,.18);color:#B8AD9F;font-size:13.5px}
+.ft-bot .bn{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--sig-light)}
+@media (max-width:760px){.ft-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ft-news{grid-column:1 / -1}.ft-form{max-width:none}}
+@media (prefers-reduced-motion:reduce){.faq summary .ic{transition:none}}
+</style>
+<!--SYMBOLS-->
+<div class="note">Proposal — nothing here is on the store</div>
+<div class="bar">Your first scents are free with your diffusers. Enjoy lifetime warranty too.</div>
+<div class="w"><header class="hdr">
+  <div><span class="menu">{{i:menu}}</span><nav><a href="https://maisoncroyez.com/pages/diffuser-kits-2">Diffuser kits</a><a href="https://maisoncroyez.com/collections/power-fragrances">Scents</a><a href="https://maisoncroyez.com/pages/who-we-are">Our story</a></nav></div>
+  {{logo:two}}
+  <div class="icons"><span>{{i:search}}</span><span class="u">{{i:user}}</span><span>{{i:shopping-bag}}</span></div>
+</header></div>
+
+<main>
+<div class="w"><div class="hero">
+  <div>
+    <h1 class="hd">Bonsoir. <span>Leave the day at the door.</span></h1>
+    <p class="lede">Waterless scent diffusers for the end of the day. Press once when you walk in. In about ten minutes, the room smells like the evening.</p>
+    <div class="acts"><a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits-2">Build my kit {{i:arrow-right}}</a><a class="link" href="https://maisoncroyez.com/collections/power-fragrances">Meet the seven scents</a></div>
+    <div class="rate"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><span>4.7 | 124 reviews</span><span class="t">Loved in 2,500+ homes</span></div>
+  </div>
+  <div class="pic"><img src="img/hero.webp" alt="The Maison Croyez diffuser on a stone side table next to an armchair, a hand reaching for a mug" fetchpriority="high" width="1400" height="1400"></div>
+</div></div>
+
+<div class="trust"><div class="w"><ul>
+  <li>{{i:truck}}Free shipping from Miami</li>
+  <li>{{i:shield-check}}30 days to love it, or every dollar back</li>
+  <li>{{i:calendar-check}}Lifetime warranty</li>
+</ul></div></div>
+
+<section class="s"><div class="w">
+  <h2 class="hd sec-h">Start here.</h2>
+  <p class="lede">Two ways in. Both end with a calmer evening.</p>
+  <div class="doors">
+    <div class="door">
+      <div class="pic"><img src="img/door-kits.webp" alt="The diffuser and a scent bottle on an entry table, a hand dropping keys into a bowl" loading="lazy" width="1100" height="1100"></div>
+      <div class="tx"><h3 class="hd">Diffuser kits.</h3><p>One, two or three diffusers, with a free 100 ml scent for each. Pick how many rooms, pick your scents, done.</p><span class="pr">From $89 | first scents free</span><a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits-2">Build my kit {{i:arrow-right}}</a></div>
+    </div>
+    <div class="door">
+      <div class="pic"><img src="img/door-scents.webp" alt="Three Maison Croyez scent boxes on a marble shelf" loading="lazy" width="1100" height="1100"></div>
+      <div class="tx"><h3 class="hd">Scents.</h3><p>Already have your diffuser? Seven scents, 100 ml each. One bottle lasts 15+ days.</p><span class="pr">$39.95 | $29.95 on a refill plan</span><a class="btn ghost" href="https://maisoncroyez.com/collections/power-fragrances">Meet the scents {{i:arrow-right}}</a></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="s sand"><div class="w">
+  <h2 class="hd sec-h">As simple as 1, 2, 3.</h2>
+  <p class="lede">No water, no flame, nothing to clean.</p>
+  <ul class="how">
+    <li><img src="img/how-1.webp" alt="A hand holding the scent bottle next to the diffuser" loading="lazy" width="420" height="420"><div><b>Pour it in.</b><p>Your 100 ml bottle of scent. No water, no measuring.</p></div></li>
+    <li><img src="img/how-2.webp" alt="A hand pressing the button on the diffuser" loading="lazy" width="420" height="420"><div><b>Press once.</b><p>One button, three strengths. Soft for a quiet night, fuller when you want more.</p></div></li>
+    <li><img src="img/how-3.webp" alt="A woman resting in bed with her dog, the diffuser on the nightstand" loading="lazy" width="420" height="420"><div><b>Exhale.</b><p>About ten minutes to fill the room. A timer turns it off.</p></div></li>
+  </ul>
+</div></section>
+
+<section class="s"><div class="w">
+  <h2 class="hd sec-h">Seven scents. Pick the evening you want.</h2>
+  <p class="lede">100 ml each. If you don’t love one, we swap it, free.</p>
+  <div class="smini">
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-golden.webp" alt="" loading="lazy" width="400" height="400"><div><b>Golden Blossom Harmony</b><span>Honey Floral</span><small>Fresh flowers and a little honey. Like walking into a florist.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-honey.webp" alt="" loading="lazy" width="400" height="400"><div><b>Honey Nectar</b><span>Milk &amp; Honey</span><small>Warm milk and honey. Like a café on a slow morning.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-crisp.webp" alt="" loading="lazy" width="400" height="400"><div><b>Crisp Citrus Scape</b><span>Fresh Citrus</span><small>Fresh citrus peel and green leaves. Like a clean hotel lobby.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-euphoric.webp" alt="" loading="lazy" width="400" height="400"><div><b>Euphoric Bloom</b><span>Peach &amp; Tea</span><small>White peach and jasmine tea. Fruity and bright, never sugary.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-wildwood.webp" alt="" loading="lazy" width="400" height="400"><div><b>Wildwood Mystique</b><span>Pine Forest</span><small>Pine and juniper. Like a walk in the woods after rain.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-chilled.webp" alt="" loading="lazy" width="400" height="400"><div><b>Chilled Citrus</b><span>Lavender</span><small>Lavender and eucalyptus. Like a day spa.</small></div></a>
+    <a class="sm" href="https://maisoncroyez.com/collections/power-fragrances"><img src="img/pick-midnight.webp" alt="" loading="lazy" width="400" height="400"><div><b>Midnight Sensation</b><span>Floral Musk</span><small>White flowers and soft musk. Like perfume on warm skin.</small></div></a>
+    <div class="sm"><div class="fx" aria-hidden="true"><strong>100%</strong><em>organic</em></div><div><b>Paraben-free</b><span>Cruelty-free</span><small>100% organic ingredients in every bottle.</small></div></div>
+  </div>
+  <div class="after"><a class="btn ghost" href="https://maisoncroyez.com/collections/power-fragrances">Meet the scents {{i:arrow-right}}</a><span style="color:var(--drift)">Your first ones are free with a diffuser kit.</span></div>
+</div></section>
+
+<section class="s night"><div class="w"><div class="bel">
+  <div class="pic"><img src="img/believe.webp" alt="The diffuser’s night light glowing beside a bed in a dark room" loading="lazy" width="800" height="800"></div>
+  <div>
+    <h2 class="hd sec-h">Croyez means believe. Here is what we believe.</h2>
+    <ul>
+      <li><b>The evening is yours.</b><p>You gave the day to everyone else. The last hours belong to you.</p></li>
+      <li><b>Scent is the shortcut.</b><p>Nothing changes a room faster. One breath and you know you’re home.</p></li>
+      <li><b>Rest should be easy.</b><p>No water, no flame, no routine to keep up. One button.</p></li>
+      <li><b>Premium, within reach.</b><p>Made to look and smell high-end. Priced so every room can have one.</p></li>
+    </ul>
+  </div>
+</div></div></section>
+
+<section class="s" id="reviews"><div class="w">
+  <h2 class="hd sec-h">What customers told us.</h2>
+  <p class="lede">Verified buyers. Lightly trimmed for length.</p>
+  <div class="rating"><span class="big">4.7</span><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:94%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><p>out of 5 | 124 reviews</p></div>
+  <div class="quotes">
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</blockquote><div class="who">Verified buyer<span>Customer survey | bought it for safety and no mold</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells. I highly recommend this item!”</blockquote><div class="who">Michael C.<span>Verified purchase</span></div></div>
+    <div class="q"><span class="stars" aria-hidden="true"><span class="bk">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span><span class="ft" style="width:100%">{{i:star}}{{i:star}}{{i:star}}{{i:star}}{{i:star}}</span></span><blockquote>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that. I can’t believe how they make every room smell fresh without changing wax, cans and refills.”</blockquote><div class="who">Verified buyer<span>Customer survey | switched from reed sticks</span></div></div>
+  </div>
+  <h3 class="hd ugc-h">Loved in 2,500+ homes across America.</h3>
+  <div class="ugc" tabindex="0" role="group" aria-label="Photos of people at home with their Maison Croyez diffuser">
+    <img src="img/ugc-01.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-02.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-03.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-04.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-05.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-06.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-07.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-08.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-09.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240"><img src="img/ugc-10.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240">
+  </div>
+</div></section>
+
+<section class="s sand"><div class="w">
+  <h2 class="hd sec-h">A note from our founder.</h2>
+  <div class="fnd">
+    <div class="pic"><img src="img/patricia1.webp" alt="Patricia, founder of Maison Croyez, at home with her dog" loading="lazy"></div>
+    <div>
+      <blockquote>“I loved coming home to a house that smelled beautiful. I couldn’t find anything that made my home smell the way I wanted without a trade-off. So I set out to change it. Every scent is tested in my own living room first. I wanted my home to look and smell great, and to feel safe for everyone in it. Now yours can too.”</blockquote>
+      <p class="sig"><b>Patricia T.</b><span>Founder &amp; Creative Director, Maison Croyez</span></p>
+      <a class="link" href="https://maisoncroyez.com/pages/who-we-are">Read our story</a>
+    </div>
+  </div>
+</div></section>
+
+<section class="s"><div class="w"><div class="prom">
+  <div class="seal" aria-hidden="true"><b>30</b><span>days</span></div>
+  <div>
+    <h2 class="hd">Love the way your evenings feel in 30 days, or every dollar back.</h2>
+    <ul class="ticks"><li>{{i:check}}Not for you? Tell us within 30 days. We send a prepaid label and refund everything.</li><li>{{i:check}}Don’t love one scent? We swap it free.</li><li>{{i:check}}The diffuser is covered for life. If it ever stops working, we replace it.</li></ul>
+    <a class="btn" href="https://maisoncroyez.com/pages/diffuser-kits-2">Build my kit {{i:arrow-right}}</a>
+  </div>
+</div></div></section>
+
+<section class="s" style="padding-top:0"><div class="w">
+  <h2 class="hd sec-h">Questions? Answered.</h2>
+  <div class="faq">
+    <details><summary>Can I leave it on when I go to bed?{{i:plus}}</summary><p>Yes. There is no flame, no water and no heat. Set the timer for 1, 3, 6 or 12 hours and it stops on its own. The night light switches on or off separately.</p></details>
+    <details><summary>Is it safe around kids and pets?{{i:plus}}</summary><p>There is no flame, no smoke, no heat and no water, so it is safe to leave on overnight, in a kid’s room or near pets. Start on the subtle setting in the room where your pet sleeps.</p></details>
+    <details><summary>How long does one bottle last?{{i:plus}}</summary><p>About 15 to 21 days on the everyday setting. Higher settings use it faster.</p></details>
+    <details><summary>Am I signing up for a subscription?{{i:plus}}</summary><p>Only if you want one. When you build your kit you pick refills every 30, 60 or 90 days, or no refills at all. With refills, your scents come again for $29.95 each instead of $39.95, and we email you before every charge. Skip a delivery, swap scents or cancel any time.</p></details>
+    <details><summary>How long does delivery take?{{i:plus}}</summary><p>About 5 business days. Every order ships free from Miami.</p></details>
+  </div>
+</div></section>
+
+<section class="close">
+  <img src="img/closing.webp" alt="" loading="lazy" width="1600" height="1600">
+  <div class="w">
+    <h2 class="hd">Exhale the day.</h2>
+    <p>One press when you walk in. The evening takes it from there. Bonne nuit.</p>
+    <a class="btn cream" href="https://maisoncroyez.com/pages/diffuser-kits-2">Build my kit {{i:arrow-right}}</a>
+  </div>
+</section>
+</main>
+
+<footer><div class="w">
+  <div class="ft-top">
+    <div class="ft-news">{{logo:two}}<div class="ft-tag">Exhale the day.</div>
+      <p>New scents, offers and launches, right in your inbox.</p>
+      <form class="ft-form" onsubmit="return false"><input type="email" id="ft-email" placeholder="E-mail" aria-label="E-mail"><button type="submit" aria-label="Subscribe">{{i:arrow-right}}</button></form></div>
+    <div class="ft-col"><b>Terms &amp; Policies</b><a href="https://maisoncroyez.com/policies/refund-policy">Refund Policy</a><a href="https://maisoncroyez.com/policies/shipping-policy">Shipping Policy</a><a href="https://maisoncroyez.com/policies/privacy-policy">Privacy Policy</a><a href="https://maisoncroyez.com/policies/terms-of-service">Terms of Service</a></div>
+    <div class="ft-col"><b>Can we help?</b><a href="https://portal.subi.co/login/">Manage Subscription</a><a href="https://maisoncroyez.com/pages/who-we-are">About us</a><a href="https://maisoncroyez.com/pages/diffuser-kits-2">Diffuser Kits</a><a href="https://maisoncroyez.com/collections/power-fragrances">Scents</a></div>
+  </div>
+  <div class="ft-bot"><span>&copy; 2026, Maison Croyez. All rights reserved.</span><span class="bn">Bonne nuit.</span></div>
+</div></footer>

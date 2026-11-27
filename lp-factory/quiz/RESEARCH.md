@@ -65,3 +65,16 @@ Store history: 2019-2021 it was another business (2020: 24,841 orders, product n
 
 ## Not on file (asked of the owner)
 The raw September survey (questions and all 24 answers) | the owner's "Maison_Bath_Soak_Research" document | the 124 reviews behind the 4.7 | Subi cancellation reasons and swaps | Klaviyo for Maison | a nose check of the scent sheet (strength, mood, who dislikes what) | whether the sample booklet still ships | the three best sellers (data says Golden, Midnight, Euphoric; the pages mark Midnight, Golden, Crisp).
+
+## The September survey, raw export (owner sent it 2026-11-27; 24 rows, one is a test entry, 23 real; sent by SMS; the file is not in the repo)
+- Used before (pick all): plug-ins 16 | candles 14 | room sprays 9 | a water diffuser 7 | reed sticks 4 | other 6 (wax melt, Aroma 360, Aura House, other waterless diffusers) | nothing 0.
+- What almost stopped you: didn't know how the scents would smell 6 | the price 6 | the subscription commitment 6 | sounded too good to be true 2 | nothing 2 | looking at other options 1. A three-way tie, not "smell first" as the earlier notes said.
+- What do you love more: both equally 13 | the diffuser, I didn't like the scents 5 | the diffuser, the scents are okay 4 | the scents, the diffuser is okay 1. So 9 of 23 prefer the diffuser to the scents and 5 did not like their scents ("didn't like 3 scents out of 7", "Not liking the scent I got", "Better descriptions on scents", one "allergic" to hers, one "Scents are strong").
+- How long a bottle lasted: more than a month 11 | 2 to 4 weeks 8 | 1 to 2 weeks 1 | less than a week 3 (one of them had not received her order).
+- A ritual when turning it on: no 18, yes 5.
+- Complaints besides scent: charged for a renewal without notice ("3 days minimum notice"), "required to buy a scent indefinitely" (the old free-diffuser offer), slow delivery, slow replies, units that did not work (2), scent price.
+- Reasons bought, in their words: no daily upkeep; the guarantee and the comments; the reviews; safety and no mold; a new cat and candles; dog smell; travels and wants the home scented; the look and the light; "no subscription required".
+## The owner's bath soak research (PDF, 2026-11-18; uploaded to the session, not in the repo)
+Buyer: women 45 to 65 who ache and can't switch off at night; "Maison's current buyer". Same survey read: "Scent is the weak spot: 9 of 24 like the diffuser more than the scents"; the three reasons tied at 6. Fixes it names: a sampler, one-time purchase first, notice before every charge. Claims rule 75 / 25: wellness wording; supported only: a warm bath 1 to 2 hours before bed and falling asleep sooner, lavender scent and sleep quality (limited studies). Idea, not a study: the same scent every night as a bedtime cue.
+## Reviews
+The product pages carry no review app (no reviews in the page source), so the 124 reviews behind "4.7" could not be read from here. On file: the 8 Amazon reviews and the survey.

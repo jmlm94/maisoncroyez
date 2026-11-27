@@ -155,3 +155,6 @@ Round 22 deployed 2026-11-22 16:22:32Z: fileUpdate css + js from raw @ 85004d85,
 2026-11-23: owner said "Disconnect Shopify!". The connector tool to revoke the store token failed (switch-shop: "Error POSTing
 to endpoint: Not Found"); he disconnects it in claude.ai connector settings. No more Shopify calls from this session until he
 reconnects; the standing push-live instruction is on hold until then. Live page stays at key dkr20-trim.
+
+## 2026-11-27: best sellers
+Owner: "Switch to euphoric bloom". Store units put Euphoric Bloom third and Crisp Citrus Scape fifth. pdp.src.html and the preview now use Midnight Sensation, Golden Blossom Harmony, Euphoric Bloom for "Can't decide?". NOT on the live page yet: the store files in this folder are unchanged (key dkr20-trim) because Shopify is still disconnected. Deploy on his word.

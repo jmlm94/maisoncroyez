@@ -32,10 +32,20 @@ pause button works, DM Sans and Roboto Mono loaded, h1 40 px / 84 px, section ti
 (rooms 114x157 / 368x196, scents 85x152 / 279x115), no gap above the footer, no script errors.
 The test browser has no H.264, so it played the WebM copy; phones and desktop browsers take the MP4.
 
+## Theme copy for the front page (2026-11-27, owner: "Do it so i can set it up as the homempage pls")
+- Live theme: "MaisonCroyez — Speed round 3 (Claude)" gid://shopify/OnlineStoreTheme/187241169005. Not changed. Its home
+  page is the section mc-home (the October page, which loads the older mc-home.css and mc-home-app.js from Files).
+- Copy: "MaisonCroyez — New home page (Claude)" gid://shopify/OnlineStoreTheme/189629628525, unpublished. Two files differ
+  from the live theme: sections/mc-home-page.liquid (new: prints the content of one store page, picked in the theme
+  editor, default the page "home-2") and templates/index.json (now uses that section). Saved as one version.
+- Preview: https://maisoncroyez.com/?preview_theme_id=189629628525
+- Checked with the theme screenshot tool at 1440 and 390: full width, hero video frame, every section in order.
+- To make it the front page the owner publishes this theme (Online Store > Themes > Publish). After that, any change to
+  the page /pages/home-2 shows on the front page too, with no theme work.
+- The copy was made from the live theme as it was on 2026-11-27. A change made to the live theme after that is not in it.
+
 ## Not done
-- The front page "/" still shows the old home page. Making this the front page needs the theme (its index template).
-  The connector allows theme edits only on an unpublished copy and does not allow publishing; the owner publishes in
-  Shopify admin.
+- The front page "/" still shows the old home page until the owner publishes the theme copy above.
 - "Build my kit" goes to /pages/diffuser-kits-2, the test kits page, which still picks Crisp Citrus Scape as third best
   seller until the Euphoric Bloom switch is deployed there.
 - The page's own footer form and links were dropped with the footer; the theme footer still has the old links

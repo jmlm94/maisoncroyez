@@ -226,3 +226,7 @@ His word: "Ok we're ready to deploy. You can also fix the PDF yourself then." St
   serves it minified, about 104.7 KB, so compare by content, not by size). Page 163021881453 body = page-body.html.
 - Tested before the deploy with the build served locally as maisoncroyez.com: three steps, no inputs on step 3, checkout
   posts one line (variant + Scents + Free diffusers) and the Supply attribute, no script errors.
+- Live check (page-shot-supply run sp8-408c2ef, shots/20261127T2215-*): the live body matches the repo byte for byte;
+  phone and desktop reach step 3, no name / email box, no page errors; the real cart run added variant 67864692392045 at
+  $359.40 with the scents and the "Supply" attribute only, landed on checkout, and the cart was cleared. The closed
+  screens (no link, expired link) and the link maker still work.

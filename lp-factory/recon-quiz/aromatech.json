@@ -1,7 +1,90 @@
 {
  "home": "https://aromatechscent.com/",
- "entry": null,
- "how": null,
- "steps": [],
- "end": "no quiz found from the home page or the usual addresses"
+ "entry": "https://aromatechscent.com/tools/perfect-product-finder/scent-and-diffuser-match-quiz?instore=true#/",
+ "how": "home link: Take Scent Quiz",
+ "steps": [
+  {
+   "n": 1,
+   "url": "https://aromatechscent.com/tools/perfect-product-finder/scent-and-diffuser-match-quiz?instore=true#/",
+   "frame": "page",
+   "heads": [
+    "Get 15% OFF"
+   ],
+   "answers": [
+    "Get 15% OFF"
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "",
+   "shot": "aromatech-01.jpg",
+   "did": "tapped \"Get 15% OFF\""
+  },
+  {
+   "n": 2,
+   "url": "https://aromatechscent.com/tools/perfect-product-finder/scent-and-diffuser-match-quiz?instore=true#/",
+   "heads": [],
+   "answers": [
+    "I'm looking for..."
+   ],
+   "next": [],
+   "inputs": [],
+   "text": "I'm looking for...",
+   "shot": "aromatech-02.jpg",
+   "did": "tapped \"I'm looking for...\""
+  },
+  {
+   "n": 3,
+   "url": "https://aromatechscent.com/tools/perfect-product-finder/scent-and-diffuser-match-quiz?instore=true#/",
+   "heads": [
+    "AI and privacy"
+   ],
+   "answers": [
+    "View cart",
+    "Track orders",
+    "Manage my subscription",
+    "Holiday Offers",
+    "Add attachment"
+   ],
+   "next": [],
+   "inputs": [
+    {
+     "type": "textarea",
+     "name": "chat-message-input"
+    }
+   ],
+   "text": "Chat | AromTech Support | Home\nTrack orders\nManage my subscription\nHoliday Offers\nAI notice • Privacy\nAI and privacy",
+   "shot": "aromatech-03.jpg",
+   "did": "tapped \"View cart\""
+  },
+  {
+   "n": 4,
+   "url": "https://aromatechscent.com/cart?_su_rec=ZS9Qz2rYndt64A4YHOlN8f8CXOIucxOZBAuh5pnpkcwLL-kkL1c0rJ_DQJqfL722H6cF9NraSrdAGnHsowy8Ikjribcf7S329c2v",
+   "frame": "page",
+   "heads": [
+    "CART",
+    "Get 15% OFF"
+   ],
+   "answers": [],
+   "next": [],
+   "inputs": [],
+   "text": "CART\nYour cart is empty\nContinue shopping",
+   "shot": "aromatech-04.jpg",
+   "did": null
+  }
+ ],
+ "end": "nothing to tap at step 4",
+ "frames": [
+  "https://aromatechscent.com/tools/perfect-product-finder/scent-and-diffuser-match-quiz?inst",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/app/web-pixel-18",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/app/web-pixel-45",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel",
+  "https://aromatechscent.com/web-pixels@15451528w2c618d7fpfa16f52dm59493539/custom/web-pixel"
+ ]
 }

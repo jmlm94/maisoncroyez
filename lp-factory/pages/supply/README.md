@@ -214,3 +214,15 @@ His word: "Ok we're ready to deploy. You can also fix the PDF yourself then." St
   Maria to make the link at maisoncroyez.com/pages/supply?newlink=1 for every call (the mission bullet and step 4 of the
   call), what to do when a customer says the page is closed, and adds the free 60-day scent swap to "True for every package".
 - Still his to decide: any email, ad or SMS that links to the bare /pages/supply now lands on the "personal link" screen.
+
+## sp8 (2026-11-27, owner: "remove the unsubscriber box from last step") — LIVE, key sp8-408c2ef
+- Step 3 no longer has the "Cancel my current subscription for me" card (name and email on the subscription). The
+  checkout button no longer asks for a name. The order keeps one cart attribute, "Supply"; "Cancel subscription for" and
+  "Subscription email" are no longer written, so the cancellation is matched from the order's customer name and email.
+- Step 1's third line lost its last sentence ("You give us the name on the last step."). The title and the line still
+  promise "We cancel your subscription for you" in less than 24 hours: his wording, unchanged.
+- Code: make.py (the card, the name check and the two attributes removed); the .sp-cancel styles stay in mc-sp.css,
+  unused, so the stylesheet was not re-uploaded. App 134,692 B at commit 408c2ef5 via fileUpdate 46573254148205 (the CDN
+  serves it minified, about 104.7 KB, so compare by content, not by size). Page 163021881453 body = page-body.html.
+- Tested before the deploy with the build served locally as maisoncroyez.com: three steps, no inputs on step 3, checkout
+  posts one line (variant + Scents + Free diffusers) and the Supply attribute, no script errors.

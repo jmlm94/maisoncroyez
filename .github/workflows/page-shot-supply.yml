@@ -1,5 +1,5 @@
 name: page-shot-supply
-# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (12-month supply, scents picked for me, name + email, checkout) that reads /cart.js and clears it. Since sp7 the offer opens only from a call link (?t=<unix seconds>), so the run first reads the closed page (no link, expired link) and the link maker (?newlink=1), then opens the page with a fresh link. Edit this line and push to run. [run sp7-21e2d1b]
+# Live checks of https://maisoncroyez.com/pages/supply: body byte-match against lp-factory/pages/supply/page-body.html, phone + desktop screenshots of the three steps, and a real cart run (12-month supply, scents picked for me, checkout; since sp8 step 3 has no name / email box) that reads /cart.js and clears it. Since sp7 the offer opens only from a call link (?t=<unix seconds>), so the run first reads the closed page (no link, expired link) and the link maker (?newlink=1), then opens the page with a fresh link. Edit this line and push to run. [run sp8-408c2ef]
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -85,8 +85,8 @@ jobs:
               s3 = { title: await tx(pg, '#buybox .s9-title'), rows: await pg.evaluate(() => [...document.querySelectorAll('#buybox .kr-row')].map((e) => (e.innerText || '').replace(/\s+/g, ' ').trim())), due: await tx(pg, '#buybox .s9-due'), inst: await tx(pg, '#buybox .sp-inst-due'), guar: await tx(pg, '#buybox .sp-guar') };
               await pg.screenshot({ path: `${OUT}/${stamp}-${name}-step3-full.png`, fullPage: true });
               if (name === 'phone') {
-                // the real cart run: name + email, checkout → /cart/add.js + /cart/update.js, read /cart.js before the redirect, then clear
-                await pg.fill('#sp-name', 'QA Run'); await pg.fill('#sp-email', 'qa@maisoncroyez.com');
+                // the real cart run (no name or email to give since sp8): checkout → /cart/add.js + /cart/update.js, read /cart.js before the redirect, then clear
+                const cancelBox = await pg.evaluate(() => !!document.querySelector('#buybox .sp-cancel, #sp-name, #sp-email'));
                 const addP = pg.waitForResponse((r) => /\/cart\/add\.js/.test(r.url()), { timeout: 15000 }).catch(() => null);
                 const updP = pg.waitForResponse((r) => /\/cart\/update\.js/.test(r.url()), { timeout: 15000 }).catch(() => null);
                 await pg.evaluate(() => { const e = document.querySelector('#buybox .btn.atc'); e.scrollIntoView({ block: 'center' }); e.click(); });
@@ -96,7 +96,7 @@ jobs:
                 let landed = null; try { await pg.waitForURL(/checkout/, { timeout: 15000 }); landed = pg.url().slice(0, 80); } catch (e) { landed = 'no redirect: ' + pg.url().slice(0, 80); }
                 await pg.screenshot({ path: `${OUT}/${stamp}-cart-landed.png` }).catch(() => {});
                 let cleared = null; try { cleared = await pg.evaluate(async () => { const c = await (await fetch('/cart/clear.js', { method: 'POST' })).json(); return c.item_count; }); } catch (e) { cleared = 'clear failed: ' + e.message; }
-                cart = { add: addR ? addR.status() : null, update: updR ? updR.status() : null, toast, cartJs, landed, clearedItemCount: cleared };
+                cart = { cancelBoxOnStep3: cancelBox, add: addR ? addR.status() : null, update: updR ? updR.status() : null, toast, cartJs, landed, clearedItemCount: cleared };
                 fs.writeFileSync(`${OUT}/cart-check-latest.txt`, JSON.stringify(cart) + '\n');
               }
             }

@@ -635,7 +635,7 @@ const inst = (p) => usd(Math.round(p / 4 * 100) / 100);
 function OfferClosed({ why }) { /* sp7: no call link yet, or its 24 hours are over */
   return html`
     <section class="section pdp-buy step-1" id="buybox"><div class="wrap"><div class="buybox">
-      <div class="sp-head"><div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer \u00b7 Subscribers only</span></div>
+      <div class="sp-head"><div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer</span></div>
         <h1 class="h1-9e sp-h1">${why === "over" ? "Your 24-hour price has ended." : "This offer opens from your personal link."}</h1></div>
       <div class="sp-closed"><p>${why === "over"
         ? html`We held your Black Friday price for 24 hours from our call. <b>Want it back?</b> Reply to the message we sent you and we will send you a fresh link.`
@@ -973,7 +973,7 @@ function BuyBox() {
         <div class="buybox">
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
-            <div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer · Subscribers only</span></div>
+            <div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer</span></div>
             <h1 class="h1-9e sp-h1">One payment. No more monthly charges.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>

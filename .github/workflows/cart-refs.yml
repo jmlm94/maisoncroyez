@@ -3,7 +3,8 @@ name: cart-refs
 # for four scent-diffuser competitors and the five reference brands, open one product, tap add to cart once and read what
 # the cart shows: its text top to bottom, its buttons, and a screenshot. Nothing is bought, no checkout is opened.
 # Results in lp-factory/recon-cart/.
-# run note 1: first run
+# run note 2: the first run pressed Escape after the tap and closed every drawer; now it does not, opens the cart from the
+# header if it stayed shut, reads inside shadow roots, and skips gift cards, wholesale and free-gift products
 on:
   push:
     branches: [claude/maison-diffuser-perf-fixes-f45ggl]
@@ -34,68 +35,86 @@ jobs:
           const SITES = [['aroma360', 'https://aroma360.com'], ['aromatech', 'https://aromatechscent.com'], ['hotelcollection', 'https://www.hotelcollection.com'], ['pura', 'https://pura.com'],
             ['ketroskin', 'https://ketroskin.com'], ['moziwash', 'https://www.moziwash.com'], ['flewd', 'https://flewdstresscare.com'], ['heyhanni', 'https://heyhanni.com'], ['primallypure', 'https://primallypure.com']];
           const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
-          // hide sign-up / cookie layers, never anything that looks like a cart
-          const clean = async (pg) => {
-            await pg.keyboard.press('Escape').catch(() => {});
+          const SKIP = /gift|wholesale|sample|insurance|protection|mystery|e-?card|free |donation|test/i;
+          // hide sign-up / cookie layers, never anything that looks like a cart; Escape only before the tap
+          const clean = async (pg, esc) => {
+            if (esc) await pg.keyboard.press('Escape').catch(() => {});
             await pg.evaluate(() => {
-              const vw = innerWidth, vh = innerHeight;
+              const vw = innerWidth;
               for (const e of document.querySelectorAll('body *')) {
                 const cs = getComputedStyle(e); if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
                 const r = e.getBoundingClientRect(); const z = parseInt(cs.zIndex) || 0; const txt = (e.innerText || '').toLowerCase();
-                const isHeader = r.top <= 2 && r.height < 220 && r.width > vw * 0.8; const isCart = /checkout|your cart|your bag|subtotal/.test(txt);
+                const isHeader = r.top <= 2 && r.height < 220 && r.width > vw * 0.8; const isCart = /checkout|check out|your cart|your bag|subtotal/.test(txt) || e.shadowRoot;
                 if (!isHeader && !isCart && z > 20 && /subscribe|sign up|% off|unlock|email|cookie|consent|accept|spin|text me/.test(txt) && r.height > 60) e.style.setProperty('display', 'none', 'important');
               }
             }).catch(() => {});
           };
+          // the cart layer: the smallest fixed element on screen that holds a checkout button and a price (shadow roots included)
+          const readCart = (pg) => pg.evaluate(() => {
+            const all = []; const walk = (root) => { for (const e of root.querySelectorAll('*')) { all.push(e); if (e.shadowRoot) walk(e.shadowRoot); } }; walk(document);
+            const deepText = (el) => { let t = ''; const rec = (n) => { if (n.nodeType === 3) { t += n.nodeValue; return; } if (n.nodeType !== 1 && n.nodeType !== 11) return;
+              if (n.nodeType === 1) { if (/^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|SVG)$/i.test(n.tagName)) return; const cs = getComputedStyle(n); if (cs.display === 'none' || cs.visibility === 'hidden') return; }
+              if (n.shadowRoot) rec(n.shadowRoot); for (const c of n.childNodes) rec(c); if (n.nodeType === 1 && /^(DIV|P|LI|H\d|BUTTON|A|SECTION|TR|SPAN)$/.test(n.tagName)) t += '\n'; };
+              rec(el); return t.replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim(); };
+            const deepAll = (el, sel) => { const out = []; const rec = (root) => { for (const e of root.querySelectorAll('*')) { if (e.matches(sel)) out.push(e); if (e.shadowRoot) rec(e.shadowRoot); } }; rec(el.shadowRoot || el); if (el.shadowRoot) rec(el); return out; };
+            const fixed = all.filter((e) => { const cs = getComputedStyle(e); if (cs.position !== 'fixed' || cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) return false; const b = e.getBoundingClientRect(); return b.width > 200 && b.height > 300 && b.left < innerWidth - 60 && b.right > 60 && b.top < innerHeight - 100 && b.bottom > 100; });
+            const withText = fixed.map((e) => ({ e, t: deepText(e), b: e.getBoundingClientRect() })).filter((x) => /checkout|check out/i.test(x.t) && /\$\s?\d/.test(x.t));
+            withText.sort((a, b) => a.b.width * a.b.height - b.b.width * b.b.height || a.t.length - b.t.length);
+            const best = withText[0] || null; const isCartPage = /\/cart\/?$/.test(location.pathname);
+            if (!best && !isCartPage) return { drawer: false };
+            const scope = best ? best.e : (document.querySelector('main') || document.body); const text = best ? best.t : deepText(scope);
+            const btns = deepAll(scope, 'a,button,[role="button"]').map((e) => (e.innerText || e.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim()).filter((x) => x && x.length < 70);
+            const b = scope.getBoundingClientRect();
+            return { drawer: !!best, cartPage: isCartPage, box: Math.round(b.left) + ',' + Math.round(b.top) + ' ' + Math.round(b.width) + 'x' + Math.round(b.height), tag: scope.tagName.toLowerCase() + (scope.id ? '#' + scope.id : '') + '.' + String(scope.className || '').slice(0, 80),
+              text: text.slice(0, 6000), buttons: [...new Set(btns)].slice(0, 70), images: deepAll(scope, 'img').length,
+              inputs: deepAll(scope, 'input,select,textarea').map((e) => (e.type || e.tagName) + ':' + (e.name || e.placeholder || e.getAttribute('aria-label') || '').slice(0, 30)).slice(0, 20),
+              progress: deepAll(scope, 'progress,[role="progressbar"],[class*="progress" i],[class*="shipping-bar" i],[class*="reward" i],[class*="tier" i],[class*="goal" i]').map((e) => (String(e.className).slice(0, 60) + ' | ' + (e.innerText || '').replace(/\s+/g, ' ').trim()).slice(0, 200)).slice(0, 8),
+              apps: [...new Set([...document.querySelectorAll('script[src]')].map((s) => s.src).map((s) => (s.match(/rebuy|upcart|slidecart|monster|kaching|appstle|recharge|skio|smartrr|loop|aftersell|bold|okendo|yotpo|judge|route|navidium|corso|shipscout|intelligems|stay-?ai|ordergroove/i) || [''])[0].toLowerCase()).filter(Boolean))] };
+          }).catch((e) => ({ drawer: false, readError: String(e).slice(0, 200) }));
           const br = await chromium.launch();
           for (const [name, origin] of SITES) {
             const res = { origin };
             try {
               const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1, userAgent: UA, locale: 'en-US' });
               const pg = await ctx.newPage();
-              // one product that can be bought: the store's own product list, else the first product link on the home page
-              let product = null;
-              try { const r = await ctx.request.get(origin + '/products.json?limit=30', { timeout: 20000 }); if (r.ok()) { const j = await r.json(); const p = (j.products || []).find((x) => (x.variants || []).some((v) => v.available) && !/gift card|sample|insurance|protection/i.test(x.title)); if (p) { product = origin + '/products/' + p.handle; res.productTitle = p.title; res.productPrice = (p.variants.find((v) => v.available) || {}).price; } } } catch (e) {}
-              if (!product) { await pg.goto(origin, { waitUntil: 'domcontentloaded', timeout: 60000 }); await pg.waitForTimeout(4000); product = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/products/"]')][0]; return a ? a.href : null; }); }
-              res.product = product; if (!product) throw new Error('no product found');
-              const r0 = await pg.goto(product, { waitUntil: 'domcontentloaded', timeout: 60000 }); res.status = r0 ? r0.status() : 0;
-              await pg.waitForTimeout(7000); await clean(pg);
-              const calls = []; pg.on('response', (r) => { const u = r.url(); if (/\/cart\/(add|change|update)|\/cart\.js|cart\?/.test(u)) calls.push(r.status() + ' ' + r.request().method() + ' ' + u.replace(origin, '').slice(0, 70)); });
-              res.clicked = await pg.evaluate(() => {
+              // products that can be bought: the store's own list, else product links on the home page
+              let cands = [];
+              try { const r = await ctx.request.get(origin + '/products.json?limit=60', { timeout: 20000 }); if (r.ok()) { const j = await r.json(); cands = (j.products || []).filter((x) => !SKIP.test(x.title) && !SKIP.test(x.handle) && (x.variants || []).some((v) => v.available && +v.price >= 12 && +v.price <= 400)).map((x) => ({ url: origin + '/products/' + x.handle, title: x.title, price: (x.variants.find((v) => v.available) || {}).price })); } } catch (e) {}
+              if (!cands.length) { await pg.goto(origin, { waitUntil: 'domcontentloaded', timeout: 60000 }); await pg.waitForTimeout(5000); cands = (await pg.evaluate(() => [...new Set([...document.querySelectorAll('a[href*="/products/"]')].map((a) => a.href.split('?')[0]))])).filter((u) => !SKIP.test(u)).map((u) => ({ url: u })); }
+              let ok = false;
+              for (const c of cands.slice(0, 4)) { const r0 = await pg.goto(c.url, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => null); res.status = r0 ? r0.status() : 0; if (res.status === 200) { res.product = c.url; res.productTitle = c.title; res.productPrice = c.price; ok = true; break; } }
+              if (!ok) throw new Error('no product page opened');
+              await pg.waitForTimeout(7000); await clean(pg, true);
+              const calls = []; pg.on('response', (r) => { const u = r.url(); if (/\/cart\/(add|change|update)/.test(u)) calls.push(r.status() + ' ' + r.request().method() + ' ' + u.replace(origin, '').slice(0, 60)); });
+              // a real tap on the add-to-cart button
+              const target = await pg.evaluateHandle(() => {
                 const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 40 && b.height > 20 && c.visibility !== 'hidden' && c.display !== 'none'; };
                 const all = [...document.querySelectorAll('form[action*="/cart/add"] button[type="submit"], form[action*="/cart/add"] [name="add"], button, [role="button"], input[type="submit"]')].filter(vis);
-                const b = all.find((e) => /add to (cart|bag|basket)|add .*to cart|buy now|subscribe (&|and) save|start (my )?subscription/i.test((e.innerText || e.value || '').trim()) && !e.disabled) || all.find((e) => e.matches('form[action*="/cart/add"] button[type="submit"]'));
-                if (!b) return null; b.scrollIntoView({ block: 'center' }); b.click(); return (b.innerText || b.value || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+                return all.find((e) => /add to (cart|bag|basket)|add .*to cart|^add$/i.test((e.innerText || e.value || '').trim()) && !e.disabled) || all.find((e) => e.matches('form[action*="/cart/add"] button[type="submit"]')) || null;
               });
-              await pg.waitForTimeout(6000); await clean(pg); await pg.waitForTimeout(800);
-              res.urlAfter = pg.url().replace(origin, ''); res.cartCalls = calls.slice(0, 8);
-              Object.assign(res, await pg.evaluate(() => {
-                const vis = (e) => { const b = e.getBoundingClientRect(); const c = getComputedStyle(e); return b.width > 150 && b.height > 150 && c.visibility !== 'hidden' && c.display !== 'none' && parseFloat(c.opacity) > 0.1 && b.right > 20 && b.left < innerWidth - 20 && b.bottom > 20 && b.top < innerHeight; };
-                const tx = (e) => (e.innerText || '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim();
-                const cands = [...document.querySelectorAll('cart-drawer, [id*="cart" i], [class*="cart" i], [class*="drawer" i], [class*="minicart" i], [class*="mini-cart" i], [role="dialog"], [aria-modal="true"], [class*="rebuy" i], [class*="upcart" i], [id*="upCart" i]')].filter(vis).filter((e) => /checkout|check out/i.test(e.innerText || ''));
-                // the smallest element that still holds the checkout button and a price: the drawer itself, not the page
-                const inFixed = (e) => { for (let x = e; x && x !== document.body; x = x.parentElement) { const p = getComputedStyle(x).position; if (p === 'fixed') return true; } return false; };
-                const fixed = cands.filter(inFixed).sort((a, b) => a.getBoundingClientRect().width * a.getBoundingClientRect().height - b.getBoundingClientRect().width * b.getBoundingClientRect().height);
-                const best = fixed.find((e) => /\$\s?\d/.test(e.innerText)) || fixed[0] || null;
-                const isCartPage = /\/cart/.test(location.pathname);
-                const scope = best || (isCartPage ? (document.querySelector('main') || document.body) : null);
-                if (!scope) return { drawer: false, note: 'no cart layer found after the tap', bodyTop: tx(document.body).slice(0, 600) };
-                const btns = [...scope.querySelectorAll('a,button,[role="button"]')].map((e) => (e.innerText || e.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim()).filter((x) => x && x.length < 60);
-                const b = scope.getBoundingClientRect();
-                return { drawer: !!best, cartPage: isCartPage, box: Math.round(b.left) + ',' + Math.round(b.top) + ' ' + Math.round(b.width) + 'x' + Math.round(b.height), tag: scope.tagName.toLowerCase() + (scope.id ? '#' + scope.id : '') + '.' + String(scope.className || '').slice(0, 80),
-                  text: tx(scope).slice(0, 5000), buttons: [...new Set(btns)].slice(0, 60), images: scope.querySelectorAll('img').length, inputs: [...scope.querySelectorAll('input,select,textarea')].map((e) => (e.type || e.tagName) + ':' + (e.name || e.placeholder || e.getAttribute('aria-label') || '').slice(0, 30)).slice(0, 20),
-                  progress: [...scope.querySelectorAll('progress,[role="progressbar"],[class*="progress" i],[class*="shipping-bar" i],[class*="reward" i],[class*="tier" i]')].map((e) => (e.className + ' | ' + (e.innerText || '').replace(/\s+/g, ' ').trim()).slice(0, 160)).slice(0, 8),
-                  apps: [...new Set([...document.querySelectorAll('script[src]')].map((s) => s.src).filter((s) => /rebuy|upcart|slidecart|monster|kaching|appstle|recharge|skio|smartrr|loop|aftersell|bold|okendo|yotpo|judge|route|navidium|corso|shipscout|intelligems/i.test(s)).map((s) => (s.match(/rebuy|upcart|slidecart|monster|kaching|appstle|recharge|skio|smartrr|loop|aftersell|bold|okendo|yotpo|judge|route|navidium|corso|shipscout|intelligems/i) || [''])[0].toLowerCase()))] };
-              }));
+              const el = target.asElement();
+              if (el) { res.clicked = (await el.evaluate((e) => (e.innerText || e.value || '').replace(/\s+/g, ' ').trim().slice(0, 60))); await el.scrollIntoViewIfNeeded().catch(() => {}); await el.tap({ timeout: 8000 }).catch(async () => { await el.evaluate((e) => e.click()); }); } else res.clicked = null;
+              await pg.waitForTimeout(6500); await clean(pg, false); await pg.waitForTimeout(600);
+              let cart = await readCart(pg); res.openedBy = cart.drawer ? 'the add to cart tap' : null;
+              if (!cart.drawer && !cart.cartPage) {
+                // it stayed shut: what the page shows instead, then the cart icon in the header
+                res.afterTap = await pg.evaluate(() => [...document.querySelectorAll('body *')].filter((e) => { const c = getComputedStyle(e); const b = e.getBoundingClientRect(); return (c.position === 'fixed' || c.position === 'absolute') && b.width > 150 && b.height > 40 && b.height < 500 && /added|in your cart|view cart/i.test(e.innerText || ''); }).map((e) => e.innerText.replace(/\s+/g, ' ').trim().slice(0, 200)).slice(0, 2)).catch(() => []);
+                const icon = await pg.evaluateHandle(() => { const vis = (e) => { const b = e.getBoundingClientRect(); return b.width > 10 && b.height > 10 && b.top < 260 && b.top >= 0; }; return [...document.querySelectorAll('a[href$="/cart"], a[href*="/cart?"], [aria-controls*="cart" i], button[aria-label*="cart" i], a[aria-label*="cart" i], button[aria-label*="bag" i], [data-cart-toggle], [class*="cart-icon" i], [class*="header__cart" i], [id*="cart-icon" i]')].filter(vis)[0] || null; });
+                const ie = icon.asElement();
+                if (ie) { await ie.tap({ timeout: 6000 }).catch(async () => { await ie.evaluate((e) => e.click()); }); await pg.waitForTimeout(4500); await clean(pg, false); cart = await readCart(pg); if (cart.drawer || cart.cartPage) res.openedBy = cart.cartPage ? 'the cart icon (a cart page, no drawer)' : 'the cart icon'; }
+              }
+              if (!cart.drawer && !cart.cartPage) { await pg.goto(origin + '/cart', { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => {}); await pg.waitForTimeout(4500); await clean(pg, false); cart = await readCart(pg); res.openedBy = 'going to /cart'; }
+              res.urlAfter = pg.url().replace(origin, ''); res.cartCalls = calls.slice(0, 6); Object.assign(res, cart);
               await pg.screenshot({ path: `${OUT}/${name}-cart.jpg`, type: 'jpeg', quality: 62 }).catch(() => {});
               // scroll the cart layer to its end for a second picture
-              await pg.evaluate(() => { for (const e of document.querySelectorAll('body *')) { const c = getComputedStyle(e); if ((c.overflowY === 'auto' || c.overflowY === 'scroll') && e.scrollHeight > e.clientHeight + 80 && /checkout|check out/i.test((e.closest('[class*="cart" i],[id*="cart" i],[class*="drawer" i],[role="dialog"]') || e).innerText || '')) e.scrollTop = e.scrollHeight; } }).catch(() => {});
-              await pg.waitForTimeout(700);
+              await pg.evaluate(() => { const all = []; const walk = (root) => { for (const e of root.querySelectorAll('*')) { all.push(e); if (e.shadowRoot) walk(e.shadowRoot); } }; walk(document);
+                for (const e of all) { const c = getComputedStyle(e); if ((c.overflowY === 'auto' || c.overflowY === 'scroll') && e.scrollHeight > e.clientHeight + 80 && e.clientHeight > 200) e.scrollTop = e.scrollHeight; } scrollTo(0, document.documentElement.scrollHeight); }).catch(() => {});
+              await pg.waitForTimeout(900);
               await pg.screenshot({ path: `${OUT}/${name}-cart-end.jpg`, type: 'jpeg', quality: 62 }).catch(() => {});
               await ctx.close();
             } catch (e) { res.error = String(e).slice(0, 300); }
             fs.writeFileSync(`${OUT}/${name}.json`, JSON.stringify(res, null, 1));
-            console.log(name, res.status, res.error || '', 'clicked:', res.clicked, '| drawer:', res.drawer, '| text', (res.text || '').length);
+            console.log(name, res.status, res.error || '', 'clicked:', res.clicked, '| opened by:', res.openedBy, '| drawer:', res.drawer, '| text', (res.text || '').length);
           }
           await br.close();
           EOF2

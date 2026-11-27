@@ -4,7 +4,7 @@ their subscription. Derived from the live kits app so the branding, components a
 
   step 1  how many months (9 / 12 / 18 / 24 since 2026-11-16; first 6 / 9 / 12 / 18) — one payment, free diffusers from 12 months
   step 2  pick that many scents (the kits picker, −/+ per scent, "spread evenly" shortcut)
-  step 3  review, the name (+ email) on the subscription we cancel for them, secure checkout
+  step 3  review, secure checkout (the name / email box for the cancellation was removed 2026-11-27, sp8)
 
 Round 2 (owner): nothing below the buttons (no chips, reviews, FAQ, founder note, long-form sections), no badge strip
 under the title, and a layout of its own: one centred column, a landscape banner, a 3-segment progress track instead of
@@ -104,7 +104,7 @@ rex(r'          <div class="step-eyebrow">Step 1 of 3</div>\n.*?fixed label -->\
           <ul class="t9s-how t9p4"> <!-- supply: what happens after the click, with the selected supply's numbers -->
             <li><b>Today:</b> one payment of <b class="t9p4-n">${usd(T.price)}</b>. Nothing renews.</li>
             <li><b>One box</b> with your ${T.scents} scents${T.n ? html` and <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b>` : ""}. Free shipping.</li>
-            <li><b>Your current subscription</b> is cancelled for you in less than 24 hours. You give us the name on the last step.</li>
+            <li><b>Your current subscription</b> is cancelled for you in less than 24 hours.</li>
           </ul>
           <button class="btn atc step-next" onClick=${() => go(2)}><span>Pick my ${T.scents} scents ➔</span></button>
 ''')
@@ -142,13 +142,7 @@ rex(r'            <div class="kr-row kr-kit">\n.*?\n            </div>\n', '''  
 ''')
 rep('''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>, you pay ${usd(sel.today())} today.</p>''',
     '''<p class="s9-value">That\\u2019s <b class="s9-val-green">${usd(sel.value())} of value</b>${T.n ? html`, <b>${T.n} free diffuser${T.n > 1 ? "s" : ""}</b> included` : ""}, you pay ${usd(sel.today())} today. <b>You save ${usd(sel.savings())}.</b> Shipping is on us.</p>''')
-rex(r'          <div class="s9-freq-head">How frequently would you like your refills\?</div>.*?whatever the frequency -->\n', '''          <div class="sp-cancel"> <!-- supply: the subscription we cancel for them -->
-            <div class="s9-freq-head">Cancel my current subscription for me</div>
-            <p class="sp-cancel-p">Tell us who your subscription is under. We cancel it in less than 24 hours and email you a confirmation. No portal, no phone call, nothing else to do.</p>
-            <label class="sp-field" for="sp-name"><span>Name on the subscription</span><input id="sp-name" type="text" autocomplete="name" placeholder="e.g. Jane Smith" defaultValue=${sel.cancelName} onInput=${(e) => { sel.cancelName = e.target.value; }}/></label>
-            <label class="sp-field" for="sp-email"><span>Email on the subscription <small>(optional, speeds it up)</small></span><input id="sp-email" type="email" autocomplete="email" inputmode="email" placeholder="e.g. jane@email.com" defaultValue=${sel.cancelEmail} onInput=${(e) => { sel.cancelEmail = e.target.value; }}/></label>
-          </div>
-          <div class="sp-guar"><b>Swap any unopened bottle</b> for another scent, free, in your first 60 days.${SHELF_LIFE_MONTHS ? html` Unopened, a bottle keeps for <b>${SHELF_LIFE_MONTHS} months</b>.` : ""} One payment, nothing renews, free priority shipping.</div>
+rex(r'          <div class="s9-freq-head">How frequently would you like your refills\?</div>.*?whatever the frequency -->\n', '''          <div class="sp-guar"><b>Swap any unopened bottle</b> for another scent, free, in your first 60 days.${SHELF_LIFE_MONTHS ? html` Unopened, a bottle keeps for <b>${SHELF_LIFE_MONTHS} months</b>.` : ""} One payment, nothing renews, free priority shipping.</div>
 ''')
 # nothing below the checkout button on step 3 except the way back to the scents
 rex(r'          \$\{chips\}\n          <\$\{Reviews6\}/> <!-- dk9c.*?\n          </div>\n(?=          <div class="navrow back-only">)', '')
@@ -158,28 +152,21 @@ rex(r'async function addToCart\(setBusy, setToast\) \{.*?\n\}\n', '''const SUPPL
 async function addToCart(setBusy, setToast) {
   const left = selStore.left();
   if (left > 0) { setToast("Pick " + left + " more scent" + (left > 1 ? "s" : "") + " to complete your supply."); return; }
-  const name = (selStore.cancelName || "").trim();
-  if (!name) {
-    setToast("Add the name on your current subscription so we can cancel it for you.");
-    const el = document.getElementById("sp-name"); if (el) { el.focus(); try { el.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {} }
-    return;
-  }
   const T = selStore.tier();
   const vid = SUPPLY_CART.variants[T.key];
-  const attrs = { "Cancel subscription for": name, "Supply": T.months + " months (" + T.scents + " scents" + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + ")" };
-  if ((selStore.cancelEmail || "").trim()) attrs["Subscription email"] = selStore.cancelEmail.trim();
+  const attrs = { "Supply": T.months + " months (" + T.scents + " scents" + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + ")" };
   if (!onStore() || !vid) {
-    setToast((onStore() ? "This offer isn\\u2019t open for checkout yet. Check back shortly. " : "Preview mode. ") + "On the live store this adds the " + T.months + "-month supply (" + selStore.label() + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + "), " + usd(selStore.today()) + " today, saves the cancellation request for " + name + " on the order, and goes straight to checkout.");
+    setToast((onStore() ? "This offer isn\\u2019t open for checkout yet. Check back shortly. " : "Preview mode. ") + "On the live store this adds the " + T.months + "-month supply (" + selStore.label() + (T.n ? " + " + T.n + " free diffuser" + (T.n > 1 ? "s" : "") : "") + "), " + usd(selStore.today()) + " today and goes straight to checkout.");
     return;
   }
   try {
     setBusy(true);
     /* order shape (2026-10-26): ONE line — the "Scent Supply" variant for the picked supply (its title names the free diffusers,
        its price is the supply total, compare-at = the bottles at $39.95 + the diffusers). The scents ride as line item properties,
-       the cancellation request as cart attributes. Nothing else from the catalogue is touched, no discounts involved. */
+       the supply as a cart attribute. Nothing else from the catalogue is touched, no discounts involved. */
     const items = [{ id: vid, quantity: 1, properties: { "Scents": selStore.label(), "Free diffusers": T.n ? String(T.n) : "none" } }];
     await cartPost("/cart/add.js", { items });
-    await cartPost("/cart/update.js", { attributes: attrs }); /* the cancellation request rides on the order as attributes */
+    await cartPost("/cart/update.js", { attributes: attrs }); /* the supply rides on the order as an attribute */
     setTimeout(() => { window.location.href = (SUPPLY_CART.checkoutUrl || "/checkout"); }, 800);
   } catch (e) {
     setBusy(false);

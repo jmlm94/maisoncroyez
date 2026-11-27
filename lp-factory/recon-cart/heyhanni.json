@@ -1,18 +1,54 @@
 {
  "origin": "https://heyhanni.com",
+ "status": 200,
+ "product": "https://heyhanni.com/products/in-shower-stock-up",
  "productTitle": "In Shower Stock Up",
  "productPrice": "89.00",
- "product": "https://heyhanni.com/products/in-shower-stock-up",
- "status": 200,
  "clicked": "ADD TO CART $148.00 $89.00",
+ "openedBy": "the add to cart tap",
  "urlAfter": "/products/in-shower-stock-up",
  "cartCalls": [
   "200 POST /cart/add.js?upcart=1&opens_cart=maybe",
-  "200 GET /cart.js?upcart=1",
-  "200 POST /cart/add.js?upcart=1&opens_cart=never",
-  "200 GET /cart.js?upcart=1"
+  "200 POST /cart/add.js?upcart=1&opens_cart=never"
  ],
- "drawer": false,
- "note": "no cart layer found after the tap",
- "bodyTop": "Skip to content\nBlack Friday is here. Up to 40% off bundles. Shop now.\nBlack Friday is here. Buy more, save more on singles. Shop now.\nBlack Friday is here. Buy more, save more on singles. Shop now.\nFree gift wrap on orders over $70. Shop now.\nFree shipping on orders over $60\nFree shipping on orders over $60\nOpen navigation menu\nOPEN SEARCH BAR\nOpen cart\nSAVE 40% OFF\nIn Shower Stock Up\nRated 4.8 out of 5 stars\n957 Reviews\nClick to scroll to reviews\nBLACK FRIDAY SALE BUNDLE\nThe In-Shower Stock Up doubles down on the three steps that make every shower the best-shower-ever: Cocoon Cleanse to wash"
+ "drawer": true,
+ "cartPage": false,
+ "box": "0,0 390x844",
+ "tag": "div#CartPopup.upcart-cart styles_CartPreview__ styles_CartPreview__right__ styles_CartPreview_",
+ "text": "Cart • 2\n Free Holiday Wrapping Paper on orders $70+\nFree Shipping\nSpend $60\nFree Wrapping\nSpend $70\nHeirloom Holiday Wrapping Paper\nOriginal price\n$20.00\nSale price\n$0.00\nSavings\n(Save $20.00)\nFREEWRAPPING\nIn Shower Stock Up\nOriginal price\n$148.00\nSale price\n$89.00\nSavings\n(Save $59.00)\nDecrease quantity\nIncrease quantity\nBuy More, Save More\nSplash Salve\nBUY\n–\n$37.00\nApply\nDiscounts\nFREEWRAPPING\nDiscount\n- $20.00\nCheckout • $89.00",
+ "buttons": [
+  "Close cart",
+  "Heirloom Holiday Wrapping Paper",
+  "Remove Heirloom Holiday Wrapping Paper",
+  "In Shower Stock Up",
+  "Remove In Shower Stock Up",
+  "Decrease quantity",
+  "Increase quantity",
+  "Splash Salve",
+  "BUY – $37.00",
+  "Previous products",
+  "Next products",
+  "Apply",
+  "Checkout • $89.00"
+ ],
+ "images": 4,
+ "inputs": [
+  "text:Product quantity",
+  "text:discount code"
+ ],
+ "progress": [
+  "upcart-internal-rewards upcart-public-rewards | Free Shipping Spend $60 Free Wrapping Spend $70",
+  "upcart-internal-rewards__message upcart-public-rewards__mess | ",
+  "upcart-internal-rewards__bar upcart-public-rewards__bar | Free Shipping Spend $60 Free Wrapping Spend $70",
+  "custom-rewards-tiers | Free Shipping Spend $60 Free Wrapping Spend $70",
+  "custom-rewards-tier | Free Shipping Spend $60",
+  "custom-rewards-tier__track | ",
+  "custom-rewards-tier__fill | ",
+  "custom-rewards-tier__label | Free Shipping"
+ ],
+ "apps": [
+  "recharge",
+  "okendo",
+  "upcart"
+ ]
 }

@@ -1,22 +1,49 @@
 {
  "origin": "https://www.moziwash.com",
+ "status": 200,
+ "product": "https://www.moziwash.com/products/dryer-sheet-scent-bundle-2-0",
  "productTitle": "Dryer Sheet Lux Scent Bundle",
  "productPrice": "40.00",
- "product": "https://www.moziwash.com/products/dryer-sheet-scent-bundle-2-0",
- "status": 200,
- "clicked": "ADDING...",
+ "clicked": "ADD TO CART",
+ "openedBy": "the cart icon",
+ "afterTap": [],
  "urlAfter": "/products/dryer-sheet-scent-bundle-2-0",
  "cartCalls": [
   "200 POST /cart/add.js",
-  "200 GET /cart.js",
-  "200 GET /cart.json",
-  "200 GET /cart.js",
-  "200 POST /cart/update.js",
-  "200 GET /cart.json",
-  "200 GET /cart.js",
-  "200 GET /cart.js"
+  "200 POST /cart/update.js"
  ],
- "drawer": false,
- "note": "no cart layer found after the tap",
- "bodyTop": "Skip to content\n30% OFF + Free Gifts | Code: MOZI30\nCart\nDryer Sheet Lux Scent Bundle\nSandalwood\nCitrus\nSea Salt\nInspired By YSL Black Opium, Baccarat Rouge 540, Byredo Mojave Ghost\nI originally bought this bundle to try Vanilla Moon, but now I'm obsessed with all three! Malibu Mornings is perfect for everyday laundry, Vanilla Moon is so cozy, and Hollywood Rouge smells like an expensive perfume. Definitely worth it!\nKelsey T., 28 · Scottsdale, AZ\nI love being able to switch up my laundry scent depending on my mood! Vanilla Moon is warm and cozy, Malibu Mornings is so fresh, and Hollywood Roug"
+ "drawer": true,
+ "cartPage": false,
+ "box": "0,0 390x844",
+ "tag": "aside#sidecart.sidecart font-degular open",
+ "text": "Your Cart \n (1\n)\n Get FREE SHIPPING & GIFTS with Subscription! 🎉\n FREE Measuring CupWORTH $10 \n FREE SHIPPING!\n (only on subscriptions)\n Free Shipping and $20+ in gifts!\n Deep Clean Booster\n One-time\n $17.50\n $25.00\n −\n 1\n +\n Curated Just for you\n Deep Clean Booster\n ADD TO CART\n $17.50\n $25.00\n Dryer Balls\n For Faster drying, no wrinkles\n ADD TO CART\n $7.00\n $9.99\n 30% OFF applied to your order\n Apply\n MOZI30\n Total\n Total Savings $7.50\n $25.00\n $17.50\n Secure checkout \n 4.8 Stars, 40K+ Reviews\n 30-Day money back guarantee",
+ "buttons": [
+  "Close cart",
+  "−",
+  "+",
+  "ADD TO CART",
+  "APPLY",
+  "Remove MOZI30",
+  "SECURE CHECKOUT",
+  "Build your bundle (save +20%)",
+  "Shop Detergents",
+  "Shop all"
+ ],
+ "images": 12,
+ "inputs": [
+  "text:discount"
+ ],
+ "progress": [
+  "onetime-progress-bar | GET FREE SHIPPING & GIFTS WITH SUBSCRIPTION! 🎉",
+  "onetime-progress-bar-message | GET FREE SHIPPING & GIFTS WITH SUBSCRIPTION! 🎉",
+  "sidecart-progress-section sidecart-progress-subscription one | FREE MEASURING CUP WORTH $10 FREE SHIPPING! (only on subscriptions) FREE SHIPPING AND $20+ IN GIFTS!",
+  "sidecart-progress-text | ",
+  "sidecart-progress-bar | ",
+  "sidecart-progress-track | ",
+  "sidecart-progress-fill | ",
+  "sidecart-progress-marker marker-0 | "
+ ],
+ "apps": [
+  "intelligems"
+ ]
 }

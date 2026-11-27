@@ -2,6 +2,7 @@
 """The store build of the new home page (owner 2026-11-27: "Deploy the new home page please.").
 Reads ../home-rebrand.html (run ../build.py first), writes:
   mc-home.css       the page styles, every selector under #mch so the theme's rules cannot reach in
+  mc-home-app.js    the page below the hero, and the hero video's pause button
   page-body.html    what goes into the Shopify page body: theme overrides, the stylesheet, the page, its small script
   files.json        every picture and video the page needs and its name in Shopify Files (new: true = not there yet)
 The theme's own header and footer stay; the preview's note bar, header and footer are dropped. The page's own
@@ -95,6 +96,15 @@ TAIL = '#mch .link{text-decoration:underline}\n#mch .bar{width:100%}\n'
 css = FONTS + RESET + LAZY + '\n'.join(out) + '\n' + TAIL
 open(os.path.join(D, 'mc-home.css'), 'w', encoding='utf-8').write(css)
 
+# ---- the page body carries the bar and the hero as plain HTML (first paint does not wait for a script);
+#      mc-home-app.js brings the rest of the page and the hero video's pause button script ----
+body = body.strip(); cutat = body.index('<div class="trust">'); assert body.endswith('</main>')
+first, rest = body[:cutat], body[cutat:-len('</main>')]
+assert first.count('<main>') == 1 and '<div class="hero">' in first and '</main>' not in rest
+S = lambda t: '"' + t.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('</script>', '<\\/script>') + '"'
+app = ('/* built by store/build-deploy.py; do not edit by hand */\n(function(){\nvar slot=document.getElementById("mch-rest");if(!slot)return;\n'
+       'slot.insertAdjacentHTML("beforebegin",' + S(rest.strip()) + ');slot.parentNode.removeChild(slot);\n})();\n' + js.strip() + '\n')
+open(os.path.join(D, 'mc-home-app.js'), 'w', encoding='utf-8').write(app)
 # ---- the page body ----
 HOLD = open(os.path.join(KD, 'store', 'third-party-hold.html'), encoding='utf-8').read()
 PM, PD = B + name('img/hero-poster-m.webp') + '?width=720', B + name('img/hero-poster-d.webp') + '?width=960'
@@ -104,9 +114,9 @@ page = ('<style>.shopify-section--main-page .page > h1.h1.text-center{display:no
         '<link rel="stylesheet" href="' + B + 'mc-home.css?v=' + KEY + '">\n'
         '<link rel="preload" as="font" type="font/woff2" crossorigin href="' + B + 'mc-dkr-f-dm-700.woff2">\n' +
         HOLD +
-        '<div id="mch">' + body.strip() + '</div>\n<script>\n' + js.strip() + '\n</script>\n')
+        '<div id="mch">' + first + '<div id="mch-rest"></div></main></div>\n<script src="' + B + 'mc-home-app.js?v=' + KEY + '"></script>\n')
 open(os.path.join(D, 'page-body.html'), 'w', encoding='utf-8').write(page)
-for f in ('mc-home.css', 'page-body.html'): print(f, os.path.getsize(os.path.join(D, f)), 'B')
+for f in ('mc-home.css', 'mc-home-app.js', 'page-body.html'): print(f, os.path.getsize(os.path.join(D, f)), 'B')
 print(len(files), 'files,', sum(1 for x in files if x['new']), 'new; key', KEY)
 for x in files:
     if x['new']: print('  new:', x['repo'], '->', x['file'])

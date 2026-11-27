@@ -239,3 +239,6 @@ His word: "Ok we're ready to deploy. You can also fix the PDF yourself then." St
   link we send you on our call." He asked for the title and the banner only.
 - App 134,611 B at commit 35e85d78 via fileUpdate 46573254148205; css unchanged; page 163021881453 body = page-body.html.
   Tested locally before the deploy (three steps, checkout, no errors).
+- Live check (page-shot-supply run sp9-35e85d7, shots/20261127T2221-*): the live body matches the repo byte for byte;
+  phone and desktop show the title "One payment. No more monthly charges." and the banner "BLACK FRIDAY OFFER", reach
+  step 3 with no page errors; the real cart run added the 12-month supply at $359.40, landed on checkout, cart cleared.

@@ -42,3 +42,22 @@ unhappy respondents as praise.
   the store (same cart code as the kits page); Shopify is disconnected since 2026-11-23.
 - Refills on the result start on "No refills for now" (the kits page starts on "Every 30 days"). Owner to decide.
 - Where it lives (its own page, a button on the home page, the ads) and how answers are counted (no tracking yet).
+
+## Competitor quizzes (2026-11-27, .github/workflows/quiz-refs.yml -> lp-factory/recon-quiz/)
+A phone walk-through, first answer on every step, three passes. Read in full: Aroma360 and Flewd. In part: Laundry Sauce
+(first question), Scentbird (first question), Noom (first four). Hotel Collection's "Find your scent" opens a builder,
+not a quiz. AromaTech's opens a chat-style finder. Pura has no quiz we could find.
+- Aroma360 "Find your scent" (8 steps): interior style | favorite scent profile (four PHOTO tiles: citrus, woodsy,
+  floral, fresh) | home size (photo tiles with square feet) | personality | which collection | age | vents | then
+  "Your Results Are In! Please enter your email to get your results".
+- Flewd "stress quiz" (9 steps): symptoms (pick many) | how often | how intense, 0 to 5 | more symptoms | wake up
+  exhausted? | fatigue in the last 30 days? | age range | first name | then "where can we send your results and
+  discount code?". Small asides under each question ("don't stress this answer, go with your gut").
+- Laundry Sauce: "My vibe is" (personality), "1 of 6". Scentbird: "What type of fragrance are you looking for?".
+- Noom: one line of reason above a question ("Hormones impact how our bodies metabolize food."), a section label.
+What none of them does: answer an objection between questions, show the price before the result, or give the result
+without an e-mail. Ours does all three.
+Taken from them (round 2): photo tiles on "Which smells do you love?"; the result named for the moment she chose;
+the saving stated on the cost screen and the result; customers' photos on the result.
+Not taken: the e-mail gate (owner: no e-mail), a discount code for finishing (no offer decided), personality and
+interior-style questions (they do not change which scent fits), asking her age.

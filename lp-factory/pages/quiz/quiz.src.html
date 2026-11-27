@@ -88,6 +88,19 @@ p{margin:0}
 .sure .ic{font-size:20px;color:var(--ink)}
 .again{background:none;border:0;color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;justify-self:center;min-height:44px}
 .bn{text-align:center;font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--drift)}
+.opts.pics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opts.pics .wide{grid-column:1 / -1}
+.opt.pic{position:relative;grid-template-columns:minmax(0,1fr);gap:8px;padding:8px 8px 12px;align-items:start;align-content:start;height:100%}
+.opt.pic img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:9px;display:block}
+.opt.pic .mk{position:absolute;top:14px;right:14px;background:var(--paper)}
+.opt.pic b{font-size:17px}.opt.pic small{font-size:14px}
+.opt.pic>span:last-child{padding:0 4px}
+.save{background:var(--wash);color:var(--ink);font-weight:600;border-radius:12px;padding:12px 16px;text-align:center}
+.homes{display:grid;gap:12px;margin-top:6px}
+.homes h2{font-size:22px}
+.strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-right:16px}
+.strip::-webkit-scrollbar{display:none}
+.strip img{flex:0 0 38%;max-width:170px;aspect-ratio:1;object-fit:cover;border-radius:10px;scroll-snap-align:start}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){.prog i,.build li{transition:none}}
 </style>
@@ -114,13 +127,13 @@ p{margin:0}
   var ORDER=['golden','midnight','euphoric','chilled','crisp','wildwood','honey'];
   /* what she loves -> points per scent (matched on the notes printed on each box) */
   var LOVE={
-    flowers:{t:'Fresh flowers',d:'Like walking into a florist',w:{golden:3,midnight:2,euphoric:1},why:'You love fresh flowers.'},
-    sweet:{t:'Warm and sweet',d:'Honey, warm milk',w:{honey:3,golden:2},why:'You love warm, sweet smells.'},
-    citrus:{t:'Clean citrus',d:'Fresh peel, green leaves',w:{crisp:3,chilled:1},why:'You love clean citrus.'},
-    spa:{t:'Lavender and eucalyptus',d:'Like a day spa',w:{chilled:3},why:'You love lavender and eucalyptus.'},
-    woods:{t:'Woods after rain',d:'Pine, juniper',w:{wildwood:3,crisp:1},why:'You love the smell of the woods.'},
-    fruit:{t:'Peach and tea',d:'Fruity and bright, never sugary',w:{euphoric:3},why:'You love fruit and tea.'},
-    musk:{t:'Soft musk',d:'Like perfume on warm skin',w:{midnight:3,euphoric:1},why:'You love a soft, perfume-like musk.'},
+    flowers:{p:'golden',t:'Fresh flowers',d:'Like walking into a florist',w:{golden:3,midnight:2,euphoric:1},why:'You love fresh flowers.'},
+    sweet:{p:'honey',t:'Warm and sweet',d:'Honey, warm milk',w:{honey:3,golden:2},why:'You love warm, sweet smells.'},
+    citrus:{p:'crisp',t:'Clean citrus',d:'Fresh peel, green leaves',w:{crisp:3,chilled:1},why:'You love clean citrus.'},
+    spa:{p:'chilled',t:'Lavender and eucalyptus',d:'Like a day spa',w:{chilled:3},why:'You love lavender and eucalyptus.'},
+    woods:{p:'wildwood',t:'Woods after rain',d:'Pine, juniper',w:{wildwood:3,crisp:1},why:'You love the smell of the woods.'},
+    fruit:{p:'euphoric',t:'Peach and tea',d:'Fruity and bright, never sugary',w:{euphoric:3},why:'You love fruit and tea.'},
+    musk:{p:'midnight',t:'Soft musk',d:'Like perfume on warm skin',w:{midnight:3,euphoric:1},why:'You love a soft, perfume-like musk.'},
     any:{t:'Not sure. Surprise me',d:'We start from our best sellers',w:{},why:''}
   };
   /* what she does not enjoy -> scents left out (x) or marked down (m) */
@@ -154,7 +167,7 @@ p{margin:0}
     when:{h:'When do you want your home to smell its best?',s:'Bonsoir. A few taps and we build your kit.',o:[['walkin','The moment I walk in'],['evening','In the evening, when I finally sit down'],['bed','At bedtime'],['guests','When guests are coming'],['allday','All day. I’m home a lot']]},
     use:{h:'What do you use at home today?',s:'Pick all that apply.',multi:1,solo:'none',o:[['candles','Candles'],['plugins','Plug-ins'],['sprays','Room sprays'],['water','A water diffuser'],['reeds','Reed sticks or wax melts'],['waterless','Another waterless diffuser'],['none','Nothing yet']]},
     spend:{h:'What does all of that cost you a month?',s:'Candles, plug-ins, sprays, refills. A guess is fine.',o:[['u20','Under $20'],['20','$20 to $40'],['40','$40 to $60'],['60','More than $60'],['idk','I’ve never added it up']]},
-    love:{h:'Which smells do you love?',s:'Pick one or two.',multi:1,max:2,solo:'any',o:Object.keys(LOVE).map(function(k){return [k,LOVE[k].t,LOVE[k].d]})},
+    love:{h:'Which smells do you love?',s:'Pick one or two.',multi:1,max:2,solo:'any',pics:1,o:Object.keys(LOVE).map(function(k){return [k,LOVE[k].t,LOVE[k].d,LOVE[k].p]})},
     hate:{h:'Any smells you don’t enjoy?',s:'We leave those out of your kit.',multi:1,solo:'none',o:Object.keys(HATE).map(function(k){return [k,HATE[k].t]})},
     strong:{h:'How strong do you like it?',o:[['soft','Soft. Just a hint'],['mid','Noticeable, never heavy'],['full','Fill the whole house'],['sens','Go easy. I’m sensitive to scent']]},
     home:{h:'Who’s at home?',s:'Pick all that apply.',multi:1,solo:'adults',o:[['kids','Kids'],['dog','A dog'],['cat','A cat'],['allergy','Someone with allergies'],['adults','Just the grown-ups']]},
@@ -191,6 +204,7 @@ p{margin:0}
     if(S[k].rank>=4)return 'One of our three best sellers.';
     return 'A change from your first pick.';
   }
+  function saved(n){return ((WAS[n]||PRICE[n])-PRICE[n]+39.95*n).toFixed(2)}
   function sizeFor(){var n=A.rooms.length;return n<=1?1:n===2?2:3}
   function rooms(){   /* which room each scent goes to: the softer one to the bedroom when she picked it */
     var r=A.rooms.slice(0,A.size),p=A.picks,out=p.map(function(){return ''});
@@ -205,7 +219,7 @@ p{margin:0}
   function qHTML(id){
     var q=Q[id],cur=q.multi?A[id]:[A[id]];
     return '<h1 class="q-h" id="h">'+q.h+'</h1>'+(q.s?'<p class="q-s">'+q.s+'</p>':'')+
-      '<ul class="opts">'+q.o.map(function(o){return '<li><button type="button" class="opt'+(q.multi?' multi':'')+'" data-v="'+o[0]+'" aria-pressed="'+(has(cur,o[0])?'true':'false')+'"><span class="mk">'+CHECK+'</span><span><b>'+o[1]+'</b>'+(o[2]?'<small>'+o[2]+'</small>':'')+'</span></button></li>'}).join('')+'</ul>'+
+      '<ul class="opts'+(q.pics?' pics':'')+'">'+q.o.map(function(o){return '<li'+(q.pics&&!o[3]?' class="wide"':'')+'><button type="button" class="opt'+(q.multi?' multi':'')+(o[3]?' pic':'')+'" data-v="'+o[0]+'" aria-pressed="'+(has(cur,o[0])?'true':'false')+'">'+(o[3]?'<img src="img/pick-'+o[3]+'.webp" alt="">':'')+'<span class="mk">'+CHECK+'</span><span><b>'+o[1]+'</b>'+(o[2]?'<small>'+o[2]+'</small>':'')+'</span></button></li>'}).join('')+'</ul>'+
       (q.multi?'<button class="btn" type="button" id="go"'+(A[id].length?'':' disabled')+'>Continue '+ARROW+'</button>':'');
   }
   function tHTML(pic,alt,h,p,ticks,quote,src,fact){
@@ -240,6 +254,7 @@ p{margin:0}
       var cmp=sp?'You told us you spend '+sp+' a month today. A refill here is $29.95, and only when you ask for one.':'A refill is $29.95, and only when you ask for one.';
       return '<div class="trust"><h2 id="h">What it costs. Plainly.</h2><p>For the '+(n===1?'room':n+' rooms')+' you picked:</p>'+
         '<div class="cost"><div><span>'+n+' diffuser'+(n>1?'s':'')+'</span><span>'+(WAS[n]?'<s>$'+WAS[n]+'</s>':'')+'$'+PRICE[n]+'</span></div><div><span>'+n+' scent'+(n>1?'s':'')+', 100 ml each</span><span><s>$'+(39.95*n).toFixed(2)+'</s>Free</span></div><div><span>Shipping</span><span>Free</span></div><div><span>Today</span><span>$'+PRICE[n]+'</span></div></div>'+
+        '<p class="save">You save $'+saved(n)+' today.</p>'+
         '<ul class="ticks"><li>'+CHECK+'<span><b>No subscription needed.</b> Refills are your choice: every 30, 60 or 90 days, or never. We email you before every charge.</span></li><li>'+CHECK+'<span>'+cmp+'</span></li><li>'+CHECK+'<span>30 days to love it, or every dollar back. The diffuser is covered for life.</span></li></ul>'+
         '<div class="quote"><p>“Only need one deodorizer now. It felt nice, it was easy and it smelled good.”</p><small>Customer survey | almost didn’t buy because of the price</small></div>'+
         '<p class="fact">19 of the 23 customers we surveyed said a bottle lasted two weeks or longer. 11 said more than a month.</p>'+
@@ -251,7 +266,8 @@ p{margin:0}
   }
   function resultHTML(){
     var n=A.size,rm=rooms(),setting=(A.strong==='soft'||A.strong==='sens')?'Subtle':A.strong==='full'?'Full':'Balanced';
-    return '<h1 class="q-h" id="h">Bonsoir. Your kit is ready.</h1><p class="q-s">Built from your answers. Change anything you like.</p>'+
+    var mo={walkin:'Built for the moment you walk in.',evening:'Built for the evening, when you finally sit down.',bed:'Built for bedtime.',guests:'Built for the days guests are coming.',allday:'Built for the days you’re home.'}[A.when]||'Built from your answers.';
+    return '<h1 class="q-h" id="h">Bonsoir. Your kit is ready.</h1><p class="q-s">'+mo+' Change anything you like.</p>'+
       '<div class="sizes">'+[1,2,3].map(function(k){return '<button type="button" class="size" data-n="'+k+'" aria-pressed="'+(k===n)+'">'+(k===2?'<i>Most popular</i>':'')+'<b>'+k+' diffuser'+(k>1?'s':'')+'</b><span>$'+PRICE[k]+'</span><small>'+(k*600).toLocaleString('en-US')+' sq ft</small></button>'}).join('')+'</div>'+
       '<div class="picks">'+A.picks.map(function(k,i){var s=S[k];return '<div class="pick"><img src="img/pick-'+k+'.webp" alt="'+s.n+' box" width="84" height="84"><div>'+
         '<span class="rm">'+(rm[i]?'For your '+ROOMS[rm[i]]:'Scent '+(i+1))+'</span><b>'+s.n+'</b><span class="kd">'+s.k+'</span><p>'+s.like+'</p><p class="why">'+why(k,i)+'</p>'+
@@ -260,8 +276,10 @@ p{margin:0}
       '<div class="cost"><div><span>'+n+' diffuser'+(n>1?'s':'')+'</span><span>'+(WAS[n]?'<s>$'+WAS[n]+'</s>':'')+'$'+PRICE[n]+'</span></div><div><span>'+n+' scent'+(n>1?'s':'')+', 100 ml each</span><span><s>$'+(39.95*n).toFixed(2)+'</s>Free</span></div><div><span>Shipping from Miami</span><span>Free</span></div><div><span>Today</span><span>$'+PRICE[n]+'</span></div></div>'+
       '<div class="refill" role="group" aria-label="Refills"><button type="button" class="opt" data-r="0" aria-pressed="'+(A.refill===0)+'"><span class="mk">'+CHECK+'</span><span><b>No refills for now</b><small>Order more when you want it. $39.95 a scent.</small></span></button>'+
       '<button type="button" class="opt" data-r="30" aria-pressed="'+(A.refill===30)+'"><span class="mk">'+CHECK+'</span><span><b>Send refills every 30 days</b><small>$29.95 a scent instead of $39.95. We email you before every charge. Skip, swap or cancel any time.</small></span></button></div>'+
+      '<p class="save">You save $'+saved(n)+' today. Your scents are free and shipping is free.</p>'+
       '<a class="btn" id="buy" href="'+KITS+'">Checkout — $'+PRICE[n]+' '+ARROW+'</a>'+
       '<ul class="sure"><li>'+CHECK+'30 days to love it, or every dollar back</li><li>'+CHECK+'Don’t love a scent? We swap it, free</li><li>'+CHECK+'Lifetime warranty on the diffuser</li></ul>'+
+      '<div class="homes"><h2>In our customers’ homes.</h2><div class="strip" tabindex="0" role="group" aria-label="Photos of people at home with their diffuser">'+[1,2,3,4,5,6].map(function(i){return '<img src="img/ugc-0'+i+'.webp" alt="A customer at home with her diffuser" loading="lazy" width="240" height="240">'}).join('')+'</div></div>'+
       '<button class="again" type="button" id="again">Start over</button><p class="bn">Bonne nuit.</p>';
   }
 

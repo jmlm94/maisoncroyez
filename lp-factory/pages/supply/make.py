@@ -81,7 +81,7 @@ rep('  renew() { return this.tier().scents > 0 && this.plan === "sub" ? this.key
 # ---------- step 1: header (no rating, no badge strip), banner, progress track, supplies as rows ----------
 rex(r'          <button type="button" class="tb-rating tb-rating-btn".*?<!-- dk9 \(owner\): no prices on Step 1[^\n]*\n', '''          <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
             <div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer \u00b7 Subscribers only</span></div>
-            <h1 class="h1-9e sp-h1">One payment. No more monthly charges. We cancel your subscription for you.</h1>
+            <h1 class="h1-9e sp-h1">One payment. No more monthly charges.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
 ''')

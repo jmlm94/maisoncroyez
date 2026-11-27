@@ -974,7 +974,7 @@ function BuyBox() {
           ${step === 1 ? html`<${Fragment} key="step1">
           <div class="sp-head"> <!-- supply: a kicker + the headline; no rating button, no badge strip -->
             <div class="sp-kicker-row"><span class="sp-kicker">Black Friday offer · Subscribers only</span></div>
-            <h1 class="h1-9e sp-h1">One payment. No more monthly charges. We cancel your subscription for you.</h1>
+            <h1 class="h1-9e sp-h1">One payment. No more monthly charges.</h1>
           </div>
           <div class="s9-banner sp-hero"><img src=${(window.MC_SUPPLY && window.MC_SUPPLY.hero) || MC_HERO_POSTER} alt="Maison Croyez diffuser and the seven scents" width="1600" height="800" decoding="async" fetchpriority="high"/></div>
 

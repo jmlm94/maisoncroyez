@@ -1,0 +1,228 @@
+<title>Maison Quiz Research</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Roboto+Mono:wght@500&display=swap">
+<style>
+/* layout: one reading column in the Maison system; facts as tables and plain bars, the takeaways first */
+:root{
+  --bg:#F9F6EE;--paper:#FFFDF9;--sand:#EAE1D1;--line:#CFC4B1;--mute:#6E655B;--fg:#161210;--sig:#6169DF;--ink:#4B55D6;--wash:#E7E8FB;--warn:#8A4B12;--warnbg:#F6E7D2;
+  --f:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--m:"Roboto Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161210;--paper:#231D19;--sand:#2E2621;--line:#4A4038;--mute:#B8AD9F;--fg:#F9F6EE;--sig:#7B82EA;--ink:#A9AEF7;--wash:#262A4F;--warn:#F0C48A;--warnbg:#3A2A17;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161210;--paper:#231D19;--sand:#2E2621;--line:#4A4038;--mute:#B8AD9F;--fg:#F9F6EE;--sig:#7B82EA;--ink:#A9AEF7;--wash:#262A4F;--warn:#F0C48A;--warnbg:#3A2A17;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--f);margin:0}
+.w{max-width:860px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:28px 72px;display:grid;gap:44px}
+h1,h2,h3{font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,6vw,52px)}
+h2{font-size:clamp(25px,4vw,32px)}
+h3{font-size:19px;letter-spacing:-.015em;margin-top:6px}
+p{margin:0}ul,ol{margin:0;padding-left:1.15em;display:grid;gap:7px}
+a{color:var(--ink)}
+.sub{color:var(--mute);margin-top:10px;max-width:38em}
+section{display:grid;gap:16px;min-width:0}
+.src{font:500 11.5px/1.5 var(--m);letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.take{display:grid;gap:10px;counter-reset:t;padding:0;list-style:none}
+.take li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 52px;position:relative}
+.take li::before{counter-increment:t;content:counter(t);position:absolute;left:14px;top:13px;width:26px;height:26px;border-radius:50%;background:var(--sig);color:#fff;font:700 14px/26px var(--f);text-align:center}
+.take b{display:block;letter-spacing:-.01em}
+.take span{color:var(--mute);font-size:15.5px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font:500 11px/1.4 var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+td.n,th.n{text-align:right;white-space:nowrap}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(92px,150px) minmax(0,1fr) 62px;gap:10px;align-items:center;font-size:15px;font-variant-numeric:tabular-nums}
+.bar i{display:block;height:14px;border-radius:3px;background:var(--sig);min-width:2px}
+.bar.lo i{background:var(--line)}
+.bar em{font-style:normal;text-align:right;color:var(--mute)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.two{grid-template-columns:minmax(0,1fr)}body{font-size:16.5px}}
+.q{border-left:3px solid var(--sig);padding:2px 0 2px 14px;display:grid;gap:3px}
+.q small{color:var(--mute);font-size:13.5px}
+.flag{background:var(--warnbg);color:var(--warn);border-radius:12px;padding:14px 16px;display:grid;gap:8px}
+.flag b{letter-spacing:-.01em}
+.tag{display:inline-block;font:500 10.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;padding:4px 7px;border-radius:999px;background:var(--wash);color:var(--ink);vertical-align:2px;white-space:nowrap}
+.tag.w{background:var(--warnbg);color:var(--warn)}
+.ask{display:grid;gap:10px;padding:0;list-style:none}
+.ask li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+.ask b{display:block}
+.ask span{color:var(--mute);font-size:15.5px}
+</style>
+
+<div class="w">
+<header>
+  <p class="src">Maison Croyez | gathered 27 Nov 2026</p>
+  <h1 style="margin-top:10px">Everything we know, for the quiz.</h1>
+  <p class="sub">Sales, ad results, the September survey, real reviews, the brand documents, the site data and what competitors do. Each part says where it came from. Nothing was changed on the store or the ad accounts.</p>
+</header>
+
+<section>
+  <h2>What this means for the quiz.</h2>
+  <ol class="take">
+    <li><b>The top reason people almost didn’t buy is “I don’t know how it smells.”</b><span>From the September survey. Price was second, the subscription third. Answering the first one is the quiz’s whole job.</span></li>
+    <li><b>She is older than the brand’s target.</b><span>83% of ad purchases come from women 45 and over, 65% from women 55 and over. The quiz needs large type, few taps and no jargon.</span></li>
+    <li><b>Nine in ten visits are on a phone, most inside Facebook or Instagram.</b><span>The typical visitor scrolls about a quarter of a long page. The quiz has to be short and start high on the page.</span></li>
+    <li><b>Three scents carry the store: Golden Blossom Harmony, Midnight Sensation, Euphoric Bloom.</b><span>59% of all scent bottles sold. The pages currently mark Crisp Citrus Scape as a best seller; by units it is fifth.</span></li>
+    <li><b>Customers come back, and many stay on one scent.</b><span>56% ordered more than once. Of those with three or more scent orders, 43% never changed scent. The first match matters.</span></li>
+    <li><b>They buy scents in sets, and Midnight Sensation is in most of them.</b><span>The quiz should end with one, two or three scents that go together, matched to the number of diffusers.</span></li>
+    <li><b>Nearly all came from candles, plug-ins, sprays or a water diffuser.</b><span>“What do you use today?” is a natural question, and it tells us which worry to answer (mold, flame, strength).</span></li>
+    <li><b>Nobody has described the scents by nose.</b><span>Strength, mood and “smells like” were written from the ingredient list. Before the quiz recommends anything, Patricia or you should check the scent sheet below.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Who buys.</h2>
+  <p class="src">Meta ads, 2025 account, all time | 495 purchases on $78,960</p>
+  <div class="card">
+    <h3>Purchases by women, by age</h3>
+    <div class="bars">
+      <div class="bar lo"><span>18 to 24</span><i style="width:0.6%"></i><em>1</em></div>
+      <div class="bar lo"><span>25 to 34</span><i style="width:5.7%"></i><em>10</em></div>
+      <div class="bar lo"><span>35 to 44</span><i style="width:13.1%"></i><em>23</em></div>
+      <div class="bar"><span>45 to 54</span><i style="width:51.7%"></i><em>91</em></div>
+      <div class="bar"><span>55 to 64</span><i style="width:82.4%"></i><em>145</em></div>
+      <div class="bar"><span>65 and over</span><i style="width:100%"></i><em>176</em></div>
+    </div>
+    <p style="color:var(--mute);font-size:15.5px">Women made 446 of the 495 purchases (90%). Men made 47. In the last 90 days the picture is the same or older: 75% of purchases from people 55 and over, 94% women.</p>
+  </div>
+  <div class="two">
+    <div class="card"><h3>Where they live</h3><p>Florida 54 customers, Texas 50, Georgia 29, California 26, North Carolina 24, Pennsylvania 19, New York 17, Tennessee 16.</p><p class="src">Store orders, 2025 and 2026</p></div>
+    <div class="card"><h3>How they arrive</h3><p>88 to 90% on a phone. About 70% inside the Facebook or Instagram app. Nearly all from the United States.</p><p class="src">Site recordings, September 2026</p></div>
+  </div>
+  <div class="card">
+    <h3>Who the brand says she is</h3>
+    <p>Women 35 and up. “She gives all day to work, family and everyone else. At night she wants one small thing that works, and she does not want a project.” Your own research note says “a woman 45+ who can’t switch off at night.”</p>
+    <p style="color:var(--mute);font-size:15.5px">The older brand documents add: homeowner or invested renter, hosts guests, works from home or has older kids, has tried other home scents and been let down. Those documents were written by the brand, before the rebrand. None of them contains a real customer quote.</p>
+  </div>
+</section>
+
+<section>
+  <h2>How they buy.</h2>
+  <p class="src">Store orders through Triple Whale | 2025 and 2026 to 27 Nov</p>
+  <div class="tw"><table>
+    <tr><th>Customers by orders placed</th><th class="n">Customers</th><th class="n">Avg. spent</th></tr>
+    <tr><td>1 order</td><td class="n">208</td><td class="n">$105</td></tr>
+    <tr><td>2 orders</td><td class="n">90</td><td class="n">$154</td></tr>
+    <tr><td>3 orders</td><td class="n">85</td><td class="n">$200</td></tr>
+    <tr><td>4 to 6 orders</td><td class="n">80</td><td class="n">$271</td></tr>
+    <tr><td>7 or more</td><td class="n">6</td><td class="n">$753</td></tr>
+  </table></div>
+  <ul>
+    <li>2026 so far: 849 orders from 376 customers, $63,700 in product sales, about $78 an order. 17 orders refunded.</li>
+    <li>Refill plan: 338 first plan orders, then 235 second deliveries, 133 third, 52 fourth, 13 fifth. The later numbers are low partly because many plans are still young.</li>
+    <li>September test: when the plan was the only choice, sales roughly halved. About half of buyers choose one-time when both are offered.</li>
+    <li>Checkout is the biggest leak on the site: one in three people who start checkout finish it.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>The seven scents, by what sold.</h2>
+  <p class="src">Bottles sold, all time | store orders</p>
+  <div class="card"><div class="bars">
+    <div class="bar"><span>Golden Blossom</span><i style="width:100%"></i><em>285</em></div>
+    <div class="bar"><span>Midnight Sensation</span><i style="width:94.4%"></i><em>269</em></div>
+    <div class="bar"><span>Euphoric Bloom</span><i style="width:81.8%"></i><em>233</em></div>
+    <div class="bar lo"><span>Chilled Citrus</span><i style="width:59.6%"></i><em>170</em></div>
+    <div class="bar lo"><span>Crisp Citrus Scape</span><i style="width:49.1%"></i><em>140</em></div>
+    <div class="bar lo"><span>Wildwood Mystique</span><i style="width:44.9%"></i><em>128</em></div>
+    <div class="bar lo"><span>Honey Nectar</span><i style="width:36.1%"></i><em>103</em></div>
+  </div><p style="color:var(--mute);font-size:15.5px">The order is the same in the last three months and in repeat orders, so it is not an effect of what the pages pre-select.</p></div>
+  <div class="flag"><b>The pages mark the wrong third best seller.</b><span>The kits page and the home proposal show Midnight, Golden and Crisp Citrus Scape. Sales say Golden, Midnight, Euphoric Bloom. Tell me if you want the marks and the “Can’t decide?” button switched.</span></div>
+
+  <h3>The scent sheet</h3>
+  <div class="tw"><table>
+    <tr><th>Scent</th><th>Kind</th><th>Smells like</th><th>Notes on the box</th><th>Strength <span class="tag w">guess</span></th><th>Most often bought with</th></tr>
+    <tr><td><b>Golden Blossom Harmony</b></td><td>Honey floral</td><td>Fresh flowers and a little honey. Like walking into a florist.</td><td>Buttercup, honeysuckle, sunflower</td><td>Medium</td><td>Midnight, Euphoric, Crisp</td></tr>
+    <tr><td><b>Midnight Sensation</b></td><td>Floral musk</td><td>White flowers and soft musk. Like perfume on warm skin.</td><td>Moonflower, night lily, skin musk</td><td>Bold</td><td>Euphoric, Golden, Wildwood</td></tr>
+    <tr><td><b>Euphoric Bloom</b></td><td>Peach and tea</td><td>White peach and jasmine tea. Fruity and bright, never sugary.</td><td>Jasmine tea, white peach, sandalwood crème</td><td>Medium</td><td>Midnight, Golden</td></tr>
+    <tr><td><b>Chilled Citrus</b></td><td>Lavender</td><td>Lavender and eucalyptus. Like a day spa.</td><td>Chilled lavender, eucalyptus, white citrus</td><td>Soft</td><td>Midnight, Golden, Wildwood</td></tr>
+    <tr><td><b>Crisp Citrus Scape</b></td><td>Fresh citrus</td><td>Fresh citrus peel and green leaves. Like a clean hotel lobby.</td><td>Yuzu leaf, green mandarin, cypress</td><td>Soft</td><td>Golden, Midnight, Honey</td></tr>
+    <tr><td><b>Wildwood Mystique</b></td><td>Pine forest</td><td>Pine and juniper. Like a walk in the woods after rain.</td><td>Huckleberry, wild juniper, mountain fern</td><td>Bold</td><td>Midnight, Chilled, Euphoric</td></tr>
+    <tr><td><b>Honey Nectar</b></td><td>Milk and honey</td><td>Warm milk and honey. Like a café on a slow morning.</td><td>Ginger milk, white birch, eucalyptus honey</td><td>Medium</td><td>Midnight, Crisp, Golden</td></tr>
+  </table></div>
+  <p style="color:var(--mute);font-size:15.5px">“Smells like” is the wording you approved on the kits page. Strength was read off the ingredients, not smelled. The older documents also tied each scent to a room or time of day (Golden for guests, Honey and Wildwood for winding down, Crisp and Chilled for mornings, Midnight for date night). Those tags were written under the old positioning and were never tested.</p>
+  <ul>
+    <li>Top pairs in one order: Euphoric + Midnight 62 orders, Golden + Midnight 51, Euphoric + Golden 36, Midnight + Wildwood 36, Honey + Midnight 33.</li>
+    <li>Of 134 customers with three or more scent orders, 57 stayed on one scent and 77 tried two or more.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>In their words.</h2>
+  <p class="src">September survey (24 answers, anonymous) and Amazon reviews | real</p>
+  <div class="q"><p>“I can go to sleep with it on in our bedroom and feel safe. Also love how quickly the scent fills the room.”</p><small>Survey | bought it for safety and no mold</small></div>
+  <div class="q"><p>“Truly a game changer. I removed all the other things I paid for that only worked for an hour, if that.”</p><small>Survey | switched from reed sticks</small></div>
+  <div class="q"><p>“The scent stays long after the diffuser turns off and it puts out more scent than my other diffuser. I walked to my bedroom and could smell Euphoric Bloom. It was relaxing.”</p><small>Survey | lives in an apartment</small></div>
+  <div class="q"><p>“Just bought my 2nd one for the other side of my house. So easy to use as it doesn’t require water. Visitors always comment on how wonderful my house smells.”</p><small>Amazon | verified purchase</small></div>
+  <div class="q"><p>“That my house smelled amazing. Fantastic.”</p><small>Survey | bought it for dog smell</small></div>
+  <div class="q"><p>“Trust me, I bought it for my mom, and she simply loves it!”</p><small>Amazon | verified purchase</small></div>
+  <div class="two">
+    <div class="card"><h3>What they praise</h3><ul><li>It fills the room, and the scent stays.</li><li>No water, no mold, nothing to clean or charge.</li><li>Safe to leave on in the bedroom.</li><li>It replaced sprays, plug-ins, candles.</li><li>Guests comment. It makes a good gift.</li><li>The look and the night light.</li></ul></div>
+    <div class="card"><h3>What they complain about</h3><ul><li>“The price point seems very high for an oil diffuser.” (3 stars)</li><li>Not strong enough in a large bedroom; “not that simple to use.” (4 stars)</li><li>One buyer loved the diffuser and called the brand’s oil “really awful.” The scent was not named.</li></ul></div>
+  </div>
+  <div class="card"><h3>What they owned before</h3><p>Of the survey buyers who said: a water diffuser and candles, sprays and plug-ins, reed sticks, and two who already owned other waterless diffusers. Candles come up most.</p></div>
+  <div class="flag"><b>Not real, do not use in the quiz.</b><span>The six named reviews in the old photo carousel (Kate D., Renee A., Grace L., Tiana M., Ayesha K., Camille B.) are marked fictional in the code. The four names on the old home page and “Diane R.” in the cart were never verified.</span></div>
+</section>
+
+<section>
+  <h2>What they ask before buying.</h2>
+  <p class="src">Your own question lists and the kits page, in the order people hesitate</p>
+  <ol>
+    <li>I don’t know how the scents smell. What if I pick wrong?</li>
+    <li>Is it too strong? I’m sensitive to scent. Will I actually smell it, or does it fade?</li>
+    <li>Am I signing up for a subscription?</li>
+    <li>Is it safe around kids and pets? Someone at home has allergies.</li>
+    <li>Can I leave it on when I go to bed?</li>
+    <li>Will it grow mold or leak like my last one?</li>
+    <li>Is this better than plug-ins, candles and room sprays?</li>
+    <li>How many diffusers do I need? How long does a bottle last?</li>
+    <li>Does it remove pet and food smells?</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Rules the quiz has to follow.</h2>
+  <ul>
+    <li>No intentions, manifestation or “attract”. Relaxation leads: unwind, be present, rest.</li>
+    <li>Feelings are fine. No medical or certified claims (sleep, anxiety, allergy) without a document.</li>
+    <li>Short and plain, benefit first, a calm friend. “Bonsoir” opens, “Bonne nuit” closes.</li>
+    <li>No invented reviews or numbers. No Amazon or competitor names.</li>
+    <li>Your layout rules: no small labels above titles, no numbered labels, no middle dot, compact, tiles the same size, real photos.</li>
+    <li>Your ruling from the builder: don’t jump people forward automatically, “people need to choose carefully.”</li>
+  </ul>
+</section>
+
+<section>
+  <h2>What competitors do.</h2>
+  <p>AromaTech has “Take quiz” next to “Speak with a scent advisor”. Flewd has a “stress quiz” that ends on a product named for the day you are having, with a sampler for people who can’t decide. Hotel Collection has “Find your scent”. I only captured the buttons, not the questions or the result pages. I can go through each quiz step by step next if you want that before we design ours.</p>
+</section>
+
+<section>
+  <h2>Not confirmed, or in conflict.</h2>
+  <div class="tw"><table>
+    <tr><th>Item</th><th>What the files say</th></tr>
+    <tr><td>Best sellers</td><td>Pages: Midnight, Golden, Crisp. Sales: Golden, Midnight, Euphoric.</td></tr>
+    <tr><td>How long a bottle lasts</td><td>15+ days (your latest), 15 to 21 days, 30 days, 4 to 6 weeks, depending on the document.</td></tr>
+    <tr><td>100% organic, hypoallergenic, pet-friendly</td><td>Stated in older documents. No certificate or test on file.</td></tr>
+    <tr><td>“2,500+ homes”, “4.7 from 124 reviews”</td><td>Your numbers. The store shows 469 customers in 2025 and 2026 on Shopify; Amazon and TikTok are not in that count. I could not open the reviews.</td></tr>
+    <tr><td>Strength and mood of each scent</td><td>Written from the ingredients. Never checked by nose.</td></tr>
+    <tr><td>Sample booklet</td><td>Promised in older documents (“free with every order”). Unknown if it still ships.</td></tr>
+    <tr><td>“86% stay 6+ months”, “92% come back”</td><td>No source. The store data shows 56% reordered.</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>What I still need from you.</h2>
+  <ul class="ask">
+    <li><b>The September survey export.</b><span>All 24 answers and the questions. I only have 14 trimmed quotes.</span></li>
+    <li><b>Your “Maison Bath Soak Research” document.</b><span>It holds the “woman 45+ who can’t switch off” work. It is not in the repo or the Drive files I can see.</span></li>
+    <li><b>A nose check of the scent sheet.</b><span>For each scent: soft, medium or strong; morning or evening; and who tends to dislike it. Ten minutes with Patricia would do it.</span></li>
+    <li><b>The 124 reviews, and Subi’s cancellation reasons.</b><span>An export from each is enough. Subi stays off-limits for me otherwise.</span></li>
+    <li><b>Maison’s Klaviyo.</b><span>The connector is signed in to your other brand. Needed only if the quiz should collect emails.</span></li>
+    <li><b>Three decisions.</b><span>Should the quiz ask for an email? Should it end on the kits page with the scents already chosen? And do we switch the third best seller to Euphoric Bloom?</span></li>
+  </ul>
+</section>
+</div>
